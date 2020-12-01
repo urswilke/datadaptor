@@ -21,7 +21,7 @@ fake_survey
 A dataset containing made-up answers to a survey.
 The data is stored in variables of the type haven::labelled.
 The same data is also included in the package in SPSS format.
-See in  load the SPSS version with
+See in the examples section how to load the SPSS version to R.
 }
 \examples{
 datenanpassr::fake_survey
