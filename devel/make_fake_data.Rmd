@@ -1,0 +1,74 @@
+---
+title: "Generate fake survey data"
+author: "Urs Wilke"
+date: "12/1/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r libs, message=FALSE}
+library(tidyverse)
+```
+
+```{r}
+set.seed(42)
+n <- 100
+
+
+reply_1_5 <- c("not at all" = 1, "a bit" = 2, "normal" = 3, "much" = 4, "very much" = 5, "no answer" = 99)
+reply_yn <- c("yes" = 1, "no" = 2, "no answer" = 99)
+
+question_texts <- c(
+  "q1" = "How much do you like the product?",
+  "q2" = "Do you want to recommend the product?",
+  "q3" = "How likely will you go dancing this weekend?",
+  "q4" = "How much do you like your friends?",
+  "q5" = "How much do you like your best friend?"
+)
+types <- list(
+  reply_1_5,
+  reply_yn,
+  reply_1_5,
+  reply_1_5,
+  reply_1_5
+)
+
+
+make_labelled <- function(n = 100, labels_vec = NULL, label_str = NULL) {
+  haven::labelled(
+    sample(c(
+      unname(labels_vec), NA), 
+      size = n, 
+      replace = TRUE,
+      prob = c(rep(1, length(labels_vec)), 0.2)
+    ), 
+    labels = labels_vec, 
+    label = label_str)
+}
+# make_labelled()
+enframe(question_texts, "var", "varlab") %>% mutate(types)
+```
+
+
+
+```{r}
+df <- map2_dfc(
+  question_texts,
+  types,
+  ~make_labelled(n, .y, label_str = .x)
+  ) %>% 
+  set_names(names(question_texts))
+
+
+df
+
+
+```
+
+```{r}
+haven::write_sav(df, "../inst/extdata/fakedata.sav")
+```
+
