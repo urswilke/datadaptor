@@ -1,0 +1,72 @@
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# datenanpassr
+
+<!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/datenanpassr)](https://CRAN.R-project.org/package=datenanpassr)
+<!-- badges: end -->
+
+The goal of datenanpassr is to …
+
+## Installation
+
+You can install the released version of datenanpassr from
+[CRAN](https://CRAN.R-project.org) with:
+
+``` r
+devtools::install_gitlab("urswilke/datenanpassr")
+```
+
+DOESN’T WORK YET BECAUSE REPO IS PRIVATE\!\!\!
+
+## Example
+
+The package has an included dataset `fake_survey` with made-up data of a
+survey. The data is also included as an SPSS sav file
+“fake\_survey.sav”. After installing the package, here is how you
+can access these data sets:
+
+``` r
+# library(datenanpassr)
+# Needed for the printing of the labels when printing the dataframe:
+library(tidyverse)
+```
+
+``` r
+datenanpassr::fake_survey
+#> # A tibble: 100 x 5
+#>                 q1             q2             q3             q4              q5
+#>          <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
+#>  1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
+#>  2  3 [normal]      1 [yes]       5 [very much]  4 [much]        5 [very much] 
+#>  3  1 [not at all]  1 [yes]       3 [normal]     2 [a bit]       5 [very much] 
+#>  4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
+#>  5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
+#>  6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
+#>  7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
+#>  8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
+#>  9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
+#> 10 99 [no answer]   1 [yes]       1 [not at all] 1 [not at all]  4 [much]      
+#> # … with 90 more rows
+path <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+haven::read_sav(path)
+#> # A tibble: 100 x 5
+#>                 q1             q2             q3             q4              q5
+#>          <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
+#>  1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
+#>  2  3 [normal]      1 [yes]       5 [very much]  4 [much]        5 [very much] 
+#>  3  1 [not at all]  1 [yes]       3 [normal]     2 [a bit]       5 [very much] 
+#>  4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
+#>  5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
+#>  6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
+#>  7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
+#>  8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
+#>  9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
+#> 10 99 [no answer]   1 [yes]       1 [not at all] 1 [not at all]  4 [much]      
+#> # … with 90 more rows
+```
