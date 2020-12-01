@@ -1,12 +1,12 @@
 Package: datenanpassr
-Title: What the Package Does (One Line, Title Case)
+Title: An R Package To Make Data Adjustments In Spss & Stata Data Sets Via Excel Files.
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Urs",
            family = "Wilke",
            role = c("aut", "cre"),
            email = "urs.wilke@gmail.com")
-Description: What the package does (one paragraph).
+Description: An R package to make data adjustments ("Datenanpassungen" in German) with predefined command blocks in Excel files. SPSS & Stata data sets are loaded and their variables can be manipulated from Excel files. These are auto-generated based on a template and containing information of the dataset's variables.
 License: MIT + file LICENSE
 Suggests: 
     testthat
