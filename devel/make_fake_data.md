@@ -1,0 +1,122 @@
+---
+title: "Generate fake survey data"
+author: "Urs Wilke"
+date: "12/1/2020"
+output: 
+  html_document:
+    keep_md: true
+---
+
+
+
+
+```r
+library(tidyverse)
+```
+
+* prepare fake survey data
+
+
+```r
+set.seed(42)
+n <- 100
+
+
+reply_1_5 <- c("not at all" = 1, "a bit" = 2, "normal" = 3, "much" = 4, "very much" = 5, "no answer" = 99)
+reply_yn <- c("yes" = 1, "no" = 2, "no answer" = 99)
+
+question_texts <- c(
+  "q1" = "How much do you like the product?",
+  "q2" = "Do you want to recommend the product?",
+  "q3" = "How likely will you go dancing this weekend?",
+  "q4" = "How much do you like your friends?",
+  "q5" = "How much do you like your best friend?"
+)
+types <- list(
+  reply_1_5,
+  reply_yn,
+  reply_1_5,
+  reply_1_5,
+  reply_1_5
+)
+
+
+fake_labelled <- function(n = 100, labels_vec = NULL, label_str = NULL) {
+  haven::labelled(
+    sample(c(
+      unname(labels_vec), NA), 
+      size = n, 
+      replace = TRUE,
+      prob = c(rep(1, length(labels_vec)), 0.2)
+    ), 
+    labels = labels_vec, 
+    label = label_str)
+}
+# fake_labelled()
+enframe(question_texts, "var", "varlab") %>% mutate(types)
+```
+
+```
+## # A tibble: 5 x 3
+##   var   varlab                                       types    
+##   <chr> <chr>                                        <list>   
+## 1 q1    How much do you like the product?            <dbl [6]>
+## 2 q2    Do you want to recommend the product?        <dbl [3]>
+## 3 q3    How likely will you go dancing this weekend? <dbl [6]>
+## 4 q4    How much do you like your friends?           <dbl [6]>
+## 5 q5    How much do you like your best friend?       <dbl [6]>
+```
+
+* generate fake survey dataframe
+
+
+```r
+fake_survey <- map2_dfc(
+  question_texts,
+  types,
+  ~fake_labelled(n, .y, label_str = .x)
+  ) %>% 
+  set_names(names(question_texts))
+
+
+fake_survey
+```
+
+```
+## # A tibble: 100 x 5
+##                 q1             q2             q3             q4              q5
+##          <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
+##  1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
+##  2  3 [normal]      1 [yes]       5 [very much]  4 [much]        5 [very much] 
+##  3  1 [not at all]  1 [yes]       3 [normal]     2 [a bit]       5 [very much] 
+##  4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
+##  5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
+##  6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
+##  7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
+##  8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
+##  9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
+## 10 99 [no answer]   1 [yes]       1 [not at all] 1 [not at all]  4 [much]      
+## # … with 90 more rows
+```
+
+* use as internal dataset and spss file
+
+
+```r
+haven::write_sav(fake_survey, "../inst/extdata/fake_survey.sav")
+
+usethis::use_data(fake_survey, overwrite = TRUE)
+```
+
+```
+## ✓ Setting active project to '/home/chief/R/datenanpassr'
+```
+
+```
+## ✓ Saving 'fake_survey' to 'data/fake_survey.rda'
+```
+
+```
+## ● Document your data (see 'https://r-pkgs.org/data.html')
+```
+
