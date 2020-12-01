@@ -13,6 +13,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 ```
 
+* prepare fake survey data
+
 ```{r}
 set.seed(42)
 n <- 100
@@ -37,7 +39,7 @@ types <- list(
 )
 
 
-make_labelled <- function(n = 100, labels_vec = NULL, label_str = NULL) {
+fake_labelled <- function(n = 100, labels_vec = NULL, label_str = NULL) {
   haven::labelled(
     sample(c(
       unname(labels_vec), NA), 
@@ -48,27 +50,32 @@ make_labelled <- function(n = 100, labels_vec = NULL, label_str = NULL) {
     labels = labels_vec, 
     label = label_str)
 }
-# make_labelled()
+# fake_labelled()
 enframe(question_texts, "var", "varlab") %>% mutate(types)
 ```
 
-
+* generate fake survey dataframe
 
 ```{r}
-df <- map2_dfc(
+fake_survey <- map2_dfc(
   question_texts,
   types,
-  ~make_labelled(n, .y, label_str = .x)
+  ~fake_labelled(n, .y, label_str = .x)
   ) %>% 
   set_names(names(question_texts))
 
 
-df
+fake_survey
 
 
 ```
 
+* use as internal dataset and spss file
+
 ```{r}
-haven::write_sav(df, "../inst/extdata/fakedata.sav")
+haven::write_sav(fake_survey, "../inst/extdata/fake_survey.sav")
+
+usethis::use_data(fake_survey, overwrite = TRUE)
+
 ```
 
