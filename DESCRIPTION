@@ -1,5 +1,5 @@
 Package: datenanpassr
-Title: An R Package To Make Data Adjustments In Spss & Stata Data Sets Via Excel Files.
+Title: An R Package To Make Data Adjustments In Spss & Stata Data Sets Via Excel Files
 Version: 0.0.0.9000
 Authors@R: 
     person(given = "Urs",
