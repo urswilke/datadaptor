@@ -79,8 +79,8 @@ haven::read_sav(path)
 Suppose you have an SPSS data file
 
 ``` r
-path <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-df <- haven::read_sav(path)
+spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df <- haven::read_sav(spss_filepath)
 df
 #> # A tibble: 100 x 5
 #>                 q1             q2             q3             q4              q5
@@ -101,7 +101,7 @@ df
 and want to modify some of the content.
 
 In datenanpassr there’s, an [Excel file](inst/extdata/mapping.xlsx)
-included to show you how this can be done:
+included to demonstrate you how this can be done with this package:
 
 ``` r
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
