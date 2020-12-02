@@ -20,6 +20,8 @@ Depends:
 Imports: 
     openxlsx,
     tablab (>= 0.0.0.9000),
-    dplyr
+    dplyr,
+    haven,
+    magrittr
 Remotes: 
     urswilke/tablab

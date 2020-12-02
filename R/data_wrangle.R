@@ -7,8 +7,8 @@
 #' @export
 #'
 #' @examples
-#' create_xl_mapping(fake_survey, "mapping.xlsx")
-create_xl_mapping <- function(df_raw, filename) {
+#' map_create(fake_survey, "mapping.xlsx")
+map_create <- function(df_raw, filename) {
 
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
@@ -35,6 +35,63 @@ create_xl_mapping <- function(df_raw, filename) {
 
   # Export the file
   openxlsx::saveWorkbook(wb, filename)
+}
+
+#' Extract variable label sheet of Excel mapping file to dataframe
+#'
+#' @param filename name of the Excel mapping file
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' map_create(fake_survey, "mapping.xlsx")
+#' map_varl("mapping.xlsx")
+map_varl <- function(filename) {
+  readxl::read_xlsx(
+    filename,
+    sheet = "Variables"
+  )
+}
+
+
+#' Extract value label sheet of Excel mapping file to dataframe
+#'
+#' @param filename name of the Excel mapping file
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' map_create(fake_survey, "mapping.xlsx")
+#' map_vall("mapping.xlsx")
+map_vall <- function(filename) {
+  readxl::read_xlsx(
+    filename,
+    sheet = "Labels"
+  )
+}
+
+
+#' Extract free1 sheet of Excel mapping file to dataframe
+#'
+#' @param filename name of the Excel mapping file
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' map_create(fake_survey, "mapping.xlsx")
+#' map_free1("mapping.xlsx")
+map_free1 <- function(filename) {
+  readxl::read_xlsx(
+    filename,
+    sheet = "Free1"
+  ) %>%
+    dplyr::select(1:5) %>%
+    dplyr::rename_all( ~ paste0("X", 1:5)) %>%
+    dplyr::mutate(row = row_number()) %>%
+    dplyr::filter_at(-6, any_vars(!is.na(.)))
 }
 
 
