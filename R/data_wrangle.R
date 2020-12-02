@@ -120,23 +120,6 @@ read_sav_or_dta <- function(filename) {
 }
 
 
-tab_n_distinct <- function(df_raw) {
-  df_raw %>%
-    # remove attributes to prevent warning when gathering:
-    dplyr::mutate_all(as.vector) %>%
-    gather(var, val, factor_key = TRUE) %>%
-    dplyr::group_by(var) %>%
-    summarise(n = n_distinct(val))
-}
-
-
-create_cnt_compare <- function(l, id){
-
-  # cmp_cts_n_labs(l, id)
-  cmp_all(l, id)
-
-}
-
 #' Modify variable labels according to sheet in Excel mapping file
 #'
 #' @param df_raw labelled dataframe
@@ -304,14 +287,6 @@ mutate_cond <- function(df_raw, cond_str, assign_str) {
   df_raw %>% dplyr::mutate(!!assi[[1]] := ifelse(!!condi, !!assi[[2]], NA_real_))
 }
 
-
-
-
-diff_daff <- function(df_raw, df_mod) {
-  patch <- daff::diff_data(df_raw, df_mod)
-  HTML(daff::render_diff(patch))
-
-}
 
 
 create_df_sumvar <- function(df_vall) {
