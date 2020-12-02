@@ -1,7 +1,7 @@
-#' Title
+#' Create an Excel mapping file based on a labelled dataframe
 #'
-#' @param df_raw
-#' @param filename
+#' @param df_raw dataframe with labelled variables, e.g. resulting from haven::read_sav
+#' @param filename name of the Excel file to be created
 #'
 #' @return
 #' @export

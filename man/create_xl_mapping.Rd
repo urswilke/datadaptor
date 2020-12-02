@@ -2,18 +2,20 @@
 % Please edit documentation in R/data_wrangle.R
 \name{create_xl_mapping}
 \alias{create_xl_mapping}
-\title{Title}
+\title{Create an Excel mapping file based on a labelled dataframe}
 \usage{
 create_xl_mapping(df_raw, filename)
 }
 \arguments{
-\item{filename}{}
+\item{df_raw}{dataframe with labelled variables, e.g. resulting from haven::read_sav}
+
+\item{filename}{name of the Excel file to be created}
 }
 \value{
 
 }
 \description{
-Title
+Create an Excel mapping file based on a labelled dataframe
 }
 \examples{
 create_xl_mapping(fake_survey, "mapping.xlsx")
