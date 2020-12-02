@@ -64,7 +64,7 @@ df
 
 and want to modify some of the content. 
 
-In datenanpassr there's, an Excel file included to show you how this can be done:
+In datenanpassr there's, an [Excel file](inst/extdata/mapping.xlsx) included to show you how this can be done:
 
 ```{r}
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
