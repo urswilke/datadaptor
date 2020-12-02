@@ -1,13 +1,14 @@
 #' Title
 #'
-#' @param filename
 #' @param df_raw
+#' @param filename
 #'
 #' @return
 #' @export
 #'
 #' @examples
-savefile <- function(filename, df_raw) {
+#' create_xl_mapping(fake_survey, "mapping.xlsx")
+create_xl_mapping <- function(df_raw, filename) {
 
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
