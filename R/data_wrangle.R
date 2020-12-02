@@ -321,7 +321,7 @@ make_free_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::mutate(sheet = "Free1") %>%
     dplyr::select(-index) %>%
-    severalize() %>%
+    # severalize() %>%
     dplyr::group_by(action, row)
   if (nrow(res) > 0) {
     res %>%
@@ -358,7 +358,7 @@ mapp_mod_table <- function(filename) {
   df_free1 <- mapp_free1(filename)
 
 
-  df_f1_commands <- make_free_table(df_free1 %>% severalize())
+  df_f1_commands <- make_free_table(df_free1)# %>% severalize())
   create_df_new_lab(df_varl) %>%
     dplyr::bind_rows(create_df_sumvar(df_vall)) %>%
     dplyr::bind_rows(df_f1_commands)  %>%
