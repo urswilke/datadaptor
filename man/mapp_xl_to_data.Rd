@@ -17,3 +17,7 @@ mapp_xl_to_data(df_raw, filename)
 \description{
 Apply changes of mapping Excel file to dataframe
 }
+\examples{
+mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapp_xl_to_data(fake_survey, mapping_filepath)
+}

@@ -416,6 +416,8 @@ all_mutes <- function(df_raw, action, data) {
 #' @export
 #'
 #' @examples
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapp_xl_to_data(fake_survey, mapping_filepath)
 mapp_xl_to_data <- function(df_raw, filename) {
   mod_table <- mapp_mod_table(filename)
 
