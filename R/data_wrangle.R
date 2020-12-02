@@ -1,31 +1,39 @@
+#' Title
+#'
+#' @param filename
+#' @param df_raw
+#'
+#' @return
+#' @export
+#'
+#' @examples
 savefile <- function(filename, df_raw) {
-  library(openxlsx)
 
   df_varlab <-
-    tab_varlabs(df_raw) %>%
-    mutate(new_label = "")
+    tablab::tab_varlabs(df_raw) %>%
+    dplyr::mutate(new_label = "")
   df_vallabs <-
-    tab_vallabs(df_raw) %>%
-    mutate(`new_label` = "",
+    tablab::tab_vallabs(df_raw) %>%
+    dplyr::mutate(`new_label` = "",
            `sum_var_label` = "",
            `sum_var_value` = "",
            `sum_var_vallab` = "")
 
-  wb <- createWorkbook()
+  wb <- openxlsx::createWorkbook()
 
-  addWorksheet(wb, "Variables")
-  addWorksheet(wb, "Labels")
-  addWorksheet(wb, "Verbatims")
-  addWorksheet(wb, "Free1")
+  openxlsx::addWorksheet(wb, "Variables")
+  openxlsx::addWorksheet(wb, "Labels")
+  openxlsx::addWorksheet(wb, "Verbatims")
+  openxlsx::addWorksheet(wb, "Free1")
 
   # Write the data to the sheets
-  writeData(wb, sheet = "Variables", x = df_varlab)
-  writeData(wb, sheet = "Labels", x = df_vallabs)
-  writeData(wb, sheet = "Verbatims", x = "")
-  writeData(wb, sheet = "Free1", x = "")
+  openxlsx::writeData(wb, sheet = "Variables", x = df_varlab)
+  openxlsx::writeData(wb, sheet = "Labels", x = df_vallabs)
+  openxlsx::writeData(wb, sheet = "Verbatims", x = "")
+  openxlsx::writeData(wb, sheet = "Free1", x = "")
 
   # Export the file
-  saveWorkbook(wb, filename)
+  openxlsx::saveWorkbook(wb, filename)
 }
 
 
