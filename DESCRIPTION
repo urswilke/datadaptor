@@ -22,6 +22,10 @@ Imports:
     tablab (>= 0.0.0.9000),
     dplyr,
     haven,
-    magrittr
+    magrittr,
+    readxl,
+    tidyr,
+    tibble,
+    purrr
 Remotes: 
     urswilke/tablab
