@@ -101,17 +101,18 @@ df
 and want to modify some of the content.
 
 In datenanpassr there’s, an [Excel file](inst/extdata/mapping.xlsx)
-included to demonstrate you how this can be done with this package:
+included to demonstrate how this can be done with this package:
 
 ``` r
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-mapp_xl_to_data(fake_survey, mapping_filepath)
+df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
 #> New names:
 #> * `` -> ...1
 #> * `` -> ...2
 #> * `` -> ...3
 #> * `` -> ...4
 #> * `` -> ...5
+df_mod
 #> # A tibble: 100 x 7
 #>               q1            q2           q3          q4           q5   kq1     x
 #>        <dbl+lbl>     <dbl+lbl>    <dbl+lbl>   <dbl+lbl>    <dbl+lbl> <dbl> <dbl>
@@ -126,4 +127,14 @@ mapp_xl_to_data(fake_survey, mapping_filepath)
 #>  9 99 [no answe… 99 [no answe… 1 [not at a… 1 [not at …  2 [a bit]      NA     1
 #> 10 99 [no answe…  1 [yes]      1 [not at a… 1 [not at …  4 [much]       NA     1
 #> # … with 90 more rows
+```
+
+The maipulations defined in the Excel file are applied on the dataframe
+of the SPSS package.
+
+You can save this dataframe back to an SPSS file by using the [haven
+package](https://haven.tidyverse.org/):
+
+``` r
+haven::write_sav(df_mod, "fake_survey_mod.sav")
 ```
