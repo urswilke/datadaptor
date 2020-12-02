@@ -129,11 +129,11 @@ df_mod
 #> # … with 90 more rows
 ```
 
-The maipulations defined in the Excel file are applied on the dataframe
+The manipulations defined in the Excel file are applied on the dataframe
 of the SPSS package.
 
-You can save this dataframe back to an SPSS file by using the [haven
-package](https://haven.tidyverse.org/):
+You can save this dataframe back to an SPSS file by again using the
+[haven package](https://haven.tidyverse.org/):
 
 ``` r
 haven::write_sav(df_mod, "fake_survey_mod.sav")
