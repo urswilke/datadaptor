@@ -175,9 +175,13 @@ add_labs <- function(df_raw, data){
 
 kg <- function(df_raw, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")
-  df_raw %>%
-    dplyr::mutate(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor()))
+  var_kg_factor <- df_raw %>%
+    dplyr::transmute(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor())) %>% dplyr::pull()
+  labels_vec <- var_kg_factor %>% levels() %>% setNames(1:length(.), .)
+  var_kg_labelled <- haven::labelled_spss(var_kg_factor, labels = labels_vec)
 
+  df_raw %>%
+    dplyr::mutate(!!var_kg := var_kg_labelled)
 }
 
 rec_1var <- function(df_raw, l_sum_var_el) {
