@@ -201,7 +201,7 @@ rec_1var <- function(df_raw, l_sum_var_el) {
   df_raw <- df_raw %>% dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
   df_raw$sum_var <- haven::labelled(
     df_raw$sum_var,
-    labels = sum_var_vals_n_labs[-2] %>% select(2, 1) %>%  tibble::deframe(),
+    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
     label = sum_var_label
   )
   # attr(df_raw$sum_var, "label") <- sum_var_label
@@ -236,7 +236,7 @@ rec_1var_free <- function(df_raw, l_sum_var_el) {
   df_raw <- df_raw %>% dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
   df_raw$sum_var <- haven::labelled(
     df_raw$sum_var,
-    labels = sum_var_vals_n_labs %>% select(X5, X4) %>% tibble::deframe(),
+    labels = sum_var_vals_n_labs %>% dplyr::select(X5, X4) %>% tibble::deframe(),
     label = sum_var_label
   )
   # attr(df_raw$sum_var, "label") <- sum_var_label
@@ -378,7 +378,7 @@ mapp_mod_table <- function(filename) {
     dplyr::bind_rows(df_f1_commands)  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
     tidyr::nest() %>%
-    ungroup()
+    dplyr::ungroup()
 }
 
 
