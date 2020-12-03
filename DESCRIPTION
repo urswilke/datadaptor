@@ -26,6 +26,7 @@ Imports:
     readxl,
     tidyr,
     tibble,
-    purrr
+    purrr,
+    forcats
 Remotes: 
     urswilke/tablab

@@ -145,38 +145,38 @@ mapp_mod_varl <- function(df_raw, filename) {
 }
 
 set_lab <- function(df_raw, var, new_label){
-  x <- df_raw %>% pull(!!var)
+  x <- df_raw %>% dplyr::pull(!!var)
   attr(x, "label") <- new_label
   df_raw %>%
-    mutate(!!var := x)
+    dplyr::mutate(!!var := x)
 }
 
 set_labs <- function(df_raw, data){
-  x <- df_raw %>% pull(!!data$X2[1])
+  x <- df_raw %>% dplyr::pull(!!data$X2[1])
   labs <- data$X3[-1]
   vals <- data$X2[-1] %>% as.numeric()
   attr(x, "label") <- data$X3[1]
   attr(x, "labels") <- setNames(vals, labs)
   df_raw %>%
-    mutate(!!data$X2[1] := x)
+    dplyr::mutate(!!data$X2[1] := x)
 }
 
 
 add_labs <- function(df_raw, data){
-  x <- df_raw %>% pull(!!data$X2[1])
+  x <- df_raw %>% dplyr::pull(!!data$X2[1])
   labs <- c(attr(x, "labels") %>% names(), data$X3[-1])
   vals <- c(attr(x, "labels") %>% unname(), data$X2[-1] %>% as.numeric())
   attr(x, "label") <- dplyr::coalesce(data$X3[1], attr(x, "label"))
   attr(x, "labels") <- setNames(vals, labs)
   df_raw %>%
-    mutate(!!data$X2[1] := x)
+    dplyr::mutate(!!data$X2[1] := x)
 }
 
 
 kg <- function(df_raw, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")
   df_raw %>%
-    mutate(!!var_kg := fct_cross(!!rlang::sym(var1) %>% as_factor(), !!rlang::sym(var2) %>% as_factor()))
+    dplyr::mutate(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor()))
 
 }
 
