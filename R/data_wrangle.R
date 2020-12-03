@@ -199,24 +199,24 @@ kg_mix <- function(df_raw, var1, var2) {
 kg <- function(df_raw, var1, var2) {
   new_vars <- prepare_newvar_table(df_raw, var1, var2)
   new_vars %>%
-    transpose() %>%
+    purrr::transpose() %>%
     # these 2 lines would do the same
     # rowwise() %>%
     # group_split() %>%
     # add the new variables one by one to the dataframe:
-    reduce(split_cat_by_cat, var1, var2, .init = df_raw)
+    purrr::reduce(split_cat_by_cat, var1, var2, .init = df_raw)
 }
 prepare_newvar_table <- function(df_raw, var1, var2) {
   var2lab <- attr(df_raw[[var2]], "label")
   new_varlabs <-
     df_raw %>%
-    dplyr::mutate(id = row_number(), !!var1) %>%
+    dplyr::mutate(id = dplyr::row_number(), !!var1) %>%
     tablab::tab_all() %>%
     dplyr::filter(var == var1) %>%
     tidyr::drop_na(nv) %>%
-    unite(new_varlab, varlab, vallab, sep = " - ") %>%
-    mutate(new_varlab = paste0(new_varlab, ": ", var2lab)) %>%
-    select(nv, new_varlab)
+    tidyr::unite(new_varlab, varlab, vallab, sep = " - ") %>%
+    dplyr::mutate(new_varlab = paste0(new_varlab, ": ", var2lab)) %>%
+    dplyr::select(nv, new_varlab)
 
   new_varnames <- paste0(
     var2,
@@ -225,17 +225,17 @@ prepare_newvar_table <- function(df_raw, var1, var2) {
     "_",
     new_varlabs$nv
   )
-  new_vars <- new_varlabs %>% mutate(new_varnames)
+  new_vars <- new_varlabs %>% dplyr::mutate(new_varnames)
   new_vars
 }
 split_cat_by_cat <- function(df, new_vars, var1, var2) {
-  new_vec <- df %>% transmute(x = ifelse(!!rlang::sym(var1) == new_vars$nv, !!rlang::sym(var2), NA)
-  ) %>% pull()
+  new_vec <- df %>% dplyr::transmute(x = ifelse(!!rlang::sym(var1) == new_vars$nv, !!rlang::sym(var2), NA)
+  ) %>% dplyr::pull()
   vallabs <- df %>%
     dplyr::pull(!!rlang::sym(var2)) %>%
     attr(., "labels")
   new_vec <- haven::labelled(new_vec, labels = vallabs, label = new_vars$new_varlab)
-  df %>% mutate(
+  df %>% dplyr::mutate(
     !!rlang::sym(new_vars$new_varnames) := new_vec)
 
 }
@@ -251,14 +251,18 @@ rec_1var <- function(df_raw, l_sum_var_el) {
     dplyr::summarise(val_lists = list(nv),
               val_labs = dplyr::first(sum_var_vallab))
 
-  cond_statements <- purrr::map2(sum_var_vals_n_labs$val_lists,
-                          sum_var_vals_n_labs$sum_var_value,
-                          ~ rlang::quo(!!rlang::sym(var_name) %in% !!.x ~ !!.y)
+  cond_statements <- purrr::map2(
+    sum_var_vals_n_labs$val_lists,
+    sum_var_vals_n_labs$sum_var_value,
+    ~ rlang::quo(!!rlang::sym(var_name) %in% !!.x ~ !!.y)
   )
 
 
 
-  df_raw <- df_raw %>% dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
+  df_raw <- df_raw %>%
+    dplyr::mutate(
+      sum_var := dplyr::case_when(!!!cond_statements)
+    )
   df_raw$sum_var <- haven::labelled(
     df_raw$sum_var,
     labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
@@ -287,20 +291,21 @@ rec_1var_free <- function(df_raw, l_sum_var_el) {
     unname()
 
   cond_statements <-
-    purrr::pmap(rec_vecs,
-         function(x,y,z) rlang::quo(!!rlang::sym(var_name) >= !!x & !!rlang::sym(var_name) <= dplyr::coalesce(!!y, !!x)  ~ !!z)
+    purrr::pmap(
+      rec_vecs,
+      function(x,y,z) rlang::quo(!!rlang::sym(var_name) >= !!x & !!rlang::sym(var_name) <= dplyr::coalesce(!!y, !!x)  ~ !!z)
     )
 
 
 
-  df_raw <- df_raw %>% dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
+  df_raw <- df_raw %>%
+    dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
+
   df_raw$sum_var <- haven::labelled(
     df_raw$sum_var,
     labels = sum_var_vals_n_labs %>% dplyr::select(X5, X4) %>% tibble::deframe(),
     label = sum_var_label
   )
-  # attr(df_raw$sum_var, "label") <- sum_var_label
-  # attr(df_raw$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
   df_raw %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
 }
 
@@ -310,7 +315,6 @@ extract_sev_lists <- function(var) {
     var %>%
     stringr::str_squish() %>%
     stringr::str_extract_all("(\\{.+?\\})", simplify = T) %>%
-    # as_tibble() %>%
     purrr::map(~stringr::str_remove_all(.x, "[\\{\\}]")) %>%
     stringr::str_split(" ", simplify = T) %>%
     tibble::as_tibble()
