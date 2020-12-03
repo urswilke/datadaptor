@@ -118,20 +118,9 @@ changes to your dataset with:
 ``` r
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
-#> New names:
-#> * `` -> ...1
-#> * `` -> ...2
-#> * `` -> ...3
-#> * `` -> ...4
-#> * `` -> ...5
-#> Warning: Problem with `mutate()` input `X1`.
-#> ℹ NAs introduced by coercion
-#> ℹ Input `X1` is `.Primitive("as.double")(X1)`.
-#> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
-#> Warning: Problem with `mutate()` input `X5`.
-#> ℹ NAs introduced by coercion
-#> ℹ Input `X5` is `.Primitive("as.double")(X5)`.
-#> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
+```
+
+``` r
 df_mod
 #> # A tibble: 100 x 13
 #>          q1       q2      q3      q4       q5      kq1     x   abc     kq3
