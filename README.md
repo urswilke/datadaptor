@@ -133,7 +133,7 @@ df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
 #> ℹ Input `X5` is `.Primitive("as.double")(X5)`.
 #> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
 df_mod
-#> # A tibble: 100 x 15
+#> # A tibble: 100 x 13
 #>          q1       q2      q3      q4       q5      kq1     x   abc     kq3
 #>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl+lb> <dbl> <dbl> <dbl+l>
 #>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b… NA           1    NA 2 [3]  
@@ -146,9 +146,8 @@ df_mod
 #>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not… NA           1    NA 3 [4-5]
 #>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b… NA           1    NA 1 [1-2]
 #> 10 99 [no …  1 [yes] 1 [not… 1 [not…  4 [muc… NA           1    NA 1 [1-2]
-#> # … with 90 more rows, and 6 more variables: q2xq1_1 <dbl+lbl>,
-#> #   q2xq1_2 <dbl+lbl>, q2xq1_3 <dbl+lbl>, q2xq1_4 <dbl+lbl>, q2xq1_5 <dbl+lbl>,
-#> #   q2xq1_99 <dbl+lbl>
+#> # … with 90 more rows, and 4 more variables: q1xq2_1 <dbl+lbl>,
+#> #   q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>, n <dbl+lbl>
 ```
 
 The manipulations defined in the Excel file are applied on the dataframe

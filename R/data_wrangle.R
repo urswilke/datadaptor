@@ -145,14 +145,18 @@ mapp_mod_varl <- function(df_raw, filename) {
 }
 
 set_lab <- function(df_raw, var, new_label){
-  x <- df_raw %>% dplyr::pull(!!var)
-  attr(x, "label") <- new_label
   df_raw %>%
-    dplyr::mutate(!!var := x)
+    dplyr::mutate(
+      !!var := haven::labelled(
+        df_raw[[var]],
+        labels = attr(df_raw[[var]], "labels"),
+        label = new_label
+      )
+    )
 }
 
 set_labs <- function(df_raw, data){
-  x <- df_raw %>% dplyr::pull(!!data$X2[1])
+    x <- df_raw %>% dplyr::pull(!!data$X2[1])
   labs <- data$X3[-1]
   vals <- data$X2[-1] %>% as.numeric()
   attr(x, "label") <- data$X3[1]
