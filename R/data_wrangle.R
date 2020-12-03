@@ -182,7 +182,7 @@ kg <- function(df_raw, var1, var2) {
 
 rec_1var <- function(df_raw, l_sum_var_el) {
   var_name <- l_sum_var_el %>% dplyr::pull(var) %>% .[1]
-  sum_var_name <- var_name %>% paste0("k", .)
+  sum_var_name <- paste0("k", var_name)
   sum_var_label <- l_sum_var_el %>% dplyr::pull(sum_var_label) %>% .[1]
 
   sum_var_vals_n_labs <- l_sum_var_el %>%
