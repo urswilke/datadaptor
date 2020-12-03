@@ -173,7 +173,7 @@ add_labs <- function(df_raw, data){
 }
 
 
-kg <- function(df_raw, var1, var2) {
+kg_mix <- function(df_raw, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")
   var_kg_factor <- df_raw %>%
     dplyr::transmute(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor())) %>% dplyr::pull()
@@ -182,6 +182,50 @@ kg <- function(df_raw, var1, var2) {
 
   df_raw %>%
     dplyr::mutate(!!var_kg := var_kg_labelled)
+}
+
+kg <- function(df_raw, var1, var2) {
+  new_vars <- prepare_newvar_table(df_raw, var1, var2)
+  new_vars %>%
+    transpose() %>%
+    # these 2 lines would do the same
+    # rowwise() %>%
+    # group_split() %>%
+    # add the new variables one by one to the dataframe:
+    reduce(split_cat_by_cat, var1, var2, .init = df_raw)
+}
+prepare_newvar_table <- function(df_raw, var1, var2) {
+  var2lab <- attr(df_raw[[var2]], "label")
+  new_varlabs <-
+    df_raw %>%
+    dplyr::mutate(id = row_number(), !!var1) %>%
+    tablab::tab_all() %>%
+    dplyr::filter(var == var1) %>%
+    tidyr::drop_na(nv) %>%
+    unite(new_varlab, varlab, vallab, sep = " - ") %>%
+    mutate(new_varlab = paste0(new_varlab, ": ", var2lab)) %>%
+    select(nv, new_varlab)
+
+  new_varnames <- paste0(
+    var2,
+    "x",
+    var1,
+    "_",
+    new_varlabs$nv
+  )
+  new_vars <- new_varlabs %>% mutate(new_varnames)
+  new_vars
+}
+split_cat_by_cat <- function(df, new_vars, var1, var2) {
+  new_vec <- df %>% transmute(x = ifelse(!!rlang::sym(var1) == new_vars$nv, !!rlang::sym(var2), NA)
+  ) %>% pull()
+  vallabs <- df %>%
+    dplyr::pull(!!rlang::sym(var2)) %>%
+    attr(., "labels")
+  new_vec <- haven::labelled(new_vec, labels = vallabs, label = new_vars$new_varlab)
+  df %>% mutate(
+    !!rlang::sym(new_vars$new_varnames) := new_vec)
+
 }
 
 rec_1var <- function(df_raw, l_sum_var_el) {

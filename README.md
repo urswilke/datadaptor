@@ -133,20 +133,22 @@ df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
 #> ℹ Input `X5` is `.Primitive("as.double")(X5)`.
 #> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
 df_mod
-#> # A tibble: 100 x 9
-#>            q1        q2       q3       q4        q5      kq1     x   abc     kq3
-#>     <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lbl> <dbl+lb> <dbl> <dbl> <dbl+l>
-#>  1  3 [norma…  2 [no]   3 [norm… 4 [much]  2 [a bi… NA           1    NA 2 [3]  
-#>  2  3 [norma…  1 [yes]  5 [very… 4 [much]  5 [very… NA           1    NA 3 [4-5]
-#>  3  1 [not a…  1 [yes]  3 [norm… 2 [a bi…  5 [very…  1 [aaa]     1     7 2 [3]  
-#>  4  3 [norma… 99 [no a… 4 [much] 4 [much]  4 [much] NA           1    NA 3 [4-5]
-#>  5  5 [very … NA        2 [a bi… 3 [norm…  3 [norm… NA           1    NA 1 [1-2]
-#>  6  5 [very … NA        4 [much] 3 [norm…  2 [a bi… NA           1    NA 3 [4-5]
-#>  7 99 [no an…  2 [no]   3 [norm… 4 [much] NA        NA           1    NA 2 [3]  
-#>  8  2 [a bit]  2 [no]   5 [very… 2 [a bi…  1 [not … NA           1    NA 3 [4-5]
-#>  9 99 [no an… 99 [no a… 1 [not … 1 [not …  2 [a bi… NA           1    NA 1 [1-2]
-#> 10 99 [no an…  1 [yes]  1 [not … 1 [not …  4 [much] NA           1    NA 1 [1-2]
-#> # … with 90 more rows
+#> # A tibble: 100 x 15
+#>          q1       q2      q3      q4       q5      kq1     x   abc     kq3
+#>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl+lb> <dbl> <dbl> <dbl+l>
+#>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b… NA           1    NA 2 [3]  
+#>  2  3 [nor…  1 [yes] 5 [ver… 4 [muc…  5 [ver… NA           1    NA 3 [4-5]
+#>  3  1 [not…  1 [yes] 3 [nor… 2 [a b…  5 [ver…  1 [aaa]     1     7 2 [3]  
+#>  4  3 [nor… 99 [no … 4 [muc… 4 [muc…  4 [muc… NA           1    NA 3 [4-5]
+#>  5  5 [ver… NA       2 [a b… 3 [nor…  3 [nor… NA           1    NA 1 [1-2]
+#>  6  5 [ver… NA       4 [muc… 3 [nor…  2 [a b… NA           1    NA 3 [4-5]
+#>  7 99 [no …  2 [no]  3 [nor… 4 [muc… NA       NA           1    NA 2 [3]  
+#>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not… NA           1    NA 3 [4-5]
+#>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b… NA           1    NA 1 [1-2]
+#> 10 99 [no …  1 [yes] 1 [not… 1 [not…  4 [muc… NA           1    NA 1 [1-2]
+#> # … with 90 more rows, and 6 more variables: q2xq1_1 <dbl+lbl>,
+#> #   q2xq1_2 <dbl+lbl>, q2xq1_3 <dbl+lbl>, q2xq1_4 <dbl+lbl>, q2xq1_5 <dbl+lbl>,
+#> #   q2xq1_99 <dbl+lbl>
 ```
 
 The manipulations defined in the Excel file are applied on the dataframe
