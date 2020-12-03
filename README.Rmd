@@ -64,7 +64,16 @@ df
 
 and want to modify some of the content. 
 
-In datenanpassr there's, an [Excel file](inst/extdata/mapping.xlsx) included to demonstrate how this can be done with this package:
+You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset:
+
+
+```{r, eval=FALSE}
+mapp_create(df, "mapping.xlsx")
+```
+
+In this Excel file commands can be added to do data cleaning or create new variables in the dataset.
+
+In datenanpassr there's, an [Excel file](inst/extdata/mapping.xlsx) included to demonstrate how this can be done with this package. Once you have added the commands to manipulate your data, you can apply the changes to your dataset with:
 
 ```{r}
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")

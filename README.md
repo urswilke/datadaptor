@@ -100,8 +100,20 @@ df
 
 and want to modify some of the content.
 
+You can create an Excel mapping file that’s based on a template filled
+with variable and label information from the dataset:
+
+``` r
+mapp_create(df, "mapping.xlsx")
+```
+
+In this Excel file commands can be added to do data cleaning or create
+new variables in the dataset.
+
 In datenanpassr there’s, an [Excel file](inst/extdata/mapping.xlsx)
-included to demonstrate how this can be done with this package:
+included to demonstrate how this can be done with this package. Once you
+have added the commands to manipulate your data, you can apply the
+changes to your dataset with:
 
 ``` r
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
@@ -112,25 +124,34 @@ df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
 #> * `` -> ...3
 #> * `` -> ...4
 #> * `` -> ...5
+#> Warning: Problem with `mutate()` input `X1`.
+#> ℹ NAs introduced by coercion
+#> ℹ Input `X1` is `.Primitive("as.double")(X1)`.
+#> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
+#> Warning: Problem with `mutate()` input `X5`.
+#> ℹ NAs introduced by coercion
+#> ℹ Input `X5` is `.Primitive("as.double")(X5)`.
+#> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
+#> Warning: `x` must be a one- or two-column data frame in `deframe()`.
 df_mod
-#> # A tibble: 100 x 7
-#>               q1            q2           q3          q4           q5   kq1     x
-#>        <dbl+lbl>     <dbl+lbl>    <dbl+lbl>   <dbl+lbl>    <dbl+lbl> <dbl> <dbl>
-#>  1  3 [normal]    2 [no]       3 [normal]   4 [much]     2 [a bit]      NA     1
-#>  2  3 [normal]    1 [yes]      5 [very muc… 4 [much]     5 [very mu…    NA     1
-#>  3  1 [not at a…  1 [yes]      3 [normal]   2 [a bit]    5 [very mu…     1     1
-#>  4  3 [normal]   99 [no answe… 4 [much]     4 [much]     4 [much]       NA     1
-#>  5  5 [very muc… NA            2 [a bit]    3 [normal]   3 [normal]     NA     1
-#>  6  5 [very muc… NA            4 [much]     3 [normal]   2 [a bit]      NA     1
-#>  7 99 [no answe…  2 [no]       3 [normal]   4 [much]    NA              NA     1
-#>  8  2 [a bit]     2 [no]       5 [very muc… 2 [a bit]    1 [not at …    NA     1
-#>  9 99 [no answe… 99 [no answe… 1 [not at a… 1 [not at …  2 [a bit]      NA     1
-#> 10 99 [no answe…  1 [yes]      1 [not at a… 1 [not at …  4 [much]       NA     1
+#> # A tibble: 100 x 8
+#>              q1          q2          q3         q4          q5   kq1     x   kq2
+#>       <dbl+lbl>   <dbl+lbl>   <dbl+lbl>  <dbl+lbl>   <dbl+lbl> <dbl> <dbl> <dbl>
+#>  1  3 [normal]   2 [no]     3 [normal]  4 [much]    2 [a bit]     NA     1     1
+#>  2  3 [normal]   1 [yes]    5 [very mu… 4 [much]    5 [very m…    NA     1     1
+#>  3  1 [not at …  1 [yes]    3 [normal]  2 [a bit]   5 [very m…     1     1     1
+#>  4  3 [normal]  99 [no ans… 4 [much]    4 [much]    4 [much]      NA     1    NA
+#>  5  5 [very mu… NA          2 [a bit]   3 [normal]  3 [normal]    NA     1    NA
+#>  6  5 [very mu… NA          4 [much]    3 [normal]  2 [a bit]     NA     1    NA
+#>  7 99 [no answ…  2 [no]     3 [normal]  4 [much]   NA             NA     1     1
+#>  8  2 [a bit]    2 [no]     5 [very mu… 2 [a bit]   1 [not at…    NA     1     1
+#>  9 99 [no answ… 99 [no ans… 1 [not at … 1 [not at…  2 [a bit]     NA     1    NA
+#> 10 99 [no answ…  1 [yes]    1 [not at … 1 [not at…  4 [much]      NA     1     1
 #> # … with 90 more rows
 ```
 
 The manipulations defined in the Excel file are applied on the dataframe
-of the SPSS package.
+that was derived from the SPSS file.
 
 You can save this dataframe back to an SPSS file by again using the
 [haven package](https://haven.tidyverse.org/):
