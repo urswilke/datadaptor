@@ -180,7 +180,7 @@ kg <- function(df_raw, var1, var2) {
 
 }
 
-rec_1var <- function(l_sum_var_el, df_raw) {
+rec_1var <- function(df_raw, l_sum_var_el) {
   var_name <- l_sum_var_el %>% dplyr::pull(var) %>% .[1]
   sum_var_name <- var_name %>% paste0("k", .)
   sum_var_label <- l_sum_var_el %>% dplyr::pull(sum_var_label) %>% .[1]
@@ -210,7 +210,7 @@ rec_1var <- function(l_sum_var_el, df_raw) {
 }
 
 
-rec_1var_free <- function(l_sum_var_el, df_raw) {
+rec_1var_free <- function(df_raw, l_sum_var_el) {
   var_name <- l_sum_var_el %>% dplyr::pull(X2) %>% .[1]
   sum_var_name <- l_sum_var_el %>% dplyr::pull(X3) %>% .[1]
   sum_var_label <- l_sum_var_el %>% dplyr::pull(X4) %>% .[1]
@@ -384,8 +384,8 @@ all_mutes <- function(df_raw, action, data) {
   switch (action,
           "#IF" = mutate_cond(df_raw, data$X2, data$X3),
           "#COMP" = mutate_comp(df_raw, data$X2, data$X3),
-          "#REC" = rec_1var_free(data, df_raw),
-          "#SUMVAR" = rec_1var(data, df_raw),
+          "#REC" = rec_1var_free(df_raw, data),
+          "#SUMVAR" = rec_1var(df_raw, data),
           "#NEWLAB" = set_lab(df_raw, data$var, data$new_label),
           "#VARL" = set_lab(df_raw, data$X2, data$X3),
           "#VALL" = set_labs(df_raw, data),
