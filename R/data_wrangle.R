@@ -156,13 +156,18 @@ set_lab <- function(df_raw, var, new_label){
 }
 
 set_labs <- function(df_raw, data){
-    x <- df_raw %>% dplyr::pull(!!data$X2[1])
+  x <- df_raw %>% dplyr::pull(!!data$X2[1])
   labs <- data$X3[-1]
   vals <- data$X2[-1] %>% as.numeric()
-  attr(x, "label") <- data$X3[1]
-  attr(x, "labels") <- setNames(vals, labs)
+
+  # it does work when reassigned to x !! - why that ?? - whatever...
+  y <- haven::labelled(
+    x,
+    labels = setNames(vals, labs),
+    label = data$X3[1]
+  )
   df_raw %>%
-    dplyr::mutate(!!data$X2[1] := x)
+    dplyr::mutate(!!data$X2[1] := y)
 }
 
 
