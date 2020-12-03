@@ -36,7 +36,7 @@ here is how you can access these data sets:
 
 ``` r
 library(datenanpassr)
-# Needed for the printing of the labels when printing the dataframe:
+# Needed for the correct printing of the labels:
 library(tidyverse)
 ```
 

@@ -40,7 +40,7 @@ The package has an included dataset `fake_survey` with made-up data of a survey.
 
 ```{r libs, message=FALSE}
 library(datenanpassr)
-# Needed for the printing of the labels when printing the dataframe:
+# Needed for the correct printing of the labels:
 library(tidyverse)
 ```
 
