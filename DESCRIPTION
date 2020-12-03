@@ -9,7 +9,9 @@ Authors@R:
 Description: An R package to make data adjustments ("Datenanpassungen" in German) with predefined command blocks in Excel files. SPSS & Stata data sets are loaded and their variables can be manipulated from Excel files. These are auto-generated based on a template and containing information of the dataset's variables.
 License: MIT + file LICENSE
 Suggests: 
-    testthat
+    testthat,
+    knitr,
+    rmarkdown
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
@@ -30,3 +32,4 @@ Imports:
     forcats
 Remotes: 
     urswilke/tablab
+VignetteBuilder: knitr
