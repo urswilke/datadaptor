@@ -175,10 +175,13 @@ add_labs <- function(df_raw, data){
   x <- df_raw %>% dplyr::pull(!!data$X2[1])
   labs <- c(attr(x, "labels") %>% names(), data$X3[-1])
   vals <- c(attr(x, "labels") %>% unname(), data$X2[-1] %>% as.numeric())
-  attr(x, "label") <- dplyr::coalesce(data$X3[1], attr(x, "label"))
-  attr(x, "labels") <- setNames(vals, labs)
+  y <- haven::labelled(
+    x,
+    labels = setNames(vals, labs),
+    label = dplyr::coalesce(data$X3[1], attr(x, "label"))
+  )
   df_raw %>%
-    dplyr::mutate(!!data$X2[1] := x)
+    dplyr::mutate(!!data$X2[1] := y)
 }
 
 
