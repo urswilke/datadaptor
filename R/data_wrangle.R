@@ -186,6 +186,7 @@ rec_1var <- function(l_sum_var_el, df_raw) {
   sum_var_label <- l_sum_var_el %>% dplyr::pull(sum_var_label) %>% .[1]
 
   sum_var_vals_n_labs <- l_sum_var_el %>%
+    dplyr::mutate_at(c("sum_var_value"), as.numeric) %>%
     dplyr::group_by(sum_var_value) %>%
     dplyr::summarise(val_lists = list(nv),
               val_labs = dplyr::first(sum_var_vallab))
@@ -198,8 +199,13 @@ rec_1var <- function(l_sum_var_el, df_raw) {
 
 
   df_raw <- df_raw %>% dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
-  attr(df_raw$sum_var, "label") <- sum_var_label
-  attr(df_raw$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
+  df_raw$sum_var <- haven::labelled(
+    df_raw$sum_var,
+    labels = sum_var_vals_n_labs[-2] %>% select(2, 1) %>%  tibble::deframe(),
+    label = sum_var_label
+  )
+  # attr(df_raw$sum_var, "label") <- sum_var_label
+  # attr(df_raw$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
   df_raw %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
 }
 
@@ -207,9 +213,10 @@ rec_1var <- function(l_sum_var_el, df_raw) {
 rec_1var_free <- function(l_sum_var_el, df_raw) {
   var_name <- l_sum_var_el %>% dplyr::pull(X2) %>% .[1]
   sum_var_name <- l_sum_var_el %>% dplyr::pull(X3) %>% .[1]
-  sum_var_label <- l_sum_var_el %>% dplyr::pull(X5) %>% .[1]
+  sum_var_label <- l_sum_var_el %>% dplyr::pull(X4) %>% .[1]
 
-  sum_var_vals_n_labs <- l_sum_var_el %>% dplyr::slice(-1)
+  sum_var_vals_n_labs <- l_sum_var_el %>% dplyr::slice(-1) %>%
+    dplyr::mutate_at(c("X2", "X3", "X4"), as.numeric)
 
   rec_vecs <-
     l_sum_var_el %>%
@@ -226,10 +233,14 @@ rec_1var_free <- function(l_sum_var_el, df_raw) {
 
 
 
-
   df_raw <- df_raw %>% dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
-  attr(df_raw$sum_var, "label") <- sum_var_label
-  attr(df_raw$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
+  df_raw$sum_var <- haven::labelled(
+    df_raw$sum_var,
+    labels = sum_var_vals_n_labs %>% select(X5, X4) %>% tibble::deframe(),
+    label = sum_var_label
+  )
+  # attr(df_raw$sum_var, "label") <- sum_var_label
+  # attr(df_raw$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
   df_raw %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
 }
 
@@ -363,7 +374,8 @@ mapp_mod_table <- function(filename) {
     dplyr::bind_rows(create_df_sumvar(df_vall)) %>%
     dplyr::bind_rows(df_f1_commands)  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
-    tidyr::nest()
+    tidyr::nest() %>%
+    ungroup()
 }
 
 

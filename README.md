@@ -132,21 +132,20 @@ df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
 #> ℹ NAs introduced by coercion
 #> ℹ Input `X5` is `.Primitive("as.double")(X5)`.
 #> Warning in mask$eval_all_mutate(dots[[i]]): NAs introduced by coercion
-#> Warning: `x` must be a one- or two-column data frame in `deframe()`.
 df_mod
 #> # A tibble: 100 x 9
-#>             q1         q2        q3        q4         q5   kq1     x   abc   kq3
-#>      <dbl+lbl>  <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl> <dbl> <dbl> <dbl> <dbl>
-#>  1  3 [normal]  2 [no]    3 [norma… 4 [much]   2 [a bit]    NA     1    NA     2
-#>  2  3 [normal]  1 [yes]   5 [very … 4 [much]   5 [very …    NA     1    NA     3
-#>  3  1 [not at…  1 [yes]   3 [norma… 2 [a bit]  5 [very …     1     1     7     2
-#>  4  3 [normal] 99 [no an… 4 [much]  4 [much]   4 [much]     NA     1    NA     3
-#>  5  5 [very m… NA         2 [a bit] 3 [norma…  3 [norma…    NA     1    NA     1
-#>  6  5 [very m… NA         4 [much]  3 [norma…  2 [a bit]    NA     1    NA     3
-#>  7 99 [no ans…  2 [no]    3 [norma… 4 [much]  NA            NA     1    NA     2
-#>  8  2 [a bit]   2 [no]    5 [very … 2 [a bit]  1 [not a…    NA     1    NA     3
-#>  9 99 [no ans… 99 [no an… 1 [not a… 1 [not a…  2 [a bit]    NA     1    NA     1
-#> 10 99 [no ans…  1 [yes]   1 [not a… 1 [not a…  4 [much]     NA     1    NA     1
+#>            q1        q2       q3       q4        q5      kq1     x   abc     kq3
+#>     <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lbl> <dbl+lb> <dbl> <dbl> <dbl+l>
+#>  1  3 [norma…  2 [no]   3 [norm… 4 [much]  2 [a bi… NA           1    NA 2 [3]  
+#>  2  3 [norma…  1 [yes]  5 [very… 4 [much]  5 [very… NA           1    NA 3 [4-5]
+#>  3  1 [not a…  1 [yes]  3 [norm… 2 [a bi…  5 [very…  1 [aaa]     1     7 2 [3]  
+#>  4  3 [norma… 99 [no a… 4 [much] 4 [much]  4 [much] NA           1    NA 3 [4-5]
+#>  5  5 [very … NA        2 [a bi… 3 [norm…  3 [norm… NA           1    NA 1 [1-2]
+#>  6  5 [very … NA        4 [much] 3 [norm…  2 [a bi… NA           1    NA 3 [4-5]
+#>  7 99 [no an…  2 [no]   3 [norm… 4 [much] NA        NA           1    NA 2 [3]  
+#>  8  2 [a bit]  2 [no]   5 [very… 2 [a bi…  1 [not … NA           1    NA 3 [4-5]
+#>  9 99 [no an… 99 [no a… 1 [not … 1 [not …  2 [a bi… NA           1    NA 1 [1-2]
+#> 10 99 [no an…  1 [yes]  1 [not … 1 [not …  4 [much] NA           1    NA 1 [1-2]
 #> # … with 90 more rows
 ```
 
