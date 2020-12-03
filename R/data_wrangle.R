@@ -267,8 +267,11 @@ extract_sev_lists <- function(var) {
 
 severalize <- function(df_f1) {
   df_if_or_comp <-
-    df_f1[stringr::str_detect(df_f1$X1, "(^#IF|^#COMP)"),] %>% dplyr::filter_all(dplyr::any_vars(!is.na(.)))  %>%
-    dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>% tidyr::unnest(cols = c("X2", "X3"))
+    df_f1 %>%
+    # dplyr::filter(stringr::str_detect(X1, "(^#IF|^#COMP)")) %>%
+    dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
+    dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>%
+    tidyr::unnest(cols = c("X2", "X3"))
   df_if_or_comp
   # df_f1_mod <-
   #   df_f1
