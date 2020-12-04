@@ -197,3 +197,15 @@ assign_verba_val <- function(df_raw, l) {
   df_raw
 }
 # l$data %>% reduce(assign_verba_val, .init = df_orig)
+# mapp_verbatims(df_orig, verba_file, map_file)
+mapp_extract_verbatim_file <- function(mapping_file) {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = "Verbatims",
+    range = cellranger::cell_cols(c("B:D")),
+    skip = 0
+  ) %>%
+    dplyr::rename_all(~LETTERS[2:4]) %>%
+    dplyr::filter(B == "Filename input") %>%
+    dplyr::pull(D)
+}
