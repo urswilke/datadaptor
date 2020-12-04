@@ -77,27 +77,43 @@ fake_survey <- map2_dfc(
   ~fake_labelled(n, .y, label_str = .x)
   ) %>% 
   set_names(names(question_texts))
+```
+
+* add free answer string variables
 
 
+```r
+generate_bla_vector <- function(answer_text) {
+  bla_text <- paste(rep("bla", sample(1:3, 1)), collapse = " ")
+  paste(bla_text, sample(answer_text, 1), collapse = " ")
+}
+chr_vec1 <- map_chr(1:n, ~generate_bla_vector(c("love", "happiness", "joy")))
+chr_vec2 <- map_chr(1:n, ~generate_bla_vector(c("sadness", "fear", "anger", "pain")))
+q6 <- haven::labelled(chr_vec1, label = "Tell me something positive.")
+q7 <- haven::labelled(chr_vec2, label = "Tell me something negative.")
+
+
+fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7)
 fake_survey
 ```
 
 ```
-## # A tibble: 100 x 5
-##                 q1             q2             q3             q4              q5
-##          <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
-##  1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
-##  2  3 [normal]      1 [yes]       5 [very much]  4 [much]        5 [very much] 
-##  3  1 [not at all]  1 [yes]       3 [normal]     2 [a bit]       5 [very much] 
-##  4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
-##  5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
-##  6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
-##  7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
-##  8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
-##  9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
-## 10 99 [no answer]   1 [yes]       1 [not at all] 1 [not at all]  4 [much]      
+## # A tibble: 100 x 8
+##            q1         q2        q3        q4         q5    id q6        q7      
+##     <dbl+lbl>  <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl> <int> <chr+lbl> <chr+lb>
+##  1  3 [norma…  2 [no]    3 [norma… 4 [much]   2 [a bit]     1 bla bla … bla bla…
+##  2  3 [norma…  1 [yes]   5 [very … 4 [much]   5 [very …     2 bla bla … bla bla…
+##  3  1 [not a…  1 [yes]   3 [norma… 2 [a bit]  5 [very …     3 bla joy   bla bla…
+##  4  3 [norma… 99 [no an… 4 [much]  4 [much]   4 [much]      4 bla bla … bla bla…
+##  5  5 [very … NA         2 [a bit] 3 [norma…  3 [norma…     5 bla happ… bla fear
+##  6  5 [very … NA         4 [much]  3 [norma…  2 [a bit]     6 bla bla … bla pain
+##  7 99 [no an…  2 [no]    3 [norma… 4 [much]  NA             7 bla love  bla bla…
+##  8  2 [a bit]  2 [no]    5 [very … 2 [a bit]  1 [not a…     8 bla bla … bla bla…
+##  9 99 [no an… 99 [no an… 1 [not a… 1 [not a…  2 [a bit]     9 bla bla … bla bla…
+## 10 99 [no an…  1 [yes]   1 [not a… 1 [not a…  4 [much]     10 bla bla … bla bla…
 ## # … with 90 more rows
 ```
+
 
 * use as internal dataset and spss file
 

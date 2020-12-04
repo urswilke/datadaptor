@@ -67,10 +67,28 @@ fake_survey <- map2_dfc(
   set_names(names(question_texts))
 
 
-fake_survey
 
 
 ```
+
+* add free answer string variables
+
+```{r}
+
+generate_bla_vector <- function(answer_text) {
+  bla_text <- paste(rep("bla", sample(1:3, 1)), collapse = " ")
+  paste(bla_text, sample(answer_text, 1), collapse = " ")
+}
+chr_vec1 <- map_chr(1:n, ~generate_bla_vector(c("love", "happiness", "joy")))
+chr_vec2 <- map_chr(1:n, ~generate_bla_vector(c("sadness", "fear", "anger", "pain")))
+q6 <- haven::labelled(chr_vec1, label = "Tell me something positive.")
+q7 <- haven::labelled(chr_vec2, label = "Tell me something negative.")
+
+
+fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7)
+fake_survey
+```
+
 
 * use as internal dataset and spss file
 
