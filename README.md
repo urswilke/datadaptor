@@ -148,7 +148,7 @@ in your labelled dataset:
 browseVignettes("datenanpassr")
 ```
 
-You can save this dataframe back to an SPSS file by again using the
+You can save the dataframe back to an SPSS file by again using the
 [haven package](https://haven.tidyverse.org/):
 
 ``` r
