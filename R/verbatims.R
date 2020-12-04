@@ -126,9 +126,9 @@ l_assigns <-
 df_add_vals <- df_orig %>% rename(DC_ID = id)
 
 common_cols <- intersect(df_assigns$var_ziel %>% unique,
-                          names(df_orig))
+                         names(df_orig))
 new_cols <- setdiff(df_assigns$var_ziel %>% unique,
-                          names(df_orig))
+                    names(df_orig))
 
 # in order to have type stable data, the already existing variables common_cols
 # that will be manipulated are changed to numeric (all the labels are removed):
