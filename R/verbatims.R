@@ -1,13 +1,6 @@
-library(tidyverse)
-library(readxl)
 
 
-verba_file <- "inst/extdata/Verbatims_fake survey_20201204UW.xlsx"
-map_file <- "inst/extdata/mapping.xlsx"
-df_orig <- haven::read_spss("inst/extdata/fake_survey.sav")
-
-mapp_verbatims <- function(df_orig, verba_file = mapp_extract_verbatim_file(mapping_file), map_file){
-  # get a named vector of the sheet names in the verbatim file:
+mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file)) {
   verba_file_sheets <-
     verba_file %>%
     excel_sheets() %>%
@@ -98,93 +91,6 @@ mapp_verbatims <- function(df_orig, verba_file = mapp_extract_verbatim_file(mapp
     arrange(DC_ID)
 
 
-  # * data frame & list containing all assignment information in compact form --------
-  df_assigns_overview <-
-    df_assigns %>%
-    group_by(var_ziel, val_assign) %>%
-    summarise(assign_cond =
-                DC_ID %>%
-                paste(., collapse = ", ") %>%
-                paste0("DC_ID %in% c(", .) %>% paste0(")"))
-
-  # make a list of data frames, each containing the value assignment information for
-  # the concerned variables:
-  # l_assigns <- df_assigns %>% split(., .$var_ziel)
-  l_assigns <-
-    df_assigns_overview %>%
-    transpose(., .names = paste(.$var_ziel, .$val_assign, sep = " := "))
-
-
-
-  # verbatim codes assignments ---------------------------------------------------
-
-
-  # * prepare data frame ----------------------------------------------------
-
-  # the data frame with the original data is slightly modified, in order to be in
-  # the format needed to apply the function mutate_vals:
-  df_add_vals <- df_orig %>% rename(DC_ID = id)
-
-  common_cols <- intersect(df_assigns$var_ziel %>% unique,
-                           names(df_orig))
-  new_cols <- setdiff(df_assigns$var_ziel %>% unique,
-                      names(df_orig))
-
-  # in order to have type stable data, the already existing variables common_cols
-  # that will be manipulated are changed to numeric (all the labels are removed):
-  df_add_vals[,common_cols] <- df_add_vals[,common_cols] %>% mutate_all(as.numeric)
-  # the new columns new_cols are added as NA (numeric also)
-  df_add_vals[,new_cols] <- NA_real_
-
-  # function to assign the verbatim values to the according variables:
-  mutate_cond <- function(.data, l_assigns, envir = parent.frame()) {
-    # the condition in the string is transformed to a logical vector:
-    condition <- lazyeval::lazy_eval(l_assigns$assign_cond, data = .data)
-    var_ziel <- l_assigns$var_ziel
-    val_assign <- l_assigns$val_assign
-    # print(var_ziel)
-    # this is for speed reasons. When only the concerned columns are selected in
-    # the data frame (instead of the whole data frame) to calculate the mutated
-    # ones, this is much faster (as the function is called repeatedly, this is of
-    # consideral importance...)
-
-    # The first argument of intersect consists of all the names and values in the
-    # named vector. Only variable names of the data frame are needed for the
-    # mutate assignment to retrieve all the necessary information:
-    vars_used <-
-      intersect(c(var_ziel, val_assign),
-                names(df_add_vals))
-    # mutate the sub-data frame according to the assignments in assign_vec (the
-    # "!!!" tells R to evaluate the content of the variable and not the text of
-    # the variable itself, and furthermore, that several arguments might follow):
-    .data[condition, vars_used] <-
-      .data[condition, vars_used] %>%
-      mutate(!!var_ziel := !!val_assign)
-    # return the whole data frame:
-    .data
-  }
-
-
-
-  # * assign verbatim codes in data frame -----------------------------------
-
-  # This assigns the data in the list elements of l_assigns repeatedly to the data
-  # frame df_add_vals:
-  # (to assign only the first list element the command would be:)
-  # df_add_vals %>% mutate_cond(l_assigns[[1]])
-  df_add_vals <- reduce(l_assigns, mutate_cond, .init = df_add_vals)
-
-  # now, this data frame contains the data of the code assignments
-
-
-
-
-
-
-
-  # update labels -----------------------------------------------------------
-
-  # * data frame containing all updated variable/value labels ---------------
   df_cats <-
     df_assigns %>%
     # this extracts all the variables that are assigned var_ziel (the other
@@ -210,53 +116,84 @@ mapp_verbatims <- function(df_orig, verba_file = mapp_extract_verbatim_file(mapp
     filter(EFA1MCG2MDG3 != 3 | code_assign == Code) %>%
     # for mdg variables, a variable label column is created, for the other types
     # the variable label is set to the empty string:
-    mutate(var_lab=case_when(EFA1MCG2MDG3 == 3 ~ Beschreibung,
+    mutate(varlab=case_when(EFA1MCG2MDG3 == 3 ~ Beschreibung,
                              EFA1MCG2MDG3 != 3 ~ "")) %>%
     # create a column containing named vectors containing the values & the value
     # labels for each var_ziel:
     group_by(var_ziel) %>%
-    summarise(val_labs = list(q_id=setNames(Code, Beschreibung)),
-              var_lab  = first(var_lab),
+    summarise(vallabs = list(q_id=setNames(Code, Beschreibung)),
+              varlab  = first(varlab),
               EFA1MCG2MDG3 = first(EFA1MCG2MDG3)) %>%
     # for mdg variables the value labels that where created make no sense and are
     # not needed (in the future one could add something like "1 = selected"...):
-    mutate(val_labs = if_else(EFA1MCG2MDG3 == 3, list(NULL), val_labs))
+    mutate(vallab = if_else(EFA1MCG2MDG3 == 3, list(NULL), vallabs))
+  # %>%
+  #   mutate(vallabs = map(vallabs, ~ enframe(.x, "vallab", "val_assign"))) %>%
+  #   unnest(vallabs)
 
-  # function to add the label information:
-  add_labels <- function(df_add_vals, df_cats){
-    df_new_vars <- df_add_vals %>% select(df_cats$var_ziel)
-    df_lbl <- map2_dfc(
-      df_new_vars,
-      df_cats$val_labs,
-      ~ haven::labelled(.x, labels = .y)
-    )
-    bind_cols(df_add_vals %>% select(-c(df_cats$var_ziel)), df_lbl)
+
+  df_assigns_overview <-
+    df_assigns %>%
+    left_join(df_cats) %>%
+    group_by(var_ziel, val_assign, vallab, varlab) %>%
+    summarise(
+      id_list = list(as.numeric(DC_ID)),
+      # old:
+      assign_cond =
+                DC_ID %>%
+                paste(., collapse = ", ") %>%
+                paste0("DC_ID %in% c(", .) %>% paste0(")"))
+  # %>%
+  #   group_by(var_ziel)
+  df_assigns_overview %>%
+    mutate(
+      sheet = "verbatims",
+      new_var = var_ziel,
+      action = "#Verba",
+      row = cur_group_id() %>% as.character()
+      ) %>%
+    ungroup()  %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest()
+  # %>%
+  #   transpose()
+  # %>%
+  #   rowwise() %>%
+  #   group_split()
+}
+
+# l <- mapp_prepare_verba_data(map_file)
+
+assign_verba_val <- function(df_raw, l) {
+  # print(l$id_list)
+  new_val <- l$val_assign
+  # print(new_val)
+  if (!l$var_ziel %in% names(df_raw)) {
+    df_raw[l$var_ziel] <- NA_real_
   }
+  df_raw[[l$var_ziel]][df_raw$id %in% l$id_list[[1]]] <- new_val
+  y <- haven::labelled(
+    df_raw[[l$var_ziel]],
+    labels = l$vallab[[1]],
+    label = l$varlab
+  )
+  df_raw[[l$var_ziel]] <- y
+  # does the same
+  # df_raw <- df_raw %>%
+  #   mutate(
+  #     !!rlang::sym(l$var_ziel) := ifelse(
+  #       id %in% l$id_list[[1]],
+  #       new_val,
+  #       !!rlang::sym(l$var_ziel)
+  #     )
+  #   )
 
 
-  # * update labels in data frame --------------------------------------------
 
-
-  df_add_labs <- add_labels(df_add_vals, df_cats)
-
-
-  # write sav file ----------------------------------------------------------
-  df_add_labs
+  # df_raw[[l$var_ziel]] <- haven::labelled(
+  #   df_raw[[l$var_ziel]],
+  #   labels =
+  # )
+  df_raw
 }
-
-
-
-# mapp_verbatims(df_orig, verba_file, map_file)
-mapp_extract_verbatim_file <- function(mapping_file) {
-  readxl::read_xlsx(
-    mapping_file,
-    sheet = "Verbatims",
-    range = cellranger::cell_cols(c("B:D")),
-    skip = 0
-  ) %>%
-    dplyr::rename_all(~LETTERS[2:4]) %>%
-    dplyr::filter(B == "Filename input") %>%
-    dplyr::pull(D)
-}
-
-
+# l$data %>% reduce(assign_verba_val, .init = df_orig)

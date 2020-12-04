@@ -379,7 +379,9 @@ create_df_sumvar <- function(df_vall) {
     dplyr::mutate(row = paste(row, collapse = ", ")) %>%
     dplyr::mutate(sheet = "Labels") %>%
     dplyr::mutate(action = "#SUMVAR") %>%
-    dplyr::relocate(sheet, action)
+    dplyr::relocate(sheet, action)  %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest()
 }
 
 create_df_new_lab <- function(df_varl) {
@@ -388,7 +390,9 @@ create_df_new_lab <- function(df_varl) {
     tidyr::drop_na(new_label) %>%
     dplyr::mutate(new_var = var) %>%
     dplyr::mutate(sheet = "Variables") %>%
-    dplyr::mutate(action = "#NEWLAB")
+    dplyr::mutate(action = "#NEWLAB") %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest()
 }
 
 
@@ -414,7 +418,9 @@ make_free_table <- function(df_f1) {
           action == "#KG"                  ~ paste(X2, X3, sep = "_"),
           action %in% c("#VALL", "#AVALL") ~ X2[1]
         )
-      )
+      ) %>%
+      dplyr::group_by(sheet, action, row, new_var) %>%
+      tidyr::nest()
   }
   else {
     tibble::tibble()
@@ -435,6 +441,7 @@ make_free_table <- function(df_f1) {
 mapp_mod_table <- function(filename) {
   df_varl  <- mapp_varl(filename)
   df_vall  <- mapp_vall(filename)
+  df_verba <- mapp_prepare_verba_data(filename)
   df_free1 <- mapp_free1(filename)
 
 
@@ -442,8 +449,9 @@ mapp_mod_table <- function(filename) {
   create_df_new_lab(df_varl) %>%
     dplyr::bind_rows(create_df_sumvar(df_vall)) %>%
     dplyr::bind_rows(df_f1_commands)  %>%
-    dplyr::group_by(sheet, action, row, new_var) %>%
-    tidyr::nest() %>%
+    dplyr::bind_rows(df_verba)  %>%
+    # dplyr::group_by(sheet, action, row, new_var) %>%
+    # tidyr::nest() %>%
     dplyr::ungroup()
 }
 
@@ -460,7 +468,8 @@ all_mutes <- function(df_raw, action, data) {
     "#VARL"   = set_lab(df_raw, data$X2, data$X3),
     "#VALL"   = set_labs(df_raw, data),
     "#AVALL"  = add_labs(df_raw, data),
-    "#KG"     = kg(df_raw, data$X2, data$X3)
+    "#KG"     = kg(df_raw, data$X2, data$X3),
+    "#Verba"  = assign_verba_val(df_raw, data)
   )
 }
 
