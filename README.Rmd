@@ -77,7 +77,7 @@ In datenanpassr there's, an [Excel file](inst/extdata/mapping.xlsx) included to 
 
 ```{r, message=FALSE, warning=FALSE}
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
+df_mod <- mapp_xl_to_data(df, mapping_filepath)
 ```
 
 

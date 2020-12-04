@@ -42,19 +42,19 @@ library(tidyverse)
 
 ``` r
 datenanpassr::fake_survey
-#> # A tibble: 100 x 5
-#>                 q1             q2             q3             q4              q5
-#>          <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
-#>  1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
-#>  2  3 [normal]      1 [yes]       5 [very much]  4 [much]        5 [very much] 
-#>  3  1 [not at all]  1 [yes]       3 [normal]     2 [a bit]       5 [very much] 
-#>  4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
-#>  5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
-#>  6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
-#>  7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
-#>  8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
-#>  9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
-#> 10 99 [no answer]   1 [yes]       1 [not at all] 1 [not at all]  4 [much]      
+#> # A tibble: 100 x 8
+#>            q1         q2        q3        q4         q5    id q6        q7      
+#>     <dbl+lbl>  <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl> <int> <chr+lbl> <chr+lb>
+#>  1  3 [norma…  2 [no]    3 [norma… 4 [much]   2 [a bit]     1 bla bla … bla bla…
+#>  2  3 [norma…  1 [yes]   5 [very … 4 [much]   5 [very …     2 bla bla … bla bla…
+#>  3  1 [not a…  1 [yes]   3 [norma… 2 [a bit]  5 [very …     3 bla joy   bla bla…
+#>  4  3 [norma… 99 [no an… 4 [much]  4 [much]   4 [much]      4 bla bla … bla bla…
+#>  5  5 [very … NA         2 [a bit] 3 [norma…  3 [norma…     5 bla happ… bla fear
+#>  6  5 [very … NA         4 [much]  3 [norma…  2 [a bit]     6 bla bla … bla pain
+#>  7 99 [no an…  2 [no]    3 [norma… 4 [much]  NA             7 bla love  bla bla…
+#>  8  2 [a bit]  2 [no]    5 [very … 2 [a bit]  1 [not a…     8 bla bla … bla bla…
+#>  9 99 [no an… 99 [no an… 1 [not a… 1 [not a…  2 [a bit]     9 bla bla … bla bla…
+#> 10 99 [no an…  1 [yes]   1 [not a… 1 [not a…  4 [much]     10 bla bla … bla bla…
 #> # … with 90 more rows
 path <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 haven::read_sav(path)
@@ -117,26 +117,46 @@ changes to your dataset with:
 
 ``` r
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_mod <- mapp_xl_to_data(fake_survey, mapping_filepath)
+df_mod <- mapp_xl_to_data(df, mapping_filepath)
+#> [1] "#NEWLAB"
+#> [1] "#NEWLAB"
+#> [1] "#NEWLAB"
+#> [1] "#SUMVAR"
+#> [1] "#COMP"
+#> [1] "#IF"
+#> [1] "#REC"
+#> [1] "#KG"
+#> [1] "#COMP"
+#> [1] "#VARL"
+#> [1] "#VALL"
+#> [1] "#AVALL"
+#> [1] "#Verba"
+#> [1] "#Verba"
+#> [1] "#Verba"
+#> [1] "#Verba"
+#> [1] "#Verba"
+#> [1] "#Verba"
+#> [1] "#Verba"
 ```
 
 ``` r
 df_mod
-#> # A tibble: 100 x 13
+#> # A tibble: 100 x 15
 #>          q1       q2      q3      q4       q5      kq1     x   abc     kq3
 #>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl+lb> <dbl> <dbl> <dbl+l>
-#>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b… NA           1    NA 2 [3]  
-#>  2  3 [nor…  1 [yes] 5 [ver… 4 [muc…  5 [ver… NA           1    NA 3 [4-5]
+#>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b…  2 [bbb]     1    NA 2 [3]  
+#>  2  3 [nor…  1 [yes] 5 [ver… 4 [muc…  5 [ver…  2 [bbb]     1    NA 3 [4-5]
 #>  3  1 [not…  1 [yes] 3 [nor… 2 [a b…  5 [ver…  1 [aaa]     1     7 2 [3]  
-#>  4  3 [nor… 99 [no … 4 [muc… 4 [muc…  4 [muc… NA           1    NA 3 [4-5]
-#>  5  5 [ver… NA       2 [a b… 3 [nor…  3 [nor… NA           1    NA 1 [1-2]
-#>  6  5 [ver… NA       4 [muc… 3 [nor…  2 [a b… NA           1    NA 3 [4-5]
+#>  4  3 [nor… 99 [no … 4 [muc… 4 [muc…  4 [muc…  2 [bbb]     1    NA 3 [4-5]
+#>  5  5 [ver… NA       2 [a b… 3 [nor…  3 [nor…  3 [ccc]     1    NA 1 [1-2]
+#>  6  5 [ver… NA       4 [muc… 3 [nor…  2 [a b…  3 [ccc]     1    NA 3 [4-5]
 #>  7 99 [no …  2 [no]  3 [nor… 4 [muc… NA       NA           1    NA 2 [3]  
-#>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not… NA           1    NA 3 [4-5]
+#>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not…  1 [aaa]     1    NA 3 [4-5]
 #>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b… NA           1    NA 1 [1-2]
 #> 10 99 [no …  1 [yes] 1 [not… 1 [not…  4 [muc… NA           1    NA 1 [1-2]
-#> # … with 90 more rows, and 4 more variables: q1xq2_1 <dbl+lbl>,
-#> #   q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>, n <dbl+lbl>
+#> # … with 90 more rows, and 6 more variables: q1xq2_1 <dbl+lbl>,
+#> #   q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>, n <dbl+lbl>, q6n <dbl+lbl>,
+#> #   q7n <dbl+lbl>
 ```
 
 The manipulations defined in the Excel file are applied on the dataframe
