@@ -3,7 +3,7 @@
 mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file)) {
   verba_file_sheets <-
     verba_file %>%
-    excel_sheets() %>%
+    readxl::excel_sheets() %>%
     # except "Codestufen", the first sheet:
     .[-1] %>%
     # by setting names, the map function applied later, will assign these names to
@@ -11,7 +11,7 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
     set_names()
 
   read_assigns <- function(sheet_name){
-    read_excel(verba_file, skip=31, sheet = sheet_name, col_names = TRUE) %>%
+    readxl::read_excel(verba_file, skip=31, sheet = sheet_name, col_names = TRUE) %>%
       select(`Orig. Variable`, ID, Antwort, matches("^Zuord "))
   }
 
@@ -23,7 +23,7 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
 
 
   mapping_verba_sheet <-
-    read_excel(map_file,
+    readxl::read_excel(map_file,
                skip = 14,
                sheet = "Verbatims",
                col_names = TRUE) %>%
@@ -100,7 +100,7 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
     # number of times, there are different codes in the corresponding sheet in the
     # verbatim file:
     left_join(.,
-              read_excel(verba_file,
+              readxl::read_excel(verba_file,
                          sheet = "Codestufen",
                          col_names = TRUE) %>%
                 # in the Codestufen sheet there is no title for the code column; R
@@ -209,3 +209,4 @@ mapp_extract_verbatim_file <- function(mapping_file) {
     dplyr::filter(B == "Filename input") %>%
     dplyr::pull(D)
 }
+
