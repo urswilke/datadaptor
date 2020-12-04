@@ -140,7 +140,13 @@ df_mod
 ```
 
 The manipulations defined in the Excel file are applied on the dataframe
-that was derived from the SPSS file.
+that was derived from the SPSS file. Have a lock at the Excel command
+block vignette for examples how to manipulate and generate new variables
+in your labelled dataset:
+
+``` r
+browseVignettes("datenanpassr")
+```
 
 You can save this dataframe back to an SPSS file by again using the
 [haven package](https://haven.tidyverse.org/):
