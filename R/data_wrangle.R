@@ -15,10 +15,12 @@ mapp_create <- function(df_raw, filename) {
     dplyr::mutate(new_label = "")
   df_vallabs <-
     tablab::tab_vallabs(df_raw) %>%
-    dplyr::mutate(`new_label` = "",
-           `sum_var_label` = "",
-           `sum_var_value` = "",
-           `sum_var_vallab` = "")
+    dplyr::mutate(
+      `new_label`      = "",
+      `sum_var_label`  = "",
+      `sum_var_value`  = "",
+      `sum_var_vallab` = ""
+    )
 
   wb <- openxlsx::createWorkbook()
 
@@ -241,8 +243,8 @@ split_cat_by_cat <- function(df, new_vars, var1, var2) {
 }
 
 rec_1var <- function(df_raw, l_sum_var_el) {
-  var_name <- l_sum_var_el %>% dplyr::pull(var) %>% .[1]
-  sum_var_name <- paste0("k", var_name)
+  var_name      <- l_sum_var_el %>% dplyr::pull(var) %>% .[1]
+  sum_var_name  <- paste0("k", var_name)
   sum_var_label <- l_sum_var_el %>% dplyr::pull(sum_var_label) %>% .[1]
 
   sum_var_vals_n_labs <- l_sum_var_el %>%
@@ -275,8 +277,8 @@ rec_1var <- function(df_raw, l_sum_var_el) {
 
 
 rec_1var_free <- function(df_raw, l_sum_var_el) {
-  var_name <- l_sum_var_el %>% dplyr::pull(X2) %>% .[1]
-  sum_var_name <- l_sum_var_el %>% dplyr::pull(X3) %>% .[1]
+  var_name      <- l_sum_var_el %>% dplyr::pull(X2) %>% .[1]
+  sum_var_name  <- l_sum_var_el %>% dplyr::pull(X3) %>% .[1]
   sum_var_label <- l_sum_var_el %>% dplyr::pull(X4) %>% .[1]
 
   sum_var_vals_n_labs <- l_sum_var_el %>% dplyr::slice(-1) %>%
@@ -405,11 +407,11 @@ make_free_table <- function(df_f1) {
     res %>%
       dplyr::mutate(
         new_var = dplyr::case_when(
-          action == "#REC" ~ X3[1],
-          action == "#IF" ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
-          action == "#COMP" ~ X2,
-          action == "#VARL" ~ X2,
-          action == "#KG" ~ paste(X2, X3, sep = "_"),
+          action == "#REC"                 ~ X3[1],
+          action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
+          action == "#COMP"                ~ X2,
+          action == "#VARL"                ~ X2,
+          action == "#KG"                  ~ paste(X2, X3, sep = "_"),
           action %in% c("#VALL", "#AVALL") ~ X2[1]
         )
       )
@@ -431,8 +433,8 @@ make_free_table <- function(df_f1) {
 #' mapp_create(fake_survey, "mapping.xlsx")
 #' mapp_mod_table("mapping.xlsx")
 mapp_mod_table <- function(filename) {
-  df_varl <- mapp_varl(filename)
-  df_vall <- mapp_vall(filename)
+  df_varl  <- mapp_varl(filename)
+  df_vall  <- mapp_vall(filename)
   df_free1 <- mapp_free1(filename)
 
 
@@ -448,16 +450,17 @@ mapp_mod_table <- function(filename) {
 
 
 all_mutes <- function(df_raw, action, data) {
-  switch (action,
-          "#IF" = mutate_cond(df_raw, data$X2, data$X3),
-          "#COMP" = mutate_comp(df_raw, data$X2, data$X3),
-          "#REC" = rec_1var_free(df_raw, data),
-          "#SUMVAR" = rec_1var(df_raw, data),
-          "#NEWLAB" = set_lab(df_raw, data$var, data$new_label),
-          "#VARL" = set_lab(df_raw, data$X2, data$X3),
-          "#VALL" = set_labs(df_raw, data),
-          "#AVALL" = add_labs(df_raw, data),
-          "#KG" = kg(df_raw, data$X2, data$X3)
+  switch (
+    action,
+    "#IF"     = mutate_cond(df_raw, data$X2, data$X3),
+    "#COMP"   = mutate_comp(df_raw, data$X2, data$X3),
+    "#REC"    = rec_1var_free(df_raw, data),
+    "#SUMVAR" = rec_1var(df_raw, data),
+    "#NEWLAB" = set_lab(df_raw, data$var, data$new_label),
+    "#VARL"   = set_lab(df_raw, data$X2, data$X3),
+    "#VALL"   = set_labs(df_raw, data),
+    "#AVALL"  = add_labs(df_raw, data),
+    "#KG"     = kg(df_raw, data$X2, data$X3)
   )
 }
 
