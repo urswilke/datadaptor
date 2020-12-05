@@ -84,8 +84,14 @@ df_mod <- mapp_xl_to_data(df, mapping_filepath)
 ```{r}
 df_mod
 ```
+Let's also have a closer look at one of the new variables:
 
-The manipulations defined in the Excel file are applied on the dataframe that was derived from the SPSS file. Have a lock at the Excel command block vignette for examples how to manipulate and generate new variables in your labelled dataset:
+```{r}
+df_mod$q6n
+```
+
+
+The manipulations defined in the Excel files are applied on the dataframe that was derived from the SPSS file. Have a lock at the Excel command block vignette for examples how to manipulate and generate new variables in your labelled dataset:
 
 ```{r, eval=FALSE}
 browseVignettes("datenanpassr")
