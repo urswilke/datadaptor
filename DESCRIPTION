@@ -29,7 +29,10 @@ Imports:
     tidyr,
     tibble,
     purrr,
-    forcats
+    forcats,
+    cellranger,
+    rlang,
+    stringr
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr

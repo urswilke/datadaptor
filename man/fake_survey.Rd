@@ -7,11 +7,14 @@
 \format{
 A data frame of 100 respondents to 5 questions (variables):
 \describe{
+\item{id}{respondent id}
 \item{q1}{How much do you like the product?}
 \item{q2}{Do you want to recommend the product?}
 \item{q3}{How likely will you go dancing this weekend?}
 \item{q4}{How much do you like your friends?}
 \item{q5}{How much do you like your best friend}
+\item{q6}{Tell me something positive.}
+\item{q7}{Tell me something negative.}
 }
 }
 \usage{

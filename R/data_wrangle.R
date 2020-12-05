@@ -136,7 +136,7 @@ mapp_mod_varl <- function(df_raw, filename) {
   df_varl <- mapp_varl(filename)
   df_raw[df_varl %>% tidyr::drop_na(new_label) %>% dplyr::pull(var)] <-
     df_raw[df_varl %>% tidyr::drop_na(new_label) %>% dplyr::pull(var)] %>%
-    map2_dfc(.,
+    purrr::map2_dfc(.,
              df_varl %>% tidyr::drop_na(new_label) %>% dplyr::pull(new_label),
              ~ {
                attr(.x, "label") <- .y
@@ -165,7 +165,7 @@ set_labs <- function(df_raw, data){
   # it does work when reassigned to x !! - why that ?? - whatever...
   y <- haven::labelled(
     x,
-    labels = setNames(vals, labs),
+    labels = purrr::set_names(vals, labs),
     label = data$X3[1]
   )
   df_raw %>%
@@ -179,7 +179,7 @@ add_labs <- function(df_raw, data){
   vals <- c(attr(x, "labels") %>% unname(), data$X2[-1] %>% as.numeric())
   y <- haven::labelled(
     x,
-    labels = setNames(vals, labs),
+    labels = purrr::set_names(vals, labs),
     label = dplyr::coalesce(data$X3[1], attr(x, "label"))
   )
   df_raw %>%
@@ -191,7 +191,7 @@ kg_mix <- function(df_raw, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")
   var_kg_factor <- df_raw %>%
     dplyr::transmute(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor())) %>% dplyr::pull()
-  labels_vec <- var_kg_factor %>% levels() %>% setNames(1:length(.), .)
+  labels_vec <- var_kg_factor %>% levels() %>% purrr::set_names(1:length(.), .)
   var_kg_labelled <- haven::labelled_spss(var_kg_factor, labels = labels_vec)
 
   df_raw %>%
