@@ -7,7 +7,9 @@
 #' @export
 #'
 #' @examples
-#' mapp_create(fake_survey, "mapping.xlsx")
+#' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df <- haven::read_sav(spss_filepath)
+#' mapp_create(df, "mapping.xlsx")
 mapp_create <- function(df_raw, filename) {
 
   df_varlab <-
