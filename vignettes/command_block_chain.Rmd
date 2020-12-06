@@ -22,20 +22,23 @@ library(datenanpassr)
 When the commands in the Excel file can be correctly parsed, this results in a sequence of commands to manipulate the data. The sequence of commands is stored in a data frame returned by:
 
 ```{r}
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr") %>% as.character()
+# mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr") %>% as.character()
 mapping_file <- "mapping.xlsx"
-mapping_file
+# mapping_file
+```
+
+
+```{r, message=FALSE}
+a <- mapp_cmd_table(mapping_file)
 ```
 
 
 ```{r}
-a <- mapp_varl(mapping_file)
-a <- mapp_cmd_table(mapping_file)
 a
 ```
 
 
-You can click on the entries to browse the arguments of the functions
+<!-- You can click on the entries to browse the arguments of the functions -->
 ```{r}
 a$data %>% 
   set_names(paste0(a$action, ": ", a$new_var)) 
