@@ -1,27 +1,3 @@
-#' Modify variable labels according to sheet in Excel mapping file
-#'
-#' @param df_raw labelled dataframe
-#' @param filename name of the Excel mapping file
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' mapp_mod_varl(fake_survey, "mapping.xlsx")
-mapp_mod_varl <- function(df_raw, filename) {
-  df_varl <- mapp_varl(filename)
-  df_raw[df_varl %>% tidyr::drop_na(new_label) %>% dplyr::pull(var)] <-
-    df_raw[df_varl %>% tidyr::drop_na(new_label) %>% dplyr::pull(var)] %>%
-    purrr::map2_dfc(.,
-             df_varl %>% tidyr::drop_na(new_label) %>% dplyr::pull(new_label),
-             ~ {
-               attr(.x, "label") <- .y
-               .x
-             }
-    )
-  df_raw
-}
-
 set_lab <- function(df_raw, var, new_label){
   df_raw %>%
     dplyr::mutate(
