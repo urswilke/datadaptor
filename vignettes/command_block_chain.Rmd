@@ -30,7 +30,7 @@ mapping_file
 
 ```{r}
 a <- mapp_varl(mapping_file)
-a <- mapp_mod_table(mapping_file)
+a <- mapp_cmd_table(mapping_file)
 a
 ```
 
@@ -38,7 +38,7 @@ a
 You can click on the entries to browse the arguments of the functions
 ```{r}
 a$data %>% 
-  set_names(paste0(a$action, ": ", a$new_var))
+  set_names(paste0(a$action, ": ", a$new_var)) 
 # %>%
 #   listviewer::jsonedit(width = 700, height = 500)
 ```
