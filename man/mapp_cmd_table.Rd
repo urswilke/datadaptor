@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_wrangle.R
 \name{mapp_cmd_table}
 \alias{mapp_cmd_table}
-\title{Create a summary table of the data modifications in the
+\title{Create a summary table of the data modifications list read in from the
 Excel mapping file}
 \usage{
 mapp_cmd_table(filename)
@@ -14,7 +14,7 @@ mapp_cmd_table(filename)
 
 }
 \description{
-Create a summary table of the data modifications in the
+Create a summary table of the data modifications list read in from the
 Excel mapping file
 }
 \examples{

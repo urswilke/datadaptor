@@ -1,32 +1,52 @@
-set_lab <- function(df_raw, var, new_label){
-  df_raw %>%
+#' Set variable label of variable var in dataframe df
+#'
+#' @param df dataframe
+#' @param var (labelled) variable
+#' @param new_label character string of new label
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' set_lab(data.frame(x = 1), "x", "I'm the variable label") %>% str()
+set_lab <- function(df, var, new_label){
+  df %>%
     dplyr::mutate(
       !!var := haven::labelled(
-        df_raw[[var]],
-        labels = attr(df_raw[[var]], "labels"),
+        df[[var]],
+        labels = attr(df[[var]], "labels"),
         label = new_label
       )
     )
 }
 
-set_labs <- function(df_raw, data){
-  x <- df_raw %>% dplyr::pull(!!data$X2[1])
+#' Set value labels of labelled variable var in dataframe df
+#'
+#' @param df dataframe
+#' @param data
+#'
+#' @return
+#' @export
+#'
+#' @examples
+set_labs <- function(df, data){
+  x <- df %>% dplyr::pull(!!data$X2[1])
   labs <- data$X3[-1]
   vals <- data$X2[-1] %>% as.numeric()
 
-  # it does work when reassigned to x !! - why that ?? - whatever...
+  # it doesn't work when reassigned to x !! - why that ?? - whatever...
   y <- haven::labelled(
     x,
     labels = purrr::set_names(vals, labs),
     label = data$X3[1]
   )
-  df_raw %>%
+  df %>%
     dplyr::mutate(!!data$X2[1] := y)
 }
 
 
-add_labs <- function(df_raw, data){
-  x <- df_raw %>% dplyr::pull(!!data$X2[1])
+add_labs <- function(df, data){
+  x <- df %>% dplyr::pull(!!data$X2[1])
   labs <- c(attr(x, "labels") %>% names(), data$X3[-1])
   vals <- c(attr(x, "labels") %>% unname(), data$X2[-1] %>% as.numeric())
   y <- haven::labelled(
@@ -34,36 +54,50 @@ add_labs <- function(df_raw, data){
     labels = purrr::set_names(vals, labs),
     label = dplyr::coalesce(data$X3[1], attr(x, "label"))
   )
-  df_raw %>%
+  df %>%
     dplyr::mutate(!!data$X2[1] := y)
 }
 
 
-kg_mix <- function(df_raw, var1, var2) {
+kg_mix <- function(df, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")
-  var_kg_factor <- df_raw %>%
+  var_kg_factor <- df %>%
     dplyr::transmute(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor())) %>% dplyr::pull()
   labels_vec <- var_kg_factor %>% levels() %>% purrr::set_names(1:length(.), .)
   var_kg_labelled <- haven::labelled_spss(var_kg_factor, labels = labels_vec)
 
-  df_raw %>%
+  df %>%
     dplyr::mutate(!!var_kg := var_kg_labelled)
 }
 
-kg <- function(df_raw, var1, var2) {
-  new_vars <- prepare_newvar_table(df_raw, var1, var2)
+#' Split variable in dataframe into multiple according to the values of another variable
+#'
+#' Create a set of variables for each value of var1. The resulting variables
+#' are equal to var2 if var1 is equal to the respective value and NA otherwise.
+#'
+#' @param df data frame
+#' @param var1 variable to split by
+#' @param var2 variable to be splitted
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' kg(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
+kg <- function(df, var1, var2) {
+  new_vars <- prepare_newvar_table(df, var1, var2)
   new_vars %>%
     purrr::transpose() %>%
     # these 2 lines would do the same
     # rowwise() %>%
     # group_split() %>%
     # add the new variables one by one to the dataframe:
-    purrr::reduce(split_cat_by_cat, var1, var2, .init = df_raw)
+    purrr::reduce(split_cat_by_cat, var1, var2, .init = df)
 }
-prepare_newvar_table <- function(df_raw, var1, var2) {
-  var2lab <- attr(df_raw[[var2]], "label")
+prepare_newvar_table <- function(df, var1, var2) {
+  var2lab <- attr(df[[var2]], "label")
   new_varlabs <-
-    df_raw %>%
+    df %>%
     dplyr::mutate(id = dplyr::row_number(), !!var1) %>%
     tablab::tab_all() %>%
     dplyr::filter(var == var1) %>%
@@ -94,7 +128,7 @@ split_cat_by_cat <- function(df, new_vars, var1, var2) {
 
 }
 
-rec_1var <- function(df_raw, l_sum_var_el) {
+rec_1var <- function(df, l_sum_var_el) {
   var_name      <- l_sum_var_el %>% dplyr::pull(var) %>% .[1]
   sum_var_name  <- paste0("k", var_name)
   sum_var_label <- l_sum_var_el %>% dplyr::pull(sum_var_label) %>% .[1]
@@ -113,22 +147,22 @@ rec_1var <- function(df_raw, l_sum_var_el) {
 
 
 
-  df_raw <- df_raw %>%
+  df <- df %>%
     dplyr::mutate(
       sum_var := dplyr::case_when(!!!cond_statements)
     )
-  df_raw$sum_var <- haven::labelled(
-    df_raw$sum_var,
+  df$sum_var <- haven::labelled(
+    df$sum_var,
     labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
     label = sum_var_label
   )
-  # attr(df_raw$sum_var, "label") <- sum_var_label
-  # attr(df_raw$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
-  df_raw %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
+  # attr(df$sum_var, "label") <- sum_var_label
+  # attr(df$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
+  df %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
 }
 
 
-rec_1var_free <- function(df_raw, l_sum_var_el) {
+rec_1var_free <- function(df, l_sum_var_el) {
   var_name      <- l_sum_var_el %>% dplyr::pull(X2) %>% .[1]
   sum_var_name  <- l_sum_var_el %>% dplyr::pull(X3) %>% .[1]
   sum_var_label <- l_sum_var_el %>% dplyr::pull(X4) %>% .[1]
@@ -152,15 +186,15 @@ rec_1var_free <- function(df_raw, l_sum_var_el) {
 
 
 
-  df_raw <- df_raw %>%
+  df <- df %>%
     dplyr::mutate(sum_var := dplyr::case_when(!!!cond_statements))
 
-  df_raw$sum_var <- haven::labelled(
-    df_raw$sum_var,
+  df$sum_var <- haven::labelled(
+    df$sum_var,
     labels = sum_var_vals_n_labs %>% dplyr::select(X5, X4) %>% tibble::deframe(),
     label = sum_var_label
   )
-  df_raw %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
+  df %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
 }
 
 
@@ -205,18 +239,40 @@ severalize <- function(df_f1) {
 
 
 
-mutate_comp <- function(df_raw, var_str, expr_str) {
+#' Compute variable in data frame according to string expression
+#'
+#' @param df dataframe
+#' @param var_str string of the variable name
+#' @param expr_str expression string
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mutate_comp(data.frame(x = 1:3), "y", "x * 2")
+mutate_comp <- function(df, var_str, expr_str) {
   expi <- rlang::parse_expr(expr_str)
 
-  df_raw %>% dplyr::mutate(!!var_str := !!expi)
+  df %>% dplyr::mutate(!!var_str := !!expi)
 }
 
 
-mutate_cond <- function(df_raw, cond_str, assign_str) {
+#' Conditional computing of a variable in a dataframe
+#'
+#' @param df dataframe
+#' @param cond_str condition to be fulfilled
+#' @param assign_str string of the variable assignment
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mutate_cond(data.frame(x = 1:3), "x == 3", "y = 2")
+mutate_cond <- function(df, cond_str, assign_str) {
   condi <- rlang::parse_expr(cond_str)
   assi <- assign_str %>% stringr::str_split("=") %>% unlist() %>%  rlang::parse_exprs()
 
-  df_raw %>% dplyr::mutate(!!assi[[1]] := ifelse(!!condi, !!assi[[2]], NA_real_))
+  df %>% dplyr::mutate(!!assi[[1]] := ifelse(!!condi, !!assi[[2]], NA_real_))
 }
 
 
@@ -236,7 +292,7 @@ create_df_sumvar <- function(df_vall) {
     tidyr::nest()
 }
 
-create_df_new_lab <- function(df_varl) {
+create_df_new_varlab <- function(df_varl) {
   df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(new_label) %>%
@@ -248,7 +304,7 @@ create_df_new_lab <- function(df_varl) {
 }
 
 
-make_free_table <- function(df_f1) {
+make_free_cmd_table <- function(df_f1) {
   res <- df_f1 %>%
     dplyr::mutate(index = cumsum(dplyr::coalesce(stringr::str_detect(X1, "^#"), FALSE))) %>%
     dplyr::group_by(index) %>%
@@ -279,7 +335,7 @@ make_free_table <- function(df_f1) {
   }
 }
 
-#' Create a summary table of the data modifications in the
+#' Create a summary table of the data modifications list read in from the
 #' Excel mapping file
 #'
 #' @param filename filename of the Excel mapping file
@@ -297,8 +353,8 @@ mapp_cmd_table <- function(filename) {
   df_free1 <- mapp_free1(filename)
 
 
-  df_f1_commands <- make_free_table(df_free1)# %>% severalize())
-  create_df_new_lab(df_varl) %>%
+  df_f1_commands <- make_free_cmd_table(df_free1)# %>% severalize())
+  create_df_new_varlab(df_varl) %>%
     dplyr::bind_rows(create_df_sumvar(df_vall)) %>%
     dplyr::bind_rows(df_f1_commands)  %>%
     dplyr::bind_rows(df_verba)  %>%
@@ -309,25 +365,25 @@ mapp_cmd_table <- function(filename) {
 
 
 
-apply_one_cmd <- function(df_raw, action, data) {
+apply_one_cmd <- function(df, action, data) {
   switch (
     action,
-    "#IF"     = mutate_cond(df_raw, data$X2, data$X3),
-    "#COMP"   = mutate_comp(df_raw, data$X2, data$X3),
-    "#REC"    = rec_1var_free(df_raw, data),
-    "#SUMVAR" = rec_1var(df_raw, data),
-    "#NEWLAB" = set_lab(df_raw, data$var, data$new_label),
-    "#VARL"   = set_lab(df_raw, data$X2, data$X3),
-    "#VALL"   = set_labs(df_raw, data),
-    "#AVALL"  = add_labs(df_raw, data),
-    "#KG"     = kg(df_raw, data$X2, data$X3),
-    "#Verba"  = assign_verba_val(df_raw, data)
+    "#IF"     = mutate_cond(df, data$X2, data$X3),
+    "#COMP"   = mutate_comp(df, data$X2, data$X3),
+    "#REC"    = rec_1var_free(df, data),
+    "#SUMVAR" = rec_1var(df, data),
+    "#NEWLAB" = set_lab(df, data$var, data$new_label),
+    "#VARL"   = set_lab(df, data$X2, data$X3),
+    "#VALL"   = set_labs(df, data),
+    "#AVALL"  = add_labs(df, data),
+    "#KG"     = kg(df, data$X2, data$X3),
+    "#Verba"  = assign_verba_val(df, data)
   )
 }
 
 #' Apply changes of mapping Excel file to dataframe
 #'
-#' @param df_raw dataframe to apply mapping on
+#' @param df dataframe to apply mapping on
 #' @param filename name of the Excel file with mappings
 #'
 #' @return
@@ -336,8 +392,8 @@ apply_one_cmd <- function(df_raw, action, data) {
 #' @examples
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_xl_to_data(fake_survey, mapping_filepath)
-mapp_xl_to_data <- function(df_raw, filename) {
+mapp_xl_to_data <- function(df, filename) {
   cmd_table <- mapp_cmd_table(filename)
 
-  purrr::reduce2(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df_raw)
+  purrr::reduce2(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
 }

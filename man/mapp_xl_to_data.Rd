@@ -4,10 +4,10 @@
 \alias{mapp_xl_to_data}
 \title{Apply changes of mapping Excel file to dataframe}
 \usage{
-mapp_xl_to_data(df_raw, filename)
+mapp_xl_to_data(df, filename)
 }
 \arguments{
-\item{df_raw}{dataframe to apply mapping on}
+\item{df}{dataframe to apply mapping on}
 
 \item{filename}{name of the Excel file with mappings}
 }
