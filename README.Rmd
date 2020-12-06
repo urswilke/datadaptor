@@ -51,7 +51,7 @@ You can create an Excel mapping file that's based on a template filled with vari
 
 
 ```{r, eval=FALSE}
-mapp_create(df, "mapping.xlsx")
+datenanpassr::mapp_create(df, "mapping.xlsx")
 ```
 
 In this Excel file commands can be added to do data cleaning or create new variables in the dataset.
@@ -60,7 +60,7 @@ In datenanpassr there's, an [Excel file](inst/extdata/mapping.xlsx) included to 
 
 ```{r, message=FALSE, warning=FALSE}
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_mod <- mapp_xl_to_data(df, mapping_filepath)
+df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_filepath)
 ```
 
 
