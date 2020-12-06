@@ -66,24 +66,24 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
     # stable number of variables assigned, this should be changed:
     tidyr::drop_na(code_assign) %>%
     # remove the substring "Zuord ":
-    dplyr::mutate(i_assign = str_remove(i_assign, "^Zuord ")) %>%
+    dplyr::mutate(i_assign = stringr::str_remove(i_assign, "^Zuord ")) %>%
     # replace the {OT...} term:
     dplyr::mutate(VariableZiel = un_OT_ize(VariableZiel, `Orig. Variable`)) %>%
     # depending on the variable type, the name of the variable to be assigned is
     # created by replacing the "{nn}" term: if one wants to allow multiple
     # assigned variable for EFA, the first line has to be adapted according to the
     # second...
-    dplyr::mutate(var_ziel = case_when(EFA1MCG2MDG3 == 1 ~ str_remove(VariableZiel, "\\{nn\\}"),
-                                EFA1MCG2MDG3 == 2 ~ str_replace(VariableZiel, "\\{nn\\}", as.character(i_assign)),
-                                EFA1MCG2MDG3 == 3 ~ str_replace(VariableZiel, "\\{nn\\}", as.character(code_assign)))) %>%
+    dplyr::mutate(var_ziel = dplyr::case_when(EFA1MCG2MDG3 == 1 ~ stringr::str_remove(VariableZiel, "\\{nn\\}"),
+                                EFA1MCG2MDG3 == 2 ~ stringr::str_replace(VariableZiel, "\\{nn\\}", as.character(i_assign)),
+                                EFA1MCG2MDG3 == 3 ~ stringr::str_replace(VariableZiel, "\\{nn\\}", as.character(code_assign)))) %>%
     # if there are several assignment columns for EFA variables, this line removes
     # them:
     # filter(!(EFA1MCG2MDG3 == 1 & i_assign != 1)) %>%
     # the value to be assigned for mdg variables is 1, otherwise code_assign:
-    dplyr::mutate(val_assign = if_else(EFA1MCG2MDG3 == 3, 1, code_assign)) %>%
+    dplyr::mutate(val_assign = dplyr::if_else(EFA1MCG2MDG3 == 3, 1, code_assign)) %>%
     # the column code_assign is only needed for mdg variables to assign the right
     # variable labels later. Therefore, it is set to NA for the other variables:
-    dplyr::mutate(code_assign = if_else(EFA1MCG2MDG3 != 3, NA_real_, code_assign)) %>%
+    dplyr::mutate(code_assign = dplyr::if_else(EFA1MCG2MDG3 != 3, NA_real_, code_assign)) %>%
     dplyr::select(-i_assign) %>%
     dplyr::rename(DC_ID = ID) %>%
     # the sorting of DC_ID is probably very important that the assigning of the
@@ -116,17 +116,17 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
     dplyr::filter(EFA1MCG2MDG3 != 3 | code_assign == Code) %>%
     # for mdg variables, a variable label column is created, for the other types
     # the variable label is set to the empty string:
-    dplyr::mutate(varlab=case_when(EFA1MCG2MDG3 == 3 ~ Beschreibung,
+    dplyr::mutate(varlab=dplyr::case_when(EFA1MCG2MDG3 == 3 ~ Beschreibung,
                              EFA1MCG2MDG3 != 3 ~ "")) %>%
     # create a column containing named vectors containing the values & the value
     # labels for each var_ziel:
     dplyr::group_by(var_ziel) %>%
     dplyr::summarise(vallabs = list(q_id = purrr::set_names(Code, Beschreibung)),
-                     varlab  = first(varlab),
-                     EFA1MCG2MDG3 = first(EFA1MCG2MDG3)) %>%
+                     varlab  = varlab[1],
+                     EFA1MCG2MDG3 = EFA1MCG2MDG3[1]) %>%
     # for mdg variables the value labels that where created make no sense and are
     # not needed (in the future one could add something like "1 = selected"...):
-    dplyr::mutate(vallab = if_else(EFA1MCG2MDG3 == 3, list(NULL), vallabs))
+    dplyr::mutate(vallab = dplyr::if_else(EFA1MCG2MDG3 == 3, list(NULL), vallabs))
   # %>%
   #   mutate(vallabs = map(vallabs, ~ enframe(.x, "vallab", "val_assign"))) %>%
   #   unnest(vallabs)
@@ -152,7 +152,7 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
       action = "#Verba",
       row = dplyr::cur_group_id() %>% as.character()
       ) %>%
-    ungroup()  %>%
+    dplyr::ungroup()  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
     tidyr::nest()
   # %>%
