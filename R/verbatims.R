@@ -1,6 +1,6 @@
 
 
-mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file), sheet = "Verbatims") {
+make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file), sheet = "Verbatims") {
   verba_file_sheets <-
     verba_file %>%
     readxl::excel_sheets() %>%

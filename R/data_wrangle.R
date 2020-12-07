@@ -299,7 +299,7 @@ mutate_cond <- function(df, cond_str, assign_str) {
 
 
 
-create_df_sumvar <- function(df_vall) {
+make_sumvar_cmd_table <- function(df_vall) {
   df_vall %>%
     tidyr::drop_na(sum_var_value) %>%
     dplyr::select(-new_label) %>%
@@ -314,7 +314,7 @@ create_df_sumvar <- function(df_vall) {
     tidyr::nest()
 }
 
-create_df_new_varlab <- function(df_varl) {
+make_varlab_cmd_table <- function(df_varl) {
   df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(new_label) %>%
@@ -391,17 +391,17 @@ mapp_cmd_table <- function(filename) {
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ mapp_one_sheet_table(filename, .y, .x),
+    ~ make_sheet_cmd_table(filename, .y, .x),
     .id = "sheet"
   )
 
 }
-mapp_one_sheet_table <- function(filename, sheet_cat, sheet_name) {
+make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name) {
   switch (sheet_cat,
-          "Variables" = mapp_varl(filename, sheet = sheet_name) %>% create_df_new_varlab(),
-          "Labels" = mapp_vall(filename, sheet = sheet_name) %>% create_df_sumvar(),
+          "Variables" = mapp_varl(filename, sheet = sheet_name) %>% make_varlab_cmd_table(),
+          "Labels" = mapp_vall(filename, sheet = sheet_name) %>% make_sumvar_cmd_table(),
           "Free" = mapp_free1(filename, sheet = sheet_name) %>% make_free_cmd_table(),
-          "Verbatims" = mapp_prepare_verba_data(filename, sheet = sheet_name)
+          "Verbatims" = make_verbatim_cmd_table(filename, sheet = sheet_name)
   )
 
 }
