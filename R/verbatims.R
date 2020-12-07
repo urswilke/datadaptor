@@ -127,9 +127,6 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
     # for mdg variables the value labels that where created make no sense and are
     # not needed (in the future one could add something like "1 = selected"...):
     dplyr::mutate(vallab = dplyr::if_else(EFA1MCG2MDG3 == 3, list(NULL), vallabs))
-  # %>%
-  #   mutate(vallabs = map(vallabs, ~ enframe(.x, "vallab", "val_assign"))) %>%
-  #   unnest(vallabs)
 
 
   df_assigns_overview <-
@@ -143,8 +140,6 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
                 DC_ID %>%
                 paste(., collapse = ", ") %>%
                 paste0("DC_ID %in% c(", .) %>% paste0(")"))
-  # %>%
-  #   group_by(var_ziel)
   df_assigns_overview %>%
     dplyr::mutate(
       sheet = "verbatims",
@@ -155,14 +150,8 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
     dplyr::ungroup()  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
     tidyr::nest()
-  # %>%
-  #   transpose()
-  # %>%
-  #   rowwise() %>%
-  #   group_split()
 }
 
-# l <- mapp_prepare_verba_data(map_file)
 
 assign_verba_val <- function(df_raw, l) {
   # print(l$id_list)
@@ -196,8 +185,6 @@ assign_verba_val <- function(df_raw, l) {
   # )
   df_raw
 }
-# l$data %>% reduce(assign_verba_val, .init = df_orig)
-# mapp_verbatims(df_orig, verba_file, map_file)
 mapp_extract_verbatim_file <- function(mapping_file) {
   readxl::read_xlsx(
     mapping_file,

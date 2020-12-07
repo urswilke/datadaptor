@@ -156,8 +156,6 @@ rec_1var <- function(df, l_sum_var_el) {
     labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
     label = sum_var_label
   )
-  # attr(df$sum_var, "label") <- sum_var_label
-  # attr(df$sum_var, "labels") <- sum_var_vals_n_labs[-2] %>% tibble::deframe()
   df %>% dplyr::rename(!!rlang::sym(sum_var_name) := sum_var)
 }
 
