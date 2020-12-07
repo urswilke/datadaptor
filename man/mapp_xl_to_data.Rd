@@ -15,7 +15,16 @@ mapp_xl_to_data(df, filename)
 
 }
 \description{
-Apply changes of mapping Excel file to dataframe
+The commands entered in the mapping file can be excuted on the data set
+with this function.
+A template of a mapping file with existing label information of a labelled dataset
+can be created with \code{mapp_create()}. The mapping file consists of
+the sheets "Variables", "Labels", "Verbatims" & "Free".
+Each of these controlls different aspects of data manipulations you can apply
+to a labelled dataset. You can add as much of those sheets as you want to the
+file and enter commands to manipulate variables.
+The
+sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 }
 \examples{
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")

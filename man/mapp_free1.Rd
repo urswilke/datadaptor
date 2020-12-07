@@ -4,7 +4,7 @@
 \alias{mapp_free1}
 \title{Extract free1 sheet of Excel mapping file to dataframe}
 \usage{
-mapp_free1(filename)
+mapp_free1(filename, sheet = "Free1")
 }
 \arguments{
 \item{filename}{name of the Excel mapping file}

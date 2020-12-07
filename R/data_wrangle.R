@@ -371,20 +371,41 @@ make_free_cmd_table <- function(df_f1) {
 #' mapp_create(fake_survey, "mapping.xlsx")
 #' mapp_cmd_table("mapping.xlsx")
 mapp_cmd_table <- function(filename) {
-  df_varl  <- mapp_varl(filename)
-  df_vall  <- mapp_vall(filename)
-  df_verba <- mapp_prepare_verba_data(filename)
-  df_free1 <- mapp_free1(filename)
+  sheets <- filename %>% readxl::excel_sheets()
 
+  sheet_types <- c("^Variables", "^Labels", "^Verbatims", "^Free")
 
-  df_f1_commands <- make_free_cmd_table(df_free1)# %>% severalize())
-  create_df_new_varlab(df_varl) %>%
-    dplyr::bind_rows(create_df_sumvar(df_vall)) %>%
-    dplyr::bind_rows(df_f1_commands)  %>%
-    dplyr::bind_rows(df_verba)  %>%
-    # dplyr::group_by(sheet, action, row, new_var) %>%
-    # tidyr::nest() %>%
-    dplyr::ungroup()
+  # vector of sheets with names defined by types:
+  sheet_cats <- purrr::map(
+    sheets,
+    ~stringr::str_detect(.x, sheet_types)
+  ) %>%
+    purrr::map(
+      ~ sheet_types[.x] %>%
+        stringr::str_remove("\\^")
+    ) %>%
+    purrr::set_names(sheets) %>%
+    # remove sheets not in sheet types list:
+    purrr::compact() %>%
+    purrr::map_chr(~.x)
+
+  purrr::map2_dfr(
+    sheets %>%
+      purrr::set_names(),
+    sheet_cats,
+    ~ mapp_one_sheet_table(filename, .y, .x),
+    .id = "sheet"
+  )
+
+}
+mapp_one_sheet_table <- function(filename, sheet_cat, sheet_name) {
+  switch (sheet_cat,
+          "Variables" = mapp_varl(filename, sheet = sheet_name) %>% create_df_new_varlab(),
+          "Labels" = mapp_vall(filename, sheet = sheet_name) %>% create_df_sumvar(),
+          "Free" = mapp_free1(filename, sheet = sheet_name) %>% make_free_cmd_table(),
+          "Verbatims" = mapp_prepare_verba_data(filename, sheet = sheet_name)
+  )
+
 }
 
 
@@ -406,6 +427,17 @@ apply_one_cmd <- function(df, action, data) {
 }
 
 #' Apply changes of mapping Excel file to dataframe
+#'
+#' The commands entered in the mapping file can be excuted on the data set
+#' with this function.
+#' A template of a mapping file with existing label information of a labelled dataset
+#' can be created with \code{mapp_create()}. The mapping file consists of
+#' the sheets "Variables", "Labels", "Verbatims" & "Free".
+#' Each of these controlls different aspects of data manipulations you can apply
+#' to a labelled dataset. You can add as much of those sheets as you want to the
+#' file and enter commands to manipulate variables.
+#' The
+#' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 #'
 #' @param df dataframe to apply mapping on
 #' @param filename name of the Excel file with mappings

@@ -1,6 +1,6 @@
 
 
-mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file)) {
+mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file), sheet = "Verbatims") {
   verba_file_sheets <-
     verba_file %>%
     readxl::excel_sheets() %>%
@@ -25,7 +25,7 @@ mapp_prepare_verba_data <- function(map_file, verba_file = mapp_extract_verbatim
   mapping_verba_sheet <-
     readxl::read_excel(map_file,
                skip = 14,
-               sheet = "Verbatims",
+               sheet = sheet,
                col_names = TRUE) %>%
     tidyr::drop_na(VariableOriginal) %>%
     dplyr::select(VariableOriginal:`Tabellen-blatt`, VariableZiel)

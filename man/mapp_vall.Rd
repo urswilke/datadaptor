@@ -4,7 +4,7 @@
 \alias{mapp_vall}
 \title{Extract value label sheet of Excel mapping file to dataframe}
 \usage{
-mapp_vall(filename)
+mapp_vall(filename, sheet = "Labels")
 }
 \arguments{
 \item{filename}{name of the Excel mapping file}

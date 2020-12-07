@@ -74,22 +74,22 @@ df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_filepath)
 
 ``` r
 df_mod
-#> # A tibble: 100 x 20
-#>          q1       q2      q3      q4       q5    id q6    q7         kq1     x
-#>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl> <chr> <chr> <dbl+lb> <dbl>
-#>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b…     1 bla … bla …  2 [bbb]     1
-#>  2  3 [nor…  1 [yes] 5 [ver… 4 [muc…  5 [ver…     2 bla … bla …  2 [bbb]     1
-#>  3  1 [not…  1 [yes] 3 [nor… 2 [a b…  5 [ver…     3 bla … bla …  1 [aaa]     1
-#>  4  3 [nor… 99 [no … 4 [muc… 4 [muc…  4 [muc…     4 bla … bla …  2 [bbb]     1
-#>  5  5 [ver… NA       2 [a b… 3 [nor…  3 [nor…     5 bla … bla …  3 [ccc]     1
-#>  6  5 [ver… NA       4 [muc… 3 [nor…  2 [a b…     6 bla … bla …  3 [ccc]     1
-#>  7 99 [no …  2 [no]  3 [nor… 4 [muc… NA           7 bla … bla … NA           1
-#>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not…     8 bla … bla …  1 [aaa]     1
-#>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b…     9 bla … bla … NA           1
-#> 10 99 [no …  1 [yes] 1 [not… 1 [not…  4 [muc…    10 bla … bla … NA           1
-#> # … with 90 more rows, and 10 more variables: abc <dbl>, kq5 <dbl>, kq6 <dbl>,
-#> #   kq3 <dbl+lbl>, q1xq2_1 <dbl+lbl>, q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>,
-#> #   n <dbl+lbl>, q6n <dbl+lbl>, q7n <dbl+lbl>
+#> # A tibble: 100 x 21
+#>          q1       q2      q3      q4       q5    id q6    q7         kq1     q6n
+#>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl> <chr> <chr> <dbl+lb> <dbl+l>
+#>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b…     1 bla … bla …  2 [bbb] 1 [lov…
+#>  2  3 [nor…  1 [yes] 5 [ver… 4 [muc…  5 [ver…     2 bla … bla …  2 [bbb] 3 [hap…
+#>  3  1 [not…  1 [yes] 3 [nor… 2 [a b…  5 [ver…     3 bla … bla …  1 [aaa] 2 [joy]
+#>  4  3 [nor… 99 [no … 4 [muc… 4 [muc…  4 [muc…     4 bla … bla …  2 [bbb] 2 [joy]
+#>  5  5 [ver… NA       2 [a b… 3 [nor…  3 [nor…     5 bla … bla …  3 [ccc] 3 [hap…
+#>  6  5 [ver… NA       4 [muc… 3 [nor…  2 [a b…     6 bla … bla …  3 [ccc] 2 [joy]
+#>  7 99 [no …  2 [no]  3 [nor… 4 [muc… NA           7 bla … bla … NA       1 [lov…
+#>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not…     8 bla … bla …  1 [aaa] 1 [lov…
+#>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b…     9 bla … bla … NA       1 [lov…
+#> 10 99 [no …  1 [yes] 1 [not… 1 [not…  4 [muc…    10 bla … bla … NA       1 [lov…
+#> # … with 90 more rows, and 11 more variables: q7n <dbl+lbl>, x <dbl>,
+#> #   abc <dbl>, kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>, q1xq2_1 <dbl+lbl>,
+#> #   q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>, n <dbl+lbl>, free2_var <dbl>
 ```
 
 Let’s also have a closer look at one of the new variables:
