@@ -435,8 +435,8 @@ apply_one_cmd <- function(df, action, data) {
 #' the sheets "Variables", "Labels", "Verbatims" & "Free".
 #' Each of these controlls different aspects of data manipulations you can apply
 #' to a labelled dataset. You can add as much of those sheets as you want to the
-#' file and enter commands to manipulate variables.
-#' The
+#' file (they just have to start by one of these strings) and therein enter
+#' commands to manipulate variables. The
 #' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 #'
 #' @param df dataframe to apply mapping on
