@@ -74,7 +74,7 @@ df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_filepath)
 
 ``` r
 df_mod
-#> # A tibble: 100 x 18
+#> # A tibble: 100 x 20
 #>          q1       q2      q3      q4       q5    id q6    q7         kq1     x
 #>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl> <chr> <chr> <dbl+lb> <dbl>
 #>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b…     1 bla … bla …  2 [bbb]     1
@@ -87,9 +87,9 @@ df_mod
 #>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not…     8 bla … bla …  1 [aaa]     1
 #>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b…     9 bla … bla … NA           1
 #> 10 99 [no …  1 [yes] 1 [not… 1 [not…  4 [muc…    10 bla … bla … NA           1
-#> # … with 90 more rows, and 8 more variables: abc <dbl>, kq3 <dbl+lbl>,
-#> #   q1xq2_1 <dbl+lbl>, q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>, n <dbl+lbl>,
-#> #   q6n <dbl+lbl>, q7n <dbl+lbl>
+#> # … with 90 more rows, and 10 more variables: abc <dbl>, kq5 <dbl>, kq6 <dbl>,
+#> #   kq3 <dbl+lbl>, q1xq2_1 <dbl+lbl>, q1xq2_2 <dbl+lbl>, q1xq2_99 <dbl+lbl>,
+#> #   n <dbl+lbl>, q6n <dbl+lbl>, q7n <dbl+lbl>
 ```
 
 Let’s also have a closer look at one of the new variables:

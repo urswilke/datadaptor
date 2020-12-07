@@ -204,7 +204,7 @@ extract_sev_lists <- function(var) {
     stringr::str_squish() %>%
     stringr::str_extract_all("(\\{.+?\\})", simplify = T) %>%
     purrr::map(~stringr::str_remove_all(.x, "[\\{\\}]")) %>%
-    stringr::str_split(" ", simplify = T) %>%
+    stringr::str_split(" +", simplify = T) %>%
     tibble::as_tibble()
 
   replace_1curly <- function(orig_str, replacement) stringr::str_replace(orig_str,  "\\{.+?\\}", replacement)
@@ -217,26 +217,50 @@ extract_sev_lists <- function(var) {
   }
 }
 
+#' Turn one line of code into multiple replacing the curly braces by each of the parts
+#'
+#' This function turns one line of code of an "#IF" or "#COMP" block into
+#' multiple replacing the curly braces
+#' by each of the parts inside (separated by spaces).
+#'
+#' @param df_f1 code blocks read in by \code{mapp_free1()}
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' df_free <- data.frame(X1 = "#IF", X2 = "q{2 3} == 1", X3 = "kq{5 6} = {7 8}")
+#' severalize(df_free)
 severalize <- function(df_f1) {
-  df_if_or_comp <-
+  if (!is.na(df_f1$X1) & stringr::str_detect(df_f1$X1, "(^#IF|^#COMP)")) {
     df_f1 %>%
-    # dplyr::filter(stringr::str_detect(X1, "(^#IF|^#COMP)")) %>%
-    dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
-    dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>%
-    tidyr::unnest(cols = c("X2", "X3"))
-  df_if_or_comp
-  # df_f1_mod <-
-  #   df_f1
-  # df_f1_mod[which(str_detect(df_f1_mod$X1, "(^#IF|^#COMP)")),] <- df_if_or_comp
-  # df_f1_mod %>%
-  #   mutate(length_2 =  X2 %>% map_int(length)) %>%
-  #   mutate(length_3 =  X3 %>% map_int(length)) %>%
-  #   mutate(rep_factor =  length_2 / length_3) %>%
-  #   mutate(X3 = map2(X3, rep_factor, ~rep(.x, .y))) %>%
-  #   unnest() %>%
-  #   select(names(df_f1))
+      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
+      dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>%
+      tidyr::unnest(cols = c("X2", "X3"))
+
+  }
+  else {
+    df_f1
+  }
 }
 
+#' Severalize all #IF & #COMP commands
+#'
+#' @param df_free1 commands of the Excel mapping's "free" sheet
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' df_free1 <- mapp_free1(mapping_filepath)
+#' sevif(df_free1)
+sevif <- function(df_free1) {
+  df_free1 %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(severalize)
+}
 
 
 #' Compute variable in data frame according to string expression
@@ -313,7 +337,7 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::mutate(sheet = "Free1") %>%
     dplyr::select(-index) %>%
-    # severalize() %>%
+    sevif() %>%
     dplyr::group_by(action, row)
   if (nrow(res) > 0) {
     res %>%
