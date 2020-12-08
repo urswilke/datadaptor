@@ -4,12 +4,15 @@
 \alias{mapp_xl_to_data}
 \title{Apply changes of mapping Excel file to dataframe}
 \usage{
-mapp_xl_to_data(df, filename)
+mapp_xl_to_data(df, filename, na_to_filter = TRUE)
 }
 \arguments{
 \item{df}{dataframe to apply mapping on}
 
 \item{filename}{name of the Excel file with mappings}
+
+\item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df will
+be replaced by -2 with the value label "FILTER".}
 }
 \value{
 

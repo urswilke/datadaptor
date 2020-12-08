@@ -439,6 +439,8 @@ apply_one_cmd <- function(df, action, data) {
 #'
 #' @param df dataframe to apply mapping on
 #' @param filename name of the Excel file with mappings
+#' @param na_to_filter logical; if TRUE, NA values of numerical variables in df will
+#' be replaced by -2 with the value label "FILTER".
 #'
 #' @return
 #' @export
@@ -446,8 +448,22 @@ apply_one_cmd <- function(df, action, data) {
 #' @examples
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_xl_to_data(fake_survey, mapping_filepath)
-mapp_xl_to_data <- function(df, filename) {
+mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE) {
   cmd_table <- mapp_cmd_table(filename)
+
+  if (na_to_filter == TRUE) {
+    df <- df %>% dplyr::mutate_if(is_numeric, set_na_to_filter)
+  }
 
   purrr::reduce2(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
 }
+
+set_na_to_filter <- function(var, replace_val = -2) {
+  labs = c(attr(var, "labels") %>% names(), "FILTER")
+  vals = c(attr(var, "labels") %>% unname() %>% as.numeric(), replace_val)
+  var[is.na(var)] <- replace_val
+  haven::labelled(
+    var,
+    labels = setNames(vals, labs),
+    label = attr(var, "label")
+  )
