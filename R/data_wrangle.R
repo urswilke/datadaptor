@@ -112,7 +112,7 @@ prepare_newvar_table <- function(df, var1, var2) {
     var1,
     "_",
     new_varlabs$nv
-  )
+  ) %>% stringr::str_replace("-", "minus")
   new_vars <- new_varlabs %>% dplyr::mutate(new_varnames)
   new_vars
 }
@@ -467,3 +467,4 @@ set_na_to_filter <- function(var, replace_val = -2) {
     labels = setNames(vals, labs),
     label = attr(var, "label")
   )
+}
