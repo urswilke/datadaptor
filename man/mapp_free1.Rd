@@ -8,6 +8,8 @@ mapp_free1(filename, sheet = "Free1")
 }
 \arguments{
 \item{filename}{name of the Excel mapping file}
+
+\item{sheet}{name of the sheet in the Excel mapping file}
 }
 \value{
 

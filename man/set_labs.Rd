@@ -9,7 +9,7 @@ set_labs(df, data)
 \arguments{
 \item{df}{dataframe}
 
-\item{data}{}
+\item{data}{data with label information}
 }
 \value{
 

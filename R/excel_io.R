@@ -51,6 +51,7 @@ mapp_create <- function(df_raw, filename) {
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param filename name of the Excel mapping file
+#' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
 #' @export
@@ -70,6 +71,7 @@ mapp_varl <- function(filename, sheet = "Variables") {
 #' Extract value label sheet of Excel mapping file to dataframe
 #'
 #' @param filename name of the Excel mapping file
+#' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
 #' @export
@@ -88,7 +90,8 @@ mapp_vall <- function(filename, sheet = "Labels") {
 
 #' Extract free1 sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param  filename name of the Excel mapping file
+#' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
 #' @export

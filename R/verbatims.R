@@ -1,6 +1,6 @@
 
 
-make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file), sheet = "Verbatims") {
+make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file, sheet), sheet = "Verbatims") {
   verba_file_sheets <-
     verba_file %>%
     readxl::excel_sheets() %>%
@@ -185,10 +185,10 @@ assign_verba_val <- function(df_raw, l) {
   # )
   df_raw
 }
-mapp_extract_verbatim_file <- function(mapping_file) {
+mapp_extract_verbatim_file <- function(mapping_file, sheet) {
   readxl::read_xlsx(
     mapping_file,
-    sheet = "Verbatims",
+    sheet = sheet,
     range = cellranger::cell_cols(c("B:D")),
     skip = 0
   ) %>%

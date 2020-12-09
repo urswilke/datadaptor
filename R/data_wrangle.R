@@ -23,7 +23,7 @@ set_lab <- function(df, var, new_label){
 #' Set value labels of labelled variable var in dataframe df
 #'
 #' @param df dataframe
-#' @param data
+#' @param data data with label information
 #'
 #' @return
 #' @export

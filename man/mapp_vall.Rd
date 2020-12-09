@@ -8,6 +8,8 @@ mapp_vall(filename, sheet = "Labels")
 }
 \arguments{
 \item{filename}{name of the Excel mapping file}
+
+\item{sheet}{name of the sheet in the Excel mapping file}
 }
 \value{
 
