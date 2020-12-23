@@ -452,7 +452,7 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE) {
   cmd_table <- mapp_cmd_table(filename)
 
   if (na_to_filter == TRUE) {
-    df <- df %>% dplyr::mutate_if(is_numeric, set_na_to_filter)
+    df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)
   }
 
   purrr::reduce2(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
