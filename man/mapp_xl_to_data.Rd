@@ -4,7 +4,13 @@
 \alias{mapp_xl_to_data}
 \title{Apply changes of mapping Excel file to dataframe}
 \usage{
-mapp_xl_to_data(df, filename, na_to_filter = TRUE)
+mapp_xl_to_data(
+  df,
+  filename,
+  na_to_filter = TRUE,
+  input_if_error = FALSE,
+  rec_fun = purrr::reduce2
+)
 }
 \arguments{
 \item{df}{dataframe to apply mapping on}
@@ -13,9 +19,16 @@ mapp_xl_to_data(df, filename, na_to_filter = TRUE)
 
 \item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df will
 be replaced by -2 with the value label "FILTER".}
+
+\item{input_if_error}{logical; if TRUE, command blocks of the mapping file
+that error out will be skipped}
+
+\item{rec_fun}{function either purrr::reduce2 or purrr::accumulate2; see Value section}
 }
 \value{
-
+in case rec_fun = purrr::reduce2 only the final dataframe is returned
+in case of purrr::accumulate2 a list with all intermediate dataframes (of
+every command block) is returned
 }
 \description{
 The commands entered in the mapping file can be excuted on the data set

@@ -425,6 +425,25 @@ apply_one_cmd <- function(df, action, data) {
   )
 }
 
+apply_one_cmd_safe <- function(df1, action, data) {
+  res <- tryCatch({
+      i_cmd <<- i_cmd + 1
+      apply_one_cmd(df1, action, data)
+    },
+    error = function(df1) {
+      err_msg <- geterrmessage()[1]
+      print(err_msg)
+      error_list[[i_cmd]] <<- err_msg
+      # return(df1)
+    }
+  )
+  if (inherits(res, "character")) {
+    res <- df1
+  }
+  return(res)
+}
+
+
 #' Apply changes of mapping Excel file to dataframe
 #'
 #' The commands entered in the mapping file can be excuted on the data set
@@ -442,21 +461,31 @@ apply_one_cmd <- function(df, action, data) {
 #' @param filename name of the Excel file with mappings
 #' @param na_to_filter logical; if TRUE, NA values of numerical variables in df will
 #' be replaced by -2 with the value label "FILTER".
+#' @param input_if_error logical; if TRUE, command blocks of the mapping file
+#' that error out will be skipped
+#' @param rec_fun function either purrr::reduce2 or purrr::accumulate2; see Value section
 #'
-#' @return
+#' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
+#' in case of purrr::accumulate2 a list with all intermediate dataframes (of
+#' every command block) is returned
 #' @export
 #'
 #' @examples
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_xl_to_data(fake_survey, mapping_filepath)
-mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE) {
+mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE, input_if_error = FALSE, rec_fun = purrr::reduce2) {
   cmd_table <- mapp_cmd_table(filename)
 
   if (na_to_filter == TRUE) {
     df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)
   }
 
-  purrr::reduce2(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
+  if (input_if_error) {
+    apply_one_cmd <- apply_one_cmd_safe
+  }
+
+
+  rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
 }
 
 set_na_to_filter <- function(var, replace_val = -2) {
