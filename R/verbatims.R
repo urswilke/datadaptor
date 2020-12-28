@@ -11,7 +11,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     purrr::set_names()
 
   read_assigns <- function(sheet_name){
-    readxl::read_excel(verba_file, skip=31, sheet = sheet_name, col_names = TRUE) %>%
+    readxl::read_excel(verba_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
       dplyr::select(`Orig. Variable`, ID, Antwort, matches("^Zuord "))
   }
 
@@ -102,10 +102,11 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     dplyr::left_join(.,
               readxl::read_excel(verba_file,
                          sheet = "Codestufen",
-                         col_names = TRUE) %>%
+                         col_names = TRUE,
+                         range = cellranger::cell_limits(ul = c(2, 2))) %>%
                 # in the Codestufen sheet there is no title for the code column; R
                 # automatically has given the name X__1; change it to "Code"...:
-                dplyr::rename(Code=1) %>%
+                dplyr::mutate(Code=dplyr::row_number()) %>%
                 tidyr::gather(q_id, Beschreibung, -Code) %>%
                 # only retain codes where a category ("Beschreibung") exists:
                 tidyr::drop_na(Beschreibung),
@@ -131,7 +132,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
 
   df_assigns_overview <-
     df_assigns %>%
-    dplyr::left_join(df_cats) %>%
+    dplyr::left_join(df_cats, by = c("EFA1MCG2MDG3", "var_ziel")) %>%
     dplyr::group_by(var_ziel, val_assign, vallab, varlab) %>%
     dplyr::summarise(
       id_list = list(as.numeric(DC_ID)),

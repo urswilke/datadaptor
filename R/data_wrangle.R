@@ -203,7 +203,7 @@ extract_sev_lists <- function(var) {
     stringr::str_extract_all("(\\{.+?\\})", simplify = T) %>%
     purrr::map(~stringr::str_remove_all(.x, "[\\{\\}]")) %>%
     stringr::str_split(" +", simplify = T) %>%
-    tibble::as_tibble()
+    tibble::as_tibble(.name_repair = "unique")
 
   replace_1curly <- function(orig_str, replacement) stringr::str_replace(orig_str,  "\\{.+?\\}", replacement)
   replace_all_curlies <- function(orig_str, l_1sev_parts) purrr::reduce(l_1sev_parts, replace_1curly, .init = orig_str)
