@@ -420,7 +420,8 @@ apply_one_cmd <- function(df, action, data) {
     "#VALL"   = set_labs(df, data),
     "#AVALL"  = add_labs(df, data),
     "#KG"     = kg(df, data$X2, data$X3),
-    "#Verba"  = assign_verba_val(df, data)
+    "#Verba"  = assign_verba_val(df, data),
+    stop("Invalid action command")
   )
 }
 
