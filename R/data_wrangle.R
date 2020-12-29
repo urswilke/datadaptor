@@ -350,7 +350,8 @@ make_free_cmd_table <- function(df_f1) {
         )
       ) %>%
       dplyr::group_by(sheet, action, row, new_var) %>%
-      tidyr::nest()
+      tidyr::nest() %>%
+      dplyr::ungroup()
   }
   else {
     tibble::tibble()
