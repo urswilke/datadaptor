@@ -542,6 +542,10 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #' @examples
 #' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' df <- haven::read_sav(spss_filepath)
+#'
+#' # This command creates an overview table:
+#' df_cmd <- mapp_cmd_table(mapping_filepath)
+#'
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_xl_to_data(fake_survey, mapping_filepath)
 #'
@@ -565,9 +569,7 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #' df_mod_list <- mapp_xl_to_data(df, mapping_filepath, input_if_error = TRUE, rec_fun = purrr::accumulate2)
 #' error_list
 #'
-#' # This command creates an overview table:
-#' df_cmd <- mapp_cmd_table(mapping_filepath)
-#' # Add further columns:
+#' # Add further columns to df_cmd:
 #' # The first element of df_mod_list is the initial state of df:
 #' df_cmd["intermediate df"] <- list(df_mod_list[-1])
 #' df_cmd["R command"] <- tibble::tibble(a = cmds[-c(1:3)]) %>%
