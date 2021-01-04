@@ -2,14 +2,14 @@
 % Please edit documentation in R/data_wrangle.R
 \name{set_lab}
 \alias{set_lab}
-\title{Set variable label of variable var in dataframe df}
+\title{Set variable label of variable orig_var in dataframe df}
 \usage{
-set_lab(df, var, new_label)
+set_lab(df, orig_var, new_label)
 }
 \arguments{
 \item{df}{dataframe}
 
-\item{var}{(labelled) variable}
+\item{orig_var}{character string of (labelled) variable}
 
 \item{new_label}{character string of new label}
 }
@@ -17,8 +17,10 @@ set_lab(df, var, new_label)
 
 }
 \description{
-Set variable label of variable var in dataframe df
+Set variable label of variable orig_var in dataframe df
 }
 \examples{
-set_lab(data.frame(x = 1), "x", "I'm the variable label") \%>\% str()
+df <- data.frame(x = 1)
+df <- set_lab(df, "x", "I'm the variable label")
+df$x
 }

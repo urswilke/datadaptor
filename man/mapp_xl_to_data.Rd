@@ -9,7 +9,8 @@ mapp_xl_to_data(
   filename,
   na_to_filter = TRUE,
   input_if_error = FALSE,
-  rec_fun = purrr::reduce2
+  rec_fun = purrr::reduce2,
+  export_script = FALSE
 )
 }
 \arguments{
@@ -21,9 +22,19 @@ mapp_xl_to_data(
 be replaced by -2 with the value label "FILTER".}
 
 \item{input_if_error}{logical; if TRUE, command blocks of the mapping file
-that error out will be skipped}
+that error out will be skipped; for this option to work two objects \code{i_cmd}
+and \code{error_list} need to be created beforehand (see examples); in combination with
+\code{rec_fun} = \code{purrr::accumulate2} this can be used to examine intermediate
+results, in order to find the reason for the error. Alternatively run the script
+created with the option \code{export_script} = \code{TRUE}.}
 
 \item{rec_fun}{function either purrr::reduce2 or purrr::accumulate2; see Value section}
+
+\item{export_script}{if TRUE, the commands that are in the Excel file are
+translated to the corresponding R commands stored in the list structure \code{cmds}.
+See in the examples how to write the code in \code{cmds} to an R-script that can be
+executed and results in the same modified dataframe.
+and written to the file given; see Value section}
 }
 \value{
 in case rec_fun = purrr::reduce2 only the final dataframe is returned
@@ -43,6 +54,41 @@ commands to manipulate variables. The
 sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 }
 \examples{
+spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df <- haven::read_sav(spss_filepath)
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 mapp_xl_to_data(fake_survey, mapping_filepath)
+
+# The command blocks in the Excel file can be translated to an R script.
+# To do that a list named `cmds` has to be created with the following first
+# elements:
+cmds <- list()
+cmds[[1]] <- "library(datenanpassr)"
+cmds[[2]] <- "library(tidyverse)"
+cmds[[3]] <- paste0("df <- haven::read_sav('", spss_filepath, "')")
+df_mod <- mapp_xl_to_data(df, mapping_filepath, export_script = TRUE, na_to_filter = FALSE)
+\dontrun{
+write_lines(unlist(cmds), "mapping.R")
+When the created script "mapping.R" is run, the resulting dataframe df should be equal to df_mod.
+}
+
+# For the option input_if_error = TRUE to work, the following two objects
+# `i_cmd` and `error_list` have to be created beforehand:
+i_cmd <- 0
+error_list <- vector("character", nrow(df_cmd))
+df_mod_list <- mapp_xl_to_data(df, mapping_filepath, input_if_error = TRUE, rec_fun = purrr::accumulate2)
+error_list
+
+# This command creates an overview table:
+df_cmd <- mapp_cmd_table(mapping_filepath)
+# Add further columns:
+# The first element of df_mod_list is the initial state of df:
+df_cmd["intermediate df"] <- list(df_mod_list[-1])
+df_cmd["R command"] <- tibble::tibble(a = cmds[-c(1:3)]) \%>\%
+  dplyr::rowwise() \%>\%
+  dplyr::mutate(a = list(paste(stringr::str_squish(a), collapse = " "))) \%>\%
+  tidyr::unnest(a)
+df_cmd["error"] <- error_list
+df_cmd
+# In RStudio type: View(df_cmd)
 }

@@ -4,16 +4,29 @@
 \alias{set_labs}
 \title{Set value labels of labelled variable var in dataframe df}
 \usage{
-set_labs(df, data)
+set_labs(
+  df,
+  orig_var,
+  new_lab = attr(orig_var, "label", exact = TRUE),
+  new_vals,
+  new_labs
+)
 }
 \arguments{
 \item{df}{dataframe}
 
-\item{data}{data with label information}
+\item{orig_var}{character string of (labelled) variable in df}
+
+\item{new_label}{character string of new label}
 }
 \value{
 
 }
 \description{
 Set value labels of labelled variable var in dataframe df
+}
+\examples{
+df <- data.frame(x = 1:2)
+df <- set_labs(df, "x", new_vals = 1:2, new_labs = c("value for 1", "value for 2"))
+df$x
 }

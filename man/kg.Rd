@@ -4,21 +4,21 @@
 \alias{kg}
 \title{Split variable in dataframe into multiple according to the values of another variable}
 \usage{
-kg(df, var1, var2)
+kg(df, split_var, by_var)
 }
 \arguments{
 \item{df}{data frame}
 
-\item{var1}{variable to split by}
+\item{split_var}{variable to split by}
 
-\item{var2}{variable to be splitted}
+\item{by_var}{variable to be splitted}
 }
 \value{
 
 }
 \description{
-Create a set of variables for each value of var1. The resulting variables
-are equal to var2 if var1 is equal to the respective value and NA otherwise.
+Create a set of variables for each value of split_var. The resulting variables
+are equal to by_var if split_var is equal to the respective value and NA otherwise.
 }
 \examples{
 kg(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")

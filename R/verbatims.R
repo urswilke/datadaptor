@@ -154,37 +154,43 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
 }
 
 
-assign_verba_val <- function(df_raw, l) {
-  # print(l$id_list)
-  new_val <- l$val_assign
-  # print(new_val)
-  if (!l$var_ziel %in% names(df_raw)) {
-    df_raw[l$var_ziel] <- NA_real_
+#' Assign a value to a variable in a dataframe at specified ids
+#'
+#' @param df dataframe
+#' @param var_ziel name of the variable to modify / be created (character string)
+#' @param val_assign assigned value
+#' @param varlab variable label (character string)
+#' @param vallab value labels (named list)
+#' @param id name of the id variable in df (character string)
+#' @param id_list list of the id values to be matched
+#'
+#' @return modified dataframe
+#' @export
+#'
+#' @examples
+#' df <- data.frame(id = 1:5)
+#' df <- assign_verba_val(
+#'   df,
+#'   var_ziel = "new_var",
+#'   val_assign = 2,
+#'   varlab = "variable label",
+#'   vallab = c("assigned value" = 2),
+#'   id_list = c(1, 3, 4)
+#' )
+#' df
+#' df$new_var
+assign_verba_val <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
+  if (!var_ziel %in% names(df)) {
+    df[var_ziel] <- NA_real_
   }
-  df_raw[[l$var_ziel]][df_raw$id %in% l$id_list[[1]]] <- new_val
+  df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
   y <- haven::labelled(
-    df_raw[[l$var_ziel]],
-    labels = l$vallab[[1]],
-    label = l$varlab
+    df[[var_ziel]],
+    labels = vallab,
+    label = varlab
   )
-  df_raw[[l$var_ziel]] <- y
-  # does the same
-  # df_raw <- df_raw %>%
-  #   mutate(
-  #     !!rlang::sym(l$var_ziel) := ifelse(
-  #       id %in% l$id_list[[1]],
-  #       new_val,
-  #       !!rlang::sym(l$var_ziel)
-  #     )
-  #   )
-
-
-
-  # df_raw[[l$var_ziel]] <- haven::labelled(
-  #   df_raw[[l$var_ziel]],
-  #   labels =
-  # )
-  df_raw
+  df[[var_ziel]] <- y
+  df
 }
 mapp_extract_verbatim_file <- function(mapping_file, sheet) {
   readxl::read_xlsx(

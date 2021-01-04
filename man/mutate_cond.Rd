@@ -4,14 +4,17 @@
 \alias{mutate_cond}
 \title{Conditional computing of a variable in a dataframe}
 \usage{
-mutate_cond(df, cond_str, assign_str)
+mutate_cond(df, new_var, condition, new_val)
 }
 \arguments{
 \item{df}{dataframe}
 
-\item{cond_str}{condition to be fulfilled}
+\item{new_var}{string of the variable name}
 
-\item{assign_str}{string of the variable assignment}
+\item{condition}{character string of the condition}
+
+\item{new_val}{character string the new value expression  when \code{condition}
+is fulfilled (numeric string values are transformed to numeric)}
 }
 \value{
 
@@ -20,5 +23,5 @@ mutate_cond(df, cond_str, assign_str)
 Conditional computing of a variable in a dataframe
 }
 \examples{
-mutate_cond(data.frame(x = 1:3), "x == 3", "y = 2")
+mutate_cond(data.frame(x = 1:3), "y", "x == 3", "2")
 }

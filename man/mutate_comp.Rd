@@ -4,14 +4,14 @@
 \alias{mutate_comp}
 \title{Compute variable in data frame according to string expression}
 \usage{
-mutate_comp(df, var_str, expr_str)
+mutate_comp(df, new_var, new_val)
 }
 \arguments{
 \item{df}{dataframe}
 
-\item{var_str}{string of the variable name}
+\item{new_var}{string of the variable name}
 
-\item{expr_str}{expression string}
+\item{new_val}{expression string}
 }
 \value{
 

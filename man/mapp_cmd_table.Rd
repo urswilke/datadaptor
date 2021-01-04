@@ -18,6 +18,6 @@ Create a summary table of the data modifications list read in from the
 Excel mapping file
 }
 \examples{
-mapp_create(fake_survey, "mapping.xlsx")
-mapp_cmd_table("mapping.xlsx")
+mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapp_cmd_table(mapping_filepath)
 }
