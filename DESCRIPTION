@@ -32,7 +32,8 @@ Imports:
     forcats,
     cellranger,
     rlang,
-    stringr
+    stringr,
+    readr
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr

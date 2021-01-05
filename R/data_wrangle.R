@@ -414,6 +414,8 @@ make_free_cmd_table <- function(df_f1) {
 #' Excel mapping file
 #'
 #' @param filename filename of the Excel mapping file
+#' @param add_r_command_colum logical, whether to add a column `"R command"`
+#' specifying the corresponding R command; defaults to FALSE
 #'
 #' @return
 #' @export
@@ -421,7 +423,9 @@ make_free_cmd_table <- function(df_f1) {
 #' @examples
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_cmd_table(mapping_filepath)
-mapp_cmd_table <- function(filename) {
+#' # Add column for R command:
+#' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
+mapp_cmd_table <- function(filename, add_r_command_colum = FALSE) {
   sheets <- filename %>% readxl::excel_sheets()
 
   sheet_types <- c("^Variables", "^Labels", "^Verbatims", "^Free")
@@ -440,7 +444,7 @@ mapp_cmd_table <- function(filename) {
     purrr::compact() %>%
     purrr::map_chr(~.x)
 
-  purrr::map2_dfr(
+  df_cmd <- purrr::map2_dfr(
     sheets %>%
       purrr::set_names(),
     sheet_cats,
@@ -448,7 +452,16 @@ mapp_cmd_table <- function(filename) {
     .id = "sheet"
   ) %>%
     dplyr::mutate(data = transl_human_read(action, data))
-
+  if (add_r_command_colum) {
+    cmd_list <- map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
+    # print(cmd_list)
+    df_cmd["R command"] <-
+      tibble::tibble(a = cmd_list) %>%
+      dplyr::rowwise() %>%
+      dplyr::mutate(a = list(paste(stringr::str_squish(a), collapse = " "))) %>%
+      tidyr::unnest(a)
+  }
+  df_cmd
 }
 make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name) {
   switch (sheet_cat,
@@ -461,10 +474,8 @@ make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name) {
 }
 
 
-
-apply_one_cmd <- function(df, action, data, export_script) {
-  # data <- rlang::quos(!!!data)
-  cmd <- switch (
+make_cmd_expression <- function(action, data) {
+  switch (
     action,
     "#IF"     = rlang::expr(mutate_cond(df, !!!data)),
     "#COMP"   = rlang::expr(mutate_comp(df, !!!data)),
@@ -478,17 +489,17 @@ apply_one_cmd <- function(df, action, data, export_script) {
     "#Verba"  = rlang::expr(assign_verba_val(df, !!!data)),
     stop("Invalid action command")
   )
-  print(cmd)
-  if (export_script) {
-    cmds <<- append(cmds, list(c("df <- ", paste0("  ", deparse(cmd)))))
-  }
+}
+
+apply_one_cmd <- function(df, action, data) {
+  cmd <- make_cmd_expression(action, data)
   rlang::eval_tidy(cmd)
 }
 
-apply_one_cmd_safe <- function(df1, action, data, export_script) {
+apply_one_cmd_safe <- function(df1, action, data) {
   res <- tryCatch({
       i_cmd <<- i_cmd + 1
-      apply_one_cmd(df1, action, data, export_script)
+      apply_one_cmd(df1, action, data)
     },
     error = function(df1) {
       err_msg <- geterrmessage()[1]
@@ -525,14 +536,9 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #' that error out will be skipped; for this option to work two objects `i_cmd`
 #' and `error_list` need to be created beforehand (see examples); in combination with
 #' `rec_fun` = `purrr::accumulate2` this can be used to examine intermediate
-#' results, in order to find the reason for the error. Alternatively run the script
-#' created with the option `export_script` = `TRUE`.
+#' results, in order to find the reason for the error. Alternatively, run the script
+#' created by `translate_to_r_script()`.
 #' @param rec_fun function either purrr::reduce2 or purrr::accumulate2; see Value section
-#' @param export_script if TRUE, the commands that are in the Excel file are
-#' translated to the corresponding R commands stored in the list structure `cmds`.
-#' See in the examples how to write the code in `cmds` to an R-script that can be
-#' executed and results in the same modified dataframe.
-#' and written to the file given; see Value section
 #'
 #' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
 #' in case of purrr::accumulate2 a list with all intermediate dataframes (of
@@ -545,22 +551,10 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #'
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' # This command creates an overview table:
-#' df_cmd <- mapp_cmd_table(mapping_filepath)
+#' df_cmd <- mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 #'
-#' mapp_xl_to_data(fake_survey, mapping_filepath)
+#' mapp_xl_to_data(df, mapping_filepath)
 #'
-#' # The command blocks in the Excel file can be translated to an R script.
-#' # To do that a list named `cmds` has to be created with the following first
-#' # elements:
-#' cmds <- list()
-#' cmds[[1]] <- "library(datenanpassr)"
-#' cmds[[2]] <- "library(tidyverse)"
-#' cmds[[3]] <- paste0("df <- haven::read_sav('", spss_filepath, "')")
-#' df_mod <- mapp_xl_to_data(df, mapping_filepath, export_script = TRUE, na_to_filter = FALSE)
-#' \dontrun{
-#' readr::write_lines(unlist(cmds), "mapping.R")
-#' # When the created script "mapping.R" is run, the resulting dataframe df should be equal to df_mod.
-#' }
 #'
 #' # For the option input_if_error = TRUE to work, the following two objects
 #' # `i_cmd` and `error_list` have to be created beforehand:
@@ -572,16 +566,11 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #' # Add further columns to df_cmd:
 #' # The first element of df_mod_list is the initial state of df:
 #' df_cmd["intermediate df"] <- list(df_mod_list[-1])
-#' df_cmd["R command"] <- tibble::tibble(a = cmds[-c(1:3)]) %>%
-#'   dplyr::rowwise() %>%
-#'   dplyr::mutate(a = list(paste(stringr::str_squish(a), collapse = " "))) %>%
-#'   tidyr::unnest(a)
 #' df_cmd["error"] <- error_list
 #' df_cmd
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
-                            input_if_error = FALSE, rec_fun = purrr::reduce2,
-                            export_script = FALSE) {
+                            input_if_error = FALSE, rec_fun = purrr::reduce2) {
   cmd_table <- mapp_cmd_table(filename)
 
   if (na_to_filter == TRUE) {
@@ -590,10 +579,10 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
 
   if (input_if_error) {
     apply_one_cmd <- apply_one_cmd_safe
-    rec_fun <- purrr::accumulate2
+    # rec_fun <- purrr::accumulate2
   }
 
-  rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, export_script = export_script, .init = df)
+  rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
 }
 
 #' Relpace NA values by `replace_val` labelled by "FILTER"
@@ -616,4 +605,46 @@ set_na_to_filter <- function(var, replace_val = -2) {
     labels = setNames(vals, labs),
     label = attr(var, "label", exact = TRUE)
   )
+}
+
+
+#' Translate Excel mapping file to R script
+#'
+#' When the created script is run, the resulting dataframe df should be equal to
+#' the result of `mapp_xl_to_data()`.
+#'
+#' @param df_cmd dataframe returned by `mapp_cmd_table()`
+#' @param rscript_name file name of the script
+#' @param spss_filepath file name of the SPSS dataset
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df_cmd <- mapp_cmd_table(mapping_filepath)
+#' \dontrun{
+#' translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_filepath)
+#' }
+translate_to_r_script <- function(
+  df_cmd,
+  rscript_name = "mapping.R",
+  spss_filepath
+  ) {
+  cmd_list <-
+    purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y))) %>%
+    purrr::map(~c("df <- ", paste0("  ", .x)))
+  script_start <- c(
+    "library(tidyverse)",
+    "library(datenanpassr)",
+    paste0("df <- haven::read_sav('", spss_filepath, "')")
+  )
+  append(
+    script_start,
+    cmd_list
+  ) %>%
+    unlist() %>%
+    readr::write_lines(rscript_name)
+
 }

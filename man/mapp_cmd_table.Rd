@@ -5,10 +5,13 @@
 \title{Create a summary table of the data modifications list read in from the
 Excel mapping file}
 \usage{
-mapp_cmd_table(filename)
+mapp_cmd_table(filename, add_r_command_colum = FALSE)
 }
 \arguments{
 \item{filename}{filename of the Excel mapping file}
+
+\item{add_r_command_colum}{logical, whether to add a column \code{"R command"}
+specifying the corresponding R command; defaults to FALSE}
 }
 \value{
 
@@ -20,4 +23,6 @@ Excel mapping file
 \examples{
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 mapp_cmd_table(mapping_filepath)
+# Add column for R command:
+mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 }
