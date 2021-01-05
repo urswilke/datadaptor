@@ -193,7 +193,7 @@ assign_verba_val <- function(df, var_ziel, val_assign, varlab, vallab, id = "id"
   df
 }
 mapp_extract_verbatim_file <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
+  rel_file_path <- readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
     range = cellranger::cell_cols(c("B:D")),
@@ -202,5 +202,7 @@ mapp_extract_verbatim_file <- function(mapping_file, sheet) {
     dplyr::rename_all(~LETTERS[2:4]) %>%
     dplyr::filter(B == "Filename input") %>%
     dplyr::pull(D)
+  mapping_dir <- mapping_file %>% fs::path_dir()
+  paste0(mapping_dir, "/", rel_file_path)
 }
 
