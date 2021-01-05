@@ -305,6 +305,8 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
 #'
 #' @param var numeric variable
 #' @param replace_val numeric value, NAs are replaced by; defaults to -2
+#' @param replace_label character value, value label `replace_val` will be
+#' labelled by; defaults to "FILTER"
 #'
 #' @return `var` where NAs are replaced by `replace_val`
 #' @export
@@ -312,13 +314,17 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
 #' @examples
 #' x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
 #' set_na_to_filter(x)
-set_na_to_filter <- function(var, replace_val = -2) {
-  labs = c(attr(var, "labels") %>% names(), "FILTER")
-  vals = c(attr(var, "labels") %>% unname() %>% as.numeric(), replace_val)
+set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
+  labels_vec <- dplyr::full_join(
+    attr(var, "labels") %>% tibble::enframe(),
+    setNames(replace_val, replace_label) %>% tibble::enframe(),
+    by = c("name", "value")
+  ) %>% dplyr::distinct(value, .keep_all = T) %>%
+    tibble::deframe()
   var[is.na(var)] <- replace_val
   haven::labelled(
     var,
-    labels = setNames(vals, labs),
+    labels = labels_vec,
     label = attr(var, "label", exact = TRUE)
   )
 }

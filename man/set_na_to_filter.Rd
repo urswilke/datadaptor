@@ -4,12 +4,15 @@
 \alias{set_na_to_filter}
 \title{Relpace NA values by \code{replace_val} labelled by "FILTER"}
 \usage{
-set_na_to_filter(var, replace_val = -2)
+set_na_to_filter(var, replace_val = -2, replace_label = "FILTER")
 }
 \arguments{
 \item{var}{numeric variable}
 
 \item{replace_val}{numeric value, NAs are replaced by; defaults to -2}
+
+\item{replace_label}{character value, value label \code{replace_val} will be
+labelled by; defaults to "FILTER"}
 }
 \value{
 \code{var} where NAs are replaced by \code{replace_val}
