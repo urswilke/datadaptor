@@ -153,9 +153,13 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
       ~ sheet_types[.x] %>%
         stringr::str_remove("\\^")
     ) %>%
-    purrr::set_names(sheets) %>%
-    # remove sheets not in sheet types list:
-    purrr::compact() %>%
+    purrr::set_names(sheets)
+  print(sheet_cats)
+  # remove sheets not in sheet types list:
+  sheets <- sheets[map(sheet_cats, length) > 0]
+  sheet_cats <- sheet_cats[map_int(sheet_cats, length) > 0]
+  sheet_cats <- sheet_cats %>%
+    # purrr::compact() %>%
     purrr::map_chr(~.x)
 
   df_cmd <- purrr::map2_dfr(
