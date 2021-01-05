@@ -154,44 +154,6 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
 }
 
 
-#' Assign a value to a variable in a dataframe at specified ids
-#'
-#' @param df dataframe
-#' @param var_ziel name of the variable to modify / be created (character string)
-#' @param val_assign assigned value
-#' @param varlab variable label (character string)
-#' @param vallab value labels (named list)
-#' @param id name of the id variable in df (character string)
-#' @param id_list list of the id values to be matched
-#'
-#' @return modified dataframe
-#' @export
-#'
-#' @examples
-#' df <- data.frame(id = 1:5)
-#' df <- cmd_verba(
-#'   df,
-#'   var_ziel = "new_var",
-#'   val_assign = 2,
-#'   varlab = "variable label",
-#'   vallab = c("assigned value" = 2),
-#'   id_list = c(1, 3, 4)
-#' )
-#' df
-#' df$new_var
-cmd_verba <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
-  if (!var_ziel %in% names(df)) {
-    df[var_ziel] <- NA_real_
-  }
-  df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
-  y <- haven::labelled(
-    df[[var_ziel]],
-    labels = vallab,
-    label = varlab
-  )
-  df[[var_ziel]] <- y
-  df
-}
 mapp_extract_verbatim_file <- function(mapping_file, sheet) {
   file_path <- readxl::read_xlsx(
     mapping_file,
