@@ -91,6 +91,9 @@ make_varlab_cmd_table <- function(df_varl) {
 
 
 make_free_cmd_table <- function(df_f1) {
+  if (nrow(df_f1) == 0) {
+    return(tibble::tibble())
+  }
   res <- df_f1 %>%
     dplyr::mutate(index = cumsum(dplyr::coalesce(stringr::str_detect(X1, "^#"), FALSE))) %>%
     dplyr::group_by(index) %>%
@@ -101,25 +104,20 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::select(-index) %>%
     sevif() %>%
     dplyr::group_by(action, row)
-  if (nrow(res) > 0) {
-    res %>%
-      dplyr::mutate(
-        new_var = dplyr::case_when(
-          action == "#REC"                 ~ X3[1],
-          action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
-          action == "#COMP"                ~ X2,
-          action == "#VARL"                ~ X2,
-          action == "#KG"                  ~ paste(X2, X3, sep = "_"),
-          action %in% c("#VALL", "#AVALL") ~ X2[1]
-        )
-      ) %>%
-      dplyr::group_by(sheet, action, row, new_var) %>%
-      tidyr::nest() %>%
-      dplyr::ungroup()
-  }
-  else {
-    tibble::tibble()
-  }
+  res %>%
+    dplyr::mutate(
+      new_var = dplyr::case_when(
+        action == "#REC"                 ~ X3[1],
+        action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
+        action == "#COMP"                ~ X2,
+        action == "#VARL"                ~ X2,
+        action == "#KG"                  ~ paste(X2, X3, sep = "_"),
+        action %in% c("#VALL", "#AVALL") ~ X2[1]
+      )
+    ) %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
 }
 
 
