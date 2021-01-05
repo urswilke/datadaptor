@@ -1,6 +1,9 @@
 
 
 make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file, sheet), sheet = "Verbatims") {
+  if (is.na(verba_file)) {
+    return(tibble::tibble())
+  }
   verba_file_sheets <-
     verba_file %>%
     readxl::excel_sheets() %>%
@@ -163,7 +166,8 @@ mapp_extract_verbatim_file <- function(mapping_file, sheet) {
   ) %>%
     dplyr::rename_all(~LETTERS[2:4]) %>%
     dplyr::filter(B == "Filename input") %>%
-    dplyr::pull(D)
+    dplyr::pull(D) %>%
+    stringr::str_replace_all("\\\\", "/")
   if (fs::is_absolute_path(file_path)) {
     return(file_path)
   }

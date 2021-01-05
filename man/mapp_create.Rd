@@ -15,7 +15,7 @@ mapp_create(df_raw, filename)
 
 }
 \description{
-The mapping file consists of the sheets "Variables", "Labels", "Verbatims" & "Free".
+The mapping file consists of the sheets "Variables", "Label", "Verbatims" & "Free".
 Each of these controlls different aspects of data manipulations you can apply
 to a labelled dataset. You can add as much of those sheets as you want to the file.
 The commands entered in the mapping file can later be excuted on the data set

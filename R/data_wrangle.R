@@ -71,7 +71,7 @@ make_sumvar_cmd_table <- function(df_vall) {
     dplyr::mutate(orig_var = var) %>%
     dplyr::group_by(new_var, orig_var) %>%
     dplyr::mutate(row = paste(row, collapse = ", ")) %>%
-    dplyr::mutate(sheet = "Labels") %>%
+    dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#SUMVAR") %>%
     dplyr::relocate(sheet, action)  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
@@ -139,10 +139,10 @@ make_free_cmd_table <- function(df_f1) {
 #' mapp_cmd_table(mapping_filepath)
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
-mapp_cmd_table <- function(filename, add_r_command_colum = FALSE) {
+mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
   sheets <- filename %>% readxl::excel_sheets()
 
-  sheet_types <- c("^Variables", "^Labels", "^Verbatims", "^Free")
+  sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
 
   # vector of sheets with names defined by types:
   sheet_cats <- purrr::map(
@@ -162,7 +162,7 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE) {
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ make_sheet_cmd_table(filename, .y, .x),
+    ~ make_sheet_cmd_table(filename, .y, .x, translate_xlsm = translate_xlsm),
     .id = "sheet"
   ) %>%
     dplyr::mutate(data = transl_human_read(action, data))
@@ -177,11 +177,11 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE) {
   }
   df_cmd
 }
-make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name) {
+make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name, make_sheet_cmd_table) {
   switch (sheet_cat,
-          "Variables" = mapp_varl(filename, sheet = sheet_name) %>% make_varlab_cmd_table(),
-          "Labels" = mapp_vall(filename, sheet = sheet_name) %>% make_sumvar_cmd_table(),
-          "Free" = mapp_free1(filename, sheet = sheet_name) %>% make_free_cmd_table(),
+          "Variables" = mapp_varl(filename, sheet = sheet_name, make_sheet_cmd_table = make_sheet_cmd_table) %>% make_varlab_cmd_table(),
+          "Label" = mapp_vall(filename, sheet = sheet_name, make_sheet_cmd_table = make_sheet_cmd_table) %>% make_sumvar_cmd_table(),
+          "Free" = mapp_free1(filename, sheet = sheet_name, make_sheet_cmd_table = make_sheet_cmd_table) %>% make_free_cmd_table(),
           "Verbatims" = make_verbatim_cmd_table(filename, sheet = sheet_name)
   )
 
@@ -235,7 +235,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' with this function.
 #' A template of a mapping file with existing label information of a labelled dataset
 #' can be created with \code{mapp_create()}. The mapping file consists of
-#' the sheets "Variables", "Labels", "Verbatims" & "Free".
+#' the sheets "Variables", "Label", "Verbatims" & "Free".
 #' Each of these controlls different aspects of data manipulations you can apply
 #' to a labelled dataset. You can add as much of those sheets as you want to the
 #' file (they just have to start by one of these strings) and therein enter
@@ -283,8 +283,9 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' df_cmd
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
-                            input_if_error = FALSE, rec_fun = purrr::reduce2) {
-  cmd_table <- mapp_cmd_table(filename)
+                            input_if_error = FALSE, rec_fun = purrr::reduce2,
+                            translate_xlsm = FALSE) {
+  cmd_table <- mapp_cmd_table(filename, translate_xlsm)
 
   if (na_to_filter == TRUE) {
     df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)

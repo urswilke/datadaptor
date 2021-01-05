@@ -1,6 +1,6 @@
 #' Create an Excel mapping file based on a labelled dataframe
 #'
-#' The mapping file consists of the sheets "Variables", "Labels", "Verbatims" & "Free".
+#' The mapping file consists of the sheets "Variables", "Label", "Verbatims" & "Free".
 #' Each of these controlls different aspects of data manipulations you can apply
 #' to a labelled dataset. You can add as much of those sheets as you want to the file.
 #' The commands entered in the mapping file can later be excuted on the data set
@@ -34,13 +34,13 @@ mapp_create <- function(df_raw, filename) {
   wb <- openxlsx::createWorkbook()
 
   openxlsx::addWorksheet(wb, "Variables")
-  openxlsx::addWorksheet(wb, "Labels")
+  openxlsx::addWorksheet(wb, "Label")
   openxlsx::addWorksheet(wb, "Verbatims")
   openxlsx::addWorksheet(wb, "Free1")
 
   # Write the data to the sheets
   openxlsx::writeData(wb, sheet = "Variables", x = df_varlab)
-  openxlsx::writeData(wb, sheet = "Labels", x = df_vallabs)
+  openxlsx::writeData(wb, sheet = "Label", x = df_vallabs)
   openxlsx::writeData(wb, sheet = "Verbatims", x = "")
   openxlsx::writeData(wb, sheet = "Free1", x = "")
 
@@ -59,12 +59,24 @@ mapp_create <- function(df_raw, filename) {
 #' @examples
 #' mapp_create(fake_survey, "mapping.xlsx")
 #' mapp_varl("mapping.xlsx")
-mapp_varl <- function(filename, sheet = "Variables") {
-  readxl::read_xlsx(
+mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
+  df_varl <- readxl::read_xlsx(
     filename,
     sheet = sheet
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
+  if (translate_xlsm) {
+    df_varl <- df_varl %>% dplyr::select(
+      var = 1,
+      varlab = 3,
+      op = Operation,
+      new_name = `New var name`,
+      new_label = `New var label`
+    ) %>%
+      dplyr::slice(-1) %>%
+      dplyr::mutate(varlab = ifelse(varlab == "<none>", NA_character_, varlab))
+  }
+  df_varl
 }
 
 
@@ -79,12 +91,25 @@ mapp_varl <- function(filename, sheet = "Variables") {
 #' @examples
 #' mapp_create(fake_survey, "mapping.xlsx")
 #' mapp_vall("mapping.xlsx")
-mapp_vall <- function(filename, sheet = "Labels") {
-  readxl::read_xlsx(
+mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
+  df_vall <- readxl::read_xlsx(
     filename,
     sheet = sheet
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
+  if (translate_xlsm) {
+    df_vall <- df_vall  %>% dplyr::select(
+      var = 1,
+      nv = 2,
+      vallab = 3,
+      new_label = 4,
+      sum_var_label = 7,
+      sum_var_value = 8,
+      sum_var_vallab = 9
+    ) %>% dplyr::slice(-1) %>%
+      tidyr::fill(var)
+  }
+  df_vall
 }
 
 
@@ -99,22 +124,29 @@ mapp_vall <- function(filename, sheet = "Labels") {
 #' @examples
 #' mapp_create(fake_survey, "mapping.xlsx")
 #' mapp_free1("mapping.xlsx")
-mapp_free1 <- function(filename, sheet = "Free1") {
-  res <- readxl::read_xlsx(
+mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
+  df_free <- readxl::read_xlsx(
     filename,
     sheet = sheet,
     range = cellranger::cell_cols("A:E"),
     col_names = paste0("X", 1:5),
     col_types = "text"
   )
-  if (nrow(res) > 0) {
-    res %>%
+  if (nrow(df_free) > 0) {
+    df_free <- df_free %>%
       dplyr::select(1:5) %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
       dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
       dplyr::mutate(row = dplyr::row_number())
   }
   else {
-    purrr::map_dfc(1:5, ~character()) %>% purrr::set_names(paste0("X", 1:5))
+    df_free <-
+      purrr::map_dfc(1:5, ~character()) %>%
+      purrr::set_names(paste0("X", 1:5))
   }
+  if (translate_xlsm) {
+    df_free <-
+      df_free %>% dplyr::slice(-1)
+  }
+  df_free
 }

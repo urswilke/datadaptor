@@ -9,7 +9,8 @@ mapp_xl_to_data(
   filename,
   na_to_filter = TRUE,
   input_if_error = FALSE,
-  rec_fun = purrr::reduce2
+  rec_fun = purrr::reduce2,
+  translate_xlsm = FALSE
 )
 }
 \arguments{
@@ -39,7 +40,7 @@ The commands entered in the mapping file can be excuted on the data set
 with this function.
 A template of a mapping file with existing label information of a labelled dataset
 can be created with \code{mapp_create()}. The mapping file consists of
-the sheets "Variables", "Labels", "Verbatims" & "Free".
+the sheets "Variables", "Label", "Verbatims" & "Free".
 Each of these controlls different aspects of data manipulations you can apply
 to a labelled dataset. You can add as much of those sheets as you want to the
 file (they just have to start by one of these strings) and therein enter

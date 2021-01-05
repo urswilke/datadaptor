@@ -5,7 +5,7 @@
 \title{Create a summary table of the data modifications list read in from the
 Excel mapping file}
 \usage{
-mapp_cmd_table(filename, add_r_command_colum = FALSE)
+mapp_cmd_table(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE)
 }
 \arguments{
 \item{filename}{filename of the Excel mapping file}
