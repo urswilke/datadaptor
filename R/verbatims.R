@@ -169,7 +169,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
 #'
 #' @examples
 #' df <- data.frame(id = 1:5)
-#' df <- assign_verba_val(
+#' df <- cmd_verba(
 #'   df,
 #'   var_ziel = "new_var",
 #'   val_assign = 2,
@@ -179,7 +179,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
 #' )
 #' df
 #' df$new_var
-assign_verba_val <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
+cmd_verba <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- NA_real_
   }

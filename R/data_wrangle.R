@@ -9,9 +9,9 @@
 #'
 #' @examples
 #' df <- data.frame(x = 1)
-#' df <- set_lab(df, "x", "I'm the variable label")
+#' df <- cmd_set_lab(df, "x", "I'm the variable label")
 #' df$x
-set_lab <- function(df, orig_var, new_label){
+cmd_set_lab <- function(df, orig_var, new_label){
   df[[orig_var]] <- haven::labelled(
     df[[orig_var]],
     labels = attr(df[[orig_var]], "labels"),
@@ -31,9 +31,9 @@ set_lab <- function(df, orig_var, new_label){
 #'
 #' @examples
 #' df <- data.frame(x = 1:2)
-#' df <- set_labs(df, "x", new_vals = 1:2, new_labs = c("value for 1", "value for 2"))
+#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("value for 1", "value for 2"))
 #' df$x
-set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact = TRUE), new_vals, new_labs){
+cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact = TRUE), new_vals, new_labs){
   df[[orig_var]] <- haven::labelled(
     df[[orig_var]],
     labels = purrr::set_names(new_vals, new_labs),
@@ -56,9 +56,9 @@ set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact = TRU
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("value for 1" = 1), label = "var label")
 #' df <- data.frame(x)
-#' df <- add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("value for 2"))
+#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("value for 2"))
 #' df$x
-add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
+cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
   labs <- c(attr(df[[orig_var]], "labels") %>% names(), labs_added)
   vals <- c(attr(df[[orig_var]], "labels") %>% unname(), vals_added)
   if(is.null(new_lab))
@@ -99,8 +99,8 @@ kg_mix <- function(df, var1, var2) {
 #' @export
 #'
 #' @examples
-#' kg(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
-kg <- function(df, split_var, by_var) {
+#' cmd_kg(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
+cmd_kg <- function(df, split_var, by_var) {
   new_vars <- prepare_newvar_table(df, split_var, by_var)
   new_vars %>%
     purrr::transpose() %>%
@@ -167,10 +167,10 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' orig_vals <- 1:5
 #' new_labs <- c("1-2 summ", NA, "3 summ.", "4-5 summ", NA)
 #' df <- data.frame(orig_var)
-#' df <- rec_1var(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
+#' df <- cmd_sumvar(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
 #' df
 #' df$new_var
-rec_1var <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
+cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
   sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
     dplyr::group_by(new_vals) %>%
     dplyr::summarise(val_lists = list(orig_vals),
@@ -218,10 +218,10 @@ rec_1var <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals,
 #' ub = c(2, NA, 5)
 #' new_vals <- 1:3
 #' new_labs <- c("1 - 2", "3", "4 - 5")
-#' df <- rec_1var_free(df, orig_var = "orig_var", new_var = "new_var", lb = lb, ub = ub, new_vals = new_vals, new_labs = new_labs)
+#' df <- cmd_rec(df, orig_var = "orig_var", new_var = "new_var", lb = lb, ub = ub, new_vals = new_vals, new_labs = new_labs)
 #' df
 #' df$new_var
-rec_1var_free <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
+cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
   rec_vecs <-
     list(lb, dplyr::coalesce(ub, lb), new_vals)
 
@@ -318,8 +318,8 @@ sevif <- function(df_free1) {
 #' @export
 #'
 #' @examples
-#' mutate_comp(data.frame(x = 1:3), "y", "x * 2")
-mutate_comp <- function(df, new_var, new_val) {
+#' cmd_comp(data.frame(x = 1:3), "y", "x * 2")
+cmd_comp <- function(df, new_var, new_val) {
   # transforms numeric values from character to numeric:
   new_val <- rlang::parse_expr(new_val)
 
@@ -339,8 +339,8 @@ mutate_comp <- function(df, new_var, new_val) {
 #' @export
 #'
 #' @examples
-#' mutate_cond(data.frame(x = 1:3), "y", "x == 3", "2")
-mutate_cond <- function(df, new_var, condition, new_val) {
+#' cmd_if(data.frame(x = 1:3), "y", "x == 3", "2")
+cmd_if <- function(df, new_var, condition, new_val) {
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
 
@@ -477,16 +477,16 @@ make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name) {
 make_cmd_expression <- function(action, data) {
   switch (
     action,
-    "#IF"     = rlang::expr(mutate_cond(df, !!!data)),
-    "#COMP"   = rlang::expr(mutate_comp(df, !!!data)),
-    "#REC"    = rlang::expr(rec_1var_free(df, !!!data)),
-    "#SUMVAR" = rlang::expr(rec_1var(df, !!!data)),
-    "#NEWLAB" = rlang::expr(set_lab(df, !!!data)),
-    "#VARL"   = rlang::expr(set_lab(df, !!!data)),
-    "#VALL"   = rlang::expr(set_labs(df, !!!data)),
-    "#AVALL"  = rlang::expr(add_labs(df, !!!data)),
-    "#KG"     = rlang::expr(kg(df, !!!data)),
-    "#Verba"  = rlang::expr(assign_verba_val(df, !!!data)),
+    "#IF"     = rlang::expr(cmd_if(df, !!!data)),
+    "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
+    "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
+    "#SUMVAR" = rlang::expr(cmd_sumvar(df, !!!data)),
+    "#NEWLAB" = rlang::expr(cmd_set_lab(df, !!!data)),
+    "#VARL"   = rlang::expr(cmd_set_lab(df, !!!data)),
+    "#VALL"   = rlang::expr(cmd_set_labs(df, !!!data)),
+    "#AVALL"  = rlang::expr(cmd_add_labs(df, !!!data)),
+    "#KG"     = rlang::expr(cmd_kg(df, !!!data)),
+    "#Verba"  = rlang::expr(cmd_verba(df, !!!data)),
     stop("Invalid action command")
   )
 }
