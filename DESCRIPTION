@@ -33,7 +33,8 @@ Imports:
     cellranger,
     rlang,
     stringr,
-    readr
+    readr,
+    fs
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr
