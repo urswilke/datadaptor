@@ -21,8 +21,8 @@ mapp_xl_to_data(
 be replaced by -2 with the value label "FILTER".}
 
 \item{input_if_error}{logical; if TRUE, command blocks of the mapping file
-that error out will be skipped; for this option to work two objects \code{i_cmd}
-and \code{error_list} need to be created beforehand (see examples); in combination with
+that error out will be skipped; for this option to work the object \code{error_list}
+needs to be created beforehand (see examples); in combination with
 \code{rec_fun} = \code{purrr::accumulate2} this can be used to examine intermediate
 results, in order to find the reason for the error. Alternatively, run the script
 created by \code{translate_to_r_script()}.}
@@ -57,10 +57,9 @@ df_cmd <- mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 mapp_xl_to_data(df, mapping_filepath)
 
 
-# For the option input_if_error = TRUE to work, the following two objects
-# `i_cmd` and `error_list` have to be created beforehand:
-i_cmd <- 0
-error_list <- vector("character", nrow(df_cmd))
+# For the option input_if_error = TRUE to work, the following object
+# `error_list` has to be created beforehand:
+error_list <- character()
 df_mod_list <- mapp_xl_to_data(df, mapping_filepath, input_if_error = TRUE, rec_fun = purrr::accumulate2)
 error_list
 

@@ -212,20 +212,20 @@ apply_one_cmd <- function(df, action, data) {
 
 apply_one_cmd_safe <- function(df1, action, data) {
   res <- tryCatch({
-      i_cmd <<- i_cmd + 1
+      # i_cmd <<- i_cmd + 1
+      err_msg <- NA_character_
       apply_one_cmd(df1, action, data)
     },
     error = function(df1) {
       err_msg <- geterrmessage()[1]
       print(err_msg)
-      error_list[[i_cmd]] <<- err_msg
-      # return(df1)
+      df1
     }
   )
-  if (inherits(res, "character")) {
-    res <- df1
-  }
-  return(res)
+  # BAD STYLE!
+  # TODO: find better method
+  error_list <<- append(error_list, err_msg)
+  res
 }
 
 
@@ -247,8 +247,8 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' @param na_to_filter logical; if TRUE, NA values of numerical variables in df will
 #' be replaced by -2 with the value label "FILTER".
 #' @param input_if_error logical; if TRUE, command blocks of the mapping file
-#' that error out will be skipped; for this option to work two objects `i_cmd`
-#' and `error_list` need to be created beforehand (see examples); in combination with
+#' that error out will be skipped; for this option to work the object `error_list`
+#' needs to be created beforehand (see examples); in combination with
 #' `rec_fun` = `purrr::accumulate2` this can be used to examine intermediate
 #' results, in order to find the reason for the error. Alternatively, run the script
 #' created by `translate_to_r_script()`.
@@ -270,10 +270,9 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' mapp_xl_to_data(df, mapping_filepath)
 #'
 #'
-#' # For the option input_if_error = TRUE to work, the following two objects
-#' # `i_cmd` and `error_list` have to be created beforehand:
-#' i_cmd <- 0
-#' error_list <- vector("character", nrow(df_cmd))
+#' # For the option input_if_error = TRUE to work, the following object
+#' # `error_list` has to be created beforehand:
+#' error_list <- character()
 #' df_mod_list <- mapp_xl_to_data(df, mapping_filepath, input_if_error = TRUE, rec_fun = purrr::accumulate2)
 #' error_list
 #'
