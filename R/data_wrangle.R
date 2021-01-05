@@ -543,10 +543,10 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' df <- haven::read_sav(spss_filepath)
 #'
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' # This command creates an overview table:
 #' df_cmd <- mapp_cmd_table(mapping_filepath)
 #'
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_xl_to_data(fake_survey, mapping_filepath)
 #'
 #' # The command blocks in the Excel file can be translated to an R script.
@@ -558,8 +558,8 @@ apply_one_cmd_safe <- function(df1, action, data, export_script) {
 #' cmds[[3]] <- paste0("df <- haven::read_sav('", spss_filepath, "')")
 #' df_mod <- mapp_xl_to_data(df, mapping_filepath, export_script = TRUE, na_to_filter = FALSE)
 #' \dontrun{
-#' write_lines(unlist(cmds), "mapping.R")
-#' When the created script "mapping.R" is run, the resulting dataframe df should be equal to df_mod.
+#' readr::write_lines(unlist(cmds), "mapping.R")
+#' # When the created script "mapping.R" is run, the resulting dataframe df should be equal to df_mod.
 #' }
 #'
 #' # For the option input_if_error = TRUE to work, the following two objects
