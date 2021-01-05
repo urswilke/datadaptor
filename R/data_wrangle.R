@@ -156,8 +156,8 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
     purrr::set_names(sheets)
   print(sheet_cats)
   # remove sheets not in sheet types list:
-  sheets <- sheets[map(sheet_cats, length) > 0]
-  sheet_cats <- sheet_cats[map_int(sheet_cats, length) > 0]
+  sheets <- sheets[purrr::map_int(sheet_cats, length) > 0]
+  sheet_cats <- sheet_cats[purrr::map_int(sheet_cats, length) > 0]
   sheet_cats <- sheet_cats %>%
     # purrr::compact() %>%
     purrr::map_chr(~.x)
