@@ -313,9 +313,16 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
 #' x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
 #' set_na_to_filter(x)
 set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
+  old_label_vec <- attr(var, "labels")
+  if (!is.null(old_label_vec)) {
+    df_new_labels <- old_label_vec %>% tibble::enframe()
+  }
+  else {
+    df_new_labels <- tibble::tibble(name = character(), value = numeric())
+  }
   labels_vec <- dplyr::full_join(
     setNames(replace_val, replace_label) %>% tibble::enframe(),
-    attr(var, "labels") %>% tibble::enframe(),
+    df_new_labels,
     by = c("name", "value")
   ) %>% dplyr::distinct(value, .keep_all = T) %>%
     tibble::deframe()
