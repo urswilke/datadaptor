@@ -95,8 +95,7 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
   df_vall <- readxl::read_xlsx(
     filename,
     sheet = sheet
-  ) %>%
-    dplyr::mutate(row = dplyr::row_number() + 1)
+  )
   if (translate_xlsm) {
     df_vall <- df_vall  %>% dplyr::select(
       var = 1,
@@ -109,7 +108,8 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
     ) %>% dplyr::slice(-1) %>%
       tidyr::fill(var)
   }
-  df_vall
+  df_vall %>%
+    dplyr::mutate(row = dplyr::row_number() + 1)
 }
 
 
