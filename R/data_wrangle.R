@@ -314,8 +314,8 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
 #' set_na_to_filter(x)
 set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
   labels_vec <- dplyr::full_join(
-    attr(var, "labels") %>% tibble::enframe(),
     setNames(replace_val, replace_label) %>% tibble::enframe(),
+    attr(var, "labels") %>% tibble::enframe(),
     by = c("name", "value")
   ) %>% dplyr::distinct(value, .keep_all = T) %>%
     tibble::deframe()
