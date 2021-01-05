@@ -168,6 +168,9 @@ mapp_extract_verbatim_file <- function(mapping_file, sheet) {
     dplyr::filter(B == "Filename input") %>%
     dplyr::pull(D) %>%
     stringr::str_replace_all("\\\\", "/")
+  if (is.na(file_path)) {
+    return(file_path)
+  }
   if (fs::is_absolute_path(file_path)) {
     return(file_path)
   }
