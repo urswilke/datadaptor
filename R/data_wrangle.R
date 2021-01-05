@@ -289,7 +289,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE) {
-  cmd_table <- mapp_cmd_table(filename, translate_xlsm)
+  cmd_table <- mapp_cmd_table(filename, translate_xlsm = translate_xlsm)
 
   if (na_to_filter == TRUE) {
     df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)
