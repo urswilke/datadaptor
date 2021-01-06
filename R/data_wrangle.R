@@ -299,14 +299,14 @@ mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
   rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
 }
 
-#' Relpace NA values by `replace_val` labelled by "FILTER"
+#' Relpace NA values by `replace_val` labelled by `replace_label`
 #'
 #' @param var numeric variable
 #' @param replace_val numeric value, NAs are replaced by; defaults to -2
 #' @param replace_label character value, value label `replace_val` will be
 #' labelled by; defaults to "FILTER"
 #'
-#' @return `var` where NAs are replaced by `replace_val`
+#' @return `var` where NAs are replaced by `replace_val` with added label `replace_label`
 #' @export
 #'
 #' @examples

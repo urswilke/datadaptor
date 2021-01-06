@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_wrangle.R
 \name{set_na_to_filter}
 \alias{set_na_to_filter}
-\title{Relpace NA values by \code{replace_val} labelled by "FILTER"}
+\title{Relpace NA values by \code{replace_val} labelled by \code{replace_label}}
 \usage{
 set_na_to_filter(var, replace_val = -2, replace_label = "FILTER")
 }
@@ -15,10 +15,10 @@ set_na_to_filter(var, replace_val = -2, replace_label = "FILTER")
 labelled by; defaults to "FILTER"}
 }
 \value{
-\code{var} where NAs are replaced by \code{replace_val}
+\code{var} where NAs are replaced by \code{replace_val} with added label \code{replace_label}
 }
 \description{
-Relpace NA values by \code{replace_val} labelled by "FILTER"
+Relpace NA values by \code{replace_val} labelled by \code{replace_label}
 }
 \examples{
 x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
