@@ -16,7 +16,7 @@ transl_human_read <- function(action, data) {
 }
 
 transl_human_read_newlab <- function(data) {
-  d <- data[[1]]
+  d <- data
 
   res <- list(
     orig_var = d$var[1],
@@ -25,7 +25,7 @@ transl_human_read_newlab <- function(data) {
   list(res)
 }
 transl_human_read_kg <- function(data) {
-  d <- data[[1]]
+  d <- data
 
   res <- list(
     split_var = d$X2[1],
@@ -34,7 +34,7 @@ transl_human_read_kg <- function(data) {
   list(res)
 }
 transl_human_read_varl <- function(data) {
-  d <- data[[1]]
+  d <- data
 
   res <- list(
     orig_var = d$X2[1],
@@ -43,7 +43,7 @@ transl_human_read_varl <- function(data) {
   list(res)
 }
 transl_human_read_comp <- function(data) {
-  d <- data[[1]]
+  d <- data
 
   res <- list(
     new_var = d$X2[1],
@@ -52,7 +52,7 @@ transl_human_read_comp <- function(data) {
   list(res)
 }
 transl_human_read_if <- function(data) {
-  d <- data[[1]]
+  d <- data
   assignment <- d$X3 %>% stringr::str_split("=") %>% unlist() %>% stringr::str_squish()
 
   res <- list(
@@ -63,7 +63,7 @@ transl_human_read_if <- function(data) {
   list(res)
 }
 transl_human_read_avall <- function(data) {
-  d <- data[[1]]
+  d <- data
   res <- list(
     orig_var  = d$X2[1],
     new_lab  = d$X3[1],
@@ -73,7 +73,7 @@ transl_human_read_avall <- function(data) {
   list(res)
 }
 transl_human_read_vall <- function(data) {
-  d <- data[[1]]
+  d <- data
   res <- list(
     orig_var  = d$X2[1],
     new_lab  = d$X3[1],
@@ -83,7 +83,7 @@ transl_human_read_vall <- function(data) {
   list(res)
 }
 transl_human_read_rec <- function(data) {
-  d <- data[[1]]
+  d <- data
   res <- list(
     new_var  = d$X3[1],
     orig_var = d$X2[1],
@@ -97,7 +97,7 @@ transl_human_read_rec <- function(data) {
 }
 
 transl_human_read_sumvar <- function(data) {
-  d <- data[[1]]
+  d <- data
   res <- list(
     new_var = paste0("k", d$var[1]),
     orig_var  = d$var[1],
@@ -112,7 +112,7 @@ transl_human_read_sumvar <- function(data) {
 
 
 transl_human_read_verbatim <- function(data) {
-  d <- data[[1]]
+  d <- data
     res <- list(
     var_ziel = d$var_ziel,
     val_assign  = d$val_assign,

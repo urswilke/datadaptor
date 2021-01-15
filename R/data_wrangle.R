@@ -165,6 +165,7 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
     ~ make_sheet_cmd_table(filename, .y, .x, translate_xlsm = translate_xlsm),
     .id = "sheet"
   ) %>%
+    dplyr::rowwise() %>%
     dplyr::mutate(data = transl_human_read(action, data))
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
