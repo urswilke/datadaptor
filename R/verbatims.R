@@ -93,6 +93,19 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     # verbatim codes later is done in the correct order:
     dplyr::arrange(DC_ID)
 
+  df_codestufen <-
+    readxl::read_excel(
+      verba_file,
+      sheet = "Codestufen",
+      col_names = TRUE,
+      range = cellranger::cell_limits(ul = c(1, 2))
+    ) %>%
+    # in the Codestufen sheet there is no title for the code column; R
+    # automatically has given the name X__1; change it to "Code"...:
+    dplyr::mutate(Code = dplyr::row_number()) %>%
+    tidyr::gather(q_id, Beschreibung,-Code) %>%
+    # only retain codes where a category ("Beschreibung") exists:
+    tidyr::drop_na(Beschreibung)
 
   df_cats <-
     df_assigns %>%
@@ -102,18 +115,11 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     # the labelled values are joint. Every variable var_ziel will be repeated the
     # number of times, there are different codes in the corresponding sheet in the
     # verbatim file:
-    dplyr::left_join(.,
-              readxl::read_excel(verba_file,
-                         sheet = "Codestufen",
-                         col_names = TRUE,
-                         range = cellranger::cell_limits(ul = c(2, 2))) %>%
-                # in the Codestufen sheet there is no title for the code column; R
-                # automatically has given the name X__1; change it to "Code"...:
-                dplyr::mutate(Code=dplyr::row_number()) %>%
-                tidyr::gather(q_id, Beschreibung, -Code) %>%
-                # only retain codes where a category ("Beschreibung") exists:
-                tidyr::drop_na(Beschreibung),
-              by = "q_id") %>%
+    dplyr::left_join(
+      .,
+      df_codestufen,
+      by = c("q_id", "code_assign" = "Code")
+    ) %>%
     # for mdg types, the only line with the correct variable label is the one
     # where the assigned code code_assign is equal to the Code in the Codestufen
     # sheet:
