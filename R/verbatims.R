@@ -166,8 +166,8 @@ make_labs_df <- function(df_codestufen, mapping_verba_sheet) {
     switch (
       EFA1MCG2MDG3,
       "1" = list(setNames(data$Code, data$Beschreibung)),
-      "2" = tibble(code = data$Code, varlab = data$Beschreibung),
-      "3" = list(setNames(data$Code, data$Beschreibung)),
+      "2" = list(setNames(data$Code, data$Beschreibung)),
+      "3" = tibble(code = data$Code, varlab = data$Beschreibung),
       stop("Invalid EFA1MCG2MDG3 code")
     )
   }
