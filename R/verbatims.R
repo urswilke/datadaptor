@@ -86,7 +86,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     dplyr::mutate(val_assign = dplyr::if_else(EFA1MCG2MDG3 == 3, 1, code_assign)) %>%
     # the column code_assign is only needed for mdg variables to assign the right
     # variable labels later. Therefore, it is set to NA for the other variables:
-    dplyr::mutate(code_assign = dplyr::if_else(EFA1MCG2MDG3 != 3, NA_real_, code_assign)) %>%
+    # dplyr::mutate(code_assign = dplyr::if_else(EFA1MCG2MDG3 != 3, NA_real_, code_assign)) %>%
     dplyr::select(-i_assign) %>%
     dplyr::rename(DC_ID = ID) %>%
     # the sorting of DC_ID is probably very important that the assigning of the
@@ -123,15 +123,15 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     # for mdg types, the only line with the correct variable label is the one
     # where the assigned code code_assign is equal to the Code in the Codestufen
     # sheet:
-    dplyr::filter(EFA1MCG2MDG3 != 3 | code_assign == Code) %>%
+    # dplyr::filter(EFA1MCG2MDG3 != 3 | code_assign == Code) %>%
     # for mdg variables, a variable label column is created, for the other types
     # the variable label is set to the empty string:
     dplyr::mutate(varlab=dplyr::case_when(EFA1MCG2MDG3 == 3 ~ Beschreibung,
                              EFA1MCG2MDG3 != 3 ~ "")) %>%
     # create a column containing named vectors containing the values & the value
     # labels for each var_ziel:
-    dplyr::group_by(var_ziel) %>%
-    dplyr::summarise(vallabs = list(q_id = purrr::set_names(Code, Beschreibung)),
+    dplyr::group_by(q_id, var_ziel) %>%
+    dplyr::summarise(vallabs = list(purrr::set_names(code_assign, Beschreibung)),
                      varlab  = varlab[1],
                      EFA1MCG2MDG3 = EFA1MCG2MDG3[1]) %>%
     # for mdg variables the value labels that where created make no sense and are
@@ -150,7 +150,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
                 DC_ID %>%
                 paste(., collapse = ", ") %>%
                 paste0("DC_ID %in% c(", .) %>% paste0(")"))
-  df_assigns_overview %>%
+  res <- df_assigns_overview %>%
     dplyr::mutate(
       sheet = "verbatims",
       new_var = var_ziel,
@@ -160,6 +160,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
     dplyr::ungroup()  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
     tidyr::nest()
+  res
 }
 
 
