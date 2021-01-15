@@ -27,6 +27,19 @@ l_assigns_raw <-
   verba_file_sheets %>%
   purrr::map(~read_assigns(.x))
 
+df_codestufen <-
+  readxl::read_excel(
+    verba_file,
+    sheet = "Codestufen",
+    col_names = TRUE,
+    range = cellranger::cell_limits(ul = c(1, 2))
+  ) %>%
+  # in the Codestufen sheet there is no title for the code column; R
+  # automatically has given the name X__1; change it to "Code"...:
+  dplyr::mutate(Code = dplyr::row_number()) %>%
+  tidyr::gather(q_id, Beschreibung,-Code) %>%
+  # only retain codes where a category ("Beschreibung") exists:
+  tidyr::drop_na(Beschreibung)
 
 mapping_verba_sheet <-
   readxl::read_excel(map_file,
@@ -96,19 +109,6 @@ df_assigns <-
   # verbatim codes later is done in the correct order:
   dplyr::arrange(DC_ID)
 
-df_codestufen <-
-  readxl::read_excel(
-    verba_file,
-    sheet = "Codestufen",
-    col_names = TRUE,
-    range = cellranger::cell_limits(ul = c(1, 2))
-  ) %>%
-  # in the Codestufen sheet there is no title for the code column; R
-  # automatically has given the name X__1; change it to "Code"...:
-  dplyr::mutate(Code = dplyr::row_number()) %>%
-  tidyr::gather(q_id, Beschreibung,-Code) %>%
-  # only retain codes where a category ("Beschreibung") exists:
-  tidyr::drop_na(Beschreibung)
 
 df_cats <-
   df_assigns %>%
