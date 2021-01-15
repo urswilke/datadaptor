@@ -83,7 +83,7 @@ make_codestufen_df <- function(verba_file) {
     tidyr::drop_na(Beschreibung)
   df_codestufen
 }
-make_verba_sheet_df <- function(map_file) {
+make_verba_sheet_df <- function(map_file, sheet) {
   mapping_verba_sheet <-
     readxl::read_excel(map_file,
                        skip = 14,
@@ -198,7 +198,7 @@ make_verbatim_cmd_table <- function(map_file, verba_file = mapp_extract_verbatim
   if (is.na(verba_file)) {
     return(tibble::tibble())
   }
-  mapping_verba_sheet <- make_verba_sheet_df(map_file)
+  mapping_verba_sheet <- make_verba_sheet_df(map_file, sheet = sheet)
   df_assigns <- make_assigns_df(verba_file, mapping_verba_sheet)
   df_codestufen <- make_codestufen_df(verba_file)
   df_cats <- make_labs_df(df_codestufen, mapping_verba_sheet)
