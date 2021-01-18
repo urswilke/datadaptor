@@ -117,9 +117,11 @@ make_free_cmd_table <- function(df_f1) {
       )
     ) %>%
     # needed if severalized #IF creates multiple commands manipulating the same
-    # variable (-> then the nesting needs to distinguish these lines...)
+    # variable (-> then the nesting needs to distinguish these lines...);
+    # However must not be applied for multiline command blocks: !action %in% c("#VALL", "#AVALL", "#REC")
+    # TODO: cleaner way to implement HACK !!!
     dplyr::ungroup() %>%
-    dplyr::mutate(sev_command_row = dplyr::row_number()) %>%
+    dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
     dplyr::group_by(sheet, action, row, new_var, sev_command_row) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
