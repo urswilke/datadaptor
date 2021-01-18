@@ -116,7 +116,11 @@ make_free_cmd_table <- function(df_f1) {
         action %in% c("#VALL", "#AVALL") ~ X2[1]
       )
     ) %>%
-    dplyr::group_by(sheet, action, row, new_var) %>%
+    # needed if severalized #IF creates multiple commands manipulating the same
+    # variable (-> then the nesting needs to distinguish these lines...)
+    dplyr::ungroup() %>%
+    dplyr::mutate(sev_command_row = dplyr::row_number()) %>%
+    dplyr::group_by(sheet, action, row, new_var, sev_command_row) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
 }
