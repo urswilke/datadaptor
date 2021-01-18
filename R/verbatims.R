@@ -128,39 +128,6 @@ make_assigns_cmd_table <- function(df_assigns, df_cats) {
     ungroup()
   df_assigns_overview
 }
-make_cats_df <- function(df_assigns, df_codestufen) {
-  df_cats <-
-    df_assigns %>%
-    # this extracts all the variables that are assigned var_ziel (the other
-    # columns don't add cases...):
-    dplyr::distinct(q_id, var_ziel, val_assign, EFA1MCG2MDG3) %>%
-    # the labelled values are joint. Every variable var_ziel will be repeated the
-    # number of times, there are different codes in the corresponding sheet in the
-    # verbatim file:
-    dplyr::left_join(
-      .,
-      df_codestufen,
-      by = c("q_id", "code_assign" = "Code")
-    ) %>%
-    # for mdg types, the only line with the correct variable label is the one
-    # where the assigned code code_assign is equal to the Code in the Codestufen
-    # sheet:
-    # dplyr::filter(EFA1MCG2MDG3 != 3 | code_assign == Code) %>%
-    # for mdg variables, a variable label column is created, for the other types
-    # the variable label is set to the empty string:
-    dplyr::mutate(varlab=dplyr::case_when(EFA1MCG2MDG3 == 3 ~ Beschreibung,
-                                          EFA1MCG2MDG3 != 3 ~ "")) %>%
-    # create a column containing named vectors containing the values & the value
-    # labels for each var_ziel:
-    dplyr::group_by(q_id, var_ziel) %>%
-    dplyr::summarise(vallabs = list(purrr::set_names(code_assign, Beschreibung)),
-                     varlab  = varlab[1],
-                     EFA1MCG2MDG3 = EFA1MCG2MDG3[1]) %>%
-    # for mdg variables the value labels that where created make no sense and are
-    # not needed (in the future one could add something like "1 = selected"...):
-    dplyr::mutate(vallab = dplyr::if_else(EFA1MCG2MDG3 == 3, list(NULL), vallabs))
-  df_cats
-}
 make_labs_df <- function(df_codestufen, mapping_verba_sheet) {
   make_verbatim_labels <- function(EFA1MCG2MDG3, data) {
     switch (
