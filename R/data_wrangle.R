@@ -3,8 +3,8 @@ extract_sev_lists <- function(var) {
     var %>%
     stringr::str_squish() %>%
     stringr::str_extract_all("(\\{.+?\\})", simplify = T) %>%
-    stringr::str_squish() %>%
     purrr::map(~stringr::str_remove_all(.x, "[\\{\\}]")) %>%
+    stringr::str_squish() %>%
     stringr::str_split(" +", simplify = T) %>%
     tibble::as_tibble(.name_repair = "unique")
 
