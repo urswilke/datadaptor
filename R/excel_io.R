@@ -137,7 +137,17 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
       dplyr::select(1:5) %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
       dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
-      dplyr::mutate(row = dplyr::row_number())
+      dplyr::mutate(row = dplyr::row_number()) %>%
+      dplyr::mutate(X2 = ifelse(
+        X1 == "#IF",
+        replace_single_equals_sign(X2),
+        X2
+      )) %>%
+      dplyr::mutate(X3 = ifelse(
+        X1 == "#COMP",
+        replace_single_equals_sign(X3),
+        X3
+      ))
   }
   else {
     df_free <-
@@ -149,4 +159,13 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
       df_free %>% dplyr::slice(-1)
   }
   df_free
+}
+
+replace_single_equals_sign <- function(column) {
+  # see: https://stackoverflow.com/questions/28460473/how-do-i-match-a-single-equals-sign-with-regular-expressions/28460640
+  stringr::str_replace(
+    column,
+    "(?<![=><])=(?!=)",
+    "=="
+  )
 }
