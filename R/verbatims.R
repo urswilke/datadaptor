@@ -86,7 +86,7 @@ make_codestufen_df <- function(verba_file) {
 make_verba_sheet_df <- function(map_file, sheet) {
   mapping_verba_sheet <-
     readxl::read_excel(map_file,
-                       skip = 14,
+                       skip = 16,
                        sheet = sheet,
                        col_names = TRUE) %>%
     tidyr::drop_na(VariableOriginal) %>%
