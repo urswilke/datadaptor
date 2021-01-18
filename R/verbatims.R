@@ -114,7 +114,7 @@ make_assigns_cmd_table <- function(df_assigns, df_cats) {
     mutate(code_cat_join = ifelse(EFA1MCG2MDG3 == 3, code_assign, NA)) %>%
     dplyr::group_by(q_id, var_ziel, EFA1MCG2MDG3, code_cat_join, val_assign) %>%
     dplyr::summarise(id_list = list(as.numeric(DC_ID))) %>%
-    dplyr::left_join(df_cats, by = c("EFA1MCG2MDG3", "q_id", "code_cat_join" = "code")) %>%
+    dplyr::left_join(df_cats, by = c("q_id", "code_cat_join" = "code")) %>%
     dplyr::mutate(
       sheet = "verbatims",
       new_var = var_ziel,
