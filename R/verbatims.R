@@ -140,18 +140,14 @@ make_labs_df <- function(df_codestufen, mapping_verba_sheet) {
   }
 
   df_labs <- df_codestufen %>%
-    left_join(
-      mapping_verba_sheet %>%
-        select(
-          q_id = `Tabellen-blatt`,
-          EFA1MCG2MDG3,
-          VariableZiel
-        ),
-      by = "q_id"
-    ) %>%
-    group_by(q_id, EFA1MCG2MDG3) %>%
+    group_by(q_id) %>%
     nest() %>%
-    summarise(vallab = map2(EFA1MCG2MDG3, data, make_verbatim_labels), .groups = "drop") %>%
+    left_join(mapping_verba_sheet %>%
+                select(q_id = `Tabellen-blatt`, EFA1MCG2MDG3) %>%
+                distinct(q_id, .keep_all = TRUE),
+              by = "q_id") %>%
+    summarise(vallab = map2(EFA1MCG2MDG3, data, make_verbatim_labels),
+              .groups = "drop") %>%
     # due to the structure of the mixed output of make_verbatim_labels(), of lists
     # and tibbles, this unnests the tibbles (containing code and varlab columns),
     # and doesn't change the named vallab lists:
