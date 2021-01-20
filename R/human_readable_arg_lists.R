@@ -1,20 +1,30 @@
 transl_human_read <- function(action, data) {
   switch (
     action,
-    "#IF"     = transl_human_read_if(data),
-    "#COMP"   = transl_human_read_comp(data),
-    "#REC"    = transl_human_read_rec(data),
-    "#SUMVAR" = transl_human_read_sumvar(data),
-    "#NEWLAB" = transl_human_read_newlab(data),
-    "#VARL"   = transl_human_read_varl(data),
-    "#VALL"   = transl_human_read_vall(data),
-    "#AVALL"  = transl_human_read_avall(data),
-    "#KG"     = transl_human_read_kg(data),
-    "#Verba"  = transl_human_read_verbatim(data),
+    "#IF"      = transl_human_read_if(data),
+    "#COMP"    = transl_human_read_comp(data),
+    "#REC"     = transl_human_read_rec(data),
+    "#SUMVAR"  = transl_human_read_sumvar(data),
+    "#RENAME"  = transl_human_read_rename(data),
+    "#NEWLAB"  = transl_human_read_newlab(data),
+    "#VARL"    = transl_human_read_varl(data),
+    "#VALL"    = transl_human_read_vall(data),
+    "#AVALL"   = transl_human_read_avall(data),
+    "#KG"      = transl_human_read_kg(data),
+    "#Verba"   = transl_human_read_verbatim(data),
     stop("Invalid action command")
   )
 }
 
+transl_human_read_rename <- function(data) {
+  d <- data
+
+  res <- list(
+    orig_var = d$var[1],
+    new_name = d$new_name[1]
+  )
+  list(res)
+}
 transl_human_read_newlab <- function(data) {
   d <- data
 

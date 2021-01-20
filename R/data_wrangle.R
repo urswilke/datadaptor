@@ -80,16 +80,34 @@ make_sumvar_cmd_table <- function(df_vall) {
 }
 
 make_varlab_cmd_table <- function(df_varl) {
+  dplyr::bind_rows(
+    make_varlab_rename_tbl(df_varl),
+    make_varlab_newlab_table(df_varl)
+  )
+}
+make_varlab_newlab_table <- function(df_varl) {
   df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(new_label) %>%
+    dplyr::mutate(var = dplyr::coalesce(new_name, var)) %>%
     dplyr::mutate(new_var = var) %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#NEWLAB") %>%
+    dplyr::select(-new_name, -op) %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
     tidyr::nest()
 }
-
+make_varlab_rename_tbl <- function(df_varl) {
+  df_varl %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
+    tidyr::drop_na(new_name) %>%
+    dplyr::mutate(new_var = new_name) %>%
+    dplyr::mutate(sheet = "Variables") %>%
+    dplyr::mutate(action = "#RENAME") %>%
+    dplyr::select(-new_label, -op, -varlab) %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest()
+}
 
 make_free_cmd_table <- function(df_f1) {
   if (nrow(df_f1) == 0) {
@@ -203,6 +221,7 @@ make_cmd_expression <- function(action, data) {
     "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
     "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
     "#SUMVAR" = rlang::expr(cmd_sumvar(df, !!!data)),
+    "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
     "#NEWLAB" = rlang::expr(cmd_set_lab(df, !!!data)),
     "#VARL"   = rlang::expr(cmd_set_lab(df, !!!data)),
     "#VALL"   = rlang::expr(cmd_set_labs(df, !!!data)),

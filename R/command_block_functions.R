@@ -1,3 +1,20 @@
+#' Rename variable variable orig_var in dataframe df
+#'
+#' @param df dataframe
+#' @param orig_var character string of (labelled) variable in `df`
+#' @param new_name character string of new variable name
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' df <- data.frame(x = 1)
+#' df <- cmd_set_lab(df, "x", "x_renamed")
+#' df
+cmd_rename <- function(df, orig_var, new_name){
+  names(df)[names(df) == orig_var] <- new_name
+  df
+}
 #' Set variable label of variable orig_var in dataframe df
 #'
 #' @param df dataframe
