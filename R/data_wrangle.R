@@ -98,14 +98,21 @@ make_varlab_newlab_table <- function(df_varl) {
     tidyr::nest()
 }
 make_varlab_rename_tbl <- function(df_varl) {
-  df_varl %>%
+  df_rename <- df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(new_name) %>%
-    dplyr::mutate(new_var = new_name) %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#RENAME") %>%
+    dplyr::mutate(new_var = new_name) %>%
     dplyr::select(-new_label, -op, -varlab) %>%
-    dplyr::group_by(sheet, action, row, new_var) %>%
+    dplyr::group_by(sheet, action) %>%
+    dplyr::summarise(
+      row = paste(row, collapse = ", "),
+      new_names = list(new_var),
+      new_var = paste(new_var, collapse = ", "),
+      vars = list(var)
+    ) %>%
+    dplyr::group_by(sheet, action, new_var, row) %>%
     tidyr::nest()
 }
 

@@ -8,12 +8,13 @@
 #' @export
 #'
 #' @examples
-#' df <- data.frame(x = 1)
-#' df <- cmd_set_lab(df, "x", "x_renamed")
+#' df <- data.frame(x = 1, y = 2)
+#' df <- cmd_rename(df, c("x", "y"), c("x_renamed", "y_renamed"))
 #' df
-cmd_rename <- function(df, orig_var, new_name){
-  names(df)[names(df) == orig_var] <- new_name
-  df
+cmd_rename <- function(df, orig_vars, new_names){
+  # doesn't work for following functions, if it leads to duplicate names.
+  # names(df)[names(df) == orig_var] <- new_name
+  df %>% dplyr::rename(!!!setNames(orig_vars, new_names))
 }
 #' Set variable label of variable orig_var in dataframe df
 #'

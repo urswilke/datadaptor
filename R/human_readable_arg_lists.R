@@ -20,8 +20,8 @@ transl_human_read_rename <- function(data) {
   d <- data
 
   res <- list(
-    orig_var = d$var[1],
-    new_name = d$new_name[1]
+    orig_vars = d$vars[[1]],
+    new_names = d$new_names[[1]]
   )
   list(res)
 }
