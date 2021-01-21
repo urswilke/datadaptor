@@ -12,7 +12,7 @@ make_assigns_df <- function(verba_file, mapping_verba_sheet) {
 
   read_assigns <- function(sheet_name){
     readxl::read_excel(verba_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
-      dplyr::select(`Orig. Variable`, ID, Antwort, matches("^Zuord "))
+      dplyr::select(`Orig. Variable`, ID, Antwort, dplyr::matches("^Zuord "))
   }
 
 
@@ -111,7 +111,7 @@ un_OT_ize <- function(var_ziel,orig_var){
 make_assigns_cmd_table <- function(df_assigns, df_cats) {
   df_assigns_overview <-
     df_assigns %>%
-    mutate(code_cat_join = ifelse(EFA1MCG2MDG3 == 3, code_assign, NA)) %>%
+    dplyr::mutate(code_cat_join = ifelse(EFA1MCG2MDG3 == 3, code_assign, NA)) %>%
     dplyr::group_by(q_id, var_ziel, EFA1MCG2MDG3, code_cat_join, val_assign) %>%
     dplyr::summarise(id_list = list(as.numeric(DC_ID))) %>%
     dplyr::left_join(df_cats, by = c("q_id", "code_cat_join" = "code")) %>%
@@ -125,33 +125,33 @@ make_assigns_cmd_table <- function(df_assigns, df_cats) {
     dplyr::mutate(assigned_val = val_assign) %>%
     dplyr::group_by(sheet, action, row, new_var, assigned_val) %>%
     tidyr::nest() %>%
-    ungroup()
+    dplyr::ungroup()
   df_assigns_overview
 }
 make_labs_df <- function(df_codestufen, mapping_verba_sheet) {
   make_verbatim_labels <- function(EFA1MCG2MDG3, data) {
     switch (
       EFA1MCG2MDG3,
-      "1" = list(setNames(data$Code, data$Beschreibung)),
-      "2" = list(setNames(data$Code, data$Beschreibung)),
-      "3" = tibble(code = data$Code, varlab = data$Beschreibung),
+      "1" = list(purrr::set_names(data$Code, data$Beschreibung)),
+      "2" = list(purrr::set_names(data$Code, data$Beschreibung)),
+      "3" = tibble::tibble(code = data$Code, varlab = data$Beschreibung),
       stop("Invalid EFA1MCG2MDG3 code")
     )
   }
 
   df_labs <- df_codestufen %>%
-    group_by(q_id) %>%
-    nest() %>%
-    left_join(mapping_verba_sheet %>%
-                select(q_id = `Tabellen-blatt`, EFA1MCG2MDG3) %>%
-                distinct(q_id, .keep_all = TRUE),
+    dplyr::group_by(q_id) %>%
+    tidyr::nest() %>%
+    dplyr::left_join(mapping_verba_sheet %>%
+                dplyr::select(q_id = `Tabellen-blatt`, EFA1MCG2MDG3) %>%
+                dplyr::distinct(q_id, .keep_all = TRUE),
               by = "q_id") %>%
-    summarise(vallab = map2(EFA1MCG2MDG3, data, make_verbatim_labels),
+    dplyr::summarise(vallab = purrr::map2(EFA1MCG2MDG3, data, make_verbatim_labels),
               .groups = "drop") %>%
     # due to the structure of the mixed output of make_verbatim_labels(), of lists
     # and tibbles, this unnests the tibbles (containing code and varlab columns),
     # and doesn't change the named vallab lists:
-    unnest(vallab)
+    tidyr::unnest(vallab)
   df_labs
 }
 
