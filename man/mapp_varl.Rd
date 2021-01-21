@@ -18,6 +18,8 @@ mapp_varl(filename, sheet = "Variables", translate_xlsm = FALSE)
 Extract variable label sheet of Excel mapping file to dataframe
 }
 \examples{
-mapp_create(fake_survey, "mapping.xlsx")
-mapp_varl("mapping.xlsx")
+# create empty template from labelled dataset `fake_survey` via:
+# mapp_create(fake_survey, "mapping.xlsx")
+mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapp_varl(mapping_filepath)
 }

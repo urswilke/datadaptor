@@ -7,7 +7,11 @@
 cmd_rec(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs)
 }
 \arguments{
-\item{orig_var}{numeric variable to recode}
+\item{df}{dataframe}
+
+\item{orig_var}{character string of numeric variable name to recode}
+
+\item{new_var}{character string of the name of the recoded variable}
 
 \item{new_lab}{new variable label}
 
@@ -35,7 +39,14 @@ lb = c(1, 3, 4)
 ub = c(2, NA, 5)
 new_vals <- 1:3
 new_labs <- c("1 - 2", "3", "4 - 5")
-df <- cmd_rec(df, orig_var = "orig_var", new_var = "new_var", lb = lb, ub = ub, new_vals = new_vals, new_labs = new_labs)
+df <- cmd_rec(df,
+  orig_var = "orig_var",
+  new_var = "new_var",
+  lb = lb,
+  ub = ub,
+  new_vals = new_vals,
+  new_labs = new_labs
+)
 df
 df$new_var
 }

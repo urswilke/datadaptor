@@ -57,8 +57,10 @@ mapp_create <- function(df_raw, filename) {
 #' @export
 #'
 #' @examples
-#' mapp_create(fake_survey, "mapping.xlsx")
-#' mapp_varl("mapping.xlsx")
+#' # create empty template from labelled dataset `fake_survey` via:
+#' # mapp_create(fake_survey, "mapping.xlsx")
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapp_varl(mapping_filepath)
 mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
   df_varl <- readxl::read_xlsx(
     filename,
@@ -89,8 +91,10 @@ mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
 #' @export
 #'
 #' @examples
-#' mapp_create(fake_survey, "mapping.xlsx")
-#' mapp_vall("mapping.xlsx")
+#' # create empty template from labelled dataset `fake_survey` via:
+#' # mapp_create(fake_survey, "mapping.xlsx")
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapp_vall(mapping_filepath)
 mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
   df_vall <- readxl::read_xlsx(
     filename,
@@ -122,8 +126,10 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
 #' @export
 #'
 #' @examples
-#' mapp_create(fake_survey, "mapping.xlsx")
-#' mapp_free1("mapping.xlsx")
+#' # create empty template from labelled dataset `fake_survey` via:
+#' # mapp_create(fake_survey, "mapping.xlsx")
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapp_free1(mapping_filepath)
 mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(
     filename,

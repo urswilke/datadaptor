@@ -1,8 +1,8 @@
 #' Rename variable variable orig_var in dataframe df
 #'
 #' @param df dataframe
-#' @param orig_var character string of (labelled) variable in `df`
-#' @param new_name character string of new variable name
+#' @param orig_vars character vector of variable names in `df`
+#' @param new_names character vector of new variable names (has to be of the same length as `origvars`)
 #'
 #' @return
 #' @export
@@ -42,7 +42,9 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #'
 #' @param df dataframe
 #' @param orig_var character string of (labelled) variable in df
-#' @param new_label character string of new label
+#' @param new_lab character string of the new variable label
+#' @param new_vals numeric vector containing the labelled values of the variable
+#' @param new_labs character vector of the new value labels
 #'
 #' @return
 #' @export
@@ -170,7 +172,7 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' @param new_var name of new recoded variable (character string)
 #' @param orig_var name of original variable (character string)
 #' @param new_lab string of variable label
-#' @param orig_vals
+#' @param orig_vals numeric vector of the values of the original variable to be recoded
 #' @param new_vals numeric vector of labelled values of new recoded variable
 #' @param new_labs character vector of value labels of new recoded variable
 #'
@@ -216,7 +218,9 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 
 #' Recode variable
 #'
-#' @param orig_var numeric variable to recode
+#' @param df dataframe
+#' @param orig_var character string of numeric variable name to recode
+#' @param new_var character string of the name of the recoded variable
 #' @param new_lab new variable label
 #' @param lb vector of lower bounds of intervals
 #' @param ub vector of upper bounds of intervals (missing values are replaced by the corresponding values of \code{ub})
@@ -236,7 +240,14 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 #' ub = c(2, NA, 5)
 #' new_vals <- 1:3
 #' new_labs <- c("1 - 2", "3", "4 - 5")
-#' df <- cmd_rec(df, orig_var = "orig_var", new_var = "new_var", lb = lb, ub = ub, new_vals = new_vals, new_labs = new_labs)
+#' df <- cmd_rec(df,
+#'   orig_var = "orig_var",
+#'   new_var = "new_var",
+#'   lb = lb,
+#'   ub = ub,
+#'   new_vals = new_vals,
+#'   new_labs = new_labs
+#' )
 #' df
 #' df$new_var
 cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {

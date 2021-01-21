@@ -18,6 +18,8 @@ mapp_vall(filename, sheet = "Label", translate_xlsm = FALSE)
 Extract value label sheet of Excel mapping file to dataframe
 }
 \examples{
-mapp_create(fake_survey, "mapping.xlsx")
-mapp_vall("mapping.xlsx")
+# create empty template from labelled dataset `fake_survey` via:
+# mapp_create(fake_survey, "mapping.xlsx")
+mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapp_vall(mapping_filepath)
 }

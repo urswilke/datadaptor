@@ -18,6 +18,8 @@ mapp_free1(filename, sheet = "Free1", translate_xlsm = FALSE)
 Extract free1 sheet of Excel mapping file to dataframe
 }
 \examples{
-mapp_create(fake_survey, "mapping.xlsx")
-mapp_free1("mapping.xlsx")
+# create empty template from labelled dataset `fake_survey` via:
+# mapp_create(fake_survey, "mapping.xlsx")
+mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapp_free1(mapping_filepath)
 }

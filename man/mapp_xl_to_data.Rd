@@ -61,7 +61,12 @@ mapp_xl_to_data(df, mapping_filepath)
 # For the option input_if_error = TRUE to work, the following object
 # `error_list` has to be created beforehand:
 error_list <- character()
-df_mod_list <- mapp_xl_to_data(df, mapping_filepath, input_if_error = TRUE, rec_fun = purrr::accumulate2)
+df_mod_list <- mapp_xl_to_data(
+  df,
+  mapping_filepath,
+  input_if_error = TRUE,
+  rec_fun = purrr::accumulate2
+)
 error_list
 
 # Add further columns to df_cmd:

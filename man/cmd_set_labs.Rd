@@ -17,7 +17,11 @@ cmd_set_labs(
 
 \item{orig_var}{character string of (labelled) variable in df}
 
-\item{new_label}{character string of new label}
+\item{new_lab}{character string of the new variable label}
+
+\item{new_vals}{numeric vector containing the labelled values of the variable}
+
+\item{new_labs}{character vector of the new value labels}
 }
 \value{
 

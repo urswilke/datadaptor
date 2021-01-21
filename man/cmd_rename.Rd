@@ -9,9 +9,9 @@ cmd_rename(df, orig_vars, new_names)
 \arguments{
 \item{df}{dataframe}
 
-\item{orig_var}{character string of (labelled) variable in \code{df}}
+\item{orig_vars}{character vector of variable names in \code{df}}
 
-\item{new_name}{character string of new variable name}
+\item{new_names}{character vector of new variable names (has to be of the same length as \code{origvars})}
 }
 \value{
 

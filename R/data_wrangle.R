@@ -159,6 +159,7 @@ make_free_cmd_table <- function(df_f1) {
 #'
 #' @param filename filename of the Excel mapping file
 #' @param add_r_command_colum logical, whether to add a column `"R command"`
+#' @param translate_xlsm logical, whether to translate from Wolf's format
 #' specifying the corresponding R command; defaults to FALSE
 #'
 #' @return
@@ -307,7 +308,12 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' # For the option input_if_error = TRUE to work, the following object
 #' # `error_list` has to be created beforehand:
 #' error_list <- character()
-#' df_mod_list <- mapp_xl_to_data(df, mapping_filepath, input_if_error = TRUE, rec_fun = purrr::accumulate2)
+#' df_mod_list <- mapp_xl_to_data(
+#'   df,
+#'   mapping_filepath,
+#'   input_if_error = TRUE,
+#'   rec_fun = purrr::accumulate2
+#' )
 #' error_list
 #'
 #' # Add further columns to df_cmd:

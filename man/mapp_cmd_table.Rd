@@ -10,7 +10,9 @@ mapp_cmd_table(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE)
 \arguments{
 \item{filename}{filename of the Excel mapping file}
 
-\item{add_r_command_colum}{logical, whether to add a column \code{"R command"}
+\item{add_r_command_colum}{logical, whether to add a column \code{"R command"}}
+
+\item{translate_xlsm}{logical, whether to translate from Wolf's format
 specifying the corresponding R command; defaults to FALSE}
 }
 \value{

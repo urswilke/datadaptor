@@ -23,6 +23,8 @@ cmd_sumvar(
 
 \item{new_lab}{string of variable label}
 
+\item{orig_vals}{numeric vector of the values of the original variable to be recoded}
+
 \item{new_vals}{numeric vector of labelled values of new recoded variable}
 
 \item{new_labs}{character vector of value labels of new recoded variable}
