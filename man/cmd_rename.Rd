@@ -4,7 +4,7 @@
 \alias{cmd_rename}
 \title{Rename variable variable orig_var in dataframe df}
 \usage{
-cmd_rename(df, orig_var, new_name)
+cmd_rename(df, orig_vars, new_names)
 }
 \arguments{
 \item{df}{dataframe}
@@ -20,7 +20,7 @@ cmd_rename(df, orig_var, new_name)
 Rename variable variable orig_var in dataframe df
 }
 \examples{
-df <- data.frame(x = 1)
-df <- cmd_set_lab(df, "x", "x_renamed")
+df <- data.frame(x = 1, y = 2)
+df <- cmd_rename(df, c("x", "y"), c("x_renamed", "y_renamed"))
 df
 }
