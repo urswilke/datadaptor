@@ -178,6 +178,16 @@ make_free_cmd_table <- function(df_f1) {
 mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
   sheets <- filename %>% readxl::excel_sheets()
 
+  # exchange positions of "Variables" & "Label" sheets (because otherwise,
+  # renaming a variable in the "Variables" sheet will not work when creating a
+  # summary variable out of it):
+  if ("Variables" %in% sheets & "Label" %in% sheets) {
+    var_index <- which(sheets == "Variables")
+    lab_index <- which(sheets == "Label")
+    sheets[var_index] <- "Label"
+    sheets[lab_index] <- "Variables"
+  }
+
   sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
 
   # vector of sheets with names defined by types:
