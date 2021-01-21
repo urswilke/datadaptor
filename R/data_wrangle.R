@@ -128,6 +128,11 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::mutate(sheet = "Free1") %>%
     dplyr::select(-index) %>%
+    mutate(X2 = ifelse(
+      X1 == "#VARL" & str_detect(X2, " ") & str_detect(X2, "\\{", negate = TRUE),
+      paste0("{", X2, "}"),
+      X2
+    )) %>%
     sevif() %>%
     dplyr::group_by(action, row)
   res %>%
