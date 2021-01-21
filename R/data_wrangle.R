@@ -33,7 +33,7 @@ extract_sev_lists <- function(var) {
 #' df_free <- data.frame(X1 = "#IF", X2 = "q{2 3} == 1", X3 = "kq{5 6} = {7 8}")
 #' severalize(df_free)
 severalize <- function(df_f1) {
-  if (!is.na(df_f1$X1) & stringr::str_detect(df_f1$X1, "(^#IF|^#COMP)")) {
+  if (!is.na(df_f1$X1) & stringr::str_detect(df_f1$X1, "(^#IF|^#COMP|^#VARL)")) {
     df_f1 %>%
       dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
       dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>%
