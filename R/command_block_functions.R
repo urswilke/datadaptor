@@ -285,8 +285,8 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
 cmd_comp <- function(df, new_var, new_val) {
   # transforms numeric values from character to numeric:
   new_val <- rlang::parse_expr(new_val)
-
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
+  # as.numeric() is needed if new_val is a condition which haven doesn't accept
+  df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val %>% as.numeric())
 }
 
 
