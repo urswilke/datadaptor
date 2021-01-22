@@ -126,7 +126,7 @@ transl_human_read_verbatim <- function(data) {
     res <- list(
     var_ziel = d$var_ziel,
     val_assign  = d$val_assign,
-    varlab = d$varlab,
+    varlab = d$varlab[[1]],
     vallab  = d$vallab[[1]],
     id = d$id_var_str,
     id_list = d$id_list[[1]]

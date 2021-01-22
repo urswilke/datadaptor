@@ -107,7 +107,8 @@ make_mdg_assignment_table <- function(i_l) {
         Code %>% as.character()
       )
     ) %>%
-    dplyr::rename(varlab = lab)
+    dplyr::rename(varlab = lab) %>%
+    dplyr::mutate(varlab = as.list(varlab))
   df_assigns <- i_l$assignments %>%
     tidyr::gather(i_assign, code_assign, dplyr::starts_with("Zuord")) %>%
     dplyr::select(-i_assign) %>%
@@ -146,7 +147,9 @@ make_mcg_assignment_table <- function(i_l) {
     ) %>%
     dplyr::ungroup() %>%
     dplyr::mutate(
-      vallab = rep(list(vallabs), nrow(.))) %>%
+      varlab = rep(list(NULL), nrow(.)),
+      vallab = rep(list(vallabs), nrow(.))
+    ) %>%
     dplyr::select(-i_assign)
   df_assigns
 }
