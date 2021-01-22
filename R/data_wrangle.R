@@ -231,7 +231,7 @@ make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name, translate_xlsm
           "Variables" = mapp_varl(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_varlab_cmd_table(),
           "Label" = mapp_vall(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_sumvar_cmd_table(),
           "Free" = mapp_free1(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_free_cmd_table(),
-          "Verbatims" = make_verbatim_cmd_table(filename, sheet = sheet_name)
+          "Verbatims" = make_verba_cmd_tbl(filename, sheet = sheet_name)
   )
 
 }
