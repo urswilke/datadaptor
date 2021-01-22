@@ -124,6 +124,12 @@ make_mdg_assignment_table <- function(i_l) {
     dplyr::select(-code_assign)
   df_assigns
 }
+make_efa_assignment_table <- function(i_l) {
+  # in case multiple "Zuord" columns occur in assignment data, code would break
+  # and only the first is needed:
+  i_l$assignments <- i_l$assignments %>% select(1:3)
+  make_mcg_assignment_table(i_l)
+}
 make_mcg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   vallabs <- i_l$labs[[1]] %>% relocate(2) %>% deframe()
@@ -146,7 +152,7 @@ make_mcg_assignment_table <- function(i_l) {
 }
 translate_verba_line <- function(verba_type, verba_data) {
   switch (verba_type,
-          "1" = make_mcg_assignment_table(verba_data),
+          "1" = make_efa_assignment_table(verba_data),
           "2" = make_mcg_assignment_table(verba_data),
           "3" = make_mdg_assignment_table(verba_data),
           stop("Invalid verbatim type code.")
