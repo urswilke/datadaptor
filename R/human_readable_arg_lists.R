@@ -128,6 +128,7 @@ transl_human_read_verbatim <- function(data) {
     val_assign  = d$val_assign,
     varlab = d$varlab,
     vallab  = d$vallab[[1]],
+    id = d$id_var_str,
     id_list = d$id_list[[1]]
   )
   list(res)

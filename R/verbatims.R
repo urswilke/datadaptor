@@ -155,14 +155,20 @@ make_verbatim_assignment_table_raw <- function(l){
   map2(verba_types, l, translate_verba_line) %>%
     bind_rows(.id = "row")
 }
-make_verba_cmd_tbl <- function(map_file, verba_file = mapp_extract_verbatim_file(map_file, sheet), sheet = "Verbatims") {
+make_verba_cmd_tbl <- function(
+  map_file,
+  verba_file = mapp_extract_verbatim_file(map_file, sheet),
+  sheet = "Verbatims",
+  id_var_str
+  ) {
   l <- make_verba_data_raw(map_file, verba_file, sheet)
   make_verbatim_assignment_table_raw(l) %>%
     mutate(
       action = "#Verba",
       new_var = var_ziel,
       sheet = sheet,
-      val_assign_temp = val_assign
+      val_assign_temp = val_assign,
+      id_var_str = id_var_str
     ) %>%
     group_by(sheet, action, row, new_var, val_assign_temp) %>%
     nest() %>%

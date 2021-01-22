@@ -176,6 +176,9 @@ make_free_cmd_table <- function(df_f1) {
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
+  id_var_str <- mapp_configr(mapping_filepath) %>% filter(item == "id_var") %>% pull(value)
+
+
   sheets <- filename %>% readxl::excel_sheets()
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
@@ -210,7 +213,7 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ make_sheet_cmd_table(filename, .y, .x, translate_xlsm = translate_xlsm),
+    ~ make_sheet_cmd_table(filename, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var_str),
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
@@ -226,12 +229,12 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
   }
   df_cmd
 }
-make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name, translate_xlsm) {
+make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
   switch (sheet_cat,
           "Variables" = mapp_varl(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_varlab_cmd_table(),
           "Label" = mapp_vall(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_sumvar_cmd_table(),
           "Free" = mapp_free1(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_free_cmd_table(),
-          "Verbatims" = make_verba_cmd_tbl(filename, sheet = sheet_name)
+          "Verbatims" = make_verba_cmd_tbl(filename, sheet = sheet_name, id_var_str = id_var_str)
   )
 
 }

@@ -324,13 +324,14 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' @export
 #'
 #' @examples
-#' df <- data.frame(id = 1:5)
+#' df <- data.frame(id_var = 1:5)
 #' df <- cmd_verba(
 #'   df,
 #'   var_ziel = "new_var",
 #'   val_assign = 2,
 #'   varlab = "variable label",
 #'   vallab = c("assigned value" = 2),
+#'   id = "id_var",
 #'   id_list = c(1, 3, 4)
 #' )
 #' df
