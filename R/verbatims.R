@@ -110,7 +110,7 @@ make_mdg_assignment_table <- function(i_l) {
     dplyr::select(-i_assign) %>%
     tidyr::drop_na() %>%
     group_by(code_assign) %>%
-    summarise(id_list = list(ID)) %>%
+    summarise(id_list = list(unique(ID))) %>%
     full_join(
       df_vars_n_labs,
       by = c("code_assign" = "Code")
