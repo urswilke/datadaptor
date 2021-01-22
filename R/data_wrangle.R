@@ -130,7 +130,7 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::select(-index) %>%
     # transform X2 containing spaces to severalize()able (surrounded by curly braces):
     dplyr::mutate(X2 = ifelse(
-      X1 == "#VARL" & str_detect(X2, " ") & str_detect(X2, "\\{", negate = TRUE),
+      X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
       paste0("{", X2, "}"),
       X2
     )) %>%
