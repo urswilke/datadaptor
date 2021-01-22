@@ -303,11 +303,19 @@ cmd_comp <- function(df, new_var, new_val) {
 #'
 #' @examples
 #' cmd_if(data.frame(x = 1:3), "y", "x == 3", "2")
+#' # If the condition is not true, the previous values are kept, if existing:
+#' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
 cmd_if <- function(df, new_var, condition, new_val) {
+  if (new_var %in% names(df)) {
+    old_val <- rlang::sym(new_var)
+  }
+  else {
+    old_val <- rlang::quo(NA_real_)
+  }
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
 
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(!!cond, !!val, NA_real_))
+  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(!!cond, !!val, !!old_val))
 }
 
 #' Assign a value to a variable in a dataframe at specified ids

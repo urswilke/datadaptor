@@ -24,4 +24,6 @@ Conditional computing of a variable in a dataframe
 }
 \examples{
 cmd_if(data.frame(x = 1:3), "y", "x == 3", "2")
+# If the condition is not true, the previous values are kept, if existing:
+cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
 }
