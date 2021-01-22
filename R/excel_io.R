@@ -205,9 +205,9 @@ replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
 }
 delete_empty_X1_not_multiline <- function(df_f1) {
   df_f1 %>%
-    mutate(temp = str_detect(X1, "^#VALL$|^#REC$|^#AVALL$", negate = T)) %>%
-    fill(temp) %>%
-    mutate(temp = temp & is.na(X1)) %>%
-    filter(!temp) %>%
-    select(-temp)
+    dplyr::mutate(temp = stringr::str_detect(X1, "^#VALL$|^#REC$|^#AVALL$", negate = T)) %>%
+    tidyr::fill(temp) %>%
+    dplyr::mutate(temp = temp & is.na(X1)) %>%
+    dplyr::filter(!temp) %>%
+    dplyr::select(-temp)
 }

@@ -14,7 +14,7 @@
 cmd_rename <- function(df, orig_vars, new_names){
   # doesn't work for following functions, if it leads to duplicate names.
   # names(df)[names(df) == orig_var] <- new_name
-  df %>% dplyr::rename(!!!setNames(orig_vars, new_names))
+  df %>% dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
 }
 #' Set variable label of variable orig_var in dataframe df
 #'

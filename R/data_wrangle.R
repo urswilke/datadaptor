@@ -128,7 +128,8 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::mutate(sheet = "Free1") %>%
     dplyr::select(-index) %>%
-    mutate(X2 = ifelse(
+    # transform X2 containing spaces to severalize()able (surrounded by curly braces):
+    dplyr::mutate(X2 = ifelse(
       X1 == "#VARL" & str_detect(X2, " ") & str_detect(X2, "\\{", negate = TRUE),
       paste0("{", X2, "}"),
       X2
@@ -176,7 +177,7 @@ make_free_cmd_table <- function(df_f1) {
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
-  id_var_str <- mapp_configr(filename) %>% filter(item == "id_var") %>% pull(value)
+  id_var_str <- mapp_configr(filename) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
 
 
   sheets <- filename %>% readxl::excel_sheets()
@@ -379,7 +380,7 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
     df_new_labels <- tibble::tibble(name = character(), value = numeric())
   }
   labels_vec <- dplyr::full_join(
-    setNames(replace_val, replace_label) %>% tibble::enframe(),
+    purrr::set_names(replace_val, replace_label) %>% tibble::enframe(),
     df_new_labels,
     by = c("name", "value")
   ) %>% dplyr::distinct(value, .keep_all = T) %>%
