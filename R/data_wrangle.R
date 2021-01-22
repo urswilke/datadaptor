@@ -176,7 +176,7 @@ make_free_cmd_table <- function(df_f1) {
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
-  id_var_str <- mapp_configr(mapping_filepath) %>% filter(item == "id_var") %>% pull(value)
+  id_var_str <- mapp_configr(filename) %>% filter(item == "id_var") %>% pull(value)
 
 
   sheets <- filename %>% readxl::excel_sheets()
