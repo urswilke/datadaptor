@@ -6,6 +6,8 @@ make_verba_sheet_df <- function(map_file, sheet) {
                        col_names = TRUE) %>%
     tidyr::drop_na(VariableOriginal) %>%
     dplyr::select(VariableOriginal:`Tabellen-blatt`, VariableZiel) %>%
+    # HACK!!! TODO: replace with general regex
+    mutate(VariableZiel = un_OT_ize(VariableZiel, VariableOriginal) %>% un_OT_ize(VariableOriginal) %>% un_OT_ize(VariableOriginal)) %>%
     relocate(q_id = `Tabellen-blatt`)
   mapping_verba_sheet
 }
