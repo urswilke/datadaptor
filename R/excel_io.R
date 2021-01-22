@@ -168,12 +168,12 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
       dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
       dplyr::mutate(row = dplyr::row_number()) %>%
       dplyr::mutate(X2 = ifelse(
-        X1 == "#IF",
+        X1 %in% "#IF",
         replace_single_equals_sign(X2),
         X2
       )) %>%
       dplyr::mutate(X3 = ifelse(
-        X1 == "#COMP",
+        X1 %in% "#COMP",
         replace_single_equals_sign(X3),
         X3
       ))
