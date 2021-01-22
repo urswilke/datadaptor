@@ -56,6 +56,7 @@ make_codestufen_list <- function(verba_file) {
       col_names = TRUE,
       range = cellranger::cell_limits(ul = c(1, 2))
     ) %>%
+    mutate_all(~ ifelse(. == "<reserved>", NA, .)) %>%
     dplyr::mutate(Code = dplyr::row_number()) %>%
     relocate(Code)
   2:length(df_codestufen) %>%
