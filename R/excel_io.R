@@ -168,6 +168,7 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
       dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
       dplyr::mutate(row = dplyr::row_number()) %>%
       replace_single_equals_sign_IF_AND_COMP() %>%
+      delete_empty_X1_not_multiline()
   }
   else {
     df_free <-
@@ -202,4 +203,11 @@ replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
       X3
     ))
 }
+delete_empty_X1_not_multiline <- function(df_f1) {
+  df_f1 %>%
+    mutate(temp = str_detect(X1, "^#VALL$|^#REC$|^#AVALL$", negate = T)) %>%
+    fill(temp) %>%
+    mutate(temp = temp & is.na(X1)) %>%
+    filter(!temp) %>%
+    select(-temp)
 }
