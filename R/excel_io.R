@@ -156,8 +156,7 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
 mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(
     filename,
-    sheet = sheet,
-    range = cellranger::cell_cols("A:E"),
+    range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"
   )
@@ -165,8 +164,8 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
     df_free <- df_free %>%
       dplyr::select(1:5) %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
-      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
       dplyr::mutate(row = dplyr::row_number()) %>%
+      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
       replace_single_equals_sign_IF_AND_COMP() %>%
       delete_empty_X1_not_multiline()
   }
