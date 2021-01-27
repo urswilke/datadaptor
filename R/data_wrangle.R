@@ -76,7 +76,8 @@ make_sumvar_cmd_table <- function(df_vall) {
     dplyr::mutate(action = "#SUMVAR") %>%
     dplyr::relocate(sheet, action)  %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
-    tidyr::nest()
+    tidyr::nest() %>%
+    dplyr::ungroup()
 }
 
 make_varlab_cmd_table <- function(df_varl) {
@@ -95,7 +96,8 @@ make_varlab_newlab_table <- function(df_varl) {
     dplyr::mutate(action = "#NEWLAB") %>%
     dplyr::select(-new_name, -op) %>%
     dplyr::group_by(sheet, action, row, new_var) %>%
-    tidyr::nest()
+    tidyr::nest() %>%
+    dplyr::ungroup()
 }
 make_varlab_rename_tbl <- function(df_varl) {
   df_rename <- df_varl %>%
@@ -113,7 +115,8 @@ make_varlab_rename_tbl <- function(df_varl) {
       vars = list(var)
     ) %>%
     dplyr::group_by(sheet, action, new_var, row) %>%
-    tidyr::nest()
+    tidyr::nest() %>%
+    dplyr::ungroup()
 }
 
 make_free_cmd_table <- function(df_f1) {
