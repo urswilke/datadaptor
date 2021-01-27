@@ -6,7 +6,7 @@ extract_sev_lists <- function(var) {
     purrr::map(~stringr::str_remove_all(.x, "[\\{\\}]")) %>%
     stringr::str_squish() %>%
     stringr::str_split(" +", simplify = T) %>%
-    tibble::as_tibble(.name_repair = "unique")
+    tibble::as_tibble(.name_repair = "minimal")
 
   replace_1curly <- function(orig_str, replacement) stringr::str_replace(orig_str,  "\\{.+?\\}", replacement)
   replace_all_curlies <- function(orig_str, l_1sev_parts) purrr::reduce(l_1sev_parts, replace_1curly, .init = orig_str)
