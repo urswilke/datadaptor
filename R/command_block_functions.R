@@ -51,7 +51,7 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #'
 #' @examples
 #' df <- data.frame(x = 1:2)
-#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("value for 1", "value for 2"))
+#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 #' df$x
 cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact = TRUE), new_vals, new_labs){
   df[[orig_var]] <- haven::labelled(
@@ -74,9 +74,9 @@ cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact =
 #' @export
 #'
 #' @examples
-#' x <- haven::labelled(1:2, labels = c("value for 1" = 1), label = "var label")
+#' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 #' df <- data.frame(x)
-#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("value for 2"))
+#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
 #' df$x
 cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
   labs <- c(attr(df[[orig_var]], "labels") %>% names(), labs_added)
