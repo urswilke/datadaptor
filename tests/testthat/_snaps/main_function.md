@@ -1,4 +1,4 @@
-# main function works
+# main function reproduces snapshot
 
     # A tibble: 100 x 42
              q1 q2_renamed      q3 q4_renamed       q5    id q6    q7         kq1
@@ -22,4 +22,22 @@
     #   q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>, abc <dbl>,
     #   kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>, n <dbl+lbl>, a1 <dbl+lbl>,
     #   a2 <dbl+lbl>, free2_var <dbl>
+
+# mapp_cmd_table() reproduces snapshot
+
+    # A tibble: 53 x 6
+    # Rowwise: 
+       sheet    action  row         new_var            data          sev_command_row
+       <chr>    <chr>   <chr>       <chr>              <list>                  <int>
+     1 Label    #SUMVAR 2, 3, 4, 5~ kq1                <named list ~              NA
+     2 Variabl~ #RENAME 3, 5        q2_renamed, q4_re~ <named list ~              NA
+     3 Variabl~ #NEWLAB 2           q1                 <named list ~              NA
+     4 Variabl~ #NEWLAB 3           q2_renamed         <named list ~              NA
+     5 Variabl~ #NEWLAB 6           q5                 <named list ~              NA
+     6 Verbati~ #Verba  1           q6n                <named list ~              NA
+     7 Verbati~ #Verba  1           q6n                <named list ~              NA
+     8 Verbati~ #Verba  1           q6n                <named list ~              NA
+     9 Verbati~ #Verba  2           q7n                <named list ~              NA
+    10 Verbati~ #Verba  2           q7n                <named list ~              NA
+    # ... with 43 more rows
 
