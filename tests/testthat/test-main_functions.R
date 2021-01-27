@@ -4,12 +4,12 @@ mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpas
 
 test_that("main function reproduces snapshot", {
   df_mod <- mapp_xl_to_data(df, mapping_filepath)
-  testthat::expect_snapshot_output(df_mod)
+  testthat::expect_snapshot_output(df_mod %>% str())
 })
 
 
 test_that("mapp_cmd_table() reproduces snapshot", {
   df_cmd <- mapp_cmd_table(mapping_filepath)
-  testthat::expect_snapshot_output(df_cmd)
+  testthat::expect_snapshot_output(df_cmd %>% str())
 })
 
