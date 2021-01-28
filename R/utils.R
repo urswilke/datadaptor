@@ -10,6 +10,8 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
       tibble::enframe(),
     df_new_labels,
     by = c("name", "value")
-  ) %>% dplyr::distinct(value, .keep_all = T) %>%
+  ) %>%
+    dplyr::distinct(value, .keep_all = T) %>%
+    dplyr::arrange(value) %>%
     tibble::deframe()
 }
