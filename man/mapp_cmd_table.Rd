@@ -28,6 +28,10 @@ Excel mapping file
 }
 \examples{
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+# open this Excel file (that comes with the package) via:
+\dontrun{
+utils::browseURL(mapping_filepath)
+}
 mapp_cmd_table(mapping_filepath)
 # Add column for R command:
 mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)

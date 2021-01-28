@@ -27,5 +27,9 @@ Extract value label sheet of Excel mapping file to dataframe
 # create empty template from labelled dataset `fake_survey` via:
 # mapp_create(fake_survey, "mapping.xlsx")
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+# open this Excel file (that comes with the package) via:
+\dontrun{
+utils::browseURL(mapping_filepath)
+}
 mapp_vallab_sheet_cmd_table(mapping_filepath)
 }

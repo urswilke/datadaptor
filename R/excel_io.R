@@ -59,6 +59,10 @@ mapp_create <- function(df_raw, mapping_file) {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_filepath)
+#' }
 #' mapp_configr(mapping_filepath)
 mapp_configr <- function(mapping_file, sheet = "configr") {
   df_config <- readxl::read_xlsx(
@@ -85,6 +89,10 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_filepath)
+#' }
 #' mapp_var_sheet_cmd_table(mapping_filepath)
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   df_varl <- readxl::read_xlsx(
@@ -166,6 +174,10 @@ make_varlab_rename_tbl <- function(df_varl) {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_filepath)
+#' }
 #' mapp_vallab_sheet_cmd_table(mapping_filepath)
 mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
   df_vall <- readxl::read_xlsx(
@@ -223,6 +235,10 @@ make_sumvar_cmd_table <- function(df_vall) {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_filepath)
+#' }
 #' mapp_free_sheet_cmd_table(mapping_filepath)
 mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(

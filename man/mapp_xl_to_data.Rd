@@ -54,6 +54,10 @@ spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpas
 df <- haven::read_sav(spss_filepath)
 
 mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+# open this Excel file (that comes with the package) via:
+\dontrun{
+utils::browseURL(mapping_filepath)
+}
 # This command creates an overview table:
 df_cmd <- mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 

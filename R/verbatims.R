@@ -1,7 +1,7 @@
 #' Extract verbatim sheet related data of Excel mapping file to dataframe
 #'
 #' @param mapping_file name of the Excel mapping file
-#' @param  sheet name of the sheet in the Excel mapping file
+#' @param sheet name of the sheet in the Excel mapping file
 #' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #' @param verba_file character string of the name of the Verbatim file
 #' @param id_var_str character string of the name of the id variable in the data file
@@ -12,6 +12,11 @@
 #' @examples
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' verbatim_filepath <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = "datenanpassr")
+#' # open these Excel files (that come with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_filepath)
+#' utils::browseURL(verbatim_filepath)
+#' }
 #' mapp_verbatim_sheet_cmd_tbl(mapping_filepath, verba_file = verbatim_filepath, id = "id")
 mapp_verbatim_sheet_cmd_tbl <- function(
   mapping_file,
