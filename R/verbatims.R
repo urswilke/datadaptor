@@ -1,3 +1,39 @@
+#' Extract verbatim sheet related data of Excel mapping file to dataframe
+#'
+#' @param mapping_file name of the Excel mapping file
+#' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
+#' @param verba_file character string of the name of the Verbatim file
+#' @param id_var_str character string of the name of the id variable in the data file
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' verbatim_filepath <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = "datenanpassr")
+#' mapp_verbatim_sheet_cmd_tbl(mapping_filepath, verba_file = verbatim_filepath, id = "id")
+mapp_verbatim_sheet_cmd_tbl <- function(
+  mapping_file,
+  verba_file = extract_verbatim_file_name(mapping_file, sheet),
+  sheet = "Verbatims",
+  id_var_str
+) {
+  l <- make_verba_data_raw(mapping_file, verba_file, sheet)
+  make_verbatim_assignment_table_raw(l) %>%
+    dplyr::mutate(
+      action = "#Verba",
+      new_var = var_ziel,
+      sheet = sheet,
+      val_assign_temp = val_assign,
+      id_var_str = id_var_str
+    ) %>%
+    dplyr::group_by(sheet, action, row, new_var, val_assign_temp) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-val_assign_temp)
+}
+
 make_verba_sheet_df <- function(mapping_file, sheet) {
   mapping_verba_sheet <-
     readxl::read_excel(mapping_file,
@@ -166,24 +202,4 @@ make_verbatim_assignment_table_raw <- function(l){
   verba_types <- l %>% purrr::map_dbl(purrr::chuck, "meta", "EFA1MCG2MDG3")
   purrr::map2(verba_types, l, translate_verba_line) %>%
     dplyr::bind_rows(.id = "row")
-}
-mapp_verbatim_sheet_cmd_tbl <- function(
-  mapping_file,
-  verba_file = extract_verbatim_file_name(mapping_file, sheet),
-  sheet = "Verbatims",
-  id_var_str
-  ) {
-  l <- make_verba_data_raw(mapping_file, verba_file, sheet)
-  make_verbatim_assignment_table_raw(l) %>%
-    dplyr::mutate(
-      action = "#Verba",
-      new_var = var_ziel,
-      sheet = sheet,
-      val_assign_temp = val_assign,
-      id_var_str = id_var_str
-    ) %>%
-    dplyr::group_by(sheet, action, row, new_var, val_assign_temp) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-val_assign_temp)
 }
