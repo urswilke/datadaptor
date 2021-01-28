@@ -11,7 +11,7 @@ make_verba_sheet_df <- function(mapping_file, sheet) {
     dplyr::relocate(q_id = `Tabellen-blatt`)
   mapping_verba_sheet
 }
-mapp_extract_verbatim_file <- function(mapping_file, sheet) {
+extract_verbatim_file_name <- function(mapping_file, sheet) {
   file_path <- readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
@@ -167,9 +167,9 @@ make_verbatim_assignment_table_raw <- function(l){
   purrr::map2(verba_types, l, translate_verba_line) %>%
     dplyr::bind_rows(.id = "row")
 }
-mapp_verba_sheet_cmd_tbl <- function(
+mapp_verbatim_sheet_cmd_tbl <- function(
   mapping_file,
-  verba_file = mapp_extract_verbatim_file(mapping_file, sheet),
+  verba_file = extract_verbatim_file_name(mapping_file, sheet),
   sheet = "Verbatims",
   id_var_str
   ) {
