@@ -79,8 +79,10 @@ cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact =
 #' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
 #' df$x
 cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
-  labs <- c(attr(df[[orig_var]], "labels") %>% names(), labs_added)
-  vals <- c(attr(df[[orig_var]], "labels") %>% unname(), vals_added)
+  old_vallab_vec <- attr(df[[orig_var]], "labels")
+  added_vallab_vec <- purrr::set_names(vals_added, labs_added)
+  new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
+
   if(is.null(new_lab))
     varlab <-  attr(df[[orig_var]], "label", exact = TRUE)
   else
@@ -88,7 +90,7 @@ cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
 
   df[[orig_var]] <- haven::labelled(
     df[[orig_var]],
-    labels = purrr::set_names(vals, labs),
+    labels = new_vallab_vec,
     label = varlab
   )
   df
