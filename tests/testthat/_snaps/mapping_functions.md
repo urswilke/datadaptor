@@ -1,4 +1,4 @@
-# main function reproduces snapshot
+# mapping function reproduces snapshot
 
     tibble [100 x 42] (S3: tbl_df/tbl/data.frame)
      $ q1        : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
