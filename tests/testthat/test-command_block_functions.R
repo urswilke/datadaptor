@@ -19,4 +19,8 @@ test_that("cmd_add_labs() works", {
   vallabs <- attr(df$x, "labels", exact = TRUE)
   expect_equal(vallabs, c(vallab1 = 1, vallab2 = 2))
 })
+test_that("cmd_if() works for conditions on all NA vectors", {
+  x_new <- cmd_if(data.frame(x = 1:3, y = NA_real_), "x", "y == 4", "2") %>% dplyr::pull(x)
+  expect_equal(x_new, 1:3)
+})
 
