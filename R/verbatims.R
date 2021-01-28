@@ -167,7 +167,7 @@ make_verbatim_assignment_table_raw <- function(l){
   purrr::map2(verba_types, l, translate_verba_line) %>%
     dplyr::bind_rows(.id = "row")
 }
-make_verba_cmd_tbl <- function(
+mapp_verba_sheet_cmd_tbl <- function(
   mapping_file,
   verba_file = mapp_extract_verbatim_file(mapping_file, sheet),
   sheet = "Verbatims",

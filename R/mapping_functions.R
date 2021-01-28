@@ -69,11 +69,12 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
   df_cmd
 }
 make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
-  switch (sheet_cat,
-          "Variables" = mapp_varl(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_varlab_cmd_table(),
-          "Label" = mapp_vall(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_sumvar_cmd_table(),
-          "Free" = mapp_free1(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_free_cmd_table(),
-          "Verbatims" = make_verba_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
+  switch (
+    sheet_cat,
+    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
+    "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
+    "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
+    "Verbatims" = mapp_verba_sheet_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
   )
 
 }
