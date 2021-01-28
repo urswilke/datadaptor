@@ -8,7 +8,7 @@
 #' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 #'
 #' @param df_raw dataframe with labelled variables, e.g. resulting from haven::read_sav
-#' @param filename name of the Excel file to be created
+#' @param mapping_file name of the Excel file to be created
 #'
 #' @return
 #' @export
@@ -17,7 +17,7 @@
 #' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' df <- haven::read_sav(spss_filepath)
 #' mapp_create(df, "mapping.xlsx")
-mapp_create <- function(df_raw, filename) {
+mapp_create <- function(df_raw, mapping_file) {
 
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
@@ -45,11 +45,11 @@ mapp_create <- function(df_raw, filename) {
   openxlsx::writeData(wb, sheet = "Free1", x = "")
 
   # Export the file
-  openxlsx::saveWorkbook(wb, filename)
+  openxlsx::saveWorkbook(wb, mapping_file)
 }
 #' Extract configr sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
@@ -60,9 +60,9 @@ mapp_create <- function(df_raw, filename) {
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_configr(mapping_filepath)
-mapp_configr <- function(filename, sheet = "configr") {
+mapp_configr <- function(mapping_file, sheet = "configr") {
   df_config <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     sheet = sheet
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
@@ -73,7 +73,7 @@ mapp_configr <- function(filename, sheet = "configr") {
 
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
@@ -84,9 +84,9 @@ mapp_configr <- function(filename, sheet = "configr") {
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_varl(mapping_filepath)
-mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
+mapp_varl <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   df_varl <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     sheet = sheet
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
@@ -107,7 +107,7 @@ mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
 
 #' Extract value label sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
@@ -118,9 +118,9 @@ mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_vall(mapping_filepath)
-mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
+mapp_vall <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
   df_vall <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     sheet = sheet
   )
   if (translate_xlsm) {
@@ -142,7 +142,7 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
 
 #' Extract free1 sheet of Excel mapping file to dataframe
 #'
-#' @param  filename name of the Excel mapping file
+#' @param  mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
@@ -153,9 +153,9 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' mapp_free1(mapping_filepath)
-mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
+mapp_free1 <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"

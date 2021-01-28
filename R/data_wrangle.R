@@ -166,7 +166,7 @@ make_free_cmd_table <- function(df_f1) {
 #' Create a summary table of the data modifications list read in from the
 #' Excel mapping file
 #'
-#' @param filename filename of the Excel mapping file
+#' @param mapping_file filename of the Excel mapping file
 #' @param add_r_command_colum logical, whether to add a column `"R command"`
 #' @param translate_xlsm logical, whether to translate from Wolf's format
 #' specifying the corresponding R command; defaults to FALSE
@@ -179,11 +179,11 @@ make_free_cmd_table <- function(df_f1) {
 #' mapp_cmd_table(mapping_filepath)
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
-mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
-  id_var_str <- mapp_configr(filename) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
+mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
+  id_var_str <- mapp_configr(mapping_file) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
 
 
-  sheets <- filename %>% readxl::excel_sheets()
+  sheets <- mapping_file %>% readxl::excel_sheets()
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -217,7 +217,7 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ make_sheet_cmd_table(filename, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var_str),
+    ~ make_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var_str),
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
@@ -233,12 +233,12 @@ mapp_cmd_table <- function(filename, add_r_command_colum = FALSE, translate_xlsm
   }
   df_cmd
 }
-make_sheet_cmd_table <- function(filename, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
+make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
   switch (sheet_cat,
-          "Variables" = mapp_varl(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_varlab_cmd_table(),
-          "Label" = mapp_vall(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_sumvar_cmd_table(),
-          "Free" = mapp_free1(filename, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_free_cmd_table(),
-          "Verbatims" = make_verba_cmd_tbl(filename, sheet = sheet_name, id_var_str = id_var_str)
+          "Variables" = mapp_varl(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_varlab_cmd_table(),
+          "Label" = mapp_vall(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_sumvar_cmd_table(),
+          "Free" = mapp_free1(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm) %>% make_free_cmd_table(),
+          "Verbatims" = make_verba_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
   )
 
 }
@@ -300,7 +300,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 #'
 #' @param df dataframe to apply mapping on
-#' @param filename name of the Excel file with mappings
+#' @param mapping_file name of the Excel file with mappings
 #' @param na_to_filter logical; if TRUE, NA values of numerical variables in df will
 #' be replaced by -2 with the value label "FILTER".
 #' @param input_if_error logical; if TRUE, command blocks of the mapping file
@@ -344,10 +344,10 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' df_cmd["error"] <- error_list
 #' df_cmd
 #' # In RStudio type: View(df_cmd)
-mapp_xl_to_data <- function(df, filename, na_to_filter = TRUE,
+mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE) {
-  cmd_table <- mapp_cmd_table(filename, translate_xlsm = translate_xlsm)
+  cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm)
 
   if (na_to_filter == TRUE) {
     df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)

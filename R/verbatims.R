@@ -1,6 +1,6 @@
-make_verba_sheet_df <- function(map_file, sheet) {
+make_verba_sheet_df <- function(mapping_file, sheet) {
   mapping_verba_sheet <-
-    readxl::read_excel(map_file,
+    readxl::read_excel(mapping_file,
                        skip = 16,
                        sheet = sheet,
                        col_names = TRUE) %>%
@@ -82,8 +82,8 @@ un_OT_ize <- function(var_ziel,orig_var){
 }
 
 
-make_verba_data_raw <- function(map_file, verba_file, sheet) {
-  mapping_verba_sheet <- make_verba_sheet_df(map_file, sheet = sheet)
+make_verba_data_raw <- function(mapping_file, verba_file, sheet) {
+  mapping_verba_sheet <- make_verba_sheet_df(mapping_file, sheet = sheet)
   verba_sheets <- mapping_verba_sheet$q_id
   l_codestufen <- make_codestufen_list(verba_file)
   l_codestufen <- l_codestufen[verba_sheets]
@@ -168,12 +168,12 @@ make_verbatim_assignment_table_raw <- function(l){
     dplyr::bind_rows(.id = "row")
 }
 make_verba_cmd_tbl <- function(
-  map_file,
-  verba_file = mapp_extract_verbatim_file(map_file, sheet),
+  mapping_file,
+  verba_file = mapp_extract_verbatim_file(mapping_file, sheet),
   sheet = "Verbatims",
   id_var_str
   ) {
-  l <- make_verba_data_raw(map_file, verba_file, sheet)
+  l <- make_verba_data_raw(mapping_file, verba_file, sheet)
   make_verbatim_assignment_table_raw(l) %>%
     dplyr::mutate(
       action = "#Verba",
