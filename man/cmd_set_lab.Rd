@@ -14,7 +14,7 @@ cmd_set_lab(df, orig_var, new_label)
 \item{new_label}{character string of new label}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Set variable label of variable orig_var in dataframe df

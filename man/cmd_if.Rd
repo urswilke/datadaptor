@@ -17,7 +17,7 @@ cmd_if(df, new_var, condition, new_val)
 is fulfilled (numeric string values are transformed to numeric)}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Conditional computing of a variable in a dataframe

@@ -4,7 +4,7 @@
 #' @param orig_vars character vector of variable names in `df`
 #' @param new_names character vector of new variable names (has to be of the same length as `origvars`)
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -22,7 +22,7 @@ cmd_rename <- function(df, orig_vars, new_names){
 #' @param orig_var character string of (labelled) variable
 #' @param new_label character string of new label
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -46,7 +46,7 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #' @param new_vals numeric vector containing the labelled values of the variable
 #' @param new_labs character vector of the new value labels
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -70,7 +70,7 @@ cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact =
 #' @param vals_added values added
 #' @param labs_added value labels added
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -117,7 +117,7 @@ kg_mix <- function(df, var1, var2) {
 #' @param split_var variable to split by
 #' @param by_var variable to be splitted
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -178,7 +178,7 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' @param new_vals numeric vector of labelled values of new recoded variable
 #' @param new_labs character vector of value labels of new recoded variable
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -232,7 +232,7 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 #' @details
 #' The vectors lb, ub, new_vals and new_labs all need to be of the same length.
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -279,7 +279,7 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
 #' @param new_var string of the variable name
 #' @param new_val expression string
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -300,7 +300,7 @@ cmd_comp <- function(df, new_var, new_val) {
 #' @param new_val character string the new value expression  when \code{condition}
 #' is fulfilled (numeric string values are transformed to numeric)
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -331,7 +331,7 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' @param id name of the id variable in df (character string)
 #' @param id_list list of the id values to be matched
 #'
-#' @return modified dataframe
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples

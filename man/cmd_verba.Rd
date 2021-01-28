@@ -22,7 +22,7 @@ cmd_verba(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list)
 \item{id_list}{list of the id values to be matched}
 }
 \value{
-modified dataframe
+modified dataframe \code{df} (see examples)
 }
 \description{
 Assign a value to a variable in a dataframe at specified ids

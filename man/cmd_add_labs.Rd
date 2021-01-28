@@ -18,7 +18,7 @@ cmd_add_labs(df, orig_var, new_lab = NULL, vals_added, labs_added)
 \item{labs_added}{value labels added}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Add value labels to variable orig_var in dataframe df

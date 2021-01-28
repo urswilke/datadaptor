@@ -24,7 +24,7 @@ cmd_set_labs(
 \item{new_labs}{character vector of the new value labels}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Set value labels of labelled variable var in dataframe df
