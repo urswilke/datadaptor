@@ -76,6 +76,7 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #'
 #' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of mapp_create
 #'
 #' @return
 #' @export
@@ -92,17 +93,20 @@ mapp_varl <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE)
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
   if (translate_xlsm) {
-    df_varl <- df_varl %>% dplyr::select(
-      var = 1,
-      varlab = 3,
-      op = Operation,
-      new_name = `New var name`,
-      new_label = `New var label`
-    ) %>%
-      dplyr::slice(-1) %>%
-      dplyr::mutate(varlab = ifelse(varlab == "<none>", NA_character_, varlab))
+    df_varl <- translate_xlsm_var_sheet(df_varl)
   }
   df_varl
+}
+translate_xlsm_var_sheet <- function(df_varl) {
+  df_varl %>% dplyr::select(
+    var = 1,
+    varlab = 3,
+    op = Operation,
+    new_name = `New var name`,
+    new_label = `New var label`
+  ) %>%
+    dplyr::slice(-1) %>%
+    dplyr::mutate(varlab = ifelse(varlab == "<none>", NA_character_, varlab))
 }
 
 make_varlab_cmd_table <- function(df_varl) {
@@ -153,6 +157,7 @@ make_varlab_rename_tbl <- function(df_varl) {
 #'
 #' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return
 #' @export
@@ -168,21 +173,23 @@ mapp_vall <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
     sheet = sheet
   )
   if (translate_xlsm) {
-    df_vall <- df_vall  %>% dplyr::select(
-      var = 1,
-      nv = 2,
-      vallab = 3,
-      new_label = 4,
-      sum_var_label = 7,
-      sum_var_value = 8,
-      sum_var_vallab = 9
-    ) %>% dplyr::slice(-1) %>%
-      tidyr::fill(var)
+    df_vall <- translate_xlsm_vallab_sheet(df_vall)
   }
   df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
 }
-
+translate_xlsm_vallab_sheet <- function(df_vall) {
+  df_vall %>% dplyr::select(
+    var = 1,
+    nv = 2,
+    vallab = 3,
+    new_label = 4,
+    sum_var_label = 7,
+    sum_var_value = 8,
+    sum_var_vallab = 9
+  ) %>% dplyr::slice(-1) %>%
+    tidyr::fill(var)
+}
 make_sumvar_cmd_table <- function(df_vall) {
   df_vall %>%
     tidyr::drop_na(sum_var_value) %>%
@@ -206,6 +213,7 @@ make_sumvar_cmd_table <- function(df_vall) {
 #'
 #' @param  mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return
 #' @export
@@ -237,10 +245,13 @@ mapp_free1 <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
       purrr::set_names(paste0("X", 1:5))
   }
   if (translate_xlsm) {
-    df_free <-
-      df_free %>% dplyr::slice(-1)
+    df_free <- translate_xlsm_free_sheet(df_free)
   }
   df_free
+}
+
+translate_xlsm_free_sheet <- function(df_free) {
+  df_free %>% dplyr::slice(-1)
 }
 
 make_free_cmd_table <- function(df_f1) {
