@@ -300,7 +300,8 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 #'
 #' @param df dataframe to apply mapping on
-#' @param mapping_file name of the Excel file with mappings
+#' @param mapping_file name of the mapping Excel file or the object returned by
+#' `mapp_cmd_table()` of this path
 #' @param na_to_filter logical; if TRUE, NA values of numerical variables in df will
 #' be replaced by -2 with the value label "FILTER".
 #' @param input_if_error logical; if TRUE, command blocks of the mapping file
@@ -347,7 +348,17 @@ apply_one_cmd_safe <- function(df1, action, data) {
 mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE) {
-  cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm)
+  if (typeof(mapping_file) == "character") {
+    cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm)
+  }
+  else if (is.data.frame(mapping_file)) {
+    cmd_table <- mapping_file
+  }
+  else {
+    stop("
+         mapping_file has to be either the file path to the mapping file,
+         or the command table data frame (returned by `mapp_cmd_table()`) of this path!")
+  }
 
   if (na_to_filter == TRUE) {
     df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)
