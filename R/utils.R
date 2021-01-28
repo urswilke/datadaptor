@@ -1,3 +1,74 @@
+extract_sev_lists <- function(var) {
+  l_sev_parts <-
+    var %>%
+    stringr::str_squish() %>%
+    stringr::str_extract_all("(\\{.+?\\})", simplify = T) %>%
+    purrr::map(~stringr::str_remove_all(.x, "[\\{\\}]")) %>%
+    stringr::str_squish() %>%
+    stringr::str_split(" +", simplify = T) %>%
+    tibble::as_tibble(.name_repair = "minimal")
+
+  replace_1curly <- function(orig_str, replacement) stringr::str_replace(orig_str,  "\\{.+?\\}", replacement)
+  replace_all_curlies <- function(orig_str, l_1sev_parts) purrr::reduce(l_1sev_parts, replace_1curly, .init = orig_str)
+  if (!all(dim(l_sev_parts) == c(0,0))) {
+    l_sev_parts %>% purrr::map_chr(~replace_all_curlies(var, .x)) %>% unname()
+  }
+  else {
+    var
+  }
+}
+
+#' Turn one line of code into multiple replacing the curly braces by each of the parts
+#'
+#' This function turns one line of code of an "#IF" or "#COMP" block into
+#' multiple replacing the curly braces
+#' by each of the parts inside (separated by spaces).
+#'
+#' @param df_f1 code blocks read in by \code{mapp_free1()}
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' df_free <- data.frame(X1 = "#IF", X2 = "q{2 3} == 1", X3 = "kq{5 6} = {7 8}")
+#' severalize(df_free)
+severalize <- function(df_f1) {
+  if (!is.na(df_f1$X1) & stringr::str_detect(df_f1$X1, "(^#IF|^#COMP|^#VARL)")) {
+    df_f1 %>%
+      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
+      dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>%
+      tidyr::unnest(cols = c("X2", "X3"))
+
+  }
+  else {
+    df_f1
+  }
+}
+
+#' Severalize all #IF & #COMP commands
+#'
+#' @param df_free1 commands of the Excel mapping's "free" sheet
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' df_free1 <- mapp_free1(mapping_filepath)
+#' sevif(df_free1)
+sevif <- function(df_free1) {
+  df_free1 %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(severalize)
+}
+
+
+
+
+
+
+
 merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
   if (!is.null(old_vallab_vec)) {
     df_new_labels <- old_vallab_vec %>% tibble::enframe()
