@@ -1,100 +1,3 @@
-make_sumvar_cmd_table <- function(df_vall) {
-  df_vall %>%
-    tidyr::drop_na(sum_var_value) %>%
-    dplyr::select(-new_label) %>%
-    dplyr::mutate(new_var = paste0("k", var)) %>%
-    dplyr::mutate(orig_var = var) %>%
-    dplyr::group_by(new_var, orig_var) %>%
-    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
-    dplyr::mutate(sheet = "Label") %>%
-    dplyr::mutate(action = "#SUMVAR") %>%
-    dplyr::relocate(sheet, action)  %>%
-    dplyr::group_by(sheet, action, row, new_var) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup()
-}
-
-make_varlab_cmd_table <- function(df_varl) {
-  dplyr::bind_rows(
-    make_varlab_rename_tbl(df_varl),
-    make_varlab_newlab_table(df_varl)
-  )
-}
-make_varlab_newlab_table <- function(df_varl) {
-  df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
-    tidyr::drop_na(new_label) %>%
-    dplyr::mutate(var = dplyr::coalesce(new_name, var)) %>%
-    dplyr::mutate(new_var = var) %>%
-    dplyr::mutate(sheet = "Variables") %>%
-    dplyr::mutate(action = "#NEWLAB") %>%
-    dplyr::select(-new_name, -op) %>%
-    dplyr::group_by(sheet, action, row, new_var) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup()
-}
-make_varlab_rename_tbl <- function(df_varl) {
-  df_rename <- df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
-    tidyr::drop_na(new_name) %>%
-    dplyr::mutate(sheet = "Variables") %>%
-    dplyr::mutate(action = "#RENAME") %>%
-    dplyr::mutate(new_var = new_name) %>%
-    dplyr::select(-new_label, -op, -varlab) %>%
-    dplyr::group_by(sheet, action) %>%
-    dplyr::summarise(
-      row = paste(row, collapse = ", "),
-      new_names = list(new_var),
-      new_var = paste(new_var, collapse = ", "),
-      vars = list(var)
-    ) %>%
-    dplyr::group_by(sheet, action, new_var, row) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup()
-}
-
-make_free_cmd_table <- function(df_f1) {
-  if (nrow(df_f1) == 0) {
-    return(tibble::tibble())
-  }
-  res <- df_f1 %>%
-    dplyr::mutate(index = cumsum(dplyr::coalesce(stringr::str_detect(X1, "^#"), FALSE))) %>%
-    dplyr::group_by(index) %>%
-    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
-    dplyr::mutate(action = X1[1]) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(sheet = "Free1") %>%
-    dplyr::select(-index) %>%
-    # transform X2 containing spaces to severalize()able (surrounded by curly braces):
-    dplyr::mutate(X2 = ifelse(
-      X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
-      paste0("{", X2, "}"),
-      X2
-    )) %>%
-    sevif() %>%
-    dplyr::group_by(action, row)
-  res %>%
-    dplyr::mutate(
-      new_var = dplyr::case_when(
-        action == "#REC"                 ~ X3[1],
-        action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
-        action == "#COMP"                ~ X2,
-        action == "#VARL"                ~ X2,
-        action == "#KG"                  ~ paste(X2, X3, sep = "_"),
-        action %in% c("#VALL", "#AVALL") ~ X2[1]
-      )
-    ) %>%
-    # needed if severalized #IF creates multiple commands manipulating the same
-    # variable (-> then the nesting needs to distinguish these lines...);
-    # However must not be applied for multiline command blocks: !action %in% c("#VALL", "#AVALL", "#REC")
-    # TODO: cleaner way to implement HACK !!!
-    dplyr::ungroup() %>%
-    dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
-    dplyr::group_by(sheet, action, row, new_var, sev_command_row) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup()
-}
-
 #' Create an Excel mapping file based on a labelled dataframe
 #'
 #' The mapping file consists of the sheets "Variables", "Label", "Verbatims" & "Free".
@@ -168,6 +71,7 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 
 
 
+
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param mapping_file name of the Excel mapping file
@@ -200,6 +104,49 @@ mapp_varl <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE)
   }
   df_varl
 }
+
+make_varlab_cmd_table <- function(df_varl) {
+  dplyr::bind_rows(
+    make_varlab_rename_tbl(df_varl),
+    make_varlab_newlab_table(df_varl)
+  )
+}
+
+make_varlab_newlab_table <- function(df_varl) {
+  df_varl %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
+    tidyr::drop_na(new_label) %>%
+    dplyr::mutate(var = dplyr::coalesce(new_name, var)) %>%
+    dplyr::mutate(new_var = var) %>%
+    dplyr::mutate(sheet = "Variables") %>%
+    dplyr::mutate(action = "#NEWLAB") %>%
+    dplyr::select(-new_name, -op) %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+make_varlab_rename_tbl <- function(df_varl) {
+  df_rename <- df_varl %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
+    tidyr::drop_na(new_name) %>%
+    dplyr::mutate(sheet = "Variables") %>%
+    dplyr::mutate(action = "#RENAME") %>%
+    dplyr::mutate(new_var = new_name) %>%
+    dplyr::select(-new_label, -op, -varlab) %>%
+    dplyr::group_by(sheet, action) %>%
+    dplyr::summarise(
+      row = paste(row, collapse = ", "),
+      new_names = list(new_var),
+      new_var = paste(new_var, collapse = ", "),
+      vars = list(var)
+    ) %>%
+    dplyr::group_by(sheet, action, new_var, row) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+
+
+
 
 
 #' Extract value label sheet of Excel mapping file to dataframe
@@ -235,6 +182,24 @@ mapp_vall <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
   df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
 }
+
+make_sumvar_cmd_table <- function(df_vall) {
+  df_vall %>%
+    tidyr::drop_na(sum_var_value) %>%
+    dplyr::select(-new_label) %>%
+    dplyr::mutate(new_var = paste0("k", var)) %>%
+    dplyr::mutate(orig_var = var) %>%
+    dplyr::group_by(new_var, orig_var) %>%
+    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
+    dplyr::mutate(sheet = "Label") %>%
+    dplyr::mutate(action = "#SUMVAR") %>%
+    dplyr::relocate(sheet, action)  %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+
+
 
 
 #' Extract free1 sheet of Excel mapping file to dataframe
@@ -276,6 +241,48 @@ mapp_free1 <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
       df_free %>% dplyr::slice(-1)
   }
   df_free
+}
+
+make_free_cmd_table <- function(df_f1) {
+  if (nrow(df_f1) == 0) {
+    return(tibble::tibble())
+  }
+  res <- df_f1 %>%
+    dplyr::mutate(index = cumsum(dplyr::coalesce(stringr::str_detect(X1, "^#"), FALSE))) %>%
+    dplyr::group_by(index) %>%
+    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
+    dplyr::mutate(action = X1[1]) %>%
+    dplyr::ungroup() %>%
+    dplyr::mutate(sheet = "Free1") %>%
+    dplyr::select(-index) %>%
+    # transform X2 containing spaces to severalize()able (surrounded by curly braces):
+    dplyr::mutate(X2 = ifelse(
+      X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
+      paste0("{", X2, "}"),
+      X2
+    )) %>%
+    sevif() %>%
+    dplyr::group_by(action, row)
+  res %>%
+    dplyr::mutate(
+      new_var = dplyr::case_when(
+        action == "#REC"                 ~ X3[1],
+        action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
+        action == "#COMP"                ~ X2,
+        action == "#VARL"                ~ X2,
+        action == "#KG"                  ~ paste(X2, X3, sep = "_"),
+        action %in% c("#VALL", "#AVALL") ~ X2[1]
+      )
+    ) %>%
+    # needed if severalized #IF creates multiple commands manipulating the same
+    # variable (-> then the nesting needs to distinguish these lines...);
+    # However must not be applied for multiline command blocks: !action %in% c("#VALL", "#AVALL", "#REC")
+    # TODO: cleaner way to implement HACK !!!
+    dplyr::ungroup() %>%
+    dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
+    dplyr::group_by(sheet, action, row, new_var, sev_command_row) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
 }
 
 replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
