@@ -81,6 +81,19 @@ test_that("cmd_comp() works", {
   expect_equal(df$y, c(2, 4, NA))
 })
 
+test_that("cmd_dic() works", {
+  x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
+  df <- data.frame(x, y = NA_real_)
+  df <- cmd_dic(df, orig_var = "x", new_var = "y")
+  x_new <- df$y
+  varlab <- attr(x_new, "label", exact = TRUE)
+  vallabs <- attr(x_new, "labels", exact = TRUE)
+  attributes(x_new) <- NULL
+  expect_equal(x_new, c(NA_real_, NA_real_))
+  expect_equal(varlab, "varlab1")
+  expect_equal(vallabs, c(vallab1 = 1))
+})
+
 test_that("cmd_verbatim() works", {
   df <- data.frame(id_var = 1:3)
   df <- cmd_verbatim(

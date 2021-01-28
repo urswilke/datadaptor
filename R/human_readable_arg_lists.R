@@ -10,6 +10,7 @@ transl_human_read <- function(action, data) {
     "#VARL"    = transl_human_read_varl(data),
     "#VALL"    = transl_human_read_vall(data),
     "#AVALL"   = transl_human_read_avall(data),
+    "#DIC"     = transl_human_read_dic(data),
     "#KG"      = transl_human_read_kg(data),
     "#Verba"   = transl_human_read_verbatim(data),
     stop("Invalid action command")
@@ -49,6 +50,15 @@ transl_human_read_varl <- function(data) {
   res <- list(
     orig_var = d$X2[1],
     new_lab = d$X3[1]
+  )
+  list(res)
+}
+transl_human_read_dic <- function(data) {
+  d <- data
+
+  res <- list(
+    orig_var = d$X2[1],
+    new_var = d$X3[1]
   )
   list(res)
 }

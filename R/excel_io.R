@@ -280,6 +280,7 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::mutate(
       new_var = dplyr::case_when(
         action == "#REC"                 ~ X3[1],
+        action == "#DIC"                 ~ X3[1],
         action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
         action == "#COMP"                ~ X2,
         action == "#VARL"                ~ X2,
@@ -292,6 +293,7 @@ make_free_cmd_table <- function(df_f1) {
     # However must not be applied for multiline command blocks: !action %in% c("#VALL", "#AVALL", "#REC")
     # TODO: cleaner way to implement HACK !!!
     dplyr::ungroup() %>%
+    # TODO: add #DIC to severalize()able!
     dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
     dplyr::group_by(sheet, action, row, new_var, sev_command_row) %>%
     tidyr::nest() %>%

@@ -96,6 +96,30 @@ cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
   df
 }
 
+#' Copy variable and value labels of a labelled variable orig_var to new_var in a dataframe df
+#'
+#' @param df dataframe
+#' @param orig_var character string of (labelled) variable in df
+#' @param new_var character string of (labelled) variable in df
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
+#' df <- data.frame(x, y = NA_real_)
+#' df <- cmd_dic(df, orig_var = "x", new_var = "y")
+#' df$y
+cmd_dic <- function(df, orig_var, new_var){
+  varlab <- attr(df[[orig_var]], "label", exact = TRUE)
+  vallabs <- attr(df[[orig_var]], "labels", exact = TRUE)
+  df[[new_var]] <- haven::labelled(
+    df[[new_var]],
+    labels = vallabs,
+    label = varlab
+  )
+  df
+}
 
 kg_mix <- function(df, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")

@@ -92,6 +92,7 @@ make_cmd_expression <- function(action, data) {
     "#VARL"   = rlang::expr(cmd_set_lab(df, !!!data)),
     "#VALL"   = rlang::expr(cmd_set_labs(df, !!!data)),
     "#AVALL"  = rlang::expr(cmd_add_labs(df, !!!data)),
+    "#DIC"    = rlang::expr(cmd_dic(df, !!!data)),
     "#KG"     = rlang::expr(cmd_kg(df, !!!data)),
     "#Verba"  = rlang::expr(cmd_verbatim(df, !!!data)),
     stop("Invalid action command")

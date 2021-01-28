@@ -6,9 +6,9 @@
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
        ..@ label : chr "Like Product"
      $ q2_renamed: dbl+lbl [1:100]  2,  1,  1, 99, -2, -2,  2,  2, 99,  1, 99,  2,  2, 99...
-       ..@ labels: Named num [1:4] -2 1 2 99
-       .. ..- attr(*, "names")= chr [1:4] "FILTER" "yes" "no" "no answer"
-       ..@ label : chr "recommend product"
+       ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
+       .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
+       ..@ label : chr "Almost same variable label for q3 and q5"
      $ q3        : dbl+lbl [1:100]  3,  5,  3,  4,  2,  4,  3,  5,  1,  1,  5, 99,  4,  2...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
@@ -138,12 +138,12 @@
 
 # mapp_cmd_table() reproduces snapshot
 
-    tibble [53 x 6] (S3: rowwise_df/tbl_df/tbl/data.frame)
-     $ sheet          : chr [1:53] "Label" "Variables" "Variables" "Variables" ...
-     $ action         : chr [1:53] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
-     $ row            : chr [1:53] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
-     $ new_var        : chr [1:53] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
-     $ data           :List of 53
+    tibble [54 x 6] (S3: rowwise_df/tbl_df/tbl/data.frame)
+     $ sheet          : chr [1:54] "Label" "Variables" "Variables" "Variables" ...
+     $ action         : chr [1:54] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
+     $ row            : chr [1:54] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
+     $ new_var        : chr [1:54] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
+     $ data           :List of 54
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -477,11 +477,14 @@
       .. ..$ orig_var: chr "a2"
       .. ..$ new_lab : chr "same variable label for a1 & a2"
       ..$ :List of 2
+      .. ..$ orig_var: chr "q3"
+      .. ..$ new_var : chr "q2_renamed"
+      ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     $ sev_command_row: int [1:53] NA NA NA NA NA NA NA NA NA NA ...
-     - attr(*, "groups")= tibble [53 x 1] (S3: tbl_df/tbl/data.frame)
-      ..$ .rows: list<int> [1:53] 
+     $ sev_command_row: int [1:54] NA NA NA NA NA NA NA NA NA NA ...
+     - attr(*, "groups")= tibble [54 x 1] (S3: tbl_df/tbl/data.frame)
+      ..$ .rows: list<int> [1:54] 
       .. ..$ : int 1
       .. ..$ : int 2
       .. ..$ : int 3
@@ -535,5 +538,6 @@
       .. ..$ : int 51
       .. ..$ : int 52
       .. ..$ : int 53
+      .. ..$ : int 54
       .. ..@ ptype: int(0) 
 

@@ -3,6 +3,7 @@
 export("%>%")
 export(cmd_add_labs)
 export(cmd_comp)
+export(cmd_dic)
 export(cmd_if)
 export(cmd_kg)
 export(cmd_rec)
