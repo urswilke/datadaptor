@@ -4,12 +4,12 @@
 \alias{mapp_create}
 \title{Create an Excel mapping file based on a labelled dataframe}
 \usage{
-mapp_create(df_raw, filename)
+mapp_create(df_raw, mapping_file)
 }
 \arguments{
 \item{df_raw}{dataframe with labelled variables, e.g. resulting from haven::read_sav}
 
-\item{filename}{name of the Excel file to be created}
+\item{mapping_file}{name of the Excel file to be created}
 }
 \value{
 

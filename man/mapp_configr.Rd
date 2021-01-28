@@ -4,10 +4,10 @@
 \alias{mapp_configr}
 \title{Extract configr sheet of Excel mapping file to dataframe}
 \usage{
-mapp_configr(filename, sheet = "configr")
+mapp_configr(mapping_file, sheet = "configr")
 }
 \arguments{
-\item{filename}{name of the Excel mapping file}
+\item{mapping_file}{name of the Excel mapping file}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
 }

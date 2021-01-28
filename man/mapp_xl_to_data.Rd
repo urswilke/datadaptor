@@ -6,7 +6,7 @@
 \usage{
 mapp_xl_to_data(
   df,
-  filename,
+  mapping_file,
   na_to_filter = TRUE,
   input_if_error = FALSE,
   rec_fun = purrr::reduce2,
@@ -16,7 +16,8 @@ mapp_xl_to_data(
 \arguments{
 \item{df}{dataframe to apply mapping on}
 
-\item{filename}{name of the Excel file with mappings}
+\item{mapping_file}{name of the mapping Excel file or the object returned by
+\code{mapp_cmd_table()} of this path}
 
 \item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df will
 be replaced by -2 with the value label "FILTER".}

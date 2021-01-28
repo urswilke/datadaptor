@@ -5,10 +5,14 @@
 \title{Create a summary table of the data modifications list read in from the
 Excel mapping file}
 \usage{
-mapp_cmd_table(filename, add_r_command_colum = FALSE, translate_xlsm = FALSE)
+mapp_cmd_table(
+  mapping_file,
+  add_r_command_colum = FALSE,
+  translate_xlsm = FALSE
+)
 }
 \arguments{
-\item{filename}{filename of the Excel mapping file}
+\item{mapping_file}{filename of the Excel mapping file}
 
 \item{add_r_command_colum}{logical, whether to add a column \code{"R command"}}
 
