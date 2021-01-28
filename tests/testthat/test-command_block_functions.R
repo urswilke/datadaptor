@@ -81,9 +81,9 @@ test_that("cmd_comp() works", {
   expect_equal(df$y, c(2, 4, NA))
 })
 
-test_that("cmd_verba() works", {
+test_that("cmd_verbatim() works", {
   df <- data.frame(id_var = 1:3)
-  df <- cmd_verba(
+  df <- cmd_verbatim(
     df,
     var_ziel = "new_var",
     val_assign = 2,

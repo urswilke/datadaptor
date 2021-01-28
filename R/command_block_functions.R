@@ -336,7 +336,7 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #'
 #' @examples
 #' df <- data.frame(id_var = 1:5)
-#' df <- cmd_verba(
+#' df <- cmd_verbatim(
 #'   df,
 #'   var_ziel = "new_var",
 #'   val_assign = 2,
@@ -347,7 +347,7 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' )
 #' df
 #' df$new_var
-cmd_verba <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
+cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- NA_real_
   }
