@@ -270,7 +270,7 @@ translate_to_r_script <- function(
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))
   script_start <- c(
-    "library(tidyverse)",
+    # "library(tidyverse)",
     "library(datenanpassr)",
     paste0("df <- haven::read_sav('", spss_filepath, "')")
   )
