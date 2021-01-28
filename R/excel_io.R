@@ -184,7 +184,7 @@ mapp_free1 <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
 replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
   replace_single_equals_sign <- function(column) {
     # see: https://stackoverflow.com/questions/28460473/how-do-i-match-a-single-equals-sign-with-regular-expressions/28460640
-    stringr::str_replace(
+    stringr::str_replace_all(
       column,
       "(?<![=><])=(?!=)",
       "=="
