@@ -1,6 +1,6 @@
 # mapp_free_sheet_cmd_table() reproduces snapshot
 
-    # A tibble: 17 x 4
+    # A tibble: 18 x 4
        row            action new_var    data            
        <chr>          <chr>  <chr>      <list>          
      1 3              #COMP  x          <tibble [1 x 5]>
@@ -19,15 +19,16 @@
     14 29_2           #COMP  a2         <tibble [1 x 5]>
     15 30_1           #VARL  a1         <tibble [1 x 5]>
     16 30_2           #VARL  a2         <tibble [1 x 5]>
-    17 32             #DIC   q2_renamed <tibble [1 x 5]>
+    17 32_1           #DIC   q2_renamed <tibble [1 x 5]>
+    18 32_2           #DIC   q4_renamed <tibble [1 x 5]>
 
 ---
 
-    tibble [17 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:17] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:17] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:17] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 17
+    tibble [18 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:18] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:18] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:18] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 18
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -128,6 +129,12 @@
       .. ..$ X1: chr "#DIC"
       .. ..$ X2: chr "q3"
       .. ..$ X3: chr "q2_renamed"
+      .. ..$ X4: chr NA
+      .. ..$ X5: chr NA
+      ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr "#DIC"
+      .. ..$ X2: chr "q3"
+      .. ..$ X3: chr "q4_renamed"
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
 

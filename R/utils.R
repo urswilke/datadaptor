@@ -36,8 +36,8 @@ severalize <- function(df_f1) {
   df_f1 %>%
     dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
     dplyr::mutate_at(2:4, ~purrr::map(.x,~extract_sev_lists(.))) %>%
-    dplyr::mutate(sev_index = list(1:length(X2[[1]]))) %>%
-    tidyr::unnest(cols = c("X2", "X3", "X4", "sev_index"))
+    tidyr::unnest(cols = c("X2", "X3", "X4")) %>%
+    dplyr::mutate(sev_index = dplyr::row_number())
 }
 
 

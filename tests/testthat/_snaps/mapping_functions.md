@@ -16,7 +16,7 @@
      $ q4_renamed: dbl+lbl [1:100]  4,  4,  2,  4,  3,  3,  4,  2,  1,  1,  2, -2,  5,  2...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
-       ..@ label : chr "How much do you like your friends?"
+       ..@ label : chr "Almost same variable label for q3 and q5"
      $ q5        : dbl+lbl [1:100]  2,  5,  5,  4,  3,  2, -2,  1,  2,  4,  2,  5,  1, 99...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
@@ -138,12 +138,12 @@
 
 # mapp_cmd_table() reproduces snapshot
 
-    tibble [55 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:55] "Label" "Variables" "Variables" "Variables" ...
-     $ action : chr [1:55] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
-     $ row    : chr [1:55] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
-     $ new_var: chr [1:55] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
-     $ data   :List of 55
+    tibble [56 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:56] "Label" "Variables" "Variables" "Variables" ...
+     $ action : chr [1:56] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
+     $ row    : chr [1:56] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
+     $ new_var: chr [1:56] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
+     $ data   :List of 56
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -488,10 +488,13 @@
       .. ..$ orig_var: chr "q3"
       .. ..$ new_var : chr "q2_renamed"
       ..$ :List of 2
+      .. ..$ orig_var: chr "q3"
+      .. ..$ new_var : chr "q4_renamed"
+      ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     - attr(*, "groups")= tibble [55 x 1] (S3: tbl_df/tbl/data.frame)
-      ..$ .rows: list<int> [1:55] 
+     - attr(*, "groups")= tibble [56 x 1] (S3: tbl_df/tbl/data.frame)
+      ..$ .rows: list<int> [1:56] 
       .. ..$ : int 1
       .. ..$ : int 2
       .. ..$ : int 3
@@ -547,5 +550,6 @@
       .. ..$ : int 53
       .. ..$ : int 54
       .. ..$ : int 55
+      .. ..$ : int 56
       .. ..@ ptype: int(0) 
 
