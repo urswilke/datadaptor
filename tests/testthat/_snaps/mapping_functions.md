@@ -32,8 +32,8 @@
       ..- attr(*, "format.spss")= chr "A19"
      $ kq1       : dbl+lbl [1:100]  2,  2,  1,  2,  3,  3, NA,  1, NA, NA,  3, NA,  2,  1...
        ..@ labels: Named num [1:3] 1 2 3
-       .. ..- attr(*, "names")= chr [1:3] "aaa" "bbb" "ccc"
-       ..@ label : chr "test"
+       .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
+       ..@ label : chr "summarized variable"
      $ q6n       : dbl+lbl [1:100] 1, 3, 2, 2, 3, 2, 1, 1, 1, 1, 2, 3, 2, 3, 3, 1, 1, 3, ...
        ..@ labels: Named num [1:5] 1 2 3 97 99
        .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
@@ -138,12 +138,12 @@
 
 # mapp_cmd_table() reproduces snapshot
 
-    tibble [54 x 6] (S3: rowwise_df/tbl_df/tbl/data.frame)
-     $ sheet          : chr [1:54] "Label" "Variables" "Variables" "Variables" ...
-     $ action         : chr [1:54] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
-     $ row            : chr [1:54] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
-     $ new_var        : chr [1:54] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
-     $ data           :List of 54
+    tibble [55 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:55] "Label" "Variables" "Variables" "Variables" ...
+     $ action : chr [1:55] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
+     $ row    : chr [1:55] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
+     $ new_var: chr [1:55] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
+     $ data   :List of 55
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -435,6 +435,14 @@
       .. ..$ new_val  : chr "8"
       .. ..$ condition: chr "q3 == 1"
       ..$ :List of 7
+      .. ..$ new_var : chr "kq1"
+      .. ..$ orig_var: chr "q1"
+      .. ..$ new_lab : chr "summarized variable"
+      .. ..$ lb      : num [1:3] 1 3 4
+      .. ..$ ub      : num [1:3] 2 3 5
+      .. ..$ new_vals: num [1:3] 1 2 3
+      .. ..$ new_labs: chr [1:3] "1-2" "3" "4-5"
+      ..$ :List of 7
       .. ..$ new_var : chr "kq3"
       .. ..$ orig_var: chr "q3"
       .. ..$ new_lab : chr "summarized variable"
@@ -482,9 +490,8 @@
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     $ sev_command_row: int [1:54] NA NA NA NA NA NA NA NA NA NA ...
-     - attr(*, "groups")= tibble [54 x 1] (S3: tbl_df/tbl/data.frame)
-      ..$ .rows: list<int> [1:54] 
+     - attr(*, "groups")= tibble [55 x 1] (S3: tbl_df/tbl/data.frame)
+      ..$ .rows: list<int> [1:55] 
       .. ..$ : int 1
       .. ..$ : int 2
       .. ..$ : int 3
@@ -539,5 +546,6 @@
       .. ..$ : int 52
       .. ..$ : int 53
       .. ..$ : int 54
+      .. ..$ : int 55
       .. ..@ ptype: int(0) 
 

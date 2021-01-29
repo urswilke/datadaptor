@@ -241,6 +241,11 @@ make_sumvar_cmd_table <- function(df_vall) {
 #' }
 #' mapp_free_sheet_cmd_table(mapping_filepath)
 mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
+  df_free_raw <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet, translate_xlsm)
+  df_free_raw %>%
+    make_free_cmd_table()
+}
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(
     mapping_file,
     range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
@@ -251,10 +256,7 @@ mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_x
     df_free <- df_free %>%
       dplyr::select(1:5) %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
-      dplyr::mutate(row = dplyr::row_number()) %>%
-      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
-      replace_single_equals_sign_IF_AND_COMP() %>%
-      delete_empty_X1_not_multiline()
+      dplyr::mutate(row = dplyr::row_number())
   }
   else {
     df_free <-
@@ -264,10 +266,8 @@ mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_x
   if (translate_xlsm) {
     df_free <- translate_xlsm_free_sheet(df_free)
   }
-  df_free %>%
-    make_free_cmd_table()
+  df_free
 }
-
 translate_xlsm_free_sheet <- function(df_free) {
   df_free %>% dplyr::slice(-1)
 }
@@ -277,28 +277,34 @@ make_free_cmd_table <- function(df_f1) {
     return(tibble::tibble())
   }
   res <- df_f1 %>%
-    dplyr::mutate(index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
-    dplyr::group_by(index) %>%
+    replace_single_equals_sign_IF_AND_COMP() %>%
+    delete_empty_X1_not_multiline() %>%
+    dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
+    add_curlies_to_cell_with_spaces() %>%
+    dplyr::group_by(raw_index) %>%
     dplyr::mutate(row = paste(row, collapse = ", ")) %>%
     dplyr::mutate(action = X1[1]) %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate(sheet = "Free1") %>%
-    dplyr::select(-index) %>%
-    add_curlies_to_cell_with_spaces() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(~collapse_multi_row_blocks(.x, raw_index)) %>%
     sevif() %>%
-    dplyr::group_by(action, row)
-  res %>%
+    dplyr::add_count(row) %>%
+    dplyr::mutate(sev_index = ifelse(n == 1, NA_integer_, sev_index)) %>%
+    dplyr::select(-n) %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(explode_multi_row_blocks) %>%
+    dplyr::group_by(raw_index) %>%
+    tidyr::fill(sev_index) %>%
+    tidyr::unite(row, c("row", "sev_index"), na.rm = TRUE) %>%
+    dplyr::group_by(action, row) %>%
     get_new_var_name_free() %>%
-    # needed if severalized #IF creates multiple commands manipulating the same
-    # variable (-> then the nesting needs to distinguish these lines...);
-    # However must not be applied for multiline command blocks: !action %in% c("#VALL", "#AVALL", "#REC")
-    # TODO: cleaner way to implement HACK !!!
     dplyr::ungroup() %>%
     # TODO: add #DIC to severalize()able!
-    dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
-    dplyr::group_by(sheet, action, row, new_var, sev_command_row) %>%
+    # dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
+    dplyr::group_by(action, row, new_var, raw_index) %>%
     tidyr::nest() %>%
-    dplyr::ungroup()
+    dplyr::ungroup() %>%
+    dplyr::select(-raw_index)
 }
 get_new_var_name_free <- function(df_f1) {
   df_f1 %>%

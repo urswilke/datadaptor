@@ -33,16 +33,11 @@ extract_sev_lists <- function(var) {
 #' df_free <- data.frame(X1 = "#IF", X2 = "q{2 3} == 1", X3 = "kq{5 6} = {7 8}")
 #' severalize(df_free)
 severalize <- function(df_f1) {
-  if (!is.na(df_f1$X1) & stringr::str_detect(df_f1$X1, "(^#IF|^#COMP|^#VARL)")) {
-    df_f1 %>%
-      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
-      dplyr::mutate_at(2:3, ~purrr::map(.x,~extract_sev_lists(.))) %>%
-      tidyr::unnest(cols = c("X2", "X3"))
-
-  }
-  else {
-    df_f1
-  }
+  df_f1 %>%
+    dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
+    dplyr::mutate_at(2:4, ~purrr::map(.x,~extract_sev_lists(.))) %>%
+    dplyr::mutate(sev_index = list(1:length(X2[[1]]))) %>%
+    tidyr::unnest(cols = c("X2", "X3", "X4", "sev_index"))
 }
 
 #' Severalize all #IF & #COMP commands
@@ -64,8 +59,17 @@ sevif <- function(df_free1) {
 }
 
 
-
-
+collapse_multi_row_blocks <- function(df, raw_index) {
+  df %>%
+    dplyr::slice(1) %>%
+    dplyr::mutate(further_rows = list(df %>% dplyr::slice(-1)))
+}
+explode_multi_row_blocks <- function(df) {
+  dplyr::bind_rows(
+    df %>% dplyr::select(-further_rows),
+    df %>% dplyr::pull(further_rows)
+  )
+}
 
 
 

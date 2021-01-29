@@ -1,34 +1,33 @@
 # mapp_free_sheet_cmd_table() reproduces snapshot
 
-    # A tibble: 16 x 6
-       row            action sheet new_var    sev_command_row data            
-       <chr>          <chr>  <chr> <chr>                <int> <list>          
-     1 3              #COMP  Free1 x                        1 <tibble [1 x 5]>
-     2 4              #IF    Free1 abc                      2 <tibble [1 x 5]>
-     3 5              #IF    Free1 kq5                      3 <tibble [1 x 5]>
-     4 5              #IF    Free1 kq6                      4 <tibble [1 x 5]>
-     5 7, 8, 9, 10    #REC   Free1 kq3                      0 <tibble [4 x 5]>
-     6 13             #COMP  Free1 n                        9 <tibble [1 x 5]>
-     7 14             #VARL  Free1 n                       10 <tibble [1 x 5]>
-     8 16, 17, 18, 19 #VALL  Free1 n                        0 <tibble [4 x 5]>
-     9 21, 22         #AVALL Free1 n                        0 <tibble [2 x 5]>
-    10 26             #VARL  Free1 q3                      17 <tibble [1 x 5]>
-    11 26             #VARL  Free1 q5                      18 <tibble [1 x 5]>
-    12 29             #COMP  Free1 a1                      19 <tibble [1 x 5]>
-    13 29             #COMP  Free1 a2                      20 <tibble [1 x 5]>
-    14 30             #VARL  Free1 a1                      21 <tibble [1 x 5]>
-    15 30             #VARL  Free1 a2                      22 <tibble [1 x 5]>
-    16 32             #DIC   Free1 q2_renamed              23 <tibble [1 x 5]>
+    # A tibble: 17 x 4
+       row            action new_var    data            
+       <chr>          <chr>  <chr>      <list>          
+     1 3              #COMP  x          <tibble [1 x 5]>
+     2 4              #IF    abc        <tibble [1 x 5]>
+     3 5_1            #IF    kq5        <tibble [1 x 5]>
+     4 5_2            #IF    kq6        <tibble [1 x 5]>
+     5 7, 8, 9, 10_1  #REC   kq1        <tibble [4 x 5]>
+     6 7, 8, 9, 10_2  #REC   kq3        <tibble [4 x 5]>
+     7 13             #COMP  n          <tibble [1 x 5]>
+     8 14             #VARL  n          <tibble [1 x 5]>
+     9 16, 17, 18, 19 #VALL  n          <tibble [4 x 5]>
+    10 21, 22         #AVALL n          <tibble [2 x 5]>
+    11 26_1           #VARL  q3         <tibble [1 x 5]>
+    12 26_2           #VARL  q5         <tibble [1 x 5]>
+    13 29_1           #COMP  a1         <tibble [1 x 5]>
+    14 29_2           #COMP  a2         <tibble [1 x 5]>
+    15 30_1           #VARL  a1         <tibble [1 x 5]>
+    16 30_2           #VARL  a2         <tibble [1 x 5]>
+    17 32             #DIC   q2_renamed <tibble [1 x 5]>
 
 ---
 
-    tibble [16 x 6] (S3: tbl_df/tbl/data.frame)
-     $ row            : chr [1:16] "3" "4" "5" "5" ...
-     $ action         : chr [1:16] "#COMP" "#IF" "#IF" "#IF" ...
-     $ sheet          : chr [1:16] "Free1" "Free1" "Free1" "Free1" ...
-     $ new_var        : chr [1:16] "x" "abc" "kq5" "kq6" ...
-     $ sev_command_row: int [1:16] 1 2 3 4 0 9 10 0 0 17 ...
-     $ data           :List of 16
+    tibble [17 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:17] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:17] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:17] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 17
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -53,6 +52,12 @@
       .. ..$ X3: chr "kq6 = 8"
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
+      ..$ : tibble [4 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr [1:4] "#REC" NA NA "."
+      .. ..$ X2: chr [1:4] "q1" "1" "3" "4"
+      .. ..$ X3: chr [1:4] "kq1" "2" "3" "5"
+      .. ..$ X4: chr [1:4] "summarized variable" "1" "2" "3"
+      .. ..$ X5: chr [1:4] NA "1-2" "3" "4-5"
       ..$ : tibble [4 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr [1:4] "#REC" NA NA "."
       .. ..$ X2: chr [1:4] "q3" "1" "3" "4"
