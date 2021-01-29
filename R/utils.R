@@ -1,3 +1,28 @@
+severalize_sheet <- function(df_free) {
+  df_free %>%
+    dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
+    dplyr::group_by(raw_index) %>%
+    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(~collapse_multi_row_blocks(.x, raw_index)) %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(severalize_block) %>%
+    dplyr::add_count(row) %>%
+    dplyr::mutate(sev_index = ifelse(n == 1, NA_integer_, sev_index)) %>%
+    dplyr::select(-n) %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(explode_multi_row_blocks) %>%
+    # when collapsing the multiline statements (using
+    # collapse_multi_row_blocks()), the index counting the number of severalize_block
+    # items doesn't exist yet. Therefore, it is filled to the whole multiline
+    # command blocks with the following fill():
+    dplyr::group_by(raw_index) %>%
+    tidyr::fill(sev_index) %>%
+    tidyr::unite(row, c("row", "sev_index"), na.rm = TRUE)
+}
+
 extract_sev_lists <- function(var) {
   l_sev_parts <-
     var %>%

@@ -279,30 +279,11 @@ make_free_cmd_table <- function(df_f1) {
   res <- df_f1 %>%
     replace_single_equals_sign_IF_AND_COMP() %>%
     delete_empty_X1_not_multiline() %>%
-    dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
     add_curlies_to_cell_with_spaces() %>%
-    dplyr::group_by(raw_index) %>%
-    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
+    severalize_sheet() %>%
     dplyr::mutate(action = X1[1]) %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(~collapse_multi_row_blocks(.x, raw_index)) %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(severalize_block) %>%
-    dplyr::add_count(row) %>%
-    dplyr::mutate(sev_index = ifelse(n == 1, NA_integer_, sev_index)) %>%
-    dplyr::select(-n) %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(explode_multi_row_blocks) %>%
-    dplyr::group_by(raw_index) %>%
-    tidyr::fill(sev_index) %>%
-    tidyr::unite(row, c("row", "sev_index"), na.rm = TRUE) %>%
     dplyr::group_by(action, row) %>%
     get_new_var_name_free() %>%
-    dplyr::ungroup() %>%
-    # TODO: add #DIC to severalize()able!
-    # dplyr::mutate(sev_command_row = (!action %in% c("#VALL", "#AVALL", "#REC")) * dplyr::row_number()) %>%
     dplyr::group_by(action, row, new_var, raw_index) %>%
     tidyr::nest() %>%
     dplyr::ungroup() %>%
