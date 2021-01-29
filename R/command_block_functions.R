@@ -342,7 +342,7 @@ cmd_if <- function(df, new_var, condition, new_val) {
   val <- rlang::parse_expr(new_val)
 
   # TODO: maybe Vectorize isn't very performant -> check
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(Vectorize(isTRUE)(!!cond), !!val, !!old_val))
+  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
 }
 
 #' Assign a value to a variable in a dataframe at specified ids

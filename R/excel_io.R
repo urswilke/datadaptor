@@ -277,7 +277,7 @@ make_free_cmd_table <- function(df_f1) {
     return(tibble::tibble())
   }
   res <- df_f1 %>%
-    dplyr::mutate(index = cumsum(dplyr::coalesce(stringr::str_detect(X1, "^#"), FALSE))) %>%
+    dplyr::mutate(index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
     dplyr::group_by(index) %>%
     dplyr::mutate(row = paste(row, collapse = ", ")) %>%
     dplyr::mutate(action = X1[1]) %>%
