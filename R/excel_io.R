@@ -280,7 +280,7 @@ make_free_cmd_table <- function(df_f1) {
     replace_single_equals_sign_IF_AND_COMP() %>%
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
-    severalize_sheet() %>%
+    curliply() %>%
     dplyr::mutate(action = X1[1]) %>%
     dplyr::group_by(action, row) %>%
     get_new_var_name_free() %>%
@@ -304,7 +304,7 @@ get_new_var_name_free <- function(df_f1) {
 }
 
 add_curlies_to_cell_with_spaces <- function(df_f1) {
-  # transform X2 containing spaces to severalize()able (surrounded by curly braces):
+  # transform X2 containing spaces to curliply()able (surrounded by curly braces):
   df_f1 %>%
     dplyr::mutate(X2 = ifelse(
       X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
