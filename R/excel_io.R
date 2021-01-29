@@ -288,17 +288,7 @@ make_free_cmd_table <- function(df_f1) {
     sevif() %>%
     dplyr::group_by(action, row)
   res %>%
-    dplyr::mutate(
-      new_var = dplyr::case_when(
-        action == "#REC"                 ~ X3[1],
-        action == "#DIC"                 ~ X3[1],
-        action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
-        action == "#COMP"                ~ X2,
-        action == "#VARL"                ~ X2,
-        action == "#KG"                  ~ paste(X2, X3, sep = "_"),
-        action %in% c("#VALL", "#AVALL") ~ X2[1]
-      )
-    ) %>%
+    get_new_var_name_free() %>%
     # needed if severalized #IF creates multiple commands manipulating the same
     # variable (-> then the nesting needs to distinguish these lines...);
     # However must not be applied for multiline command blocks: !action %in% c("#VALL", "#AVALL", "#REC")
@@ -310,6 +300,20 @@ make_free_cmd_table <- function(df_f1) {
     tidyr::nest() %>%
     dplyr::ungroup()
 }
+get_new_var_name_free <- function(df_f1) {
+  df_f1 %>%
+    dplyr::mutate(new_var = dplyr::case_when(
+      action == "#REC"                 ~ X3[1],
+      action == "#DIC"                 ~ X3[1],
+      action == "#IF"                  ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
+      action == "#COMP"                ~ X2,
+      action == "#VARL"                ~ X2,
+      action == "#KG"                  ~ paste(X2, X3, sep = "_"),
+      action %in% c("#VALL", "#AVALL") ~ X2[1]
+    )
+  )
+}
+
 add_curlies_to_cell_with_spaces <- function(df_f1) {
   # transform X2 containing spaces to severalize()able (surrounded by curly braces):
   df_f1 %>%
