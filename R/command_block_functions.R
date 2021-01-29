@@ -375,10 +375,7 @@ cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- NA_real_
   }
-  id_list <- id_list[id_list %in% df[[id]]]
-  # df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
-  # probably faster:
-  df[match(id_list, df[[id]]), var_ziel] <- val_assign
+  df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
   y <- haven::labelled(
     df[[var_ziel]],
     labels = vallab,
