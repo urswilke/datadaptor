@@ -31,8 +31,8 @@ extract_sev_lists <- function(var) {
 #'
 #' @examples
 #' df_free <- data.frame(X1 = "#IF", X2 = "q{2 3} == 1", X3 = "kq{5 6} = {7 8}")
-#' severalize(df_free)
-severalize <- function(df_f1) {
+#' severalize_block(df_free)
+severalize_block <- function(df_f1) {
   df_f1 %>%
     dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
     dplyr::mutate_at(2:4, ~purrr::map(.x,~extract_sev_lists(.))) %>%
