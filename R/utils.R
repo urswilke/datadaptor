@@ -1,3 +1,34 @@
+#' Turn code blocks into multiple by replacing the curly braces by each of the parts inside
+#'
+#' This function turns the first line of code blocks of the "Free" sheets into
+#' multiple by replacing the curly braces
+#' by each of the parts inside (separated by spaces). This can help to save yourself
+#' from repetitive writing without diving into something like regular expressions.
+#'
+#' @param df_f1 code blocks read in by \code{mapp_free1()}
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' # Minimal example:
+#' df_curly <- data.frame(
+#'   X1 = "#IF",
+#'   X2 = "q{2 3} == 1",
+#'   X3 = "kq{5 6} = {7 8}",
+#'   X4 = NA_character_,
+#'   row = "1"
+#' )
+#' curliply(df_curly)
+#'
+#' # Extensive example:
+#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_filepath)
+#' curliply(df_free_raw)
+#' # For reference, open the "Free1" sheet in the Excel file via:
+#' \dontrun{
+#' utils::browseURL(mapping_filepath)
+#' }
 curliply <- function(df_free) {
   df_free %>%
     dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
@@ -43,20 +74,6 @@ extract_curly_lists <- function(var) {
   }
 }
 
-#' Turn one line of code into multiple replacing the curly braces by each of the parts
-#'
-#' This function turns one line of code of an "#IF" or "#COMP" block into
-#' multiple replacing the curly braces
-#' by each of the parts inside (separated by spaces).
-#'
-#' @param df_f1 code blocks read in by \code{mapp_free1()}
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' df_free <- data.frame(X1 = "#IF", X2 = "q{2 3} == 1", X3 = "kq{5 6} = {7 8}")
-#' curliply_block(df_free)
 curliply_block <- function(df_f1) {
   df_f1 %>%
     dplyr::mutate_at(2:4, ~purrr::map(.x, ~extract_curly_lists(.))) %>%
