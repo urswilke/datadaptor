@@ -284,12 +284,7 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::mutate(sheet = "Free1") %>%
     dplyr::select(-index) %>%
-    # transform X2 containing spaces to severalize()able (surrounded by curly braces):
-    dplyr::mutate(X2 = ifelse(
-      X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
-      paste0("{", X2, "}"),
-      X2
-    )) %>%
+    add_curlies_to_cell_with_spaces() %>%
     sevif() %>%
     dplyr::group_by(action, row)
   res %>%
@@ -315,7 +310,15 @@ make_free_cmd_table <- function(df_f1) {
     tidyr::nest() %>%
     dplyr::ungroup()
 }
-
+add_curlies_to_cell_with_spaces <- function(df_f1) {
+  # transform X2 containing spaces to severalize()able (surrounded by curly braces):
+  df_f1 %>%
+    dplyr::mutate(X2 = ifelse(
+      X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
+      paste0("{", X2, "}"),
+      X2
+  ))
+}
 replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
   replace_single_equals_sign <- function(column) {
     # see: https://stackoverflow.com/questions/28460473/how-do-i-match-a-single-equals-sign-with-regular-expressions/28460640
