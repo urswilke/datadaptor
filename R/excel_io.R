@@ -286,7 +286,9 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::mutate(action = X1[1]) %>%
     dplyr::group_split() %>%
     purrr::map_dfr(~collapse_multi_row_blocks(.x, raw_index)) %>%
-    sevif() %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::map_dfr(severalize) %>%
     dplyr::add_count(row) %>%
     dplyr::mutate(sev_index = ifelse(n == 1, NA_integer_, sev_index)) %>%
     dplyr::select(-n) %>%

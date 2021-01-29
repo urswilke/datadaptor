@@ -40,24 +40,6 @@ severalize <- function(df_f1) {
     tidyr::unnest(cols = c("X2", "X3", "X4", "sev_index"))
 }
 
-#' Severalize all #IF & #COMP commands
-#'
-#' @param df_free1 commands of the Excel mapping's "free" sheet
-#'
-#' @return
-#' @export
-#'
-#' @examples
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' df_free1 <- mapp_free1(mapping_filepath)
-#' sevif(df_free1)
-sevif <- function(df_free1) {
-  df_free1 %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(severalize)
-}
-
 
 collapse_multi_row_blocks <- function(df, raw_index) {
   df %>%
