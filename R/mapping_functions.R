@@ -19,7 +19,7 @@
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
-  id_var_str <- mapp_configr(mapping_file) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
+  id_var_str <- get_id_var(mapping_file)
 
 
   sheets <- mapping_file %>% readxl::excel_sheets()

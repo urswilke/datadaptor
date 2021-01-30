@@ -117,3 +117,8 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 # https://github.com/r-lib/vctrs/issues/23
 # is FALSE for NA; works for vectors
 is_true <- Vectorize(isTRUE)
+
+
+get_id_var <- function(mapping_file) {
+  mapp_configr(mapping_file) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
+}
