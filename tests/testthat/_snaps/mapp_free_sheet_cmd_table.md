@@ -1,27 +1,27 @@
 # snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
-    # A tibble: 22 x 4
-       row            action new_var data            
-       <chr>          <chr>  <chr>   <list>          
-     1 3              #COMP  x       <tibble [1 x 5]>
-     2 4              #IF    abc     <tibble [1 x 5]>
-     3 5_1            #IF    kq5     <tibble [1 x 5]>
-     4 5_2            #IF    kq6     <tibble [1 x 5]>
-     5 7, 8, 9, 10_1  #REC   kq1     <tibble [4 x 5]>
-     6 7, 8, 9, 10_2  #REC   kq3     <tibble [4 x 5]>
-     7 13             #COMP  n       <tibble [1 x 5]>
-     8 14             #VARL  n       <tibble [1 x 5]>
-     9 16, 17, 18, 19 #VALL  n       <tibble [4 x 5]>
-    10 21, 22         #AVALL n       <tibble [2 x 5]>
-    # ... with 12 more rows
+    # A tibble: 24 x 4
+       row           action new_var       data            
+       <chr>         <chr>  <chr>         <list>          
+     1 3             #COMP  x             <tibble [1 x 5]>
+     2 4             #IF    abc           <tibble [1 x 5]>
+     3 5_1           #IF    kq5           <tibble [1 x 5]>
+     4 5_2           #IF    kq6           <tibble [1 x 5]>
+     5 7, 8, 9, 10_1 #REC   kq1           <tibble [4 x 5]>
+     6 7, 8, 9, 10_2 #REC   kq3           <tibble [4 x 5]>
+     7 12_1          #KG    q2_renamed_q1 <tibble [1 x 5]>
+     8 12_2          #KG    q2_renamed_q3 <tibble [1 x 5]>
+     9 13            #COMP  n             <tibble [1 x 5]>
+    10 14            #VARL  n             <tibble [1 x 5]>
+    # ... with 14 more rows
 
 ---
 
-    tibble [22 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:22] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:22] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:22] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 22
+    tibble [24 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:24] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:24] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:24] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 24
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -58,6 +58,18 @@
       .. ..$ X3: chr [1:4] "kq3" "2" "3" "5"
       .. ..$ X4: chr [1:4] "summarized variable" "1" "2" "3"
       .. ..$ X5: chr [1:4] NA "1-2" "3" "4-5"
+      ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr "#KG"
+      .. ..$ X2: chr "q2_renamed"
+      .. ..$ X3: chr "q1"
+      .. ..$ X4: chr NA
+      .. ..$ X5: chr NA
+      ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr "#KG"
+      .. ..$ X2: chr "q2_renamed"
+      .. ..$ X3: chr "q3"
+      .. ..$ X4: chr NA
+      .. ..$ X5: chr NA
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "n"
