@@ -10,14 +10,14 @@
 #' @export
 #'
 #' @examples
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
-#' utils::browseURL(mapping_filepath)
+#' utils::browseURL(mapping_file)
 #' }
-#' mapp_cmd_table(mapping_filepath)
+#' mapp_cmd_table(mapping_file)
 #' # Add column for R command:
-#' mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
+#' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
   id_var_str <- get_id_var(mapping_file)
 
@@ -175,23 +175,23 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' @export
 #'
 #' @examples
-#' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' df <- haven::read_sav(spss_filepath)
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df <- haven::read_sav(spss_file)
 #'
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
-#' utils::browseURL(mapping_filepath)
+#' utils::browseURL(mapping_file)
 #' }
 #' # This command creates an overview table:
-#' df_cmd <- mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
+#' df_cmd <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 #'
-#' mapp_xl_to_data(df, mapping_filepath)
+#' mapp_xl_to_data(df, mapping_file)
 #'
 #'
 #' df_mod_list <- mapp_xl_to_data(
 #'   df,
-#'   mapping_filepath,
+#'   mapping_file,
 #'   input_if_error = TRUE,
 #'   rec_fun = purrr::accumulate2
 #' )
@@ -272,26 +272,26 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #'
 #' @param df_cmd dataframe returned by `mapp_cmd_table()`
 #' @param rscript_name file name of the script
-#' @param spss_filepath file name of the SPSS dataset
+#' @param spss_file file name of the SPSS dataset
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
-#' utils::browseURL(mapping_filepath)
+#' utils::browseURL(mapping_file)
 #' }
-#' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' df_cmd <- mapp_cmd_table(mapping_filepath)
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df_cmd <- mapp_cmd_table(mapping_file)
 #' \dontrun{
-#' translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_filepath)
+#' translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
 #' }
 translate_to_r_script <- function(
   df_cmd,
   rscript_name = "mapping.R",
-  spss_filepath
+  spss_file
   ) {
   cmd_list <-
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y))) %>%
@@ -299,7 +299,7 @@ translate_to_r_script <- function(
   script_start <- c(
     # "library(tidyverse)",
     "library(datenanpassr)",
-    paste0("df <- haven::read_sav('", spss_filepath, "')")
+    paste0("df <- haven::read_sav('", spss_file, "')")
   )
   append(
     script_start,

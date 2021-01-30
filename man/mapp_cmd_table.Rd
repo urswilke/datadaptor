@@ -27,12 +27,12 @@ Create a summary table of the data modifications list read in from the
 Excel mapping file
 }
 \examples{
-mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 # open this Excel file (that comes with the package) via:
 \dontrun{
-utils::browseURL(mapping_filepath)
+utils::browseURL(mapping_file)
 }
-mapp_cmd_table(mapping_filepath)
+mapp_cmd_table(mapping_file)
 # Add column for R command:
-mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
+mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 }

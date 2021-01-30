@@ -23,7 +23,7 @@ with \code{mapp_xl_to_data()}. The
 sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 }
 \examples{
-spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-df <- haven::read_sav(spss_filepath)
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df <- haven::read_sav(spss_file)
 mapp_create(df, "mapping.xlsx")
 }

@@ -22,12 +22,12 @@
 #' curliply(df_curly)
 #'
 #' # Extensive example:
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_filepath)
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file)
 #' curliply(df_free_raw)
 #' # For reference, open the "Free1" sheet in the Excel file via:
 #' \dontrun{
-#' utils::browseURL(mapping_filepath)
+#' utils::browseURL(mapping_file)
 #' }
 curliply <- function(df_free) {
   df_free %>%

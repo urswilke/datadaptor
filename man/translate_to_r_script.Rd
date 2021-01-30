@@ -4,14 +4,14 @@
 \alias{translate_to_r_script}
 \title{Translate Excel mapping file to R script}
 \usage{
-translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_filepath)
+translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
 }
 \arguments{
 \item{df_cmd}{dataframe returned by \code{mapp_cmd_table()}}
 
 \item{rscript_name}{file name of the script}
 
-\item{spss_filepath}{file name of the SPSS dataset}
+\item{spss_file}{file name of the SPSS dataset}
 }
 \value{
 
@@ -21,14 +21,14 @@ When the created script is run, the resulting dataframe df should be equal to
 the result of \code{mapp_xl_to_data()}.
 }
 \examples{
-mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 # open this Excel file (that comes with the package) via:
 \dontrun{
-utils::browseURL(mapping_filepath)
+utils::browseURL(mapping_file)
 }
-spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-df_cmd <- mapp_cmd_table(mapping_filepath)
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df_cmd <- mapp_cmd_table(mapping_file)
 \dontrun{
-translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_filepath)
+translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
 }
 }

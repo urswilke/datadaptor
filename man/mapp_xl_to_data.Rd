@@ -52,23 +52,23 @@ to manipulate variables. The sequence of commands is executed in the same
 order as the sequence of sheets in the mapping file.
 }
 \examples{
-spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-df <- haven::read_sav(spss_filepath)
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df <- haven::read_sav(spss_file)
 
-mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 # open this Excel file (that comes with the package) via:
 \dontrun{
-utils::browseURL(mapping_filepath)
+utils::browseURL(mapping_file)
 }
 # This command creates an overview table:
-df_cmd <- mapp_cmd_table(mapping_filepath, add_r_command_colum = TRUE)
+df_cmd <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 
-mapp_xl_to_data(df, mapping_filepath)
+mapp_xl_to_data(df, mapping_file)
 
 
 df_mod_list <- mapp_xl_to_data(
   df,
-  mapping_filepath,
+  mapping_file,
   input_if_error = TRUE,
   rec_fun = purrr::accumulate2
 )
