@@ -29,12 +29,12 @@ mapp_verbatim_sheet_cmd_tbl(
 Extract verbatim sheet related data of Excel mapping file to dataframe
 }
 \examples{
-mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-verbatim_filepath <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+verbatim_file <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = "datenanpassr")
 # open these Excel files (that come with the package) via:
 \dontrun{
-utils::browseURL(mapping_filepath)
-utils::browseURL(verbatim_filepath)
+utils::browseURL(mapping_file)
+utils::browseURL(verbatim_file)
 }
-mapp_verbatim_sheet_cmd_tbl(mapping_filepath, verba_file = verbatim_filepath, id = "id")
+mapp_verbatim_sheet_cmd_tbl(mapping_file, verba_file = verbatim_file, id = "id")
 }
