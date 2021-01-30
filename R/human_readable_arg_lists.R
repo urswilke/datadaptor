@@ -1,6 +1,7 @@
 transl_human_read <- function(action, data) {
   switch (
     action,
+    "#RFUN"    = transl_human_read_rfun(data),
     "#MERGE"   = transl_human_read_merge(data),
     "#IF"      = transl_human_read_if(data),
     "#COMP"    = transl_human_read_comp(data),
@@ -153,6 +154,15 @@ transl_human_read_merge <- function(data) {
     variable_names  = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
     id = d$X3[1],
     merge_file  = d$X2
+  )
+  list(res)
+}
+
+transl_human_read_rfun <- function(data) {
+  d <- data
+  res <- list(
+    r_script  = d$X2,
+    fun_name = d$X3
   )
   list(res)
 }

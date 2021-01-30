@@ -243,7 +243,7 @@ make_sumvar_cmd_table <- function(df_vall) {
 mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
   df_free_raw <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet, translate_xlsm)
   df_free_raw %>%
-    put_absolute_filepaths_for_merge(mapping_file) %>%
+    put_absolute_filepaths(mapping_file) %>%
     make_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
@@ -290,9 +290,9 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::select(-raw_index)
 }
-put_absolute_filepaths_for_merge <- function(df_f1, mapping_file) {
-  df_f1[is_true(df_f1$X1 == "#MERGE"), ][["X2"]] <-
-    df_f1[is_true(df_f1$X1 == "#MERGE"), ][["X2"]] %>%
+put_absolute_filepaths <- function(df_f1, mapping_file) {
+  df_f1[df_f1$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
+    df_f1[df_f1$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] %>%
     purrr::map_chr(~ adapt_filepath(.x, mapping_file))
   df_f1
 }

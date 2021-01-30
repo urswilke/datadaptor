@@ -394,3 +394,8 @@ cmd_merge <- function(df, merge_file, id = "id", variable_names) {
     dplyr::full_join(df_merge, by = id) %>%
     dplyr::relocate(names(df))
 }
+cmd_rfun <- function(df, r_script, fun_name) {
+  source(r_script, echo = FALSE)
+  df_mod <- do.call(fun_name, list(df))
+  df_mod
+}

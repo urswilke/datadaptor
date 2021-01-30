@@ -90,7 +90,8 @@ make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_
 make_cmd_expression <- function(action, data) {
   switch (
     action,
-    "#MERGE" = rlang::expr(cmd_merge(df, !!!data)),
+    "#MERGE"  = rlang::expr(cmd_merge(df, !!!data)),
+    "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#IF"     = rlang::expr(cmd_if(df, !!!data)),
     "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
     # TODO: find cleaner way to deal with this!
