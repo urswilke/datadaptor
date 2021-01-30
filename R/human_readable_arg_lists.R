@@ -3,6 +3,7 @@ transl_human_read <- function(action, data) {
     action,
     "#IF"      = transl_human_read_if(data),
     "#COMP"    = transl_human_read_comp(data),
+    "#COMPR"    = transl_human_read_comp(data),
     "#REC"     = transl_human_read_rec(data),
     "#SUMVAR"  = transl_human_read_sumvar(data),
     "#RENAME"  = transl_human_read_rename(data),

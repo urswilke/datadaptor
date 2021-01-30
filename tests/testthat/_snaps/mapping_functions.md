@@ -1,6 +1,6 @@
 # mapping function reproduces snapshot
 
-    tibble [100 x 42] (S3: tbl_df/tbl/data.frame)
+    tibble [100 x 43] (S3: tbl_df/tbl/data.frame)
      $ q1        : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
@@ -134,16 +134,17 @@
        ..@ label: chr "same variable label for a1 & a2"
      $ a2        : dbl+lbl [1:100] 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, ...
        ..@ label: chr "same variable label for a1 & a2"
+     $ r_expr_var: num [1:100] 24 24 8 24 20 40 792 16 792 792 ...
      $ free2_var : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
 
 # mapp_cmd_table() reproduces snapshot
 
-    tibble [56 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:56] "Label" "Variables" "Variables" "Variables" ...
-     $ action : chr [1:56] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
-     $ row    : chr [1:56] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
-     $ new_var: chr [1:56] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
-     $ data   :List of 56
+    tibble [57 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:57] "Label" "Variables" "Variables" "Variables" ...
+     $ action : chr [1:57] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
+     $ row    : chr [1:57] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
+     $ new_var: chr [1:57] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
+     $ data   :List of 57
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -491,10 +492,13 @@
       .. ..$ orig_var: chr "q3"
       .. ..$ new_var : chr "q4_renamed"
       ..$ :List of 2
+      .. ..$ new_var: chr "r_expr_var"
+      .. ..$ new_val: chr "ifelse(q1 == 5, q3 * 10, q1 * 8) %>% haven::labelled(label = \"varlab\")"
+      ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     - attr(*, "groups")= tibble [56 x 1] (S3: tbl_df/tbl/data.frame)
-      ..$ .rows: list<int> [1:56] 
+     - attr(*, "groups")= tibble [57 x 1] (S3: tbl_df/tbl/data.frame)
+      ..$ .rows: list<int> [1:57] 
       .. ..$ : int 1
       .. ..$ : int 2
       .. ..$ : int 3
@@ -551,5 +555,6 @@
       .. ..$ : int 54
       .. ..$ : int 55
       .. ..$ : int 56
+      .. ..$ : int 57
       .. ..@ ptype: int(0) 
 

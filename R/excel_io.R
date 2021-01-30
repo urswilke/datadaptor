@@ -290,7 +290,7 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::select(-raw_index)
 }
 get_new_var_name_free <- function(df_f1) {
-  col2_names <- c("#VALL", "#AVALL", "#COMP", "#VARL")
+  col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL")
   col3_names <- c("#REC", "#DIC")
   df_f1 %>%
     dplyr::mutate(new_var = dplyr::case_when(

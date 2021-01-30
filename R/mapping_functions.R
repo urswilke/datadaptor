@@ -89,6 +89,8 @@ make_cmd_expression <- function(action, data) {
     action,
     "#IF"     = rlang::expr(cmd_if(df, !!!data)),
     "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
+    # TODO: find cleaner way to deal with this!
+    "#COMPR"   = rlang::expr(cmd_comp(df, !!!data)),
     "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
     "#SUMVAR" = rlang::expr(cmd_sumvar(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
