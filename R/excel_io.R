@@ -291,8 +291,8 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::select(-raw_index)
 }
 put_absolute_filepaths_for_merge <- function(df_f1, mapping_file) {
-  df_f1[is_true(df_f1$X1 == "#MERGER"), ][["X2"]] <-
-    df_f1[is_true(df_f1$X1 == "#MERGER"), ][["X2"]] %>%
+  df_f1[is_true(df_f1$X1 == "#MERGE"), ][["X2"]] <-
+    df_f1[is_true(df_f1$X1 == "#MERGE"), ][["X2"]] %>%
     purrr::map_chr(~ adapt_filepath(.x, mapping_file))
   df_f1
 }
@@ -305,7 +305,7 @@ get_new_var_name_free <- function(df_f1) {
       action %in% col2_names ~ X2[1],
       action == "#IF"        ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
       action == "#KG"        ~ paste(X2, X3, sep = "_"),
-      action == "#MERGER"    ~ paste(X4, collapse = ", ")
+      action == "#MERGE"    ~ paste(X4, collapse = ", ")
     )
   )
 }

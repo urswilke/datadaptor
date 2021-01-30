@@ -1,7 +1,7 @@
 transl_human_read <- function(action, data) {
   switch (
     action,
-    "#MERGER"  = transl_human_read_merge(data),
+    "#MERGE"   = transl_human_read_merge(data),
     "#IF"      = transl_human_read_if(data),
     "#COMP"    = transl_human_read_comp(data),
     "#COMPR"   = transl_human_read_comp(data),
