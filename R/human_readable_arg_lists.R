@@ -1,9 +1,10 @@
 transl_human_read <- function(action, data) {
   switch (
     action,
+    "#MERGER"  = transl_human_read_merge(data),
     "#IF"      = transl_human_read_if(data),
     "#COMP"    = transl_human_read_comp(data),
-    "#COMPR"    = transl_human_read_comp(data),
+    "#COMPR"   = transl_human_read_comp(data),
     "#REC"     = transl_human_read_rec(data),
     "#SUMVAR"  = transl_human_read_sumvar(data),
     "#RENAME"  = transl_human_read_rename(data),
@@ -146,4 +147,13 @@ transl_human_read_verbatim <- function(data) {
 }
 
 
+transl_human_read_merge <- function(data) {
+  d <- data
+  res <- list(
+    variable_names  = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
+    id = d$X3[1],
+    merge_file  = d$X2
+  )
+  list(res)
+}
 

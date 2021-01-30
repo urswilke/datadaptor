@@ -1,35 +1,36 @@
 # mapp_free_sheet_cmd_table() reproduces snapshot
 
-    # A tibble: 19 x 4
-       row            action new_var    data            
-       <chr>          <chr>  <chr>      <list>          
-     1 3              #COMP  x          <tibble [1 x 5]>
-     2 4              #IF    abc        <tibble [1 x 5]>
-     3 5_1            #IF    kq5        <tibble [1 x 5]>
-     4 5_2            #IF    kq6        <tibble [1 x 5]>
-     5 7, 8, 9, 10_1  #REC   kq1        <tibble [4 x 5]>
-     6 7, 8, 9, 10_2  #REC   kq3        <tibble [4 x 5]>
-     7 13             #COMP  n          <tibble [1 x 5]>
-     8 14             #VARL  n          <tibble [1 x 5]>
-     9 16, 17, 18, 19 #VALL  n          <tibble [4 x 5]>
-    10 21, 22         #AVALL n          <tibble [2 x 5]>
-    11 26_1           #VARL  q3         <tibble [1 x 5]>
-    12 26_2           #VARL  q5         <tibble [1 x 5]>
-    13 29_1           #COMP  a1         <tibble [1 x 5]>
-    14 29_2           #COMP  a2         <tibble [1 x 5]>
-    15 30_1           #VARL  a1         <tibble [1 x 5]>
-    16 30_2           #VARL  a2         <tibble [1 x 5]>
-    17 32_1           #DIC   q2_renamed <tibble [1 x 5]>
-    18 32_2           #DIC   q4_renamed <tibble [1 x 5]>
-    19 35             #COMPR r_expr_var <tibble [1 x 5]>
+    # A tibble: 20 x 4
+       row            action  new_var    data            
+       <chr>          <chr>   <chr>      <list>          
+     1 3              #COMP   x          <tibble [1 x 5]>
+     2 4              #IF     abc        <tibble [1 x 5]>
+     3 5_1            #IF     kq5        <tibble [1 x 5]>
+     4 5_2            #IF     kq6        <tibble [1 x 5]>
+     5 7, 8, 9, 10_1  #REC    kq1        <tibble [4 x 5]>
+     6 7, 8, 9, 10_2  #REC    kq3        <tibble [4 x 5]>
+     7 13             #COMP   n          <tibble [1 x 5]>
+     8 14             #VARL   n          <tibble [1 x 5]>
+     9 16, 17, 18, 19 #VALL   n          <tibble [4 x 5]>
+    10 21, 22         #AVALL  n          <tibble [2 x 5]>
+    11 26_1           #VARL   q3         <tibble [1 x 5]>
+    12 26_2           #VARL   q5         <tibble [1 x 5]>
+    13 29_1           #COMP   a1         <tibble [1 x 5]>
+    14 29_2           #COMP   a2         <tibble [1 x 5]>
+    15 30_1           #VARL   a1         <tibble [1 x 5]>
+    16 30_2           #VARL   a2         <tibble [1 x 5]>
+    17 32_1           #DIC    q2_renamed <tibble [1 x 5]>
+    18 32_2           #DIC    q4_renamed <tibble [1 x 5]>
+    19 35             #COMPR  r_expr_var <tibble [1 x 5]>
+    20 37             #MERGER q1 q2      <tibble [1 x 5]>
 
 ---
 
-    tibble [19 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:19] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:19] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:19] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 19
+    tibble [20 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:20] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:20] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:20] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 20
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -143,5 +144,11 @@
       .. ..$ X2: chr "r_expr_var"
       .. ..$ X3: chr "ifelse(q1 == 5, q3 * 10, q1 * 8) %>% haven::labelled(label = \"varlab\")"
       .. ..$ X4: chr NA
+      .. ..$ X5: chr NA
+      ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr "#MERGER"
+      .. ..$ X2: chr "/home/chief/R/datenanpassr/inst/extdata/fake_survey.sav"
+      .. ..$ X3: chr "id"
+      .. ..$ X4: chr "q1 q2"
       .. ..$ X5: chr NA
 

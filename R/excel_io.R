@@ -297,7 +297,8 @@ get_new_var_name_free <- function(df_f1) {
       action %in% col3_names ~ X3[1],
       action %in% col2_names ~ X2[1],
       action == "#IF"        ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
-      action == "#KG"        ~ paste(X2, X3, sep = "_")
+      action == "#KG"        ~ paste(X2, X3, sep = "_"),
+      action == "#MERGER"    ~ paste(X4, collapse = ", ")
     )
   )
 }
