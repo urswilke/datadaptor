@@ -145,7 +145,7 @@
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#RFUN"
       .. ..$ X2: chr "/home/chief/R/datenanpassr/inst/extdata/example_R_function.R"
-      .. ..$ X3: chr "create_string_var"
+      .. ..$ X3: chr "calc_sum_of_k_vars"
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
 

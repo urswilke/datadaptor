@@ -507,7 +507,7 @@
       .. ..$ merge_file    : chr "/home/chief/R/datenanpassr/inst/extdata/fake_survey.sav"
       ..$ :List of 2
       .. ..$ r_script: chr "/home/chief/R/datenanpassr/inst/extdata/example_R_function.R"
-      .. ..$ fun_name: chr "create_string_var"
+      .. ..$ fun_name: chr "calc_sum_of_k_vars"
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
