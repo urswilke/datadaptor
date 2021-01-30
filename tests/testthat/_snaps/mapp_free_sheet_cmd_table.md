@@ -1,4 +1,4 @@
-# mapp_free_sheet_cmd_table() reproduces snapshot
+# snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
     # A tibble: 22 x 4
        row            action new_var data            

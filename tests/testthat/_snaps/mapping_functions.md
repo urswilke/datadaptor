@@ -1,4 +1,4 @@
-# mapping function reproduces snapshot
+# snapshot of the structure of the result of the mapping function mapp_xl_to_data()
 
     tibble [100 x 46] (S3: tbl_df/tbl/data.frame)
      $ q1           : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
@@ -145,7 +145,7 @@
      $ a            : num [1:100] 1 1 1 1 1 1 1 1 1 1 ...
      $ free2_var    : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
 
-# mapp_cmd_table() reproduces snapshot
+# snapshot of the structure of the result of mapp_cmd_table()
 
     tibble [60 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
      $ sheet  : chr [1:60] "Label" "Variables" "Variables" "Variables" ...
