@@ -61,18 +61,8 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
   ) %>%
     dplyr::rename_all(~LETTERS[2:4]) %>%
     dplyr::filter(B == "Filename input") %>%
-    dplyr::pull(D) %>%
-    stringr::str_replace_all("\\\\", "/")
-  if (is.na(file_path)) {
-    return(file_path)
-  }
-  if (fs::is_absolute_path(file_path)) {
-    return(file_path)
-  }
-  else {
-    mapping_dir <- mapping_file %>% fs::path_dir()
-    return(paste0(mapping_dir, "/", file_path))
-  }
+    dplyr::pull(D)
+  adapt_filepath(file_path, mapping_file)
 }
 make_assigns_list <- function(verba_file, mapping_verba_sheet) {
   verba_file_sheets <-

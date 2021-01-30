@@ -122,3 +122,20 @@ is_true <- Vectorize(isTRUE)
 get_id_var <- function(mapping_file) {
   mapp_configr(mapping_file) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
 }
+
+# Function to replace windows backslashes to slashes and replace relative
+# filepaths by absolutes, based on the directory of the mapping file:
+adapt_filepath <- function(file_path, mapping_file) {
+  file_path <- file_path %>%
+    stringr::str_replace_all("\\\\", "/")
+  if (is.na(file_path)) {
+    return(file_path)
+  }
+  if (fs::is_absolute_path(file_path)) {
+    return(file_path)
+  }
+  else {
+    mapping_dir <- mapping_file %>% fs::path_dir()
+    return(paste0(mapping_dir, "/", file_path))
+  }
+}
