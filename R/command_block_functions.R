@@ -399,3 +399,6 @@ cmd_rfun <- function(df, r_script, fun_name) {
   df_mod <- do.call(fun_name, list(df))
   df_mod
 }
+cmd_r <- function(df, r_code) {
+  paste("df %>% ", r_code) %>% rlang::parse_expr() %>% rlang::eval_tidy()
+}

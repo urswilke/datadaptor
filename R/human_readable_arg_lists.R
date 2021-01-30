@@ -2,6 +2,7 @@ transl_human_read <- function(action, data) {
   switch (
     action,
     "#RFUN"    = transl_human_read_rfun(data),
+    "#R"       = transl_human_read_r(data),
     "#MERGE"   = transl_human_read_merge(data),
     "#IF"      = transl_human_read_if(data),
     "#COMP"    = transl_human_read_comp(data),
@@ -163,6 +164,14 @@ transl_human_read_rfun <- function(data) {
   res <- list(
     r_script  = d$X2,
     fun_name = d$X3
+  )
+  list(res)
+}
+
+transl_human_read_r <- function(data) {
+  d <- data
+  res <- list(
+    r_code  = d$X2
   )
   list(res)
 }

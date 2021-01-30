@@ -1,6 +1,6 @@
 # mapping function reproduces snapshot
 
-    tibble [100 x 45] (S3: tbl_df/tbl/data.frame)
+    tibble [100 x 46] (S3: tbl_df/tbl/data.frame)
      $ q1           : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
        ..@ label      : chr "How much do you like the product?"
        ..@ format.spss: chr "F8.2"
@@ -142,16 +142,17 @@
        ..@ labels     : Named num [1:3] 1 2 99
        .. ..- attr(*, "names")= chr [1:3] "yes" "no" "no answer"
      $ sum_of_k_vars: num [1:100] 4 12 10 5 4 6 2 4 9 16 ...
+     $ a            : num [1:100] 1 1 1 1 1 1 1 1 1 1 ...
      $ free2_var    : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
 
 # mapp_cmd_table() reproduces snapshot
 
-    tibble [59 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:59] "Label" "Variables" "Variables" "Variables" ...
-     $ action : chr [1:59] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
-     $ row    : chr [1:59] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
-     $ new_var: chr [1:59] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
-     $ data   :List of 59
+    tibble [60 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:60] "Label" "Variables" "Variables" "Variables" ...
+     $ action : chr [1:60] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
+     $ row    : chr [1:60] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
+     $ new_var: chr [1:60] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
+     $ data   :List of 60
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -508,11 +509,13 @@
       ..$ :List of 2
       .. ..$ r_script: chr "/home/chief/R/datenanpassr/inst/extdata/example_R_function.R"
       .. ..$ fun_name: chr "calc_sum_of_k_vars"
+      ..$ :List of 1
+      .. ..$ r_code: chr "dplyr::mutate(a=1)"
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     - attr(*, "groups")= tibble [59 x 1] (S3: tbl_df/tbl/data.frame)
-      ..$ .rows: list<int> [1:59] 
+     - attr(*, "groups")= tibble [60 x 1] (S3: tbl_df/tbl/data.frame)
+      ..$ .rows: list<int> [1:60] 
       .. ..$ : int 1
       .. ..$ : int 2
       .. ..$ : int 3
@@ -572,6 +575,7 @@
       .. ..$ : int 57
       .. ..$ : int 58
       .. ..$ : int 59
+      .. ..$ : int 60
       .. ..@ ptype: int(0) 
      - attr(*, "id_var")= chr "id"
 
