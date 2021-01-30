@@ -568,4 +568,5 @@
       .. ..$ : int 57
       .. ..$ : int 58
       .. ..@ ptype: int(0) 
+     - attr(*, "id_var")= chr "id"
 

@@ -10,27 +10,30 @@ mapp_xl_to_data(
   na_to_filter = TRUE,
   input_if_error = FALSE,
   rec_fun = purrr::reduce2,
-  translate_xlsm = FALSE
+  translate_xlsm = FALSE,
+  check_id_is_unique = TRUE
 )
 }
 \arguments{
-\item{df}{dataframe to apply mapping on}
+\item{df}{check_id_is_unique logical whether to check that the specified id
+variable (in sheet "configr") is unique; defaults to TRUE.}
 
 \item{mapping_file}{name of the mapping Excel file or the object returned by
 \code{mapp_cmd_table()} of this path}
 
-\item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df will
-be replaced by -2 with the value label "FILTER".}
+\item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df
+will be replaced by -2 with the value label "FILTER".}
 
 \item{input_if_error}{logical; if TRUE, command blocks of the mapping file
-that error out will be skipped; possible errors are attached to the dataframe
-as a character vector of length of all the commands in the command table;
-in combination with
-\code{rec_fun} = \code{purrr::accumulate2} this can be used to examine intermediate
-results, in order to find the reason for the error. Alternatively, run the script
-created by \code{translate_to_r_script()}.}
+that error out will be skipped; possible errors are attached to the
+dataframe as a character vector of length of all the commands in the
+command table; in combination with \code{rec_fun} = \code{purrr::accumulate2} this
+can be used to examine intermediate results, in order to find the reason
+for the error. Alternatively, run the script created by
+\code{translate_to_r_script()}.}
 
-\item{rec_fun}{function either purrr::reduce2 or purrr::accumulate2; see Value section}
+\item{rec_fun}{function either purrr::reduce2 or purrr::accumulate2; see
+Value section}
 }
 \value{
 in case rec_fun = purrr::reduce2 only the final dataframe is returned
@@ -38,16 +41,15 @@ in case of purrr::accumulate2 a list with all intermediate dataframes (of
 every command block) is returned
 }
 \description{
-The commands entered in the mapping file can be excuted on the data set
-with this function.
-A template of a mapping file with existing label information of a labelled dataset
-can be created with \code{mapp_create()}. The mapping file consists of
-the sheets "Variables", "Label", "Verbatims" & "Free".
-Each of these controlls different aspects of data manipulations you can apply
-to a labelled dataset. You can add as much of those sheets as you want to the
-file (they just have to start by one of these strings) and therein enter
-commands to manipulate variables. The
-sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
+The commands entered in the mapping file can be excuted on the data set with
+this function. A template of a mapping file with existing label information
+of a labelled dataset can be created with \code{mapp_create()}. The mapping
+file consists of the sheets "Variables", "Label", "Verbatims" & "Free". Each
+of these controlls different aspects of data manipulations you can apply to a
+labelled dataset. You can add as much of those sheets as you want to the file
+(they just have to start by one of these strings) and therein enter commands
+to manipulate variables. The sequence of commands is executed in the same
+order as the sequence of sheets in the mapping file.
 }
 \examples{
 spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")

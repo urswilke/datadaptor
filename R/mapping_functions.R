@@ -70,6 +70,9 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
       dplyr::mutate(a = list(paste(stringr::str_squish(a), collapse = " "))) %>%
       tidyr::unnest(a)
   }
+  id_var <- get_id_var(mapping_file)
+
+  attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
 make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
@@ -137,34 +140,36 @@ apply_one_cmd_safe <- function(df1, action, data) {
 
 #' Apply changes of mapping Excel file to dataframe
 #'
-#' The commands entered in the mapping file can be excuted on the data set
-#' with this function.
-#' A template of a mapping file with existing label information of a labelled dataset
-#' can be created with \code{mapp_create()}. The mapping file consists of
-#' the sheets "Variables", "Label", "Verbatims" & "Free".
-#' Each of these controlls different aspects of data manipulations you can apply
-#' to a labelled dataset. You can add as much of those sheets as you want to the
-#' file (they just have to start by one of these strings) and therein enter
-#' commands to manipulate variables. The
-#' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
+#' The commands entered in the mapping file can be excuted on the data set with
+#' this function. A template of a mapping file with existing label information
+#' of a labelled dataset can be created with \code{mapp_create()}. The mapping
+#' file consists of the sheets "Variables", "Label", "Verbatims" & "Free". Each
+#' of these controlls different aspects of data manipulations you can apply to a
+#' labelled dataset. You can add as much of those sheets as you want to the file
+#' (they just have to start by one of these strings) and therein enter commands
+#' to manipulate variables. The sequence of commands is executed in the same
+#' order as the sequence of sheets in the mapping file.
 #'
 #' @param df dataframe to apply mapping on
 #' @param mapping_file name of the mapping Excel file or the object returned by
-#' `mapp_cmd_table()` of this path
-#' @param na_to_filter logical; if TRUE, NA values of numerical variables in df will
-#' be replaced by -2 with the value label "FILTER".
+#'   `mapp_cmd_table()` of this path
+#' @param na_to_filter logical; if TRUE, NA values of numerical variables in df
+#'   will be replaced by -2 with the value label "FILTER".
 #' @param input_if_error logical; if TRUE, command blocks of the mapping file
-#' that error out will be skipped; possible errors are attached to the dataframe
-#' as a character vector of length of all the commands in the command table;
-#' in combination with
-#' `rec_fun` = `purrr::accumulate2` this can be used to examine intermediate
-#' results, in order to find the reason for the error. Alternatively, run the script
-#' created by `translate_to_r_script()`.
-#' @param rec_fun function either purrr::reduce2 or purrr::accumulate2; see Value section
+#'   that error out will be skipped; possible errors are attached to the
+#'   dataframe as a character vector of length of all the commands in the
+#'   command table; in combination with `rec_fun` = `purrr::accumulate2` this
+#'   can be used to examine intermediate results, in order to find the reason
+#'   for the error. Alternatively, run the script created by
+#'   `translate_to_r_script()`.
+#' @param rec_fun function either purrr::reduce2 or purrr::accumulate2; see
+#'   Value section
+#' @param df check_id_is_unique logical whether to check that the specified id
+#'   variable (in sheet "configr") is unique; defaults to TRUE.
 #'
 #' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
-#' in case of purrr::accumulate2 a list with all intermediate dataframes (of
-#' every command block) is returned
+#'   in case of purrr::accumulate2 a list with all intermediate dataframes (of
+#'   every command block) is returned
 #' @export
 #'
 #' @examples
@@ -200,7 +205,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
-                            translate_xlsm = FALSE) {
+                            translate_xlsm = FALSE, check_id_is_unique = TRUE) {
   if (typeof(mapping_file) == "character") {
     cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm)
   }
@@ -211,6 +216,10 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     stop("
          mapping_file has to be either the file path to the mapping file,
          or the command table data frame (returned by `mapp_cmd_table()`) of this path!")
+  }
+  id_var <- attr(cmd_table, "id_var")
+  if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
+    stop("Defined id variable ", id_var, " is not unique")
   }
 
   if (na_to_filter == TRUE) {
