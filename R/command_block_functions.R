@@ -390,7 +390,7 @@ cmd_merge <- function(df, merge_file, id = "id", variable_names) {
   replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
   df_merge <- haven::read_sav(merge_file) %>% dplyr::select(!!id, !!!variable_names)
   df %>%
-    dplyr::select(-replaced_vars) %>%
+    dplyr::select(-all_of(replaced_vars)) %>%
     dplyr::full_join(df_merge, by = id) %>%
     dplyr::relocate(names(df))
 }
