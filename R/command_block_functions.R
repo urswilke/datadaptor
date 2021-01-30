@@ -385,6 +385,24 @@ cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id
   df
 }
 
+#' Merge variables from file to dataframe
+#'
+#' If the variables in `merge_file` are already present, they will be replaced.
+#'
+#' @param df dataframe to manipulate
+#' @param merge_file character string of the file to merge from
+#' @param id character string of the id variable to merge by
+#' @param variable_names space-separated list of variable names to merge from `merge_file`
+#'
+#' @return manipulated dataframe `df` with the variables defined in `variable_names` added, merged by `id`
+#' @export
+#'
+#' @examples
+#' df <- data.frame(id = 1:100)
+#' variable_names <- c("q1", "q2")
+#' id <- "id"
+#' merge_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' cmd_merge(df, merge_file, id, variable_names)
 cmd_merge <- function(df, merge_file, id = "id", variable_names) {
   merge_vars <- c(id, variable_names)
   replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
@@ -394,11 +412,39 @@ cmd_merge <- function(df, merge_file, id = "id", variable_names) {
     dplyr::full_join(df_merge, by = id) %>%
     dplyr::relocate(names(df))
 }
+
+#' Execute function defined in R script manimullating dataframe df
+#'
+#' @param df dataframe
+#' @param r_script character string of the R script where the function is defined
+#' @param fun_name character string of the R function name in the script
+#'
+#' @return Manipulated dataframe
+#' @export
+#'
+#' @examples
+#' df <- data.frame(k1 = 1, k2 = 2)
+#' r_script <- system.file("extdata", "example_R_function.R", package = "datenanpassr")
+#' fun_name <- "calc_sum_of_k_vars"
+#' cmd_rfun(df, r_script, fun_name)
 cmd_rfun <- function(df, r_script, fun_name) {
   source(r_script, echo = FALSE)
   df_mod <- do.call(fun_name, list(df))
   df_mod
 }
+
+#' Manipulate dataframe by R expression in character string
+#'
+#' @param df dataframe
+#' @param r_code character string of the R code the dataframe is manipulated by
+#'
+#' @return Manipulated dataframe (the expression string is piped to `df`).
+#' @export
+#'
+#' @examples
+#' df <- data.frame(k1 = 1, k2 = 2)
+#' r_code <- "dplyr::mutate(k3 = 3)"
+#' cmd_r(df, r_code)
 cmd_r <- function(df, r_code) {
   paste("df %>% ", r_code) %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
