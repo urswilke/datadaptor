@@ -4,7 +4,7 @@
 #' @param orig_vars character vector of variable names in `df`
 #' @param new_names character vector of new variable names (has to be of the same length as `origvars`)
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -22,7 +22,7 @@ cmd_rename <- function(df, orig_vars, new_names){
 #' @param orig_var character string of (labelled) variable
 #' @param new_label character string of new label
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -46,12 +46,12 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #' @param new_vals numeric vector containing the labelled values of the variable
 #' @param new_labs character vector of the new value labels
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
 #' df <- data.frame(x = 1:2)
-#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("value for 1", "value for 2"))
+#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 #' df$x
 cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact = TRUE), new_vals, new_labs){
   df[[orig_var]] <- haven::labelled(
@@ -70,17 +70,19 @@ cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact =
 #' @param vals_added values added
 #' @param labs_added value labels added
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
-#' x <- haven::labelled(1:2, labels = c("value for 1" = 1), label = "var label")
+#' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 #' df <- data.frame(x)
-#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("value for 2"))
+#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
 #' df$x
 cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
-  labs <- c(attr(df[[orig_var]], "labels") %>% names(), labs_added)
-  vals <- c(attr(df[[orig_var]], "labels") %>% unname(), vals_added)
+  old_vallab_vec <- attr(df[[orig_var]], "labels")
+  added_vallab_vec <- purrr::set_names(vals_added, labs_added)
+  new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
+
   if(is.null(new_lab))
     varlab <-  attr(df[[orig_var]], "label", exact = TRUE)
   else
@@ -88,12 +90,36 @@ cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
 
   df[[orig_var]] <- haven::labelled(
     df[[orig_var]],
-    labels = purrr::set_names(vals, labs),
+    labels = new_vallab_vec,
     label = varlab
   )
   df
 }
 
+#' Copy variable and value labels of a labelled variable orig_var to new_var in a dataframe df
+#'
+#' @param df dataframe
+#' @param orig_var character string of (labelled) variable in df
+#' @param new_var character string of (labelled) variable in df
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
+#' df <- data.frame(x, y = NA_real_)
+#' df <- cmd_dic(df, orig_var = "x", new_var = "y")
+#' df$y
+cmd_dic <- function(df, orig_var, new_var){
+  varlab <- attr(df[[orig_var]], "label", exact = TRUE)
+  vallabs <- attr(df[[orig_var]], "labels", exact = TRUE)
+  df[[new_var]] <- haven::labelled(
+    df[[new_var]],
+    labels = vallabs,
+    label = varlab
+  )
+  df
+}
 
 kg_mix <- function(df, var1, var2) {
   var_kg <- paste(var1, var2, sep = "_")
@@ -115,7 +141,7 @@ kg_mix <- function(df, var1, var2) {
 #' @param split_var variable to split by
 #' @param by_var variable to be splitted
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -134,9 +160,10 @@ prepare_newvar_table <- function(df, split_var, by_var) {
   var2lab <- attr(df[[by_var]], "label", exact = TRUE)
   new_varlabs <-
     df %>%
+    dplyr::select(!!split_var) %>%
+    # TODO: find cleaner way without defining a dummy id:
     dplyr::mutate(id = dplyr::row_number(), !!split_var) %>%
     tablab::tab_all() %>%
-    dplyr::filter(var == split_var) %>%
     tidyr::drop_na(nv) %>%
     tidyr::unite(new_varlab, varlab, vallab, sep = " - ") %>%
     dplyr::mutate(new_varlab = paste0(new_varlab, ": ", var2lab)) %>%
@@ -153,15 +180,16 @@ prepare_newvar_table <- function(df, split_var, by_var) {
   new_vars
 }
 split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
-  new_vec <- df %>% dplyr::transmute(x = ifelse(!!rlang::sym(split_var) == new_vars$nv, !!rlang::sym(by_var), NA)
-  ) %>% dplyr::pull()
-  vallabs <- df %>%
-    dplyr::pull(!!rlang::sym(by_var)) %>%
+  vallabs <- df[[by_var]] %>%
     attr(., "labels")
-  new_vec <- haven::labelled(new_vec, labels = vallabs, label = new_vars$new_varlab)
-  df %>% dplyr::mutate(
-    !!rlang::sym(new_vars$new_varnames) := new_vec)
-
+  df[new_vars$new_varnames] <- haven::labelled(
+    NA_real_,
+    labels = vallabs,
+    label = new_vars$new_varlab
+  )
+  change_indices <- which(df[[split_var]] == new_vars$nv)
+  df[[new_vars$new_varnames]][change_indices] <- df[[by_var]][change_indices]
+  df
 }
 
 
@@ -176,7 +204,7 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' @param new_vals numeric vector of labelled values of new recoded variable
 #' @param new_labs character vector of value labels of new recoded variable
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -230,7 +258,7 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 #' @details
 #' The vectors lb, ub, new_vals and new_labs all need to be of the same length.
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -277,7 +305,7 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
 #' @param new_var string of the variable name
 #' @param new_val expression string
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -298,7 +326,7 @@ cmd_comp <- function(df, new_var, new_val) {
 #' @param new_val character string the new value expression  when \code{condition}
 #' is fulfilled (numeric string values are transformed to numeric)
 #'
-#' @return
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
@@ -315,7 +343,8 @@ cmd_if <- function(df, new_var, condition, new_val) {
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
 
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(!!cond, !!val, !!old_val))
+  # TODO: maybe Vectorize isn't very performant -> check
+  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
 }
 
 #' Assign a value to a variable in a dataframe at specified ids
@@ -328,12 +357,12 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' @param id name of the id variable in df (character string)
 #' @param id_list list of the id values to be matched
 #'
-#' @return modified dataframe
+#' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
 #' df <- data.frame(id_var = 1:5)
-#' df <- cmd_verba(
+#' df <- cmd_verbatim(
 #'   df,
 #'   var_ziel = "new_var",
 #'   val_assign = 2,
@@ -344,13 +373,11 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' )
 #' df
 #' df$new_var
-cmd_verba <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
+cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- NA_real_
   }
-  # df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
-  # probably faster:
-  df[match(id_list, df[[id]]), var_ziel] <- val_assign
+  df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
   y <- haven::labelled(
     df[[var_ziel]],
     labels = vallab,
@@ -360,3 +387,70 @@ cmd_verba <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_li
   df
 }
 
+#' Merge variables from file to dataframe
+#'
+#' If the variables in `merge_file` are already present, they will be replaced.
+#'
+#' @param df dataframe to manipulate
+#' @param merge_file character string of the file to merge from
+#' @param id character string of the id variable to merge by
+#' @param variable_names space-separated list of variable names to merge from `merge_file`
+#'
+#' @return manipulated dataframe `df` with the variables defined in `variable_names` added, merged by `id`
+#' @export
+#'
+#' @examples
+#' df <- data.frame(id = 1:100)
+#' variable_names <- c("q1", "q2")
+#' id <- "id"
+#' merge_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' cmd_merge(df, merge_file, id, variable_names)
+cmd_merge <- function(df, merge_file, id = "id", variable_names) {
+  merge_vars <- c(id, variable_names)
+  replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
+  df_merge <- haven::read_sav(merge_file) %>% dplyr::select(!!id, !!!variable_names)
+  df %>%
+    dplyr::select(-all_of(replaced_vars)) %>%
+    dplyr::full_join(df_merge, by = id) %>%
+    dplyr::relocate(names(df))
+}
+
+#' Execute function defined in R script manimullating dataframe df
+#'
+#' @param df dataframe
+#' @param r_script character string of the R script where the function is defined
+#' @param fun_name character string of the R function name in the script
+#'
+#' @return Manipulated dataframe
+#' @export
+#'
+#' @examples
+#' df <- data.frame(k1 = 1, k2 = 2)
+#' r_script <- system.file("extdata", "example_R_function.R", package = "datenanpassr")
+#' fun_name <- "calc_sum_of_k_vars"
+#' cmd_rfun(df, r_script, fun_name)
+cmd_rfun <- function(df, r_script, fun_name) {
+  source(r_script, echo = FALSE)
+  df_mod <- do.call(fun_name, list(df))
+  df_mod
+}
+
+#' Manipulate dataframe by R expression in character string
+#'
+#' The current state of the data is stored in a dataframe `df`. It can be
+#' manipulated by a character string, which is then parsed to an R expression
+#' and evaluated (see examples).
+#'
+#' @param df dataframe
+#' @param r_code character string of the R code the dataframe is manipulated by
+#'
+#' @return Manipulated dataframe (the expression string is piped to `df`).
+#' @export
+#'
+#' @examples
+#' df <- data.frame(k1 = 1, k2 = 2)
+#' r_code <- "df %>% dplyr::mutate(k3 = 3)"
+#' cmd_r(df, r_code)
+cmd_r <- function(df, r_code) {
+  r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
+}

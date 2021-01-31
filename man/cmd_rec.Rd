@@ -24,7 +24,7 @@ cmd_rec(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs)
 \item{new_labs}{value labels of recoded variable}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Recode variable

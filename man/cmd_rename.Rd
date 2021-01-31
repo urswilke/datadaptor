@@ -14,7 +14,7 @@ cmd_rename(df, orig_vars, new_names)
 \item{new_names}{character vector of new variable names (has to be of the same length as \code{origvars})}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Rename variable variable orig_var in dataframe df

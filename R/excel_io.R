@@ -8,16 +8,16 @@
 #' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
 #'
 #' @param df_raw dataframe with labelled variables, e.g. resulting from haven::read_sav
-#' @param filename name of the Excel file to be created
+#' @param mapping_file name of the Excel file to be created
 #'
 #' @return
 #' @export
 #'
 #' @examples
-#' spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' df <- haven::read_sav(spss_filepath)
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df <- haven::read_sav(spss_file)
 #' mapp_create(df, "mapping.xlsx")
-mapp_create <- function(df_raw, filename) {
+mapp_create <- function(df_raw, mapping_file) {
 
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
@@ -45,11 +45,11 @@ mapp_create <- function(df_raw, filename) {
   openxlsx::writeData(wb, sheet = "Free1", x = "")
 
   # Export the file
-  openxlsx::saveWorkbook(wb, filename)
+  openxlsx::saveWorkbook(wb, mapping_file)
 }
 #' Extract configr sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return
@@ -58,11 +58,15 @@ mapp_create <- function(df_raw, filename) {
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' mapp_configr(mapping_filepath)
-mapp_configr <- function(filename, sheet = "configr") {
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_file)
+#' }
+#' mapp_configr(mapping_file)
+mapp_configr <- function(mapping_file, sheet = "configr") {
   df_config <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     sheet = sheet
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
@@ -71,10 +75,12 @@ mapp_configr <- function(filename, sheet = "configr") {
 
 
 
+
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of mapp_create
 #'
 #' @return
 #' @export
@@ -82,33 +88,84 @@ mapp_configr <- function(filename, sheet = "configr") {
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' mapp_varl(mapping_filepath)
-mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_file)
+#' }
+#' mapp_var_sheet_cmd_table(mapping_file)
+mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   df_varl <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     sheet = sheet
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
   if (translate_xlsm) {
-    df_varl <- df_varl %>% dplyr::select(
-      var = 1,
-      varlab = 3,
-      op = Operation,
-      new_name = `New var name`,
-      new_label = `New var label`
-    ) %>%
-      dplyr::slice(-1) %>%
-      dplyr::mutate(varlab = ifelse(varlab == "<none>", NA_character_, varlab))
+    df_varl <- translate_xlsm_var_sheet(df_varl)
   }
-  df_varl
+  df_varl %>% make_varlab_cmd_table()
 }
+translate_xlsm_var_sheet <- function(df_varl) {
+  df_varl %>% dplyr::select(
+    var = 1,
+    varlab = 3,
+    op = Operation,
+    new_name = `New var name`,
+    new_label = `New var label`
+  ) %>%
+    dplyr::slice(-1) %>%
+    dplyr::mutate(varlab = ifelse(varlab == "<none>", NA_character_, varlab))
+}
+
+make_varlab_cmd_table <- function(df_varl) {
+  dplyr::bind_rows(
+    make_varlab_rename_tbl(df_varl),
+    make_varlab_newlab_table(df_varl)
+  )
+}
+
+make_varlab_newlab_table <- function(df_varl) {
+  df_varl %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
+    tidyr::drop_na(new_label) %>%
+    dplyr::mutate(var = dplyr::coalesce(new_name, var)) %>%
+    dplyr::mutate(new_var = var) %>%
+    dplyr::mutate(sheet = "Variables") %>%
+    dplyr::mutate(action = "#NEWLAB") %>%
+    dplyr::select(-new_name, -op) %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+make_varlab_rename_tbl <- function(df_varl) {
+  df_rename <- df_varl %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
+    tidyr::drop_na(new_name) %>%
+    dplyr::mutate(sheet = "Variables") %>%
+    dplyr::mutate(action = "#RENAME") %>%
+    dplyr::mutate(new_var = new_name) %>%
+    dplyr::select(-new_label, -op, -varlab) %>%
+    dplyr::group_by(sheet, action) %>%
+    dplyr::summarise(
+      row = paste(row, collapse = ", "),
+      new_names = list(new_var),
+      new_var = paste(new_var, collapse = ", "),
+      vars = list(var)
+    ) %>%
+    dplyr::group_by(sheet, action, new_var, row) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+
+
+
 
 
 #' Extract value label sheet of Excel mapping file to dataframe
 #'
-#' @param filename name of the Excel mapping file
+#' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return
 #' @export
@@ -116,34 +173,60 @@ mapp_varl <- function(filename, sheet = "Variables", translate_xlsm = FALSE) {
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' mapp_vall(mapping_filepath)
-mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_file)
+#' }
+#' mapp_vallab_sheet_cmd_table(mapping_file)
+mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
   df_vall <- readxl::read_xlsx(
-    filename,
+    mapping_file,
     sheet = sheet
   )
   if (translate_xlsm) {
-    df_vall <- df_vall  %>% dplyr::select(
-      var = 1,
-      nv = 2,
-      vallab = 3,
-      new_label = 4,
-      sum_var_label = 7,
-      sum_var_value = 8,
-      sum_var_vallab = 9
-    ) %>% dplyr::slice(-1) %>%
-      tidyr::fill(var)
+    df_vall <- translate_xlsm_vallab_sheet(df_vall)
   }
   df_vall %>%
-    dplyr::mutate(row = dplyr::row_number() + 1)
+    dplyr::mutate(row = dplyr::row_number() + 1) %>%
+    make_sumvar_cmd_table()
 }
+translate_xlsm_vallab_sheet <- function(df_vall) {
+  df_vall %>% dplyr::select(
+    var = 1,
+    nv = 2,
+    vallab = 3,
+    new_label = 4,
+    sum_var_label = 7,
+    sum_var_value = 8,
+    sum_var_vallab = 9
+  ) %>% dplyr::slice(-1) %>%
+    tidyr::fill(var)
+}
+make_sumvar_cmd_table <- function(df_vall) {
+  df_vall %>%
+    tidyr::drop_na(sum_var_value) %>%
+    dplyr::select(-new_label) %>%
+    dplyr::mutate(new_var = paste0("k", var)) %>%
+    dplyr::mutate(orig_var = var) %>%
+    dplyr::group_by(new_var, orig_var) %>%
+    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
+    dplyr::mutate(sheet = "Label") %>%
+    dplyr::mutate(action = "#SUMVAR") %>%
+    dplyr::relocate(sheet, action)  %>%
+    dplyr::group_by(sheet, action, row, new_var) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+
+
 
 
 #' Extract free1 sheet of Excel mapping file to dataframe
 #'
-#' @param  filename name of the Excel mapping file
+#' @param  mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return
 #' @export
@@ -151,13 +234,22 @@ mapp_vall <- function(filename, sheet = "Label", translate_xlsm = FALSE) {
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
-#' mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' mapp_free1(mapping_filepath)
-mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_file)
+#' }
+#' mapp_free_sheet_cmd_table(mapping_file)
+mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
+  df_free_raw <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet, translate_xlsm)
+  df_free_raw %>%
+    put_absolute_filepaths(mapping_file) %>%
+    make_free_cmd_table()
+}
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(
-    filename,
-    sheet = sheet,
-    range = cellranger::cell_cols("A:E"),
+    mapping_file,
+    range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"
   )
@@ -165,10 +257,7 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
     df_free <- df_free %>%
       dplyr::select(1:5) %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
-      dplyr::filter_all(dplyr::any_vars(!is.na(.))) %>%
-      dplyr::mutate(row = dplyr::row_number()) %>%
-      replace_single_equals_sign_IF_AND_COMP() %>%
-      delete_empty_X1_not_multiline()
+      dplyr::mutate(row = dplyr::row_number())
   }
   else {
     df_free <-
@@ -176,16 +265,64 @@ mapp_free1 <- function(filename, sheet = "Free1", translate_xlsm = FALSE) {
       purrr::set_names(paste0("X", 1:5))
   }
   if (translate_xlsm) {
-    df_free <-
-      df_free %>% dplyr::slice(-1)
+    df_free <- translate_xlsm_free_sheet(df_free)
   }
   df_free
 }
+translate_xlsm_free_sheet <- function(df_free) {
+  df_free %>% dplyr::slice(-1)
+}
 
+make_free_cmd_table <- function(df_f1) {
+  if (nrow(df_f1) == 0) {
+    return(tibble::tibble())
+  }
+  res <- df_f1 %>%
+    replace_single_equals_sign_IF_AND_COMP() %>%
+    delete_empty_X1_not_multiline() %>%
+    add_curlies_to_cell_with_spaces() %>%
+    curliply() %>%
+    dplyr::mutate(action = X1[1]) %>%
+    dplyr::group_by(action, row) %>%
+    get_new_var_name_free() %>%
+    dplyr::group_by(action, row, new_var, raw_index) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup() %>%
+    dplyr::select(-raw_index)
+}
+put_absolute_filepaths <- function(df_f1, mapping_file) {
+  df_f1[df_f1$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
+    df_f1[df_f1$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] %>%
+    purrr::map_chr(~ adapt_filepath(.x, mapping_file))
+  df_f1
+}
+get_new_var_name_free <- function(df_f1) {
+  col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL")
+  col3_names <- c("#REC", "#DIC")
+  df_f1 %>%
+    dplyr::mutate(new_var = dplyr::case_when(
+      action %in% col3_names ~ X3[1],
+      action %in% col2_names ~ X2[1],
+      action == "#IF"        ~ stringr::str_remove(X3, "=.*") %>% stringr::str_squish(),
+      action == "#KG"        ~ paste(X2, X3, sep = "_"),
+      action == "#MERGE"    ~ paste(X4, collapse = ", ")
+    )
+  )
+}
+
+add_curlies_to_cell_with_spaces <- function(df_f1) {
+  # transform X2 containing spaces to curliply()able (surrounded by curly braces):
+  df_f1 %>%
+    dplyr::mutate(X2 = ifelse(
+      X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
+      paste0("{", X2, "}"),
+      X2
+  ))
+}
 replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
   replace_single_equals_sign <- function(column) {
     # see: https://stackoverflow.com/questions/28460473/how-do-i-match-a-single-equals-sign-with-regular-expressions/28460640
-    stringr::str_replace(
+    stringr::str_replace_all(
       column,
       "(?<![=><])=(?!=)",
       "=="

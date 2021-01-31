@@ -11,7 +11,9 @@ output:
 
 
 ```r
-library(tidyverse)
+library(dplyr)
+library(tibble)
+library(purrr)
 ```
 
 * prepare fake survey data

@@ -12,7 +12,8 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    plotly
+    plotly,
+    pkgnet
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true

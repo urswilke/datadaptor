@@ -14,7 +14,7 @@ cmd_kg(df, split_var, by_var)
 \item{by_var}{variable to be splitted}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Create a set of variables for each value of split_var. The resulting variables

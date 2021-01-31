@@ -30,7 +30,7 @@ cmd_sumvar(
 \item{new_labs}{character vector of value labels of new recoded variable}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Create new recoded labelled variable from variable in dataframe

@@ -14,7 +14,7 @@ cmd_comp(df, new_var, new_val)
 \item{new_val}{expression string}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Compute variable in data frame according to string expression

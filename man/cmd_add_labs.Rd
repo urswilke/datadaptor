@@ -18,14 +18,14 @@ cmd_add_labs(df, orig_var, new_lab = NULL, vals_added, labs_added)
 \item{labs_added}{value labels added}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Add value labels to variable orig_var in dataframe df
 }
 \examples{
-x <- haven::labelled(1:2, labels = c("value for 1" = 1), label = "var label")
+x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 df <- data.frame(x)
-df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("value for 2"))
+df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
 df$x
 }

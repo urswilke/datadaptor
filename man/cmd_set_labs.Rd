@@ -24,13 +24,13 @@ cmd_set_labs(
 \item{new_labs}{character vector of the new value labels}
 }
 \value{
-
+modified dataframe \code{df} (see examples)
 }
 \description{
 Set value labels of labelled variable var in dataframe df
 }
 \examples{
 df <- data.frame(x = 1:2)
-df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("value for 1", "value for 2"))
+df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 df$x
 }

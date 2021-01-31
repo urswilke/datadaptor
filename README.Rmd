@@ -30,17 +30,21 @@ You can install the released version of datenanpassr from [CRAN](https://CRAN.R-
 devtools::install_gitlab("urswilke/datenanpassr")
 ```
 
-DOESN'T WORK YET BECAUSE REPO IS PRIVATE!!!
-
 ## Example
+
+First load the library:
+
+```{r}
+library(datenanpassr)
+```
 
 ### Apply data adjustments on labelled data
 
 Suppose you have an SPSS data file 
 
 ```{r}
-spss_filepath <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-df <- haven::read_sav(spss_filepath)
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df <- haven::read_sav(spss_file)
 df
 ```
 
@@ -56,11 +60,29 @@ datenanpassr::mapp_create(df, "mapping.xlsx")
 
 In this Excel file commands can be added to do data cleaning or create new variables in the dataset.
 
-In datenanpassr there's, an [Excel file](inst/extdata/mapping.xlsx) included to demonstrate how this can be done with this package. Once you have added the commands to manipulate your data, you can apply the changes to your dataset with:
+In datenanpassr there's, an [Excel mapping file](inst/extdata/mapping.xlsx) included to demonstrate how this can be done with this package. If you install `datenanpassr`, it provides an included example mapping file:
+```{r}
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+```
+
+You can then open the file with:
+```{r, eval=FALSE}
+utils::browseURL(mapping_file)
+```
+
+Have a lock at the Excel command block vignette for examples how to manipulate and generate new variables in your labelled dataset:
+
+```{r, eval=FALSE}
+vignette("excel_command_blocks")
+```
+
+There you can find out more about the syntax how the commands in the mapping file work.
+
+
+Once you have added the commands to manipulate your data, you can apply the changes to your dataset with:
 
 ```{r, message=FALSE, warning=FALSE}
-mapping_filepath <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_filepath)
+df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_file)
 ```
 
 
@@ -74,12 +96,7 @@ df_mod$q6n
 ```
 
 
-The manipulations defined in the Excel files are applied on the dataframe that was derived from the SPSS file. Have a lock at the Excel command block vignette for examples how to manipulate and generate new variables in your labelled dataset:
-
-```{r, eval=FALSE}
-browseVignettes("datenanpassr")
-```
-
+The manipulations defined in the Excel files are applied on the dataframe that was derived from the SPSS file. 
 
 You can save the dataframe back to an SPSS file by again using the [haven package](https://haven.tidyverse.org/):
 
