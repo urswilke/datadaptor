@@ -160,9 +160,10 @@ prepare_newvar_table <- function(df, split_var, by_var) {
   var2lab <- attr(df[[by_var]], "label", exact = TRUE)
   new_varlabs <-
     df %>%
+    dplyr::select(!!split_var) %>%
+    # TODO: find cleaner way without defining a dummy id:
     dplyr::mutate(id = dplyr::row_number(), !!split_var) %>%
     tablab::tab_all() %>%
-    dplyr::filter(var == split_var) %>%
     tidyr::drop_na(nv) %>%
     tidyr::unite(new_varlab, varlab, vallab, sep = " - ") %>%
     dplyr::mutate(new_varlab = paste0(new_varlab, ": ", var2lab)) %>%
@@ -179,15 +180,16 @@ prepare_newvar_table <- function(df, split_var, by_var) {
   new_vars
 }
 split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
-  new_vec <- df %>% dplyr::transmute(x = ifelse(!!rlang::sym(split_var) == new_vars$nv, !!rlang::sym(by_var), NA)
-  ) %>% dplyr::pull()
-  vallabs <- df %>%
-    dplyr::pull(!!rlang::sym(by_var)) %>%
+  vallabs <- df[[by_var]] %>%
     attr(., "labels")
-  new_vec <- haven::labelled(new_vec, labels = vallabs, label = new_vars$new_varlab)
-  df %>% dplyr::mutate(
-    !!rlang::sym(new_vars$new_varnames) := new_vec)
-
+  df[new_vars$new_varnames] <- haven::labelled(
+    NA_real_,
+    labels = vallabs,
+    label = new_vars$new_varlab
+  )
+  change_indices <- which(df[[split_var]] == new_vars$nv)
+  df[[new_vars$new_varnames]][change_indices] <- df[[by_var]][change_indices]
+  df
 }
 
 
