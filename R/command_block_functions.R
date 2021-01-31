@@ -437,6 +437,10 @@ cmd_rfun <- function(df, r_script, fun_name) {
 
 #' Manipulate dataframe by R expression in character string
 #'
+#' The current state of the data is stored in a dataframe `df`. It can be
+#' manipulated by a character string, which is then parsed to an R expression
+#' and evaluated (see examples).
+#'
 #' @param df dataframe
 #' @param r_code character string of the R code the dataframe is manipulated by
 #'
@@ -445,8 +449,8 @@ cmd_rfun <- function(df, r_script, fun_name) {
 #'
 #' @examples
 #' df <- data.frame(k1 = 1, k2 = 2)
-#' r_code <- "dplyr::mutate(k3 = 3)"
+#' r_code <- "df %>% dplyr::mutate(k3 = 3)"
 #' cmd_r(df, r_code)
 cmd_r <- function(df, r_code) {
-  paste("df %>% ", r_code) %>% rlang::parse_expr() %>% rlang::eval_tidy()
+  r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }

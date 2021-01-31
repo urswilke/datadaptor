@@ -548,7 +548,7 @@
       .. ..$ r_script: chr "/home/chief/R/datenanpassr/inst/extdata/example_R_function.R"
       .. ..$ fun_name: chr "calc_sum_of_k_vars"
       ..$ :List of 1
-      .. ..$ r_code: chr "dplyr::mutate(a=1)"
+      .. ..$ r_code: chr "df %>% dplyr::mutate(a=1)"
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
