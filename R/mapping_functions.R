@@ -60,7 +60,8 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(data = transl_human_read(action, data))
+    dplyr::mutate(data = transl_human_read(action, data)) %>%
+    dplyr::ungroup()
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
     # print(cmd_list)

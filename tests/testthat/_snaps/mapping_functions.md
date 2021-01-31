@@ -179,7 +179,7 @@
 
 # snapshot of the structure of the result of mapp_cmd_table()
 
-    tibble [62 x 5] (S3: rowwise_df/tbl_df/tbl/data.frame)
+    tibble [62 x 5] (S3: tbl_df/tbl/data.frame)
      $ sheet  : chr [1:62] "Label" "Variables" "Variables" "Variables" ...
      $ action : chr [1:62] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
      $ row    : chr [1:62] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
@@ -552,70 +552,5 @@
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     - attr(*, "groups")= tibble [62 x 1] (S3: tbl_df/tbl/data.frame)
-      ..$ .rows: list<int> [1:62] 
-      .. ..$ : int 1
-      .. ..$ : int 2
-      .. ..$ : int 3
-      .. ..$ : int 4
-      .. ..$ : int 5
-      .. ..$ : int 6
-      .. ..$ : int 7
-      .. ..$ : int 8
-      .. ..$ : int 9
-      .. ..$ : int 10
-      .. ..$ : int 11
-      .. ..$ : int 12
-      .. ..$ : int 13
-      .. ..$ : int 14
-      .. ..$ : int 15
-      .. ..$ : int 16
-      .. ..$ : int 17
-      .. ..$ : int 18
-      .. ..$ : int 19
-      .. ..$ : int 20
-      .. ..$ : int 21
-      .. ..$ : int 22
-      .. ..$ : int 23
-      .. ..$ : int 24
-      .. ..$ : int 25
-      .. ..$ : int 26
-      .. ..$ : int 27
-      .. ..$ : int 28
-      .. ..$ : int 29
-      .. ..$ : int 30
-      .. ..$ : int 31
-      .. ..$ : int 32
-      .. ..$ : int 33
-      .. ..$ : int 34
-      .. ..$ : int 35
-      .. ..$ : int 36
-      .. ..$ : int 37
-      .. ..$ : int 38
-      .. ..$ : int 39
-      .. ..$ : int 40
-      .. ..$ : int 41
-      .. ..$ : int 42
-      .. ..$ : int 43
-      .. ..$ : int 44
-      .. ..$ : int 45
-      .. ..$ : int 46
-      .. ..$ : int 47
-      .. ..$ : int 48
-      .. ..$ : int 49
-      .. ..$ : int 50
-      .. ..$ : int 51
-      .. ..$ : int 52
-      .. ..$ : int 53
-      .. ..$ : int 54
-      .. ..$ : int 55
-      .. ..$ : int 56
-      .. ..$ : int 57
-      .. ..$ : int 58
-      .. ..$ : int 59
-      .. ..$ : int 60
-      .. ..$ : int 61
-      .. ..$ : int 62
-      .. ..@ ptype: int(0) 
      - attr(*, "id_var")= chr "id"
 
