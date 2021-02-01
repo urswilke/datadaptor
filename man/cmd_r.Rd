@@ -15,10 +15,12 @@ cmd_r(df, r_code)
 Manipulated dataframe (the expression string is piped to \code{df}).
 }
 \description{
-Manipulate dataframe by R expression in character string
+The current state of the data is stored in a dataframe \code{df}. It can be
+manipulated by a character string, which is then parsed to an R expression
+and evaluated (see examples).
 }
 \examples{
 df <- data.frame(k1 = 1, k2 = 2)
-r_code <- "dplyr::mutate(k3 = 3)"
+r_code <- "df \%>\% dplyr::mutate(k3 = 3)"
 cmd_r(df, r_code)
 }
