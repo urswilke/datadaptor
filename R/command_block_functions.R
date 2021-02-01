@@ -334,17 +334,20 @@ cmd_comp <- function(df, new_var, new_val) {
 #' # If the condition is not true, the previous values are kept, if existing:
 #' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
 cmd_if <- function(df, new_var, condition, new_val) {
-  if (new_var %in% names(df)) {
-    old_val <- rlang::sym(new_var)
+  if (!new_var %in% names(df)) {
+    df[new_var] <- NA_real_
   }
-  else {
-    old_val <- rlang::quo(NA_real_)
-  }
+  manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
+    c(new_var) %>% unique()
+
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
+  # needed, if new_val is numeric, because it is passed as a string:
+  old_val <- rlang::sym(new_var)
 
-  # TODO: maybe Vectorize isn't very performant -> check
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
+  df[manipulated_vars] <-
+    df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
+  df
 }
 
 #' Assign a value to a variable in a dataframe at specified ids

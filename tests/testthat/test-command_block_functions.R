@@ -28,6 +28,9 @@ test_that("cmd_add_labs() works", {
 test_that("cmd_if() works for conditions on all NA vectors", {
   x_new <- cmd_if(data.frame(x = 1:3, y = NA_real_), "x", "y == 4", "2") %>% dplyr::pull(x)
   expect_equal(x_new, 1:3)
+  # If the condition is not true, the previous values are kept, if existing:
+  x_new <- cmd_if(data.frame(x = 1:3), "x", "x == 3", "2") %>% dplyr::pull(x)
+  expect_equal(x_new, c(1, 2, 2))
 })
 
 test_that("cmd_sumvar() works", {

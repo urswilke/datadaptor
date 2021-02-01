@@ -35,7 +35,8 @@ Imports:
     rlang,
     stringr,
     readr,
-    fs
+    fs,
+    sourcetools
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr

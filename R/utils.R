@@ -139,3 +139,10 @@ adapt_filepath <- function(file_path, mapping_file) {
     return(paste0(mapping_dir, "/", file_path))
   }
 }
+
+
+get_df_vars_of_expr_string <- function(expr_string, vars_in_df) {
+  expr_string %>% sourcetools::tokenize_string() %>%
+    dplyr::filter(type == "symbol", value %in% vars_in_df) %>%
+    dplyr::pull(value)
+}
