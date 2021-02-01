@@ -337,16 +337,18 @@ cmd_if <- function(df, new_var, condition, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
+  var_attrs <- attributes(df[[new_var]])
+
   manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
     c(new_var) %>% unique()
 
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
-  # needed, if new_val is numeric, because it is passed as a string:
   old_val <- rlang::sym(new_var)
 
   df[manipulated_vars] <-
     df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
+  attributes(df[[new_var]]) <- var_attrs
   df
 }
 

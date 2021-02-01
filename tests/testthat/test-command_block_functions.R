@@ -28,9 +28,15 @@ test_that("cmd_add_labs() works", {
 test_that("cmd_if() works for conditions on all NA vectors", {
   x_new <- cmd_if(data.frame(x = 1:3, y = NA_real_), "x", "y == 4", "2") %>% dplyr::pull(x)
   expect_equal(x_new, 1:3)
-  # If the condition is not true, the previous values are kept, if existing:
+})
+test_that("cmd_if() partial replacement", {
   x_new <- cmd_if(data.frame(x = 1:3), "x", "x == 3", "2") %>% dplyr::pull(x)
   expect_equal(x_new, c(1, 2, 2))
+})
+test_that("cmd_if() labels are preserved", {
+  x_old <- haven::labelled(1:3, labels = c(a = 1), label = "a")
+  x_new <- cmd_if(data.frame(x = x_old), "x", "x == 3", "2") %>% dplyr::pull(x)
+  expect_equal(attributes(x_new), attributes(x_old))
 })
 
 test_that("cmd_sumvar() works", {
