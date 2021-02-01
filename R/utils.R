@@ -5,7 +5,7 @@
 #' by each of the parts inside (separated by spaces). This can help to save yourself
 #' from repetitive writing without diving into something like regular expressions.
 #'
-#' @param df_f1 code blocks read in by \code{mapp_free1()}
+#' @param df_free code blocks read in by \code{mapp_free1()}
 #'
 #' @return
 #' @export
@@ -74,8 +74,8 @@ extract_curly_lists <- function(var) {
   }
 }
 
-curliply_block <- function(df_f1) {
-  df_f1 %>%
+curliply_block <- function(df_free) {
+  df_free %>%
     dplyr::mutate_at(2:4, ~purrr::map(.x, ~extract_curly_lists(.))) %>%
     tidyr::unnest(cols = c("X2", "X3", "X4")) %>%
     dplyr::mutate(curly_index = dplyr::row_number())

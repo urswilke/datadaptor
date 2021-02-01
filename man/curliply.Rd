@@ -7,7 +7,7 @@
 curliply(df_free)
 }
 \arguments{
-\item{df_f1}{code blocks read in by \code{mapp_free1()}}
+\item{df_free}{code blocks read in by \code{mapp_free1()}}
 }
 \value{
 

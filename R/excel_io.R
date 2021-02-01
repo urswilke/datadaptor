@@ -273,11 +273,11 @@ translate_xlsm_free_sheet <- function(df_free) {
   df_free %>% dplyr::slice(-1)
 }
 
-make_free_cmd_table <- function(df_f1) {
-  if (nrow(df_f1) == 0) {
+make_free_cmd_table <- function(df_free) {
+  if (nrow(df_free) == 0) {
     return(tibble::tibble())
   }
-  res <- df_f1 %>%
+  res <- df_free %>%
     replace_single_equals_sign_IF_AND_COMP() %>%
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
@@ -290,16 +290,16 @@ make_free_cmd_table <- function(df_f1) {
     dplyr::ungroup() %>%
     dplyr::select(-raw_index)
 }
-put_absolute_filepaths <- function(df_f1, mapping_file) {
-  df_f1[df_f1$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
-    df_f1[df_f1$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] %>%
+put_absolute_filepaths <- function(df_free, mapping_file) {
+  df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
+    df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] %>%
     purrr::map_chr(~ adapt_filepath(.x, mapping_file))
-  df_f1
+  df_free
 }
-get_new_var_name_free <- function(df_f1) {
+get_new_var_name_free <- function(df_free) {
   col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL")
   col3_names <- c("#REC", "#DIC")
-  df_f1 %>%
+  df_free %>%
     dplyr::mutate(new_var = dplyr::case_when(
       action %in% col3_names ~ X3[1],
       action %in% col2_names ~ X2[1],
@@ -310,9 +310,9 @@ get_new_var_name_free <- function(df_f1) {
   )
 }
 
-add_curlies_to_cell_with_spaces <- function(df_f1) {
+add_curlies_to_cell_with_spaces <- function(df_free) {
   # transform X2 containing spaces to curliply()able (surrounded by curly braces):
-  df_f1 %>%
+  df_free %>%
     dplyr::mutate(X2 = ifelse(
       X1 == "#VARL" & stringr::str_detect(X2, " ") & stringr::str_detect(X2, "\\{", negate = TRUE),
       paste0("{", X2, "}"),
@@ -340,8 +340,8 @@ replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
       X3
     ))
 }
-delete_empty_X1_not_multiline <- function(df_f1) {
-  df_f1 %>%
+delete_empty_X1_not_multiline <- function(df_free) {
+  df_free %>%
     dplyr::mutate(temp = stringr::str_detect(X1, "^#VALL$|^#REC$|^#AVALL$", negate = T)) %>%
     tidyr::fill(temp) %>%
     dplyr::mutate(temp = temp & is.na(X1)) %>%
