@@ -24,3 +24,10 @@ test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
   })
 })
 
+test_that("minimal example for mapp_xl_to_data()", {
+  df_cmd <- tibble::tibble(action = "#IF", data = list(list(new_var = "a", new_val = "7", condition = "a == 2")))
+  attr(df_cmd, "id_var") <- "id"
+  result <- mapp_xl_to_data(data.frame(id = 1:3, a = 1:3), df_cmd) %>% dplyr::pull(a)
+  attributes(result) <- NULL
+  expect_equal(result, c(1, 7, 3))
+})
