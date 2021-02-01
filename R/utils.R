@@ -139,3 +139,5 @@ adapt_filepath <- function(file_path, mapping_file) {
     return(paste0(mapping_dir, "/", file_path))
   }
 }
+
+is_not_null <- function(x) !purrr::is_null(x)
