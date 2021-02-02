@@ -159,7 +159,8 @@ make_mdg_assignment_table <- function(i_l) {
 make_efa_assignment_table <- function(i_l) {
   # in case multiple "Zuord" columns occur in assignment data, code would break
   # and only the first is needed:
-  i_l$assignments <- i_l$assignments %>% dplyr::select(1:3)
+  i_l$assignments <- i_l$assignments %>%
+    dplyr::select(1:3)
   make_mcg_assignment_table(i_l)
 }
 make_mcg_assignment_table <- function(i_l) {
@@ -170,6 +171,8 @@ make_mcg_assignment_table <- function(i_l) {
     dplyr::mutate(i_assign = stringr::str_remove(i_assign, "^Zuord ") %>% as.numeric()) %>%
     dplyr::group_by(i_assign, val_assign) %>%
     dplyr::summarise(id_list = list(ID)) %>%
+    # Hack to not assign missing values: TODO: find cleaner way!
+    dplyr::mutate(id_list = ifelse(is.na(val_assign), list(NULL), id_list)) %>%
     dplyr::mutate(
       var_ziel = var_template %>% stringr::str_replace(
         "\\{nn\\}",

@@ -179,12 +179,12 @@
 
 # snapshot of the structure of the result of mapp_cmd_table()
 
-    tibble [62 x 5] (S3: tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:62] "Label" "Variables" "Variables" "Variables" ...
-     $ action : chr [1:62] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
-     $ row    : chr [1:62] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
-     $ new_var: chr [1:62] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
-     $ data   :List of 62
+    tibble [63 x 5] (S3: tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:63] "Label" "Variables" "Variables" "Variables" ...
+     $ action : chr [1:63] "#SUMVAR" "#RENAME" "#NEWLAB" "#NEWLAB" ...
+     $ row    : chr [1:63] "2, 3, 4, 5, 6" "3, 5" "2" "3" ...
+     $ new_var: chr [1:63] "kq1" "q2_renamed, q4_renamed" "q1" "q2_renamed" ...
+     $ data   :List of 63
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -227,7 +227,15 @@
       .. ..$ vallab    : Named int [1:5] 1 2 3 97 99
       .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:28] 5 12 14 39 49 62 79 98 2 15 ...
+      .. ..$ id_list   : num [1:24] 5 12 14 39 49 62 79 98 2 15 ...
+      ..$ :List of 6
+      .. ..$ var_ziel  : chr "q6n"
+      .. ..$ val_assign: num NA
+      .. ..$ varlab    : NULL
+      .. ..$ vallab    : Named int [1:5] 1 2 3 97 99
+      .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
+      .. ..$ id        : chr "id"
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 1
@@ -395,7 +403,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:97] 17 23 51 65 67 74 91 100 3 13 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n3"
       .. ..$ val_assign: num NA
@@ -403,7 +411,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n4"
       .. ..$ val_assign: num NA
@@ -411,7 +419,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n5"
       .. ..$ val_assign: num NA
@@ -419,7 +427,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n6"
       .. ..$ val_assign: num NA
@@ -427,7 +435,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n7"
       .. ..$ val_assign: num NA
@@ -435,7 +443,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n8"
       .. ..$ val_assign: num NA
@@ -443,7 +451,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n9"
       .. ..$ val_assign: num NA
@@ -451,7 +459,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 6
       .. ..$ var_ziel  : chr "q6n10"
       .. ..$ val_assign: num NA
@@ -459,7 +467,7 @@
       .. ..$ vallab    : Named int [1:6] 1 2 3 4 97 99
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
-      .. ..$ id_list   : num [1:100] 7 17 23 51 58 65 67 73 74 91 ...
+      .. ..$ id_list   : NULL
       ..$ :List of 2
       .. ..$ new_var: chr "x"
       .. ..$ new_val: chr "q1 == 2"
