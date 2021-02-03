@@ -1,17 +1,18 @@
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 # don't call this dataframe df, as it would mask the dataframe created when
 # source()ing the temporary script "mapping.R":
-df_test <- haven::read_sav(spss_file)
+df_test <- haven::read_sav(spss_file)# %>% dplyr::slice(1:15)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 df_cmd <- mapp_cmd_table(mapping_file)
 df_mod <- mapp_xl_to_data(df_test, df_cmd)
 
-test_that("snapshot of the structure of the result of the mapping function mapp_xl_to_data()", {
+test_that("result of the mapping function mapp_xl_to_data()", {
+  testthat::expect_snapshot_output(df_mod)
   testthat::expect_snapshot_output(df_mod %>% str())
 })
 
 
-test_that("snapshot of the structure of the result of mapp_cmd_table()", {
+test_that("result of mapp_cmd_table()", {
   testthat::expect_snapshot_output(df_cmd %>% str())
 })
 

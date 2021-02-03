@@ -1,4 +1,34 @@
-# snapshot of the structure of the result of the mapping function mapp_xl_to_data()
+# result of the mapping function mapp_xl_to_data()
+
+    # A tibble: 100 x 54
+             q1 q2_renamed      q3 q4_renamed       q5    id q6    q7         kq1
+       <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <chr> <chr> <dbl+lb>
+     1  3 [nor~  2 [a bit] 3 [nor~ 4 [much]    2 [a b~     1 bla ~ bla ~  2 [3]  
+     2  3 [nor~  1 [not a~ 5 [ver~ 4 [much]    5 [ver~     2 bla ~ bla ~  2 [3]  
+     3  1 [not~  1 [not a~ 3 [nor~ 2 [a bit]   5 [ver~     3 bla ~ bla ~  1 [1-2]
+     4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 bla ~ bla ~  2 [3]  
+     5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 bla ~ bla ~  3 [4-5]
+     6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 bla ~ bla ~  3 [4-5]
+     7 99 [no ~  2 [a bit] 3 [nor~ 4 [much]   -2 [FIL~     7 bla ~ bla ~ NA      
+     8  2 [a b~  2 [a bit] 5 [ver~ 2 [a bit]   1 [not~     8 bla ~ bla ~  1 [1-2]
+     9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 bla ~ bla ~ NA      
+    10 99 [no ~  1 [not a~ 1 [not~ 1 [not at~  4 [muc~    10 bla ~ bla ~ NA      
+    # ... with 90 more rows, and 45 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
+    #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
+    #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
+    #   q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>, q6test_97 <dbl+lbl>,
+    #   q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>, q6n3 <dbl+lbl>,
+    #   q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>, q6n7 <dbl+lbl>,
+    #   q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>, abc <dbl>,
+    #   kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>, q1xq2_renamed_minus2 <dbl+lbl>,
+    #   q1xq2_renamed_1 <dbl+lbl>, q1xq2_renamed_2 <dbl+lbl>,
+    #   q1xq2_renamed_99 <dbl+lbl>, q3xq2_renamed_minus2 <dbl+lbl>,
+    #   q3xq2_renamed_1 <dbl+lbl>, q3xq2_renamed_2 <dbl+lbl>,
+    #   q3xq2_renamed_99 <dbl+lbl>, n <dbl+lbl>, a1 <dbl+lbl>, a2 <dbl+lbl>,
+    #   r_expr_var <dbl>, q2 <dbl+lbl>, sum_of_k_vars <dbl>, a <dbl>,
+    #   free2_var <dbl>
+
+---
 
     tibble [100 x 54] (S3: tbl_df/tbl/data.frame)
      $ q1                  : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
@@ -177,7 +207,7 @@
      $ a                   : num [1:100] 1 1 1 1 1 1 1 1 1 1 ...
      $ free2_var           : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
 
-# snapshot of the structure of the result of mapp_cmd_table()
+# result of mapp_cmd_table()
 
     tibble [63 x 5] (S3: tbl_df/tbl/data.frame)
      $ sheet  : chr [1:63] "Label" "Variables" "Variables" "Variables" ...
