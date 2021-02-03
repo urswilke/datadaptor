@@ -67,12 +67,12 @@ mapp_cmd_table <- function(
     dplyr::rowwise() %>%
     dplyr::mutate(data = transl_human_read(action, data)) %>%
     dplyr::ungroup()
-  if (na_to_filter == TRUE) {
-    df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd)
-  }
   df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
   if (!is.na(df_cmd_manip_string)) {
-    df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
+    df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
+  }
+  if (na_to_filter == TRUE) {
+    df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd)
   }
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
@@ -86,6 +86,9 @@ mapp_cmd_table <- function(
 
   attr(df_cmd, "id_var") <- id_var
   df_cmd
+}
+apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
+  df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
 add_rec_na_to_cmd_table <- function(mapping_file, df_cmd) {
   vars_to_exclude_na_to_filter <- get_vars_to_exclude_na_to_filter(mapping_file)
