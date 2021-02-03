@@ -475,3 +475,25 @@ cmd_rfun <- function(df, r_script, fun_name) {
 cmd_r <- function(df, r_code) {
   r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
+
+
+#' Recode missing values of variables in dataframe
+#'
+#' @param df dataframe
+#' @param recode_na_exceptions character vector of variables to exclude from recoding
+#' @param replace_val value to replace missing values by
+#' @param replace_label value label of replacing value
+#'
+#' @return
+#' @export
+#'
+#' @examples
+set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label) {
+  df %>%
+    dplyr::mutate(
+      dplyr::across(
+        where(is.numeric) & !c(!!!rlang::syms(recode_na_exceptions)),
+        ~set_na_to_filter(.x, replace_val, replace_label)
+      )
+    )
+}

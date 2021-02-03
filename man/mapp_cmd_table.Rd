@@ -8,7 +8,8 @@ Excel mapping file}
 mapp_cmd_table(
   mapping_file,
   add_r_command_colum = FALSE,
-  translate_xlsm = FALSE
+  translate_xlsm = FALSE,
+  na_to_filter = TRUE
 )
 }
 \arguments{

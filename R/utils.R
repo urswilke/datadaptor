@@ -127,6 +127,26 @@ get_lab_before_var <- function(mapping_file) {
   mapp_configr(mapping_file) %>% dplyr::filter(item == "Excecute before variable sheet?") %>% dplyr::pull(value)
 }
 
+get_na_to_filter_rec <- function(mapping_file) {
+  df_config <- mapp_configr(mapping_file)
+  rec_val <- df_config %>%
+    dplyr::filter(item == "missing values recoded to") %>%
+    dplyr::pull(value) %>%
+    as.numeric()
+  rec_lab <- df_config %>%
+    dplyr::filter(item == "missing values labelled by") %>%
+    dplyr::pull(value)
+  purrr::set_names(rec_val, rec_lab)
+}
+
+get_vars_to_exclude_na_to_filter <- function(mapping_file) {
+  mapp_configr(mapping_file) %>%
+    dplyr::filter(item == "variables not recoded to FILTER") %>%
+    dplyr::pull(value) %>%
+    stringr::str_split("[, ;]+") %>%
+    unlist()
+}
+
 # Function to replace windows backslashes to slashes and replace relative
 # filepaths by absolutes, based on the directory of the mapping file:
 adapt_filepath <- function(file_path, mapping_file) {

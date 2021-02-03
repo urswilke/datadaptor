@@ -4,7 +4,16 @@
 \alias{cmd_verbatim}
 \title{Assign a value to a variable in a dataframe at specified ids}
 \usage{
-cmd_verbatim(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list)
+cmd_verbatim(
+  df,
+  var_ziel,
+  val_assign,
+  varlab,
+  vallab,
+  id = "id",
+  id_list,
+  init_val = NA_real_
+)
 }
 \arguments{
 \item{df}{dataframe}
@@ -20,6 +29,8 @@ cmd_verbatim(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list)
 \item{id}{name of the id variable in df (character string)}
 
 \item{id_list}{list of the id values to be matched}
+
+\item{init_val}{value assigned to id values not contained in \code{id_list} if \code{var_ziel} does not exist in \code{df} yet}
 }
 \value{
 modified dataframe \code{df} (see examples)

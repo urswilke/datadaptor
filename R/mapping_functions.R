@@ -18,8 +18,12 @@
 #' mapp_cmd_table(mapping_file)
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
-mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
-  id_var_str <- get_id_var(mapping_file)
+mapp_cmd_table <- function(
+  mapping_file,
+  add_r_command_colum = FALSE,
+  translate_xlsm = FALSE,
+  na_to_filter = TRUE
+  ) {
   id_var <- get_id_var(mapping_file)
 
 
@@ -63,6 +67,9 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
     dplyr::rowwise() %>%
     dplyr::mutate(data = transl_human_read(action, data)) %>%
     dplyr::ungroup()
+  if (na_to_filter == TRUE) {
+    df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd)
+  }
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
     # print(cmd_list)
@@ -75,6 +82,24 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
 
   attr(df_cmd, "id_var") <- id_var
   df_cmd
+}
+add_rec_na_to_cmd_table <- function(mapping_file, df_cmd) {
+  vars_to_exclude_na_to_filter <- get_vars_to_exclude_na_to_filter(mapping_file)
+  na_rec_vec <- get_na_to_filter_rec(mapping_file)
+  df_cmd <- dplyr::bind_rows(
+    tibble::tibble(
+      sheet = "Config",
+      action = "#RECNA",
+      row = NA_character_,
+      new_var = NA_character_,
+      data = list(list(
+        recode_na_exceptions = vars_to_exclude_na_to_filter,
+        replace_val = unname(na_rec_vec),
+        replace_label = names(na_rec_vec)
+      ))
+    ),
+    df_cmd
+  )
 }
 make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
   switch (
@@ -91,6 +116,7 @@ make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_
 make_cmd_expression <- function(action, data) {
   switch (
     action,
+    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#MERGE"  = rlang::expr(cmd_merge(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#R"      = rlang::expr(cmd_r(df, !!!data)),
@@ -210,7 +236,7 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE) {
   if (typeof(mapping_file) == "character") {
-    cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm)
+    cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm, na_to_filter = na_to_filter)
   }
   else if (is.data.frame(mapping_file)) {
     cmd_table <- mapping_file
@@ -225,9 +251,6 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     stop("Defined id variable ", id_var, " is not unique")
   }
 
-  if (na_to_filter == TRUE) {
-    df <- df %>% dplyr::mutate_if(is.numeric, set_na_to_filter)
-  }
 
   if (input_if_error) {
     attr(df, "cmd_index") <- 0
