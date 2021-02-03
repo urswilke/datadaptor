@@ -492,7 +492,7 @@ set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, repla
   df %>%
     dplyr::mutate(
       dplyr::across(
-        where(is.numeric) & !c(!!!rlang::syms(recode_na_exceptions)),
+        where(is.numeric) & !c(one_of(recode_na_exceptions)),
         ~set_na_to_filter(.x, replace_val, replace_label)
       )
     )
