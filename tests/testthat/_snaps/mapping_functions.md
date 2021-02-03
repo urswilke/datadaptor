@@ -52,9 +52,8 @@
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
        ..@ label : chr "Almost same variable label for q5 and q3"
-     $ id                  : dbl+lbl [1:100]  1,  2,  3,  4,  5,  6,  7,  8,  9, 10, 11, 12, 13, 14...
-       ..@ labels: Named num -2
-       .. ..- attr(*, "names")= chr "FILTER"
+     $ id                  : num [1:100] 1 2 3 4 5 6 7 8 9 10 ...
+      ..- attr(*, "format.spss")= chr "F8.0"
      $ q6                  : chr [1:100] "bla bla bla love" "bla bla happiness" "bla joy" "bla bla joy" ...
       ..- attr(*, "label")= chr "Tell me something positive."
       ..- attr(*, "format.spss")= chr "A21"
@@ -216,7 +215,7 @@
      $ new_var: chr [1:64] NA "kq1" "q2_renamed, q4_renamed" "q1" ...
      $ data   :List of 64
       ..$ :List of 3
-      .. ..$ recode_na_exceptions: chr "q1"
+      .. ..$ recode_na_exceptions: chr [1:3] "q1" "id" "DC_ID"
       .. ..$ replace_val         : num -2
       .. ..$ replace_label       : chr "FILTER"
       ..$ :List of 6
