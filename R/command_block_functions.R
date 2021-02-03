@@ -383,6 +383,10 @@ cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- init_val
   }
+  # hack to keep variable label if it already exists:
+  if (is.null(varlab)) {
+    varlab <- attr(df[[var_ziel]], "label", exact = TRUE)
+  }
   df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
   y <- haven::labelled(
     df[[var_ziel]],
