@@ -123,6 +123,10 @@ get_id_var <- function(mapping_file) {
   mapp_configr(mapping_file) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
 }
 
+get_lab_before_var <- function(mapping_file) {
+  mapp_configr(mapping_file) %>% dplyr::filter(item == "Excecute before variable sheet?") %>% dplyr::pull(value)
+}
+
 # Function to replace windows backslashes to slashes and replace relative
 # filepaths by absolutes, based on the directory of the mapping file:
 adapt_filepath <- function(file_path, mapping_file) {
