@@ -361,6 +361,7 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' @param vallab value labels (named list)
 #' @param id name of the id variable in df (character string)
 #' @param id_list list of the id values to be matched
+#' @param init_val value assigned to id values not contained in `id_list` if `var_ziel` does not exist in `df` yet
 #'
 #' @return modified dataframe `df` (see examples)
 #' @export
@@ -378,9 +379,9 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' )
 #' df
 #' df$new_var
-cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list) {
+cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list, init_val = NA_real_) {
   if (!var_ziel %in% names(df)) {
-    df[var_ziel] <- NA_real_
+    df[var_ziel] <- init_val
   }
   df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
   y <- haven::labelled(

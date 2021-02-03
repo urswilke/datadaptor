@@ -41,82 +41,82 @@
      $ q7n                 : dbl+lbl [1:100] 3, 1, 1, 3, 2, 4, 1, 3, 1, 3, 2, 3, 1, 2, 4, 1, 4, 2, ...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
-     $ q6_1                : dbl+lbl [1:100]  1, NA, NA, NA, NA, NA,  1,  1,  1,  1, NA, NA, NA, NA...
+     $ q6_1                : dbl+lbl [1:100] 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "love"
-     $ q6_2                : dbl+lbl [1:100] NA, NA,  1,  1, NA,  1, NA, NA, NA, NA,  1, NA,  1, NA...
+     $ q6_2                : dbl+lbl [1:100] 0, 0, 1, 1, 0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "joy"
-     $ q6_3                : dbl+lbl [1:100] NA,  1, NA, NA,  1, NA, NA, NA, NA, NA, NA,  1, NA,  1...
+     $ q6_3                : dbl+lbl [1:100] 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 1, 0, 0, 1, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "happiness"
-     $ q6_4                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA,  1, NA, NA, NA, NA, NA, NA, NA...
+     $ q6_4                : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "noch wat"
-     $ q6_97               : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6_97               : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "Others"
-     $ q6_99               : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6_99               : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "No answer"
-     $ q6test_1            : dbl+lbl [1:100]  1, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6test_1            : dbl+lbl [1:100] 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "love"
-     $ q6test_2            : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6test_2            : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "joy"
-     $ q6test_3            : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6test_3            : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "happiness"
-     $ q6test_4            : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6test_4            : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "noch wat"
-     $ q6test_97           : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6test_97           : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "Others"
-     $ q6test_99           : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6test_99           : dbl+lbl [1:100] 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
        ..@ label : chr "No answer"
      $ q6n1                : dbl+lbl [1:100] 1, 3, 2, 2, 3, 2, 1, 1, 1, 1, 2, 3, 2, 3, 3, 1, 1, 3, ...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n2                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA,  4, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n2                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2,  4, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n3                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n3                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n4                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n4                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n5                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n5                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n6                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n6                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n7                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n7                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n8                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n8                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n9                : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n9                : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
-     $ q6n10               : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ q6n10               : dbl+lbl [1:100] -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2, -2...
        ..@ labels: Named num [1:6] 1 2 3 4 97 99
        .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
      $ x                   : num [1:100] 0 0 0 0 0 0 0 1 0 0 ...
@@ -204,7 +204,7 @@
       ..$ :List of 2
       .. ..$ orig_var : chr "q5"
       .. ..$ new_label: chr "Like best friend"
-      ..$ :List of 6
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : NULL
@@ -212,7 +212,8 @@
       .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:31] 7 17 23 51 58 65 67 73 74 91 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 2
       .. ..$ varlab    : NULL
@@ -220,7 +221,8 @@
       .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:41] 3 13 22 26 35 38 45 47 55 72 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 3
       .. ..$ varlab    : NULL
@@ -228,7 +230,8 @@
       .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:24] 5 12 14 39 49 62 79 98 2 15 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -236,7 +239,8 @@
       .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : NULL
@@ -244,7 +248,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:19] 77 87 7 9 13 16 32 48 59 79 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 2
       .. ..$ varlab    : NULL
@@ -252,7 +257,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:27] 5 11 19 29 41 46 51 57 61 63 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 3
       .. ..$ varlab    : NULL
@@ -260,7 +266,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:29] 1 28 30 36 40 60 72 83 85 95 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 4
       .. ..$ varlab    : NULL
@@ -268,7 +275,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:25] 6 15 23 27 44 45 49 56 66 69 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num NA
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6_1"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "love"
@@ -276,7 +284,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:31] 7 17 23 51 58 65 67 73 74 91 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6_2"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "joy"
@@ -284,7 +293,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:41] 3 13 22 26 35 38 45 47 55 72 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6_3"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "happiness"
@@ -292,7 +302,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:28] 5 12 14 39 49 62 79 98 2 15 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6_4"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "noch wat"
@@ -300,7 +311,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:3] 7 58 73
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6_97"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "Others"
@@ -308,7 +320,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6_99"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "No answer"
@@ -316,7 +329,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6test_1"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "love"
@@ -324,7 +338,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num 1
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6test_2"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "joy"
@@ -332,7 +347,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6test_3"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "happiness"
@@ -340,7 +356,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6test_4"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "noch wat"
@@ -348,7 +365,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6test_97"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "Others"
@@ -356,7 +374,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6test_99"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : chr "No answer"
@@ -364,7 +383,8 @@
       .. .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num 0
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n1"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : NULL
@@ -372,7 +392,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:31] 7 17 23 51 58 65 67 73 74 91 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n1"
       .. ..$ val_assign: num 2
       .. ..$ varlab    : NULL
@@ -380,7 +401,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:41] 3 13 22 26 35 38 45 47 55 72 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n1"
       .. ..$ val_assign: num 3
       .. ..$ varlab    : NULL
@@ -388,7 +410,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:28] 5 12 14 39 49 62 79 98 2 15 ...
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n2"
       .. ..$ val_assign: num 4
       .. ..$ varlab    : NULL
@@ -396,7 +419,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:3] 7 58 73
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n2"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -404,7 +428,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n3"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -412,7 +437,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n4"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -420,7 +446,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n5"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -428,7 +455,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n6"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -436,7 +464,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n7"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -444,7 +473,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n8"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -452,7 +482,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n9"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -460,7 +491,8 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
-      ..$ :List of 6
+      .. ..$ init_val  : num -2
+      ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n10"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
@@ -468,6 +500,7 @@
       .. .. ..- attr(*, "names")= chr [1:6] "love" "joy" "happiness" "noch wat" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
+      .. ..$ init_val  : num -2
       ..$ :List of 2
       .. ..$ new_var: chr "x"
       .. ..$ new_val: chr "q1 == 2"

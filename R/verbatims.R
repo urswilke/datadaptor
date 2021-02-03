@@ -152,7 +152,9 @@ make_mdg_assignment_table <- function(i_l) {
     ) %>%
     dplyr::mutate(
       val_assign = 1,
-      vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(.))) %>%
+      vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(.)),
+      init_val = 0
+    ) %>%
     dplyr::select(-code_assign)
   df_assigns
 }
@@ -161,7 +163,8 @@ make_efa_assignment_table <- function(i_l) {
   # and only the first is needed:
   i_l$assignments <- i_l$assignments %>%
     dplyr::select(1:3)
-  make_mcg_assignment_table(i_l)
+  make_mcg_assignment_table(i_l) %>%
+    dplyr::mutate(init_val = NA_real_)
 }
 make_mcg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
@@ -184,7 +187,8 @@ make_mcg_assignment_table <- function(i_l) {
       varlab = rep(list(NULL), nrow(.)),
       vallab = rep(list(vallabs), nrow(.))
     ) %>%
-    dplyr::select(-i_assign)
+    dplyr::select(-i_assign) %>%
+    dplyr::mutate(init_val = -2)
   df_assigns
 }
 translate_verba_line <- function(verba_type, verba_data) {
