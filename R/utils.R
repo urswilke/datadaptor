@@ -146,3 +146,5 @@ get_df_vars_of_expr_string <- function(expr_string, vars_in_df) {
     dplyr::filter(type == "symbol", value %in% vars_in_df) %>%
     dplyr::pull(value)
 }
+
+strip_attributes <- function(x) { attributes(x) <- NULL; x }

@@ -417,8 +417,19 @@ cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id
 #' cmd_merge(df, merge_file, id, variable_names)
 cmd_merge <- function(df, merge_file, id = "id", variable_names) {
   merge_vars <- c(id, variable_names)
+  df_merge <- haven::read_sav(merge_file)
+  if (is.na(variable_names)[1]) {
+    variable_names <- names(df_merge)
+  }
+  df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
+  if (!identical(
+    sort(strip_attributes(df_merge[[id]])),
+    sort(strip_attributes(df[[id]])))
+  ) {
+    warning("The merged dataframe doesn't contain the same id values")
+    df_merge <- df_merge %>% dplyr::filter(!!id %in% df$id)
+  }
   replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
-  df_merge <- haven::read_sav(merge_file) %>% dplyr::select(!!id, !!!variable_names)
   df %>%
     dplyr::select(-all_of(replaced_vars)) %>%
     dplyr::full_join(df_merge, by = id) %>%
