@@ -20,6 +20,7 @@
 #' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_xlsm = FALSE) {
   id_var_str <- get_id_var(mapping_file)
+  id_var <- get_id_var(mapping_file)
 
 
   sheets <- mapping_file %>% readxl::excel_sheets()
@@ -56,7 +57,7 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ make_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var_str),
+    ~ make_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
@@ -72,7 +73,7 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
       tidyr::unnest(a)
   }
 
-  attr(df_cmd, "id_var") <- id_var_str
+  attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
 make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
