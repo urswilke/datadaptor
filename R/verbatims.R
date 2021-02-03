@@ -164,11 +164,16 @@ make_efa_assignment_table <- function(i_l) {
   i_l$assignments <- i_l$assignments %>%
     dplyr::select(1:3)
   make_mcg_assignment_table(i_l) %>%
-    dplyr::mutate(init_val = NA_real_)
+    dplyr::mutate(init_val = NA_real_) %>%
+    # HACK: the value label c("FILTER" - -2 ) assigned to mcg variables is removed
+    dplyr::mutate(vallab = purrr::map(vallab, ~ .x[.x != -2]))
 }
 make_mcg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
-  vallabs <- i_l$labs[[1]] %>% dplyr::relocate(2) %>% tibble::deframe()
+  vallabs <- i_l$labs[[1]] %>%
+    dplyr::relocate(2) %>%
+    tibble::deframe() %>%
+    merge_vallabs(c("FILTER" = -2))
   df_assigns <- i_l$assignments %>%
     tidyr::gather(i_assign, val_assign, dplyr::starts_with("Zuord")) %>%
     dplyr::mutate(i_assign = stringr::str_remove(i_assign, "^Zuord ") %>% as.numeric()) %>%
