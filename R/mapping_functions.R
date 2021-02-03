@@ -90,7 +90,7 @@ mapp_cmd_table <- function(
 add_rec_na_to_cmd_table <- function(mapping_file, df_cmd) {
   vars_to_exclude_na_to_filter <- get_vars_to_exclude_na_to_filter(mapping_file)
   na_rec_vec <- get_na_to_filter_rec(mapping_file)
-  df_cmd <- dplyr::bind_rows(
+  dplyr::bind_rows(
     tibble::tibble(
       sheet = "Config",
       action = "#RECNA",
