@@ -71,9 +71,8 @@ mapp_cmd_table <- function(mapping_file, add_r_command_colum = FALSE, translate_
       dplyr::mutate(a = list(paste(stringr::str_squish(a), collapse = " "))) %>%
       tidyr::unnest(a)
   }
-  id_var <- get_id_var(mapping_file)
 
-  attr(df_cmd, "id_var") <- id_var
+  attr(df_cmd, "id_var") <- id_var_str
   df_cmd
 }
 make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
