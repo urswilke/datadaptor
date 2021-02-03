@@ -146,6 +146,12 @@ get_vars_to_exclude_na_to_filter <- function(mapping_file) {
     stringr::str_split("[, ;]+") %>%
     unlist()
 }
+get_df_cmd_manip_string_expr <- function(mapping_file) {
+  mapp_configr(mapping_file) %>%
+    dplyr::filter(item == "manipulate command table") %>%
+    dplyr::pull(value)
+}
+
 
 # Function to replace windows backslashes to slashes and replace relative
 # filepaths by absolutes, based on the directory of the mapping file:

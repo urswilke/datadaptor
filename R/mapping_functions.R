@@ -70,6 +70,10 @@ mapp_cmd_table <- function(
   if (na_to_filter == TRUE) {
     df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd)
   }
+  df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
+  if (!is.na(df_cmd_manip_string)) {
+    df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
+  }
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
     # print(cmd_list)
