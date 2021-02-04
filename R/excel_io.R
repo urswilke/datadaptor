@@ -277,7 +277,7 @@ make_free_cmd_table <- function(df_free) {
   if (nrow(df_free) == 0) {
     return(tibble::tibble())
   }
-  res <- df_free %>%
+  df_free %>%
     replace_single_equals_sign_IF_AND_COMP() %>%
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
