@@ -165,9 +165,7 @@ make_efa_assignment_table <- function(i_l) {
   i_l$assignments <- i_l$assignments %>%
     dplyr::select(1:3)
   make_mcg_assignment_table(i_l) %>%
-    dplyr::mutate(init_val = NA_real_) %>%
-    # HACK: the value label c("FILTER" - -2 ) assigned to mcg variables is removed
-    dplyr::mutate(vallab = purrr::map(vallab, ~ .x[.x != -2]))
+    dplyr::mutate(init_val = NA_real_)
 }
 make_mcg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel

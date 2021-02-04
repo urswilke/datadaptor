@@ -65,11 +65,11 @@
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "summarized variable"
      $ q6n                 : dbl+lbl [1:100] 1, 3, 2, 2, 3, 2, 1, 1, 1, 1, 2, 3, 2, 3, 3, 1, 1, 3, ...
-       ..@ labels: Named num [1:5] 1 2 3 97 99
-       .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
+       ..@ labels: Named num [1:6] -2 1 2 3 97 99
+       .. ..- attr(*, "names")= chr [1:6] "FILTER" "love" "joy" "happiness" ...
      $ q7n                 : dbl+lbl [1:100] 3, 1, 1, 3, 2, 4, 1, 3, 1, 3, 2, 3, 1, 2, 4, 1, 4, 2, ...
-       ..@ labels: Named num [1:6] 1 2 3 4 97 99
-       .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
+       ..@ labels: Named num [1:7] -2 1 2 3 4 97 99
+       .. ..- attr(*, "names")= chr [1:7] "FILTER" "sadness" "fear" "anger" ...
      $ q6_1                : dbl+lbl [1:100] 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 0, ...
        ..@ labels: Named num [1:2] 0 1
        .. ..- attr(*, "names")= chr [1:2] "unselected" "selected"
@@ -241,8 +241,8 @@
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:5] 1 2 3 97 99
-      .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
+      .. ..$ vallab    : Named num [1:6] -2 1 2 3 97 99
+      .. .. ..- attr(*, "names")= chr [1:6] "FILTER" "love" "joy" "happiness" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:31] 7 17 23 51 58 65 67 73 74 91 ...
       .. ..$ init_val  : num NA
@@ -250,8 +250,8 @@
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 2
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:5] 1 2 3 97 99
-      .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
+      .. ..$ vallab    : Named num [1:6] -2 1 2 3 97 99
+      .. .. ..- attr(*, "names")= chr [1:6] "FILTER" "love" "joy" "happiness" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:41] 3 13 22 26 35 38 45 47 55 72 ...
       .. ..$ init_val  : num NA
@@ -259,8 +259,8 @@
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 3
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:5] 1 2 3 97 99
-      .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
+      .. ..$ vallab    : Named num [1:6] -2 1 2 3 97 99
+      .. .. ..- attr(*, "names")= chr [1:6] "FILTER" "love" "joy" "happiness" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:24] 5 12 14 39 49 62 79 98 2 15 ...
       .. ..$ init_val  : num NA
@@ -268,8 +268,8 @@
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num NA
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:5] 1 2 3 97 99
-      .. .. ..- attr(*, "names")= chr [1:5] "love" "joy" "happiness" "Others" ...
+      .. ..$ vallab    : Named num [1:6] -2 1 2 3 97 99
+      .. .. ..- attr(*, "names")= chr [1:6] "FILTER" "love" "joy" "happiness" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : NULL
       .. ..$ init_val  : num NA
@@ -277,8 +277,8 @@
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 1
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:6] 1 2 3 4 97 99
-      .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
+      .. ..$ vallab    : Named num [1:7] -2 1 2 3 4 97 99
+      .. .. ..- attr(*, "names")= chr [1:7] "FILTER" "sadness" "fear" "anger" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:19] 77 87 7 9 13 16 32 48 59 79 ...
       .. ..$ init_val  : num NA
@@ -286,8 +286,8 @@
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 2
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:6] 1 2 3 4 97 99
-      .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
+      .. ..$ vallab    : Named num [1:7] -2 1 2 3 4 97 99
+      .. .. ..- attr(*, "names")= chr [1:7] "FILTER" "sadness" "fear" "anger" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:27] 5 11 19 29 41 46 51 57 61 63 ...
       .. ..$ init_val  : num NA
@@ -295,8 +295,8 @@
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 3
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:6] 1 2 3 4 97 99
-      .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
+      .. ..$ vallab    : Named num [1:7] -2 1 2 3 4 97 99
+      .. .. ..- attr(*, "names")= chr [1:7] "FILTER" "sadness" "fear" "anger" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:29] 1 28 30 36 40 60 72 83 85 95 ...
       .. ..$ init_val  : num NA
@@ -304,8 +304,8 @@
       .. ..$ var_ziel  : chr "q7n"
       .. ..$ val_assign: num 4
       .. ..$ varlab    : NULL
-      .. ..$ vallab    : Named num [1:6] 1 2 3 4 97 99
-      .. .. ..- attr(*, "names")= chr [1:6] "sadness" "fear" "anger" "pain" ...
+      .. ..$ vallab    : Named num [1:7] -2 1 2 3 4 97 99
+      .. .. ..- attr(*, "names")= chr [1:7] "FILTER" "sadness" "fear" "anger" ...
       .. ..$ id        : chr "id"
       .. ..$ id_list   : num [1:25] 6 15 23 27 44 45 49 56 66 69 ...
       .. ..$ init_val  : num NA
