@@ -53,7 +53,10 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #' df <- data.frame(x = 1:2)
 #' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 #' df$x
-cmd_set_labs <- function(df, orig_var, new_lab = attr(df[[orig_var]], "label", exact = TRUE), new_vals, new_labs){
+cmd_set_labs <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
+  if (is.null(new_lab)) {
+    new_lab <- attr(df[[orig_var]], "label", exact = TRUE)
+  }
   df[[orig_var]] <- haven::labelled(
     df[[orig_var]],
     labels = purrr::set_names(new_vals, new_labs),
