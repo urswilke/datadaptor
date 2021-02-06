@@ -88,9 +88,13 @@ transl_human_read_if <- function(data) {
 }
 transl_human_read_avall <- function(data) {
   d <- data
+  varlab <- d$X3[1]
+  if (is.na(varlab)) {
+    varlab <- NULL
+  }
   res <- list(
     orig_var  = d$X2[1],
-    new_lab  = d$X3[1],
+    new_lab  = varlab,
     vals_added = d$X2[-1] %>% as.numeric(),
     labs_added = d$X3[-1]
   )
@@ -98,9 +102,13 @@ transl_human_read_avall <- function(data) {
 }
 transl_human_read_vall <- function(data) {
   d <- data
+  varlab <- d$X3[1]
+  if (is.na(varlab)) {
+    varlab <- NULL
+  }
   res <- list(
     orig_var  = d$X2[1],
-    new_lab  = d$X3[1],
+    new_lab  = varlab,
     new_vals = d$X2[-1] %>% as.numeric(),
     new_labs = d$X3[-1]
   )

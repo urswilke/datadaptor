@@ -191,7 +191,7 @@
      $ n                   : dbl+lbl [1:100] 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, ...
        ..@ labels: Named num [1:4] 1 2 3 4
        .. ..- attr(*, "names")= chr [1:4] "also with" "value labels" "now" "added label"
-       ..@ label : chr NA
+       ..@ label : chr "overwrite new label"
      $ a1                  : dbl+lbl [1:100] 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, ...
        ..@ label: chr "same variable label for a1 & a2"
      $ a2                  : dbl+lbl [1:100] 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, ...
@@ -584,7 +584,7 @@
       .. ..$ new_labs: chr [1:3] "also with" "value labels" "now"
       ..$ :List of 4
       .. ..$ orig_var  : chr "n"
-      .. ..$ new_lab   : chr NA
+      .. ..$ new_lab   : NULL
       .. ..$ vals_added: num 4
       .. ..$ labs_added: chr "added label"
       ..$ :List of 2
