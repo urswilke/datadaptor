@@ -32,7 +32,7 @@ mapp_cmd_table <- function(
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (get_lab_before_var(mapping_file) == "TRUE" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (get_lab_before_var(mapping_file) == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
     var_index <- which(sheets == "Variables")
     lab_index <- which(sheets == "Label")
     sheets[var_index] <- "Label"
