@@ -42,7 +42,7 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #'
 #' @param df dataframe
 #' @param orig_var character string of (labelled) variable in df
-#' @param new_lab character string of the new variable label
+#' @param new_lab Character string of the new variable label. If not defined, the function will keep the variable label (if it already exists).
 #' @param new_vals numeric vector containing the labelled values of the variable
 #' @param new_labs character vector of the new value labels
 #'
@@ -53,7 +53,7 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #' df <- data.frame(x = 1:2)
 #' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 #' df$x
-cmd_set_labs <- function(df, orig_var, new_lab = attr(orig_var, "label", exact = TRUE), new_vals, new_labs){
+cmd_set_labs <- function(df, orig_var, new_lab = attr(df[[orig_var]], "label", exact = TRUE), new_vals, new_labs){
   df[[orig_var]] <- haven::labelled(
     df[[orig_var]],
     labels = purrr::set_names(new_vals, new_labs),
@@ -451,7 +451,10 @@ cmd_merge <- function(df, merge_file, id = "id", variable_names) {
 #' fun_name <- "calc_sum_of_k_vars"
 #' cmd_rfun(df, r_script, fun_name)
 cmd_rfun <- function(df, r_script, fun_name) {
-  source(r_script, echo = FALSE)
+  if (!is.na(r_script)) {
+    source(r_script, echo = FALSE)
+  }
+
   df_mod <- do.call(fun_name, list(df))
   df_mod
 }

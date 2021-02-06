@@ -7,7 +7,7 @@
 cmd_set_labs(
   df,
   orig_var,
-  new_lab = attr(orig_var, "label", exact = TRUE),
+  new_lab = attr(df[[orig_var]], "label", exact = TRUE),
   new_vals,
   new_labs
 )
@@ -17,7 +17,7 @@ cmd_set_labs(
 
 \item{orig_var}{character string of (labelled) variable in df}
 
-\item{new_lab}{character string of the new variable label}
+\item{new_lab}{Character string of the new variable label. If not defined, the function will keep the variable label (if it already exists).}
 
 \item{new_vals}{numeric vector containing the labelled values of the variable}
 
