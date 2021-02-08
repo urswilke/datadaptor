@@ -103,7 +103,7 @@ mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translat
   if (translate_xlsm) {
     df_varl <- translate_xlsm_var_sheet(df_varl)
   }
-  df_varl %>% make_varlab_cmd_table()
+  df_varl %>% parse_varlab_cmd_table()
 }
 translate_xlsm_var_sheet <- function(df_varl) {
   df_varl %>% dplyr::select(
@@ -117,14 +117,14 @@ translate_xlsm_var_sheet <- function(df_varl) {
     dplyr::mutate(varlab = ifelse(varlab == "<none>", NA_character_, varlab))
 }
 
-make_varlab_cmd_table <- function(df_varl) {
+parse_varlab_cmd_table <- function(df_varl) {
   dplyr::bind_rows(
-    make_varlab_rename_tbl(df_varl),
-    make_varlab_newlab_table(df_varl)
+    parse_rename_cmd_block(df_varl),
+    parse_newlab_cmd_blocks(df_varl)
   )
 }
 
-make_varlab_newlab_table <- function(df_varl) {
+parse_newlab_cmd_blocks <- function(df_varl) {
   df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(new_label) %>%
@@ -137,7 +137,7 @@ make_varlab_newlab_table <- function(df_varl) {
     tidyr::nest() %>%
     dplyr::ungroup()
 }
-make_varlab_rename_tbl <- function(df_varl) {
+parse_rename_cmd_block <- function(df_varl) {
   df_rename <- df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(new_name) %>%
@@ -189,7 +189,7 @@ mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate
   }
   df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1) %>%
-    make_sumvar_cmd_table()
+    parse_sumvar_cmd_table()
 }
 translate_xlsm_vallab_sheet <- function(df_vall) {
   df_vall %>% dplyr::select(
@@ -203,7 +203,7 @@ translate_xlsm_vallab_sheet <- function(df_vall) {
   ) %>% dplyr::slice(-1) %>%
     tidyr::fill(var)
 }
-make_sumvar_cmd_table <- function(df_vall) {
+parse_sumvar_cmd_table <- function(df_vall) {
   df_vall %>%
     tidyr::drop_na(sum_var_value) %>%
     dplyr::select(-new_label) %>%
@@ -244,7 +244,7 @@ mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_x
   df_free_raw <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet, translate_xlsm)
   df_free_raw %>%
     put_absolute_filepaths(mapping_file) %>%
-    make_free_cmd_table()
+    process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
   df_free <- readxl::read_xlsx(
@@ -273,7 +273,7 @@ translate_xlsm_free_sheet <- function(df_free) {
   df_free %>% dplyr::slice(-1)
 }
 
-make_free_cmd_table <- function(df_free) {
+process_raw_free_cmd_table <- function(df_free) {
   if (nrow(df_free) == 0) {
     return(tibble::tibble())
   }

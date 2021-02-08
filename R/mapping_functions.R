@@ -61,7 +61,7 @@ mapp_cmd_table <- function(
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ make_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
+    ~ generate_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
@@ -75,7 +75,7 @@ mapp_cmd_table <- function(
     df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd, id_var)
   }
   if (add_r_command_colum) {
-    cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y)))
+    cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
     # print(cmd_list)
     df_cmd["R command"] <-
       tibble::tibble(a = cmd_list) %>%
@@ -112,7 +112,7 @@ add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
     df_cmd
   )
 }
-make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
+generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
   switch (
     sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
@@ -124,7 +124,7 @@ make_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_
 }
 
 
-make_cmd_expression <- function(action, data) {
+generate_cmd_expression <- function(action, data) {
   switch (
     action,
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
@@ -150,7 +150,7 @@ make_cmd_expression <- function(action, data) {
 }
 
 apply_one_cmd <- function(df, action, data) {
-  cmd <- make_cmd_expression(action, data)
+  cmd <- generate_cmd_expression(action, data)
   rlang::eval_tidy(cmd)
 }
 
@@ -329,7 +329,7 @@ translate_to_r_script <- function(
   spss_file
   ) {
   cmd_list <-
-    purrr::map2(df_cmd$action, df_cmd$data, ~deparse(make_cmd_expression(.x, .y))) %>%
+    purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))
   script_start <- c(
     # "library(tidyverse)",

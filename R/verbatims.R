@@ -24,8 +24,8 @@ mapp_verbatim_sheet_cmd_tbl <- function(
   sheet = "Verbatims",
   id_var_str
 ) {
-  l <- make_verba_data_raw(mapping_file, verba_file, sheet)
-  make_verbatim_assignment_table_raw(l) %>%
+  l <- parse_verba_data_raw(mapping_file, verba_file, sheet)
+  generate_verbatim_assignment_table_raw(l) %>%
     dplyr::mutate(
       action = "#Verba",
       new_var = var_ziel,
@@ -39,7 +39,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
     dplyr::select(-val_assign_temp)
 }
 
-make_verba_sheet_df <- function(mapping_file, sheet) {
+generate_verba_sheet_table <- function(mapping_file, sheet) {
   mapping_verba_sheet <-
     readxl::read_excel(mapping_file,
                        skip = 16,
@@ -64,7 +64,7 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
     dplyr::pull(D)
   adapt_filepath(file_path, mapping_file)
 }
-make_assigns_list <- function(verba_file, mapping_verba_sheet) {
+generate_assignments_list <- function(verba_file, mapping_verba_sheet) {
   verba_file_sheets <-
     verba_file %>%
     readxl::excel_sheets() %>%
@@ -81,7 +81,7 @@ make_assigns_list <- function(verba_file, mapping_verba_sheet) {
   verba_file_sheets %>%
     purrr::map(~read_assigns(.x))
 }
-make_codestufen_list <- function(verba_file) {
+generate_label_code_list <- function(verba_file) {
   df_codestufen <-
     readxl::read_excel(
       verba_file,
@@ -114,12 +114,12 @@ un_OT_ize <- function(var_ziel,orig_var){
 }
 
 
-make_verba_data_raw <- function(mapping_file, verba_file, sheet) {
-  mapping_verba_sheet <- make_verba_sheet_df(mapping_file, sheet = sheet)
+parse_verba_data_raw <- function(mapping_file, verba_file, sheet) {
+  mapping_verba_sheet <- generate_verba_sheet_table(mapping_file, sheet = sheet)
   verba_sheets <- mapping_verba_sheet$q_id
-  l_codestufen <- make_codestufen_list(verba_file)
+  l_codestufen <- generate_label_code_list(verba_file)
   l_codestufen <- l_codestufen[verba_sheets]
-  l_assigns <- make_assigns_list(verba_file, mapping_verba_sheet)
+  l_assigns <- generate_assignments_list(verba_file, mapping_verba_sheet)
   l_assigns <- l_assigns[verba_sheets]
   l <- vector("list", length(verba_sheets))
   for (i in 1:length(verba_sheets)) {
@@ -130,7 +130,7 @@ make_verba_data_raw <- function(mapping_file, verba_file, sheet) {
   }
   l
 }
-make_mdg_assignment_table <- function(i_l) {
+parse_mdg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   df_vars_n_labs <- i_l$labs[[1]] %>%
     dplyr::mutate(
@@ -159,15 +159,15 @@ make_mdg_assignment_table <- function(i_l) {
     dplyr::select(-code_assign)
   df_assigns
 }
-make_efa_assignment_table <- function(i_l) {
+parse_efa_assignment_table <- function(i_l) {
   # in case multiple "Zuord" columns occur in assignment data, code would break
   # and only the first is needed:
   i_l$assignments <- i_l$assignments %>%
     dplyr::select(1:3)
-  make_mcg_assignment_table(i_l) %>%
+  parse_mcg_assignment_table(i_l) %>%
     dplyr::mutate(init_val = NA_real_)
 }
-make_mcg_assignment_table <- function(i_l) {
+parse_mcg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   vallabs <- i_l$labs[[1]] %>%
     dplyr::relocate(2) %>%
@@ -197,14 +197,14 @@ make_mcg_assignment_table <- function(i_l) {
 }
 translate_verba_line <- function(verba_type, verba_data) {
   switch (verba_type,
-          "1" = make_efa_assignment_table(verba_data),
-          "2" = make_mcg_assignment_table(verba_data),
-          "3" = make_mdg_assignment_table(verba_data),
+          "1" = parse_efa_assignment_table(verba_data),
+          "2" = parse_mcg_assignment_table(verba_data),
+          "3" = parse_mdg_assignment_table(verba_data),
           stop("Invalid verbatim type code.")
   )
 }
 
-make_verbatim_assignment_table_raw <- function(l){
+generate_verbatim_assignment_table_raw <- function(l){
   verba_types <- l %>% purrr::map_dbl(purrr::chuck, "meta", "EFA1MCG2MDG3")
   purrr::map2(verba_types, l, translate_verba_line) %>%
     dplyr::bind_rows(.id = "row")
