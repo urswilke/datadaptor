@@ -65,7 +65,7 @@ mapp_cmd_table <- function(
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(data = transl_human_read(action, data)) %>%
+    dplyr::mutate(data = parse_cmd_block_args(action, data)) %>%
     dplyr::ungroup()
   df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
   if (!is.na(df_cmd_manip_string)) {

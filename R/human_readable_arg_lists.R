@@ -1,27 +1,27 @@
-transl_human_read <- function(action, data) {
+parse_cmd_block_args <- function(action, data) {
   switch (
     action,
-    "#RFUN"    = transl_human_read_rfun(data),
-    "#R"       = transl_human_read_r(data),
-    "#MERGE"   = transl_human_read_merge(data),
-    "#IF"      = transl_human_read_if(data),
-    "#COMP"    = transl_human_read_comp(data),
-    "#COMPR"   = transl_human_read_comp(data),
-    "#REC"     = transl_human_read_rec(data),
-    "#SUMVAR"  = transl_human_read_sumvar(data),
-    "#RENAME"  = transl_human_read_rename(data),
-    "#NEWLAB"  = transl_human_read_newlab(data),
-    "#VARL"    = transl_human_read_varl(data),
-    "#VALL"    = transl_human_read_vall(data),
-    "#AVALL"   = transl_human_read_avall(data),
-    "#DIC"     = transl_human_read_dic(data),
-    "#KG"      = transl_human_read_kg(data),
-    "#Verba"   = transl_human_read_verbatim(data),
+    "#RFUN"    = parse_cmd_block_args_rfun(data),
+    "#R"       = parse_cmd_block_args_r(data),
+    "#MERGE"   = parse_cmd_block_args_merge(data),
+    "#IF"      = parse_cmd_block_args_if(data),
+    "#COMP"    = parse_cmd_block_args_comp(data),
+    "#COMPR"   = parse_cmd_block_args_comp(data),
+    "#REC"     = parse_cmd_block_args_rec(data),
+    "#SUMVAR"  = parse_cmd_block_args_sumvar(data),
+    "#RENAME"  = parse_cmd_block_args_rename(data),
+    "#NEWLAB"  = parse_cmd_block_args_newlab(data),
+    "#VARL"    = parse_cmd_block_args_varl(data),
+    "#VALL"    = parse_cmd_block_args_vall(data),
+    "#AVALL"   = parse_cmd_block_args_avall(data),
+    "#DIC"     = parse_cmd_block_args_dic(data),
+    "#KG"      = parse_cmd_block_args_kg(data),
+    "#Verba"   = parse_cmd_block_args_verbatim(data),
     stop("Invalid action command")
   )
 }
 
-transl_human_read_rename <- function(data) {
+parse_cmd_block_args_rename <- function(data) {
   d <- data
 
   res <- list(
@@ -30,7 +30,7 @@ transl_human_read_rename <- function(data) {
   )
   list(res)
 }
-transl_human_read_newlab <- function(data) {
+parse_cmd_block_args_newlab <- function(data) {
   d <- data
 
   res <- list(
@@ -39,7 +39,7 @@ transl_human_read_newlab <- function(data) {
   )
   list(res)
 }
-transl_human_read_kg <- function(data) {
+parse_cmd_block_args_kg <- function(data) {
   d <- data
 
   res <- list(
@@ -48,7 +48,7 @@ transl_human_read_kg <- function(data) {
   )
   list(res)
 }
-transl_human_read_varl <- function(data) {
+parse_cmd_block_args_varl <- function(data) {
   d <- data
 
   res <- list(
@@ -57,7 +57,7 @@ transl_human_read_varl <- function(data) {
   )
   list(res)
 }
-transl_human_read_dic <- function(data) {
+parse_cmd_block_args_dic <- function(data) {
   d <- data
 
   res <- list(
@@ -66,7 +66,7 @@ transl_human_read_dic <- function(data) {
   )
   list(res)
 }
-transl_human_read_comp <- function(data) {
+parse_cmd_block_args_comp <- function(data) {
   d <- data
 
   res <- list(
@@ -75,7 +75,7 @@ transl_human_read_comp <- function(data) {
   )
   list(res)
 }
-transl_human_read_if <- function(data) {
+parse_cmd_block_args_if <- function(data) {
   d <- data
   assignment <- d$X3 %>% stringr::str_split("=") %>% unlist() %>% stringr::str_squish()
 
@@ -86,7 +86,7 @@ transl_human_read_if <- function(data) {
   )
   list(res)
 }
-transl_human_read_avall <- function(data) {
+parse_cmd_block_args_avall <- function(data) {
   d <- data
   varlab <- d$X3[1]
   if (is.na(varlab)) {
@@ -100,7 +100,7 @@ transl_human_read_avall <- function(data) {
   )
   list(res)
 }
-transl_human_read_vall <- function(data) {
+parse_cmd_block_args_vall <- function(data) {
   d <- data
   varlab <- d$X3[1]
   if (is.na(varlab)) {
@@ -114,7 +114,7 @@ transl_human_read_vall <- function(data) {
   )
   list(res)
 }
-transl_human_read_rec <- function(data) {
+parse_cmd_block_args_rec <- function(data) {
   d <- data
   res <- list(
     new_var  = d$X3[1],
@@ -128,7 +128,7 @@ transl_human_read_rec <- function(data) {
   list(res)
 }
 
-transl_human_read_sumvar <- function(data) {
+parse_cmd_block_args_sumvar <- function(data) {
   d <- data
   res <- list(
     new_var = paste0("k", d$var[1]),
@@ -143,7 +143,7 @@ transl_human_read_sumvar <- function(data) {
 
 
 
-transl_human_read_verbatim <- function(data) {
+parse_cmd_block_args_verbatim <- function(data) {
   d <- data
     res <- list(
     var_ziel = d$var_ziel,
@@ -158,7 +158,7 @@ transl_human_read_verbatim <- function(data) {
 }
 
 
-transl_human_read_merge <- function(data) {
+parse_cmd_block_args_merge <- function(data) {
   d <- data
   res <- list(
     variable_names  = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
@@ -168,7 +168,7 @@ transl_human_read_merge <- function(data) {
   list(res)
 }
 
-transl_human_read_rfun <- function(data) {
+parse_cmd_block_args_rfun <- function(data) {
   d <- data
   res <- list(
     r_script  = d$X2,
@@ -177,7 +177,7 @@ transl_human_read_rfun <- function(data) {
   list(res)
 }
 
-transl_human_read_r <- function(data) {
+parse_cmd_block_args_r <- function(data) {
   d <- data
   res <- list(
     r_code  = d$X2
