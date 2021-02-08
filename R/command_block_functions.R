@@ -124,17 +124,6 @@ cmd_dic <- function(df, orig_var, new_var){
   df
 }
 
-kg_mix <- function(df, var1, var2) {
-  var_kg <- paste(var1, var2, sep = "_")
-  var_kg_factor <- df %>%
-    dplyr::transmute(!!var_kg := forcats::fct_cross(!!rlang::sym(var1) %>% forcats::as_factor(), !!rlang::sym(var2) %>% forcats::as_factor())) %>% dplyr::pull()
-  labels_vec <- var_kg_factor %>% levels() %>% purrr::set_names(1:length(.), .)
-  var_kg_labelled <- haven::labelled_spss(var_kg_factor, labels = labels_vec)
-
-  df %>%
-    dplyr::mutate(!!var_kg := var_kg_labelled)
-}
-
 #' Split variable in dataframe into multiple according to the values of another variable
 #'
 #' Create a set of variables for each value of split_var. The resulting variables
