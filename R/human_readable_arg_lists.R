@@ -16,7 +16,7 @@ parse_cmd_block_args <- function(action, data) {
     "#AVALL"   = parse_cmd_block_args_avall(data),
     "#DIC"     = parse_cmd_block_args_dic(data),
     "#KG"      = parse_cmd_block_args_kg(data),
-    "#Verba"   = parse_cmd_block_args_verbatim(data),
+    "#verbatim"= parse_cmd_block_args_verbatim(data),
     stop("Invalid action command")
   )
 }

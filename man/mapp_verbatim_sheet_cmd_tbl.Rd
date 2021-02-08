@@ -6,7 +6,7 @@
 \usage{
 mapp_verbatim_sheet_cmd_tbl(
   mapping_file,
-  verba_file = extract_verbatim_file_name(mapping_file, sheet),
+  verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
   sheet = "Verbatims",
   id_var_str
 )
@@ -14,7 +14,7 @@ mapp_verbatim_sheet_cmd_tbl(
 \arguments{
 \item{mapping_file}{name of the Excel mapping file}
 
-\item{verba_file}{character string of the name of the Verbatim file}
+\item{verbatim_file}{character string of the name of the Verbatim file}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
 
@@ -36,5 +36,5 @@ verbatim_file <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = 
 utils::browseURL(mapping_file)
 utils::browseURL(verbatim_file)
 }
-mapp_verbatim_sheet_cmd_tbl(mapping_file, verba_file = verbatim_file, id = "id")
+mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file, id = "id")
 }
