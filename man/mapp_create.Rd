@@ -22,5 +22,7 @@ sequence of commands is executed in the same order as the sequence of sheets in 
 \examples{
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 df <- haven::read_sav(spss_file)
+\dontrun{
 mapp_create(df, "mapping.xlsx")
+}
 }

@@ -15,7 +15,9 @@
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' df <- haven::read_sav(spss_file)
+#' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
+#' }
 mapp_create <- function(df_raw, mapping_file) {
 
   df_varlab <-
