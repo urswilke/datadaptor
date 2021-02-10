@@ -485,6 +485,14 @@ cmd_r <- function(df, r_code) {
 #' @export
 #'
 #' @examples
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df <- haven::read_sav(spss_file)
+#' set_na_to_filter_except(
+#'   df,
+#'   c("q1", "q2"),
+#'   -2,
+#'   "I'm the label for the missing value replacement"
+#' )
 set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label) {
   df %>%
     dplyr::mutate(
