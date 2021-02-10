@@ -150,13 +150,13 @@
       .. ..$ X5: chr NA
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#MERGE"
-      .. ..$ X2: chr "/home/chief/R/datenanpassr/inst/extdata/fake_survey.sav"
+      .. ..$ X2: chr "fake_survey.sav"
       .. ..$ X3: chr "id"
       .. ..$ X4: chr "q1 q2"
       .. ..$ X5: chr NA
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#RFUN"
-      .. ..$ X2: chr "/home/chief/R/datenanpassr/inst/extdata/example_R_function.R"
+      .. ..$ X2: chr "example_R_function.R"
       .. ..$ X3: chr "calc_sum_of_k_vars"
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA

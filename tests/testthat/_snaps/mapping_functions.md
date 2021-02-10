@@ -617,9 +617,9 @@
       ..$ :List of 3
       .. ..$ variable_names: chr [1:2] "q1" "q2"
       .. ..$ id            : chr "id"
-      .. ..$ merge_file    : chr "/home/chief/R/datenanpassr/inst/extdata/fake_survey.sav"
+      .. ..$ merge_file    : chr "fake_survey.sav"
       ..$ :List of 2
-      .. ..$ r_script: chr "/home/chief/R/datenanpassr/inst/extdata/example_R_function.R"
+      .. ..$ r_script: chr "example_R_function.R"
       .. ..$ fun_name: chr "calc_sum_of_k_vars"
       ..$ :List of 1
       .. ..$ r_code: chr "df %>% dplyr::mutate(a=1)"

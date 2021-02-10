@@ -13,7 +13,21 @@ test_that("result of the mapping function mapp_xl_to_data()", {
 
 
 test_that("result of mapp_cmd_table()", {
-  testthat::expect_snapshot_output(df_cmd %>% str())
+  testthat::expect_snapshot_output(
+    df_cmd %>%
+      # dirty hack to remove absolute path (in order to make the test pass on
+      # other systems...):
+      dplyr::mutate(data = ifelse(
+        action %in% c("#MERGE"),
+        purrr::map(data, ~{.x$merge_file <- stringr::str_remove(.x$merge_file, ".*/"); .x}),
+        data)
+      ) %>%
+      dplyr::mutate(data = ifelse(
+        action %in% c("#RFUN"),
+        purrr::map(data, ~{.x$r_script <- stringr::str_remove(.x$r_script, ".*/"); .x}),
+        data)
+      ) %>%
+      str())
 })
 
 test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
