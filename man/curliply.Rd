@@ -10,7 +10,10 @@ curliply(df_free)
 \item{df_free}{code blocks read in by \code{mapp_free1()}}
 }
 \value{
-
+Dataframe containing multiple code blocks. The number of returned code blocks
+corresponds to the number of space separated parts in the curly brackets.
+The part embraced by the curly braces of the
+initial code block is replaced by each of the space separated parts.
 }
 \description{
 This function turns the first line of code blocks of the "Free" sheets into

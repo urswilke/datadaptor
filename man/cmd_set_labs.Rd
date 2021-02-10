@@ -4,13 +4,7 @@
 \alias{cmd_set_labs}
 \title{Set value labels of labelled variable var in dataframe df}
 \usage{
-cmd_set_labs(
-  df,
-  orig_var,
-  new_lab = attr(df[[orig_var]], "label", exact = TRUE),
-  new_vals,
-  new_labs
-)
+cmd_set_labs(df, orig_var, new_lab = NULL, new_vals, new_labs)
 }
 \arguments{
 \item{df}{dataframe}

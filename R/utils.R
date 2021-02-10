@@ -7,7 +7,10 @@
 #'
 #' @param df_free code blocks read in by \code{mapp_free1()}
 #'
-#' @return
+#' @return Dataframe containing multiple code blocks. The number of returned code blocks
+#'  corresponds to the number of space separated parts in the curly brackets.
+#'  The part embraced by the curly braces of the
+#'  initial code block is replaced by each of the space separated parts.
 #' @export
 #'
 #' @examples
@@ -31,8 +34,8 @@
 #' }
 curliply <- function(df_free) {
   df_free %>%
-    dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(X1, "^#")))) %>%
-    dplyr::group_by(raw_index) %>%
+    dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
+    dplyr::group_by(.data$raw_index) %>%
     dplyr::mutate(row = paste(row, collapse = ", ")) %>%
     dplyr::group_split() %>%
     purrr::map_dfr(~collapse_multi_row_blocks(.x, raw_index)) %>%
@@ -40,8 +43,8 @@ curliply <- function(df_free) {
     dplyr::group_split() %>%
     purrr::map_dfr(curliply_block) %>%
     dplyr::add_count(row) %>%
-    dplyr::mutate(curly_index = ifelse(n == 1, NA_integer_, curly_index)) %>%
-    dplyr::select(-n) %>%
+    dplyr::mutate(curly_index = ifelse(.data$n == 1, NA_integer_, .data$curly_index)) %>%
+    dplyr::select(-.data$n) %>%
     dplyr::rowwise() %>%
     dplyr::group_split() %>%
     purrr::map_dfr(explode_multi_row_blocks) %>%
@@ -49,8 +52,8 @@ curliply <- function(df_free) {
     # collapse_multi_row_blocks()), the index counting the number of curliply_block
     # items doesn't exist yet. Therefore, it is filled to the whole multiline
     # command blocks with the following fill():
-    dplyr::group_by(raw_index) %>%
-    tidyr::fill(curly_index) %>%
+    dplyr::group_by(.data$raw_index) %>%
+    tidyr::fill(.data$curly_index) %>%
     tidyr::unite(row, c("row", "curly_index"), na.rm = TRUE)
 }
 
@@ -89,8 +92,8 @@ collapse_multi_row_blocks <- function(df, raw_index) {
 }
 explode_multi_row_blocks <- function(df) {
   dplyr::bind_rows(
-    df %>% dplyr::select(-further_rows),
-    df %>% dplyr::pull(further_rows)
+    df %>% dplyr::select(-.data$further_rows),
+    df %>% dplyr::pull(.data$further_rows)
   )
 }
 
@@ -109,8 +112,8 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
     df_new_labels,
     by = c("name", "value")
   ) %>%
-    dplyr::distinct(value, .keep_all = T) %>%
-    dplyr::arrange(value) %>%
+    dplyr::distinct(.data$value, .keep_all = T) %>%
+    dplyr::arrange(.data$value) %>%
     tibble::deframe()
 }
 
@@ -120,36 +123,36 @@ is_true <- Vectorize(isTRUE)
 
 
 get_id_var <- function(mapping_file) {
-  mapp_configr(mapping_file) %>% dplyr::filter(item == "id_var") %>% dplyr::pull(value)
+  mapp_configr(mapping_file) %>% dplyr::filter(.data$item == "id_var") %>% dplyr::pull(.data$value)
 }
 
 get_lab_before_var <- function(mapping_file) {
-  mapp_configr(mapping_file) %>% dplyr::filter(item == "Excecute before variable sheet?") %>% dplyr::pull(value)
+  mapp_configr(mapping_file) %>% dplyr::filter(.data$item == "Excecute before variable sheet?") %>% dplyr::pull(.data$value)
 }
 
 get_na_to_filter_rec <- function(mapping_file) {
   df_config <- mapp_configr(mapping_file)
   rec_val <- df_config %>%
-    dplyr::filter(item == "missing values recoded to") %>%
-    dplyr::pull(value) %>%
+    dplyr::filter(.data$item == "missing values recoded to") %>%
+    dplyr::pull(.data$value) %>%
     as.numeric()
   rec_lab <- df_config %>%
-    dplyr::filter(item == "missing values labelled by") %>%
-    dplyr::pull(value)
+    dplyr::filter(.data$item == "missing values labelled by") %>%
+    dplyr::pull(.data$value)
   purrr::set_names(rec_val, rec_lab)
 }
 
 get_vars_to_exclude_na_to_filter <- function(mapping_file) {
   mapp_configr(mapping_file) %>%
-    dplyr::filter(item == "variables not recoded to FILTER") %>%
-    dplyr::pull(value) %>%
+    dplyr::filter(.data$item == "variables not recoded to FILTER") %>%
+    dplyr::pull(.data$value) %>%
     stringr::str_split("[, ;]+") %>%
     unlist()
 }
 get_df_cmd_manip_string_expr <- function(mapping_file) {
   mapp_configr(mapping_file) %>%
-    dplyr::filter(item == "manipulate command table") %>%
-    dplyr::pull(value)
+    dplyr::filter(.data$item == "manipulate command table") %>%
+    dplyr::pull(.data$value)
 }
 
 
@@ -173,8 +176,8 @@ adapt_filepath <- function(file_path, mapping_file) {
 
 get_df_vars_of_expr_string <- function(expr_string, vars_in_df) {
   expr_string %>% sourcetools::tokenize_string() %>%
-    dplyr::filter(type == "symbol", value %in% vars_in_df) %>%
-    dplyr::pull(value)
+    dplyr::filter(.data$type == "symbol", .data$value %in% vars_in_df) %>%
+    dplyr::pull(.data$value)
 }
 
 strip_attributes <- function(x) { attributes(x) <- NULL; x }

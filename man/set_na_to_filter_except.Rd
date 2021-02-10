@@ -16,7 +16,9 @@ set_na_to_filter_except(df, recode_na_exceptions, replace_val, replace_label)
 \item{replace_label}{value label of replacing value}
 }
 \value{
-
+Dataframe where \code{set_na_to_filter()} is run on all numeric variables
+(except those in \code{recode_na_exceptions})
+\code{replace_val} and \code{replace_label} are the arguments passed to \code{set_na_to_filter()}.
 }
 \description{
 Recode missing values of variables in dataframe

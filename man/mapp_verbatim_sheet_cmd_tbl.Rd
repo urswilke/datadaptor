@@ -19,11 +19,9 @@ mapp_verbatim_sheet_cmd_tbl(
 \item{sheet}{name of the sheet in the Excel mapping file}
 
 \item{id_var_str}{character string of the name of the id variable in the data file}
-
-\item{translate_xlsm}{logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``}
 }
 \value{
-
+Command block table of the "Verbatims" sheet of the Excel mapping file.
 }
 \description{
 Extract verbatim sheet related data of Excel mapping file to dataframe

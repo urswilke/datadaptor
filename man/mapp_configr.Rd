@@ -12,7 +12,7 @@ mapp_configr(mapping_file, sheet = "configr")
 \item{sheet}{name of the sheet in the Excel mapping file}
 }
 \value{
-
+Dataframe containing the information of the "configr" sheet in the Excel mapping file.
 }
 \description{
 Extract configr sheet of Excel mapping file to dataframe

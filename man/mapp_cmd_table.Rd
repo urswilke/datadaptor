@@ -19,9 +19,12 @@ mapp_cmd_table(
 
 \item{translate_xlsm}{logical, whether to translate from Wolf's format
 specifying the corresponding R command; defaults to FALSE}
+
+\item{na_to_filter}{logical specifying whether a command is added whether
+\code{set_na_to_filter_except()} should be run as the very first command.}
 }
 \value{
-
+Command table containing the data of the command blocks of the Excel mapping file.
 }
 \description{
 Create a summary table of the data modifications list read in from the

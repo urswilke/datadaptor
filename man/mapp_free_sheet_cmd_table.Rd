@@ -18,7 +18,7 @@ mapp_free_sheet_cmd_table(
 \item{translate_xlsm}{logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``}
 }
 \value{
-
+Command block table of the "Free" sheet of the Excel mapping file.
 }
 \description{
 Extract free1 sheet of Excel mapping file to dataframe

@@ -156,10 +156,10 @@ prepare_newvar_table <- function(df, split_var, by_var) {
     # TODO: find cleaner way without defining a dummy id:
     dplyr::mutate(id = dplyr::row_number(), !!split_var) %>%
     tablab::tab_all() %>%
-    tidyr::drop_na(nv) %>%
-    tidyr::unite(new_varlab, varlab, vallab, sep = " - ") %>%
-    dplyr::mutate(new_varlab = paste0(new_varlab, ": ", var2lab)) %>%
-    dplyr::select(nv, new_varlab)
+    tidyr::drop_na(.data$nv) %>%
+    tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") %>%
+    dplyr::mutate(new_varlab = paste0(.data$new_varlab, ": ", var2lab)) %>%
+    dplyr::select(.data$nv, .data$new_varlab)
 
   new_varnames <- paste0(
     by_var,
@@ -172,8 +172,8 @@ prepare_newvar_table <- function(df, split_var, by_var) {
   new_vars
 }
 split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
-  vallabs <- df[[by_var]] %>%
-    attr(., "labels")
+  vallabs <- attr(df[[by_var]], "labels")
+
   df[new_vars$new_varnames] <- haven::labelled(
     NA_real_,
     labels = vallabs,
@@ -423,7 +423,7 @@ cmd_merge <- function(df, merge_file, id = "id", variable_names) {
   }
   replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
   df %>%
-    dplyr::select(-all_of(replaced_vars)) %>%
+    dplyr::select(-dplyr::all_of(replaced_vars)) %>%
     dplyr::full_join(df_merge, by = id) %>%
     dplyr::relocate(names(df))
 }
@@ -479,7 +479,9 @@ cmd_r <- function(df, r_code) {
 #' @param replace_val value to replace missing values by
 #' @param replace_label value label of replacing value
 #'
-#' @return
+#' @return Dataframe where `set_na_to_filter()` is run on all numeric variables
+#' (except those in `recode_na_exceptions`)
+#' `replace_val` and `replace_label` are the arguments passed to `set_na_to_filter()`.
 #' @export
 #'
 #' @examples
@@ -487,7 +489,7 @@ set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, repla
   df %>%
     dplyr::mutate(
       dplyr::across(
-        where(is.numeric) & !c(one_of(recode_na_exceptions)),
+        where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
         ~set_na_to_filter(.x, replace_val, replace_label)
       )
     )

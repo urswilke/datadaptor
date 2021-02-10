@@ -5,8 +5,10 @@
 #' @param add_r_command_colum logical, whether to add a column `"R command"`
 #' @param translate_xlsm logical, whether to translate from Wolf's format
 #' specifying the corresponding R command; defaults to FALSE
+#' @param na_to_filter logical specifying whether a command is added whether
+#' `set_na_to_filter_except()` should be run as the very first command.
 #'
-#' @return
+#' @return Command table containing the data of the command blocks of the Excel mapping file.
 #' @export
 #'
 #' @examples
@@ -65,7 +67,7 @@ mapp_cmd_table <- function(
     .id = "sheet"
   ) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(data = parse_cmd_block_args(action, data)) %>%
+    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data)) %>%
     dplyr::ungroup()
   df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
   if (!is.na(df_cmd_manip_string)) {
@@ -80,8 +82,8 @@ mapp_cmd_table <- function(
     df_cmd["R command"] <-
       tibble::tibble(a = cmd_list) %>%
       dplyr::rowwise() %>%
-      dplyr::mutate(a = list(paste(stringr::str_squish(a), collapse = " "))) %>%
-      tidyr::unnest(a)
+      dplyr::mutate(a = list(paste(stringr::str_squish(.data$a), collapse = " "))) %>%
+      tidyr::unnest(.data$a)
   }
 
   attr(df_cmd, "id_var") <- id_var
@@ -125,6 +127,10 @@ generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, transl
 
 
 generate_cmd_expression <- function(action, data) {
+  # Hack to prevent R CMD CHECK note
+  # "no visible binding for global variable ‘df’":
+  df <- NULL
+
   switch (
     action,
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
@@ -204,8 +210,9 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #'   `translate_to_r_script()`.
 #' @param rec_fun function either purrr::reduce2 or purrr::accumulate2; see
 #'   Value section
-#' @param df check_id_is_unique logical whether to check that the specified id
+#' @param check_id_is_unique logical whether to check that the specified id
 #'   variable (in sheet "configr") is unique; defaults to TRUE.
+#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
 #'   in case of purrr::accumulate2 a list with all intermediate dataframes (of
@@ -302,14 +309,14 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 
 #' Translate Excel mapping file to R script
 #'
-#' When the created script is run, the resulting dataframe df should be equal to
+#' This function generates an R script with the command blocks of the Excel mapping file
+#' translated to R code. When the created script is run, the resulting dataframe df should be equal to
 #' the result of `mapp_xl_to_data()`.
 #'
 #' @param df_cmd dataframe returned by `mapp_cmd_table()`
 #' @param rscript_name file name of the script
 #' @param spss_file file name of the SPSS dataset
 #'
-#' @return
 #' @export
 #'
 #' @examples

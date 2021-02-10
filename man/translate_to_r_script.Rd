@@ -13,11 +13,9 @@ translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
 
 \item{spss_file}{file name of the SPSS dataset}
 }
-\value{
-
-}
 \description{
-When the created script is run, the resulting dataframe df should be equal to
+This function generates an R script with the command blocks of the Excel mapping file
+translated to R code. When the created script is run, the resulting dataframe df should be equal to
 the result of \code{mapp_xl_to_data()}.
 }
 \examples{

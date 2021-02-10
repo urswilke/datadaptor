@@ -15,8 +15,7 @@ mapp_xl_to_data(
 )
 }
 \arguments{
-\item{df}{check_id_is_unique logical whether to check that the specified id
-variable (in sheet "configr") is unique; defaults to TRUE.}
+\item{df}{dataframe to apply mapping on}
 
 \item{mapping_file}{name of the mapping Excel file or the object returned by
 \code{mapp_cmd_table()} of this path}
@@ -34,6 +33,11 @@ for the error. Alternatively, run the script created by
 
 \item{rec_fun}{function either purrr::reduce2 or purrr::accumulate2; see
 Value section}
+
+\item{translate_xlsm}{logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``}
+
+\item{check_id_is_unique}{logical whether to check that the specified id
+variable (in sheet "configr") is unique; defaults to TRUE.}
 }
 \value{
 in case rec_fun = purrr::reduce2 only the final dataframe is returned

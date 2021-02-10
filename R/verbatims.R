@@ -2,11 +2,10 @@
 #'
 #' @param mapping_file name of the Excel mapping file
 #' @param sheet name of the sheet in the Excel mapping file
-#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #' @param verbatim_file character string of the name of the Verbatim file
 #' @param id_var_str character string of the name of the id variable in the data file
 #'
-#' @return
+#' @return Command block table of the "Verbatims" sheet of the Excel mapping file.
 #' @export
 #'
 #' @examples
@@ -28,15 +27,15 @@ mapp_verbatim_sheet_cmd_tbl <- function(
   generate_verbatim_assignment_table_raw(l) %>%
     dplyr::mutate(
       action = "#verbatim",
-      new_var = var_ziel,
+      new_var = .data$var_ziel,
       sheet = sheet,
-      val_assign_temp = val_assign,
+      val_assign_temp = .data$val_assign,
       id_var_str = id_var_str
     ) %>%
-    dplyr::group_by(sheet, action, row, new_var, val_assign_temp) %>%
+    dplyr::group_by(sheet, .data$action, row, .data$new_var, .data$val_assign_temp) %>%
     tidyr::nest() %>%
     dplyr::ungroup() %>%
-    dplyr::select(-val_assign_temp)
+    dplyr::select(-.data$val_assign_temp)
 }
 
 generate_verbatim_sheet_table <- function(mapping_file, sheet) {
@@ -45,11 +44,11 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
                        skip = 16,
                        sheet = sheet,
                        col_names = TRUE) %>%
-    tidyr::drop_na(VariableOriginal) %>%
-    dplyr::select(VariableOriginal:`Tabellen-blatt`, VariableZiel) %>%
+    tidyr::drop_na(.data$VariableOriginal) %>%
+    dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel) %>%
     # HACK!!! TODO: replace with general regex
-    dplyr::mutate(VariableZiel = un_OT_ize(VariableZiel, VariableOriginal) %>% un_OT_ize(VariableOriginal) %>% un_OT_ize(VariableOriginal)) %>%
-    dplyr::relocate(q_id = `Tabellen-blatt`)
+    dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal)) %>%
+    dplyr::relocate(q_id = .data$`Tabellen-blatt`)
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping_file, sheet) {
@@ -60,25 +59,24 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
     skip = 0
   ) %>%
     dplyr::rename_all(~LETTERS[2:4]) %>%
-    dplyr::filter(B == "Filename input") %>%
-    dplyr::pull(D)
+    dplyr::filter(.data$B == "Filename input") %>%
+    dplyr::pull(.data$D)
   adapt_filepath(file_path, mapping_file)
 }
 generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
   verbatim_file_sheets <-
     verbatim_file %>%
-    readxl::excel_sheets() %>%
-    # except "Codestufen", the first sheet:
-    .[-1] %>%
-    purrr::set_names()
+    readxl::excel_sheets()
 
   read_assigns <- function(sheet_name){
     readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
-      dplyr::select(orig_var = `Orig. Variable`, ID, dplyr::matches("^Zuord "))
+      dplyr::select(orig_var = .data$`Orig. Variable`, .data$ID, dplyr::matches("^Zuord "))
   }
 
 
-  verbatim_file_sheets %>%
+  # except "Codestufen", the first sheet:
+  verbatim_file_sheets[-1] %>%
+    purrr::set_names() %>%
     purrr::map(~read_assigns(.x))
 }
 generate_label_code_list <- function(verbatim_file) {
@@ -92,7 +90,7 @@ generate_label_code_list <- function(verbatim_file) {
     dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) %>%
     dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) %>%
     dplyr::mutate(Code = dplyr::row_number()) %>%
-    dplyr::relocate(Code)
+    dplyr::relocate(.data$Code)
   2:length(df_codestufen) %>%
     purrr::set_names(names(df_codestufen)[-1]) %>%
     purrr::map(~dplyr::select(df_codestufen, 1, lab = .x) %>% tidyr::drop_na())
@@ -125,7 +123,7 @@ parse_verbatim_data_raw <- function(mapping_file, verbatim_file, sheet) {
   for (i in 1:length(verbatim_sheets)) {
     l[[i]][["name"]] <- verbatim_sheets[i]
     l[[i]][["meta"]] <- mapping_verbatim_sheet %>% dplyr::slice(i)
-    l[[i]][["assignments"]] <- l_assigns[[i]] %>% dplyr::filter(orig_var == l[[i]][["meta"]] %>% dplyr::pull(VariableOriginal))
+    l[[i]][["assignments"]] <- l_assigns[[i]] %>% dplyr::filter(.data$orig_var == l[[i]][["meta"]] %>% dplyr::pull(.data$VariableOriginal))
     l[[i]][["labs"]] <- l_codestufen[i]
   }
   l
@@ -136,27 +134,28 @@ parse_mdg_assignment_table <- function(i_l) {
     dplyr::mutate(
       var_ziel = var_template %>% stringr::str_replace(
         "\\{nn\\}",
-        Code %>% as.character()
+        .data$Code %>% as.character()
       )
     ) %>%
-    dplyr::rename(varlab = lab) %>%
-    dplyr::mutate(varlab = as.list(varlab))
+    dplyr::rename(varlab = .data$lab) %>%
+    dplyr::mutate(varlab = as.list(.data$varlab))
   df_assigns <- i_l$assignments %>%
-    tidyr::gather(i_assign, code_assign, dplyr::starts_with("Zuord")) %>%
-    dplyr::select(-i_assign) %>%
+    tidyr::gather("i_assign", "code_assign", dplyr::starts_with("Zuord")) %>%
+    dplyr::select(-.data$i_assign) %>%
     tidyr::drop_na() %>%
-    dplyr::group_by(code_assign) %>%
-    dplyr::summarise(id_list = list(unique(ID))) %>%
+    dplyr::group_by(.data$code_assign) %>%
+    dplyr::summarise(id_list = list(unique(.data$ID))) %>%
     dplyr::full_join(
       df_vars_n_labs,
       by = c("code_assign" = "Code")
-    ) %>%
+    )
+  df_assigns <- df_assigns %>%
     dplyr::mutate(
       val_assign = 1,
-      vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(.)),
+      vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(df_assigns)),
       init_val = 0
     ) %>%
-    dplyr::select(-code_assign)
+    dplyr::select(-.data$code_assign)
   df_assigns
 }
 parse_efa_assignment_table <- function(i_l) {
@@ -174,24 +173,26 @@ parse_mcg_assignment_table <- function(i_l) {
     tibble::deframe() %>%
     merge_vallabs(c("FILTER" = -2))
   df_assigns <- i_l$assignments %>%
-    tidyr::gather(i_assign, val_assign, dplyr::starts_with("Zuord")) %>%
-    dplyr::mutate(i_assign = stringr::str_remove(i_assign, "^Zuord ") %>% as.numeric()) %>%
-    dplyr::group_by(i_assign, val_assign) %>%
-    dplyr::summarise(id_list = list(ID)) %>%
+    tidyr::gather("i_assign", "val_assign", dplyr::starts_with("Zuord")) %>%
+    dplyr::mutate(i_assign = stringr::str_remove(.data$i_assign, "^Zuord ") %>% as.numeric()) %>%
+    dplyr::group_by(.data$i_assign, .data$val_assign) %>%
+    dplyr::summarise(id_list = list(.data$ID)) %>%
     # Hack to not assign missing values: TODO: find cleaner way!
-    dplyr::mutate(id_list = ifelse(is.na(val_assign), list(NULL), id_list)) %>%
+    dplyr::mutate(id_list = ifelse(is.na(.data$val_assign), list(NULL), .data$id_list)) %>%
     dplyr::mutate(
       var_ziel = var_template %>% stringr::str_replace(
         "\\{nn\\}",
-        i_assign %>% as.character()
+        .data$i_assign %>% as.character()
       )
     ) %>%
-    dplyr::ungroup() %>%
+    dplyr::ungroup()
+
+  df_assigns <- df_assigns %>%
     dplyr::mutate(
-      varlab = rep(list(NULL), nrow(.)),
-      vallab = rep(list(vallabs), nrow(.))
+      varlab = rep(list(NULL), nrow(df_assigns)),
+      vallab = rep(list(vallabs), nrow(df_assigns))
     ) %>%
-    dplyr::select(-i_assign) %>%
+    dplyr::select(-.data$i_assign) %>%
     dplyr::mutate(init_val = -2)
   df_assigns
 }
