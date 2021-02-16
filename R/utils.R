@@ -180,4 +180,14 @@ get_df_vars_of_expr_string <- function(expr_string, vars_in_df) {
     dplyr::pull(.data$value)
 }
 
+#' Remove attributes from a vector
+#'
+#' @param x vector
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(1:3, label = "variable_label")
+#' strip_attributes(x)
 strip_attributes <- function(x) { attributes(x) <- NULL; x }
