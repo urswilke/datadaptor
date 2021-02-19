@@ -229,10 +229,11 @@ parse_newvall_cmd_table <- function(df_vall) {
     tidyr::drop_na(.data$new_label) %>%
     dplyr::mutate(new_var = .data$var) %>%
     dplyr::mutate(orig_var = .data$var) %>%
-    dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#NEWVALL") %>%
     dplyr::relocate(.data$sheet, .data$action)  %>%
+    dplyr::group_by(.data$sheet, .data$action, .data$new_var) %>%
+    dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
