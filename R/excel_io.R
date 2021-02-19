@@ -189,9 +189,13 @@ mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate
   if (translate_xlsm) {
     df_vall <- translate_xlsm_vallab_sheet(df_vall)
   }
-  df_vall %>%
-    dplyr::mutate(row = dplyr::row_number() + 1) %>%
-    parse_sumvar_cmd_table()
+  df_vall <- df_vall %>%
+    dplyr::mutate(row = dplyr::row_number() + 1)
+  dplyr::bind_rows(
+    parse_newvall_cmd_table(df_vall),
+    parse_sumvar_cmd_table(df_vall)
+  )
+
 }
 translate_xlsm_vallab_sheet <- function(df_vall) {
   df_vall %>% dplyr::select(
@@ -215,6 +219,19 @@ parse_sumvar_cmd_table <- function(df_vall) {
     dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#SUMVAR") %>%
+    dplyr::relocate(.data$sheet, .data$action)  %>%
+    dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+parse_newvall_cmd_table <- function(df_vall) {
+  df_vall %>%
+    tidyr::drop_na(.data$new_label) %>%
+    dplyr::mutate(new_var = .data$var) %>%
+    dplyr::mutate(orig_var = .data$var) %>%
+    dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
+    dplyr::mutate(sheet = "Label") %>%
+    dplyr::mutate(action = "#NEWVALL") %>%
     dplyr::relocate(.data$sheet, .data$action)  %>%
     dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
     tidyr::nest() %>%

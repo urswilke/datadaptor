@@ -3,16 +3,16 @@
     # A tibble: 100 x 54
              q1 q2_renamed      q3 q4_renamed       q5    id q6    q7         kq1
        <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <chr> <chr> <dbl+lb>
-     1  3 [nor~  2 [a bit] 3 [nor~ 4 [much]    2 [a b~     1 bla ~ bla ~  2 [3]  
-     2  3 [nor~  1 [not a~ 5 [ver~ 4 [much]    5 [ver~     2 bla ~ bla ~  2 [3]  
-     3  1 [not~  1 [not a~ 3 [nor~ 2 [a bit]   5 [ver~     3 bla ~ bla ~  1 [1-2]
+     1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 bla ~ bla ~  2 [3]  
+     2  3 [nor~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 bla ~ bla ~  2 [3]  
+     3  1 [not~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 bla ~ bla ~  1 [1-2]
      4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 bla ~ bla ~  2 [3]  
      5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 bla ~ bla ~  3 [4-5]
      6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 bla ~ bla ~  3 [4-5]
-     7 99 [no ~  2 [a bit] 3 [nor~ 4 [much]   -2 [FIL~     7 bla ~ bla ~ NA      
-     8  2 [a b~  2 [a bit] 5 [ver~ 2 [a bit]   1 [not~     8 bla ~ bla ~  1 [1-2]
+     7 99 [no ~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 bla ~ bla ~ NA      
+     8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 bla ~ bla ~  1 [1-2]
      9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 bla ~ bla ~ NA      
-    10 99 [no ~  1 [not a~ 1 [not~ 1 [not at~  4 [muc~    10 bla ~ bla ~ NA      
+    10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 bla ~ bla ~ NA      
     # ... with 90 more rows, and 45 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
     #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
     #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
@@ -37,9 +37,9 @@
        ..@ labels     : Named num [1:6] 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:6] "not at all" "a bit" "normal" "much" ...
      $ q2_renamed          : dbl+lbl [1:100]  2,  1,  1, 99, -2, -2,  2,  2, 99,  1, 99,  2,  2, 99...
-       ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
-       .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
-       ..@ label : chr "Almost same variable label for q3 and q5"
+       ..@ labels: Named num [1:4] -2 1 2 99
+       .. ..- attr(*, "names")= chr [1:4] "FILTER" "YES" "no" "no answer"
+       ..@ label : chr "recommend product"
      $ q3                  : dbl+lbl [1:100]  3,  5,  3,  4,  2,  4,  3,  5,  1,  1,  5, 99,  4,  2...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
@@ -163,7 +163,7 @@
      $ q1xq2_renamed_1     : dbl+lbl [1:100] NA,  3,  1, NA, NA, NA, NA, NA, NA, 99, NA, NA, NA, NA...
        ..@ labels: Named num [1:6] 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:6] "not at all" "a bit" "normal" "much" ...
-       ..@ label : chr "recommend product - yes: Like Product"
+       ..@ label : chr "recommend product - YES: Like Product"
      $ q1xq2_renamed_2     : dbl+lbl [1:100]  3, NA, NA, NA, NA, NA, 99,  2, NA, NA, NA, 99,  3, NA...
        ..@ labels: Named num [1:6] 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:6] "not at all" "a bit" "normal" "much" ...
@@ -179,7 +179,7 @@
      $ q3xq2_renamed_1     : dbl+lbl [1:100] NA,  5,  3, NA, NA, NA, NA, NA, NA,  1, NA, NA, NA, NA...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
-       ..@ label : chr "recommend product - yes: How likely will you go dancing this weekend?"
+       ..@ label : chr "recommend product - YES: How likely will you go dancing this weekend?"
      $ q3xq2_renamed_2     : dbl+lbl [1:100]  3, NA, NA, NA, NA, NA,  3,  5, NA, NA, NA, 99,  4, NA...
        ..@ labels: Named num [1:7] -2 1 2 3 4 5 99
        .. ..- attr(*, "names")= chr [1:7] "FILTER" "not at all" "a bit" "normal" ...
@@ -209,15 +209,19 @@
 # result of mapp_cmd_table()
 
     tibble [64 x 5] (S3: tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:64] "Config" "Label" "Variables" "Variables" ...
-     $ action : chr [1:64] "#RECNA" "#SUMVAR" "#RENAME" "#NEWLAB" ...
-     $ row    : chr [1:64] NA "2, 3, 4, 5, 6" "3, 5" "2" ...
-     $ new_var: chr [1:64] NA "kq1" "q2_renamed, q4_renamed" "q1" ...
+     $ sheet  : chr [1:64] "Config" "Label" "Label" "Variables" ...
+     $ action : chr [1:64] "#RECNA" "#NEWVALL" "#SUMVAR" "#RENAME" ...
+     $ row    : chr [1:64] NA "8" "2, 3, 4, 5, 6" "3, 5" ...
+     $ new_var: chr [1:64] NA "q2" "kq1" "q2_renamed, q4_renamed" ...
      $ data   :List of 64
       ..$ :List of 3
       .. ..$ recode_na_exceptions: chr [1:3] "q1" "id" "DC_ID"
       .. ..$ replace_val         : num -2
       .. ..$ replace_label       : chr "FILTER"
+      ..$ :List of 3
+      .. ..$ orig_var  : chr "q2"
+      .. ..$ vals_added: num 1
+      .. ..$ labs_added: chr "YES"
       ..$ :List of 6
       .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
@@ -605,9 +609,6 @@
       ..$ :List of 2
       .. ..$ orig_var: chr "a2"
       .. ..$ new_lab : chr "same variable label for a1 & a2"
-      ..$ :List of 2
-      .. ..$ orig_var: chr "q3"
-      .. ..$ new_var : chr "q2_renamed"
       ..$ :List of 2
       .. ..$ orig_var: chr "q3"
       .. ..$ new_var : chr "q4_renamed"
