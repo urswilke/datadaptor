@@ -143,11 +143,12 @@ get_na_to_filter_rec <- function(mapping_file) {
 }
 
 get_vars_to_exclude_na_to_filter <- function(mapping_file) {
-  mapp_configr(mapping_file) %>%
+  vars_excluded <- mapp_configr(mapping_file) %>%
     dplyr::filter(.data$item == "variables not recoded to FILTER") %>%
     dplyr::pull(.data$value) %>%
     stringr::str_split("[, ;]+") %>%
     unlist()
+  vars_excluded[!is.na(vars_excluded)]
 }
 get_df_cmd_manip_string_expr <- function(mapping_file) {
   mapp_configr(mapping_file) %>%
