@@ -23,19 +23,22 @@ mapp_verbatim_sheet_cmd_tbl <- function(
   sheet = "Verbatims",
   id_var_str
 ) {
-  l <- parse_verbatim_data_raw(mapping_file, verbatim_file, sheet)
-  generate_verbatim_assignment_table_raw(l) %>%
-    dplyr::mutate(
-      action = "#verbatim",
-      new_var = .data$var_ziel,
-      sheet = sheet,
-      val_assign_temp = .data$val_assign,
-      id_var_str = id_var_str
-    ) %>%
-    dplyr::group_by(sheet, .data$action, row, .data$new_var, .data$val_assign_temp) %>%
-    tidyr::nest() %>%
-    dplyr::ungroup() %>%
-    dplyr::select(-.data$val_assign_temp)
+  if (file.exists(verbatim_file)) {
+    l <- parse_verbatim_data_raw(mapping_file, verbatim_file, sheet)
+    generate_verbatim_assignment_table_raw(l) %>%
+      dplyr::mutate(
+        action = "#verbatim",
+        new_var = .data$var_ziel,
+        sheet = sheet,
+        val_assign_temp = .data$val_assign,
+        id_var_str = id_var_str
+      ) %>%
+      dplyr::group_by(sheet, .data$action, row, .data$new_var, .data$val_assign_temp) %>%
+      tidyr::nest() %>%
+      dplyr::ungroup() %>%
+      dplyr::select(-.data$val_assign_temp)
+
+  }
 }
 
 generate_verbatim_sheet_table <- function(mapping_file, sheet) {
