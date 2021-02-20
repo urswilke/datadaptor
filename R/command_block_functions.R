@@ -494,6 +494,9 @@ cmd_r <- function(df, r_code) {
 #'   "I'm the label for the missing value replacement"
 #' )
 set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label) {
+  # remove variable names not found in df:
+  # TODO: think of cleaner way to do this:
+  recode_na_exceptions <- intersect(recode_na_exceptions, names(df))
   df %>%
     dplyr::mutate(
       dplyr::across(
