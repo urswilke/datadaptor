@@ -150,6 +150,11 @@ get_vars_to_exclude_na_to_filter <- function(mapping_file) {
     unlist()
   vars_excluded[!is.na(vars_excluded)]
 }
+get_id_var_name <- function(mapping_file) {
+  mapp_configr(mapping_file) %>%
+    dplyr::filter(.data$item == "added id variable name") %>%
+    dplyr::pull(.data$value)
+}
 get_df_cmd_manip_string_expr <- function(mapping_file) {
   mapp_configr(mapping_file) %>%
     dplyr::filter(.data$item == "manipulate command table") %>%

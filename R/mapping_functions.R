@@ -96,7 +96,7 @@ add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
   vars_to_exclude_na_to_filter <- c(
     get_vars_to_exclude_na_to_filter(mapping_file),
     id_var,
-    "DC_ID"
+    get_id_var_name(mapping_file)
   )
   na_rec_vec <- get_na_to_filter_rec(mapping_file)
   dplyr::bind_rows(
