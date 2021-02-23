@@ -118,7 +118,8 @@ parse_cmd_block_args_vall <- function(data) {
 parse_cmd_block_args_rec <- function(data) {
   d <- data
   res <- list(
-    new_var  = d$X3[1],
+    # use orig_var if new_var is NA (empty in Excel file):
+    new_var  = dplyr::coalesce(d$X3[1], d$X2[1]),
     orig_var = d$X2[1],
     new_lab = d$X4[1],
     lb  = d$X2[-1] %>% as.numeric(),
