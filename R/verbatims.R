@@ -23,7 +23,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
   sheet = "Verbatims",
   id_var_str
 ) {
-  if (file.exists(verbatim_file)) {
+  if (!is.na(verbatim_file)) {
     l <- parse_verbatim_data_raw(mapping_file, verbatim_file, sheet)
     generate_verbatim_assignment_table_raw(l) %>%
       dplyr::mutate(
