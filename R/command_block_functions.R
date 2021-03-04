@@ -291,7 +291,7 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
   df
 }
 
-#' Compute variable in data frame according to string expression
+#' Compute numeric variable in data frame according to string expression
 #'
 #' @param df dataframe
 #' @param new_var string of the variable name
@@ -307,6 +307,26 @@ cmd_comp <- function(df, new_var, new_val) {
   new_val <- rlang::parse_expr(new_val)
   # as.numeric() is needed if new_val is a condition which haven doesn't accept
   df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val %>% as.numeric())
+}
+
+#' Compute variable in data frame according to string expression
+#'
+#' @param df dataframe
+#' @param new_var string of the variable name
+#' @param new_val expression string
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' cmd_compr(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
+#' # (When saving factors to an SPSS file by haven::write_sav they will be tranformed
+#' # to type haven::labelled)
+cmd_compr <- function(df, new_var, new_val) {
+  # transforms numeric values from character to numeric:
+  new_val <- rlang::parse_expr(new_val)
+  # as.numeric() is needed if new_val is a condition which haven doesn't accept
+  df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
 }
 
 

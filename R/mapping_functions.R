@@ -140,7 +140,7 @@ generate_cmd_expression <- function(action, data) {
     "#IF"     = rlang::expr(cmd_if(df, !!!data)),
     "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
     # TODO: find cleaner way to deal with this!
-    "#COMPR"  = rlang::expr(cmd_comp(df, !!!data)),
+    "#COMPR"  = rlang::expr(cmd_compr(df, !!!data)),
     "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
     "#NEWVALL"= rlang::expr(cmd_add_labs(df, !!!data)),
     "#SUMVAR" = rlang::expr(cmd_sumvar(df, !!!data)),

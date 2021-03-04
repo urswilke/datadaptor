@@ -25,7 +25,7 @@
     #   q1xq2_renamed_99 <dbl+lbl>, q3xq2_renamed_minus2 <dbl+lbl>,
     #   q3xq2_renamed_1 <dbl+lbl>, q3xq2_renamed_2 <dbl+lbl>,
     #   q3xq2_renamed_99 <dbl+lbl>, n <dbl+lbl>, a1 <dbl+lbl>, a2 <dbl+lbl>,
-    #   r_expr_var <dbl>, q2 <dbl+lbl>, sum_of_k_vars <dbl>, a <dbl>,
+    #   r_expr_var <dbl+lbl>, q2 <dbl+lbl>, sum_of_k_vars <dbl>, a <dbl>,
     #   free2_var <dbl>
 
 ---
@@ -196,7 +196,8 @@
        ..@ label: chr "same variable label for a1 & a2"
      $ a2                  : dbl+lbl [1:100] 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, ...
        ..@ label: chr "same variable label for a1 & a2"
-     $ r_expr_var          : num [1:100] 24 24 8 24 20 40 792 16 792 792 ...
+     $ r_expr_var          : dbl+lbl [1:100]  24,  24,   8,  24,  20,  40, 792,  16, 792, 792,  32,...
+       ..@ label: chr "varlab"
      $ q2                  : dbl+lbl [1:100]  2,  1,  1, 99, NA, NA,  2,  2, 99,  1, 99,  2,  2, 99...
        ..@ label      : chr "Do you want to recommend the product?"
        ..@ format.spss: chr "F8.2"

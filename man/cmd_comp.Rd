@@ -2,7 +2,7 @@
 % Please edit documentation in R/command_block_functions.R
 \name{cmd_comp}
 \alias{cmd_comp}
-\title{Compute variable in data frame according to string expression}
+\title{Compute numeric variable in data frame according to string expression}
 \usage{
 cmd_comp(df, new_var, new_val)
 }
@@ -17,7 +17,7 @@ cmd_comp(df, new_var, new_val)
 modified dataframe \code{df} (see examples)
 }
 \description{
-Compute variable in data frame according to string expression
+Compute numeric variable in data frame according to string expression
 }
 \examples{
 cmd_comp(data.frame(x = 1:3), "y", "x * 2")
