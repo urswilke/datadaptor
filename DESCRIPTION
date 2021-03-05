@@ -37,7 +37,8 @@ Imports:
     stringr,
     readr,
     fs,
-    sourcetools
+    sourcetools,
+    labelled
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr

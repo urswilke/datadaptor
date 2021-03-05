@@ -9,6 +9,7 @@ parse_cmd_block_args <- function(action, data) {
     "#COMPR"   = parse_cmd_block_args_comp(data),
     "#REC"     = parse_cmd_block_args_rec(data),
     "#NEWVALL" = parse_cmd_block_args_newvall(data),
+    "#AUTOREC" = parse_cmd_block_args_autorec(data),
     "#SUMVAR"  = parse_cmd_block_args_sumvar(data),
     "#RENAME"  = parse_cmd_block_args_rename(data),
     "#NEWLAB"  = parse_cmd_block_args_newlab(data),
@@ -140,6 +141,13 @@ parse_cmd_block_args_newvall <- function(data) {
   list(res)
 }
 
+parse_cmd_block_args_autorec <- function(data) {
+  d <- data
+  res <- list(
+    var = d$var
+  )
+  list(res)
+}
 parse_cmd_block_args_sumvar <- function(data) {
   d <- data
   res <- list(

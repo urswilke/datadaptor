@@ -186,6 +186,28 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 
 
 
+#' Autorecode character variable in dataframe
+#'
+#' @param df dataframe
+#' @param var name of character variable to auto-recode (character string)
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(LETTERS[3:1], label = "variable label")
+#' df <- data.frame(x)
+#' df <- cmd_autorec(df, "x")
+#' df
+#' df$x
+cmd_autorec <- function(df, var) {
+  x_labelled <- labelled::to_labelled(as.factor(df[[var]]))
+  labelled::var_label(x_labelled) <- attr(df[[var]], "label", exact = TRUE)
+
+  df[var] <- x_labelled
+  df
+}
+
 #' Create new recoded labelled variable from variable in dataframe
 #'
 #' @param df dataframe

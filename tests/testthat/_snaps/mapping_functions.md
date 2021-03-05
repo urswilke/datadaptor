@@ -1,18 +1,18 @@
 # result of the mapping function mapp_xl_to_data()
 
     # A tibble: 100 x 55
-             q1 q2_renamed      q3 q4_renamed       q5    id q6    q7         kq1
-       <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <chr> <chr> <dbl+lb>
-     1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 bla ~ bla ~  2 [3]  
-     2  3 [nor~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 bla ~ bla ~  2 [3]  
-     3  1 [not~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 bla ~ bla ~  1 [1-2]
-     4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 bla ~ bla ~  2 [3]  
-     5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 bla ~ bla ~  3 [4-5]
-     6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 bla ~ bla ~  3 [4-5]
-     7 99 [no ~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 bla ~ bla ~ NA      
-     8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 bla ~ bla ~  1 [1-2]
-     9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 bla ~ bla ~ NA      
-    10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 bla ~ bla ~ NA      
+             q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7         kq1
+       <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl+lb>
+     1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 3 [bla~ bla ~  2 [3]  
+     2  3 [nor~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 4 [bla~ bla ~  2 [3]  
+     3  1 [not~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 8 [bla~ bla ~  1 [1-2]
+     4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 5 [bla~ bla ~  2 [3]  
+     5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 7 [bla~ bla ~  3 [4-5]
+     6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 5 [bla~ bla ~  3 [4-5]
+     7 99 [no ~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 9 [bla~ bla ~ NA      
+     8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 6 [bla~ bla ~  1 [1-2]
+     9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 6 [bla~ bla ~ NA      
+    10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 3 [bla~ bla ~ NA      
     # ... with 90 more rows, and 46 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
     #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
     #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
@@ -54,9 +54,10 @@
        ..@ label : chr "Almost same variable label for q5 and q3"
      $ id                  : num [1:100] 1 2 3 4 5 6 7 8 9 10 ...
       ..- attr(*, "format.spss")= chr "F8.0"
-     $ q6                  : chr [1:100] "bla bla bla love" "bla bla happiness" "bla joy" "bla bla joy" ...
-      ..- attr(*, "label")= chr "Tell me something positive."
-      ..- attr(*, "format.spss")= chr "A21"
+     $ q6                  : dbl+lbl [1:100] 3, 4, 8, 5, 7, 5, 9, 6, 6, 3, 2, 7, 8, 7, 4, 3, 9, 1, ...
+       ..@ labels: Named num [1:9] 1 2 3 4 5 6 7 8 9
+       .. ..- attr(*, "names")= chr [1:9] "bla bla bla happiness" "bla bla bla joy" "bla bla bla love" "bla bla happiness" ...
+       ..@ label : chr "Tell me something positive."
      $ q7                  : chr [1:100] "bla bla bla anger" "bla bla bla sadness" "bla bla bla sadness" "bla bla anger" ...
       ..- attr(*, "label")= chr "Tell me something negative."
       ..- attr(*, "format.spss")= chr "A19"
@@ -213,12 +214,12 @@
 
 # result of mapp_cmd_table()
 
-    tibble [65 x 5] (S3: tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:65] "Config" "Label" "Label" "Variables" ...
-     $ action : chr [1:65] "#RECNA" "#NEWVALL" "#SUMVAR" "#RENAME" ...
-     $ row    : chr [1:65] NA "8" "2, 3, 4, 5, 6" "3, 5" ...
-     $ new_var: chr [1:65] NA "q2" "kq1" "q2_renamed, q4_renamed" ...
-     $ data   :List of 65
+    tibble [66 x 5] (S3: tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:66] "Config" "Label" "Label" "Variables" ...
+     $ action : chr [1:66] "#RECNA" "#NEWVALL" "#SUMVAR" "#AUTOREC" ...
+     $ row    : chr [1:66] NA "8" "2, 3, 4, 5, 6" "7" ...
+     $ new_var: chr [1:66] NA "q2" "kq1" "q6" ...
+     $ data   :List of 66
       ..$ :List of 3
       .. ..$ recode_na_exceptions: chr [1:2] "id" "DC_ID"
       .. ..$ replace_val         : num -2
@@ -234,6 +235,8 @@
       .. ..$ orig_vals: num [1:5] 1 2 3 4 5
       .. ..$ new_vals : num [1:5] 1 1 2 3 3
       .. ..$ new_labs : chr [1:5] "aaa" NA "bbb" "ccc" ...
+      ..$ :List of 1
+      .. ..$ var: chr "q6"
       ..$ :List of 2
       .. ..$ orig_vars: chr [1:2] "q2" "q4"
       .. ..$ new_names: chr [1:2] "q2_renamed" "q4_renamed"
