@@ -334,11 +334,36 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
 #'
 #' @examples
 #' cmd_comp(data.frame(x = 1:3), "y", "x * 2")
+#' cmd_comp(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
 cmd_comp <- function(df, new_var, new_val) {
+  if (!new_var %in% names(df)) {
+    df[new_var] <- NA_real_
+  }
+  varlab <- labelled::var_label(df[[new_var]])
+  vallabs <- labelled::val_labels(df[[new_var]])
+
+  manipulated_vars <- get_df_vars_of_expr_string(paste(new_val), names(df)) %>%
+    c(new_var) %>% unique()
+
+
   # transforms numeric values from character to numeric:
   new_val <- rlang::parse_expr(new_val)
-  # as.numeric() is needed if new_val is a condition which haven doesn't accept
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val %>% as.numeric())
+  df[manipulated_vars] <-
+    df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
+  # as.numeric() is needed if new_val is a condition (resulting in a logical
+  # vector) which haven::write_sav doesn't accept:
+  if (is.logical(df[[new_var]])) {
+    df[[new_var]] <- as.numeric(df[[new_var]])
+  }
+  # write back labels if they existed before:
+  if (!is.null(varlab) | !is.null(vallabs)) {
+    df[[new_var]] <- haven::labelled(
+      df[[new_var]],
+      labels = vallabs,
+      label = varlab
+    )
+  }
+  df
 }
 
 #' Compute variable in data frame according to string expression
