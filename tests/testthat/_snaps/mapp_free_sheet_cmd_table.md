@@ -1,6 +1,6 @@
 # snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
-    # A tibble: 23 x 4
+    # A tibble: 24 x 4
        row           action new_var       data            
        <chr>         <chr>  <chr>         <list>          
      1 3             #COMP  x             <tibble [1 x 5]>
@@ -13,15 +13,15 @@
      8 12_2          #KG    q2_renamed_q3 <tibble [1 x 5]>
      9 13            #COMP  n             <tibble [1 x 5]>
     10 14            #VARL  n             <tibble [1 x 5]>
-    # ... with 13 more rows
+    # ... with 14 more rows
 
 ---
 
-    tibble [23 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:23] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:23] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:23] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 23
+    tibble [24 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:24] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:24] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:24] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 24
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -160,4 +160,10 @@
       .. ..$ X3: chr NA
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
+      ..$ : tibble [6 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr [1:6] "#REC" NA NA NA ...
+      .. ..$ X2: chr [1:6] "q1" "1" "2" "3" ...
+      .. ..$ X3: chr [1:6] "kkq1" NA NA NA ...
+      .. ..$ X4: chr [1:6] "vl" "1" "2" "2" ...
+      .. ..$ X5: chr [1:6] NA "a" "b" NA ...
 

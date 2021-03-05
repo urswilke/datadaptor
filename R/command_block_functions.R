@@ -271,21 +271,30 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 #' df
 #' df$new_var
 cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
-  rec_vecs <-
-    list(lb, dplyr::coalesce(ub, lb), new_vals)
-
-  cond_statements <-
-    purrr::pmap(
-      rec_vecs,
-      function(x,y,z) rlang::quo(!!rlang::sym(orig_var) >= !!x & !!rlang::sym(orig_var) <= !!y  ~ !!z)
+  recode_df <-
+    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
+    dplyr::mutate(
+      expr_str = paste0("(", orig_var, " >= ", lb, " & ", orig_var, " <= ", ub, ")")
+    ) %>%
+    dplyr::group_by(new_vals) %>%
+    dplyr::summarise(
+      expr_str = paste(expr_str, collapse = " | "),
+      new_labs = new_labs[1]
     )
+  cond_statements <-
+    recode_df %>%
+    dplyr::select(new_vals, expr_str) %>%
+    purrr::pmap(
+      function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
+    )
+
 
   df <- df %>%
     dplyr::mutate(!!rlang::sym(new_var) := dplyr::case_when(!!!cond_statements))
 
   df[new_var] <- haven::labelled(
     df[[new_var]],
-    labels = purrr::set_names(new_vals, new_labs),
+    labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
     label = new_lab
   )
   df

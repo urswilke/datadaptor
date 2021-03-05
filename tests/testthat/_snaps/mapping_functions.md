@@ -1,6 +1,6 @@
 # result of the mapping function mapp_xl_to_data()
 
-    # A tibble: 100 x 54
+    # A tibble: 100 x 55
              q1 q2_renamed      q3 q4_renamed       q5    id q6    q7         kq1
        <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <chr> <chr> <dbl+lb>
      1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 bla ~ bla ~  2 [3]  
@@ -13,7 +13,7 @@
      8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 bla ~ bla ~  1 [1-2]
      9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 bla ~ bla ~ NA      
     10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 bla ~ bla ~ NA      
-    # ... with 90 more rows, and 45 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
+    # ... with 90 more rows, and 46 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
     #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
     #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
     #   q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>, q6test_97 <dbl+lbl>,
@@ -26,11 +26,11 @@
     #   q3xq2_renamed_1 <dbl+lbl>, q3xq2_renamed_2 <dbl+lbl>,
     #   q3xq2_renamed_99 <dbl+lbl>, n <dbl+lbl>, a1 <dbl+lbl>, a2 <dbl+lbl>,
     #   r_expr_var <dbl+lbl>, q2 <dbl+lbl>, sum_of_k_vars <dbl>, a <dbl>,
-    #   free2_var <dbl>
+    #   kkq1 <dbl+lbl>, free2_var <dbl>
 
 ---
 
-    tibble [100 x 54] (S3: tbl_df/tbl/data.frame)
+    tibble [100 x 55] (S3: tbl_df/tbl/data.frame)
      $ q1                  : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
        ..@ label      : chr "How much do you like the product?"
        ..@ format.spss: chr "F8.2"
@@ -205,16 +205,20 @@
        .. ..- attr(*, "names")= chr [1:3] "yes" "no" "no answer"
      $ sum_of_k_vars       : num [1:100] 4 12 10 5 4 6 2 4 9 16 ...
      $ a                   : num [1:100] 1 1 1 1 1 1 1 1 1 1 ...
+     $ kkq1                : dbl+lbl [1:100]  2,  2,  1,  2,  2,  2, NA,  2, NA, NA,  2, NA,  2,  1...
+       ..@ labels: Named num [1:2] 1 2
+       .. ..- attr(*, "names")= chr [1:2] "a" "b"
+       ..@ label : chr "vl"
      $ free2_var           : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
 
 # result of mapp_cmd_table()
 
-    tibble [64 x 5] (S3: tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:64] "Config" "Label" "Label" "Variables" ...
-     $ action : chr [1:64] "#RECNA" "#NEWVALL" "#SUMVAR" "#RENAME" ...
-     $ row    : chr [1:64] NA "8" "2, 3, 4, 5, 6" "3, 5" ...
-     $ new_var: chr [1:64] NA "q2" "kq1" "q2_renamed, q4_renamed" ...
-     $ data   :List of 64
+    tibble [65 x 5] (S3: tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:65] "Config" "Label" "Label" "Variables" ...
+     $ action : chr [1:65] "#RECNA" "#NEWVALL" "#SUMVAR" "#RENAME" ...
+     $ row    : chr [1:65] NA "8" "2, 3, 4, 5, 6" "3, 5" ...
+     $ new_var: chr [1:65] NA "q2" "kq1" "q2_renamed, q4_renamed" ...
+     $ data   :List of 65
       ..$ :List of 3
       .. ..$ recode_na_exceptions: chr [1:2] "id" "DC_ID"
       .. ..$ replace_val         : num -2
@@ -625,6 +629,14 @@
       .. ..$ fun_name: chr "calc_sum_of_k_vars"
       ..$ :List of 1
       .. ..$ r_code: chr "df %>% dplyr::mutate(a=1)"
+      ..$ :List of 7
+      .. ..$ new_var : chr "kkq1"
+      .. ..$ orig_var: chr "q1"
+      .. ..$ new_lab : chr "vl"
+      .. ..$ lb      : num [1:5] 1 2 3 4 5
+      .. ..$ ub      : num [1:5] NA NA NA NA NA
+      .. ..$ new_vals: num [1:5] 1 2 2 2 2
+      .. ..$ new_labs: chr [1:5] "a" "b" NA NA ...
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
