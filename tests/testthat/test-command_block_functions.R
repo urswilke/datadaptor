@@ -123,3 +123,22 @@ test_that("cmd_verbatim() works", {
   expect_equal(vallabs, c(vallab2 = 2))
 })
 
+test_that("cmd_kg() works", {
+  x <- haven::labelled(c(1, 1, 2, NA), labels = c(a = 1, b = 2), label = "xlab")
+  y <- haven::labelled(c(NA, 1, 2, 2), labels = c(c = 1, d = 2), label = "ylab")
+  df <- data.frame(x, y)
+  df <- cmd_kg(
+    df,
+    split_var = "x",
+    by_var = "y"
+  )
+  new_lab <- attr(df$yxxk10, "label", exact = TRUE)
+  x_new <- df$yxxk10
+  varlab <- attr(x_new, "label", exact = TRUE)
+  vallabs <- attr(x_new, "labels", exact = TRUE)
+  attributes(x_new) <- NULL
+  expect_equal(x_new, c(NA, 1, NA, NA))
+  expect_equal(new_lab, "a: ylab")
+  expect_equal(vallabs, c(c = 1, d = 2))
+})
+
