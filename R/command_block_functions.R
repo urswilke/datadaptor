@@ -157,16 +157,17 @@ prepare_newvar_table <- function(df, split_var, by_var) {
     dplyr::mutate(id = dplyr::row_number(), !!split_var) %>%
     tablab::tab_all() %>%
     tidyr::drop_na(.data$nv) %>%
-    tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") %>%
-    dplyr::mutate(new_varlab = paste0(.data$new_varlab, ": ", var2lab)) %>%
+    # tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") %>%
+    dplyr::mutate(new_varlab = paste0(.data$vallab, ": ", var2lab)) %>%
     dplyr::select(.data$nv, .data$new_varlab)
 
   new_varnames <- paste0(
     by_var,
     "x",
     split_var,
-    "_",
-    new_varlabs$nv
+    "k",
+    new_varlabs$nv,
+    "0"
   ) %>% stringr::str_replace("-", "minus")
   new_vars <- new_varlabs %>% dplyr::mutate(new_varnames)
   new_vars

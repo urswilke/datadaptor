@@ -45,8 +45,8 @@ parse_cmd_block_args_kg <- function(data) {
   d <- data
 
   res <- list(
-    split_var = d$X2[1],
-    by_var    = d$X3[1]
+    split_var = d$X3[1],
+    by_var    = d$X2[1]
   )
   list(res)
 }
