@@ -20,26 +20,75 @@ library(tidyverse)
 
 This report compares execution times of different approaches for consecutive data manipulations of a dataframe, like it is done in `mapp_xl_to_data()`.
 
-3 approaches are compared:
+4 approaches are compared:
 
 * manipulations with a single `mutate()`
 * manipulations with a data.table (using dtplyr)
-* manipulations with a a recursive `mutate()` (using `purrr::reduce()`) like it is done until now...
+* manipulations with a a recursive `mutate()` (using `purrr::reduce()`)
+* manipulations with a a recursive `mutate()` (using `purrr::reduce()`) AND restricting the manipulated dataframe on the columns needed (like it is done until now...)
+
+It is measured how much time it takes to manipulate this data.frame:
+
+```{r explain}
+df
+```
+
+with these manipulations (Example for 10 manipulations...):
+
+```{r manip}
+idx <- 1:10
+l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
+# created column names
+l$var
+# manipulation operations:
+l$val
+```
+
+
+
+resulting in this dataframe:
+
+```{r dfmod}
+df %>% mutate(!!!set_names(l$val, l$var))
+```
+
+```{r current}
+cmd_comp <- function(df, new_var, new_val) {
+  if (!new_var %in% names(df)) {
+    df[new_var] <- NA_real_
+  }
+  varlab <- labelled::var_label(df[[new_var]])
+  vallabs <- labelled::val_labels(df[[new_var]])
+
+  manipulated_vars <- datenanpassr:::get_df_vars_of_expr_string(paste(new_val), names(df)) %>%
+    c(new_var) %>% unique()
+
+  new_val <- rlang::parse_expr(new_val)
+  df[manipulated_vars] <-
+    df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
+  df
+}
+```
 
 
 ```{r funs}
 f <- function(df, var, val) {
   dplyr::mutate(df, !!var := !!val)
 }
+```
 
+
+```{r bench_fun}
 bench_ops_no <- function(id_max) {
   idx <- 1:id_max
   l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
+  l2 <- list(var = paste0("v", idx + 1), val = paste0("v", idx, " + 1"))
   # df_mod <- purrr::reduce2(l$var, l$val, f, .init = df) %>% tibble::as_tibble()
   # df_mod <- purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble()
   microbenchmark::microbenchmark(
     single = df %>% mutate(!!!set_names(l$val, l$var)),
     reduce = df_mod <- purrr::reduce2(l$var, l$val, f, .init = df),
+    reduce_restr = df_mod <- purrr::reduce2(l2$var, l2$val, cmd_comp, .init = df),
     data.table = df_mod <- purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble()
   )
 }
@@ -57,28 +106,6 @@ exponential_ops_no_series <- 2^(1:7) %>%
 benches <- exponential_ops_no_series %>%
   purrr::map(bench_ops_no)
 ```
-It is measured how much time it takes to manipulate this data.frame:
-
-```{r explain}
-df
-```
-
-with these manipulations:
-
-```{r manip}
-idx <- 1:10
-l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
-# created column names
-l$var
-# manipulation operations:
-l$val
-```
-
-resulting in this dataframe:
-
-```{r dfmod}
-df %>% mutate(!!!set_names(l$val, l$var))
-```
 
 
 ```{r benchmark_wrangling}
@@ -88,20 +115,20 @@ bench_df <- benches %>%
       group_by(expr) %>%
       summarise(t = mean(time))
   ) %>%
-  imap_dfr(~.x, .id = "e") %>%
-  mutate(e = as.numeric(e))
+  imap_dfr(~.x, .id = "n_manips") %>%
+  mutate(n_manips = as.numeric(n_manips))
 ```
 
 
 ```{r benchmark_plot}
 p1 <- bench_df %>%
-  ggplot(aes(e, t / 1e9, color = expr)) +
+  ggplot(aes(n_manips, t / 1e9, color = expr)) +
   geom_point() +
   geom_line() +
   labs(
     title = "Mean execution time",
     x = "Number of manipulations",
-    y = "execution time"
+    y = "execution time (s)"
   )
 plotly::ggplotly(p1)
 ```
@@ -109,18 +136,12 @@ plotly::ggplotly(p1)
 
 ```{r benchmark_plot_log}
 p2 <- p1 +
-  scale_x_log10(
-    # breaks = scales::trans_breaks("log2", function(x) 2^x),
-    # labels = scales::trans_format("log2", scales::math_format(2^.x))
-  ) +
-  scale_y_log10(
-    # breaks = scales::trans_breaks("log10", function(x) 10^x),
-    # labels = scales::trans_format("log10", scales::math_format(10^.x))
-  ) +
+  scale_x_log10() +
+  scale_y_log10() +
   labs(
     title = "Mean execution time (log scale)",
     x = "Number of manipulations",
-    y = "execution time"
+    y = "execution time (s)"
   )
 plotly::ggplotly(p2)
 ```
@@ -132,7 +153,7 @@ t_s <- bench_df %>% filter(expr == "single") %>% pull(t)
 p3 <- bench_df %>%
   group_by(expr) %>%
   mutate(t_rel = t / t_s) %>%
-  ggplot(aes(e, t_rel, color = expr)) +
+  ggplot(aes(n_manips, t_rel, color = expr)) +
   geom_point() +
   geom_line() +
   scale_x_log10(
