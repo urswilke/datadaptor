@@ -1,0 +1,156 @@
+---
+title: "benchmark_data_manipulations"
+author: "Urs Wilke"
+date: "3/8/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  cache = TRUE)
+```
+
+```{r libs, message=FALSE, echo=FALSE}
+# library(dtplyr)
+# library(rlang)
+library(tidyverse)
+# `%>%` <- magrittr::`%>%`
+```
+
+This report compares execution times of different approaches for consecutive data manipulations of a dataframe, like it is done in `mapp_xl_to_data()`.
+
+3 approaches are compared:
+
+* manipulations with a single `mutate()`
+* manipulations with a data.table (using dtplyr)
+* manipulations with a a recursive `mutate()` (using `purrr::reduce()`) like it is done until now...
+
+
+```{r funs}
+f <- function(df, var, val) {
+  dplyr::mutate(df, !!var := !!val)
+}
+
+bench_ops_no <- function(id_max) {
+  idx <- 1:id_max
+  l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
+  # df_mod <- purrr::reduce2(l$var, l$val, f, .init = df) %>% tibble::as_tibble()
+  # df_mod <- purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble()
+  microbenchmark::microbenchmark(
+    single = df %>% mutate(!!!set_names(l$val, l$var)),
+    reduce = df_mod <- purrr::reduce2(l$var, l$val, f, .init = df),
+    data.table = df_mod <- purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble()
+  )
+}
+
+```
+
+
+```{r benchmarking}
+
+df <- data.frame(v1 = 1:10)
+
+exponential_ops_no_series <- 2^(1:7) %>%
+  floor() %>%
+  set_names()
+benches <- exponential_ops_no_series %>%
+  purrr::map(bench_ops_no)
+```
+It is measured how much time it takes to manipulate this data.frame:
+
+```{r explain}
+df
+```
+
+with these manipulations:
+
+```{r manip}
+idx <- 1:10
+l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
+# created column names
+l$var
+# manipulation operations:
+l$val
+```
+
+resulting in this dataframe:
+
+```{r dfmod}
+df %>% mutate(!!!set_names(l$val, l$var))
+```
+
+
+```{r benchmark_wrangling}
+bench_df <- benches %>%
+  map(
+    ~ .x %>%
+      group_by(expr) %>%
+      summarise(t = mean(time))
+  ) %>%
+  imap_dfr(~.x, .id = "e") %>%
+  mutate(e = as.numeric(e))
+```
+
+
+```{r benchmark_plot}
+p1 <- bench_df %>%
+  ggplot(aes(e, t / 1e9, color = expr)) +
+  geom_point() +
+  geom_line() +
+  labs(
+    title = "Mean execution time",
+    x = "Number of manipulations",
+    y = "execution time"
+  )
+plotly::ggplotly(p1)
+```
+
+
+```{r benchmark_plot_log}
+p2 <- p1 +
+  scale_x_log10(
+    # breaks = scales::trans_breaks("log2", function(x) 2^x),
+    # labels = scales::trans_format("log2", scales::math_format(2^.x))
+  ) +
+  scale_y_log10(
+    # breaks = scales::trans_breaks("log10", function(x) 10^x),
+    # labels = scales::trans_format("log10", scales::math_format(10^.x))
+  ) +
+  labs(
+    title = "Mean execution time (log scale)",
+    x = "Number of manipulations",
+    y = "execution time"
+  )
+plotly::ggplotly(p2)
+```
+
+
+```{r benchmark_plot_compare}
+t_s <- bench_df %>% filter(expr == "single") %>% pull(t)
+
+p3 <- bench_df %>%
+  group_by(expr) %>%
+  mutate(t_rel = t / t_s) %>%
+  ggplot(aes(e, t_rel, color = expr)) +
+  geom_point() +
+  geom_line() +
+  scale_x_log10(
+    # breaks = scales::trans_breaks("log2", function(x) 2^x),
+    # labels = scales::trans_format("log2", scales::math_format(2^.x))
+  ) +
+  scale_y_log10(
+    # breaks = scales::trans_breaks("log10", function(x) 10^x),
+    # labels = scales::trans_format("log10", scales::math_format(10^.x))
+  )  +
+  labs(
+    title = "Ratio of mean execution time compared to fastest method",
+    x = "Number of manipulations",
+    y = "ratio of execution times"
+  )
+
+plotly::ggplotly(p3)
+
+
+```
+
