@@ -22,14 +22,15 @@ This report compares execution times of different approaches for consecutive dat
 
 4 approaches are compared:
 
-* manipulations with a single `mutate()`
-* manipulations with a data.table (using dtplyr)
-* manipulations with a a recursive `mutate()` (using `purrr::reduce()`)
-* manipulations with a a recursive `mutate()` (using `purrr::reduce()`) AND restricting the manipulated dataframe on the columns needed (like it is done until now...)
+* manipulations with a **single** `mutate()`
+* manipulations with a **data.table** (using dtplyr)
+* manipulations with a a recursive `mutate()` (using purrr::**reduce()**)
+* manipulations with a a recursive `mutate()` (using purrr::**reduce()**) AND **restr**icting the manipulated dataframe on the columns needed (like it is done until now...)
 
 It is measured how much time it takes to manipulate this data.frame:
 
 ```{r explain}
+df <- data.frame(v1 = 1:10)
 df
 ```
 
@@ -38,10 +39,11 @@ with these manipulations (Example for 10 manipulations...):
 ```{r manip}
 idx <- 1:10
 l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
-# created column names
-l$var
-# manipulation operations:
-l$val
+# # created column names
+# l$var
+# # manipulation operations:
+# l$val
+set_names(l$val, l$var)
 ```
 
 
@@ -79,18 +81,35 @@ f <- function(df, var, val) {
 
 
 ```{r bench_fun}
+
 bench_ops_no <- function(id_max) {
   idx <- 1:id_max
-  l <- list(var = paste0("v", idx + 1), val = rlang::parse_exprs(paste0("v", idx, " + 1")))
-  l2 <- list(var = paste0("v", idx + 1), val = paste0("v", idx, " + 1"))
-  # df_mod <- purrr::reduce2(l$var, l$val, f, .init = df) %>% tibble::as_tibble()
-  # df_mod <- purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble()
-  microbenchmark::microbenchmark(
-    single = df %>% mutate(!!!set_names(l$val, l$var)),
-    reduce = df_mod <- purrr::reduce2(l$var, l$val, f, .init = df),
-    reduce_restr = df_mod <- purrr::reduce2(l2$var, l2$val, cmd_comp, .init = df),
-    data.table = df_mod <- purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble()
-  )
+  l <-
+    list(var = paste0("v", idx + 1),
+         val = rlang::parse_exprs(paste0("v", idx, " + 1")))
+  l2 <-
+    list(var = paste0("v", idx + 1), val = paste0("v", idx, " + 1"))
+  # don't benchmark data.table for id_max larger than 128 (as it throws an error):
+  if (id_max <= 128) {
+    microbenchmark::microbenchmark(
+      single = df %>% mutate(!!!set_names(l$val, l$var)),
+      reduce = df_mod <- purrr::reduce2(l$var, l$val, f, .init = df),
+      reduce_restr = df_mod <-
+        purrr::reduce2(l2$var, l2$val, cmd_comp, .init = df),
+      data.table = df_mod <-
+        purrr::reduce2(l$var, l$val, f, .init = dtplyr::lazy_dt(df)) %>% tibble::as_tibble(),
+      times = 10
+    )
+  }
+  else {
+    microbenchmark::microbenchmark(
+      single = df %>% mutate(!!!set_names(l$val, l$var)),
+      reduce = df_mod <- purrr::reduce2(l$var, l$val, f, .init = df),
+      reduce_restr = df_mod <-
+        purrr::reduce2(l2$var, l2$val, cmd_comp, .init = df),
+      times = 10
+    )
+  }
 }
 
 ```
@@ -98,9 +117,8 @@ bench_ops_no <- function(id_max) {
 
 ```{r benchmarking}
 
-df <- data.frame(v1 = 1:10)
 
-exponential_ops_no_series <- 2^(1:7) %>%
+exponential_ops_no_series <- 2^(1:10) %>%
   floor() %>%
   set_names()
 benches <- exponential_ops_no_series %>%
@@ -152,24 +170,17 @@ t_s <- bench_df %>% filter(expr == "single") %>% pull(t)
 
 p3 <- bench_df %>%
   group_by(expr) %>%
-  mutate(t_rel = t / t_s) %>%
+  mutate(t_rel = t / t_s[1:n()]) %>%
   ggplot(aes(n_manips, t_rel, color = expr)) +
   geom_point() +
   geom_line() +
-  scale_x_log10(
-    # breaks = scales::trans_breaks("log2", function(x) 2^x),
-    # labels = scales::trans_format("log2", scales::math_format(2^.x))
-  ) +
-  scale_y_log10(
-    # breaks = scales::trans_breaks("log10", function(x) 10^x),
-    # labels = scales::trans_format("log10", scales::math_format(10^.x))
-  )  +
+  scale_x_log10() +
+  scale_y_log10()  +
   labs(
     title = "Ratio of mean execution time compared to fastest method",
     x = "Number of manipulations",
     y = "ratio of execution times"
   )
-
 plotly::ggplotly(p3)
 
 
