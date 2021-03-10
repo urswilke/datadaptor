@@ -94,7 +94,7 @@ test_that("cmd_comp() works", {
 test_that("cmd_dic() works", {
   x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
   df <- data.frame(x, y = NA_real_)
-  df <- cmd_dic(df, orig_var = "x", new_var = "y")
+  df <- cmd_dic_df(df, orig_var = "x", new_var = "y")
   x_new <- df$y
   varlab <- attr(x_new, "label", exact = TRUE)
   vallabs <- attr(x_new, "labels", exact = TRUE)

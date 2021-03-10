@@ -186,3 +186,27 @@ cmd_add_labs <- function(orig_var, new_lab = NULL, vals_added, labs_added){
     label = varlab
   )
 }
+
+
+#' Copy variable and value labels of a labelled variable orig_var to new_var
+#'
+#' @param orig_var character string of (labelled) variable in df
+#' @param new_var character string of (labelled) variable in df
+#'
+#' @return modified variable `new_var` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
+#' y <- 2:1
+#' df <- cmd_dic(x, y)
+#' df$y
+cmd_dic <- function(orig_var, new_var){
+  varlab <- attr(orig_var, "label", exact = TRUE)
+  vallabs <- attr(orig_var, "labels", exact = TRUE)
+  haven::labelled(
+    new_var,
+    labels = vallabs,
+    label = varlab
+  )
+}

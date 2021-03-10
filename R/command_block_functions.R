@@ -87,17 +87,12 @@ cmd_add_labs_df <- function(df, orig_var, new_lab = NULL, vals_added, labs_added
 #' @examples
 #' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
 #' df <- data.frame(x, y = NA_real_)
-#' df <- cmd_dic(df, orig_var = "x", new_var = "y")
+#' df <- cmd_dic_df(df, orig_var = "x", new_var = "y")
 #' df$y
-cmd_dic <- function(df, orig_var, new_var){
-  varlab <- attr(df[[orig_var]], "label", exact = TRUE)
-  vallabs <- attr(df[[orig_var]], "labels", exact = TRUE)
-  df[[new_var]] <- haven::labelled(
-    df[[new_var]],
-    labels = vallabs,
-    label = varlab
-  )
-  df
+cmd_dic_df <- function(df, orig_var, new_var){
+  assign("orig_var_obj", df[[orig_var]])
+  assign("new_var_obj", df[[new_var]])
+  df %>% dplyr::mutate(!!new_var := cmd_dic(orig_var_obj, new_var_obj))
 }
 
 #' Split variable in dataframe into multiple according to the values of another variable
