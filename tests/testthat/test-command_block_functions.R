@@ -86,7 +86,7 @@ test_that("cmd_rec() works", {
 })
 
 test_that("cmd_comp() works", {
-  df <- cmd_comp(data.frame(x = c(1, 2, NA)), "y", "x * 2")
+  df <- cmd_comp_df(data.frame(x = c(1, 2, NA)), "y", "x * 2")
   expect_equal(df$y, c(2, 4, NA))
 })
 

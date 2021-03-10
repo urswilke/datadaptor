@@ -2,7 +2,9 @@
 
 export("%>%")
 export(cmd_add_labs)
+export(cmd_autorec)
 export(cmd_comp)
+export(cmd_comp_df)
 export(cmd_compr)
 export(cmd_dic)
 export(cmd_if)

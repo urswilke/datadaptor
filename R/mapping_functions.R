@@ -138,7 +138,7 @@ generate_cmd_expression <- function(action, data) {
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#R"      = rlang::expr(cmd_r(df, !!!data)),
     "#IF"     = rlang::expr(cmd_if(df, !!!data)),
-    "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
+    "#COMP"   = rlang::expr(cmd_comp_df(df, !!!data)),
     # TODO: find cleaner way to deal with this!
     "#COMPR"  = rlang::expr(cmd_compr(df, !!!data)),
     "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
