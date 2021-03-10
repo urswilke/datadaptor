@@ -48,7 +48,7 @@ test_that("cmd_sumvar() works", {
   orig_vals <- 1:5
   new_labs <- c("a", NA, "b", "c", NA)
   df <- data.frame(orig_var)
-  df <- cmd_sumvar(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
+  df <- cmd_sumvar_df(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
   x_new <- df$new_var
   varlab <- attr(x_new, "label", exact = TRUE)
   vallabs <- attr(x_new, "labels", exact = TRUE)

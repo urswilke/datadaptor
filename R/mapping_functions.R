@@ -144,7 +144,7 @@ generate_cmd_expression <- function(action, data) {
     "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
     "#NEWVALL"= rlang::expr(cmd_add_labs_df(df, !!!data)),
     "#AUTOREC"= rlang::expr(cmd_autorec_df(df, !!!data)),
-    "#SUMVAR" = rlang::expr(cmd_sumvar(df, !!!data)),
+    "#SUMVAR" = rlang::expr(cmd_sumvar_df(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
     "#NEWLAB" = rlang::expr(cmd_set_lab_df(df, !!!data)),
     "#VARL"   = rlang::expr(cmd_set_lab_df(df, !!!data)),

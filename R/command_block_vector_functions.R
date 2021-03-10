@@ -228,3 +228,44 @@ cmd_autorec <- function(var) {
 
   x_labelled
 }
+
+
+#' Create new recoded labelled variable from variable
+#'
+#' @param orig_var original variable to be recoded
+#' @param new_lab string of variable label
+#' @param orig_vals numeric vector of the values of the original variable to be recoded
+#' @param new_vals numeric vector of labelled values of new recoded variable
+#' @param new_labs character vector of value labels of new recoded variable
+#'
+#' @return recoded variable (see examples)
+#' @export
+#'
+#' @examples
+#' orig_var <- 1:5
+#' new_vals <- new_vals <- c(1, 1, 2, 3, 3)
+#' new_labs <- c("1 - 2", "3", "4 - 5")
+#' new_lab <- "new variable label"
+#' orig_vals <- 1:5
+#' new_labs <- c("1-2 summ", NA, "3 summ.", "4-5 summ", NA)
+#' cmd_sumvar(orig_var, new_lab, orig_vals, new_vals, new_labs)
+cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
+  sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
+    dplyr::group_by(new_vals) %>%
+    dplyr::summarise(val_lists = list(orig_vals),
+                     val_labs = dplyr::first(new_labs))
+  cond_statements <- purrr::map2(
+    sum_var_vals_n_labs$val_lists,
+    sum_var_vals_n_labs$new_vals,
+    ~ rlang::quo(orig_var %in% !!.x ~ !!.y)
+  )
+
+
+
+  x <- dplyr::case_when(!!!cond_statements)
+  haven::labelled(
+    x,
+    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
+    label = new_lab
+  )
+}

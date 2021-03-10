@@ -198,32 +198,12 @@ cmd_autorec_df <- function(df, var) {
 #' orig_vals <- 1:5
 #' new_labs <- c("1-2 summ", NA, "3 summ.", "4-5 summ", NA)
 #' df <- data.frame(orig_var)
-#' df <- cmd_sumvar(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
+#' df <- cmd_sumvar_df(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
 #' df
 #' df$new_var
-cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
-  sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
-    dplyr::group_by(new_vals) %>%
-    dplyr::summarise(val_lists = list(orig_vals),
-                     val_labs = dplyr::first(new_labs))
-  cond_statements <- purrr::map2(
-    sum_var_vals_n_labs$val_lists,
-    sum_var_vals_n_labs$new_vals,
-    ~ rlang::quo(!!rlang::sym(orig_var) %in% !!.x ~ !!.y)
-  )
-
-
-
-  df <- df %>%
-    dplyr::mutate(
-      !!rlang::sym(new_var) := dplyr::case_when(!!!cond_statements)
-    )
-  df[new_var] <- haven::labelled(
-    df[[new_var]],
-    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
-    label = new_lab
-  )
-  df
+cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!new_var := cmd_sumvar(orig_var, new_lab, orig_vals, new_vals, new_labs))
 }
 
 
