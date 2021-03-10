@@ -169,7 +169,7 @@ cmd_set_labs <- function(orig_var, new_lab = NULL, new_vals, new_labs){
 #'
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
-#' df <- cmd_add_labs(x, vals_added = 2, labs_added = c("label for 2"))
+#' cmd_add_labs(x, vals_added = 2, labs_added = c("label for 2"))
 cmd_add_labs <- function(orig_var, new_lab = NULL, vals_added, labs_added){
   old_vallab_vec <- attr(orig_var, "labels")
   added_vallab_vec <- purrr::set_names(vals_added, labs_added)
@@ -199,8 +199,7 @@ cmd_add_labs <- function(orig_var, new_lab = NULL, vals_added, labs_added){
 #' @examples
 #' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
 #' y <- 2:1
-#' df <- cmd_dic(x, y)
-#' df$y
+#' cmd_dic(x, y)
 cmd_dic <- function(orig_var, new_var){
   varlab <- attr(orig_var, "label", exact = TRUE)
   vallabs <- attr(orig_var, "labels", exact = TRUE)
@@ -249,7 +248,7 @@ cmd_autorec <- function(var) {
 #' orig_vals <- 1:5
 #' new_labs <- c("1-2 summ", NA, "3 summ.", "4-5 summ", NA)
 #' cmd_sumvar(orig_var, new_lab, orig_vals, new_vals, new_labs)
-cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
+cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, env = rlang::caller_env()) {
   sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
     dplyr::group_by(new_vals) %>%
     dplyr::summarise(val_lists = list(orig_vals),
@@ -262,10 +261,10 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) 
 
 
 
-  x <- dplyr::case_when(!!!cond_statements)
+  x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% rlang::eval_tidy(env = env)
   haven::labelled(
     x,
-    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
+    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>% tibble::deframe(),
     label = new_lab
   )
 }
