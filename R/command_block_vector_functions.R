@@ -72,3 +72,41 @@ cmd_if <- function(new_var, condition, new_val, env = rlang::caller_env()) {
   x
 }
 
+
+#' Split variable into multiple for each of the values of another variable
+#'
+#' Create a set of variables for each value of split_var. The resulting variables
+#' are equal to by_var if split_var is equal to the respective value and NA otherwise.
+#'
+#' @param split_var variable to split by
+#' @param by_var variable to be splitted
+#'
+#' @return dataframe with the resulting variables (see examples)
+#' @export
+#'
+#' @examples
+#' a <- 1:3
+#' b <- c(3, 3, 4))
+#' cmd_kg(b, a)
+cmd_kg <- function(
+  split_var,
+  by_var
+) {
+  # capture the argument names passed to the function; see here:
+  # https://stackoverflow.com/a/10520832
+  # the tilde has to be removed when cmd_kg is called from a function passing double curly operator {{ }}...:
+  # this is very hacky! TODO: find cleaner way
+  split_var_name <- deparse(substitute(split_var)) %>% stringr::str_remove_all("~")
+  by_var_name <- deparse(substitute(by_var)) %>% stringr::str_remove_all("~")
+  df <- data.frame(split_var, by_var) %>% purrr::set_names(~c(split_var_name, by_var_name))
+  # by_var <- rlang::as_string(rlang::expr(by_var))
+  new_vars <- prepare_newvar_table(df, split_var_name, by_var_name)
+  new_vars %>%
+    purrr::transpose() %>%
+    # these 2 lines would do the same
+    # rowwise() %>%
+    # group_split() %>%
+    # add the new variables one by one to the dataframe:
+    purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
+    dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
+}

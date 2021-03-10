@@ -144,7 +144,7 @@ cmd_kg <- function(
     # group_split() %>%
     # add the new variables one by one to the dataframe:
     purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
-    select(-split_var_name, -by_var_name)
+    select(-all_of(c(split_var_name, by_var_name)))
 }
 prepare_newvar_table <- function(df, split_var_name, by_var_name) {
   var2lab <- attr(df[[by_var_name]], "label", exact = TRUE)
@@ -206,5 +206,4 @@ exprrrss <- paste0(
 mutate(
   df,
   !!!exprrrss
-) %>% View
-
+)

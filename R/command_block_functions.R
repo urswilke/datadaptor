@@ -137,16 +137,16 @@ cmd_dic <- function(df, orig_var, new_var){
 #' @export
 #'
 #' @examples
-#' cmd_kg(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
-cmd_kg <- function(df, split_var, by_var) {
-  new_vars <- prepare_newvar_table(df, split_var, by_var)
-  new_vars %>%
-    purrr::transpose() %>%
-    # these 2 lines would do the same
-    # rowwise() %>%
-    # group_split() %>%
-    # add the new variables one by one to the dataframe:
-    purrr::reduce(split_cat_by_cat, split_var, by_var, .init = df)
+#' cmd_kg_df(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
+cmd_kg_df <- function(df, split_var, by_var) {
+  # BIG MESS!!! here the two variable names (passed to the function as strings and
+  # which live inside df) are transformed to objects:
+  assign(split_var, df[[split_var]])
+  assign(by_var, df[[by_var]])
+  # pass the objects names to cmd_kg. There they will be transformed back to strings...:
+  df %>% dplyr::mutate(cmd_kg(!!rlang::sym(split_var), !!rlang::sym(by_var)))
+  # TODO: clean up this mess!
+
 }
 prepare_newvar_table <- function(df, split_var, by_var) {
   var2lab <- attr(df[[by_var]], "label", exact = TRUE)

@@ -128,7 +128,7 @@ test_that("cmd_kg() works", {
   x <- haven::labelled(c(1, 1, 2, NA), labels = c(a = 1, b = 2), label = "xlab")
   y <- haven::labelled(c(NA, 1, 2, 2), labels = c(c = 1, d = 2), label = "ylab")
   df <- data.frame(x, y)
-  df <- cmd_kg(
+  df <- cmd_kg_df(
     df,
     split_var = "x",
     by_var = "y"
