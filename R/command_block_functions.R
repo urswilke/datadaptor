@@ -231,7 +231,7 @@ cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_
 #' ub = c(2, NA, 5)
 #' new_vals <- 1:3
 #' new_labs <- c("1 - 2", "3", "4 - 5")
-#' df <- cmd_rec(df,
+#' df <- cmd_rec_df(df,
 #'   orig_var = "orig_var",
 #'   new_var = "new_var",
 #'   lb = lb,
@@ -241,34 +241,9 @@ cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_
 #' )
 #' df
 #' df$new_var
-cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
-  recode_df <-
-    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
-    dplyr::mutate(
-      expr_str = paste0("(", orig_var, " >= ", lb, " & ", orig_var, " <= ", ub, ")")
-    ) %>%
-    dplyr::group_by(new_vals) %>%
-    dplyr::summarise(
-      expr_str = paste(expr_str, collapse = " | "),
-      new_labs = new_labs[1]
-    )
-  cond_statements <-
-    recode_df %>%
-    dplyr::select(new_vals, expr_str) %>%
-    purrr::pmap(
-      function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
-    )
-
-
-  df <- df %>%
-    dplyr::mutate(!!rlang::sym(new_var) := dplyr::case_when(!!!cond_statements))
-
-  df[new_var] <- haven::labelled(
-    df[[new_var]],
-    labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
-    label = new_lab
-  )
-  df
+cmd_rec_df <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!new_var := cmd_rec(orig_var, new_lab, lb, ub, new_vals, new_labs))
 }
 
 #' Compute numeric variable in data frame according to string expression

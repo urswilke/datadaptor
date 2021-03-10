@@ -66,7 +66,7 @@ test_that("cmd_rec() works", {
   new_lab <- "abc"
   new_vals <- 1:3
   new_labs <- c("a", "b", "c")
-  df <- cmd_rec(
+  df <- cmd_rec_df(
     df,
     orig_var = "orig_var",
     new_var = "new_var",

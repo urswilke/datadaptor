@@ -269,3 +269,60 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) 
     label = new_lab
   )
 }
+
+
+#' Recode variable
+#'
+#' @param orig_var character string of numeric variable name to recode
+#' @param new_lab new variable label
+#' @param lb vector of lower bounds of intervals
+#' @param ub vector of upper bounds of intervals (missing values are replaced by the corresponding values of \code{ub})
+#' @param new_vals labelled values of recoded variable
+#' @param new_labs value labels of recoded variable
+#'
+#' @details
+#' The vectors lb, ub, new_vals and new_labs all need to be of the same length.
+#'
+#' @return Recoded variable (see examples)
+#' @export
+#'
+#' @examples
+#' orig_var <- 1:5
+#' lb = c(1, 3, 4)
+#' ub = c(2, NA, 5)
+#' new_vals <- 1:3
+#' new_labs <- c("1 - 2", "3", "4 - 5")
+#' cmd_rec(
+#'   orig_var = "orig_var",
+#'   lb = lb,
+#'   ub = ub,
+#'   new_vals = new_vals,
+#'   new_labs = new_labs
+#' )
+cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
+  recode_df <-
+    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
+    dplyr::mutate(
+      expr_str = paste0("(orig_var >= ", lb, " &  orig_var <= ", ub, ")")
+    ) %>%
+    dplyr::group_by(new_vals) %>%
+    dplyr::summarise(
+      expr_str = paste(expr_str, collapse = " | "),
+      new_labs = new_labs[1]
+    )
+  cond_statements <-
+    recode_df %>%
+    dplyr::select(new_vals, expr_str) %>%
+    purrr::pmap(
+      function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
+    )
+
+
+  x <- dplyr::case_when(!!!cond_statements)
+
+  haven::labelled(
+    x,
+    labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
+    label = new_lab
+  )
+}
