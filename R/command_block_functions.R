@@ -380,23 +380,11 @@ cmd_compr <- function(df, new_var, new_val) {
 #' cmd_if(data.frame(x = 1:3), "y", "x == 3", "2")
 #' # If the condition is not true, the previous values are kept, if existing:
 #' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
-cmd_if <- function(df, new_var, condition, new_val) {
+cmd_if_df <- function(df, new_var, condition, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  var_attrs <- attributes(df[[new_var]])
-
-  manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
-    c(new_var) %>% unique()
-
-  cond <- rlang::parse_expr(condition)
-  val <- rlang::parse_expr(new_val)
-  old_val <- rlang::sym(new_var)
-
-  df[manipulated_vars] <-
-    df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
-  attributes(df[[new_var]]) <- var_attrs
-  df
+  df %>% dplyr::mutate(!!new_var := cmd_if(df[[new_var]], condition, new_val))
 }
 
 #' Assign a value to a variable in a dataframe at specified ids

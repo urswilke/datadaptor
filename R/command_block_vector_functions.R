@@ -37,3 +37,38 @@ cmd_comp <- function(x, comp_expr, env = rlang::caller_env()) {
   x
 }
 
+
+#' Conditional computing of a variable in a dataframe
+#'
+#' @param new_var string of the variable name
+#' @param condition character string of the condition
+#' @param new_val character string the new value expression  when \code{condition}
+#' is fulfilled (numeric string values are transformed to numeric)
+#'
+#' @return variable calculated according to the conditional expression
+#' @export
+#'
+#' @examples
+#' x <- 1:3
+#' cmd_if(x, "x == 3", "2")
+#' # If the condition is not true, the previous values are kept, if existing:
+#' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
+cmd_if <- function(new_var, condition, new_val, env = rlang::caller_env()) {
+  var_attrs <- attributes(new_var)
+
+  # manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
+  #   c(new_var) %>% unique()
+  #
+  cond <- rlang::parse_expr(condition)
+  val <- rlang::parse_expr(new_val)
+  old_val <- new_var
+
+  x <- rlang::expr(ifelse(datenanpassr:::is_true(!!cond), !!val, !!old_val)) %>%
+    # rlang::eval_tidy()
+    rlang::eval_tidy(env = env)
+
+  # dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
+  attributes(x) <- var_attrs
+  x
+}
+
