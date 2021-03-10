@@ -327,3 +327,36 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = 
 }
 
 
+#' Assign a value to a variable at specified ids
+#'
+#' @param var_ziel name of the variable to modify / be created (character string)
+#' @param val_assign assigned value
+#' @param varlab variable label (character string)
+#' @param vallab value labels (named list)
+#' @param id name of the id variable in df (character string)
+#' @param id_list list of the id values to be matched
+#' @param init_val value assigned to id values not contained in `id_list` if `var_ziel` does not exist in `df` yet
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' cmd_verbatim(
+#'   val_assign = 2,
+#'   varlab = "variable label",
+#'   vallab = c("assigned value" = 2),
+#'   id = "id_var",
+#'   id_list = c(1, 3, 4)
+#' )
+cmd_verbatim <- function(var_ziel, val_assign, varlab, vallab, id_var, id_list, init_val = NA_real_) {
+  # hack to keep variable label if it already exists:
+  if (is.null(varlab)) {
+    varlab <- attr(var_ziel, "label", exact = TRUE)
+  }
+  var_ziel[id_var %in% id_list] <- val_assign
+  haven::labelled(
+    var_ziel,
+    labels = vallab,
+    label = varlab
+  )
+}

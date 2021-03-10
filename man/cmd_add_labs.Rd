@@ -23,5 +23,5 @@ Add value labels to variable orig_var
 }
 \examples{
 x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
-df <- cmd_add_labs(x, vals_added = 2, labs_added = c("label for 2"))
+cmd_add_labs(x, vals_added = 2, labs_added = c("label for 2"))
 }

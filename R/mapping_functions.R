@@ -140,7 +140,7 @@ generate_cmd_expression <- function(action, data) {
     "#IF"     = rlang::expr(cmd_if_df(df, !!!data)),
     "#COMP"   = rlang::expr(cmd_comp_df(df, !!!data)),
     # TODO: find cleaner way to deal with this!
-    "#COMPR"  = rlang::expr(cmd_compr(df, !!!data)),
+    "#COMPR"  = rlang::expr(cmd_compr_df(df, !!!data)),
     "#REC"    = rlang::expr(cmd_rec_df(df, !!!data)),
     "#NEWVALL"= rlang::expr(cmd_add_labs_df(df, !!!data)),
     "#AUTOREC"= rlang::expr(cmd_autorec_df(df, !!!data)),
@@ -152,7 +152,7 @@ generate_cmd_expression <- function(action, data) {
     "#AVALL"  = rlang::expr(cmd_add_labs_df(df, !!!data)),
     "#DIC"    = rlang::expr(cmd_dic_df(df, !!!data)),
     "#KG"     = rlang::expr(cmd_kg_df(df, !!!data)),
-    "#verbatim"  = rlang::expr(cmd_verbatim(df, !!!data)),
+    "#verbatim"  = rlang::expr(cmd_verbatim_df(df, !!!data)),
     stop("Invalid action command")
   )
 }

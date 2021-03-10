@@ -326,7 +326,7 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
 #'
 #' @examples
 #' df <- data.frame(id_var = 1:5)
-#' df <- cmd_verbatim(
+#' df <- cmd_verbatim_df(
 #'   df,
 #'   var_ziel = "new_var",
 #'   val_assign = 2,
@@ -337,22 +337,13 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
 #' )
 #' df
 #' df$new_var
-cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list, init_val = NA_real_) {
+cmd_verbatim_df <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list, init_val = NA_real_) {
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- init_val
   }
-  # hack to keep variable label if it already exists:
-  if (is.null(varlab)) {
-    varlab <- attr(df[[var_ziel]], "label", exact = TRUE)
-  }
-  df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
-  y <- haven::labelled(
-    df[[var_ziel]],
-    labels = vallab,
-    label = varlab
-  )
-  df[[var_ziel]] <- y
-  df
+  var_ziel_obj <- df[[var_ziel]]
+  id_var_obj <- df[[id]]
+  df %>% dplyr::mutate(!!var_ziel := cmd_verbatim(var_ziel_obj, val_assign, varlab, vallab, id_var_obj, id_list, init_val))
 }
 
 #' Merge variables from file to dataframe

@@ -106,7 +106,7 @@ test_that("cmd_dic() works", {
 
 test_that("cmd_verbatim() works", {
   df <- data.frame(id_var = 1:3)
-  df <- cmd_verbatim(
+  df <- cmd_verbatim_df(
     df,
     var_ziel = "new_var",
     val_assign = 2,
