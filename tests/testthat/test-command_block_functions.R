@@ -1,6 +1,6 @@
 test_that("cmd_set_lab() works", {
   df <- data.frame(x = 1)
-  df <- cmd_set_lab(df, "x", "testlab")
+  df <- cmd_set_lab_df(df, "x", "testlab")
   varlab <- attr(df$x, "label", exact = TRUE)
   expect_equal(varlab, "testlab")
 })

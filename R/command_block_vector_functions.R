@@ -110,3 +110,24 @@ cmd_kg <- function(
     purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
     dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
 }
+
+
+#' Set variable label of variable orig_var
+#'
+#' @param orig_var character string of (labelled) variable
+#' @param new_label character string of new label
+#'
+#' @return modified variable `orig_var` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- 1
+#' cmd_set_lab(x, "I'm the variable label")
+cmd_set_lab <- function(orig_var, new_label){
+  haven::labelled(
+    orig_var,
+    labels = attr(orig_var, "labels"),
+    label = new_label
+  )
+}
+

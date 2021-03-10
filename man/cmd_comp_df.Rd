@@ -20,6 +20,6 @@ modified dataframe \code{df} (see examples)
 Compute numeric variable in data frame according to string expression
 }
 \examples{
-cmd_comp(data.frame(x = 1:3), "y", "x * 2")
-cmd_comp(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
+cmd_comp_df(data.frame(x = 1:3), "y", "x * 2")
+cmd_comp_df(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
 }

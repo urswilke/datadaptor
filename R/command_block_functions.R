@@ -27,15 +27,11 @@ cmd_rename <- function(df, orig_vars, new_names){
 #'
 #' @examples
 #' df <- data.frame(x = 1)
-#' df <- cmd_set_lab(df, "x", "I'm the variable label")
+#' df <- cmd_set_lab_df(df, "x", "I'm the variable label")
 #' df$x
-cmd_set_lab <- function(df, orig_var, new_label){
-  df[[orig_var]] <- haven::labelled(
-    df[[orig_var]],
-    labels = attr(df[[orig_var]], "labels"),
-    label = new_label
-  )
-  df
+cmd_set_lab_df <- function(df, orig_var, new_label){
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!orig_var := cmd_set_lab(orig_var_obj, new_label))
 }
 
 #' Set value labels of labelled variable var in dataframe df
