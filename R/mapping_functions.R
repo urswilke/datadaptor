@@ -148,7 +148,7 @@ generate_cmd_expression <- function(action, data) {
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
     "#NEWLAB" = rlang::expr(cmd_set_lab_df(df, !!!data)),
     "#VARL"   = rlang::expr(cmd_set_lab_df(df, !!!data)),
-    "#VALL"   = rlang::expr(cmd_set_labs(df, !!!data)),
+    "#VALL"   = rlang::expr(cmd_set_labs_df(df, !!!data)),
     "#AVALL"  = rlang::expr(cmd_add_labs(df, !!!data)),
     "#DIC"    = rlang::expr(cmd_dic(df, !!!data)),
     "#KG"     = rlang::expr(cmd_kg_df(df, !!!data)),

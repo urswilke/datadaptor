@@ -47,18 +47,11 @@ cmd_set_lab_df <- function(df, orig_var, new_label){
 #'
 #' @examples
 #' df <- data.frame(x = 1:2)
-#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
+#' df <- cmd_set_labs_df(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 #' df$x
-cmd_set_labs <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
-  if (is.null(new_lab)) {
-    new_lab <- attr(df[[orig_var]], "label", exact = TRUE)
-  }
-  df[[orig_var]] <- haven::labelled(
-    df[[orig_var]],
-    labels = purrr::set_names(new_vals, new_labs),
-    label = new_lab
-  )
-  df
+cmd_set_labs_df <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!orig_var := cmd_set_labs(orig_var_obj, new_lab, new_vals, new_labs))
 }
 
 #' Add value labels to variable orig_var in dataframe df

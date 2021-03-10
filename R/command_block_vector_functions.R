@@ -131,3 +131,27 @@ cmd_set_lab <- function(orig_var, new_label){
   )
 }
 
+
+#' Set value labels of labelled variable var
+#'
+#' @param orig_var character string of (labelled) variable in df
+#' @param new_lab Character string of the new variable label. If not defined, the function will keep the variable label (if it already exists).
+#' @param new_vals numeric vector containing the labelled values of the variable
+#' @param new_labs character vector of the new value labels
+#'
+#' @return modified variable `orig_var` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- 1:2
+#' cmd_set_labs(x, new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
+cmd_set_labs <- function(orig_var, new_lab = NULL, new_vals, new_labs){
+  if (is.null(new_lab)) {
+    new_lab <- attr(orig_var, "label", exact = TRUE)
+  }
+  haven::labelled(
+    orig_var,
+    labels = purrr::set_names(new_vals, new_labs),
+    label = new_lab
+  )
+}

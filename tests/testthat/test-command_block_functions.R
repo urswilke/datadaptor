@@ -7,7 +7,7 @@ test_that("cmd_set_lab() works", {
 
 test_that("cmd_set_labs() works", {
   df <- data.frame(x = 1)
-  df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("vallab1", "vallab2"))
+  df <- cmd_set_labs_df(df, "x", new_vals = 1:2, new_labs = c("vallab1", "vallab2"))
   vallabs <- attr(df$x, "labels", exact = TRUE)
   expect_equal(vallabs, c(vallab1 = 1, vallab2 = 2))
 })
