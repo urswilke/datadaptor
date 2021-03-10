@@ -298,7 +298,7 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
 #'   new_vals = new_vals,
 #'   new_labs = new_labs
 #' )
-cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
+cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = rlang::caller_env()) {
   recode_df <-
     tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
     dplyr::mutate(
@@ -317,7 +317,7 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
     )
 
 
-  x <- dplyr::case_when(!!!cond_statements)
+  x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% rlang::eval_tidy(env = env)
 
   haven::labelled(
     x,
@@ -325,3 +325,5 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
     label = new_lab
   )
 }
+
+
