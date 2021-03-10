@@ -210,3 +210,21 @@ cmd_dic <- function(orig_var, new_var){
     label = varlab
   )
 }
+
+
+#' Autorecode character variable
+#'
+#' @param var character variable to auto-recode
+#'
+#' @return modified variable `var` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(LETTERS[3:1], label = "variable label")
+#' cmd_autorec(x)
+cmd_autorec <- function(var) {
+  x_labelled <- labelled::to_labelled(as.factor(var))
+  labelled::var_label(x_labelled) <- attr(var, "label", exact = TRUE)
+
+  x_labelled
+}

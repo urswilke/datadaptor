@@ -169,15 +169,12 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' @examples
 #' x <- haven::labelled(LETTERS[3:1], label = "variable label")
 #' df <- data.frame(x)
-#' df <- cmd_autorec(df, "x")
+#' df <- cmd_autorec_df(df, "x")
 #' df
 #' df$x
-cmd_autorec <- function(df, var) {
-  x_labelled <- labelled::to_labelled(as.factor(df[[var]]))
-  labelled::var_label(x_labelled) <- attr(df[[var]], "label", exact = TRUE)
-
-  df[var] <- x_labelled
-  df
+cmd_autorec_df <- function(df, var) {
+  assign("var_obj", df[[var]])
+  df %>% dplyr::mutate(!!var := cmd_autorec(var_obj))
 }
 
 #' Create new recoded labelled variable from variable in dataframe
