@@ -333,14 +333,14 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
 #' @export
 #'
 #' @examples
-#' cmd_comp(data.frame(x = 1:3), "y", "x * 2")
-#' cmd_comp(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
+#' cmd_comp_df(data.frame(x = 1:3), "y", "x * 2")
+#' cmd_comp_df(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
 cmd_comp_df <- function(df, new_var, new_val) {
   # new_var_name <- deparse(substitute(new_var))
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  df %>% dplyr::mutate(!!new_var := cmd_comp(x = df$new_var, comp_expr = new_val))
+  df %>% dplyr::mutate(!!new_var := cmd_comp(x = df[[new_var]], comp_expr = new_val))
 
 }
 
