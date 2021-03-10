@@ -327,6 +327,27 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = 
 }
 
 
+#' Compute variable according to string expression
+#'
+#' @param new_var string of the variable name
+#' @param new_val expression string
+#'
+#' @return resulting variable (see examples)
+#' @export
+#'
+#' @examples
+#' x <- LETTERS[3:1]
+#' cmd_compr(x, "x %>% as.factor()")
+#' # (When saving factors to an SPSS file by haven::write_sav they will be tranformed
+#' # to type haven::labelled)
+cmd_compr <- function(new_var, new_val, env = rlang::caller_env()) {
+  # transforms numeric values from character to numeric:
+  new_val <- rlang::parse_expr(new_val)
+  # as.numeric() is needed if new_val is a condition which haven doesn't accept
+  rlang::eval_tidy(new_val, env = env)
+}
+
+
 #' Assign a value to a variable at specified ids
 #'
 #' @param var_ziel name of the variable to modify / be created (character string)

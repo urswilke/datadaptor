@@ -277,14 +277,15 @@ cmd_comp_df <- function(df, new_var, new_val) {
 #' @export
 #'
 #' @examples
-#' cmd_compr(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
+#' cmd_compr_df(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
 #' # (When saving factors to an SPSS file by haven::write_sav they will be tranformed
 #' # to type haven::labelled)
-cmd_compr <- function(df, new_var, new_val) {
-  # transforms numeric values from character to numeric:
-  new_val <- rlang::parse_expr(new_val)
-  # as.numeric() is needed if new_val is a condition which haven doesn't accept
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
+cmd_compr_df <- function(df, new_var, new_val) {
+  if (!new_var %in% names(df)) {
+    df[new_var] <- NA_real_
+  }
+
+  df %>% dplyr::mutate(!!new_var := cmd_compr(new_var, new_val))
 }
 
 
