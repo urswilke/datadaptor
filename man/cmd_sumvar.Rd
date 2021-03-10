@@ -4,7 +4,14 @@
 \alias{cmd_sumvar}
 \title{Create new recoded labelled variable from variable}
 \usage{
-cmd_sumvar(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs)
+cmd_sumvar(
+  orig_var,
+  new_lab = NULL,
+  orig_vals,
+  new_vals,
+  new_labs,
+  env = rlang::caller_env()
+)
 }
 \arguments{
 \item{orig_var}{original variable to be recoded}

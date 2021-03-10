@@ -20,6 +20,5 @@ Copy variable and value labels of a labelled variable orig_var to new_var
 \examples{
 x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
 y <- 2:1
-df <- cmd_dic(x, y)
-df$y
+cmd_dic(x, y)
 }

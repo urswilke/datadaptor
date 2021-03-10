@@ -4,7 +4,15 @@
 \alias{cmd_rec}
 \title{Recode variable}
 \usage{
-cmd_rec(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs)
+cmd_rec(
+  orig_var,
+  new_lab = NULL,
+  lb,
+  ub,
+  new_vals,
+  new_labs,
+  env = rlang::caller_env()
+)
 }
 \arguments{
 \item{orig_var}{character string of numeric variable name to recode}
