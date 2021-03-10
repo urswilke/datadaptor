@@ -155,3 +155,34 @@ cmd_set_labs <- function(orig_var, new_lab = NULL, new_vals, new_labs){
     label = new_lab
   )
 }
+
+
+#' Add value labels to variable orig_var
+#'
+#' @param orig_var variable
+#' @param new_lab new variable label
+#' @param vals_added values added
+#' @param labs_added value labels added
+#'
+#' @return modified variable `orig_var` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
+#' df <- cmd_add_labs(x, vals_added = 2, labs_added = c("label for 2"))
+cmd_add_labs <- function(orig_var, new_lab = NULL, vals_added, labs_added){
+  old_vallab_vec <- attr(orig_var, "labels")
+  added_vallab_vec <- purrr::set_names(vals_added, labs_added)
+  new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
+
+  if(is.null(new_lab))
+    varlab <-  attr(orig_var, "label", exact = TRUE)
+  else
+    varlab <- new_lab
+
+  haven::labelled(
+    orig_var,
+    labels = new_vallab_vec,
+    label = varlab
+  )
+}

@@ -68,24 +68,11 @@ cmd_set_labs_df <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 #' df <- data.frame(x)
-#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
+#' df <- cmd_add_labs_df(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
 #' df$x
-cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
-  old_vallab_vec <- attr(df[[orig_var]], "labels")
-  added_vallab_vec <- purrr::set_names(vals_added, labs_added)
-  new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
-
-  if(is.null(new_lab))
-    varlab <-  attr(df[[orig_var]], "label", exact = TRUE)
-  else
-    varlab <- new_lab
-
-  df[[orig_var]] <- haven::labelled(
-    df[[orig_var]],
-    labels = new_vallab_vec,
-    label = varlab
-  )
-  df
+cmd_add_labs_df <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!orig_var := cmd_add_labs(orig_var_obj, new_lab, vals_added, labs_added))
 }
 
 #' Copy variable and value labels of a labelled variable orig_var to new_var in a dataframe df
