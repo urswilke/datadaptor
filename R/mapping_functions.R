@@ -74,7 +74,7 @@ mapp_cmd_table <- function(
   }
   else {
     df_cmd <- df_cmd %>%
-      dplyr::mutate(data = parse_cmd_block_args_vec(.data$action, .data$data))
+      dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data))
   }
   df_cmd <- df_cmd %>%
     dplyr::ungroup()
