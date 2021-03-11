@@ -13,7 +13,7 @@ args_contain_renamed <- df_cmd %>%
   mutate(a = rowSums(map_dfc(., ~str_detect(.x, "renamed")), na.rm = T)) %>%
   pull(a)
 
-ff <- df_cmd %>%
+df_cmd_subset <- df_cmd %>%
   filter(args_contain_renamed == 0) %>%
   filter(!action %in% c("#RECNA", "#RENAME", "#MERGE", "#R", "#RFUN")) %>%
   filter(!str_detect(new_var, "renamed"))
@@ -49,13 +49,21 @@ generate_cmd_expression_vec <- function(action, data) {
 }
 
 cmds <- map2(
-  ff$action,
-  ff$data,
+  df_cmd_subset$action,
+  df_cmd_subset$data,
   generate_cmd_expression_vec
 ) %>%
-  set_names(~ff$new_var)
+  set_names(~df_cmd_subset$new_var)
 
 dfi <- df
-dfi[setdiff(ff$new_var, names(df))] <- NA_real_
-dfi %>% mutate(!!!cmds)
+dfi[setdiff(df_cmd_subset$new_var, names(df))] <- NA_real_
+df_mod <- dfi %>% mutate(!!!cmds)
 # df %>% mutate(!!cmds[[2]])
+
+df_cmd_old <- datenanpassr::mapp_cmd_table(mapping_file)
+df_cmd_subset_old <- df_cmd_old %>%
+  filter(args_contain_renamed == 0) %>%
+  filter(!action %in% c("#RECNA", "#RENAME", "#MERGE", "#R", "#RFUN")) %>%
+  filter(!str_detect(new_var, "renamed"))
+df_mod_old <- mapp_xl_to_data(df, df_cmd_subset_old)
+all.equal(df_mod, df_mod_old)
