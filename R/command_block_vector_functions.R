@@ -21,7 +21,7 @@ cmd_comp <- function(x, comp_expr, env = rlang::caller_env()) {
     rlang::parse_expr() %>%
     # rlang::eval_tidy()
     rlang::eval_tidy(env = env)
-  # as.numeric() is needed if new_val is a condition (resulting in a logical
+  # as.numeric() is needed if comp_expr is a condition (resulting in a logical
   # vector) which haven::write_sav doesn't accept:
   if (is.logical(x)) {
     x <- as.numeric(x)
@@ -170,21 +170,24 @@ cmd_set_labs <- function(orig_var, new_lab = NULL, new_vals, new_labs){
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 #' cmd_add_labs(x, vals_added = 2, labs_added = c("label for 2"))
-cmd_add_labs <- function(orig_var, new_lab = NULL, vals_added, labs_added){
-  old_vallab_vec <- attr(orig_var, "labels")
+cmd_add_labs <- function(orig_var, new_lab = NULL, vals_added, labs_added, env = rlang::caller_env()){
+  x <- orig_var %>%
+    rlang::eval_tidy(env = env)
+  old_vallab_vec <- attr(x, "labels")
   added_vallab_vec <- purrr::set_names(vals_added, labs_added)
   new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
 
   if(is.null(new_lab))
-    varlab <-  attr(orig_var, "label", exact = TRUE)
+    varlab <-  attr(x, "label", exact = TRUE)
   else
     varlab <- new_lab
 
   haven::labelled(
-    orig_var,
+    x,
     labels = new_vallab_vec,
     label = varlab
   )
+
 }
 
 
@@ -256,7 +259,7 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
   cond_statements <- purrr::map2(
     sum_var_vals_n_labs$val_lists,
     sum_var_vals_n_labs$new_vals,
-    ~ rlang::quo(orig_var %in% !!.x ~ !!.y)
+    ~ rlang::quo(!!orig_var %in% !!.x ~ !!.y)
   )
 
 
@@ -299,10 +302,11 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
 #'   new_labs = new_labs
 #' )
 cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = rlang::caller_env()) {
+  orig_var_name <- deparse(substitute(orig_var))
   recode_df <-
     tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
     dplyr::mutate(
-      expr_str = paste0("(orig_var >= ", lb, " &  orig_var <= ", ub, ")")
+      expr_str = paste0("(", orig_var_name, " >= ", lb, " & ", orig_var_name, " <= ", ub, ")")
     ) %>%
     dplyr::group_by(new_vals) %>%
     dplyr::summarise(
@@ -340,11 +344,10 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = 
 #' cmd_compr(x, "x %>% as.factor()")
 #' # (When saving factors to an SPSS file by haven::write_sav they will be tranformed
 #' # to type haven::labelled)
-cmd_compr <- function(new_var, new_val, env = rlang::caller_env()) {
+cmd_compr <- function(x, comp_expr, env = rlang::caller_env()) {
   # transforms numeric values from character to numeric:
-  new_val <- rlang::parse_expr(new_val)
-  # as.numeric() is needed if new_val is a condition which haven doesn't accept
-  rlang::eval_tidy(new_val, env = env)
+  comp_expr_expr <- rlang::parse_expr(comp_expr)
+  rlang::eval_tidy(comp_expr_expr, env = env)
 }
 
 
@@ -369,12 +372,14 @@ cmd_compr <- function(new_var, new_val, env = rlang::caller_env()) {
 #'   id = "id_var",
 #'   id_list = c(1, 3, 4)
 #' )
-cmd_verbatim <- function(var_ziel, val_assign, varlab, vallab, id_var, id_list, init_val = NA_real_) {
+cmd_verbatim <- function(var_ziel, val_assign, varlab, vallab, id_var, id_list, init_val = NA_real_, env = rlang::caller_env()) {
   # hack to keep variable label if it already exists:
   if (is.null(varlab)) {
     varlab <- attr(var_ziel, "label", exact = TRUE)
   }
-  var_ziel[id_var %in% id_list] <- val_assign
+  df_id <- rlang::eval_tidy(id_var, env = env)
+
+  var_ziel[df_id %in% id_list] <- val_assign
   haven::labelled(
     var_ziel,
     labels = vallab,

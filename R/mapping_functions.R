@@ -24,7 +24,8 @@ mapp_cmd_table <- function(
   mapping_file,
   add_r_command_colum = FALSE,
   translate_xlsm = FALSE,
-  na_to_filter = TRUE
+  na_to_filter = TRUE,
+  vars_as_syms = FALSE
   ) {
   id_var <- get_id_var(mapping_file)
 
@@ -66,8 +67,16 @@ mapp_cmd_table <- function(
     ~ generate_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
     .id = "sheet"
   ) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data)) %>%
+    dplyr::rowwise()
+  if (vars_as_syms) {
+    df_cmd <- df_cmd %>%
+      dplyr::mutate(data = parse_cmd_block_args_vec(.data$action, .data$data))
+  }
+  else {
+    df_cmd <- df_cmd %>%
+      dplyr::mutate(data = parse_cmd_block_args_vec(.data$action, .data$data))
+  }
+  df_cmd <- df_cmd %>%
     dplyr::ungroup()
   df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
   if (!is.na(df_cmd_manip_string)) {
