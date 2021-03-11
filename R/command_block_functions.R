@@ -202,8 +202,8 @@ cmd_autorec_df <- function(df, var) {
 #' df
 #' df$new_var
 cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
-  assign("orig_var_obj", df[[orig_var]])
-  df %>% dplyr::mutate(!!new_var := cmd_sumvar(orig_var, new_lab, orig_vals, new_vals, new_labs))
+  assign(orig_var, df[[orig_var]])
+  df %>% dplyr::mutate(!!new_var := cmd_sumvar(!!rlang::sym(orig_var), new_lab, orig_vals, new_vals, new_labs))
 }
 
 
