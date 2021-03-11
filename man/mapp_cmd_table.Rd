@@ -9,7 +9,8 @@ mapp_cmd_table(
   mapping_file,
   add_r_command_colum = FALSE,
   translate_xlsm = FALSE,
-  na_to_filter = TRUE
+  na_to_filter = TRUE,
+  vars_as_syms = FALSE
 )
 }
 \arguments{

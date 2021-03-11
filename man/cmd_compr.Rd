@@ -4,7 +4,7 @@
 \alias{cmd_compr}
 \title{Compute variable according to string expression}
 \usage{
-cmd_compr(new_var, new_val, env = rlang::caller_env())
+cmd_compr(x, comp_expr, env = rlang::caller_env())
 }
 \arguments{
 \item{new_var}{string of the variable name}

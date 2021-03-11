@@ -202,8 +202,15 @@ cmd_autorec_df <- function(df, var) {
 #' df
 #' df$new_var
 cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
-  assign(orig_var, df[[orig_var]])
-  df %>% dplyr::mutate(!!new_var := cmd_sumvar(!!rlang::sym(orig_var), new_lab, orig_vals, new_vals, new_labs))
+  df %>% dplyr::mutate(
+    !!new_var := cmd_sumvar(
+      !!rlang::sym(orig_var),
+      new_lab,
+      orig_vals,
+      new_vals,
+      new_labs
+    )
+  )
 }
 
 
@@ -242,8 +249,16 @@ cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_
 #' df
 #' df$new_var
 cmd_rec_df <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
-  assign("orig_var_obj", df[[orig_var]])
-  df %>% dplyr::mutate(!!new_var := cmd_rec(orig_var, new_lab, lb, ub, new_vals, new_labs))
+  df %>% dplyr::mutate(
+    !!new_var := cmd_rec(
+      !!rlang::sym(orig_var),
+      new_lab,
+      lb,
+      ub,
+      new_vals,
+      new_labs
+    )
+  )
 }
 
 #' Compute numeric variable in data frame according to string expression
@@ -259,11 +274,10 @@ cmd_rec_df <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, 
 #' cmd_comp_df(data.frame(x = 1:3), "y", "x * 2")
 #' cmd_comp_df(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
 cmd_comp_df <- function(df, new_var, new_val) {
-  # new_var_name <- deparse(substitute(new_var))
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  df %>% dplyr::mutate(!!new_var := cmd_comp(x = df[[new_var]], comp_expr = new_val))
+  df %>% dplyr::mutate(!!new_var := cmd_comp(x = !!rlang::sym(new_var), comp_expr = new_val))
 
 }
 
@@ -308,7 +322,8 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  df %>% dplyr::mutate(!!new_var := cmd_if(df[[new_var]], condition, new_val))
+
+  df %>% dplyr::mutate(!!new_var := cmd_if(!!rlang::sym(new_var), condition, new_val))
 }
 
 #' Assign a value to a variable in a dataframe at specified ids
@@ -320,7 +335,8 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
 #' @param vallab value labels (named list)
 #' @param id name of the id variable in df (character string)
 #' @param id_list list of the id values to be matched
-#' @param init_val value assigned to id values not contained in `id_list` if `var_ziel` does not exist in `df` yet
+#' @param init_val value assigned to id values not contained in
+#' `id_list` if `var_ziel` does not exist in `df` yet
 #'
 #' @return modified dataframe `df` (see examples)
 #' @export

@@ -30,7 +30,8 @@ cmd_verbatim_df(
 
 \item{id_list}{list of the id values to be matched}
 
-\item{init_val}{value assigned to id values not contained in \code{id_list} if \code{var_ziel} does not exist in \code{df} yet}
+\item{init_val}{value assigned to id values not contained in
+\code{id_list} if \code{var_ziel} does not exist in \code{df} yet}
 }
 \value{
 modified dataframe \code{df} (see examples)

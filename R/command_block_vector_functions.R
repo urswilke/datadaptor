@@ -14,12 +14,15 @@
 #' comp_expr <-  "2 * x - 4 * y"
 #' cmd_comp(x, comp_expr)
 cmd_comp <- function(x, comp_expr, env = rlang::caller_env()) {
+  if (!exists(deparse(substitute(x)), envir = env)) {
+    x <- NA_real_
+  }
+
   varlab <- labelled::var_label(x)
   vallabs <- labelled::val_labels(x)
 
   x <- comp_expr %>%
     rlang::parse_expr() %>%
-    # rlang::eval_tidy()
     rlang::eval_tidy(env = env)
   # as.numeric() is needed if comp_expr is a condition (resulting in a logical
   # vector) which haven::write_sav doesn't accept:
@@ -54,20 +57,19 @@ cmd_comp <- function(x, comp_expr, env = rlang::caller_env()) {
 #' # If the condition is not true, the previous values are kept, if existing:
 #' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
 cmd_if <- function(new_var, condition, new_val, env = rlang::caller_env()) {
+  if (!exists(deparse(substitute(new_var)), envir = env)) {
+    new_var <- NA_real_
+  }
+
   var_attrs <- attributes(new_var)
 
-  # manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
-  #   c(new_var) %>% unique()
-  #
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
   old_val <- new_var
 
   x <- rlang::expr(ifelse(datenanpassr:::is_true(!!cond), !!val, !!old_val)) %>%
-    # rlang::eval_tidy()
     rlang::eval_tidy(env = env)
 
-  # dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
   attributes(x) <- var_attrs
   x
 }
@@ -256,15 +258,14 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
     dplyr::group_by(new_vals) %>%
     dplyr::summarise(val_lists = list(orig_vals),
                      val_labs = dplyr::first(new_labs))
+  orig_var_obj <- orig_var
   cond_statements <- purrr::map2(
     sum_var_vals_n_labs$val_lists,
     sum_var_vals_n_labs$new_vals,
-    ~ rlang::quo(!!orig_var %in% !!.x ~ !!.y)
+    ~ rlang::expr(orig_var_obj %in% !!.x ~ !!.y)
   )
 
-
-
-  x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% rlang::eval_tidy(env = env)
+  x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% rlang::eval_tidy()
   haven::labelled(
     x,
     labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>% tibble::deframe(),
@@ -278,7 +279,8 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
 #' @param orig_var character string of numeric variable name to recode
 #' @param new_lab new variable label
 #' @param lb vector of lower bounds of intervals
-#' @param ub vector of upper bounds of intervals (missing values are replaced by the corresponding values of \code{ub})
+#' @param ub vector of upper bounds of intervals (missing values are replaced by the
+#' corresponding values of \code{ub})
 #' @param new_vals labelled values of recoded variable
 #' @param new_labs value labels of recoded variable
 #'
@@ -295,7 +297,7 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
 #' new_vals <- 1:3
 #' new_labs <- c("1 - 2", "3", "4 - 5")
 #' cmd_rec(
-#'   orig_var = "orig_var",
+#'   orig_var,
 #'   lb = lb,
 #'   ub = ub,
 #'   new_vals = new_vals,
@@ -365,21 +367,27 @@ cmd_compr <- function(x, comp_expr, env = rlang::caller_env()) {
 #' @export
 #'
 #' @examples
+#' x <- 4:6
+#' id_var <- 1:3
 #' cmd_verbatim(
+#'   x,
 #'   val_assign = 2,
 #'   varlab = "variable label",
 #'   vallab = c("assigned value" = 2),
-#'   id = "id_var",
+#'   id_var = id_var,
 #'   id_list = c(1, 3, 4)
 #' )
 cmd_verbatim <- function(var_ziel, val_assign, varlab, vallab, id_var, id_list, init_val = NA_real_, env = rlang::caller_env()) {
+  if (!exists(deparse(substitute(var_ziel)), envir = env)) {
+    var_ziel <- rep(init_val, length(id_var))
+  }
+
   # hack to keep variable label if it already exists:
   if (is.null(varlab)) {
     varlab <- attr(var_ziel, "label", exact = TRUE)
   }
-  df_id <- rlang::eval_tidy(id_var, env = env)
 
-  var_ziel[df_id %in% id_list] <- val_assign
+  var_ziel[id_var %in% id_list] <- val_assign
   haven::labelled(
     var_ziel,
     labels = vallab,

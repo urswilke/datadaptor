@@ -1,18 +1,18 @@
 # result of the mapping function mapp_xl_to_data()
 
     # A tibble: 100 x 51
-             q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7      kq1
-       <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl>
-     1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 3 [bla~ bla ~    NA
-     2  3 [nor~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 4 [bla~ bla ~    NA
-     3  1 [not~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 8 [bla~ bla ~    NA
-     4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 5 [bla~ bla ~    NA
-     5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 7 [bla~ bla ~    NA
-     6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 5 [bla~ bla ~    NA
-     7 99 [no ~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 9 [bla~ bla ~    NA
-     8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 6 [bla~ bla ~    NA
-     9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 6 [bla~ bla ~    NA
-    10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 3 [bla~ bla ~    NA
+             q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7         kq1
+       <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl+lb>
+     1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 3 [bla~ bla ~  2 [3]  
+     2  3 [nor~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 4 [bla~ bla ~  2 [3]  
+     3  1 [not~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 8 [bla~ bla ~  1 [1-2]
+     4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 5 [bla~ bla ~  2 [3]  
+     5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 7 [bla~ bla ~  3 [4-5]
+     6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 5 [bla~ bla ~  3 [4-5]
+     7 99 [no ~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 9 [bla~ bla ~ NA      
+     8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 6 [bla~ bla ~  1 [1-2]
+     9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 6 [bla~ bla ~ NA      
+    10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 3 [bla~ bla ~ NA      
     # ... with 90 more rows, and 42 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
     #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
     #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
@@ -59,7 +59,7 @@
      $ q7                    : chr [1:100] "bla bla bla anger" "bla bla bla sadness" "bla bla bla sadness" "bla bla anger" ...
       ..- attr(*, "label")= chr "Tell me something negative."
       ..- attr(*, "format.spss")= chr "A19"
-     $ kq1                   : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kq1                   : dbl+lbl [1:100]  2,  2,  1,  2,  3,  3, NA,  1, NA, NA,  3, NA,  2,  1...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "summarized variable"
@@ -151,23 +151,23 @@
      $ abc                   : num [1:100] NA NA 7 NA 7 NA NA NA NA NA ...
      $ kq5                   : num [1:100] NA 7 7 NA NA NA NA NA NA 7 ...
      $ kq6                   : num [1:100] NA NA NA NA NA NA NA NA 8 8 ...
-     $ kq3                   : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kq3                   : dbl+lbl [1:100]  2,  3,  2,  3,  1,  3,  2,  3,  1,  1,  3, NA,  3,  1...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "summarized variable"
-     $ kq1xq2_renamedkminus20: dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kq1xq2_renamedkminus20: dbl+lbl [1:100] NA, NA, NA, NA,  3,  3, NA, NA, NA, NA, NA, NA, NA, NA...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "FILTER: summarized variable"
-     $ kq1xq2_renamedk10     : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kq1xq2_renamedk10     : dbl+lbl [1:100] NA,  2,  1, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "YES: summarized variable"
-     $ kq1xq2_renamedk20     : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kq1xq2_renamedk20     : dbl+lbl [1:100]  2, NA, NA, NA, NA, NA, NA,  1, NA, NA, NA, NA,  2, NA...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "no: summarized variable"
-     $ kq1xq2_renamedk990    : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kq1xq2_renamedk990    : dbl+lbl [1:100] NA, NA, NA,  2, NA, NA, NA, NA, NA, NA,  3, NA, NA,  1...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
        ..@ label : chr "no answer: summarized variable"
@@ -186,9 +186,9 @@
        ..@ format.spss: chr "F8.2"
        ..@ labels     : Named num [1:3] 1 2 99
        .. ..- attr(*, "names")= chr [1:3] "yes" "no" "no answer"
-     $ sum_of_k_vars         : num [1:100] 0 7 7 0 0 0 0 0 8 15 ...
+     $ sum_of_k_vars         : num [1:100] 6 14 11 7 7 9 2 5 9 16 ...
      $ a                     : num [1:100] 1 1 1 1 1 1 1 1 1 1 ...
-     $ kkq1                  : dbl+lbl [1:100] NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA...
+     $ kkq1                  : dbl+lbl [1:100]  2,  2,  1,  2,  2,  2, NA,  2, NA, NA,  2, NA,  2,  1...
        ..@ labels: Named num [1:2] 1 2
        .. ..- attr(*, "names")= chr [1:2] "a" "b"
        ..@ label : chr "vl"

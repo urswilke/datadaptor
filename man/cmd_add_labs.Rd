@@ -4,7 +4,13 @@
 \alias{cmd_add_labs}
 \title{Add value labels to variable orig_var}
 \usage{
-cmd_add_labs(orig_var, new_lab = NULL, vals_added, labs_added)
+cmd_add_labs(
+  orig_var,
+  new_lab = NULL,
+  vals_added,
+  labs_added,
+  env = rlang::caller_env()
+)
 }
 \arguments{
 \item{orig_var}{variable}

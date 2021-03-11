@@ -11,7 +11,8 @@ cmd_verbatim(
   vallab,
   id_var,
   id_list,
-  init_val = NA_real_
+  init_val = NA_real_,
+  env = rlang::caller_env()
 )
 }
 \arguments{
@@ -36,11 +37,14 @@ modified dataframe \code{df} (see examples)
 Assign a value to a variable at specified ids
 }
 \examples{
+x <- 4:6
+id_var <- 1:3
 cmd_verbatim(
+  x,
   val_assign = 2,
   varlab = "variable label",
   vallab = c("assigned value" = 2),
-  id = "id_var",
+  id_var = id_var,
   id_list = c(1, 3, 4)
 )
 }

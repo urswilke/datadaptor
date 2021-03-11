@@ -57,7 +57,8 @@ cmds <- map2(
 
 dfi <- df
 dfi[setdiff(df_cmd_subset$new_var, names(df))] <- NA_real_
-df_mod <- dfi %>% mutate(!!!cmds)
+# df_mod <- dfi %>% mutate(!!!cmds)
+df_mod <- df %>% mutate(!!!cmds)
 # df %>% mutate(!!cmds[[2]])
 
 df_cmd_old <- datenanpassr::mapp_cmd_table(mapping_file)

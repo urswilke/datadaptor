@@ -43,7 +43,7 @@ ub = c(2, NA, 5)
 new_vals <- 1:3
 new_labs <- c("1 - 2", "3", "4 - 5")
 cmd_rec(
-  orig_var = "orig_var",
+  orig_var,
   lb = lb,
   ub = ub,
   new_vals = new_vals,
