@@ -44,14 +44,18 @@ generate_cmd_expression_vec <- function(action, data) {
     stop("Invalid action command")
   )
 }
-cmds <- map2(
-  df_cmd_subset$action,
-  df_cmd_subset$data,
-  generate_cmd_expression_vec
-) %>%
-  set_names(~df_cmd_subset$new_var)
-names(cmds)[df_cmd_subset$action %in% c("#MERGE", "#KG", "#R")] <- ""
 
+get_mutate_exprs <- function(action, data, new_var) {
+  cmds <- map2(
+    action,
+    data,
+    generate_cmd_expression_vec
+  ) %>%
+    set_names(~new_var)
+  names(cmds)[action %in% c("#MERGE", "#KG", "#R")] <- ""
+  cmds
+}
+cmds <- get_mutate_exprs(df_cmd_subset$action, df_cmd_subset$data, df_cmd_subset$new_var)
 df_mod <- df %>% mutate(!!!cmds)
 df %>% mutate(!!cmds[[55]])
 
@@ -61,4 +65,47 @@ df_cmd_subset_old <- df_cmd_old %>%
   filter(!action %in% c("#RECNA", "#RENAME", "#RFUN")) %>%
   filter(!str_detect(new_var, "renamed"))
 df_mod_old <- mapp_xl_to_data(df, df_cmd_subset_old)
+all.equal(df_mod, df_mod_old)
+
+
+
+# separate mutate / reduce blocks -----------------------------------------
+
+split_df_cmd <- function(df_cmd) {
+  df_cmd %>%
+    dplyr::mutate(
+      i_block = action %in% c("#RECNA", "#RENAME", "#RFUN"),
+      i_block = i_block != lag(i_block, default = TRUE),
+      i_block = cumsum(i_block)
+    ) %>%
+    group_split(i_block, .keep = FALSE) %>%
+    map_dfr(prepare_blocks)
+}
+prepare_blocks <- function(df_cmd_block) {
+  single_blocks <- c("#RECNA", "#RENAME", "#RFUN")
+  if (!df_cmd_block$action[1] %in% single_blocks) {
+    df_cmd_block <- tibble::tibble(
+      action = "#BLOCK",
+      data = list(df_cmd_block$cmd)
+    )
+  }
+  df_cmd_block
+}
+
+df_cmd <- df_cmd %>% mutate(cmd = get_mutate_exprs(action, data, new_var))
+l_cmd <- split_df_cmd(df_cmd)
+
+
+apply_block_manips <- function(df, action, data) {
+  block_expr <- switch (
+    action,
+    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
+    "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
+    "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
+    "#BLOCK"  = rlang::expr(df %>% mutate(!!!data))
+  )
+  rlang::eval_tidy(block_expr)
+}
+df_mod <- reduce2(l_cmd$action, l_cmd$data, apply_block_manips, .init = df)
+df_mod_old <- mapp_xl_to_data(df, df_cmd_old)
 all.equal(df_mod, df_mod_old)
