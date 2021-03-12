@@ -23,6 +23,8 @@ specifying the corresponding R command; defaults to FALSE}
 
 \item{na_to_filter}{logical specifying whether a command is added whether
 \code{set_na_to_filter_except()} should be run as the very first command.}
+
+\item{vars_as_syms}{logical whether variable names should be parsed as strings or symbols (for internal use)}
 }
 \value{
 Command table containing the data of the command blocks of the Excel mapping file.

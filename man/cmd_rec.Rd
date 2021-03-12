@@ -27,6 +27,8 @@ corresponding values of \code{ub})}
 \item{new_vals}{labelled values of recoded variable}
 
 \item{new_labs}{value labels of recoded variable}
+
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 Recoded variable (see examples)

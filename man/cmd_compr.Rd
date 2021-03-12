@@ -7,9 +7,11 @@
 cmd_compr(x, comp_expr, env = rlang::caller_env())
 }
 \arguments{
-\item{new_var}{string of the variable name}
+\item{x}{variable}
 
-\item{new_val}{expression string}
+\item{comp_expr}{expression string}
+
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 resulting variable (see examples)

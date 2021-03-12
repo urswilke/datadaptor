@@ -12,6 +12,8 @@ cmd_merge(merge_file, id_var_name, variable_names, env = rlang::caller_env())
 \item{id_var_name}{character string of the id variable to merge by}
 
 \item{variable_names}{character vector of variable names to merge from \code{merge_file}}
+
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 dataframe \code{df} with the variables defined in \code{variable_names} added, merged by \code{id}

@@ -23,6 +23,8 @@ cmd_sumvar(
 \item{new_vals}{numeric vector of labelled values of new recoded variable}
 
 \item{new_labs}{character vector of value labels of new recoded variable}
+
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 recoded variable (see examples)

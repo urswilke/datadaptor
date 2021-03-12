@@ -20,6 +20,6 @@ are equal to by_var if split_var is equal to the respective value and NA otherwi
 }
 \examples{
 a <- 1:3
-b <- c(3, 3, 4))
+b <- c(3, 3, 4)
 cmd_kg(b, a)
 }

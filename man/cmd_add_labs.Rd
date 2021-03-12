@@ -20,6 +20,8 @@ cmd_add_labs(
 \item{vals_added}{values added}
 
 \item{labs_added}{value labels added}
+
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 modified variable \code{orig_var} (see examples)

@@ -7,6 +7,7 @@
 #' specifying the corresponding R command; defaults to FALSE
 #' @param na_to_filter logical specifying whether a command is added whether
 #' `set_na_to_filter_except()` should be run as the very first command.
+#' @param vars_as_syms logical whether variable names should be parsed as strings or symbols (for internal use)
 #'
 #' @return Command table containing the data of the command blocks of the Excel mapping file.
 #' @export

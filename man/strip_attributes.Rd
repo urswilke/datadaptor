@@ -10,7 +10,7 @@ strip_attributes(x)
 \item{x}{vector}
 }
 \value{
-
+x with attributes removed
 }
 \description{
 Remove attributes from a vector

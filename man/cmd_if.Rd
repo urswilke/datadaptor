@@ -13,6 +13,8 @@ cmd_if(new_var, condition, new_val, env = rlang::caller_env())
 
 \item{new_val}{character string the new value expression  when \code{condition}
 is fulfilled (numeric string values are transformed to numeric)}
+
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 variable calculated according to the conditional expression
@@ -23,6 +25,4 @@ Conditional computing of a variable in a dataframe
 \examples{
 x <- 1:3
 cmd_if(x, "x == 3", "2")
-# If the condition is not true, the previous values are kept, if existing:
-cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
 }

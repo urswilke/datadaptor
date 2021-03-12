@@ -47,6 +47,7 @@ cmd_comp <- function(x, comp_expr, env = rlang::caller_env()) {
 #' @param condition character string of the condition
 #' @param new_val character string the new value expression  when \code{condition}
 #' is fulfilled (numeric string values are transformed to numeric)
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @return variable calculated according to the conditional expression
 #' @export
@@ -54,8 +55,6 @@ cmd_comp <- function(x, comp_expr, env = rlang::caller_env()) {
 #' @examples
 #' x <- 1:3
 #' cmd_if(x, "x == 3", "2")
-#' # If the condition is not true, the previous values are kept, if existing:
-#' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
 cmd_if <- function(new_var, condition, new_val, env = rlang::caller_env()) {
   if (!exists(deparse(substitute(new_var)), envir = env)) {
     new_var <- NA_real_
@@ -88,7 +87,7 @@ cmd_if <- function(new_var, condition, new_val, env = rlang::caller_env()) {
 #'
 #' @examples
 #' a <- 1:3
-#' b <- c(3, 3, 4))
+#' b <- c(3, 3, 4)
 #' cmd_kg(b, a)
 cmd_kg <- function(
   split_var,
@@ -165,6 +164,7 @@ cmd_set_labs <- function(orig_var, new_lab = NULL, new_vals, new_labs){
 #' @param new_lab new variable label
 #' @param vals_added values added
 #' @param labs_added value labels added
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @return modified variable `orig_var` (see examples)
 #' @export
@@ -241,6 +241,7 @@ cmd_autorec <- function(var) {
 #' @param orig_vals numeric vector of the values of the original variable to be recoded
 #' @param new_vals numeric vector of labelled values of new recoded variable
 #' @param new_labs character vector of value labels of new recoded variable
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @return recoded variable (see examples)
 #' @export
@@ -283,6 +284,7 @@ cmd_sumvar <- function(orig_var, new_lab = NULL, orig_vals, new_vals, new_labs, 
 #' corresponding values of \code{ub})
 #' @param new_vals labelled values of recoded variable
 #' @param new_labs value labels of recoded variable
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @details
 #' The vectors lb, ub, new_vals and new_labs all need to be of the same length.
@@ -312,12 +314,12 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = 
     ) %>%
     dplyr::group_by(new_vals) %>%
     dplyr::summarise(
-      expr_str = paste(expr_str, collapse = " | "),
+      expr_str = paste(.data$expr_str, collapse = " | "),
       new_labs = new_labs[1]
     )
   cond_statements <-
     recode_df %>%
-    dplyr::select(new_vals, expr_str) %>%
+    dplyr::select(new_vals, .data$expr_str) %>%
     purrr::pmap(
       function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
     )
@@ -335,8 +337,9 @@ cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = 
 
 #' Compute variable according to string expression
 #'
-#' @param new_var string of the variable name
-#' @param new_val expression string
+#' @param x variable
+#' @param comp_expr expression string
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @return resulting variable (see examples)
 #' @export
@@ -359,9 +362,10 @@ cmd_compr <- function(x, comp_expr, env = rlang::caller_env()) {
 #' @param val_assign assigned value
 #' @param varlab variable label (character string)
 #' @param vallab value labels (named list)
-#' @param id name of the id variable in df (character string)
+#' @param id_var id variable
 #' @param id_list list of the id values to be matched
 #' @param init_val value assigned to id values not contained in `id_list` if `var_ziel` does not exist in `df` yet
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @return modified dataframe `df` (see examples)
 #' @export
@@ -403,6 +407,7 @@ cmd_verbatim <- function(var_ziel, val_assign, varlab, vallab, id_var, id_list, 
 #' @param merge_file character string of the file to merge from
 #' @param id_var_name character string of the id variable to merge by
 #' @param variable_names character vector of variable names to merge from `merge_file`
+#' @param env environment where the function is evaluated (should probably not be touched)
 #'
 #' @return dataframe `df` with the variables defined in `variable_names` added, merged by `id`
 #' @export

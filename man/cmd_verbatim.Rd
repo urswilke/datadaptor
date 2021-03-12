@@ -24,11 +24,13 @@ cmd_verbatim(
 
 \item{vallab}{value labels (named list)}
 
+\item{id_var}{id variable}
+
 \item{id_list}{list of the id values to be matched}
 
 \item{init_val}{value assigned to id values not contained in \code{id_list} if \code{var_ziel} does not exist in \code{df} yet}
 
-\item{id}{name of the id variable in df (character string)}
+\item{env}{environment where the function is evaluated (should probably not be touched)}
 }
 \value{
 modified dataframe \code{df} (see examples)
