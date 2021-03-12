@@ -145,7 +145,7 @@ generate_cmd_expression <- function(action, data) {
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#MERGE"  = rlang::expr(cmd_merge_df(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#R"      = rlang::expr(cmd_r(df, !!!data)),
+    "#R"      = rlang::expr(cmd_r_df(df, !!!data)),
     "#IF"     = rlang::expr(cmd_if_df(df, !!!data)),
     "#COMP"   = rlang::expr(cmd_comp_df(df, !!!data)),
     # TODO: find cleaner way to deal with this!

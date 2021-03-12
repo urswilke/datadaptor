@@ -443,10 +443,11 @@ cmd_rfun <- function(df, r_script, fun_name) {
 #'
 #' @examples
 #' df <- data.frame(k1 = 1, k2 = 2)
-#' r_code <- "df %>% dplyr::mutate(k3 = 3)"
-#' cmd_r(df, r_code)
-cmd_r <- function(df, r_code) {
-  r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
+#' # To create a new named variable in `df`, wrap the output in a data.frame()
+#' r_code <- "data.frame(k3 = 3)"
+#' cmd_r_df(df, r_code)
+cmd_r_df <- function(df, r_code) {
+  df %>% dplyr::mutate(cmd_r(r_code))
 }
 
 

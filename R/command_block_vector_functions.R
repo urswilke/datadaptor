@@ -464,17 +464,20 @@ cmd_rfun <- function(df, r_script, fun_name) {
 #' manipulated by a character string, which is then parsed to an R expression
 #' and evaluated (see examples).
 #'
-#' @param df dataframe
 #' @param r_code character string of the R code the dataframe is manipulated by
 #'
-#' @return Manipulated dataframe (the expression string is piped to `df`).
+#' @return object resulting of `r_code` being parsed and evaluated
 #' @export
 #'
 #' @examples
-#' df <- data.frame(k1 = 1, k2 = 2)
-#' r_code <- "df %>% dplyr::mutate(k3 = 3)"
-#' cmd_r(df, r_code)
-cmd_r <- function(df, r_code) {
+#' v1 <- 1:3
+#' v2 <- 2:0
+#' r_code <- "3 * v1 - 2 * v2"
+#' cmd_r(r_code)
+#' # You can also generate objects based on multiple expressions:
+#' r_code <- "{df <- data.frame(v3 = 3 * v1 - 2 * v2); df %>% mutate(v3 = ifelse(v1 == 1, NA, v3))}"
+#' cmd_r(r_code)
+cmd_r <- function(r_code) {
   r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
 

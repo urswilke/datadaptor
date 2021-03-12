@@ -150,7 +150,7 @@
       .. ..$ X5: chr NA
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#R"
-      .. ..$ X2: chr "df %>% dplyr::mutate(a=1)"
+      .. ..$ X2: chr "data.frame(a=1)"
       .. ..$ X3: chr NA
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
