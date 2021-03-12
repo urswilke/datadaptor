@@ -394,3 +394,121 @@ cmd_verbatim <- function(var_ziel, val_assign, varlab, vallab, id_var, id_list, 
     label = varlab
   )
 }
+
+
+#' Merge variables from file to id variable
+#'
+#' If the variables in `merge_file` are already present, they will be replaced.
+#'
+#' @param merge_file character string of the file to merge from
+#' @param id_var_name character string of the id variable to merge by
+#' @param variable_names character vector of variable names to merge from `merge_file`
+#'
+#' @return dataframe `df` with the variables defined in `variable_names` added, merged by `id`
+#' @export
+#'
+#' @examples
+#' variable_names <- c("q1", "q2")
+#' id_var_name <- "id"
+#' id <- 1:100 %>% as.numeric()
+#' merge_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' cmd_merge(merge_file, id_var_name, variable_names)
+cmd_merge <- function(merge_file, id_var_name, variable_names, env = rlang::caller_env()) {
+  merge_vars <- c(id_var_name, variable_names)
+  df_merge <- haven::read_sav(merge_file)
+  if (is.na(variable_names)[1]) {
+    variable_names <- names(df_merge)
+  }
+  df_merge <- df_merge %>% dplyr::select(!!id_var_name, !!!variable_names)
+  id_var <- rlang::sym(id_var_name) %>% rlang::eval_tidy(env = env)
+  if (!identical(
+    sort(strip_attributes(df_merge[[id_var_name]])),
+    sort(strip_attributes(id_var))
+    )
+  ) {
+    warning("The merged dataframe doesn't contain the same id values")
+    df_merge <- df_merge %>% dplyr::filter(!!rlang::sym(id_var_name) %in% id_var)
+  }
+  tibble::tibble(id_var) %>%
+    dplyr::rename(!!id_var_name := id_var) %>%
+    dplyr::full_join(df_merge, by = id_var_name) %>%
+    dplyr::select(-!!id_var_name)
+}
+
+#' Execute function defined in R script manimullating dataframe df
+#'
+#' @param df dataframe
+#' @param r_script character string of the R script where the function is defined
+#' @param fun_name character string of the R function name in the script
+#'
+#' @return Manipulated dataframe
+#' @export
+#'
+#' @examples
+#' df <- data.frame(k1 = 1, k2 = 2)
+#' r_script <- system.file("extdata", "example_R_function.R", package = "datenanpassr")
+#' fun_name <- "calc_sum_of_k_vars"
+#' cmd_rfun(df, r_script, fun_name)
+cmd_rfun <- function(df, r_script, fun_name) {
+  if (!is.na(r_script)) {
+    source(r_script, echo = FALSE)
+  }
+
+  df_mod <- do.call(fun_name, list(df))
+  df_mod
+}
+
+#' Manipulate dataframe by R expression in character string
+#'
+#' The current state of the data is stored in a dataframe `df`. It can be
+#' manipulated by a character string, which is then parsed to an R expression
+#' and evaluated (see examples).
+#'
+#' @param df dataframe
+#' @param r_code character string of the R code the dataframe is manipulated by
+#'
+#' @return Manipulated dataframe (the expression string is piped to `df`).
+#' @export
+#'
+#' @examples
+#' df <- data.frame(k1 = 1, k2 = 2)
+#' r_code <- "df %>% dplyr::mutate(k3 = 3)"
+#' cmd_r(df, r_code)
+cmd_r <- function(df, r_code) {
+  r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
+}
+
+
+#' Recode missing values of variables in dataframe
+#'
+#' @param df dataframe
+#' @param recode_na_exceptions character vector of variables to exclude from recoding
+#' @param replace_val value to replace missing values by
+#' @param replace_label value label of replacing value
+#'
+#' @return Dataframe where `set_na_to_filter()` is run on all numeric variables
+#' (except those in `recode_na_exceptions`)
+#' `replace_val` and `replace_label` are the arguments passed to `set_na_to_filter()`.
+#' @export
+#'
+#' @examples
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df <- haven::read_sav(spss_file)
+#' set_na_to_filter_except(
+#'   df,
+#'   c("q1", "q2"),
+#'   -2,
+#'   "I'm the label for the missing value replacement"
+#' )
+set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label) {
+  # remove variable names not found in df:
+  # TODO: think of cleaner way to do this:
+  recode_na_exceptions <- intersect(recode_na_exceptions, names(df))
+  df %>%
+    dplyr::mutate(
+      dplyr::across(
+        where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
+        ~set_na_to_filter(.x, replace_val, replace_label)
+      )
+    )
+}

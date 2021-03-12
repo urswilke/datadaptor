@@ -380,26 +380,30 @@ cmd_verbatim_df <- function(df, var_ziel, val_assign, varlab, vallab, id = "id",
 #' variable_names <- c("q1", "q2")
 #' id <- "id"
 #' merge_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' cmd_merge(df, merge_file, id, variable_names)
-cmd_merge <- function(df, merge_file, id = "id", variable_names) {
-  merge_vars <- c(id, variable_names)
-  df_merge <- haven::read_sav(merge_file)
-  if (is.na(variable_names)[1]) {
-    variable_names <- names(df_merge)
-  }
-  df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
-  if (!identical(
-    sort(strip_attributes(df_merge[[id]])),
-    sort(strip_attributes(df[[id]])))
-  ) {
-    warning("The merged dataframe doesn't contain the same id values")
-    df_merge <- df_merge %>% dplyr::filter(!!id %in% df$id)
-  }
-  replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
-  df %>%
-    dplyr::select(-dplyr::all_of(replaced_vars)) %>%
-    dplyr::full_join(df_merge, by = id) %>%
-    dplyr::relocate(names(df))
+#' cmd_merge_df(df, merge_file, id, variable_names)
+cmd_merge_df <- function(df, merge_file, id = "id", variable_names) {
+  # prevent scoping rules from using a variable called "id" from df instead of
+  # the object passed as the function argument:
+  id_var_name <- id
+  df %>% dplyr::mutate(cmd_merge(merge_file, id_var_name, variable_names))
+  # merge_vars <- c(id, variable_names)
+  # df_merge <- haven::read_sav(merge_file)
+  # if (is.na(variable_names)[1]) {
+  #   variable_names <- names(df_merge)
+  # }
+  # df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
+  # if (!identical(
+  #   sort(strip_attributes(df_merge[[id]])),
+  #   sort(strip_attributes(df[[id]])))
+  # ) {
+  #   warning("The merged dataframe doesn't contain the same id values")
+  #   df_merge <- df_merge %>% dplyr::filter(!!id %in% df$id)
+  # }
+  # replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
+  # df %>%
+  #   dplyr::select(-dplyr::all_of(replaced_vars)) %>%
+  #   dplyr::full_join(df_merge, by = id) %>%
+  #   dplyr::relocate(names(df))
 }
 
 #' Execute function defined in R script manimullating dataframe df

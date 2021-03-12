@@ -181,7 +181,7 @@ parse_cmd_block_args_merge_vec <- function(data) {
   d <- data
   res <- list(
     variable_names  = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
-    id = d$X3[1],
+    id_var_name = d$X3[1],
     merge_file  = d$X2
   )
   list(res)
