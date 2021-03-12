@@ -21,7 +21,8 @@ cmd_rec(
 
 \item{lb}{vector of lower bounds of intervals}
 
-\item{ub}{vector of upper bounds of intervals (missing values are replaced by the corresponding values of \code{ub})}
+\item{ub}{vector of upper bounds of intervals (missing values are replaced by the
+corresponding values of \code{ub})}
 
 \item{new_vals}{labelled values of recoded variable}
 
