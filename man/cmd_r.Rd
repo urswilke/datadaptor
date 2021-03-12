@@ -22,7 +22,13 @@ v1 <- 1:3
 v2 <- 2:0
 r_code <- "3 * v1 - 2 * v2"
 cmd_r(r_code)
-# You can also generate objects based on multiple expressions:
-r_code <- "{df <- data.frame(v3 = 3 * v1 - 2 * v2); df \%>\% mutate(v3 = ifelse(v1 == 1, NA, v3))}"
+# You can also generate objects based on multiple expressions
+# (separated by semicolons and surrounded by curly braces):
+r_code <- "{v3 = 3 * v1 - 2 * v2; ifelse(v1 == 1, NA, v3)}"
 cmd_r(r_code)
+# In order to generate named variables  in a data.frame(),
+# wrap the output of `r_code` in a data.frame():
+r_code <- "{v3 = 3 * v1 - 2 * v2; v3 = ifelse(v1 == 1, NA, v3); data.frame(v3)}"
+df <- data.frame(v1, v2)
+df \%>\% dplyr::mutate(cmd_r(r_code))
 }
