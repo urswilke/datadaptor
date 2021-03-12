@@ -15,13 +15,10 @@ args_contain_renamed <- df_cmd %>%
 
 df_cmd_subset <- df_cmd %>%
   filter(args_contain_renamed == 0) %>%
-  filter(!action %in% c("#RECNA", "#RENAME", "#MERGE", "#R", "#RFUN")) %>%
+  filter(!action %in% c("#RECNA", "#RENAME", "#R", "#RFUN")) %>%
   filter(!str_detect(new_var, "renamed"))
 
 generate_cmd_expression_vec <- function(action, data) {
-  # Hack to prevent R CMD CHECK note
-  # "no visible binding for global variable ‘df’":
-
   switch (
     action,
     "#RECNA"  = rlang::expr(set_na_to_filter_except(!!!data)),
@@ -47,24 +44,21 @@ generate_cmd_expression_vec <- function(action, data) {
     stop("Invalid action command")
   )
 }
-
 cmds <- map2(
   df_cmd_subset$action,
   df_cmd_subset$data,
   generate_cmd_expression_vec
 ) %>%
   set_names(~df_cmd_subset$new_var)
+names(cmds)[df_cmd_subset$action %in% c("#MERGE", "#KG")] <- ""
 
-dfi <- df
-dfi[setdiff(df_cmd_subset$new_var, names(df))] <- NA_real_
-# df_mod <- dfi %>% mutate(!!!cmds)
 df_mod <- df %>% mutate(!!!cmds)
-# df %>% mutate(!!cmds[[2]])
+df %>% mutate(!!cmds[[55]])
 
 df_cmd_old <- datenanpassr::mapp_cmd_table(mapping_file)
 df_cmd_subset_old <- df_cmd_old %>%
   filter(args_contain_renamed == 0) %>%
-  filter(!action %in% c("#RECNA", "#RENAME", "#MERGE", "#R", "#RFUN")) %>%
+  filter(!action %in% c("#RECNA", "#RENAME", "#R", "#RFUN")) %>%
   filter(!str_detect(new_var, "renamed"))
 df_mod_old <- mapp_xl_to_data(df, df_cmd_subset_old)
 all.equal(df_mod, df_mod_old)
