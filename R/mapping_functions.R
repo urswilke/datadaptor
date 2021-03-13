@@ -370,12 +370,21 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #' df_cmd <- mapp_cmd_table(mapping_file)
 #' \dontrun{
 #' translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
+#' # For an illustration of the internal differences when using vectorized = TRUE in
+#' # `mapp_xl_to_data()`, compare the resulting script
+#' # "mapping.R", with the vectorized version:
+#' df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+#' translate_to_r_script(df_cmd_vec, rscript_name = "mapping_vec.R", spss_file)
 #' }
 translate_to_r_script <- function(
   df_cmd,
   rscript_name = "mapping.R",
   spss_file
   ) {
+  if (attr(df_cmd, "vectorized") == TRUE) {
+    df_cmd <- group_vectorizable_cmds(df_cmd)
+    generate_cmd_expression <- generate_group_expr
+  }
   cmd_list <-
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))

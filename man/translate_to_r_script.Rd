@@ -28,5 +28,10 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 df_cmd <- mapp_cmd_table(mapping_file)
 \dontrun{
 translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
+# For an illustration of the internal differences when using vectorized = TRUE in
+# `mapp_xl_to_data()`, compare the resulting script
+# "mapping.R", with the vectorized version:
+df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+translate_to_r_script(df_cmd_vec, rscript_name = "mapping_vec.R", spss_file)
 }
 }
