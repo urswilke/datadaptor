@@ -7,7 +7,14 @@
 #' specifying the corresponding R command; defaults to FALSE
 #' @param na_to_filter logical specifying whether a command is added whether
 #' `set_na_to_filter_except()` should be run as the very first command.
-#' @param vars_as_syms logical whether variable names should be parsed as strings or symbols (for internal use)
+#' @param vectorized logical whether groups of command blocks to calculate
+#' new vectors are applied to the data in a single `dplyr::mutate()`
+#' statement or whether to consecutively apply (by using `purrr::reduce()`)
+#' each command expression on the whole data frame. Probably something similar as the difference between:
+#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
+#' dataframe() %>% mutate(a = 1, b = 2).
+#' The second is faster. For many data operations or large datasets,
+#' vectorized = TRUE should also be faster
 #'
 #' @return Command table containing the data of the command blocks of the Excel mapping file.
 #' @export
@@ -26,7 +33,7 @@ mapp_cmd_table <- function(
   add_r_command_colum = FALSE,
   translate_xlsm = FALSE,
   na_to_filter = TRUE,
-  vars_as_syms = FALSE
+  vectorized = FALSE
   ) {
   id_var <- get_id_var(mapping_file)
 
@@ -69,7 +76,7 @@ mapp_cmd_table <- function(
     .id = "sheet"
   ) %>%
     dplyr::rowwise()
-  if (vars_as_syms) {
+  if (vectorized) {
     df_cmd <- df_cmd %>%
       dplyr::mutate(data = parse_cmd_block_args_vec(.data$action, .data$data))
   }
@@ -96,6 +103,7 @@ mapp_cmd_table <- function(
       tidyr::unnest(.data$a)
   }
 
+  attr(df_cmd, "vectorized") = vectorized
   attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
@@ -225,6 +233,14 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' @param check_id_is_unique logical whether to check that the specified id
 #'   variable (in sheet "configr") is unique; defaults to TRUE.
 #' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
+#' @param vectorized logical whether groups of command blocks to calculate
+#' new vectors are applied to the data in a single `dplyr::mutate()`
+#' statement or whether to consecutively apply (by using `purrr::reduce()`)
+#' each command expression on the whole data frame. Probably something similar as the difference between:
+#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
+#' dataframe() %>% mutate(a = 1, b = 2).
+#' The second is faster. For many data operations or large datasets,
+#' vectorized = TRUE should also be faster
 #'
 #' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
 #'   in case of purrr::accumulate2 a list with all intermediate dataframes (of
@@ -264,9 +280,15 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
-                            translate_xlsm = FALSE, check_id_is_unique = TRUE) {
+                            translate_xlsm = FALSE, check_id_is_unique = TRUE,
+                            vectorized = FALSE) {
   if (typeof(mapping_file) == "character") {
-    cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm, na_to_filter = na_to_filter)
+    cmd_table <- mapp_cmd_table(
+      mapping_file,
+      translate_xlsm = translate_xlsm,
+      na_to_filter = na_to_filter,
+      vectorized = vectorized
+    )
   }
   else if (is.data.frame(mapping_file)) {
     cmd_table <- mapping_file
@@ -275,6 +297,9 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     stop("
          mapping_file has to be either the file path to the mapping file,
          or the command table data frame (returned by `mapp_cmd_table()`) of this path!")
+  }
+  if (attr(cmd_table, "vectorized") != vectorized) {
+    stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
   }
   id_var <- attr(cmd_table, "id_var")
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
@@ -288,6 +313,10 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
 
     apply_one_cmd <- apply_one_cmd_safe
     # rec_fun <- purrr::accumulate2
+  }
+  if (vectorized) {
+    cmd_table <- group_vectorizable_cmds(cmd_table)
+    apply_one_cmd <- apply_one_group_cmd
   }
 
   rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)

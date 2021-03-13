@@ -6,6 +6,14 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 df_cmd <- mapp_cmd_table(mapping_file)
 df_mod <- mapp_xl_to_data(df_test, df_cmd)
 
+df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+df_mod_vec <- mapp_xl_to_data(df_test, df_cmd_vec, vectorized = TRUE)
+
+test_that("vectorized vesion of mapp_xl_to_data() results in the same", {
+  expect_equal(df_mod_vec, df_mod)
+})
+
+
 test_that("result of the mapping function mapp_xl_to_data()", {
   testthat::expect_snapshot_output(df_mod)
   testthat::expect_snapshot_output(df_mod %>% str())
@@ -42,6 +50,7 @@ test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
 test_that("minimal example for mapp_xl_to_data()", {
   df_cmd <- tibble::tibble(action = "#IF", data = list(list(new_var = "a", new_val = "7", condition = "a == 2")))
   attr(df_cmd, "id_var") <- "id"
+  attr(df_cmd, "vectorized") <- FALSE
   result <- mapp_xl_to_data(data.frame(id = 1:3, a = 1:3), df_cmd) %>% dplyr::pull(a)
   attributes(result) <- NULL
   expect_equal(result, c(1, 7, 3))

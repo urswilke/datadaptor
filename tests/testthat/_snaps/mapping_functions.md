@@ -622,5 +622,6 @@
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
+     - attr(*, "vectorized")= logi FALSE
      - attr(*, "id_var")= chr "id"
 
