@@ -49,16 +49,16 @@ split_df_cmd <- function(df_cmd) {
       )
     }
     df_cmd_group %>%
-      dplyr::select(action, new_var, data)
+      dplyr::select(.data$action, .data$new_var, .data$data)
   }
 
   df_cmd %>%
     dplyr::mutate(
-      i_group = action %in% single_groups,
-      i_group = i_group != dplyr::lag(i_group, default = TRUE),
-      i_group = cumsum(i_group)
+      i_group = .data$action %in% single_groups,
+      i_group = .data$i_group != dplyr::lag(.data$i_group, default = TRUE),
+      i_group = cumsum(.data$i_group)
     ) %>%
-    dplyr::group_split(i_group, .keep = FALSE) %>%
+    dplyr::group_split(.data$i_group, .keep = FALSE) %>%
     purrr::map_dfr(prepare_groups)
 }
 
@@ -86,7 +86,7 @@ apply_one_group_cmd <- function(df, action, data){
 
 
 group_vectorizable_cmds <- function(df_cmd) {
-  df_cmd <- df_cmd %>% dplyr::mutate(cmd = get_mutate_exprs(action, data, new_var))
+  df_cmd <- df_cmd %>% dplyr::mutate(cmd = get_mutate_exprs(.data$action, .data$data, .data$new_var))
   df_cmd_groups <- split_df_cmd(df_cmd)
   df_cmd_groups
 }
