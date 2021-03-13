@@ -74,7 +74,12 @@ mapp_cmd_table <- function(
     sheet_cats,
     ~ generate_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
     .id = "sheet"
-  ) %>%
+  )
+  df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
+  if (!is.na(df_cmd_manip_string)) {
+    df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
+  }
+  df_cmd <- df_cmd %>%
     dplyr::rowwise()
   if (vectorized) {
     df_cmd <- df_cmd %>%
@@ -86,10 +91,6 @@ mapp_cmd_table <- function(
   }
   df_cmd <- df_cmd %>%
     dplyr::ungroup()
-  df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
-  if (!is.na(df_cmd_manip_string)) {
-    df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
-  }
   if (na_to_filter == TRUE) {
     df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd, id_var)
   }
