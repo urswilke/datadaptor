@@ -4,7 +4,7 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 df <- haven::read_sav(spss_file)
 
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_cmd <- datenanpassr::mapp_cmd_table(mapping_file, vars_as_syms = TRUE)
+df_cmd <- datenanpassr::mapp_cmd_table(mapping_file, vectorized = TRUE)
 df_cmd_old <- datenanpassr::mapp_cmd_table(mapping_file)
 
 
