@@ -32,29 +32,37 @@
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-curliply <- function(df_free) {
-  df_free %>%
+curliply <- function(df_free_raw) {
+  l <- df_free_raw %>%
     dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
     dplyr::group_by(.data$raw_index) %>%
-    dplyr::mutate(row = paste(row, collapse = ", ")) %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(~collapse_multi_row_blocks(.x, raw_index)) %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(curliply_block) %>%
-    dplyr::add_count(row) %>%
-    dplyr::mutate(curly_index = ifelse(.data$n == 1, NA_integer_, .data$curly_index)) %>%
-    dplyr::select(-.data$n) %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
-    purrr::map_dfr(explode_multi_row_blocks) %>%
-    # when collapsing the multiline statements (using
-    # collapse_multi_row_blocks()), the index counting the number of curliply_block
-    # items doesn't exist yet. Therefore, it is filled to the whole multiline
-    # command blocks with the following fill():
-    dplyr::group_by(.data$raw_index) %>%
-    tidyr::fill(.data$curly_index) %>%
-    tidyr::unite(row, c("row", "curly_index"), na.rm = TRUE)
+    dplyr::mutate(
+      row = paste(row, collapse = ", "),
+      is_curly_group = dplyr::if_any(.fns = ~stringr::str_detect(.x[1], "\\{"))) %>%
+    dplyr::group_split()
+  is_curly_group <- l %>% purrr::map_lgl(~.x$is_curly_group[1])
+  if (sum(is_curly_group) > 0) {
+    l[is_curly_group] <- l[is_curly_group] %>%
+      purrr::map(~collapse_multi_row_blocks(.x, raw_index)) %>%
+      purrr::map_dfr(curliply_block) %>%
+      dplyr::add_count(row) %>%
+      dplyr::mutate(curly_index = ifelse(.data$n == 1, NA_integer_, .data$curly_index)) %>%
+      dplyr::select(-.data$n) %>%
+      dplyr::group_by(raw_index) %>%
+      dplyr::group_split() %>%
+      purrr::map(
+        function(x) {
+          dplyr::rowwise(x) %>%
+            dplyr::group_split() %>%
+            purrr::map_dfr(explode_multi_row_blocks) %>%
+            tidyr::fill(.data$curly_index) %>%
+            tidyr::unite(row, c("row", "curly_index"), na.rm = TRUE)
+        }
+      )
+  }
+  l %>%
+    dplyr::bind_rows() %>%
+    dplyr::select(-is_curly_group)
 }
 
 extract_curly_lists <- function(var) {

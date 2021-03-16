@@ -316,6 +316,7 @@ process_raw_free_cmd_table <- function(df_free) {
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
     curliply() %>%
+    dplyr::group_by(.data$row) %>%
     dplyr::mutate(action = .data$X1[1]) %>%
     dplyr::group_by(.data$action, .data$row) %>%
     get_new_var_name_free() %>%

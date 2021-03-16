@@ -1,18 +1,18 @@
 # result of the mapping function mapp_xl_to_data()
 
     # A tibble: 100 x 51
-             q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7         kq1
-       <dbl+lb>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl+lb>
-     1  3 [nor~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 3 [bla~ bla ~  2 [3]  
-     2  3 [nor~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 4 [bla~ bla ~  2 [3]  
-     3  1 [not~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 8 [bla~ bla ~  1 [1-2]
-     4  3 [nor~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 5 [bla~ bla ~  2 [3]  
-     5  5 [ver~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 7 [bla~ bla ~  3 [4-5]
-     6  5 [ver~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 5 [bla~ bla ~  3 [4-5]
-     7 99 [no ~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 9 [bla~ bla ~ NA      
-     8  2 [a b~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 6 [bla~ bla ~  1 [1-2]
-     9 99 [no ~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 6 [bla~ bla ~ NA      
-    10 99 [no ~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 3 [bla~ bla ~ NA      
+              q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7         kq1
+       <dbl+lbl>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl+lb>
+     1  3 [norm~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 3 [bla~ bla ~  2 [3]  
+     2  3 [norm~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 4 [bla~ bla ~  2 [3]  
+     3  1 [not ~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 8 [bla~ bla ~  1 [1-2]
+     4  3 [norm~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 5 [bla~ bla ~  2 [3]  
+     5  5 [very~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 7 [bla~ bla ~  3 [4-5]
+     6  5 [very~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 5 [bla~ bla ~  3 [4-5]
+     7 99 [no a~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 9 [bla~ bla ~ NA      
+     8  2 [a bi~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 6 [bla~ bla ~  1 [1-2]
+     9 99 [no a~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 6 [bla~ bla ~ NA      
+    10 99 [no a~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 3 [bla~ bla ~ NA      
     # ... with 90 more rows, and 42 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
     #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
     #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
