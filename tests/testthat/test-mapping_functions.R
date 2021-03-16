@@ -3,7 +3,16 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 # source()ing the temporary script "mapping.R":
 df_test <- haven::read_sav(spss_file)# %>% dplyr::slice(1:15)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_cmd <- mapp_cmd_table(mapping_file)
+# get rid of
+# "New names:
+# * `` -> ...2"
+# message
+# &
+# Note: Using an external vector in selections is ambiguous.
+# ℹ Use `all_of(.x)` instead of `.x` to silence this message.
+# ℹ See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
+# This message is displayed once per session.
+testthat::expect_message(testthat::expect_message(df_cmd <- mapp_cmd_table(mapping_file)))
 df_mod <- mapp_xl_to_data(df_test, df_cmd)
 
 test_that("result of the mapping function mapp_xl_to_data()", {
