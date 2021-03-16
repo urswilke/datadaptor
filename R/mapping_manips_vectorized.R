@@ -26,12 +26,33 @@ generate_cmd_expression_vec <- function(action, data) {
 }
 
 
-get_mutate_exprs <- function(action, data, new_var) {
+try_catch_expr <- function(mutate_expr) {
+  rlang::expr(
+    tryCatch({
+      err_msg <- NA_character_
+      !!mutate_expr
+    },
+    error = function(e) {
+      err_msg <- geterrmessage()[1]
+      print(cat(err_msg))
+      NULL
+    })
+  )
+}
+
+
+
+get_mutate_exprs <- function(action, data, new_var, try_catch = FALSE) {
   cmds <- purrr::map2(
     action,
     data,
     generate_cmd_expression_vec
-  ) %>%
+  )
+  if (try_catch ==  TRUE) {
+    cmds[!action %in% c("#RECNA", "#RENAME", "#RFUN")] <-
+      cmds[!action %in% c("#RECNA", "#RENAME", "#RFUN")] %>% purrr::map(try_catch_expr)
+  }
+  cmds <- cmds %>%
     purrr::set_names(~new_var)
   names(cmds)[action %in% c("#MERGE", "#KG", "#R")] <- ""
   cmds
@@ -85,8 +106,8 @@ apply_one_group_cmd <- function(df, action, data){
 }
 
 
-group_vectorizable_cmds <- function(df_cmd) {
-  df_cmd <- df_cmd %>% dplyr::mutate(cmd = get_mutate_exprs(.data$action, .data$data, .data$new_var))
+group_vectorizable_cmds <- function(df_cmd, try_catch = FALSE) {
+  df_cmd <- df_cmd %>% dplyr::mutate(cmd = get_mutate_exprs(.data$action, .data$data, .data$new_var, try_catch))
   df_cmd_groups <- split_df_cmd(df_cmd)
   df_cmd_groups
 }

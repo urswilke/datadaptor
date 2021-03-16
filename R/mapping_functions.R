@@ -316,7 +316,7 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     # rec_fun <- purrr::accumulate2
   }
   if (vectorized) {
-    cmd_table <- group_vectorizable_cmds(cmd_table)
+    cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = input_if_error)
     apply_one_cmd <- apply_one_group_cmd
   }
 
