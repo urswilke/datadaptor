@@ -41,7 +41,7 @@ test_that("result of mapp_cmd_table()", {
 
 test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
   withr::with_file("mapping.R", {
-    df_mod <- mapp_xl_to_data(df_test, df_cmd, na_to_filter = FALSE)
+    df_mod <- mapp_xl_to_data(df_test, df_cmd)
     translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
     source("mapping.R", echo = FALSE)
     testthat::expect_equal(df_mod, df)
