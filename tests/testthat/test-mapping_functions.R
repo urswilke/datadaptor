@@ -47,6 +47,17 @@ test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
   })
 })
 
+test_that("logging file of mapp_xl_to_data stays the same", {
+  withr::with_file("log.txt", {
+    log_to_file <- function(text) cat(text, file = "log.txt", sep = "\n", append = TRUE)
+    withr::with_options(
+      list("tidylog.display" = list(log_to_file)),
+      df_mod <- datenanpassr::mapp_xl_to_data(df, df_cmd_vec, input_if_error = TRUE, vectorized = TRUE, change_log = TRUE)
+    )
+    testthat::expect_snapshot_file("log.txt")
+  })
+})
+
 test_that("minimal example for mapp_xl_to_data()", {
   df_cmd <- tibble::tibble(action = "#IF", data = list(list(new_var = "a", new_val = "7", condition = "a == 2")))
   attr(df_cmd, "id_var") <- "id"
