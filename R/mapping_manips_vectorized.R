@@ -25,16 +25,30 @@ generate_cmd_expression_vec <- function(action, data) {
   )
 }
 
+# see here: https://stackoverflow.com/a/12605694
+datenanpassr.env <- new.env(parent = emptyenv())
+
 
 try_catch_expr <- function(mutate_expr) {
+
   rlang::expr(
     tryCatch({
-      err_msg <- NA_character_
+      datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
+
+      # err_msg <- NA_character_
       !!mutate_expr
     },
     error = function(e) {
       err_msg <- geterrmessage()[1]
-      print(cat(err_msg))
+      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
+
+      message(cat(
+        paste(
+          "Error in command",
+          datenanpassr.env$cmd_index,
+          ": ",
+          err_msg)
+      ))
       NULL
     })
   )
@@ -94,15 +108,45 @@ generate_group_expr <- function(action, data) {
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
-    "#GROUP"  = rlang::expr(df %>% dplyr::mutate(!!!data))
+    "#GROUP"  = rlang::expr(mutate_exprs(!!!data))
   )
   group_expr
 }
 
+mutate_exprs <- function(df, data) {
+  df %>% dplyr::mutate(!!!data)
+}
 
 apply_one_group_cmd <- function(df, action, data){
   group_expr <- generate_group_expr(action, data)
   rlang::eval_tidy(group_expr)
+}
+
+apply_one_group_cmd_safe <- function(df1, action, data) {
+  if (action != "#GROUP") {
+    datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
+  }
+
+  res <- tryCatch({
+    err_msg <- NA_character_
+    apply_one_group_cmd(df1, action, data)
+  },
+  error = function(e) {
+    err_msg <- geterrmessage()[1]
+    if (action != "#GROUP") {
+      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
+    }
+    print(
+      paste(
+        "Error in command",
+        datenanpassr.env$cmd_index,
+        ": ",
+        err_msg)
+    )
+    df1
+  }
+  )
+  res
 }
 
 
