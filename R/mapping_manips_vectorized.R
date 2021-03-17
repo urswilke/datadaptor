@@ -108,7 +108,7 @@ generate_group_expr <- function(action, data) {
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
-    "#GROUP"  = rlang::expr(df %>% dplyr::mutate(!!!data))
+    "#GROUP"  = rlang::expr(mutate_exprs(!!!data))
   )
   group_expr
 }
