@@ -98,38 +98,44 @@ split_df_cmd <- function(df_cmd) {
 }
 
 
-generate_group_expr <- function(action, data) {
+generate_group_expr <- function(action, data, change_log) {
   # Hack to prevent R CMD CHECK note
   # "no visible binding for global variable ‘df’":
   df <- NULL
 
   group_expr <- switch (
     action,
-    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
+    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data, change_log = change_log)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
-    "#GROUP"  = rlang::expr(mutate_exprs(!!!data))
+    "#RENAME" = rlang::expr(cmd_rename(df, !!!data, change_log = change_log)),
+    "#GROUP"  = rlang::expr(mutate_exprs(df, data, change_log = change_log))
   )
   group_expr
 }
 
-mutate_exprs <- function(df, data) {
-  df %>% dplyr::mutate(!!!data)
+mutate_exprs <- function(df, data, change_log = FALSE) {
+  if (change_log) {
+    mutate <- tidylog::mutate
+  }
+  else {
+    mutate <- dplyr::mutate
+  }
+  df %>% mutate(!!!data)
 }
 
-apply_one_group_cmd <- function(df, action, data){
-  group_expr <- generate_group_expr(action, data)
+apply_one_group_cmd <- function(df, action, data, change_log){
+  group_expr <- generate_group_expr(action, data, change_log)
   rlang::eval_tidy(group_expr)
 }
 
-apply_one_group_cmd_safe <- function(df1, action, data) {
+apply_one_group_cmd_safe <- function(df1, action, data, change_log) {
   if (action != "#GROUP") {
     datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
   }
 
   res <- tryCatch({
     err_msg <- NA_character_
-    apply_one_group_cmd(df1, action, data)
+    apply_one_group_cmd(df1, action, data, change_log)
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]

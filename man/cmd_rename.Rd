@@ -4,7 +4,7 @@
 \alias{cmd_rename}
 \title{Rename variable variable orig_var in dataframe df}
 \usage{
-cmd_rename(df, orig_vars, new_names)
+cmd_rename(df, orig_vars, new_names, change_log = FALSE)
 }
 \arguments{
 \item{df}{dataframe}
@@ -12,6 +12,8 @@ cmd_rename(df, orig_vars, new_names)
 \item{orig_vars}{character vector of variable names in \code{df}}
 
 \item{new_names}{character vector of new variable names (has to be of the same length as \code{origvars})}
+
+\item{change_log}{logical whether to log changes (using the {tidylog} package); defaults to FALSE.}
 }
 \value{
 modified dataframe \code{df} (see examples)
