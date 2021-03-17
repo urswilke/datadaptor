@@ -25,38 +25,30 @@ generate_cmd_expression_vec <- function(action, data) {
   )
 }
 
+# see here: https://stackoverflow.com/a/12605694
+datenanpassr.env <- new.env(parent = emptyenv())
+
 
 try_catch_expr <- function(mutate_expr) {
 
   rlang::expr(
     tryCatch({
-      current_df = rlang::caller_env() #%>% rlang::as_data_mask()
-      # current_df = rlang::new_data_mask(rlang::caller_env())
-      # print(rlang::new_data_mask(current_df)$q1)
-      # current_df = rlang::new_data_mask(rlang::caller_env())
-      # print(names(current_df))
-      # print(get("df", parent.frame()))
-      # rlang::env_print(current_df)
-      cmd_index <- rlang::eval_tidy(attr(current_df$df, "cmd_index") + 1, current_df)
-      # print(cmd_index)
-      rlang::eval_tidy(attr(current_df$df, "cmd_index") <- cmd_index, current_df)
+      datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
 
-      err_msg <- NA_character_
+      # err_msg <- NA_character_
       !!mutate_expr
     },
     error = function(e) {
       err_msg <- geterrmessage()[1]
-      rlang::eval_tidy(attr(current_df$df, "error_list")[cmd_index] <- err_msg, current_df)
+      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
 
       message(cat(
         paste(
           "Error in command",
-          cmd_index,
+          datenanpassr.env$cmd_index,
           ": ",
           err_msg)
       ))
-
-      # print(cat(err_msg))
       NULL
     })
   )
@@ -121,6 +113,9 @@ generate_group_expr <- function(action, data) {
   group_expr
 }
 
+mutate_exprs <- function(df, data) {
+  df %>% dplyr::mutate(!!!data)
+}
 
 apply_one_group_cmd <- function(df, action, data){
   group_expr <- generate_group_expr(action, data)
@@ -129,10 +124,7 @@ apply_one_group_cmd <- function(df, action, data){
 
 apply_one_group_cmd_safe <- function(df1, action, data) {
   if (action != "#GROUP") {
-    current_df = rlang::caller_env(n = 4) #%>% rlang::as_data_mask()
-    rlang::env_print(current_df)
-    cmd_index <- rlang::eval_tidy(attr(current_df$df, "cmd_index") + 1, current_df)
-    rlang::eval_tidy(attr(current_df$df, "cmd_index") <- cmd_index, current_df)
+    datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
   }
 
   res <- tryCatch({
@@ -142,13 +134,12 @@ apply_one_group_cmd_safe <- function(df1, action, data) {
   error = function(e) {
     err_msg <- geterrmessage()[1]
     if (action != "#GROUP") {
-      rlang::eval_tidy(attr(current_df$df, "error_list")[cmd_index] <- err_msg, current_df)
+      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
     }
-    # attr(df1, "error_list")[cmd_index] <- err_msg
     print(
       paste(
         "Error in command",
-        cmd_index,
+        datenanpassr.env$cmd_index,
         ": ",
         err_msg)
     )

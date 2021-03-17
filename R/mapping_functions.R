@@ -309,8 +309,8 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
 
 
   if (input_if_error) {
-    attr(df, "cmd_index") <- 0
-    attr(df, "error_list") <- vector("character", length = nrow(cmd_table))
+    datenanpassr.env$cmd_index <- 0
+    datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
 
     apply_one_cmd <- apply_one_cmd_safe
     # rec_fun <- purrr::accumulate2
@@ -318,13 +318,14 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
   if (vectorized) {
     cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = input_if_error)
     apply_one_cmd <- ifelse(input_if_error, apply_one_group_cmd_safe, apply_one_group_cmd)
+
   }
 
   res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
-  # if (input_if_error) {
-  #   attr(res, "cmd_index") <- attr(df, "cmd_index")
-  #   attr(res, "error_list") <- attr(df, "error_list")
-  # }
+  if (input_if_error) {
+    attr(res, "cmd_index") <- datenanpassr.env$cmd_index
+    attr(res, "error_list") <- datenanpassr.env$error_list
+  }
   res
 }
 
