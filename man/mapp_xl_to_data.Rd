@@ -89,8 +89,9 @@ df_mod_list <- mapp_xl_to_data(
   input_if_error = TRUE,
   rec_fun = purrr::accumulate2
 )
-# show the error list of the final data frame in the list:
-error_list <- attr(df_mod_list[[length(df_mod_list)]], "error_list")
+# For `input_if_error = TRUE`, an attribute called "error_list" is added to the result
+# of `mapp_xl_to_data()`:
+error_list <- attr(df_mod_list, "error_list")
 error_list
 
 # Add further columns to df_cmd:
