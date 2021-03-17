@@ -317,10 +317,15 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
   }
   if (vectorized) {
     cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = input_if_error)
-    apply_one_cmd <- apply_one_group_cmd
+    apply_one_cmd <- ifelse(input_if_error, apply_one_group_cmd_safe, apply_one_group_cmd)
   }
 
-  rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
+  res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
+  # if (input_if_error) {
+  #   attr(res, "cmd_index") <- attr(df, "cmd_index")
+  #   attr(res, "error_list") <- attr(df, "error_list")
+  # }
+  res
 }
 
 #' Relpace NA values by `replace_val` labelled by `replace_label`
