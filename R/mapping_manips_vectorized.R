@@ -98,29 +98,38 @@ split_df_cmd <- function(df_cmd) {
 }
 
 
-generate_group_expr <- function(action, data, change_log) {
+generate_group_expr <- function(action, data, change_log = FALSE) {
   # Hack to prevent R CMD CHECK note
   # "no visible binding for global variable ‘df’":
   df <- NULL
 
   group_expr <- switch (
     action,
-    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data, change_log = change_log)),
+    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data, change_log = !!change_log)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#RENAME" = rlang::expr(cmd_rename(df, !!!data, change_log = change_log)),
-    "#GROUP"  = rlang::expr(mutate_exprs(df, data, change_log = change_log))
+    "#RENAME" = rlang::expr(cmd_rename(df, !!!data, change_log = !!change_log)),
+    "#GROUP"  = rlang::expr(mutate_exprs(df, !!!data, change_log = !!change_log))
   )
   group_expr
 }
 
-mutate_exprs <- function(df, data, change_log = FALSE) {
+#' Wrapper to choose between dplyr & tidylog function
+#'
+#' @param df dataframe to manipulate
+#' @param ... expressions passed to `mutate()``
+#' @param change_log logical whether to use `mutate()` of dplyr or tidylog; defaults to FALSE
+#'
+#' @return
+#' @export
+#'
+mutate_exprs <- function(df, ..., change_log = FALSE) {
   if (change_log) {
     mutate <- tidylog::mutate
   }
   else {
     mutate <- dplyr::mutate
   }
-  df %>% mutate(!!!data)
+  df %>% mutate(...)
 }
 
 apply_one_group_cmd <- function(df, action, data, change_log){
