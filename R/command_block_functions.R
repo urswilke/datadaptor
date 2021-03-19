@@ -277,8 +277,12 @@ cmd_comp_df <- function(df, new_var, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  df %>% dplyr::mutate(!!new_var := cmd_comp(x = !!rlang::sym(new_var), comp_expr = new_val))
+  manipulated_vars <- get_df_vars_of_expr_string(paste(new_val), names(df)) %>%
+    c(new_var) %>% unique()
 
+  df[manipulated_vars] <-
+    df[manipulated_vars] %>% dplyr::mutate(!!new_var := cmd_comp(x = !!rlang::sym(new_var), comp_expr = new_val))
+  df
 }
 
 #' Compute variable in data frame according to string expression
@@ -322,8 +326,15 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
+  manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
+    c(new_var) %>% unique()
 
-  df %>% dplyr::mutate(!!new_var := cmd_if(!!rlang::sym(new_var), condition, new_val))
+
+
+  df[manipulated_vars] <-
+    df[manipulated_vars] %>%
+    dplyr::mutate(!!new_var := cmd_if(!!rlang::sym(new_var), condition, new_val))
+  df
 }
 
 #' Assign a value to a variable in a dataframe at specified ids
