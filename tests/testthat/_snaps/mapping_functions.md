@@ -610,7 +610,7 @@
       .. ..$ r_script: chr "example_R_function.R"
       .. ..$ fun_name: chr "calc_sum_of_k_vars"
       ..$ :List of 1
-      .. ..$ r_code: chr "df %>% dplyr::mutate(a=1)"
+      .. ..$ r_code: chr "data.frame(a=1)"
       ..$ :List of 7
       .. ..$ new_var : chr "kkq1"
       .. ..$ orig_var: chr "q1"
@@ -622,5 +622,6 @@
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
+     - attr(*, "vectorized")= logi FALSE
      - attr(*, "id_var")= chr "id"
 

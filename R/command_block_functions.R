@@ -27,15 +27,11 @@ cmd_rename <- function(df, orig_vars, new_names){
 #'
 #' @examples
 #' df <- data.frame(x = 1)
-#' df <- cmd_set_lab(df, "x", "I'm the variable label")
+#' df <- cmd_set_lab_df(df, "x", "I'm the variable label")
 #' df$x
-cmd_set_lab <- function(df, orig_var, new_label){
-  df[[orig_var]] <- haven::labelled(
-    df[[orig_var]],
-    labels = attr(df[[orig_var]], "labels"),
-    label = new_label
-  )
-  df
+cmd_set_lab_df <- function(df, orig_var, new_label){
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!orig_var := cmd_set_lab(orig_var_obj, new_label))
 }
 
 #' Set value labels of labelled variable var in dataframe df
@@ -51,18 +47,11 @@ cmd_set_lab <- function(df, orig_var, new_label){
 #'
 #' @examples
 #' df <- data.frame(x = 1:2)
-#' df <- cmd_set_labs(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
+#' df <- cmd_set_labs_df(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
 #' df$x
-cmd_set_labs <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
-  if (is.null(new_lab)) {
-    new_lab <- attr(df[[orig_var]], "label", exact = TRUE)
-  }
-  df[[orig_var]] <- haven::labelled(
-    df[[orig_var]],
-    labels = purrr::set_names(new_vals, new_labs),
-    label = new_lab
-  )
-  df
+cmd_set_labs_df <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!orig_var := cmd_set_labs(orig_var_obj, new_lab, new_vals, new_labs))
 }
 
 #' Add value labels to variable orig_var in dataframe df
@@ -79,24 +68,11 @@ cmd_set_labs <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 #' df <- data.frame(x)
-#' df <- cmd_add_labs(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
+#' df <- cmd_add_labs_df(df, orig_var = "x", vals_added = 2, labs_added = c("label for 2"))
 #' df$x
-cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
-  old_vallab_vec <- attr(df[[orig_var]], "labels")
-  added_vallab_vec <- purrr::set_names(vals_added, labs_added)
-  new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
-
-  if(is.null(new_lab))
-    varlab <-  attr(df[[orig_var]], "label", exact = TRUE)
-  else
-    varlab <- new_lab
-
-  df[[orig_var]] <- haven::labelled(
-    df[[orig_var]],
-    labels = new_vallab_vec,
-    label = varlab
-  )
-  df
+cmd_add_labs_df <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
+  assign("orig_var_obj", df[[orig_var]])
+  df %>% dplyr::mutate(!!orig_var := cmd_add_labs(orig_var_obj, new_lab, vals_added, labs_added))
 }
 
 #' Copy variable and value labels of a labelled variable orig_var to new_var in a dataframe df
@@ -111,17 +87,12 @@ cmd_add_labs <- function(df, orig_var, new_lab = NULL, vals_added, labs_added){
 #' @examples
 #' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
 #' df <- data.frame(x, y = NA_real_)
-#' df <- cmd_dic(df, orig_var = "x", new_var = "y")
+#' df <- cmd_dic_df(df, orig_var = "x", new_var = "y")
 #' df$y
-cmd_dic <- function(df, orig_var, new_var){
-  varlab <- attr(df[[orig_var]], "label", exact = TRUE)
-  vallabs <- attr(df[[orig_var]], "labels", exact = TRUE)
-  df[[new_var]] <- haven::labelled(
-    df[[new_var]],
-    labels = vallabs,
-    label = varlab
-  )
-  df
+cmd_dic_df <- function(df, orig_var, new_var){
+  assign("orig_var_obj", df[[orig_var]])
+  assign("new_var_obj", df[[new_var]])
+  df %>% dplyr::mutate(!!new_var := cmd_dic(orig_var_obj, new_var_obj))
 }
 
 #' Split variable in dataframe into multiple according to the values of another variable
@@ -137,16 +108,16 @@ cmd_dic <- function(df, orig_var, new_var){
 #' @export
 #'
 #' @examples
-#' cmd_kg(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
-cmd_kg <- function(df, split_var, by_var) {
-  new_vars <- prepare_newvar_table(df, split_var, by_var)
-  new_vars %>%
-    purrr::transpose() %>%
-    # these 2 lines would do the same
-    # rowwise() %>%
-    # group_split() %>%
-    # add the new variables one by one to the dataframe:
-    purrr::reduce(split_cat_by_cat, split_var, by_var, .init = df)
+#' cmd_kg_df(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
+cmd_kg_df <- function(df, split_var, by_var) {
+  # BIG MESS!!! here the two variable names (passed to the function as strings and
+  # which live inside df) are transformed to objects:
+  assign(split_var, df[[split_var]])
+  assign(by_var, df[[by_var]])
+  # pass the objects names to cmd_kg. There they will be transformed back to strings...:
+  df %>% dplyr::mutate(cmd_kg(!!rlang::sym(split_var), !!rlang::sym(by_var)))
+  # TODO: clean up this mess!
+
 }
 prepare_newvar_table <- function(df, split_var, by_var) {
   var2lab <- attr(df[[by_var]], "label", exact = TRUE)
@@ -198,15 +169,12 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' @examples
 #' x <- haven::labelled(LETTERS[3:1], label = "variable label")
 #' df <- data.frame(x)
-#' df <- cmd_autorec(df, "x")
+#' df <- cmd_autorec_df(df, "x")
 #' df
 #' df$x
-cmd_autorec <- function(df, var) {
-  x_labelled <- labelled::to_labelled(as.factor(df[[var]]))
-  labelled::var_label(x_labelled) <- attr(df[[var]], "label", exact = TRUE)
-
-  df[var] <- x_labelled
-  df
+cmd_autorec_df <- function(df, var) {
+  assign("var_obj", df[[var]])
+  df %>% dplyr::mutate(!!var := cmd_autorec(var_obj))
 }
 
 #' Create new recoded labelled variable from variable in dataframe
@@ -230,32 +198,19 @@ cmd_autorec <- function(df, var) {
 #' orig_vals <- 1:5
 #' new_labs <- c("1-2 summ", NA, "3 summ.", "4-5 summ", NA)
 #' df <- data.frame(orig_var)
-#' df <- cmd_sumvar(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
+#' df <- cmd_sumvar_df(df, "new_var", "orig_var", new_lab, orig_vals, new_vals, new_labs)
 #' df
 #' df$new_var
-cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
-  sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
-    dplyr::group_by(new_vals) %>%
-    dplyr::summarise(val_lists = list(orig_vals),
-                     val_labs = dplyr::first(new_labs))
-  cond_statements <- purrr::map2(
-    sum_var_vals_n_labs$val_lists,
-    sum_var_vals_n_labs$new_vals,
-    ~ rlang::quo(!!rlang::sym(orig_var) %in% !!.x ~ !!.y)
-  )
-
-
-
-  df <- df %>%
-    dplyr::mutate(
-      !!rlang::sym(new_var) := dplyr::case_when(!!!cond_statements)
+cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_vals, new_labs) {
+  df %>% dplyr::mutate(
+    !!new_var := cmd_sumvar(
+      !!rlang::sym(orig_var),
+      new_lab,
+      orig_vals,
+      new_vals,
+      new_labs
     )
-  df[new_var] <- haven::labelled(
-    df[[new_var]],
-    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>%  tibble::deframe(),
-    label = new_lab
   )
-  df
 }
 
 
@@ -283,7 +238,7 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 #' ub = c(2, NA, 5)
 #' new_vals <- 1:3
 #' new_labs <- c("1 - 2", "3", "4 - 5")
-#' df <- cmd_rec(df,
+#' df <- cmd_rec_df(df,
 #'   orig_var = "orig_var",
 #'   new_var = "new_var",
 #'   lb = lb,
@@ -293,34 +248,17 @@ cmd_sumvar <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_val
 #' )
 #' df
 #' df$new_var
-cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
-  recode_df <-
-    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
-    dplyr::mutate(
-      expr_str = paste0("(", orig_var, " >= ", lb, " & ", orig_var, " <= ", ub, ")")
-    ) %>%
-    dplyr::group_by(new_vals) %>%
-    dplyr::summarise(
-      expr_str = paste(expr_str, collapse = " | "),
-      new_labs = new_labs[1]
+cmd_rec_df <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new_labs) {
+  df %>% dplyr::mutate(
+    !!new_var := cmd_rec(
+      !!rlang::sym(orig_var),
+      new_lab,
+      lb,
+      ub,
+      new_vals,
+      new_labs
     )
-  cond_statements <-
-    recode_df %>%
-    dplyr::select(new_vals, expr_str) %>%
-    purrr::pmap(
-      function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
-    )
-
-
-  df <- df %>%
-    dplyr::mutate(!!rlang::sym(new_var) := dplyr::case_when(!!!cond_statements))
-
-  df[new_var] <- haven::labelled(
-    df[[new_var]],
-    labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
-    label = new_lab
   )
-  df
 }
 
 #' Compute numeric variable in data frame according to string expression
@@ -333,36 +271,17 @@ cmd_rec <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, new
 #' @export
 #'
 #' @examples
-#' cmd_comp(data.frame(x = 1:3), "y", "x * 2")
-#' cmd_comp(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
-cmd_comp <- function(df, new_var, new_val) {
+#' cmd_comp_df(data.frame(x = 1:3), "y", "x * 2")
+#' cmd_comp_df(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
+cmd_comp_df <- function(df, new_var, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  varlab <- labelled::var_label(df[[new_var]])
-  vallabs <- labelled::val_labels(df[[new_var]])
-
   manipulated_vars <- get_df_vars_of_expr_string(paste(new_val), names(df)) %>%
     c(new_var) %>% unique()
 
-
-  # transforms numeric values from character to numeric:
-  new_val <- rlang::parse_expr(new_val)
   df[manipulated_vars] <-
-    df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
-  # as.numeric() is needed if new_val is a condition (resulting in a logical
-  # vector) which haven::write_sav doesn't accept:
-  if (is.logical(df[[new_var]])) {
-    df[[new_var]] <- as.numeric(df[[new_var]])
-  }
-  # write back labels if they existed before:
-  if (!is.null(varlab) | !is.null(vallabs)) {
-    df[[new_var]] <- haven::labelled(
-      df[[new_var]],
-      labels = vallabs,
-      label = varlab
-    )
-  }
+    df[manipulated_vars] %>% dplyr::mutate(!!new_var := cmd_comp(x = !!rlang::sym(new_var), comp_expr = new_val))
   df
 }
 
@@ -376,14 +295,15 @@ cmd_comp <- function(df, new_var, new_val) {
 #' @export
 #'
 #' @examples
-#' cmd_compr(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
+#' cmd_compr_df(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
 #' # (When saving factors to an SPSS file by haven::write_sav they will be tranformed
 #' # to type haven::labelled)
-cmd_compr <- function(df, new_var, new_val) {
-  # transforms numeric values from character to numeric:
-  new_val <- rlang::parse_expr(new_val)
-  # as.numeric() is needed if new_val is a condition which haven doesn't accept
-  df %>% dplyr::mutate(!!rlang::sym(new_var) := !!new_val)
+cmd_compr_df <- function(df, new_var, new_val) {
+  if (!new_var %in% names(df)) {
+    df[new_var] <- NA_real_
+  }
+
+  df %>% dplyr::mutate(!!new_var := cmd_compr(new_var, new_val))
 }
 
 
@@ -399,25 +319,21 @@ cmd_compr <- function(df, new_var, new_val) {
 #' @export
 #'
 #' @examples
-#' cmd_if(data.frame(x = 1:3), "y", "x == 3", "2")
+#' cmd_if_df(data.frame(x = 1:3), "y", "x == 3", "2")
 #' # If the condition is not true, the previous values are kept, if existing:
-#' cmd_if(data.frame(x = 1:3), "x", "x == 3", "2")
-cmd_if <- function(df, new_var, condition, new_val) {
+#' cmd_if_df(data.frame(x = 1:3), "x", "x == 3", "2")
+cmd_if_df <- function(df, new_var, condition, new_val) {
   if (!new_var %in% names(df)) {
     df[new_var] <- NA_real_
   }
-  var_attrs <- attributes(df[[new_var]])
-
   manipulated_vars <- get_df_vars_of_expr_string(paste(condition, new_val), names(df)) %>%
     c(new_var) %>% unique()
 
-  cond <- rlang::parse_expr(condition)
-  val <- rlang::parse_expr(new_val)
-  old_val <- rlang::sym(new_var)
+
 
   df[manipulated_vars] <-
-    df[manipulated_vars] %>% dplyr::mutate(!!rlang::sym(new_var) := ifelse(is_true(!!cond), !!val, !!old_val))
-  attributes(df[[new_var]]) <- var_attrs
+    df[manipulated_vars] %>%
+    dplyr::mutate(!!new_var := cmd_if(!!rlang::sym(new_var), condition, new_val))
   df
 }
 
@@ -430,14 +346,15 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' @param vallab value labels (named list)
 #' @param id name of the id variable in df (character string)
 #' @param id_list list of the id values to be matched
-#' @param init_val value assigned to id values not contained in `id_list` if `var_ziel` does not exist in `df` yet
+#' @param init_val value assigned to id values not contained in
+#' `id_list` if `var_ziel` does not exist in `df` yet
 #'
 #' @return modified dataframe `df` (see examples)
 #' @export
 #'
 #' @examples
 #' df <- data.frame(id_var = 1:5)
-#' df <- cmd_verbatim(
+#' df <- cmd_verbatim_df(
 #'   df,
 #'   var_ziel = "new_var",
 #'   val_assign = 2,
@@ -448,22 +365,13 @@ cmd_if <- function(df, new_var, condition, new_val) {
 #' )
 #' df
 #' df$new_var
-cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list, init_val = NA_real_) {
+cmd_verbatim_df <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id_list, init_val = NA_real_) {
   if (!var_ziel %in% names(df)) {
     df[var_ziel] <- init_val
   }
-  # hack to keep variable label if it already exists:
-  if (is.null(varlab)) {
-    varlab <- attr(df[[var_ziel]], "label", exact = TRUE)
-  }
-  df[[var_ziel]][df[[id]] %in% id_list] <- val_assign
-  y <- haven::labelled(
-    df[[var_ziel]],
-    labels = vallab,
-    label = varlab
-  )
-  df[[var_ziel]] <- y
-  df
+  var_ziel_obj <- df[[var_ziel]]
+  id_var_obj <- df[[id]]
+  df %>% dplyr::mutate(!!var_ziel := cmd_verbatim(var_ziel_obj, val_assign, varlab, vallab, id_var_obj, id_list, init_val))
 }
 
 #' Merge variables from file to dataframe
@@ -483,26 +391,30 @@ cmd_verbatim <- function(df, var_ziel, val_assign, varlab, vallab, id = "id", id
 #' variable_names <- c("q1", "q2")
 #' id <- "id"
 #' merge_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' cmd_merge(df, merge_file, id, variable_names)
-cmd_merge <- function(df, merge_file, id = "id", variable_names) {
-  merge_vars <- c(id, variable_names)
-  df_merge <- haven::read_sav(merge_file)
-  if (is.na(variable_names)[1]) {
-    variable_names <- names(df_merge)
-  }
-  df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
-  if (!identical(
-    sort(strip_attributes(df_merge[[id]])),
-    sort(strip_attributes(df[[id]])))
-  ) {
-    warning("The merged dataframe doesn't contain the same id values")
-    df_merge <- df_merge %>% dplyr::filter(!!id %in% df$id)
-  }
-  replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
-  df %>%
-    dplyr::select(-dplyr::all_of(replaced_vars)) %>%
-    dplyr::full_join(df_merge, by = id) %>%
-    dplyr::relocate(names(df))
+#' cmd_merge_df(df, merge_file, id, variable_names)
+cmd_merge_df <- function(df, merge_file, id = "id", variable_names) {
+  # prevent scoping rules from using a variable called "id" from df instead of
+  # the object passed as the function argument:
+  id_var_name <- id
+  df %>% dplyr::mutate(cmd_merge(merge_file, id_var_name, variable_names))
+  # merge_vars <- c(id, variable_names)
+  # df_merge <- haven::read_sav(merge_file)
+  # if (is.na(variable_names)[1]) {
+  #   variable_names <- names(df_merge)
+  # }
+  # df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
+  # if (!identical(
+  #   sort(strip_attributes(df_merge[[id]])),
+  #   sort(strip_attributes(df[[id]])))
+  # ) {
+  #   warning("The merged dataframe doesn't contain the same id values")
+  #   df_merge <- df_merge %>% dplyr::filter(!!id %in% df$id)
+  # }
+  # replaced_vars <- dplyr::intersect(names(df), variable_names) %>% dplyr::setdiff(id)
+  # df %>%
+  #   dplyr::select(-dplyr::all_of(replaced_vars)) %>%
+  #   dplyr::full_join(df_merge, by = id) %>%
+  #   dplyr::relocate(names(df))
 }
 
 #' Execute function defined in R script manimullating dataframe df
@@ -542,43 +454,12 @@ cmd_rfun <- function(df, r_script, fun_name) {
 #'
 #' @examples
 #' df <- data.frame(k1 = 1, k2 = 2)
-#' r_code <- "df %>% dplyr::mutate(k3 = 3)"
-#' cmd_r(df, r_code)
-cmd_r <- function(df, r_code) {
-  r_code %>% rlang::parse_expr() %>% rlang::eval_tidy()
+#' # To create a new named variable in `df`, wrap the output in a data.frame()
+#' r_code <- "data.frame(k3 = 3)"
+#' cmd_r_df(df, r_code)
+cmd_r_df <- function(df, r_code) {
+  df %>% dplyr::mutate(cmd_r(r_code))
 }
 
+utils::globalVariables(c("where"))
 
-#' Recode missing values of variables in dataframe
-#'
-#' @param df dataframe
-#' @param recode_na_exceptions character vector of variables to exclude from recoding
-#' @param replace_val value to replace missing values by
-#' @param replace_label value label of replacing value
-#'
-#' @return Dataframe where `set_na_to_filter()` is run on all numeric variables
-#' (except those in `recode_na_exceptions`)
-#' `replace_val` and `replace_label` are the arguments passed to `set_na_to_filter()`.
-#' @export
-#'
-#' @examples
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' df <- haven::read_sav(spss_file)
-#' set_na_to_filter_except(
-#'   df,
-#'   c("q1", "q2"),
-#'   -2,
-#'   "I'm the label for the missing value replacement"
-#' )
-set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label) {
-  # remove variable names not found in df:
-  # TODO: think of cleaner way to do this:
-  recode_na_exceptions <- intersect(recode_na_exceptions, names(df))
-  df %>%
-    dplyr::mutate(
-      dplyr::across(
-        where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
-        ~set_na_to_filter(.x, replace_val, replace_label)
-      )
-    )
-}

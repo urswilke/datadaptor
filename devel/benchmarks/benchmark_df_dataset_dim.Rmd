@@ -1,0 +1,102 @@
+---
+title: "Untitled"
+author: "Urs Wilke"
+date: "3/14/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  cache = TRUE
+)
+```
+
+```{r prepare}
+library(tidyverse)
+library(datenanpassr)
+
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+df <- haven::read_sav(spss_file)
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+df_cmd_vec <- datenanpassr::mapp_cmd_table(mapping_file, vectorized = TRUE)
+df_cmd <- datenanpassr::mapp_cmd_table(mapping_file)
+
+rep_df <- function(rep_no) {
+  purrr::map_dfr(seq_len(rep_no), ~df) %>% mutate(id = row_number())
+}
+rep_dfc <- function(rep_no) {
+  df %>% 
+    full_join(purrr::map_dfc(seq_len(rep_no), ~df %>% select(-id)) %>% mutate(id = 1:100))
+}
+l <- 2^(1:10) %>% set_names() %>% purrr::map(rep_df)
+
+appl_mods <- function(df, nm){
+  microbenchmark::microbenchmark(
+    vec = mapp_xl_to_data(df, df_cmd_vec, vectorized = TRUE),
+  old = mapp_xl_to_data(df, df_cmd),
+    times = 1
+  )
+  
+}
+```
+
+
+```{r rows, warning=FALSE}
+benches <- l  %>% imap(~appl_mods(.x, .y))
+```
+
+
+```{r rows2}
+p <- benches %>% 
+  set_names(l %>% map_int(nrow)) %>% 
+  bind_rows(.id = "n_cases") %>% 
+  mutate(n_cases = as.numeric(n_cases)) %>% 
+  group_by(expr, n_cases) %>% 
+  summarise(t_in_seconds = mean(time) / 1e9) %>% 
+  ggplot(aes(n_cases, t_in_seconds, color = expr)) + 
+  geom_point() +
+  geom_line() +
+  scale_x_log10() +
+  scale_y_log10()
+
+plotly::ggplotly(p)
+
+
+```
+
+
+```{r cols, message=FALSE}
+l <- 2^(1:8) %>% set_names() %>% purrr::map(rep_dfc)
+
+appl_mods <- function(df, nm){
+  microbenchmark::microbenchmark(
+    vec = mapp_xl_to_data(df, df_cmd_vec, vectorized = TRUE),
+  old = mapp_xl_to_data(df, df_cmd),
+    times = 1
+  )
+  
+}
+benches <- l  %>% imap(~appl_mods(.x, .y))
+```
+
+
+```{r cols2}
+p <- benches %>% 
+  set_names(l %>% map_int(ncol)) %>% 
+  bind_rows(.id = "n_vars") %>% 
+  mutate(n_vars = as.numeric(n_vars)) %>% 
+  group_by(expr, n_vars) %>% 
+  summarise(t_in_seconds = mean(time) / 1e9) %>% 
+  ggplot(aes(n_vars, t_in_seconds, color = expr)) + 
+  geom_point() +
+  geom_line() +
+  scale_x_log10() +
+  scale_y_log10()
+
+plotly::ggplotly(p)
+
+
+
+```
+

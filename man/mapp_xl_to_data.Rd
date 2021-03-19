@@ -11,7 +11,8 @@ mapp_xl_to_data(
   input_if_error = FALSE,
   rec_fun = purrr::reduce2,
   translate_xlsm = FALSE,
-  check_id_is_unique = TRUE
+  check_id_is_unique = TRUE,
+  vectorized = FALSE
 )
 }
 \arguments{
@@ -38,6 +39,15 @@ Value section}
 
 \item{check_id_is_unique}{logical whether to check that the specified id
 variable (in sheet "configr") is unique; defaults to TRUE.}
+
+\item{vectorized}{logical whether groups of command blocks to calculate
+new vectors are applied to the data in a single \code{dplyr::mutate()}
+statement or whether to consecutively apply (by using \code{purrr::reduce()})
+each command expression on the whole data frame. Probably something similar as the difference between:
+dataframe() \%>\% mutate(a = 1) \%>\% mutate(b = 2) or
+dataframe() \%>\% mutate(a = 1, b = 2).
+The second is faster. For many data operations or large datasets,
+vectorized = TRUE should also be faster}
 }
 \value{
 in case rec_fun = purrr::reduce2 only the final dataframe is returned
@@ -76,8 +86,9 @@ df_mod_list <- mapp_xl_to_data(
   input_if_error = TRUE,
   rec_fun = purrr::accumulate2
 )
-# show the error list of the final data frame in the list:
-error_list <- attr(df_mod_list[[length(df_mod_list)]], "error_list")
+# For `input_if_error = TRUE`, an attribute called "error_list" is added to the result
+# of `mapp_xl_to_data()`:
+error_list <- attr(df_mod_list, "error_list")
 error_list
 
 # Add further columns to df_cmd:

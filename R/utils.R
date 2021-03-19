@@ -127,7 +127,7 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 
 # https://github.com/r-lib/vctrs/issues/23
 # is FALSE for NA; works for vectors
-is_true <- Vectorize(isTRUE)
+is_true <- function(x) Vectorize(isTRUE)(x)
 
 
 get_id_var <- function(mapping_file) {
@@ -198,7 +198,7 @@ get_df_vars_of_expr_string <- function(expr_string, vars_in_df) {
 #'
 #' @param x vector
 #'
-#' @return
+#' @return x with attributes removed
 #' @export
 #'
 #' @examples

@@ -7,6 +7,14 @@
 #' specifying the corresponding R command; defaults to FALSE
 #' @param na_to_filter logical specifying whether a command is added whether
 #' `set_na_to_filter_except()` should be run as the very first command.
+#' @param vectorized logical whether groups of command blocks to calculate
+#' new vectors are applied to the data in a single `dplyr::mutate()`
+#' statement or whether to consecutively apply (by using `purrr::reduce()`)
+#' each command expression on the whole data frame. Probably something similar as the difference between:
+#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
+#' dataframe() %>% mutate(a = 1, b = 2).
+#' The second is faster. For many data operations or large datasets,
+#' vectorized = TRUE should also be faster
 #'
 #' @return Command table containing the data of the command blocks of the Excel mapping file.
 #' @export
@@ -24,7 +32,8 @@ mapp_cmd_table <- function(
   mapping_file,
   add_r_command_colum = FALSE,
   translate_xlsm = FALSE,
-  na_to_filter = TRUE
+  na_to_filter = TRUE,
+  vectorized = FALSE
   ) {
   id_var <- get_id_var(mapping_file)
 
@@ -65,14 +74,23 @@ mapp_cmd_table <- function(
     sheet_cats,
     ~ generate_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
     .id = "sheet"
-  ) %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data)) %>%
-    dplyr::ungroup()
+  )
   df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
   if (!is.na(df_cmd_manip_string)) {
     df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
   }
+  df_cmd <- df_cmd %>%
+    dplyr::rowwise()
+  if (vectorized) {
+    df_cmd <- df_cmd %>%
+      dplyr::mutate(data = parse_cmd_block_args_vec(.data$action, .data$data))
+  }
+  else {
+    df_cmd <- df_cmd %>%
+      dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data))
+  }
+  df_cmd <- df_cmd %>%
+    dplyr::ungroup()
   if (na_to_filter == TRUE) {
     df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd, id_var)
   }
@@ -86,6 +104,7 @@ mapp_cmd_table <- function(
       tidyr::unnest(.data$a)
   }
 
+  attr(df_cmd, "vectorized") = vectorized
   attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
@@ -134,25 +153,25 @@ generate_cmd_expression <- function(action, data) {
   switch (
     action,
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
-    "#MERGE"  = rlang::expr(cmd_merge(df, !!!data)),
+    "#MERGE"  = rlang::expr(cmd_merge_df(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#R"      = rlang::expr(cmd_r(df, !!!data)),
-    "#IF"     = rlang::expr(cmd_if(df, !!!data)),
-    "#COMP"   = rlang::expr(cmd_comp(df, !!!data)),
+    "#R"      = rlang::expr(cmd_r_df(df, !!!data)),
+    "#IF"     = rlang::expr(cmd_if_df(df, !!!data)),
+    "#COMP"   = rlang::expr(cmd_comp_df(df, !!!data)),
     # TODO: find cleaner way to deal with this!
-    "#COMPR"  = rlang::expr(cmd_compr(df, !!!data)),
-    "#REC"    = rlang::expr(cmd_rec(df, !!!data)),
-    "#NEWVALL"= rlang::expr(cmd_add_labs(df, !!!data)),
-    "#AUTOREC"= rlang::expr(cmd_autorec(df, !!!data)),
-    "#SUMVAR" = rlang::expr(cmd_sumvar(df, !!!data)),
+    "#COMPR"  = rlang::expr(cmd_compr_df(df, !!!data)),
+    "#REC"    = rlang::expr(cmd_rec_df(df, !!!data)),
+    "#NEWVALL"= rlang::expr(cmd_add_labs_df(df, !!!data)),
+    "#AUTOREC"= rlang::expr(cmd_autorec_df(df, !!!data)),
+    "#SUMVAR" = rlang::expr(cmd_sumvar_df(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
-    "#NEWLAB" = rlang::expr(cmd_set_lab(df, !!!data)),
-    "#VARL"   = rlang::expr(cmd_set_lab(df, !!!data)),
-    "#VALL"   = rlang::expr(cmd_set_labs(df, !!!data)),
-    "#AVALL"  = rlang::expr(cmd_add_labs(df, !!!data)),
-    "#DIC"    = rlang::expr(cmd_dic(df, !!!data)),
-    "#KG"     = rlang::expr(cmd_kg(df, !!!data)),
-    "#verbatim"  = rlang::expr(cmd_verbatim(df, !!!data)),
+    "#NEWLAB" = rlang::expr(cmd_set_lab_df(df, !!!data)),
+    "#VARL"   = rlang::expr(cmd_set_lab_df(df, !!!data)),
+    "#VALL"   = rlang::expr(cmd_set_labs_df(df, !!!data)),
+    "#AVALL"  = rlang::expr(cmd_add_labs_df(df, !!!data)),
+    "#DIC"    = rlang::expr(cmd_dic_df(df, !!!data)),
+    "#KG"     = rlang::expr(cmd_kg_df(df, !!!data)),
+    "#verbatim"  = rlang::expr(cmd_verbatim_df(df, !!!data)),
     stop("Invalid action command")
   )
 }
@@ -215,6 +234,14 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' @param check_id_is_unique logical whether to check that the specified id
 #'   variable (in sheet "configr") is unique; defaults to TRUE.
 #' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
+#' @param vectorized logical whether groups of command blocks to calculate
+#' new vectors are applied to the data in a single `dplyr::mutate()`
+#' statement or whether to consecutively apply (by using `purrr::reduce()`)
+#' each command expression on the whole data frame. Probably something similar as the difference between:
+#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
+#' dataframe() %>% mutate(a = 1, b = 2).
+#' The second is faster. For many data operations or large datasets,
+#' vectorized = TRUE should also be faster
 #'
 #' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
 #'   in case of purrr::accumulate2 a list with all intermediate dataframes (of
@@ -242,8 +269,9 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #'   input_if_error = TRUE,
 #'   rec_fun = purrr::accumulate2
 #' )
-#' # show the error list of the final data frame in the list:
-#' error_list <- attr(df_mod_list[[length(df_mod_list)]], "error_list")
+#' # For `input_if_error = TRUE`, an attribute called "error_list" is added to the result
+#' # of `mapp_xl_to_data()`:
+#' error_list <- attr(df_mod_list, "error_list")
 #' error_list
 #'
 #' # Add further columns to df_cmd:
@@ -254,9 +282,15 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
-                            translate_xlsm = FALSE, check_id_is_unique = TRUE) {
+                            translate_xlsm = FALSE, check_id_is_unique = TRUE,
+                            vectorized = FALSE) {
   if (typeof(mapping_file) == "character") {
-    cmd_table <- mapp_cmd_table(mapping_file, translate_xlsm = translate_xlsm, na_to_filter = na_to_filter)
+    cmd_table <- mapp_cmd_table(
+      mapping_file,
+      translate_xlsm = translate_xlsm,
+      na_to_filter = na_to_filter,
+      vectorized = vectorized
+    )
   }
   else if (is.data.frame(mapping_file)) {
     cmd_table <- mapping_file
@@ -266,6 +300,9 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
          mapping_file has to be either the file path to the mapping file,
          or the command table data frame (returned by `mapp_cmd_table()`) of this path!")
   }
+  if (attr(cmd_table, "vectorized") != vectorized) {
+    stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
+  }
   id_var <- attr(cmd_table, "id_var")
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
@@ -273,14 +310,24 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
 
 
   if (input_if_error) {
-    attr(df, "cmd_index") <- 0
-    attr(df, "error_list") <- vector("character", length = nrow(cmd_table))
+    datenanpassr.env$cmd_index <- 0
+    datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
 
     apply_one_cmd <- apply_one_cmd_safe
     # rec_fun <- purrr::accumulate2
   }
+  if (vectorized) {
+    cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = input_if_error)
+    apply_one_cmd <- ifelse(input_if_error, apply_one_group_cmd_safe, apply_one_group_cmd)
 
-  rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
+  }
+
+  res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
+  if (input_if_error) {
+    attr(res, "cmd_index") <- datenanpassr.env$cmd_index
+    attr(res, "error_list") <- datenanpassr.env$error_list
+  }
+  res
 }
 
 #' Relpace NA values by `replace_val` labelled by `replace_label`
@@ -331,12 +378,21 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #' df_cmd <- mapp_cmd_table(mapping_file)
 #' \dontrun{
 #' translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
+#' # For an illustration of the internal differences when using vectorized = TRUE in
+#' # `mapp_xl_to_data()`, compare the resulting script
+#' # "mapping.R", with the vectorized version:
+#' df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+#' translate_to_r_script(df_cmd_vec, rscript_name = "mapping_vec.R", spss_file)
 #' }
 translate_to_r_script <- function(
   df_cmd,
   rscript_name = "mapping.R",
   spss_file
   ) {
+  if (attr(df_cmd, "vectorized") == TRUE) {
+    df_cmd <- group_vectorizable_cmds(df_cmd)
+    generate_cmd_expression <- generate_group_expr
+  }
   cmd_list <-
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))

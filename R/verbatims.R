@@ -16,7 +16,7 @@
 #' utils::browseURL(mapping_file)
 #' utils::browseURL(verbatim_file)
 #' }
-#' mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file, id = "id")
+#' mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file, id_var_str = "id")
 mapp_verbatim_sheet_cmd_tbl <- function(
   mapping_file,
   verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
