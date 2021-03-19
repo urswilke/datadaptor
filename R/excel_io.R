@@ -97,27 +97,29 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
-  df_varl <- readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    col_types = "text"
-  ) %>%
-    dplyr::mutate(row = dplyr::row_number() + 1)
   if (translate_xlsm) {
-    df_varl <- translate_xlsm_var_sheet(df_varl)
+    df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
   }
+  else {
+    df_varl <- readxl::read_xlsx(
+      mapping_file,
+      sheet = sheet,
+      col_types = "text"
+    )
+  }
+  df_varl <- df_varl %>%
+    dplyr::mutate(row = dplyr::row_number() + 1)
   df_varl %>% parse_varlab_cmd_table()
 }
-translate_xlsm_var_sheet <- function(df_varl) {
-  df_varl %>% dplyr::select(
-    var = 1,
-    varlab = 3,
-    op = .data$Operation,
-    new_name = .data$`New var name`,
-    new_label = .data$`New var label`
-  ) %>%
-    dplyr::slice(-1) %>%
-    dplyr::mutate(varlab = ifelse(.data$varlab == "<none>", NA_character_, .data$varlab))
+
+read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
+    col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
+    col_types = "text") %>%
+    dplyr::select(-matches("^nn[1-8]$"))
 }
 
 parse_varlab_cmd_table <- function(df_varl) {
@@ -197,12 +199,15 @@ parse_autorecode_cmd_block <- function(df_varl) {
 #' }
 #' mapp_vallab_sheet_cmd_table(mapping_file)
 mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
-  df_vall <- readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet
-  )
   if (translate_xlsm) {
-    df_vall <- translate_xlsm_vallab_sheet(df_vall)
+    df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
+  }
+  else {
+    df_vall <- readxl::read_xlsx(
+      mapping_file,
+      sheet = sheet
+    )
+
   }
   df_vall <- df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
@@ -212,18 +217,25 @@ mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate
   )
 
 }
-translate_xlsm_vallab_sheet <- function(df_vall) {
-  df_vall %>% dplyr::select(
-    var = 1,
-    nv = 2,
-    vallab = 3,
-    new_label = 4,
-    sum_var_label = 7,
-    sum_var_value = 8,
-    sum_var_vallab = 9
-  ) %>% dplyr::slice(-1) %>%
+
+read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
+    col_names = c("var", "nv", "vallab", "new_label", "not_needed1",
+                  "not_needed2", "sum_var_label", "sum_var_value",
+                  "sum_var_vallab"),
+    col_types = "text") %>%
+    dplyr::select(-.data$not_needed1, -.data$not_needed2) %>%
+    dplyr::mutate(
+      nv = as.numeric(.data$nv),
+      sum_var_value = as.numeric(.data$sum_var_value)
+    ) %>%
     tidyr::fill(.data$var)
 }
+
+
 parse_sumvar_cmd_table <- function(df_vall) {
   df_vall %>%
     tidyr::drop_na(.data$sum_var_value) %>%
