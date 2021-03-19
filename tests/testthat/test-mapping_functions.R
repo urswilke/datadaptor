@@ -15,7 +15,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 testthat::expect_message(testthat::expect_message(df_cmd <- mapp_cmd_table(mapping_file)))
 df_mod <- mapp_xl_to_data(df_test, df_cmd)
 
-df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+testthat::expect_message(df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE))
 df_mod_vec <- mapp_xl_to_data(df_test, df_cmd_vec, vectorized = TRUE)
 
 test_that("vectorized vesion of mapp_xl_to_data() results in the same", {
