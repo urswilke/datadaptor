@@ -99,7 +99,8 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   df_varl <- readxl::read_xlsx(
     mapping_file,
-    sheet = sheet
+    sheet = sheet,
+    col_types = "text"
   ) %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
   if (translate_xlsm) {
