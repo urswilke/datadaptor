@@ -4,13 +4,7 @@
 \alias{set_na_to_filter_except}
 \title{Recode missing values of variables in dataframe}
 \usage{
-set_na_to_filter_except(
-  df,
-  recode_na_exceptions,
-  replace_val,
-  replace_label,
-  change_log = FALSE
-)
+set_na_to_filter_except(df, recode_na_exceptions, replace_val, replace_label)
 }
 \arguments{
 \item{df}{dataframe}
@@ -20,8 +14,6 @@ set_na_to_filter_except(
 \item{replace_val}{value to replace missing values by}
 
 \item{replace_label}{value label of replacing value}
-
-\item{change_log}{logical whether to log changes (using the {tidylog} package); defaults to FALSE.}
 }
 \value{
 Dataframe where \code{set_na_to_filter()} is run on all numeric variables

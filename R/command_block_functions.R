@@ -3,7 +3,6 @@
 #' @param df dataframe
 #' @param orig_vars character vector of variable names in `df`
 #' @param new_names character vector of new variable names (has to be of the same length as `origvars`)
-#' @param change_log logical whether to log changes (using the {tidylog} package); defaults to FALSE.
 #'
 #' @return modified dataframe `df` (see examples)
 #' @export
@@ -12,17 +11,10 @@
 #' df <- data.frame(x = 1, y = 2)
 #' df <- cmd_rename(df, c("x", "y"), c("x_renamed", "y_renamed"))
 #' df
-cmd_rename <- function(df, orig_vars, new_names, change_log = FALSE){
-  if (change_log) {
-    rename <- tidylog::rename
-  }
-  else {
-    rename <- dplyr::rename
-  }
-
+cmd_rename <- function(df, orig_vars, new_names){
   # doesn't work for following functions, if it leads to duplicate names.
   # names(df)[names(df) == orig_var] <- new_name
-  df %>% rename(!!!purrr::set_names(orig_vars, new_names))
+  df %>% dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
 }
 #' Set variable label of variable orig_var in dataframe df
 #'
@@ -460,43 +452,3 @@ cmd_r_df <- function(df, r_code) {
 
 utils::globalVariables(c("where"))
 
-#' #' Recode missing values of variables in dataframe
-#' #'
-#' #' @param df dataframe
-#' #' @param recode_na_exceptions character vector of variables to exclude from recoding
-#' #' @param replace_val value to replace missing values by
-#' #' @param replace_label value label of replacing value
-#' #'
-#' #' @return Dataframe where `set_na_to_filter()` is run on all numeric variables
-#' #' (except those in `recode_na_exceptions`)
-#' #' `replace_val` and `replace_label` are the arguments passed to `set_na_to_filter()`.
-#' #' @export
-#' #'
-#' #' @examples
-#' #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' #' df <- haven::read_sav(spss_file)
-#' #' set_na_to_filter_except(
-#' #'   df,
-#' #'   c("q1", "q2"),
-#' #'   -2,
-#' #'   "I'm the label for the missing value replacement"
-#' #' )
-#' set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label, change_log = FALSE) {
-#'   # remove variable names not found in df:
-#'   # TODO: think of cleaner way to do this:
-#'   recode_na_exceptions <- intersect(recode_na_exceptions, names(df))
-#'   if (change_log) {
-#'     mutate <- tidylog::mutate
-#'   }
-#'   else {
-#'     mutate <- dplyr::mutate
-#'   }
-#'
-#'   df %>%
-#'     mutate(
-#'       dplyr::across(
-#'         where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
-#'         ~set_na_to_filter(.x, replace_val, replace_label)
-#'       )
-#'     )
-#' }

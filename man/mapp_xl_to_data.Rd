@@ -12,8 +12,7 @@ mapp_xl_to_data(
   rec_fun = purrr::reduce2,
   translate_xlsm = FALSE,
   check_id_is_unique = TRUE,
-  vectorized = FALSE,
-  change_log = FALSE
+  vectorized = FALSE
 )
 }
 \arguments{
@@ -49,8 +48,6 @@ dataframe() \%>\% mutate(a = 1) \%>\% mutate(b = 2) or
 dataframe() \%>\% mutate(a = 1, b = 2).
 The second is faster. For many data operations or large datasets,
 vectorized = TRUE should also be faster}
-
-\item{change_log}{logical whether to log changes (using the {tidylog} package); defaults to FALSE.}
 }
 \value{
 in case rec_fun = purrr::reduce2 only the final dataframe is returned

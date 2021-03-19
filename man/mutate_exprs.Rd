@@ -4,14 +4,12 @@
 \alias{mutate_exprs}
 \title{Wrapper to choose between dplyr & tidylog function}
 \usage{
-mutate_exprs(df, ..., change_log = FALSE)
+mutate_exprs(df, ...)
 }
 \arguments{
 \item{df}{dataframe to manipulate}
 
 \item{...}{expressions passed to `mutate()``}
-
-\item{change_log}{logical whether to use \code{mutate()} of dplyr or tidylog; defaults to FALSE}
 }
 \value{
 

@@ -176,12 +176,12 @@ generate_cmd_expression <- function(action, data) {
   )
 }
 
-apply_one_cmd <- function(df, action, data, change_log) {
+apply_one_cmd <- function(df, action, data) {
   cmd <- generate_cmd_expression(action, data)
   rlang::eval_tidy(cmd)
 }
 
-apply_one_cmd_safe <- function(df1, action, data, change_log) {
+apply_one_cmd_safe <- function(df1, action, data) {
   cmd_index <- attr(df1, "cmd_index") + 1
   attr(df1, "cmd_index") <- cmd_index
   res <- tryCatch({
@@ -242,7 +242,6 @@ apply_one_cmd_safe <- function(df1, action, data, change_log) {
 #' dataframe() %>% mutate(a = 1, b = 2).
 #' The second is faster. For many data operations or large datasets,
 #' vectorized = TRUE should also be faster
-#' @param change_log logical whether to log changes (using the {tidylog} package); defaults to FALSE.
 #'
 #' @return in case rec_fun = purrr::reduce2 only the final dataframe is returned
 #'   in case of purrr::accumulate2 a list with all intermediate dataframes (of
@@ -284,7 +283,7 @@ apply_one_cmd_safe <- function(df1, action, data, change_log) {
 mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             input_if_error = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE,
-                            vectorized = FALSE, change_log = FALSE) {
+                            vectorized = FALSE) {
   if (typeof(mapping_file) == "character") {
     cmd_table <- mapp_cmd_table(
       mapping_file,
@@ -322,13 +321,8 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     apply_one_cmd <- ifelse(input_if_error, apply_one_group_cmd_safe, apply_one_group_cmd)
 
   }
-  # if (change_log) {
-    res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, change_log = change_log, .init = df)
-  # }
-  # else {
-  #   res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
-  # }
 
+  res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
   if (input_if_error) {
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
     attr(res, "error_list") <- datenanpassr.env$error_list

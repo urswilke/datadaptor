@@ -38,8 +38,7 @@ Imports:
     readr,
     fs,
     sourcetools,
-    labelled,
-    tidylog
+    labelled
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr

@@ -499,7 +499,6 @@ cmd_r <- function(r_code) {
 #' @param recode_na_exceptions character vector of variables to exclude from recoding
 #' @param replace_val value to replace missing values by
 #' @param replace_label value label of replacing value
-#' @param change_log logical whether to log changes (using the {tidylog} package); defaults to FALSE.
 #'
 #' @return Dataframe where `set_na_to_filter()` is run on all numeric variables
 #' (except those in `recode_na_exceptions`)
@@ -515,19 +514,12 @@ cmd_r <- function(r_code) {
 #'   -2,
 #'   "I'm the label for the missing value replacement"
 #' )
-set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label, change_log = FALSE) {
+set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, replace_label) {
   # remove variable names not found in df:
   # TODO: think of cleaner way to do this:
   recode_na_exceptions <- intersect(recode_na_exceptions, names(df))
-  if (change_log) {
-    mutate <- tidylog::mutate
-  }
-  else {
-    mutate <- dplyr::mutate
-  }
-
   df %>%
-    mutate(
+    dplyr::mutate(
       dplyr::across(
         where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
         ~set_na_to_filter(.x, replace_val, replace_label)

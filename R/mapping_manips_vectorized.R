@@ -98,17 +98,17 @@ split_df_cmd <- function(df_cmd) {
 }
 
 
-generate_group_expr <- function(action, data, change_log = FALSE) {
+generate_group_expr <- function(action, data) {
   # Hack to prevent R CMD CHECK note
   # "no visible binding for global variable ‘df’":
   df <- NULL
 
   group_expr <- switch (
     action,
-    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data, change_log = !!change_log)),
+    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#RENAME" = rlang::expr(cmd_rename(df, !!!data, change_log = !!change_log)),
-    "#GROUP"  = rlang::expr(mutate_exprs(df, !!!data, change_log = !!change_log))
+    "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
+    "#GROUP"  = rlang::expr(mutate_exprs(df, !!!data))
   )
   group_expr
 }
@@ -117,34 +117,27 @@ generate_group_expr <- function(action, data, change_log = FALSE) {
 #'
 #' @param df dataframe to manipulate
 #' @param ... expressions passed to `mutate()``
-#' @param change_log logical whether to use `mutate()` of dplyr or tidylog; defaults to FALSE
 #'
 #' @return
 #' @export
 #'
-mutate_exprs <- function(df, ..., change_log = FALSE) {
-  if (change_log) {
-    mutate <- tidylog::mutate
-  }
-  else {
-    mutate <- dplyr::mutate
-  }
-  df %>% mutate(...)
+mutate_exprs <- function(df, ...) {
+  df %>% dplyr::mutate(...)
 }
 
-apply_one_group_cmd <- function(df, action, data, change_log){
-  group_expr <- generate_group_expr(action, data, change_log)
+apply_one_group_cmd <- function(df, action, data){
+  group_expr <- generate_group_expr(action, data)
   rlang::eval_tidy(group_expr)
 }
 
-apply_one_group_cmd_safe <- function(df1, action, data, change_log) {
+apply_one_group_cmd_safe <- function(df1, action, data) {
   if (action != "#GROUP") {
     datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
   }
 
   res <- tryCatch({
     err_msg <- NA_character_
-    apply_one_group_cmd(df1, action, data, change_log)
+    apply_one_group_cmd(df1, action, data)
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]
