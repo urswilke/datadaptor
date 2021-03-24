@@ -40,7 +40,6 @@ cmd_drop <- function(df, orig_vars){
 #' @param new_label character string of new label
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' df <- data.frame(x = 1)
@@ -60,7 +59,6 @@ cmd_set_lab_df <- function(df, orig_var, new_label){
 #' @param new_labs character vector of the new value labels
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' df <- data.frame(x = 1:2)
@@ -80,7 +78,6 @@ cmd_set_labs_df <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
 #' @param labs_added value labels added
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
@@ -99,7 +96,6 @@ cmd_add_labs_df <- function(df, orig_var, new_lab = NULL, vals_added, labs_added
 #' @param new_var character string of (labelled) variable in df
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
@@ -122,7 +118,6 @@ cmd_dic_df <- function(df, orig_var, new_var){
 #' @param by_var variable to be splitted
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' cmd_kg_df(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
@@ -181,7 +176,6 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #' @param var name of character variable to auto-recode (character string)
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' x <- haven::labelled(LETTERS[3:1], label = "variable label")
@@ -201,7 +195,6 @@ cmd_autorec_df <- function(df, var) {
 #' @param var name of character variable to transform to numeric (character string)
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' x <- haven::labelled(as.character(3:1), label = "variable label")
@@ -226,7 +219,6 @@ cmd_str_to_num_df <- function(df, var) {
 #' @param new_labs character vector of value labels of new recoded variable
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' orig_var <- 1:5
@@ -267,7 +259,6 @@ cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_
 #' The vectors lb, ub, new_vals and new_labs all need to be of the same length.
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' orig_var <- 1:5
@@ -306,7 +297,6 @@ cmd_rec_df <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, 
 #' @param new_val expression string
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' cmd_comp_df(data.frame(x = 1:3), "y", "x * 2")
@@ -330,7 +320,6 @@ cmd_comp_df <- function(df, new_var, new_val) {
 #' @param new_val expression string
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' cmd_compr_df(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
@@ -354,7 +343,6 @@ cmd_compr_df <- function(df, new_var, new_val) {
 #' is fulfilled (numeric string values are transformed to numeric)
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' cmd_if_df(data.frame(x = 1:3), "y", "x == 3", "2")
@@ -388,7 +376,6 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
 #' `id_list` if `var_ziel` does not exist in `df` yet
 #'
 #' @return modified dataframe `df` (see examples)
-#' @export
 #'
 #' @examples
 #' df <- data.frame(id_var = 1:5)
@@ -422,7 +409,6 @@ cmd_verbatim_df <- function(df, var_ziel, val_assign, varlab, vallab, id = "id",
 #' @param variable_names space-separated list of variable names to merge from `merge_file`
 #'
 #' @return manipulated dataframe `df` with the variables defined in `variable_names` added, merged by `id`
-#' @export
 #'
 #' @examples
 #' df <- data.frame(id = 1:100)
