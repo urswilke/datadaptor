@@ -8,7 +8,7 @@ mapp_xl_to_data(
   df,
   mapping_file,
   na_to_filter = TRUE,
-  input_if_error = FALSE,
+  try_catch = FALSE,
   rec_fun = purrr::reduce2,
   translate_xlsm = FALSE,
   check_id_is_unique = TRUE,
@@ -24,7 +24,7 @@ mapp_xl_to_data(
 \item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df
 will be replaced by -2 with the value label "FILTER".}
 
-\item{input_if_error}{logical; if TRUE, command blocks of the mapping file
+\item{try_catch}{logical; if TRUE, command blocks of the mapping file
 that error out will be skipped; possible errors are attached to the
 dataframe as a character vector of length of all the commands in the
 command table; in combination with \code{rec_fun} = \code{purrr::accumulate2} this
@@ -83,10 +83,10 @@ mapp_xl_to_data(df, mapping_file)
 df_mod_list <- mapp_xl_to_data(
   df,
   mapping_file,
-  input_if_error = TRUE,
+  try_catch = TRUE,
   rec_fun = purrr::accumulate2
 )
-# For `input_if_error = TRUE`, an attribute called "error_list" is added to the result
+# For `try_catch = TRUE`, an attribute called "error_list" is added to the result
 # of `mapp_xl_to_data()`:
 error_list <- attr(df_mod_list, "error_list")
 error_list

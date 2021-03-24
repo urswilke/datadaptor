@@ -216,7 +216,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #'   `mapp_cmd_table()` of this path
 #' @param na_to_filter logical; if TRUE, NA values of numerical variables in df
 #'   will be replaced by -2 with the value label "FILTER".
-#' @param input_if_error logical; if TRUE, command blocks of the mapping file
+#' @param try_catch logical; if TRUE, command blocks of the mapping file
 #'   that error out will be skipped; possible errors are attached to the
 #'   dataframe as a character vector of length of all the commands in the
 #'   command table; in combination with `rec_fun` = `purrr::accumulate2` this
@@ -260,10 +260,10 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' df_mod_list <- mapp_xl_to_data(
 #'   df,
 #'   mapping_file,
-#'   input_if_error = TRUE,
+#'   try_catch = TRUE,
 #'   rec_fun = purrr::accumulate2
 #' )
-#' # For `input_if_error = TRUE`, an attribute called "error_list" is added to the result
+#' # For `try_catch = TRUE`, an attribute called "error_list" is added to the result
 #' # of `mapp_xl_to_data()`:
 #' error_list <- attr(df_mod_list, "error_list")
 #' error_list
@@ -275,7 +275,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' df_cmd
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
-                            input_if_error = FALSE, rec_fun = purrr::reduce2,
+                            try_catch = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE,
                             vectorized = FALSE) {
   if (typeof(mapping_file) == "character") {
@@ -303,7 +303,7 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
   }
 
 
-  if (input_if_error) {
+  if (try_catch) {
     datenanpassr.env$cmd_index <- 0
     datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
 
@@ -311,13 +311,13 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     # rec_fun <- purrr::accumulate2
   }
   if (vectorized) {
-    cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = input_if_error)
-    apply_one_cmd <- ifelse(input_if_error, apply_one_group_cmd_safe, apply_one_group_cmd)
+    cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = try_catch)
+    apply_one_cmd <- ifelse(try_catch, apply_one_group_cmd_safe, apply_one_group_cmd)
 
   }
 
   res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
-  if (input_if_error) {
+  if (try_catch) {
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
     attr(res, "error_list") <- datenanpassr.env$error_list
   }
