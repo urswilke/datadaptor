@@ -213,12 +213,12 @@
       .. ..$ vals_added: num 1
       .. ..$ labs_added: chr "YES"
       ..$ :List of 6
-      .. ..$ new_var  : chr "kq1"
       .. ..$ orig_var : chr "q1"
       .. ..$ new_lab  : chr "test"
       .. ..$ orig_vals: num [1:5] 1 2 3 4 5
       .. ..$ new_vals : num [1:5] 1 1 2 3 3
       .. ..$ new_labs : chr [1:5] "aaa" NA "bbb" "ccc" ...
+      .. ..$ new_var  : chr "kq1"
       ..$ :List of 1
       .. ..$ var: chr "q8"
       ..$ :List of 1
@@ -553,21 +553,21 @@
       .. ..$ new_val  : chr "8"
       .. ..$ condition: chr "q3 == 1"
       ..$ :List of 7
-      .. ..$ new_var : chr "kq1"
       .. ..$ orig_var: chr "q1"
       .. ..$ new_lab : chr "summarized variable"
       .. ..$ lb      : num [1:3] 1 3 4
       .. ..$ ub      : num [1:3] 2 3 5
       .. ..$ new_vals: num [1:3] 1 2 3
       .. ..$ new_labs: chr [1:3] "1-2" "3" "4-5"
+      .. ..$ new_var : chr "kq1"
       ..$ :List of 7
-      .. ..$ new_var : chr "kq3"
       .. ..$ orig_var: chr "q3"
       .. ..$ new_lab : chr "summarized variable"
       .. ..$ lb      : num [1:3] 1 3 4
       .. ..$ ub      : num [1:3] 2 3 5
       .. ..$ new_vals: num [1:3] 1 2 3
       .. ..$ new_labs: chr [1:3] "1-2" "3" "4-5"
+      .. ..$ new_var : chr "kq3"
       ..$ :List of 2
       .. ..$ split_var: chr "q2_renamed"
       .. ..$ by_var   : chr "kq1"
@@ -613,21 +613,21 @@
       .. ..$ new_val: chr "ifelse(q1 == 5, q3 * 10, q1 * 8) %>% haven::labelled(label = \"varlab\")"
       ..$ :List of 3
       .. ..$ variable_names: chr [1:2] "q1" "q2"
-      .. ..$ id            : chr "id"
       .. ..$ merge_file    : chr "fake_survey.sav"
+      .. ..$ id            : chr "id"
       ..$ :List of 2
       .. ..$ r_script: chr "example_R_function.R"
       .. ..$ fun_name: chr "calc_sum_of_k_vars"
       ..$ :List of 1
       .. ..$ r_code: chr "data.frame(a=1)"
       ..$ :List of 7
-      .. ..$ new_var : chr "kkq1"
       .. ..$ orig_var: chr "q1"
       .. ..$ new_lab : chr "vl"
       .. ..$ lb      : num [1:5] 1 2 3 4 5
       .. ..$ ub      : num [1:5] NA NA NA NA NA
       .. ..$ new_vals: num [1:5] 1 2 2 2 2
       .. ..$ new_labs: chr [1:5] "a" "b" NA NA ...
+      .. ..$ new_var : chr "kkq1"
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"

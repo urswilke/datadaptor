@@ -80,16 +80,8 @@ mapp_cmd_table <- function(
     df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
   }
   df_cmd <- df_cmd %>%
-    dplyr::rowwise()
-  if (vectorized) {
-    df_cmd <- df_cmd %>%
-      dplyr::mutate(data = parse_cmd_block_args_vec(.data$action, .data$data))
-  }
-  else {
-    df_cmd <- df_cmd %>%
-      dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data))
-  }
-  df_cmd <- df_cmd %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data, vectorized)) %>%
     dplyr::ungroup()
   if (na_to_filter == TRUE) {
     df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd, id_var)
