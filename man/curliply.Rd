@@ -7,7 +7,7 @@
 curliply(df_free_raw)
 }
 \arguments{
-\item{df_free}{code blocks read in by \code{mapp_free1()}}
+\item{df_free_raw}{code blocks read in by \code{mapp_free1()}}
 }
 \value{
 Dataframe containing multiple code blocks. The number of returned code blocks

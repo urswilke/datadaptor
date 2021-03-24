@@ -16,6 +16,8 @@
 #'   \item{q5}{How much do you like your best friend}
 #'   \item{q6}{Tell me something positive.}
 #'   \item{q7}{Tell me something negative.}
+#'   \item{q8}{A numeric variable in string format.}
+#'   \item{q9}{An empty variable.}
 #' }
 #' @examples
 #' datenanpassr::fake_survey

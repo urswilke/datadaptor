@@ -5,7 +5,7 @@
 #' by each of the parts inside (separated by spaces). This can help to save yourself
 #' from repetitive writing without diving into something like regular expressions.
 #'
-#' @param df_free code blocks read in by \code{mapp_free1()}
+#' @param df_free_raw code blocks read in by \code{mapp_free1()}
 #'
 #' @return Dataframe containing multiple code blocks. The number of returned code blocks
 #'  corresponds to the number of space separated parts in the curly brackets.
@@ -48,7 +48,7 @@ curliply <- function(df_free_raw) {
       dplyr::add_count(row) %>%
       dplyr::mutate(curly_index = ifelse(.data$n == 1, NA_integer_, .data$curly_index)) %>%
       dplyr::select(-.data$n) %>%
-      dplyr::group_by(raw_index) %>%
+      dplyr::group_by(.data$raw_index) %>%
       dplyr::group_split() %>%
       purrr::map(
         function(x) {

@@ -121,7 +121,7 @@ generate_group_expr <- function(action, data) {
 #' @param df dataframe to manipulate
 #' @param ... expressions passed to `mutate()``
 #'
-#' @return
+#' @return data.frame `df` `mutate()`d by `...`
 #' @export
 #'
 mutate_exprs <- function(df, ...) {

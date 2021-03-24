@@ -12,7 +12,7 @@ mutate_exprs(df, ...)
 \item{...}{expressions passed to `mutate()``}
 }
 \value{
-
+data.frame \code{df} \code{mutate()}d by \code{...}
 }
 \description{
 Wrapper to choose between dplyr & tidylog function

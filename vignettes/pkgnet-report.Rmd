@@ -21,7 +21,8 @@ vignette: >
 * Double-click on nodes to collapse (and then re-explode) its child nodes (functions the function calls)
 
 ```{r message=FALSE, include=FALSE}
-library(tidyverse)
+library(dplyr)
+library(purrr)
 library(tidygraph)
 
 fun_deps <- pkgnet::FunctionReporter$new()
@@ -87,7 +88,7 @@ all_shapes <- c("ellipse",
 df_nodes <- graph_obj %>%
   as_tibble() %>%
   transmute(
-    id = as_factor(name) %>% as.numeric(),
+    id = forcats::as_factor(name) %>% as.numeric(),
     label = name,
     shape = factor(file) %>% as.numeric() %>% {. %% length(all_shapes)} %>% {. + 1} %>% all_shapes[.],
     # shape = all_shapes[shape],

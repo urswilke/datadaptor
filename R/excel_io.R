@@ -119,7 +119,7 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
     range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
     col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
     col_types = "text") %>%
-    dplyr::select(-matches("^nn[1-8]$"))
+    dplyr::select(-dplyr::matches("^nn[1-8]$"))
 }
 
 parse_varlab_cmd_table <- function(df_varl) {
