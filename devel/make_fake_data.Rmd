@@ -89,9 +89,9 @@ q8 <- haven::labelled(
   sample(x = 1:10, size = n, replace = TRUE), 
   label = "A numeric variable in string format."
 )
+q9 <- rep(NA_real_, times = n)
 
-
-fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7, q8)
+fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7, q8, q9)
 fake_survey
 ```
 

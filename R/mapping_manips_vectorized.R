@@ -15,6 +15,7 @@ generate_cmd_expression_vec <- function(action, data) {
     "#STR2NUM"= rlang::expr(cmd_str_to_num(!!!data)),
     "#SUMVAR" = rlang::expr(cmd_sumvar(!!!data)),
     "#RENAME" = rlang::expr(cmd_rename(!!!data)),
+    "#DROP"   = rlang::expr(cmd_drop(!!!data)),
     "#NEWLAB" = rlang::expr(cmd_set_lab(!!!data)),
     "#VARL"   = rlang::expr(cmd_set_lab(!!!data)),
     "#VALL"   = rlang::expr(cmd_set_labs(!!!data)),
@@ -64,8 +65,8 @@ get_mutate_exprs <- function(action, data, new_var, try_catch = FALSE) {
     generate_cmd_expression_vec
   )
   if (try_catch ==  TRUE) {
-    cmds[!action %in% c("#RECNA", "#RENAME", "#RFUN")] <-
-      cmds[!action %in% c("#RECNA", "#RENAME", "#RFUN")] %>% purrr::map(try_catch_expr)
+    cmds[!action %in% c("#RECNA", "#RENAME", "#DROP", "#RFUN")] <-
+      cmds[!action %in% c("#RECNA", "#RENAME", "#DROP", "#RFUN")] %>% purrr::map(try_catch_expr)
   }
   cmds <- cmds %>%
     purrr::set_names(~new_var)
@@ -75,7 +76,7 @@ get_mutate_exprs <- function(action, data, new_var, try_catch = FALSE) {
 
 
 split_df_cmd <- function(df_cmd) {
-  single_groups <- c("#RECNA", "#RENAME", "#RFUN")
+  single_groups <- c("#RECNA", "#RENAME", "#DROP", "#RFUN")
   prepare_groups <- function(df_cmd_group) {
     if (!df_cmd_group$action[1] %in% single_groups) {
       df_cmd_group <- tibble::tibble(
@@ -109,6 +110,7 @@ generate_group_expr <- function(action, data) {
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
+    "#DROP"   = rlang::expr(cmd_drop(df, !!!data)),
     "#GROUP"  = rlang::expr(mutate_exprs(df, !!!data))
   )
   group_expr

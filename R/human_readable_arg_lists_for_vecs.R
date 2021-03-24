@@ -13,6 +13,7 @@ parse_cmd_block_args_vec <- function(action, data) {
     "#STR2NUM" = parse_cmd_block_args_str_to_num_vec(data),
     "#SUMVAR"  = parse_cmd_block_args_sumvar_vec(data),
     "#RENAME"  = parse_cmd_block_args_rename_vec(data),
+    "#DROP"    = parse_cmd_block_args_drop_vec(data),
     "#NEWLAB"  = parse_cmd_block_args_newlab_vec(data),
     "#VARL"    = parse_cmd_block_args_varl_vec(data),
     "#VALL"    = parse_cmd_block_args_vall_vec(data),
@@ -33,6 +34,16 @@ parse_cmd_block_args_rename_vec <- function(data) {
   )
   list(res)
 }
+
+parse_cmd_block_args_drop_vec <- function(data) {
+  d <- data
+
+  res <- list(
+    orig_vars = d$vars[[1]]
+  )
+  list(res)
+}
+
 parse_cmd_block_args_newlab_vec <- function(data) {
   d <- data
 

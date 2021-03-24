@@ -97,26 +97,26 @@ q8 <- haven::labelled(
   sample(x = 1:10, size = n, replace = TRUE), 
   label = "A numeric variable in string format."
 )
+q9 <- rep(NA_real_, times = n)
 
-
-fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7, q8)
+fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7, q8, q9)
 fake_survey
 ```
 
 ```
-## # A tibble: 100 x 9
-##            q1         q2       q3       q4        q5    id q6      q7         q8
-##     <dbl+lbl>  <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lbl> <int> <chr+l> <chr+l> <int>
-##  1  3 [norma…  2 [no]    3 [norm… 4 [much]  2 [a bi…     1 bla bl… bla bl…     2
-##  2  3 [norma…  1 [yes]   5 [very… 4 [much]  5 [very…     2 bla bl… bla bl…     9
-##  3  1 [not a…  1 [yes]   3 [norm… 2 [a bi…  5 [very…     3 bla joy bla bl…     3
-##  4  3 [norma… 99 [no an… 4 [much] 4 [much]  4 [much]     4 bla bl… bla bl…     3
-##  5  5 [very … NA         2 [a bi… 3 [norm…  3 [norm…     5 bla ha… bla fe…     9
-##  6  5 [very … NA         4 [much] 3 [norm…  2 [a bi…     6 bla bl… bla pa…     7
-##  7 99 [no an…  2 [no]    3 [norm… 4 [much] NA            7 bla lo… bla bl…    10
-##  8  2 [a bit]  2 [no]    5 [very… 2 [a bi…  1 [not …     8 bla bl… bla bl…     1
-##  9 99 [no an… 99 [no an… 1 [not … 1 [not …  2 [a bi…     9 bla bl… bla bl…     2
-## 10 99 [no an…  1 [yes]   1 [not … 1 [not …  4 [much]    10 bla bl… bla bl…     4
+## # A tibble: 100 x 10
+##           q1        q2       q3       q4       q5    id q6    q7        q8    q9
+##    <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lb> <int> <chr> <chr+> <int> <dbl>
+##  1  3 [norm…  2 [no]   3 [norm… 4 [much]  2 [a b…     1 bla … bla b…     2    NA
+##  2  3 [norm…  1 [yes]  5 [very… 4 [much]  5 [ver…     2 bla … bla b…     9    NA
+##  3  1 [not …  1 [yes]  3 [norm… 2 [a bi…  5 [ver…     3 bla … bla b…     3    NA
+##  4  3 [norm… 99 [no a… 4 [much] 4 [much]  4 [muc…     4 bla … bla b…     3    NA
+##  5  5 [very… NA        2 [a bi… 3 [norm…  3 [nor…     5 bla … bla f…     9    NA
+##  6  5 [very… NA        4 [much] 3 [norm…  2 [a b…     6 bla … bla p…     7    NA
+##  7 99 [no a…  2 [no]   3 [norm… 4 [much] NA           7 bla … bla b…    10    NA
+##  8  2 [a bi…  2 [no]   5 [very… 2 [a bi…  1 [not…     8 bla … bla b…     1    NA
+##  9 99 [no a… 99 [no a… 1 [not … 1 [not …  2 [a b…     9 bla … bla b…     2    NA
+## 10 99 [no a…  1 [yes]  1 [not … 1 [not …  4 [muc…    10 bla … bla b…     4    NA
 ## # … with 90 more rows
 ```
 

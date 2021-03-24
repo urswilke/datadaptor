@@ -198,12 +198,12 @@
 
 # result of mapp_cmd_table()
 
-    tibble [67 x 5] (S3: tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:67] "Config" "Label" "Label" "Variables" ...
-     $ action : chr [1:67] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
-     $ row    : chr [1:67] NA "8" "2, 3, 4, 5, 6" "8" ...
-     $ new_var: chr [1:67] NA "q2" "kq1" "q8" ...
-     $ data   :List of 67
+    tibble [68 x 5] (S3: tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:68] "Config" "Label" "Label" "Variables" ...
+     $ action : chr [1:68] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
+     $ row    : chr [1:68] NA "8" "2, 3, 4, 5, 6" "8" ...
+     $ new_var: chr [1:68] NA "q2" "kq1" "q8" ...
+     $ data   :List of 68
       ..$ :List of 3
       .. ..$ recode_na_exceptions: chr [1:2] "id" "DC_ID"
       .. ..$ replace_val         : num -2
@@ -223,6 +223,8 @@
       .. ..$ var: chr "q8"
       ..$ :List of 1
       .. ..$ var: chr "q6"
+      ..$ :List of 1
+      .. ..$ orig_vars: chr "q9"
       ..$ :List of 2
       .. ..$ orig_vars: chr [1:2] "q2" "q4"
       .. ..$ new_names: chr [1:2] "q2_renamed" "q4_renamed"

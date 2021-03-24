@@ -16,6 +16,23 @@ cmd_rename <- function(df, orig_vars, new_names){
   # names(df)[names(df) == orig_var] <- new_name
   df %>% dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
 }
+
+
+#' Drop variables orig_vars in dataframe df
+#'
+#' @param df dataframe
+#' @param orig_vars character vector of variable names in `df`
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' df <- data.frame(x = 1, y = 2)
+#' df <- cmd_drop(df, c("y"))
+#' df
+cmd_drop <- function(df, orig_vars){
+  df %>% dplyr::select(-c(!!!orig_vars))
+}
 #' Set variable label of variable orig_var in dataframe df
 #'
 #' @param df dataframe

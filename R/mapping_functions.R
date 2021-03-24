@@ -166,6 +166,7 @@ generate_cmd_expression <- function(action, data) {
     "#STR2NUM"= rlang::expr(cmd_str_to_num_df(df, !!!data)),
     "#SUMVAR" = rlang::expr(cmd_sumvar_df(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
+    "#DROP"   = rlang::expr(cmd_drop(df, !!!data)),
     "#NEWLAB" = rlang::expr(cmd_set_lab_df(df, !!!data)),
     "#VARL"   = rlang::expr(cmd_set_lab_df(df, !!!data)),
     "#VALL"   = rlang::expr(cmd_set_labs_df(df, !!!data)),
