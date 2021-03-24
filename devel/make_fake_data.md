@@ -93,26 +93,30 @@ chr_vec1 <- map_chr(1:n, ~generate_bla_vector(c("love", "happiness", "joy")))
 chr_vec2 <- map_chr(1:n, ~generate_bla_vector(c("sadness", "fear", "anger", "pain")))
 q6 <- haven::labelled(chr_vec1, label = "Tell me something positive.")
 q7 <- haven::labelled(chr_vec2, label = "Tell me something negative.")
+q8 <- haven::labelled(
+  sample(x = 1:10, size = n, replace = TRUE), 
+  label = "A numeric variable in string format."
+)
 
 
-fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7)
+fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7, q8)
 fake_survey
 ```
 
 ```
-## # A tibble: 100 x 8
-##            q1         q2        q3        q4         q5    id q6        q7      
-##     <dbl+lbl>  <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl> <int> <chr+lbl> <chr+lb>
-##  1  3 [norma…  2 [no]    3 [norma… 4 [much]   2 [a bit]     1 bla bla … bla bla…
-##  2  3 [norma…  1 [yes]   5 [very … 4 [much]   5 [very …     2 bla bla … bla bla…
-##  3  1 [not a…  1 [yes]   3 [norma… 2 [a bit]  5 [very …     3 bla joy   bla bla…
-##  4  3 [norma… 99 [no an… 4 [much]  4 [much]   4 [much]      4 bla bla … bla bla…
-##  5  5 [very … NA         2 [a bit] 3 [norma…  3 [norma…     5 bla happ… bla fear
-##  6  5 [very … NA         4 [much]  3 [norma…  2 [a bit]     6 bla bla … bla pain
-##  7 99 [no an…  2 [no]    3 [norma… 4 [much]  NA             7 bla love  bla bla…
-##  8  2 [a bit]  2 [no]    5 [very … 2 [a bit]  1 [not a…     8 bla bla … bla bla…
-##  9 99 [no an… 99 [no an… 1 [not a… 1 [not a…  2 [a bit]     9 bla bla … bla bla…
-## 10 99 [no an…  1 [yes]   1 [not a… 1 [not a…  4 [much]     10 bla bla … bla bla…
+## # A tibble: 100 x 9
+##            q1         q2       q3       q4        q5    id q6      q7         q8
+##     <dbl+lbl>  <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lbl> <int> <chr+l> <chr+l> <int>
+##  1  3 [norma…  2 [no]    3 [norm… 4 [much]  2 [a bi…     1 bla bl… bla bl…     2
+##  2  3 [norma…  1 [yes]   5 [very… 4 [much]  5 [very…     2 bla bl… bla bl…     9
+##  3  1 [not a…  1 [yes]   3 [norm… 2 [a bi…  5 [very…     3 bla joy bla bl…     3
+##  4  3 [norma… 99 [no an… 4 [much] 4 [much]  4 [much]     4 bla bl… bla bl…     3
+##  5  5 [very … NA         2 [a bi… 3 [norm…  3 [norm…     5 bla ha… bla fe…     9
+##  6  5 [very … NA         4 [much] 3 [norm…  2 [a bi…     6 bla bl… bla pa…     7
+##  7 99 [no an…  2 [no]    3 [norm… 4 [much] NA            7 bla lo… bla bl…    10
+##  8  2 [a bit]  2 [no]    5 [very… 2 [a bi…  1 [not …     8 bla bl… bla bl…     1
+##  9 99 [no an… 99 [no an… 1 [not … 1 [not …  2 [a bi…     9 bla bl… bla bl…     2
+## 10 99 [no an…  1 [yes]   1 [not … 1 [not …  4 [much]    10 bla bl… bla bl…     4
 ## # … with 90 more rows
 ```
 

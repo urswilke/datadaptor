@@ -177,6 +177,27 @@ cmd_autorec_df <- function(df, var) {
   df %>% dplyr::mutate(!!var := cmd_autorec(var_obj))
 }
 
+
+#' Transform character variable in dataframe to numeric variable
+#'
+#' @param df dataframe
+#' @param var name of character variable to transform to numeric (character string)
+#'
+#' @return modified dataframe `df` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(as.character(3:1), label = "variable label")
+#' df <- data.frame(x)
+#' df <- cmd_str_to_num_df(df, "x")
+#' df
+#' df$x
+cmd_str_to_num_df <- function(df, var) {
+  assign("var_obj", df[[var]])
+  df %>% dplyr::mutate(!!var := cmd_str_to_num(var_obj))
+}
+
+
 #' Create new recoded labelled variable from variable in dataframe
 #'
 #' @param df dataframe

@@ -1,34 +1,34 @@
 # result of the mapping function mapp_xl_to_data()
 
-    # A tibble: 100 x 51
-              q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7         kq1
-       <dbl+lbl>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl+lb>
-     1  3 [norm~  2 [no]    3 [nor~ 4 [much]    2 [a b~     1 3 [bla~ bla ~  2 [3]  
-     2  3 [norm~  1 [YES]   5 [ver~ 4 [much]    5 [ver~     2 4 [bla~ bla ~  2 [3]  
-     3  1 [not ~  1 [YES]   3 [nor~ 2 [a bit]   5 [ver~     3 8 [bla~ bla ~  1 [1-2]
-     4  3 [norm~ 99 [no an~ 4 [muc~ 4 [much]    4 [muc~     4 5 [bla~ bla ~  2 [3]  
-     5  5 [very~ -2 [FILTE~ 2 [a b~ 3 [normal]  3 [nor~     5 7 [bla~ bla ~  3 [4-5]
-     6  5 [very~ -2 [FILTE~ 4 [muc~ 3 [normal]  2 [a b~     6 5 [bla~ bla ~  3 [4-5]
-     7 99 [no a~  2 [no]    3 [nor~ 4 [much]   -2 [FIL~     7 9 [bla~ bla ~ NA      
-     8  2 [a bi~  2 [no]    5 [ver~ 2 [a bit]   1 [not~     8 6 [bla~ bla ~  1 [1-2]
-     9 99 [no a~ 99 [no an~ 1 [not~ 1 [not at~  2 [a b~     9 6 [bla~ bla ~ NA      
-    10 99 [no a~  1 [YES]   1 [not~ 1 [not at~  4 [muc~    10 3 [bla~ bla ~ NA      
-    # ... with 90 more rows, and 42 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
-    #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
-    #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
-    #   q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>, q6test_97 <dbl+lbl>,
-    #   q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>, q6n3 <dbl+lbl>,
-    #   q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>, q6n7 <dbl+lbl>,
-    #   q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>, abc <dbl>,
-    #   kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>, kq1xq2_renamedkminus20 <dbl+lbl>,
-    #   kq1xq2_renamedk10 <dbl+lbl>, kq1xq2_renamedk20 <dbl+lbl>,
-    #   kq1xq2_renamedk990 <dbl+lbl>, n <dbl+lbl>, a1 <dbl+lbl>, a2 <dbl+lbl>,
-    #   r_expr_var <dbl+lbl>, q2 <dbl+lbl>, sum_of_k_vars <dbl>, a <dbl>,
-    #   kkq1 <dbl+lbl>, free2_var <dbl>
+    # A tibble: 100 x 52
+              q1  q2_renamed       q3  q4_renamed       q5    id      q6 q7       q8
+       <dbl+lbl>   <dbl+lbl> <dbl+lb>   <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl>
+     1  3 [norm~  2 [no]     3 [norm~ 4 [much]     2 [a b~     1 3 [bla~ bla ~     2
+     2  3 [norm~  1 [YES]    5 [very~ 4 [much]     5 [ver~     2 4 [bla~ bla ~     9
+     3  1 [not ~  1 [YES]    3 [norm~ 2 [a bit]    5 [ver~     3 8 [bla~ bla ~     3
+     4  3 [norm~ 99 [no ans~ 4 [much] 4 [much]     4 [muc~     4 5 [bla~ bla ~     3
+     5  5 [very~ -2 [FILTER] 2 [a bi~ 3 [normal]   3 [nor~     5 7 [bla~ bla ~     9
+     6  5 [very~ -2 [FILTER] 4 [much] 3 [normal]   2 [a b~     6 5 [bla~ bla ~     7
+     7 99 [no a~  2 [no]     3 [norm~ 4 [much]    -2 [FIL~     7 9 [bla~ bla ~    10
+     8  2 [a bi~  2 [no]     5 [very~ 2 [a bit]    1 [not~     8 6 [bla~ bla ~     1
+     9 99 [no a~ 99 [no ans~ 1 [not ~ 1 [not at ~  2 [a b~     9 6 [bla~ bla ~     2
+    10 99 [no a~  1 [YES]    1 [not ~ 1 [not at ~  4 [muc~    10 3 [bla~ bla ~     4
+    # ... with 90 more rows, and 43 more variables: kq1 <dbl+lbl>, q6n <dbl+lbl>,
+    #   q7n <dbl+lbl>, q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>,
+    #   q6_4 <dbl+lbl>, q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>,
+    #   q6test_2 <dbl+lbl>, q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>,
+    #   q6test_97 <dbl+lbl>, q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>,
+    #   q6n3 <dbl+lbl>, q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>,
+    #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>,
+    #   abc <dbl>, kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>,
+    #   kq1xq2_renamedkminus20 <dbl+lbl>, kq1xq2_renamedk10 <dbl+lbl>,
+    #   kq1xq2_renamedk20 <dbl+lbl>, kq1xq2_renamedk990 <dbl+lbl>, n <dbl+lbl>,
+    #   a1 <dbl+lbl>, a2 <dbl+lbl>, r_expr_var <dbl+lbl>, q2 <dbl+lbl>,
+    #   sum_of_k_vars <dbl>, a <dbl>, kkq1 <dbl+lbl>, free2_var <dbl>
 
 ---
 
-    tibble [100 x 51] (S3: tbl_df/tbl/data.frame)
+    tibble [100 x 52] (S3: tbl_df/tbl/data.frame)
      $ q1                    : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
        ..@ label      : chr "How much do you like the product?"
        ..@ format.spss: chr "F8.2"
@@ -59,6 +59,8 @@
      $ q7                    : chr [1:100] "bla bla bla anger" "bla bla bla sadness" "bla bla bla sadness" "bla bla anger" ...
       ..- attr(*, "label")= chr "Tell me something negative."
       ..- attr(*, "format.spss")= chr "A19"
+     $ q8                    : dbl+lbl [1:100]  2,  9,  3,  3,  9,  7, 10,  1,  2,  4,  1, 10,  8,  8...
+       ..@ label: chr "Now the variable is in numeric format."
      $ kq1                   : dbl+lbl [1:100]  2,  2,  1,  2,  3,  3, NA,  1, NA, NA,  3, NA,  2,  1...
        ..@ labels: Named num [1:3] 1 2 3
        .. ..- attr(*, "names")= chr [1:3] "1-2" "3" "4-5"
@@ -196,12 +198,12 @@
 
 # result of mapp_cmd_table()
 
-    tibble [65 x 5] (S3: tbl_df/tbl/data.frame)
-     $ sheet  : chr [1:65] "Config" "Label" "Label" "Variables" ...
-     $ action : chr [1:65] "#RECNA" "#NEWVALL" "#SUMVAR" "#AUTOREC" ...
-     $ row    : chr [1:65] NA "8" "2, 3, 4, 5, 6" "7" ...
-     $ new_var: chr [1:65] NA "q2" "kq1" "q6" ...
-     $ data   :List of 65
+    tibble [67 x 5] (S3: tbl_df/tbl/data.frame)
+     $ sheet  : chr [1:67] "Config" "Label" "Label" "Variables" ...
+     $ action : chr [1:67] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
+     $ row    : chr [1:67] NA "8" "2, 3, 4, 5, 6" "8" ...
+     $ new_var: chr [1:67] NA "q2" "kq1" "q8" ...
+     $ data   :List of 67
       ..$ :List of 3
       .. ..$ recode_na_exceptions: chr [1:2] "id" "DC_ID"
       .. ..$ replace_val         : num -2
@@ -218,6 +220,8 @@
       .. ..$ new_vals : num [1:5] 1 1 2 3 3
       .. ..$ new_labs : chr [1:5] "aaa" NA "bbb" "ccc" ...
       ..$ :List of 1
+      .. ..$ var: chr "q8"
+      ..$ :List of 1
       .. ..$ var: chr "q6"
       ..$ :List of 2
       .. ..$ orig_vars: chr [1:2] "q2" "q4"
@@ -231,6 +235,9 @@
       ..$ :List of 2
       .. ..$ orig_var : chr "q5"
       .. ..$ new_label: chr "Like best friend"
+      ..$ :List of 2
+      .. ..$ orig_var : chr "q8"
+      .. ..$ new_label: chr "Now the variable is in numeric format."
       ..$ :List of 7
       .. ..$ var_ziel  : chr "q6n"
       .. ..$ val_assign: num 1

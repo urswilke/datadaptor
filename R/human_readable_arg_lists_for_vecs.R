@@ -10,6 +10,7 @@ parse_cmd_block_args_vec <- function(action, data) {
     "#REC"     = parse_cmd_block_args_rec_vec(data),
     "#NEWVALL" = parse_cmd_block_args_newvall_vec(data),
     "#AUTOREC" = parse_cmd_block_args_autorec_vec(data),
+    "#STR2NUM" = parse_cmd_block_args_str_to_num_vec(data),
     "#SUMVAR"  = parse_cmd_block_args_sumvar_vec(data),
     "#RENAME"  = parse_cmd_block_args_rename_vec(data),
     "#NEWLAB"  = parse_cmd_block_args_newlab_vec(data),
@@ -147,6 +148,15 @@ parse_cmd_block_args_autorec_vec <- function(data) {
   )
   list(res)
 }
+
+parse_cmd_block_args_str_to_num_vec <- function(data) {
+  d <- data
+  res <- list(
+    var = rlang::sym(d$var)
+  )
+  list(res)
+}
+
 parse_cmd_block_args_sumvar_vec <- function(data) {
   d <- data
   res <- list(

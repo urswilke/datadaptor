@@ -85,9 +85,13 @@ chr_vec1 <- map_chr(1:n, ~generate_bla_vector(c("love", "happiness", "joy")))
 chr_vec2 <- map_chr(1:n, ~generate_bla_vector(c("sadness", "fear", "anger", "pain")))
 q6 <- haven::labelled(chr_vec1, label = "Tell me something positive.")
 q7 <- haven::labelled(chr_vec2, label = "Tell me something negative.")
+q8 <- haven::labelled(
+  sample(x = 1:10, size = n, replace = TRUE), 
+  label = "A numeric variable in string format."
+)
 
 
-fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7)
+fake_survey <- fake_survey %>% mutate(id = row_number(), q6, q7, q8)
 fake_survey
 ```
 

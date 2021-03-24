@@ -124,6 +124,7 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
 
 parse_varlab_cmd_table <- function(df_varl) {
   dplyr::bind_rows(
+    parse_str_to_num_cmd_block(df_varl),
     parse_autorecode_cmd_block(df_varl),
     parse_rename_cmd_block(df_varl),
     parse_newlab_cmd_blocks(df_varl)
@@ -169,6 +170,20 @@ parse_autorecode_cmd_block <- function(df_varl) {
     dplyr::filter(.data$op == "a") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#AUTOREC") %>%
+    dplyr::mutate(new_var = .data$var) %>%
+    dplyr::select(-.data$new_label, -.data$op, -.data$varlab, -.data$new_name) %>%
+    dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) %>%
+    tidyr::nest() %>%
+    dplyr::ungroup()
+}
+
+
+parse_str_to_num_cmd_block <- function(df_varl) {
+  df_autorec <- df_varl %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
+    dplyr::filter(.data$op == "n") %>%
+    dplyr::mutate(sheet = "Variables") %>%
+    dplyr::mutate(action = "#STR2NUM") %>%
     dplyr::mutate(new_var = .data$var) %>%
     dplyr::select(-.data$new_label, -.data$op, -.data$varlab, -.data$new_name) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) %>%

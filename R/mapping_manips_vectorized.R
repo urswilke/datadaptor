@@ -12,6 +12,7 @@ generate_cmd_expression_vec <- function(action, data) {
     "#REC"    = rlang::expr(cmd_rec(!!!data)),
     "#NEWVALL"= rlang::expr(cmd_add_labs(!!!data)),
     "#AUTOREC"= rlang::expr(cmd_autorec(!!!data)),
+    "#STR2NUM"= rlang::expr(cmd_str_to_num(!!!data)),
     "#SUMVAR" = rlang::expr(cmd_sumvar(!!!data)),
     "#RENAME" = rlang::expr(cmd_rename(!!!data)),
     "#NEWLAB" = rlang::expr(cmd_set_lab(!!!data)),

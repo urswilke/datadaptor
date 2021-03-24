@@ -4,7 +4,7 @@
 \alias{curliply}
 \title{Turn code blocks into multiple by replacing the curly braces by each of the parts inside}
 \usage{
-curliply(df_free)
+curliply(df_free_raw)
 }
 \arguments{
 \item{df_free}{code blocks read in by \code{mapp_free1()}}

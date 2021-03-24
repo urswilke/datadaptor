@@ -234,6 +234,24 @@ cmd_autorec <- function(var) {
 }
 
 
+#' Transform character variable to numeric variable
+#'
+#' @param var character variable to change to numeric
+#'
+#' @return modified variable `var` (see examples)
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(as.character(3:1), label = "variable label")
+#' cmd_str_to_num(x)
+cmd_str_to_num <- function(var) {
+  haven::labelled(
+    var %>% strip_attributes() %>% as.numeric(),
+    label = attr(var, "label", exact = TRUE)
+  )
+}
+
+
 #' Create new recoded labelled variable from variable
 #'
 #' @param orig_var original variable to be recoded
