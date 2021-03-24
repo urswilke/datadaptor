@@ -144,7 +144,7 @@ reporters <- lapply(
 ```
 
 
-```{r warning=FALSE}
+```{r warning=FALSE, include=FALSE}
 reportSections <- lapply(reporters, function(reporter) {
   report_env <- list2env(list(reporter = reporter))
   knitr::knit_child(
