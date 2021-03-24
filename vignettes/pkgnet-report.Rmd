@@ -13,12 +13,12 @@ vignette: >
 
 * The graph shows the functions of the package (nodes)
 * Scroll to zoom in/out
-* Drag n drop to move focus
+* Drag n drop to move focus/node
 * Exported functions of the package are written in bigger font
 * Colors and shapes denote the files where the functions are defined
 * Hover over/click on nodes to see the local hierarchical dependency structure of the functions (the other functions it calls/is called by)
 * Select by group to see the functions of the different files of the package
-
+* Double-click on nodes to collapse (and then re-explode) its child nodes (functions the function calls)
 
 ```{r message=FALSE, include=FALSE}
 library(tidyverse)
