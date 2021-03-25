@@ -23,6 +23,7 @@ vignette: >
 ```{r message=FALSE, include=FALSE}
 library(dplyr)
 library(purrr)
+# TODO: remove tidygraph dependency
 library(tidygraph)
 
 fun_deps <- pkgnet::FunctionReporter$new()
