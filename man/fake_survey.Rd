@@ -5,7 +5,7 @@
 \alias{fake_survey}
 \title{Fake survey data}
 \format{
-A data frame of 100 respondents to 5 questions (variables):
+A data frame of 100 respondents to the following questions (variables):
 \describe{
 \item{id}{respondent id}
 \item{q1}{How much do you like the product?}
@@ -31,6 +31,7 @@ See in the examples section how to load the SPSS version to R.
 \examples{
 datenanpassr::fake_survey
 path <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-haven::read_sav(path)
+df <- haven::read_sav(path)
+df
 }
 \keyword{datasets}

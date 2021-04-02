@@ -6,7 +6,7 @@
 #' See in the examples section how to load the SPSS version to R.
 #'
 #'
-#' @format A data frame of 100 respondents to 5 questions (variables):
+#' @format A data frame of 100 respondents to the following questions (variables):
 #' \describe{
 #'   \item{id}{respondent id}
 #'   \item{q1}{How much do you like the product?}
@@ -22,5 +22,6 @@
 #' @examples
 #' datenanpassr::fake_survey
 #' path <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' haven::read_sav(path)
+#' df <- haven::read_sav(path)
+#' df
 "fake_survey"
