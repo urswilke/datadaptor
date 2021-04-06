@@ -11,8 +11,13 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/datenanpassr)](https://CRAN.R-project.org/package=datenanpassr)
 <!-- badges: end -->
 
-The goal of datenanpassr is to manipulate labelled datasets using
-commands from an Excel file.
+The R package datenanpassr is an approach to programatically manipulate
+labelled datasets via a pre-defined syntax of various types of commands
+in various types of Excel sheets. It is a replacement of what my brother
+initially programmed in VBA and SPSS and how we approach our daily work
+of data cleaning of survey data. The package can be used to write
+various data manipulations in a concise way filling in commands in Excel
+cells.
 
 ## Installation
 
@@ -66,31 +71,22 @@ and want to modify some of the content.
 
 <!-- ``` -->
 
-The R package datenanpassr is an approach to programatically manipulate
-labelled datasets via a pre-defined syntax of various types of commands
-in various types of Excel sheets. It is a replacement of what my brother
-initially programmed in VBA and SPSS and how he . It can be used to
-write various data manipulations in a concise way filling in a few Exce
-
-In this Excel file commands can be added to do data cleaning or create
-new variables in the dataset.
-
-In datenanpassr there’s, an [Excel mapping
-file](inst/extdata/mapping.xlsx) included to demonstrate how this can be
-done with this package. If you install `datenanpassr`, it provides an
-included example mapping file:
+In the package you can find an [example Excel mapping
+file](inst/extdata/mapping.xlsx) to demonstrate the commands in this
+package. If you install `datenanpassr`, you can access the path of this
+file with
 
 ``` r
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 ```
 
-You can then open the file with:
+and then open it with:
 
 ``` r
 utils::browseURL(mapping_file)
 ```
 
-Have a lock at the Excel command block vignette for examples how to
+Have a look at the Excel command block vignette for examples how to
 manipulate and generate new variables in your labelled dataset:
 
 ``` r
