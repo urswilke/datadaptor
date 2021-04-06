@@ -37,6 +37,8 @@ mapp_cmd_table <- function(
   ) {
   id_var <- get_id_var(mapping_file)
 
+  datenanpassr.env$namreg <- get_namreg_table_list(mapping_file)
+
 
   sheets <- mapping_file %>% readxl::excel_sheets()
 
@@ -302,7 +304,6 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     stop("Defined id variable ", id_var, " is not unique")
   }
 
-  datenanpassr.env$namreg <- get_namreg_table_list(mapping_file)
 
 
   if (try_catch) {
