@@ -430,3 +430,29 @@ delete_empty_X1_not_multiline <- function(df_free) {
     dplyr::filter(!.data$temp) %>%
     dplyr::select(-.data$temp)
 }
+
+tab_named_regions <- function(mapping_file) {
+  l_namreg <- openxlsx::getNamedRegions(mapping_file)
+  if (is.null(l_namreg)) {
+    return(NULL)
+  }
+  tibble::tibble(
+    name = as.character(l_namreg),
+    sheet = attr(l_namreg, "sheet"),
+    range = attr(l_namreg, "position")
+  ) %>%
+    dplyr::rowwise() %>%
+    dplyr::mutate(table = list(readxl::read_excel(mapping_file, sheet = sheet, range = range))) %>%
+    dplyr::ungroup()
+}
+
+get_namreg_table_list <- function(mapping_file) {
+  df_namreg <- tab_named_regions(mapping_file)
+  if (is.null(df_namreg)) {
+    return(NULL)
+  }
+  df_namreg %>%
+    dplyr::select(name, table) %>%
+    tibble::deframe()
+
+}

@@ -302,6 +302,8 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     stop("Defined id variable ", id_var, " is not unique")
   }
 
+  datenanpassr.env$namreg <- get_namreg_table_list(mapping_file)
+
 
   if (try_catch) {
     datenanpassr.env$cmd_index <- 0
