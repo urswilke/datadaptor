@@ -98,7 +98,8 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' mapp_var_sheet_cmd_table(mapping_file)
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   if (translate_xlsm) {
-    df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
+    df_varl <- datenanpassr.env$namreg$R_Variables %>%
+      dplyr::select(-dplyr::matches("^\\.[\\.0-9]*$"))
   }
   else {
     df_varl <- readxl::read_xlsx(
@@ -110,16 +111,6 @@ mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translat
   df_varl <- df_varl %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
   df_varl %>% parse_varlab_cmd_table()
-}
-
-read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
-    col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
-    col_types = "text") %>%
-    dplyr::select(-dplyr::matches("^nn[1-8]$"))
 }
 
 parse_varlab_cmd_table <- function(df_varl) {
@@ -234,7 +225,13 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' mapp_vallab_sheet_cmd_table(mapping_file)
 mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
   if (translate_xlsm) {
-    df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
+    df_vall <- datenanpassr.env$namreg$R_Labels %>%
+      dplyr::select(-dplyr::matches("^\\.[\\.0-9]*$")) %>%
+      dplyr::mutate(
+        nv = as.numeric(.data$nv),
+        sum_var_value = as.numeric(.data$sum_var_value)
+      ) %>%
+      tidyr::fill(.data$var)
   }
   else {
     df_vall <- readxl::read_xlsx(
@@ -251,24 +248,6 @@ mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate
   )
 
 }
-
-read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
-    col_names = c("var", "nv", "vallab", "new_label", "not_needed1",
-                  "not_needed2", "sum_var_label", "sum_var_value",
-                  "sum_var_vallab"),
-    col_types = "text") %>%
-    dplyr::select(-.data$not_needed1, -.data$not_needed2) %>%
-    dplyr::mutate(
-      nv = as.numeric(.data$nv),
-      sum_var_value = as.numeric(.data$sum_var_value)
-    ) %>%
-    tidyr::fill(.data$var)
-}
-
 
 parse_sumvar_cmd_table <- function(df_vall) {
   df_vall %>%
@@ -441,8 +420,13 @@ tab_named_regions <- function(mapping_file) {
     sheet = attr(l_namreg, "sheet"),
     range = attr(l_namreg, "position")
   ) %>%
+    dplyr::filter(stringr::str_detect(.data$name, "^R_")) %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(table = list(readxl::read_excel(mapping_file, sheet = sheet, range = range))) %>%
+    dplyr::mutate(
+      table = list(readxl::read_excel(mapping_file, sheet = sheet, range = range) %>%
+        dplyr::filter(!dplyr::across(dplyr::everything(), is.na))
+      )
+    ) %>%
     dplyr::ungroup()
 }
 
