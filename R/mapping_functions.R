@@ -35,7 +35,8 @@ mapp_cmd_table <- function(
   na_to_filter = TRUE,
   vectorized = FALSE
   ) {
-  id_var <- get_id_var(mapping_file)
+  set_configr_args(mapping_file)
+  id_var <- datenanpassr.env$configr$id_var
 
 
   sheets <- mapping_file %>% readxl::excel_sheets()
@@ -43,7 +44,7 @@ mapp_cmd_table <- function(
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (get_lab_before_var(mapping_file) == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (datenanpassr.env$configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
     var_index <- which(sheets == "Variables")
     lab_index <- which(sheets == "Label")
     sheets[var_index] <- "Label"
@@ -75,7 +76,7 @@ mapp_cmd_table <- function(
     ~ generate_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
     .id = "sheet"
   )
-  df_cmd_manip_string <- get_df_cmd_manip_string_expr(mapping_file)
+  df_cmd_manip_string <- datenanpassr.env$configr$manipulate_command_table
   if (!is.na(df_cmd_manip_string)) {
     df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
   }
@@ -105,11 +106,11 @@ apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
 }
 add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
   vars_to_exclude_na_to_filter <- c(
-    get_vars_to_exclude_na_to_filter(mapping_file),
+    datenanpassr.env$configr$not_miss_to_filter_vars,
     id_var,
-    get_id_var_name(mapping_file)
+    datenanpassr.env$configr$added_id_var
   )
-  na_rec_vec <- get_na_to_filter_rec(mapping_file)
+  na_rec_vec <- datenanpassr.env$configr$miss_replace_lab_val
   dplyr::bind_rows(
     tibble::tibble(
       sheet = "Config",

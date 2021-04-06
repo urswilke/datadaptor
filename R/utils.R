@@ -130,43 +130,27 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 is_true <- function(x) Vectorize(isTRUE)(x)
 
 
-get_id_var <- function(mapping_file) {
-  mapp_configr(mapping_file) %>% dplyr::filter(.data$item == "id_var") %>% dplyr::pull(.data$value)
-}
 
-get_lab_before_var <- function(mapping_file) {
-  mapp_configr(mapping_file) %>% dplyr::filter(.data$item == "Excecute before variable sheet?") %>% dplyr::pull(.data$value)
-}
 
-get_na_to_filter_rec <- function(mapping_file) {
+set_configr_args <- function(mapping_file) {
   df_config <- mapp_configr(mapping_file)
-  rec_val <- df_config %>%
-    dplyr::filter(.data$item == "missing values recoded to") %>%
-    dplyr::pull(.data$value) %>%
-    as.numeric()
-  rec_lab <- df_config %>%
-    dplyr::filter(.data$item == "missing values labelled by") %>%
-    dplyr::pull(.data$value)
-  purrr::set_names(rec_val, rec_lab)
-}
+  l_configr <- df_config %>%
+    dplyr::mutate(value = as.list(value)) %>%
+    dplyr::select(item, value) %>%
+    tibble::deframe()
 
-get_vars_to_exclude_na_to_filter <- function(mapping_file) {
-  vars_excluded <- mapp_configr(mapping_file) %>%
-    dplyr::filter(.data$item == "variables not recoded to FILTER") %>%
-    dplyr::pull(.data$value) %>%
+  l_configr$miss_replace_lab_val <- purrr::set_names(
+    l_configr$miss_rec_val %>% as.numeric(),
+    l_configr$miss_rec_lab
+  )
+  l_configr[c("miss_rec_val","miss_rec_lab")] <- NULL
+
+  l_configr$not_miss_to_filter_vars <-
+    l_configr$not_miss_to_filter_vars %>%
     stringr::str_split("[, ;]+") %>%
-    unlist()
-  vars_excluded[!is.na(vars_excluded)]
-}
-get_id_var_name <- function(mapping_file) {
-  mapp_configr(mapping_file) %>%
-    dplyr::filter(.data$item == "added id variable name") %>%
-    dplyr::pull(.data$value)
-}
-get_df_cmd_manip_string_expr <- function(mapping_file) {
-  mapp_configr(mapping_file) %>%
-    dplyr::filter(.data$item == "manipulate command table") %>%
-    dplyr::pull(.data$value)
+    unlist() %>% dplyr::setdiff(NA)
+
+  list2env(list(configr = l_configr), datenanpassr.env)
 }
 
 
