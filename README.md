@@ -38,30 +38,39 @@ Suppose you have an SPSS data file
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 df <- haven::read_sav(spss_file)
 df
-#> # A tibble: 100 x 8
-#>            q1         q2        q3        q4         q5    id q6        q7      
-#>     <dbl+lbl>  <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl> <dbl> <chr>     <chr>   
-#>  1  3 [norma…  2 [no]    3 [norma… 4 [much]   2 [a bit]     1 bla bla … bla bla…
-#>  2  3 [norma…  1 [yes]   5 [very … 4 [much]   5 [very …     2 bla bla … bla bla…
-#>  3  1 [not a…  1 [yes]   3 [norma… 2 [a bit]  5 [very …     3 bla joy   bla bla…
-#>  4  3 [norma… 99 [no an… 4 [much]  4 [much]   4 [much]      4 bla bla … bla bla…
-#>  5  5 [very … NA         2 [a bit] 3 [norma…  3 [norma…     5 bla happ… bla fear
-#>  6  5 [very … NA         4 [much]  3 [norma…  2 [a bit]     6 bla bla … bla pain
-#>  7 99 [no an…  2 [no]    3 [norma… 4 [much]  NA             7 bla love  bla bla…
-#>  8  2 [a bit]  2 [no]    5 [very … 2 [a bit]  1 [not a…     8 bla bla … bla bla…
-#>  9 99 [no an… 99 [no an… 1 [not a… 1 [not a…  2 [a bit]     9 bla bla … bla bla…
-#> 10 99 [no an…  1 [yes]   1 [not a… 1 [not a…  4 [much]     10 bla bla … bla bla…
+#> # A tibble: 100 x 10
+#>           q1        q2       q3      q4       q5    id q6     q7        q8    q9
+#>    <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+l> <dbl+lb> <dbl> <chr>  <chr>  <dbl> <dbl>
+#>  1  3 [norm…  2 [no]   3 [norm… 4 [muc…  2 [a b…     1 bla b… bla b…     2    NA
+#>  2  3 [norm…  1 [yes]  5 [very… 4 [muc…  5 [ver…     2 bla b… bla b…     9    NA
+#>  3  1 [not …  1 [yes]  3 [norm… 2 [a b…  5 [ver…     3 bla j… bla b…     3    NA
+#>  4  3 [norm… 99 [no a… 4 [much] 4 [muc…  4 [muc…     4 bla b… bla b…     3    NA
+#>  5  5 [very… NA        2 [a bi… 3 [nor…  3 [nor…     5 bla h… bla f…     9    NA
+#>  6  5 [very… NA        4 [much] 3 [nor…  2 [a b…     6 bla b… bla p…     7    NA
+#>  7 99 [no a…  2 [no]   3 [norm… 4 [muc… NA           7 bla l… bla b…    10    NA
+#>  8  2 [a bi…  2 [no]   5 [very… 2 [a b…  1 [not…     8 bla b… bla b…     1    NA
+#>  9 99 [no a… 99 [no a… 1 [not … 1 [not…  2 [a b…     9 bla b… bla b…     2    NA
+#> 10 99 [no a…  1 [yes]  1 [not … 1 [not…  4 [muc…    10 bla b… bla b…     4    NA
 #> # … with 90 more rows
 ```
 
 and want to modify some of the content.
 
-You can create an Excel mapping file that’s based on a template filled
-with variable and label information from the dataset:
+<!-- TODO:  -->
 
-``` r
-datenanpassr::mapp_create(df, "mapping.xlsx")
-```
+<!-- You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset: -->
+
+<!-- ```{r, eval=FALSE} -->
+
+<!-- datenanpassr::mapp_create(df, "mapping.xlsx") -->
+
+<!-- ``` -->
+
+The R package datenanpassr is an approach to programatically manipulate
+labelled datasets via a pre-defined syntax of various types of commands
+in various types of Excel sheets. It is a replacement of what my brother
+initially programmed in VBA and SPSS and how he . It can be used to
+write various data manipulations in a concise way filling in a few Exce
 
 In this Excel file commands can be added to do data cleaning or create
 new variables in the dataset.
@@ -100,31 +109,31 @@ df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_file)
 
 ``` r
 df_mod
-#> # A tibble: 100 x 51
-#>           q1 q2_renamed      q3 q4_renamed       q5    id      q6 q7         kq1
-#>    <dbl+lbl>  <dbl+lbl> <dbl+l>  <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl+lb>
-#>  1  3 [norm…  2 [no]    3 [nor… 4 [much]    2 [a b…     1 3 [bla… bla …  2 [3]  
-#>  2  3 [norm…  1 [YES]   5 [ver… 4 [much]    5 [ver…     2 4 [bla… bla …  2 [3]  
-#>  3  1 [not …  1 [YES]   3 [nor… 2 [a bit]   5 [ver…     3 8 [bla… bla …  1 [1-2]
-#>  4  3 [norm… 99 [no an… 4 [muc… 4 [much]    4 [muc…     4 5 [bla… bla …  2 [3]  
-#>  5  5 [very… -2 [FILTE… 2 [a b… 3 [normal]  3 [nor…     5 7 [bla… bla …  3 [4-5]
-#>  6  5 [very… -2 [FILTE… 4 [muc… 3 [normal]  2 [a b…     6 5 [bla… bla …  3 [4-5]
-#>  7 99 [no a…  2 [no]    3 [nor… 4 [much]   -2 [FIL…     7 9 [bla… bla … NA      
-#>  8  2 [a bi…  2 [no]    5 [ver… 2 [a bit]   1 [not…     8 6 [bla… bla …  1 [1-2]
-#>  9 99 [no a… 99 [no an… 1 [not… 1 [not at…  2 [a b…     9 6 [bla… bla … NA      
-#> 10 99 [no a…  1 [YES]   1 [not… 1 [not at…  4 [muc…    10 3 [bla… bla … NA      
-#> # … with 90 more rows, and 42 more variables: q6n <dbl+lbl>, q7n <dbl+lbl>,
-#> #   q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>,
-#> #   q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
-#> #   q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>, q6test_97 <dbl+lbl>,
-#> #   q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>, q6n3 <dbl+lbl>,
-#> #   q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>, q6n7 <dbl+lbl>,
-#> #   q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>, abc <dbl>,
-#> #   kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>, kq1xq2_renamedkminus20 <dbl+lbl>,
-#> #   kq1xq2_renamedk10 <dbl+lbl>, kq1xq2_renamedk20 <dbl+lbl>,
-#> #   kq1xq2_renamedk990 <dbl+lbl>, n <dbl+lbl>, a1 <dbl+lbl>, a2 <dbl+lbl>,
-#> #   r_expr_var <dbl+lbl>, q2 <dbl+lbl>, sum_of_k_vars <dbl>, a <dbl>,
-#> #   kkq1 <dbl+lbl>, free2_var <dbl>
+#> # A tibble: 100 x 52
+#>           q1  q2_renamed       q3  q4_renamed       q5    id      q6 q7       q8
+#>    <dbl+lbl>   <dbl+lbl> <dbl+lb>   <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl>
+#>  1  3 [norm…  2 [no]     3 [norm… 4 [much]     2 [a b…     1 3 [bla… bla …     2
+#>  2  3 [norm…  1 [YES]    5 [very… 4 [much]     5 [ver…     2 4 [bla… bla …     9
+#>  3  1 [not …  1 [YES]    3 [norm… 2 [a bit]    5 [ver…     3 8 [bla… bla …     3
+#>  4  3 [norm… 99 [no ans… 4 [much] 4 [much]     4 [muc…     4 5 [bla… bla …     3
+#>  5  5 [very… -2 [FILTER] 2 [a bi… 3 [normal]   3 [nor…     5 7 [bla… bla …     9
+#>  6  5 [very… -2 [FILTER] 4 [much] 3 [normal]   2 [a b…     6 5 [bla… bla …     7
+#>  7 99 [no a…  2 [no]     3 [norm… 4 [much]    -2 [FIL…     7 9 [bla… bla …    10
+#>  8  2 [a bi…  2 [no]     5 [very… 2 [a bit]    1 [not…     8 6 [bla… bla …     1
+#>  9 99 [no a… 99 [no ans… 1 [not … 1 [not at …  2 [a b…     9 6 [bla… bla …     2
+#> 10 99 [no a…  1 [YES]    1 [not … 1 [not at …  4 [muc…    10 3 [bla… bla …     4
+#> # … with 90 more rows, and 43 more variables: kq1 <dbl+lbl>, q6n <dbl+lbl>,
+#> #   q7n <dbl+lbl>, q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>,
+#> #   q6_4 <dbl+lbl>, q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>,
+#> #   q6test_2 <dbl+lbl>, q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>,
+#> #   q6test_97 <dbl+lbl>, q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>,
+#> #   q6n3 <dbl+lbl>, q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>,
+#> #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>,
+#> #   abc <dbl>, kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>,
+#> #   kq1xq2_renamedkminus20 <dbl+lbl>, kq1xq2_renamedk10 <dbl+lbl>,
+#> #   kq1xq2_renamedk20 <dbl+lbl>, kq1xq2_renamedk990 <dbl+lbl>, n <dbl+lbl>,
+#> #   a1 <dbl+lbl>, a2 <dbl+lbl>, r_expr_var <dbl+lbl>, q2 <dbl+lbl>,
+#> #   sum_of_k_vars <dbl>, a <dbl>, kkq1 <dbl+lbl>, free2_var <dbl>
 ```
 
 Let’s also have a closer look at one of the new variables:

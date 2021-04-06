@@ -51,12 +51,16 @@ df
 
 and want to modify some of the content. 
 
-You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset:
+<!-- TODO:  -->
+
+<!-- You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset: -->
 
 
-```{r, eval=FALSE}
-datenanpassr::mapp_create(df, "mapping.xlsx")
-```
+<!-- ```{r, eval=FALSE} -->
+<!-- datenanpassr::mapp_create(df, "mapping.xlsx") -->
+<!-- ``` -->
+
+The R package datenanpassr is an approach to programatically manipulate labelled datasets via a pre-defined syntax of various types of commands in various types of Excel sheets. It is a replacement of what my brother initially programmed in VBA and SPSS and how he . It can be used to write various data manipulations in a concise way filling in a few Exce
 
 In this Excel file commands can be added to do data cleaning or create new variables in the dataset.
 
