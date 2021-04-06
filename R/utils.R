@@ -135,8 +135,8 @@ is_true <- function(x) Vectorize(isTRUE)(x)
 set_configr_args <- function(mapping_file) {
   df_config <- mapp_configr(mapping_file)
   l_configr <- df_config %>%
-    dplyr::mutate(value = as.list(value)) %>%
-    dplyr::select(item, value) %>%
+    dplyr::mutate(value = as.list(.data$value)) %>%
+    dplyr::select(.data$item, .data$value) %>%
     tibble::deframe()
 
   l_configr$miss_replace_lab_val <- purrr::set_names(
