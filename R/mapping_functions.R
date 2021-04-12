@@ -69,7 +69,8 @@ mapp_cmd_table <- function(
   sheet_cats <- sheet_cats %>%
     purrr::map_chr(~.x)
 
-  class(mapping_file) <- "xlsx"
+  # The class is set to the file ending:
+  class(mapping_file) <- stringr::str_remove(mapping_file, ".*\\.")
   # sheet_cats <- new_xlsx(sheet_cats)
 
   df_cmd <- purrr::map2_dfr(
