@@ -78,11 +78,20 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 
 
 
+mapp_var_sheet_cmd_table.xlsx <- function(mapping_file, sheet = "Variables") {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    col_types = "text"
+  )
+}
+mapp_var_sheet_cmd_table.xlsm <- function(mapping_file, sheet = "Variables") {
+  read_xlsm_variables_sheet_raw(mapping_file, sheet)
+}
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
-#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of mapp_create
 #'
 #' @return Command block table of the "Variables" sheet of the Excel mapping file.
 #' @export
@@ -96,21 +105,16 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
-mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
-  if (translate_xlsm) {
-    df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
-  }
-  else {
-    df_varl <- readxl::read_xlsx(
-      mapping_file,
-      sheet = sheet,
-      col_types = "text"
-    )
-  }
-  df_varl <- df_varl %>%
-    dplyr::mutate(row = dplyr::row_number() + 1)
-  df_varl %>% parse_varlab_cmd_table()
+mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables"){
+  UseMethod("mapp_var_sheet_cmd_table")
 }
+format_df_varl <- function(df_varl) {
+  df_varl %>%
+    dplyr::mutate(row = dplyr::row_number() + 1) %>%
+    parse_varlab_cmd_table()
+
+}
+
 
 read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
   readxl::read_xlsx(

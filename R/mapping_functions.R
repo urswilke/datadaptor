@@ -69,6 +69,9 @@ mapp_cmd_table <- function(
   sheet_cats <- sheet_cats %>%
     purrr::map_chr(~.x)
 
+  class(mapping_file) <- "xlsx"
+  # sheet_cats <- new_xlsx(sheet_cats)
+
   df_cmd <- purrr::map2_dfr(
     sheets %>%
       purrr::set_names(),
@@ -101,6 +104,18 @@ mapp_cmd_table <- function(
   attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
+
+
+# new_xlsx <- function(x = character()) {
+#   stopifnot(is.character(x))
+#   structure(x, class = "xlsx")
+# }
+#
+# `[[.xlsx` <- function(x, i) {
+#   new_xlsx(NextMethod())
+# }
+
+
 apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
   df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
@@ -129,7 +144,7 @@ add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
 generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
   switch (
     sheet_cat,
-    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
+    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name) %>% format_df_varl(),
     "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
     "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
