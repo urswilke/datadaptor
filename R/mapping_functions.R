@@ -116,9 +116,9 @@ new_cmd_table <- function(mapping_file, ..., class = character()) {
   )
 }
 new_cmd_table_type <- function(mapping_file) {
-  excel_type <- stringr::str_remove(mapping_file, ".*\\.")
-  excel_type <- match.arg(excel_type, c("xlsx", "xlsm"))
-  new_cmd_table(mapping_file, class = excel_type)
+  mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
+  mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
+  new_cmd_table(mapping_file, class = mapping_type)
 }
 
 
