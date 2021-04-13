@@ -70,9 +70,9 @@ mapp_cmd_table <- function(
     purrr::map_chr(~.x)
 
   # The class is set to the file ending:
-  class(mapping_file) <- stringr::str_remove(mapping_file, ".*\\.")
-  # sheet_cats <- new_xlsx(sheet_cats)
 
+  # sheet_cats <- new_xlsx(sheet_cats)
+  mapping_file <- new_cmd_table_type(mapping_file)
   df_cmd <- purrr::map2_dfr(
     sheets %>%
       purrr::set_names(),
@@ -106,15 +106,20 @@ mapp_cmd_table <- function(
   df_cmd
 }
 
+new_cmd_table <- function(mapping_file, ..., class = character()) {
+  stopifnot(file.exists(mapping_file))
 
-# new_xlsx <- function(x = character()) {
-#   stopifnot(is.character(x))
-#   structure(x, class = "xlsx")
-# }
-#
-# `[[.xlsx` <- function(x, i) {
-#   new_xlsx(NextMethod())
-# }
+  structure(
+    mapping_file,
+    ...,
+    class = c(class, "cmd_table")
+  )
+}
+new_cmd_table_type <- function(mapping_file) {
+  excel_type <- stringr::str_remove(mapping_file, ".*\\.")
+  excel_type <- match.arg(excel_type, c("xlsx", "xlsm"))
+  new_cmd_table(mapping_file, class = excel_type)
+}
 
 
 apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
