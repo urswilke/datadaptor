@@ -48,32 +48,16 @@ mapp_cmd_table <- function(
     sheets <- switch_sheets_vars_label(sheets)
   }
 
-  sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
-
-  # vector of sheets with names defined by types:
-  sheet_cats <- purrr::map(
-    sheets,
-    ~stringr::str_detect(.x, sheet_types)
-  ) %>%
-    purrr::map(
-      ~ sheet_types[.x] %>%
-        stringr::str_remove("\\^")
-    ) %>%
-    purrr::set_names(sheets)
-  # remove sheets not in sheet types list:
-  sheets <- sheets[purrr::map_int(sheet_cats, length) > 0]
-  sheet_cats <- sheet_cats[purrr::map_int(sheet_cats, length) > 0]
-  sheet_cats <- sheet_cats %>%
-    purrr::map_chr(~.x)
+  sheet_cats <- tab_sheet_types(sheets)
 
   # The class is set to the file ending:
 
   # sheet_cats <- new_xlsx(sheet_cats)
   mapping_file <- new_cmd_table_type(mapping_file)
   df_cmd <- purrr::map2_dfr(
-    sheets %>%
+    sheet_cats$sheet %>%
       purrr::set_names(),
-    sheet_cats,
+    sheet_cats$sheet_type,
     ~ generate_sheet_cmd_table(mapping_file, .y, .x, id_var_str = id_var),
     .id = "sheet"
   )
@@ -108,6 +92,26 @@ switch_sheets_vars_label <- function(sheets) {
   sheets[var_index] <- "Label"
   sheets[lab_index] <- "Variables"
   sheets
+}
+tab_sheet_types <- function(sheets) {
+  sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
+
+  # vector of sheets with names defined by types:
+  sheet_cats <- purrr::map(
+    sheets,
+    ~stringr::str_detect(.x, sheet_types)
+  ) %>%
+    purrr::map(
+      ~ sheet_types[.x] %>%
+        stringr::str_remove("\\^")
+    ) %>%
+    purrr::set_names(sheets)
+  # remove sheets not in sheet types list:
+  sheets <- sheets[purrr::map_int(sheet_cats, length) > 0]
+  sheet_cats <- sheet_cats[purrr::map_int(sheet_cats, length) > 0]
+  sheet_cats %>%
+    purrr::map_chr(~.x) %>%
+    tibble::enframe("sheet", "sheet_type")
 }
 new_cmd_table <- function(mapping_file, ..., class = character()) {
   stopifnot(file.exists(mapping_file))
