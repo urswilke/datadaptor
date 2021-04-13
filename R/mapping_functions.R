@@ -88,7 +88,7 @@ mapp_cmd_table <- function(
     df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd, id_var)
   }
   if (add_r_command_colum) {
-    cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
+    cmd_list <- exprs_to_chr_vec(df_cmd)
     # print(cmd_list)
     df_cmd["R command"] <-
       tibble::tibble(a = cmd_list) %>%
@@ -101,6 +101,11 @@ mapp_cmd_table <- function(
   attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
+
+exprs_to_chr_vec <- function(df_cmd) {
+  purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
+}
+
 apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
   df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
@@ -389,7 +394,7 @@ translate_to_r_script <- function(
     generate_cmd_expression <- generate_group_expr
   }
   cmd_list <-
-    purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
+    exprs_to_chr_vec(df_cmd) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))
   script_start <- c(
     # "library(tidyverse)",
