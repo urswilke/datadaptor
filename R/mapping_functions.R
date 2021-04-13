@@ -77,7 +77,7 @@ mapp_cmd_table <- function(
     sheets %>%
       purrr::set_names(),
     sheet_cats,
-    ~ generate_sheet_cmd_table(mapping_file, .y, .x, translate_xlsm = translate_xlsm, id_var_str = id_var),
+    ~ generate_sheet_cmd_table(mapping_file, .y, .x, id_var_str = id_var),
     .id = "sheet"
   )
   df_cmd_manip_string <- datenanpassr.env$configr$manipulate_command_table
@@ -142,12 +142,12 @@ add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
     df_cmd
   )
 }
-generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
+generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, id_var_str) {
   switch (
     sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name),
     "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
+    "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
   )
 

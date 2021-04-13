@@ -315,7 +315,6 @@ parse_newvall_cmd_table <- function(df_vall) {
 #'
 #' @param  mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
-#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return Command block table of the "Free" sheet of the Excel mapping file.
 #' @export
@@ -329,19 +328,8 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_free_sheet_cmd_table(mapping_file)
-mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
-  df_free_raw <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet, translate_xlsm)
-  df_free_raw %>%
-    put_absolute_filepaths(mapping_file) %>%
-    process_raw_free_cmd_table()
-}
-mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
-  df_free <- readxl::read_xlsx(
-    mapping_file,
-    range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
-    col_names = paste0("X", 1:5),
-    col_types = "text"
-  )
+mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1") {
+  df_free <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet)
   if (nrow(df_free) > 0) {
     df_free <- df_free %>%
       dplyr::select(1:5) %>%
@@ -353,12 +341,27 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", transla
       purrr::map_dfc(1:5, ~character()) %>%
       purrr::set_names(paste0("X", 1:5))
   }
-  if (translate_xlsm) {
-    df_free <- translate_xlsm_free_sheet(df_free)
-  }
+  df_free %>%
+    put_absolute_filepaths(mapping_file) %>%
+    process_raw_free_cmd_table()
+}
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
+  df_free <- readxl::read_xlsx(
+    mapping_file,
+    range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+    col_names = paste0("X", 1:5),
+    col_types = "text"
+  )
+}
+
+translate_free_sheet <- function(df_free) {
+  UseMethod("translate_free_sheet")
+}
+
+translate_free_sheet.xlsx <- function(df_free) {
   df_free
 }
-translate_xlsm_free_sheet <- function(df_free) {
+translate_free_sheet.xlsm <- function(df_free) {
   df_free %>% dplyr::slice(-1)
 }
 
