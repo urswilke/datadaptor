@@ -76,18 +76,6 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 }
 
 
-
-
-mapp_var_sheet_cmd_table.xlsx <- function(mapping_file, sheet = "Variables") {
-  readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    col_types = "text"
-  )
-}
-mapp_var_sheet_cmd_table.xlsm <- function(mapping_file, sheet = "Variables") {
-  read_xlsm_variables_sheet_raw(mapping_file, sheet)
-}
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param mapping_file name of the Excel mapping file
@@ -106,17 +94,23 @@ mapp_var_sheet_cmd_table.xlsm <- function(mapping_file, sheet = "Variables") {
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables"){
-  UseMethod("mapp_var_sheet_cmd_table")
-}
-format_df_varl <- function(df_varl) {
-  df_varl %>%
-    dplyr::mutate(row = dplyr::row_number() + 1) %>%
-    parse_varlab_cmd_table()
-
+  read_variables_sheet_raw(mapping_file, sheet) %>%
+    format_df_varl()
 }
 
+read_variables_sheet_raw <- function(mapping_file, sheet) {
+  UseMethod("read_variables_sheet_raw")
+}
 
-read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
+read_variables_sheet_raw.xlsx <- function(mapping_file, sheet = "Variables") {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    col_types = "text"
+  )
+}
+
+read_variables_sheet_raw.xlsm <- function(mapping_file, sheet) {
   readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
@@ -125,6 +119,15 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
     col_types = "text") %>%
     dplyr::select(-dplyr::matches("^nn[1-8]$"))
 }
+
+format_df_varl <- function(df_varl) {
+  df_varl %>%
+    dplyr::mutate(row = dplyr::row_number() + 1) %>%
+    parse_varlab_cmd_table()
+
+}
+
+
 
 parse_varlab_cmd_table <- function(df_varl) {
   dplyr::bind_rows(

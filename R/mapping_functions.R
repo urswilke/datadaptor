@@ -145,7 +145,7 @@ add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
 generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, translate_xlsm, id_var_str) {
   switch (
     sheet_cat,
-    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name) %>% format_df_varl(),
+    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name),
     "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
     "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name, translate_xlsm = translate_xlsm),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
