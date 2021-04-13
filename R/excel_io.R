@@ -225,7 +225,6 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #'
 #' @param mapping_file name of the Excel mapping file
 #' @param  sheet name of the sheet in the Excel mapping file
-#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #'
 #' @return Command block table of the "Label" sheet of the Excel mapping file.
 #' @export
@@ -239,17 +238,9 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_vallab_sheet_cmd_table(mapping_file)
-mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate_xlsm = FALSE) {
-  if (translate_xlsm) {
-    df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
-  }
-  else {
-    df_vall <- readxl::read_xlsx(
-      mapping_file,
-      sheet = sheet
-    )
+mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label") {
+  df_vall <- read_label_sheet_raw(mapping_file, sheet)
 
-  }
   df_vall <- df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
   dplyr::bind_rows(
@@ -259,7 +250,17 @@ mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label", translate
 
 }
 
-read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
+read_label_sheet_raw <- function(mapping_file, sheet) {
+  UseMethod("read_label_sheet_raw")
+}
+
+read_label_sheet_raw.xlsx <- function(mapping_file, sheet) {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet
+  )
+}
+read_label_sheet_raw.xlsm <- function(mapping_file, sheet) {
   readxl::read_xlsx(
     mapping_file,
     sheet = sheet,

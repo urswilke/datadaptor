@@ -4,18 +4,12 @@
 \alias{mapp_vallab_sheet_cmd_table}
 \title{Extract value label sheet of Excel mapping file to dataframe}
 \usage{
-mapp_vallab_sheet_cmd_table(
-  mapping_file,
-  sheet = "Label",
-  translate_xlsm = FALSE
-)
+mapp_vallab_sheet_cmd_table(mapping_file, sheet = "Label")
 }
 \arguments{
 \item{mapping_file}{name of the Excel mapping file}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
-
-\item{translate_xlsm}{logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``}
 }
 \value{
 Command block table of the "Label" sheet of the Excel mapping file.
