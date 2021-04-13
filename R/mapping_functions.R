@@ -45,10 +45,7 @@ mapp_cmd_table <- function(
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
   if (datenanpassr.env$configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
-    var_index <- which(sheets == "Variables")
-    lab_index <- which(sheets == "Label")
-    sheets[var_index] <- "Label"
-    sheets[lab_index] <- "Variables"
+    sheets <- switch_sheets_vars_label(sheets)
   }
 
   sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
@@ -105,7 +102,13 @@ mapp_cmd_table <- function(
   attr(df_cmd, "id_var") <- id_var
   df_cmd
 }
-
+switch_sheets_vars_label <- function(sheets) {
+  var_index <- which(sheets == "Variables")
+  lab_index <- which(sheets == "Label")
+  sheets[var_index] <- "Label"
+  sheets[lab_index] <- "Variables"
+  sheets
+}
 new_cmd_table <- function(mapping_file, ..., class = character()) {
   stopifnot(file.exists(mapping_file))
 
