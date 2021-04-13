@@ -50,9 +50,6 @@ mapp_cmd_table <- function(
 
   sheet_cats <- tab_sheet_types(sheets)
 
-  # The class is set to the file ending:
-
-  # sheet_cats <- new_xlsx(sheet_cats)
   mapping_file <- new_cmd_table_type(mapping_file)
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
@@ -74,7 +71,6 @@ mapp_cmd_table <- function(
   }
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
-    # print(cmd_list)
     df_cmd["R command"] <-
       tibble::tibble(a = cmd_list) %>%
       dplyr::rowwise() %>%
@@ -123,6 +119,7 @@ new_cmd_table <- function(mapping_file, ..., class = character()) {
   )
 }
 new_cmd_table_type <- function(mapping_file) {
+  # The class is set to the file ending:
   mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
   mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
   new_cmd_table(mapping_file, class = mapping_type)
