@@ -50,7 +50,7 @@ mapp_cmd_table <- function(
 
   sheet_cats <- tab_sheet_types(sheets)
 
-  mapping_file <- new_cmd_table_type(mapping_file)
+  mapping_file <- new_mapping_file_type(mapping_file)
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
@@ -109,20 +109,20 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
-new_cmd_table <- function(mapping_file, ..., class = character()) {
+new_mapping_file <- function(mapping_file, ..., class = character()) {
   stopifnot(file.exists(mapping_file))
 
   structure(
     mapping_file,
     ...,
-    class = c(class, "cmd_table")
+    class = c(class, "mapping_file")
   )
 }
-new_cmd_table_type <- function(mapping_file) {
+new_mapping_file_type <- function(mapping_file) {
   # The class is set to the file ending:
   mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
   mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
-  new_cmd_table(mapping_file, class = mapping_type)
+  new_mapping_file(mapping_file, class = mapping_type)
 }
 
 
