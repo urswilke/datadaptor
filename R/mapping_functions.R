@@ -35,22 +35,28 @@ mapp_cmd_table <- function(
   na_to_filter = TRUE,
   vectorized = FALSE
   ) {
-  set_configr_args(mapping_file)
-  id_var <- datenanpassr.env$configr$id_var
-
-
-  sheets <- mapping_file %>% readxl::excel_sheets()
-
-  # exchange positions of "Variables" & "Label" sheets (because otherwise,
-  # renaming a variable in the "Variables" sheet will not work when creating a
-  # summary variable out of it):
-  if (datenanpassr.env$configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
-    sheets <- switch_sheets_vars_label(sheets)
-  }
-
-  sheet_cats <- tab_sheet_types(sheets)
 
   mapping_file <- new_mapping_file_type(mapping_file)
+
+  df_cmd <- generate_cmd_table(
+    mapping_file,
+    na_to_filter = na_to_filter,
+    add_r_command_colum = add_r_command_colum,
+    vectorized = vectorized
+  )
+
+  df_cmd
+}
+
+
+generate_cmd_table <- function(mapping_file,
+                               na_to_filter,
+                               add_r_command_colum,
+                               vectorized) {
+  sheet_cats <- attr(mapping_file, "sheet_cats")
+  id_var <- attr(mapping_file, "id_var")
+  df_cmd_manip_string <- attr(mapping_file, "mapping_file_env")$configr$manipulate_command_table
+  # TODO: remove function arg id_var...:
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
@@ -58,7 +64,6 @@ mapp_cmd_table <- function(
     ~ generate_sheet_cmd_table(mapping_file, .y, .x, id_var_str = id_var),
     .id = "sheet"
   )
-  df_cmd_manip_string <- datenanpassr.env$configr$manipulate_command_table
   if (!is.na(df_cmd_manip_string)) {
     df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
   }
@@ -80,8 +85,12 @@ mapp_cmd_table <- function(
 
   attr(df_cmd, "vectorized") = vectorized
   attr(df_cmd, "id_var") <- id_var
+  attr(df_cmd, "mapping_file") <- mapping_file
+  class(df_cmd) <- c("cmd_table", class(df_cmd))
   df_cmd
 }
+
+
 switch_sheets_vars_label <- function(sheets) {
   var_index <- which(sheets == "Variables")
   lab_index <- which(sheets == "Label")
@@ -112,8 +121,27 @@ tab_sheet_types <- function(sheets) {
 new_mapping_file <- function(mapping_file, ..., class = character()) {
   stopifnot(file.exists(mapping_file))
 
+  set_configr_args(mapping_file)
+  id_var <- datenanpassr.env$configr$id_var
+
+
+  sheets <- mapping_file %>% readxl::excel_sheets()
+
+  # exchange positions of "Variables" & "Label" sheets (because otherwise,
+  # renaming a variable in the "Variables" sheet will not work when creating a
+  # summary variable out of it):
+  if (datenanpassr.env$configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+    sheets <- switch_sheets_vars_label(sheets)
+  }
+
+  sheet_cats <- tab_sheet_types(sheets)
+
+
   structure(
     mapping_file,
+    id_var = id_var,
+    sheet_cats = sheet_cats,
+    mapping_file_env = datenanpassr.env,
     ...,
     class = c(class, "mapping_file")
   )

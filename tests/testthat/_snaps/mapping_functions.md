@@ -198,7 +198,7 @@
 
 # result of mapp_cmd_table()
 
-    tibble [68 x 5] (S3: tbl_df/tbl/data.frame)
+    cmd_table [68 x 5] (S3: cmd_table/tbl_df/tbl/data.frame)
      $ sheet  : chr [1:68] "Config" "Label" "Label" "Variables" ...
      $ action : chr [1:68] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
      $ row    : chr [1:68] NA "8" "2, 3, 4, 5, 6" "8" ...
@@ -633,4 +633,10 @@
       .. ..$ new_val: chr "3"
      - attr(*, "vectorized")= logi FALSE
      - attr(*, "id_var")= chr "id"
+     - attr(*, "mapping_file")= 'xlsx' chr "/home/chief/R/datenanpassr/inst/extdata/mapping.xlsx"
+      ..- attr(*, "id_var")= chr "id"
+      ..- attr(*, "sheet_cats")= tibble [5 x 2] (S3: tbl_df/tbl/data.frame)
+      .. ..$ sheet     : chr [1:5] "Label" "Variables" "Verbatims" "Free1" ...
+      .. ..$ sheet_type: chr [1:5] "Label" "Variables" "Verbatims" "Free" ...
+      ..- attr(*, "mapping_file_env")=<environment: 0x5617fa22f170> 
 
