@@ -7,8 +7,7 @@
 mapp_verbatim_sheet_cmd_tbl(
   mapping_file,
   verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
-  sheet = "Verbatims",
-  id_var_str
+  sheet = "Verbatims"
 )
 }
 \arguments{

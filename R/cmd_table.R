@@ -56,12 +56,11 @@ generate_cmd_table <- function(mapping_file,
   sheet_cats <- attr(mapping_file, "sheet_cats")
   id_var <- attr(mapping_file, "id_var")
   df_cmd_manip_string <- attr(mapping_file, "mapping_file_attrs")$configr$manipulate_command_table
-  # TODO: remove function arg id_var...:
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
     sheet_cats$sheet_type,
-    ~ generate_sheet_cmd_table(mapping_file, .y, .x, id_var_str = id_var),
+    ~ generate_sheet_cmd_table(mapping_file, .y, .x),
     .id = "sheet"
   )
   if (!is.na(df_cmd_manip_string)) {
@@ -179,13 +178,13 @@ add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
     df_cmd
   )
 }
-generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name, id_var_str) {
+generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name) {
   switch (
     sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name),
     "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name),
     "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name, id_var_str = id_var_str)
+    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name)
   )
 
 }

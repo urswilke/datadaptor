@@ -20,10 +20,10 @@
 mapp_verbatim_sheet_cmd_tbl <- function(
   mapping_file,
   verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
-  sheet = "Verbatims",
-  id_var_str
+  sheet = "Verbatims"
 ) {
   if (!is.na(verbatim_file)) {
+    id_var_str <- attr(mapping_file, "id_var")
     l <- parse_verbatim_data_raw(mapping_file, verbatim_file, sheet)
     generate_verbatim_assignment_table_raw(l) %>%
       dplyr::mutate(
