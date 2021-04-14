@@ -55,7 +55,7 @@ generate_cmd_table <- function(mapping_file,
                                vectorized) {
   sheet_cats <- attr(mapping_file, "sheet_cats")
   id_var <- attr(mapping_file, "id_var")
-  df_cmd_manip_string <- attr(mapping_file, "mapping_file_env")$configr$manipulate_command_table
+  df_cmd_manip_string <- attr(mapping_file, "mapping_file_attrs")$configr$manipulate_command_table
   # TODO: remove function arg id_var...:
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
@@ -141,7 +141,7 @@ new_mapping_file <- function(mapping_file, ..., class = character()) {
     mapping_file,
     id_var = id_var,
     sheet_cats = sheet_cats,
-    mapping_file_env = datenanpassr.env,
+    mapping_file_attrs = datenanpassr.env %>% as.list(),
     ...,
     class = c(class, "mapping_file")
   )

@@ -638,5 +638,13 @@
       ..- attr(*, "sheet_cats")= tibble [5 x 2] (S3: tbl_df/tbl/data.frame)
       .. ..$ sheet     : chr [1:5] "Label" "Variables" "Verbatims" "Free1" ...
       .. ..$ sheet_type: chr [1:5] "Label" "Variables" "Verbatims" "Free" ...
-      ..- attr(*, "mapping_file_env")=<environment: 0x5617fa22f170> 
+      ..- attr(*, "mapping_file_attrs")=List of 1
+      .. ..$ configr:List of 6
+      .. .. ..$ id_var                  : chr "id"
+      .. .. ..$ added_id_var            : chr "DC_ID"
+      .. .. ..$ lab_before_var_sheet    : chr "yes"
+      .. .. ..$ not_miss_to_filter_vars : chr(0) 
+      .. .. ..$ manipulate_command_table: chr "df_cmd %>% dplyr::filter(TRUE)"
+      .. .. ..$ miss_replace_lab_val    : Named num -2
+      .. .. .. ..- attr(*, "names")= chr "FILTER"
 
