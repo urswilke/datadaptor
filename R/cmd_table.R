@@ -81,7 +81,10 @@ generate_cmd_table <- function(mapping,
     dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data, vectorized)) %>%
     dplyr::ungroup()
   if (na_to_filter == TRUE) {
-    df_cmd <- add_rec_na_to_cmd_table(mapping_file, df_cmd, id_var)
+    df_cmd <- dplyr::bind_rows(
+      generate_rec_na_cmd_table(mapping),
+      df_cmd
+    )
   }
   if (add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
@@ -192,26 +195,27 @@ new_mapping_subclass <- function(mapping, ..., subclass) {
 apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
   df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
-add_rec_na_to_cmd_table <- function(mapping_file, df_cmd, id_var) {
+generate_rec_na_cmd_table <- function(mapping) {
+  # generates a row of a command table with the command to recode missing to -2,
+  # labelled "FILTER"
   vars_to_exclude_na_to_filter <- c(
-    datenanpassr.env$configr$not_miss_to_filter_vars,
-    id_var,
-    datenanpassr.env$configr$added_id_var
+    mapping$mapping_file_attrs$configr$not_miss_to_filter_vars,
+    mapping$id_var,
+    mapping$mapping_file_attrs$configr$added_id_var
   )
-  na_rec_vec <- datenanpassr.env$configr$miss_replace_lab_val
-  dplyr::bind_rows(
-    tibble::tibble(
-      sheet = "Config",
-      action = "#RECNA",
-      row = NA_character_,
-      new_var = NA_character_,
-      data = list(list(
+  na_rec_vec <- mapping$mapping_file_attrs$configr$miss_replace_lab_val
+  tibble::tibble(
+    sheet = "Config",
+    action = "#RECNA",
+    row = NA_character_,
+    new_var = NA_character_,
+    data = list(
+      list(
         recode_na_exceptions = vars_to_exclude_na_to_filter,
         replace_val = unname(na_rec_vec),
         replace_label = names(na_rec_vec)
-      ))
-    ),
-    df_cmd
+      )
+    )
   )
 }
 generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name) {
