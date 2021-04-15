@@ -35,19 +35,19 @@ try_catch_expr <- function(mutate_expr) {
 
   rlang::expr(
     tryCatch({
-      attr(df, "cmd_index") <- attr(df, "cmd_index") + 1
+      datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
 
       # err_msg <- NA_character_
       !!mutate_expr
     },
     error = function(e) {
       err_msg <- geterrmessage()[1]
-      attr(df, "error_list")[attr(df, "cmd_index")] <- err_msg
+      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
 
       message(cat(
         paste(
           "Error in command",
-          attr(df, "cmd_index"),
+          datenanpassr.env$cmd_index,
           ": ",
           err_msg)
       ))
@@ -137,7 +137,7 @@ apply_one_cmd.vec_unsafe <- function(df, action, data){
 #' @export
 apply_one_cmd.vec_safe <- function(df, action, data) {
   if (action != "#GROUP") {
-    attr(df, "cmd_index") <- attr(df, "cmd_index") + 1
+    datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
   }
 
   res <- tryCatch({
@@ -147,12 +147,12 @@ apply_one_cmd.vec_safe <- function(df, action, data) {
   error = function(e) {
     err_msg <- geterrmessage()[1]
     if (action != "#GROUP") {
-      attr(df, "error_list")[attr(df, "cmd_index")] <- err_msg
+      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
     }
     print(
       paste(
         "Error in command",
-        attr(df, "cmd_index"),
+        datenanpassr.env$cmd_index,
         ": ",
         err_msg)
     )
