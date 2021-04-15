@@ -3,7 +3,6 @@
 #' @param mapping_file name of the Excel mapping file
 #' @param sheet name of the sheet in the Excel mapping file
 #' @param verbatim_file character string of the name of the Verbatim file
-#' @param id_var_str character string of the name of the id variable in the data file
 #'
 #' @return Command block table of the "Verbatims" sheet of the Excel mapping file.
 #' @export

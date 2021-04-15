@@ -16,8 +16,6 @@ mapp_verbatim_sheet_cmd_tbl(
 \item{verbatim_file}{character string of the name of the Verbatim file}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
-
-\item{id_var_str}{character string of the name of the id variable in the data file}
 }
 \value{
 Command block table of the "Verbatims" sheet of the Excel mapping file.
