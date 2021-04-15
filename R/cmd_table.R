@@ -35,11 +35,15 @@ mapp_cmd_table <- function(
   na_to_filter = TRUE,
   vectorized = FALSE
 ) {
+  # The class is set to the file ending:
+  mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
+  mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
 
-  mapping_file <- new_mapping_file_type(
+  mapping_file <- new_mapping_file_subclass(
     mapping_file,
     na_to_filter,
-    vectorized
+    vectorized,
+    subclass = mapping_type
   )
 
   df_cmd <- generate_cmd_table(
@@ -170,11 +174,8 @@ is_mapping_file <- function(mapping_file) {
   inherits(mapping_file, "mapping_file")
 }
 
-new_mapping_file_type <- function(mapping_file, ...) {
-  # The class is set to the file ending:
-  mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
-  mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
-  new_mapping_file(mapping_file, ..., class = mapping_type)
+new_mapping_file_subclass <- function(mapping_file, ..., subclass) {
+  new_mapping_file(mapping_file, ..., class = subclass)
 }
 
 
