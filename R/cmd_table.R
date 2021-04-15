@@ -36,7 +36,11 @@ mapp_cmd_table <- function(
   vectorized = FALSE
 ) {
 
-  mapping_file <- new_mapping_file_type(mapping_file)
+  mapping_file <- new_mapping_file_type(
+    mapping_file,
+    na_to_filter,
+    vectorized
+  )
 
   df_cmd <- generate_cmd_table(
     mapping_file,
@@ -44,8 +48,10 @@ mapp_cmd_table <- function(
     add_r_command_colum = add_r_command_colum,
     vectorized = vectorized
   )
+  attr(mapping_file, "df_cmd") <- df_cmd
 
-  df_cmd
+
+  mapping_file
 }
 
 
@@ -82,10 +88,10 @@ generate_cmd_table <- function(mapping_file,
       tidyr::unnest(.data$a)
   }
 
-  attr(df_cmd, "vectorized") = vectorized
-  attr(df_cmd, "id_var") <- id_var
-  attr(df_cmd, "mapping_file") <- mapping_file
-  class(df_cmd) <- c("cmd_table", class(df_cmd))
+  # attr(df_cmd, "vectorized") = vectorized
+  # attr(df_cmd, "id_var") <- id_var
+  # attr(df_cmd, "mapping_file") <- mapping_file
+  # class(df_cmd) <- c("cmd_table", class(df_cmd))
   df_cmd
 }
 
@@ -117,8 +123,15 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
-new_mapping_file <- function(mapping_file, ..., class = character()) {
+new_mapping_file <- function(
+  mapping_file,
+  na_to_filter = logical(),
+  vectorized = logical(),
+  ...,
+  class = character()) {
   stopifnot(file.exists(mapping_file))
+  stopifnot(is.logical(na_to_filter))
+  stopifnot(is.logical(vectorized))
 
   set_configr_args(mapping_file)
   id_var <- datenanpassr.env$configr$id_var
@@ -141,15 +154,23 @@ new_mapping_file <- function(mapping_file, ..., class = character()) {
     id_var = id_var,
     sheet_cats = sheet_cats,
     mapping_file_attrs = datenanpassr.env %>% as.list(),
+    na_to_filter = na_to_filter,
+    vectorized = vectorized,
+    df_cmd = tibble::tibble(),
     ...,
     class = c(class, "mapping_file")
   )
 }
-new_mapping_file_type <- function(mapping_file) {
+
+is_mapping_file <- function(mapping_file) {
+  inherits(mapping_file, "mapping_file")
+}
+
+new_mapping_file_type <- function(mapping_file, ...) {
   # The class is set to the file ending:
   mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
   mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
-  new_mapping_file(mapping_file, class = mapping_type)
+  new_mapping_file(mapping_file, ..., class = mapping_type)
 }
 
 

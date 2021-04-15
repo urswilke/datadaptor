@@ -107,26 +107,24 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE,
                             vectorized = FALSE) {
-  if (typeof(mapping_file) == "character") {
-    cmd_table <- mapp_cmd_table(
+  if (!is_mapping_file(mapping_file) & is.character(mapping_file)) {
+    mapping_file <- mapp_cmd_table(
       mapping_file,
-      translate_xlsm = translate_xlsm,
       na_to_filter = na_to_filter,
       vectorized = vectorized
     )
   }
-  else if (is.data.frame(mapping_file)) {
-    cmd_table <- mapping_file
-  }
-  else {
+  else if (!is_mapping_file(mapping_file)){
     stop("
          mapping_file has to be either the file path to the mapping file,
-         or the command table data frame (returned by `mapp_cmd_table()`) of this path!")
+         or the data structure (returned by `mapp_cmd_table()`) of this path!")
   }
-  if (attr(cmd_table, "vectorized") != vectorized) {
+  cmd_table <- attr(mapping_file, "df_cmd")
+
+  if (attr(mapping_file, "vectorized") != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
   }
-  id_var <- attr(cmd_table, "id_var")
+  id_var <- attr(mapping_file, "id_var")
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
   }
@@ -198,21 +196,22 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #' utils::browseURL(mapping_file)
 #' }
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' df_cmd <- mapp_cmd_table(mapping_file)
+#' mapping_file <- mapp_cmd_table(mapping_file)
 #' \dontrun{
-#' translate_to_r_script(df_cmd, rscript_name = "mapping.R", spss_file)
+#' translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file)
 #' # For an illustration of the internal differences when using vectorized = TRUE in
 #' # `mapp_xl_to_data()`, compare the resulting script
 #' # "mapping.R", with the vectorized version:
-#' df_cmd_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
-#' translate_to_r_script(df_cmd_vec, rscript_name = "mapping_vec.R", spss_file)
+#' mapping_file_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+#' translate_to_r_script(mapping_file_vec, rscript_name = "mapping_vec.R", spss_file)
 #' }
 translate_to_r_script <- function(
-  df_cmd,
+  mapping_file,
   rscript_name = "mapping.R",
   spss_file
   ) {
-  if (attr(df_cmd, "vectorized") == TRUE) {
+  df_cmd <- attr(mapping_file, "df_cmd")
+  if (attr(mapping_file, "vectorized") == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
     generate_cmd_expression <- generate_group_expr
   }

@@ -198,7 +198,7 @@
 
 # result of mapp_cmd_table()
 
-    cmd_table [68 x 5] (S3: cmd_table/tbl_df/tbl/data.frame)
+    tibble [68 x 5] (S3: tbl_df/tbl/data.frame)
      $ sheet  : chr [1:68] "Config" "Label" "Label" "Variables" ...
      $ action : chr [1:68] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
      $ row    : chr [1:68] NA "8" "2, 3, 4, 5, 6" "8" ...
@@ -631,20 +631,4 @@
       ..$ :List of 2
       .. ..$ new_var: chr "free2_var"
       .. ..$ new_val: chr "3"
-     - attr(*, "vectorized")= logi FALSE
-     - attr(*, "id_var")= chr "id"
-     - attr(*, "mapping_file")= 'xlsx' chr "/home/chief/R/datenanpassr/inst/extdata/mapping.xlsx"
-      ..- attr(*, "id_var")= chr "id"
-      ..- attr(*, "sheet_cats")= tibble [5 x 2] (S3: tbl_df/tbl/data.frame)
-      .. ..$ sheet     : chr [1:5] "Label" "Variables" "Verbatims" "Free1" ...
-      .. ..$ sheet_type: chr [1:5] "Label" "Variables" "Verbatims" "Free" ...
-      ..- attr(*, "mapping_file_attrs")=List of 1
-      .. ..$ configr:List of 6
-      .. .. ..$ id_var                  : chr "id"
-      .. .. ..$ added_id_var            : chr "DC_ID"
-      .. .. ..$ lab_before_var_sheet    : chr "yes"
-      .. .. ..$ not_miss_to_filter_vars : chr(0) 
-      .. .. ..$ manipulate_command_table: chr "df_cmd %>% dplyr::filter(TRUE)"
-      .. .. ..$ miss_replace_lab_val    : Named num -2
-      .. .. .. ..- attr(*, "names")= chr "FILTER"
 
