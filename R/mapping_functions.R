@@ -180,7 +180,12 @@ new_data_mapping_subclass <- function(mapping, df, subclass) {
   )
 }
 
-
+# HACK to generate a subclass string which represents the 4 possible
+# combinations of two booleans; S3 doesnt offer double dispatch...
+# another possibility would be this:
+# https://gist.github.com/wch/adf13fd291976d6bf312
+# or
+# https://vctrs.r-lib.org/articles/s3-vector.html#double-dispatch
 get_double_dispatch_class <- function(vectorized, try_catch) {
   dplyr::case_when(
     vectorized == FALSE & try_catch == FALSE ~ "nonvec_unsafe",
