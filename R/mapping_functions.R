@@ -183,7 +183,7 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #' translated to R code. When the created script is run, the resulting dataframe df should be equal to
 #' the result of `mapp_xl_to_data()`.
 #'
-#' @param df_cmd dataframe returned by `mapp_cmd_table()`
+#' @param mapping_file Path of the Excel mapping file (character vector)
 #' @param rscript_name file name of the script
 #' @param spss_file file name of the SPSS dataset
 #'
