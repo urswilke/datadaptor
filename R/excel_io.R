@@ -94,6 +94,7 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables"){
+  mapping_file <- new_mapping_file(mapping_file)
   read_variables_sheet_raw(mapping_file, sheet) %>%
     format_df_varl()
 }
@@ -239,6 +240,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' }
 #' mapp_vallab_sheet_cmd_table(mapping_file)
 mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label") {
+  mapping_file <- new_mapping_file_type(mapping_file)
   df_vall <- read_label_sheet_raw(mapping_file, sheet)
 
   df_vall <- df_vall %>%
@@ -329,6 +331,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' }
 #' mapp_free_sheet_cmd_table(mapping_file)
 mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1") {
+  mapping_file <- new_mapping_file(mapping_file)
   df_free <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet)
   if (nrow(df_free) > 0) {
     df_free <- df_free %>%

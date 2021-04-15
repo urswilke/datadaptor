@@ -129,6 +129,10 @@ new_mapping_file <- function(
   vectorized = logical(),
   ...,
   class = character()) {
+  if (is_mapping_file(mapping_file)) {
+    return(mapping_file)
+  }
+
   stopifnot(file.exists(mapping_file))
   stopifnot(is.logical(na_to_filter))
   stopifnot(is.logical(vectorized))
