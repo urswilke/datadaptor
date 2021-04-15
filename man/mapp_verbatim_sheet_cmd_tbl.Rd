@@ -31,5 +31,5 @@ verbatim_file <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = 
 utils::browseURL(mapping_file)
 utils::browseURL(verbatim_file)
 }
-mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file, id_var_str = "id")
+mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file)
 }
