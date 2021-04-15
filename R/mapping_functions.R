@@ -1,19 +1,25 @@
-
+#' @export
 apply_one_cmd <- function(df, action, data) {
+  UseMethod("apply_one_cmd")
+}
+
+#' @export
+apply_one_cmd.nonvec_unsafe <- function(df, action, data) {
   cmd <- generate_cmd_expression(action, data)
   rlang::eval_tidy(cmd)
 }
 
-apply_one_cmd_safe <- function(df1, action, data) {
-  cmd_index <- attr(df1, "cmd_index") + 1
-  attr(df1, "cmd_index") <- cmd_index
+#' @export
+apply_one_cmd.nonvec_safe <- function(df, action, data) {
+  cmd_index <- attr(df, "cmd_index") + 1
+  attr(df, "cmd_index") <- cmd_index
   res <- tryCatch({
       err_msg <- NA_character_
-      apply_one_cmd(df1, action, data)
+      apply_one_cmd.nonvec_unsafe(df, action, data)
     },
     error = function(e) {
       err_msg <- geterrmessage()[1]
-      attr(df1, "error_list")[cmd_index] <- err_msg
+      attr(df, "error_list")[cmd_index] <- err_msg
       print(
         paste(
           "Error in command",
@@ -21,7 +27,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
           ": ",
           err_msg)
         )
-      df1
+      df
     }
   )
   res
@@ -41,7 +47,7 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' order as the sequence of sheets in the mapping file.
 #'
 #' @param df dataframe to apply mapping on
-#' @param mapping_file name of the mapping Excel file or the object returned by
+#' @param mapping name of the mapping Excel file or the object returned by
 #'   `mapp_cmd_table()` of this path
 #' @param na_to_filter logical; if TRUE, NA values of numerical variables in df
 #'   will be replaced by -2 with the value label "FILTER".
@@ -81,14 +87,14 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' utils::browseURL(mapping_file)
 #' }
 #' # This command creates an overview table:
-#' df_cmd <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
+#' mapping <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 #'
-#' mapp_xl_to_data(df, mapping_file)
+#' mapp_xl_to_data(df, mapping)
 #'
 #'
 #' df_mod_list <- mapp_xl_to_data(
 #'   df,
-#'   mapping_file,
+#'   mapping,
 #'   try_catch = TRUE,
 #'   rec_fun = purrr::accumulate2
 #' )
@@ -103,32 +109,32 @@ apply_one_cmd_safe <- function(df1, action, data) {
 #' df_cmd["error"] <- error_list
 #' df_cmd
 #' # In RStudio type: View(df_cmd)
-mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
+mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE,
                             vectorized = FALSE) {
-  if (!is_mapping(mapping_file) & is.character(mapping_file)) {
-    mapping_file <- mapp_cmd_table(
-      mapping_file,
+  if (!is_mapping(mapping) & is.character(mapping)) {
+    mapping <- mapp_cmd_table(
+      mapping,
       na_to_filter = na_to_filter,
       vectorized = vectorized
     )
   }
-  else if (!is_mapping(mapping_file)){
+  else if (!is_mapping(mapping)){
     stop("
-         mapping_file has to be either the file path to the mapping file,
+         mapping has to be either the file path to the mapping file,
          or the data structure (returned by `mapp_cmd_table()`) of this path!")
   }
-  cmd_table <- mapping_file[["df_cmd"]]
+  cmd_table <- mapping[["df_cmd"]]
 
-  mapping_class_string <- get_double_dispatch_class(vectorized, try_catch)
+  data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
 
-  # mapping_file <- new_mapping_file_subclass(mapping_file, mapping_class_string)
+  data_mapping <- new_data_mapping_subclass(mapping, df, data_mapping_subclass_string)
 
-  if (mapping_file[["vectorized"]] != vectorized) {
+  if (mapping[["vectorized"]] != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
   }
-  id_var <- mapping_file[["id_var"]]
+  id_var <- mapping[["id_var"]]
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
   }
@@ -138,22 +144,42 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     datenanpassr.env$cmd_index <- 0
     datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
 
-    apply_one_cmd <- apply_one_cmd_safe
+    # apply_one_cmd <- apply_one_cmd_safe
     # rec_fun <- purrr::accumulate2
   }
   if (vectorized) {
     cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = try_catch)
-    apply_one_cmd <- ifelse(try_catch, apply_one_group_cmd_safe, apply_one_group_cmd)
+    # apply_one_cmd <- ifelse(try_catch, apply_one_group_cmd_safe, apply_one_group_cmd)
 
   }
 
-  res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = df)
+  classy_df <- new_dataset_subclass(data_mapping, subclass = data_mapping_subclass_string)
+  # classy_df <- structure(df, class = c(data_mapping_subclass_string, class(df)))
+  res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
   if (try_catch) {
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
     attr(res, "error_list") <- datenanpassr.env$error_list
   }
   res
 }
+
+new_dataset_subclass <- function(mapping, ..., subclass) {
+  structure(
+    mapping[["data"]],
+    cmd_index = 0,
+    error_list = vector("character", length = nrow(mapping[["df_cmd"]])),
+    ...,
+    class = c(subclass, class(mapping[["data"]]))
+  )
+}
+new_data_mapping_subclass <- function(mapping, df, subclass) {
+  l <- append(unclass(mapping), list(data = df))
+  structure(
+    l,
+    class = c(subclass, "data_mapping", class(mapping))
+  )
+}
+
 
 get_double_dispatch_class <- function(vectorized, try_catch) {
   dplyr::case_when(
@@ -196,7 +222,7 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #' translated to R code. When the created script is run, the resulting dataframe df should be equal to
 #' the result of `mapp_xl_to_data()`.
 #'
-#' @param mapping_file Path of the Excel mapping file (character vector)
+#' @param mapping Path of the Excel mapping file (character vector)
 #' @param rscript_name file name of the script
 #' @param spss_file file name of the SPSS dataset
 #'
@@ -209,22 +235,22 @@ set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
 #' utils::browseURL(mapping_file)
 #' }
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' mapping_file <- mapp_cmd_table(mapping_file)
+#' mapping <- mapp_cmd_table(mapping_file)
 #' \dontrun{
-#' translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file)
+#' translate_to_r_script(mapping, rscript_name = "mapping.R", spss_file)
 #' # For an illustration of the internal differences when using vectorized = TRUE in
 #' # `mapp_xl_to_data()`, compare the resulting script
 #' # "mapping.R", with the vectorized version:
-#' mapping_file_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
-#' translate_to_r_script(mapping_file_vec, rscript_name = "mapping_vec.R", spss_file)
+#' mapping_vec <- mapp_cmd_table(mapping_file, vectorized = TRUE)
+#' translate_to_r_script(mapping_vec, rscript_name = "mapping_vec.R", spss_file)
 #' }
 translate_to_r_script <- function(
-  mapping_file,
+  mapping,
   rscript_name = "mapping.R",
   spss_file
   ) {
-  df_cmd <- mapping_file[["df_cmd"]]
-  if (mapping_file[["vectorized"]] == TRUE) {
+  df_cmd <- mapping[["df_cmd"]]
+  if (mapping[["vectorized"]] == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
     generate_cmd_expression <- generate_group_expr
   }

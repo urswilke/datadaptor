@@ -19,7 +19,7 @@ testthat::expect_message(mapping_file_struc_vec <- mapp_cmd_table(mapping_file, 
 df_mod_vec <- mapp_xl_to_data(df_test, mapping_file_struc_vec, vectorized = TRUE)
 
 test_that("vectorized vesion of mapp_xl_to_data() results in the same", {
-  testthat::expect_equal(df_mod_vec, df_mod)
+  testthat::expect_equal(df_mod_vec %>% tibble::as_tibble(), df_mod %>% tibble::as_tibble())
 })
 
 
@@ -49,7 +49,9 @@ test_that("result of mapp_cmd_table()", {
 
 test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
   withr::with_file("mapping.R", {
-    df_mod <- mapp_xl_to_data(df_test, mapping_file_struc)
+    df_mod <- mapp_xl_to_data(df_test, mapping_file_struc) %>% tibble::as_tibble()
+    attr(df_mod, "cmd_index") <- NULL
+    attr(df_mod, "error_list") <- NULL
     translate_to_r_script(mapping_file_struc, rscript_name = "mapping.R", spss_file)
     source("mapping.R", echo = FALSE)
     testthat::expect_equal(df_mod, df)

@@ -6,7 +6,7 @@
 \usage{
 mapp_xl_to_data(
   df,
-  mapping_file,
+  mapping,
   na_to_filter = TRUE,
   try_catch = FALSE,
   rec_fun = purrr::reduce2,
@@ -18,7 +18,7 @@ mapp_xl_to_data(
 \arguments{
 \item{df}{dataframe to apply mapping on}
 
-\item{mapping_file}{name of the mapping Excel file or the object returned by
+\item{mapping}{name of the mapping Excel file or the object returned by
 \code{mapp_cmd_table()} of this path}
 
 \item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df
@@ -75,14 +75,14 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 utils::browseURL(mapping_file)
 }
 # This command creates an overview table:
-df_cmd <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
+mapping <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 
-mapp_xl_to_data(df, mapping_file)
+mapp_xl_to_data(df, mapping)
 
 
 df_mod_list <- mapp_xl_to_data(
   df,
-  mapping_file,
+  mapping,
   try_catch = TRUE,
   rec_fun = purrr::accumulate2
 )
