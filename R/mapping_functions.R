@@ -107,24 +107,28 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE,
                             vectorized = FALSE) {
-  if (!is_mapping_file(mapping_file) & is.character(mapping_file)) {
+  if (!is_mapping(mapping_file) & is.character(mapping_file)) {
     mapping_file <- mapp_cmd_table(
       mapping_file,
       na_to_filter = na_to_filter,
       vectorized = vectorized
     )
   }
-  else if (!is_mapping_file(mapping_file)){
+  else if (!is_mapping(mapping_file)){
     stop("
          mapping_file has to be either the file path to the mapping file,
          or the data structure (returned by `mapp_cmd_table()`) of this path!")
   }
-  cmd_table <- attr(mapping_file, "df_cmd")
+  cmd_table <- mapping_file[["df_cmd"]]
 
-  if (attr(mapping_file, "vectorized") != vectorized) {
+  mapping_class_string <- get_double_dispatch_class(vectorized, try_catch)
+
+  # mapping_file <- new_mapping_file_subclass(mapping_file, mapping_class_string)
+
+  if (mapping_file[["vectorized"]] != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
   }
-  id_var <- attr(mapping_file, "id_var")
+  id_var <- mapping_file[["id_var"]]
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
   }
@@ -149,6 +153,15 @@ mapp_xl_to_data <- function(df, mapping_file, na_to_filter = TRUE,
     attr(res, "error_list") <- datenanpassr.env$error_list
   }
   res
+}
+
+get_double_dispatch_class <- function(vectorized, try_catch) {
+  dplyr::case_when(
+    vectorized == FALSE & try_catch == FALSE ~ "nonvec_unsafe",
+    vectorized == TRUE  & try_catch == FALSE ~ "vec_unsafe",
+    vectorized == FALSE & try_catch == TRUE  ~ "nonvec_safe",
+    vectorized == TRUE  & try_catch == TRUE  ~ "vec_safe"
+  )
 }
 
 #' Relpace NA values by `replace_val` labelled by `replace_label`
@@ -210,8 +223,8 @@ translate_to_r_script <- function(
   rscript_name = "mapping.R",
   spss_file
   ) {
-  df_cmd <- attr(mapping_file, "df_cmd")
-  if (attr(mapping_file, "vectorized") == TRUE) {
+  df_cmd <- mapping_file[["df_cmd"]]
+  if (mapping_file[["vectorized"]] == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
     generate_cmd_expression <- generate_group_expr
   }

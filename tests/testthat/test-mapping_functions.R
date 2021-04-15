@@ -31,7 +31,7 @@ test_that("result of the mapping function mapp_xl_to_data()", {
 
 test_that("result of mapp_cmd_table()", {
   testthat::expect_snapshot_output(
-    attr(mapping_file_struc, "df_cmd") %>%
+    mapping_file_struc[["df_cmd"]] %>%
       # dirty hack to remove absolute path (in order to make the test pass on
       # other systems...):
       dplyr::mutate(data = ifelse(

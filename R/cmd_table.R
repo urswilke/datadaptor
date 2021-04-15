@@ -39,7 +39,7 @@ mapp_cmd_table <- function(
   mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
   mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
 
-  mapping_file <- new_mapping_file_subclass(
+  mapping <- new_mapping_subclass(
     mapping_file,
     na_to_filter,
     vectorized,
@@ -47,30 +47,30 @@ mapp_cmd_table <- function(
   )
 
   df_cmd <- generate_cmd_table(
-    mapping_file,
+    mapping,
     na_to_filter = na_to_filter,
     add_r_command_colum = add_r_command_colum,
     vectorized = vectorized
   )
-  attr(mapping_file, "df_cmd") <- df_cmd
+  mapping[["df_cmd"]] <- df_cmd
 
 
-  mapping_file
+  mapping
 }
 
 
-generate_cmd_table <- function(mapping_file,
+generate_cmd_table <- function(mapping,
                                na_to_filter,
                                add_r_command_colum,
                                vectorized) {
-  sheet_cats <- attr(mapping_file, "sheet_cats")
-  id_var <- attr(mapping_file, "id_var")
-  df_cmd_manip_string <- attr(mapping_file, "mapping_file_attrs")$configr$manipulate_command_table
+  sheet_cats <- mapping[["sheet_cats"]]
+  id_var <- mapping[["id_var"]]
+  df_cmd_manip_string <- mapping[["mapping_file_attrs"]]$configr$manipulate_command_table
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
     sheet_cats$sheet_type,
-    ~ generate_sheet_cmd_table(mapping_file, .y, .x),
+    ~ generate_sheet_cmd_table(mapping$mapping_file, .y, .x),
     .id = "sheet"
   )
   if (!is.na(df_cmd_manip_string)) {
@@ -127,17 +127,17 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
-new_mapping_file <- function(
+new_mapping <- function(
   mapping_file,
   na_to_filter = logical(),
   vectorized = logical(),
   ...,
   class = character()) {
-  if (is_mapping_file(mapping_file)) {
-    return(mapping_file)
-  }
+  # if (is_mapping_file(mapping_file)) {
+  #   return(mapping_file)
+  # }
 
-  stopifnot(file.exists(mapping_file))
+  stopifnot(is.character(mapping_file))
   stopifnot(is.logical(na_to_filter))
   stopifnot(is.logical(vectorized))
 
@@ -156,26 +156,36 @@ new_mapping_file <- function(
 
   sheet_cats <- tab_sheet_types(sheets)
 
-
   structure(
-    mapping_file,
-    id_var = id_var,
-    sheet_cats = sheet_cats,
-    mapping_file_attrs = datenanpassr.env %>% as.list(),
-    na_to_filter = na_to_filter,
-    vectorized = vectorized,
-    df_cmd = tibble::tibble(),
-    ...,
-    class = c(class, "mapping_file")
+    list(
+      mapping_file = new_mapping_file(mapping_file, id_var),
+      id_var = id_var,
+      sheet_cats = sheet_cats,
+      mapping_file_attrs = datenanpassr.env %>% as.list(),
+      na_to_filter = na_to_filter,
+      vectorized = vectorized,
+      df_cmd = tibble::tibble(),
+      ...
+    ),
+    class = c(class, "mapping")
   )
 }
 
-is_mapping_file <- function(mapping_file) {
-  inherits(mapping_file, "mapping_file")
+new_mapping_file <- function(mapping_file, id_var) {
+  mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
+  structure(
+    mapping_file,
+    id_var = id_var,
+    class = mapping_type
+  )
 }
 
-new_mapping_file_subclass <- function(mapping_file, ..., subclass) {
-  new_mapping_file(mapping_file, ..., class = subclass)
+is_mapping <- function(mapping_file) {
+  inherits(mapping_file, "mapping")
+}
+
+new_mapping_subclass <- function(mapping, ..., subclass) {
+  new_mapping(mapping, ..., class = subclass)
 }
 
 
