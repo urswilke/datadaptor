@@ -125,18 +125,13 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
     datenanpassr.env$cmd_index <- 0
     datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
 
-    # apply_one_cmd <- apply_one_cmd_safe
-    # rec_fun <- purrr::accumulate2
   }
   if (vectorized) {
     cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = try_catch)
-    # apply_one_cmd <- ifelse(try_catch, apply_one_group_cmd_safe, apply_one_group_cmd)
-
   }
   # add the class property to the dataset (first function arg of apply_one_cmd),
   # in order to make it choose the right method:
   classy_df <- new_dataset_subclass(data_mapping, subclass = data_mapping_subclass_string)
-  # classy_df <- structure(df, class = c(data_mapping_subclass_string, class(df)))
   res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
   if (try_catch) {
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
@@ -211,7 +206,6 @@ translate_to_r_script <- function(
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))
   script_start <- c(
-    # "library(tidyverse)",
     "library(datenanpassr)",
     paste0("df <- haven::read_sav('", spss_file, "')")
   )
