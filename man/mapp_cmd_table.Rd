@@ -8,7 +8,6 @@ Excel mapping file}
 mapp_cmd_table(
   mapping_file,
   add_r_command_colum = FALSE,
-  translate_xlsm = FALSE,
   na_to_filter = TRUE,
   vectorized = FALSE
 )
@@ -16,9 +15,7 @@ mapp_cmd_table(
 \arguments{
 \item{mapping_file}{filename of the Excel mapping file}
 
-\item{add_r_command_colum}{logical, whether to add a column \code{"R command"}}
-
-\item{translate_xlsm}{logical, whether to translate from Wolf's format
+\item{add_r_command_colum}{logical, whether to add a column \code{"R command"}
 specifying the corresponding R command; defaults to FALSE}
 
 \item{na_to_filter}{logical specifying whether a command is added whether

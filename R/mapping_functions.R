@@ -26,7 +26,6 @@
 #'   Value section
 #' @param check_id_is_unique logical whether to check that the specified id
 #'   variable (in sheet "configr") is unique; defaults to TRUE.
-#' @param translate_xlsm logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``
 #' @param vectorized logical whether groups of command blocks to calculate
 #' new vectors are applied to the data in a single `dplyr::mutate()`
 #' statement or whether to consecutively apply (by using `purrr::reduce()`)
@@ -75,7 +74,7 @@
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
-                            translate_xlsm = FALSE, check_id_is_unique = TRUE,
+                            check_id_is_unique = TRUE,
                             vectorized = FALSE) {
   data_mapping <- new_data_mapping(
     df,
@@ -83,7 +82,6 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
     na_to_filter,
     try_catch,
     rec_fun = purrr::reduce2,
-    translate_xlsm,
     check_id_is_unique,
     vectorized
   )
@@ -92,7 +90,7 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
 
 new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
-                            translate_xlsm = FALSE, check_id_is_unique = TRUE,
+                            check_id_is_unique = TRUE,
                             vectorized = FALSE) {
   if (!is_mapping(mapping) & is.character(mapping)) {
     mapping <- mapp_cmd_table(

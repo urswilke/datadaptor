@@ -10,7 +10,6 @@ mapp_xl_to_data(
   na_to_filter = TRUE,
   try_catch = FALSE,
   rec_fun = purrr::reduce2,
-  translate_xlsm = FALSE,
   check_id_is_unique = TRUE,
   vectorized = FALSE
 )
@@ -34,8 +33,6 @@ for the error. Alternatively, run the script created by
 
 \item{rec_fun}{function either purrr::reduce2 or purrr::accumulate2; see
 Value section}
-
-\item{translate_xlsm}{logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``}
 
 \item{check_id_is_unique}{logical whether to check that the specified id
 variable (in sheet "configr") is unique; defaults to TRUE.}

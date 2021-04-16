@@ -3,7 +3,6 @@
 #'
 #' @param mapping_file filename of the Excel mapping file
 #' @param add_r_command_colum logical, whether to add a column `"R command"`
-#' @param translate_xlsm logical, whether to translate from Wolf's format
 #' specifying the corresponding R command; defaults to FALSE
 #' @param na_to_filter logical specifying whether a command is added whether
 #' `set_na_to_filter_except()` should be run as the very first command.
@@ -31,7 +30,6 @@
 mapp_cmd_table <- function(
   mapping_file,
   add_r_command_colum = FALSE,
-  translate_xlsm = FALSE,
   na_to_filter = TRUE,
   vectorized = FALSE
 ) {
