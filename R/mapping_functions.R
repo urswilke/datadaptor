@@ -152,7 +152,8 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
     # apply_one_cmd <- ifelse(try_catch, apply_one_group_cmd_safe, apply_one_group_cmd)
 
   }
-
+  # add the class property to the dataset (first function arg of apply_one_cmd),
+  # in order to make it choose the right method:
   classy_df <- new_dataset_subclass(data_mapping, subclass = data_mapping_subclass_string)
   # classy_df <- structure(df, class = c(data_mapping_subclass_string, class(df)))
   res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
