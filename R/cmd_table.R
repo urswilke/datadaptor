@@ -135,6 +135,7 @@ new_mapping <- function(
   na_to_filter = logical(),
   vectorized = logical(),
   df_cmd = tibble::tibble(),
+  data = tibble::tibble(),
   ...,
   class = character()) {
   # if (is_mapping_file(mapping_file)) {
@@ -169,6 +170,7 @@ new_mapping <- function(
       na_to_filter = na_to_filter,
       vectorized = vectorized,
       df_cmd = df_cmd,
+      data = data,
       ...
     ),
     class = c(class, "mapping")

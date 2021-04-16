@@ -173,7 +173,8 @@ new_dataset_subclass <- function(mapping, ..., subclass) {
   )
 }
 new_data_mapping_subclass <- function(mapping, df, subclass) {
-  l <- append(unclass(mapping), list(data = df))
+  l <- unclass(mapping)
+  l[["data"]] <- df
   structure(
     l,
     class = c(subclass, "data_mapping", class(mapping))
