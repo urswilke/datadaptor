@@ -205,7 +205,7 @@ get_double_dispatch_class <- function(vectorized, try_catch) {
   )
 }
 
-#' Relpace NA values by `replace_val` labelled by `replace_label`
+#' Replace NA values by `replace_val` labelled by `replace_label`
 #'
 #' @param var numeric variable
 #' @param replace_val numeric value, NAs are replaced by; defaults to -2
