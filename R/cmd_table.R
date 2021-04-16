@@ -134,6 +134,7 @@ new_mapping <- function(
   mapping_file,
   na_to_filter = logical(),
   vectorized = logical(),
+  df_cmd = tibble::tibble(),
   ...,
   class = character()) {
   # if (is_mapping_file(mapping_file)) {
@@ -167,7 +168,7 @@ new_mapping <- function(
       mapping_file_attrs = datenanpassr.env %>% as.list(),
       na_to_filter = na_to_filter,
       vectorized = vectorized,
-      df_cmd = tibble::tibble(),
+      df_cmd = df_cmd,
       ...
     ),
     class = c(class, "mapping")
