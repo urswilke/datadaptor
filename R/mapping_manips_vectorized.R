@@ -149,7 +149,7 @@ apply_one_cmd.vec_safe <- function(df, action, data) {
     if (action != "#GROUP") {
       datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
     }
-    print(
+    message(
       paste(
         "Error in command",
         datenanpassr.env$cmd_index,

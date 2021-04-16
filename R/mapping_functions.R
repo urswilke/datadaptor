@@ -20,7 +20,7 @@ apply_one_cmd.nonvec_safe <- function(df, action, data) {
     error = function(e) {
       err_msg <- geterrmessage()[1]
       attr(df, "error_list")[cmd_index] <- err_msg
-      print(
+      message(
         paste(
           "Error in command",
           cmd_index,
