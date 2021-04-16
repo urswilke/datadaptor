@@ -68,3 +68,12 @@ test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
 #   attributes(result) <- NULL
 #   expect_equal(result, c(1, 7, 3))
 # })
+
+
+test_that("mapp_xl_to_data() throws error for erroneous code, and message if try_catch = TRUE", {
+  mapping_file_struc[["df_cmd"]] <- mapping_file_struc[["df_cmd"]] %>% dplyr::filter(action == "#IF") %>% dplyr::slice(1)
+  mapping_file_struc[["df_cmd"]]$data[[1]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+  testthat::expect_error(df_mod <- mapp_xl_to_data(df, mapping_file_struc))
+  testthat::expect_message(df_mod <- mapp_xl_to_data(df, mapping_file_struc, try_catch = TRUE))
+})
+
