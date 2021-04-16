@@ -200,7 +200,6 @@ translate_to_r_script <- function(
   df_cmd <- mapping[["df_cmd"]]
   if (mapping[["vectorized"]] == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
-    generate_cmd_expression <- generate_group_expr
   }
   cmd_list <-
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%

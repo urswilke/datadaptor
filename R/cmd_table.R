@@ -251,6 +251,7 @@ generate_cmd_expression <- function(action, data) {
 
   switch (
     action,
+    "#GROUP"  = rlang::expr(dplyr::mutate(df, !!!data)),
     "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
     "#MERGE"  = rlang::expr(cmd_merge_df(df, !!!data)),
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),

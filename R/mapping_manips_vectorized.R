@@ -100,22 +100,6 @@ split_df_cmd <- function(df_cmd) {
 }
 
 
-generate_group_expr <- function(action, data) {
-  # Hack to prevent R CMD CHECK note
-  # "no visible binding for global variable ‘df’":
-  df <- NULL
-
-  group_expr <- switch (
-    action,
-    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
-    "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
-    "#DROP"   = rlang::expr(cmd_drop(df, !!!data)),
-    # use of tidylog::mutate() possible:
-    "#GROUP"  = rlang::expr(dplyr::mutate(df, !!!data))
-  )
-  group_expr
-}
 
 
 

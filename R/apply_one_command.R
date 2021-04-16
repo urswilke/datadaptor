@@ -36,7 +36,7 @@ apply_one_cmd.nonvec_safe <- function(df, action, data) {
 
 #' @export
 apply_one_cmd.vec_unsafe <- function(df, action, data){
-  group_expr <- generate_group_expr(action, data)
+  group_expr <- generate_cmd_expression(action, data)
   rlang::eval_tidy(group_expr)
 }
 
