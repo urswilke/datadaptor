@@ -75,5 +75,7 @@ test_that("mapp_xl_to_data() throws error for erroneous code, and message if try
   mapping_file_struc[["df_cmd"]]$data[[1]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
   testthat::expect_error(df_mod <- mapp_xl_to_data(df, mapping_file_struc))
   testthat::expect_message(df_mod <- mapp_xl_to_data(df, mapping_file_struc, try_catch = TRUE))
+  # TODO: repair the error_list
+  # testthat::expect_false(attr(df_mod, "error_list") == "")
 })
 
