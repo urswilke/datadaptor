@@ -113,6 +113,23 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             translate_xlsm = FALSE, check_id_is_unique = TRUE,
                             vectorized = FALSE) {
+  data_mapping <- new_data_mapping(
+    df,
+    mapping,
+    na_to_filter,
+    try_catch,
+    rec_fun = purrr::reduce2,
+    translate_xlsm,
+    check_id_is_unique,
+    vectorized
+  )
+  data_mapping[["df_mod"]]
+}
+
+new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
+                            try_catch = FALSE, rec_fun = purrr::reduce2,
+                            translate_xlsm = FALSE, check_id_is_unique = TRUE,
+                            vectorized = FALSE) {
   if (!is_mapping(mapping) & is.character(mapping)) {
     mapping <- mapp_cmd_table(
       mapping,
@@ -161,7 +178,8 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
     attr(res, "error_list") <- datenanpassr.env$error_list
   }
-  res
+  data_mapping[["df_mod"]] <- res
+  data_mapping
 }
 
 new_dataset_subclass <- function(mapping, ..., subclass) {
