@@ -11,15 +11,15 @@ apply_one_cmd.nonvec_unsafe <- function(df, action, data) {
 
 #' @export
 apply_one_cmd.nonvec_safe <- function(df, action, data) {
-  cmd_index <- attr(df, "cmd_index") + 1
-  attr(df, "cmd_index") <- cmd_index
+  cmd_index <- datenanpassr.env$cmd_index + 1
+  datenanpassr.env$cmd_index <- cmd_index
   res <- tryCatch({
     err_msg <- NA_character_
     apply_one_cmd.nonvec_unsafe(df, action, data)
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]
-    attr(df, "error_list")[cmd_index] <- err_msg
+    datenanpassr.env$error_list[cmd_index] <- err_msg
     message(
       paste(
         "Error in command",
