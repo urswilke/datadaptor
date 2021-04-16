@@ -164,18 +164,24 @@ new_mapping <- function(
 
   sheet_cats <- tab_sheet_types(sheets)
 
+  # very HACK-YYYyyyYYYY:
+  # replace existing elements in mapping by the arguments in the ellipsis (...)
+  # see https://stackoverflow.com/a/61543428
+  l <- list(...)
+  mapping_list <- list(
+    mapping_file = new_mapping_file(mapping_file, id_var),
+    id_var = id_var,
+    sheet_cats = sheet_cats,
+    mapping_file_attrs = datenanpassr.env %>% as.list(),
+    na_to_filter = na_to_filter,
+    vectorized = vectorized,
+    df_cmd = df_cmd,
+    data = data
+  )
+  mapping_list[names(l)] <- l
+
   structure(
-    list(
-      mapping_file = new_mapping_file(mapping_file, id_var),
-      id_var = id_var,
-      sheet_cats = sheet_cats,
-      mapping_file_attrs = datenanpassr.env %>% as.list(),
-      na_to_filter = na_to_filter,
-      vectorized = vectorized,
-      df_cmd = df_cmd,
-      data = data,
-      ...
-    ),
+    mapping_list,
     class = c(class, "mapping")
   )
 }
@@ -195,6 +201,7 @@ is_mapping <- function(mapping_file) {
 
 new_mapping_subclass <- function(mapping, ..., class) {
   # replace existing elements in mapping by the arguments in the ellipsis (...)
+  # see https://stackoverflow.com/a/61543428
   l <- list(...)
   new_arg_list <- mapping
   new_arg_list[names(l)] <- l
