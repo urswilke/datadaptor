@@ -544,3 +544,29 @@ set_na_to_filter_except <- function(df, recode_na_exceptions, replace_val, repla
       )
     )
 }
+
+
+#' Replace NA values by `replace_val` labelled by `replace_label`
+#'
+#' @param var numeric variable
+#' @param replace_val numeric value, NAs are replaced by; defaults to -2
+#' @param replace_label character value, value label `replace_val` will be
+#' labelled by; defaults to "FILTER"
+#'
+#' @return `var` where NAs are replaced by `replace_val` with added label `replace_label`
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
+#' set_na_to_filter(x)
+set_na_to_filter <- function(var, replace_val = -2, replace_label = "FILTER") {
+  old_vallab_vec <- attr(var, "labels")
+  added_vallab_vec <- purrr::set_names(replace_val, replace_label)
+  new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
+  var[is.na(var)] <- replace_val
+  haven::labelled(
+    var,
+    labels = new_vallab_vec,
+    label = attr(var, "label", exact = TRUE)
+  )
+}
