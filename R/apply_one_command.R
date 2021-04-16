@@ -62,7 +62,7 @@ apply_one_cmd.vec_safe <- function(df, action, data) {
         ": ",
         err_msg)
     )
-    df1
+    df
   }
   )
   res
