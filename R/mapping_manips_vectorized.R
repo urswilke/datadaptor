@@ -111,21 +111,10 @@ generate_group_expr <- function(action, data) {
     "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
     "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
     "#DROP"   = rlang::expr(cmd_drop(df, !!!data)),
-    "#GROUP"  = rlang::expr(mutate_exprs(df, !!!data))
+    # use of tidylog::mutate() possible:
+    "#GROUP"  = rlang::expr(dplyr::mutate(df, !!!data))
   )
   group_expr
-}
-
-#' Wrapper to choose between dplyr & tidylog function
-#'
-#' @param df dataframe to manipulate
-#' @param ... expressions passed to `mutate()``
-#'
-#' @return data.frame `df` `mutate()`d by `...`
-#' @export
-#'
-mutate_exprs <- function(df, ...) {
-  df %>% dplyr::mutate(...)
 }
 
 
