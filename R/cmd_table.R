@@ -39,11 +39,16 @@ mapp_cmd_table <- function(
   mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
   mapping_type <- match.arg(mapping_type, c("xlsx", "xlsm"))
 
-  mapping <- new_mapping_subclass(
+  mapping <- new_mapping(
     mapping_file,
     na_to_filter,
-    vectorized,
-    subclass = mapping_type
+    vectorized
+  )
+  mapping <- new_mapping_subclass(
+    mapping,
+    na_to_filter = na_to_filter,
+    vectorized = vectorized,
+    class = mapping_type
   )
 
   df_cmd <- generate_cmd_table(
@@ -182,7 +187,7 @@ new_mapping_file <- function(mapping_file, id_var) {
   structure(
     mapping_file,
     id_var = id_var,
-    class = mapping_type
+    class = c(mapping_type, class(mapping_file))
   )
 }
 
@@ -190,8 +195,15 @@ is_mapping <- function(mapping_file) {
   inherits(mapping_file, "mapping")
 }
 
-new_mapping_subclass <- function(mapping, ..., subclass) {
-  new_mapping(mapping, ..., class = subclass)
+new_mapping_subclass <- function(mapping, ..., class) {
+  # replace existing elements in mapping by the arguments in the ellipsis (...)
+  l <- list(...)
+  new_arg_list <- mapping
+  new_arg_list[names(l)] <- l
+  # add the new `class` in the first place to the set of existing classes :
+  new_arg_list[["class"]] <- unique(c(class, class(mapping))) %>% setdiff("mapping")
+
+  do.call(new_mapping, new_arg_list)
 }
 
 

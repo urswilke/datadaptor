@@ -129,7 +129,7 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
 
   data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
 
-  data_mapping <- new_data_mapping_subclass(mapping, df, data_mapping_subclass_string)
+  data_mapping <- new_mapping_subclass(mapping, data = df, class = data_mapping_subclass_string)
 
   if (mapping[["vectorized"]] != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
@@ -170,14 +170,6 @@ new_dataset_subclass <- function(mapping, ..., subclass) {
     error_list = vector("character", length = nrow(mapping[["df_cmd"]])),
     ...,
     class = c(subclass, class(mapping[["data"]]))
-  )
-}
-new_data_mapping_subclass <- function(mapping, df, subclass) {
-  l <- unclass(mapping)
-  l[["data"]] <- df
-  structure(
-    l,
-    class = c(subclass, "data_mapping", class(mapping))
   )
 }
 
