@@ -243,37 +243,3 @@ generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name) {
   )
 
 }
-
-generate_cmd_expression <- function(action, data) {
-  # Hack to prevent R CMD CHECK note
-  # "no visible binding for global variable ‘df’":
-  df <- NULL
-
-  switch (
-    action,
-    "#GROUP"  = rlang::expr(dplyr::mutate(df, !!!data)),
-    "#RECNA"  = rlang::expr(set_na_to_filter_except(df, !!!data)),
-    "#MERGE"  = rlang::expr(cmd_merge_df(df, !!!data)),
-    "#RFUN"   = rlang::expr(cmd_rfun(df, !!!data)),
-    "#R"      = rlang::expr(cmd_r_df(df, !!!data)),
-    "#IF"     = rlang::expr(cmd_if_df(df, !!!data)),
-    "#COMP"   = rlang::expr(cmd_comp_df(df, !!!data)),
-    # TODO: find cleaner way to deal with this!
-    "#COMPR"  = rlang::expr(cmd_compr_df(df, !!!data)),
-    "#REC"    = rlang::expr(cmd_rec_df(df, !!!data)),
-    "#NEWVALL"= rlang::expr(cmd_add_labs_df(df, !!!data)),
-    "#AUTOREC"= rlang::expr(cmd_autorec_df(df, !!!data)),
-    "#STR2NUM"= rlang::expr(cmd_str_to_num_df(df, !!!data)),
-    "#SUMVAR" = rlang::expr(cmd_sumvar_df(df, !!!data)),
-    "#RENAME" = rlang::expr(cmd_rename(df, !!!data)),
-    "#DROP"   = rlang::expr(cmd_drop(df, !!!data)),
-    "#NEWLAB" = rlang::expr(cmd_set_lab_df(df, !!!data)),
-    "#VARL"   = rlang::expr(cmd_set_lab_df(df, !!!data)),
-    "#VALL"   = rlang::expr(cmd_set_labs_df(df, !!!data)),
-    "#AVALL"  = rlang::expr(cmd_add_labs_df(df, !!!data)),
-    "#DIC"    = rlang::expr(cmd_dic_df(df, !!!data)),
-    "#KG"     = rlang::expr(cmd_kg_df(df, !!!data)),
-    "#verbatim"  = rlang::expr(cmd_verbatim_df(df, !!!data)),
-    stop("Invalid action command")
-  )
-}
