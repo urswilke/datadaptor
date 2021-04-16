@@ -95,7 +95,7 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
   mapping <-  as_mapping(
     mapping,
     na_to_filter = na_to_filter,
-    vectorized = vectorized
+    try_catch = try_catch
   )
 
 
