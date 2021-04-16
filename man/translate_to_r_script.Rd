@@ -7,11 +7,11 @@
 translate_to_r_script(mapping, rscript_name = "mapping.R", spss_file)
 }
 \arguments{
-\item{mapping}{Path of the Excel mapping file (character vector)}
+\item{mapping}{Path of the Excel mapping file (character vector) or object of class "mapping".}
 
-\item{rscript_name}{file name of the script}
+\item{rscript_name}{file name of the R script to be saved.}
 
-\item{spss_file}{file name of the SPSS dataset}
+\item{spss_file}{file name of the SPSS dataset, the mapping is applied on.}
 }
 \description{
 This function generates an R script with the command blocks of the Excel mapping file
@@ -28,6 +28,9 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 mapping <- mapp_cmd_table(mapping_file)
 \dontrun{
 translate_to_r_script(mapping, rscript_name = "mapping.R", spss_file)
+
+# Alternatively, pass the file pass directly without saving the mapping to an object:
+translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file)
 # For an illustration of the internal differences when using vectorized = TRUE in
 # `mapp_xl_to_data()`, compare the resulting script
 # "mapping.R", with the vectorized version:

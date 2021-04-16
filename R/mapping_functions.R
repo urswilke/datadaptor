@@ -92,18 +92,13 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             check_id_is_unique = TRUE,
                             vectorized = FALSE) {
-  if (!is_mapping(mapping) & is.character(mapping)) {
-    mapping <- mapp_cmd_table(
-      mapping,
-      na_to_filter = na_to_filter,
-      vectorized = vectorized
-    )
-  }
-  else if (!is_mapping(mapping)){
-    stop("
-         mapping has to be either the file path to the mapping file,
-         or the data structure (returned by `mapp_cmd_table()`) of this path!")
-  }
+  mapping <-  as_mapping(
+    mapping,
+    na_to_filter = na_to_filter,
+    vectorized = vectorized
+  )
+
+
   cmd_table <- mapping[["df_cmd"]]
 
   data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
@@ -139,6 +134,22 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
   data_mapping
 }
 
+as_mapping <- function(mapping, ...) {
+  # turn file path strings into mappings:
+  if (!is_mapping(mapping) & is.character(mapping)) {
+    mapping <- new_mapping(
+      mapping_file = mapping,
+      ...
+    )
+  }
+  else if (!is_mapping(mapping)){
+    stop("
+         mapping has to be either the file path to the mapping file,
+         or the data structure (returned by `mapp_cmd_table()`) of this path!")
+  }
+  mapping
+}
+
 new_dataset_subclass <- function(mapping, ..., subclass) {
   structure(
     mapping[["data"]],
@@ -168,9 +179,9 @@ get_double_dispatch_class <- function(vectorized, try_catch) {
 #' translated to R code. When the created script is run, the resulting dataframe df should be equal to
 #' the result of `mapp_xl_to_data()`.
 #'
-#' @param mapping Path of the Excel mapping file (character vector)
-#' @param rscript_name file name of the script
-#' @param spss_file file name of the SPSS dataset
+#' @param mapping Path of the Excel mapping file (character vector) or object of class "mapping".
+#' @param rscript_name file name of the R script to be saved.
+#' @param spss_file file name of the SPSS dataset, the mapping is applied on.
 #'
 #' @export
 #'
@@ -184,6 +195,9 @@ get_double_dispatch_class <- function(vectorized, try_catch) {
 #' mapping <- mapp_cmd_table(mapping_file)
 #' \dontrun{
 #' translate_to_r_script(mapping, rscript_name = "mapping.R", spss_file)
+#'
+#' # Alternatively, pass the file pass directly without saving the mapping to an object:
+#' translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file)
 #' # For an illustration of the internal differences when using vectorized = TRUE in
 #' # `mapp_xl_to_data()`, compare the resulting script
 #' # "mapping.R", with the vectorized version:
@@ -195,6 +209,7 @@ translate_to_r_script <- function(
   rscript_name = "mapping.R",
   spss_file
   ) {
+  mapping <- as_mapping(mapping)
   df_cmd <- mapping[["df_cmd"]]
   if (mapping[["vectorized"]] == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
