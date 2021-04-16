@@ -1,39 +1,3 @@
-#' @export
-apply_one_cmd <- function(df, action, data) {
-  UseMethod("apply_one_cmd")
-}
-
-#' @export
-apply_one_cmd.nonvec_unsafe <- function(df, action, data) {
-  cmd <- generate_cmd_expression(action, data)
-  rlang::eval_tidy(cmd)
-}
-
-#' @export
-apply_one_cmd.nonvec_safe <- function(df, action, data) {
-  cmd_index <- attr(df, "cmd_index") + 1
-  attr(df, "cmd_index") <- cmd_index
-  res <- tryCatch({
-      err_msg <- NA_character_
-      apply_one_cmd.nonvec_unsafe(df, action, data)
-    },
-    error = function(e) {
-      err_msg <- geterrmessage()[1]
-      attr(df, "error_list")[cmd_index] <- err_msg
-      message(
-        paste(
-          "Error in command",
-          cmd_index,
-          ": ",
-          err_msg)
-        )
-      df
-    }
-  )
-  res
-}
-
-
 #' Apply changes of mapping Excel file to dataframe
 #'
 #' The commands entered in the mapping file can be excuted on the data set with
