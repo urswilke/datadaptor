@@ -209,6 +209,20 @@ is_mapping <- function(mapping_file) {
   inherits(mapping_file, "mapping")
 }
 
+as_mapping <- function(mapping, ...) {
+  UseMethod("as_mapping")
+}
+as_mapping.default <- function(mapping, ...) {
+  stop("Methods only defined for objects of type mapping or character.")
+}
+as_mapping.mapping <- function(mapping, ...) {
+  mapping
+}
+as_mapping.character <- function(mapping, ...) {
+  new_mapping(mapping)
+}
+
+
 new_mapping_subclass <- function(mapping, ..., class) {
   # replace existing elements in mapping by the arguments in the ellipsis (...)
   # see https://stackoverflow.com/a/61543428

@@ -134,22 +134,6 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
   data_mapping
 }
 
-as_mapping <- function(mapping, ...) {
-  # turn file path strings into mappings:
-  if (!is_mapping(mapping) & is.character(mapping)) {
-    mapping <- new_mapping(
-      mapping_file = mapping,
-      ...
-    )
-  }
-  else if (!is_mapping(mapping)){
-    stop("
-         mapping has to be either the file path to the mapping file,
-         or the data structure (returned by `mapp_cmd_table()`) of this path!")
-  }
-  mapping
-}
-
 new_dataset_subclass <- function(mapping, ..., subclass) {
   structure(
     mapping[["data"]],
