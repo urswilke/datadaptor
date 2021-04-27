@@ -139,6 +139,10 @@ new_mapping <- function(
   vectorized = logical(),
   df_cmd = tibble::tibble(),
   data = tibble::tibble(),
+  try_catch = logical(),
+  rec_fun = purrr::reduce2,
+  check_id_is_unique = logical(),
+  mapping_file_attrs = list(),
   ...,
   class = character()) {
   # if (is_mapping_file(mapping_file)) {
@@ -147,7 +151,10 @@ new_mapping <- function(
 
   stopifnot(is.character(mapping_file))
   stopifnot(is.logical(na_to_filter))
+  stopifnot(is.logical(try_catch))
+  stopifnot(is.logical(check_id_is_unique))
   stopifnot(is.logical(vectorized))
+  stopifnot(is.list(mapping_file_attrs))
 
   set_configr_args(mapping_file)
   id_var <- datenanpassr.env$configr$id_var
