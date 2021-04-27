@@ -132,7 +132,7 @@ is_true <- function(x) Vectorize(isTRUE)(x)
 
 
 
-set_configr_args <- function(mapping_file) {
+get_configr_args_list <- function(mapping_file) {
   df_config <- mapp_configr(mapping_file)
   l_configr <- df_config %>%
     dplyr::mutate(value = as.list(.data$value)) %>%
@@ -150,7 +150,7 @@ set_configr_args <- function(mapping_file) {
     stringr::str_split("[, ;]+") %>%
     unlist() %>% dplyr::setdiff(NA)
 
-  list2env(list(configr = l_configr), datenanpassr.env)
+  l_configr
 }
 
 

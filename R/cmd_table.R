@@ -68,7 +68,7 @@ generate_cmd_table <- function(mapping,
                                vectorized) {
   sheet_cats <- mapping[["sheet_cats"]]
   id_var <- mapping[["id_var"]]
-  df_cmd_manip_string <- mapping[["mapping_file_attrs"]]$configr$manipulate_command_table
+  df_cmd_manip_string <- mapping[["mapping_file_attrs"]]$manipulate_command_table
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
@@ -158,8 +158,9 @@ new_mapping <- function(
   rec_fun <- match.fun(rec_fun, c(purrr::reduce2, purrr::accumulate2))
 
 
-  set_configr_args(mapping_file)
-  id_var <- datenanpassr.env$configr$id_var
+  # TODO: move to step where mapping object is filled (to keep constructor slim)
+  l_configr <- get_configr_args_list(mapping_file)
+  id_var <- l_configr$id_var
 
 
   sheets <- mapping_file %>% readxl::excel_sheets()
@@ -167,7 +168,7 @@ new_mapping <- function(
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (datenanpassr.env$configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (l_configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
     sheets <- switch_sheets_vars_label(sheets)
   }
 
@@ -181,7 +182,7 @@ new_mapping <- function(
     mapping_file = new_mapping_file(mapping_file, id_var),
     id_var = id_var,
     sheet_cats = sheet_cats,
-    mapping_file_attrs = datenanpassr.env %>% as.list(),
+    mapping_file_attrs = l_configr,
     na_to_filter = na_to_filter,
     vectorized = vectorized,
     df_cmd = df_cmd,
@@ -228,11 +229,11 @@ generate_rec_na_cmd_table <- function(mapping) {
   # generates a row of a command table with the command to recode missing to -2,
   # labelled "FILTER"
   vars_to_exclude_na_to_filter <- c(
-    mapping$mapping_file_attrs$configr$not_miss_to_filter_vars,
+    mapping$mapping_file_attrs$not_miss_to_filter_vars,
     mapping$id_var,
-    mapping$mapping_file_attrs$configr$added_id_var
+    mapping$mapping_file_attrs$added_id_var
   )
-  na_rec_vec <- mapping$mapping_file_attrs$configr$miss_replace_lab_val
+  na_rec_vec <- mapping$mapping_file_attrs$miss_replace_lab_val
   tibble::tibble(
     sheet = "Config",
     action = "#RECNA",
