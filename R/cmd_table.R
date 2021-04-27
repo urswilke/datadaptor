@@ -155,6 +155,8 @@ new_mapping <- function(
   stopifnot(is.logical(check_id_is_unique))
   stopifnot(is.logical(vectorized))
   stopifnot(is.list(mapping_file_attrs))
+  rec_fun <- match.fun(rec_fun, c(purrr::reduce2, purrr::accumulate2))
+
 
   set_configr_args(mapping_file)
   id_var <- datenanpassr.env$configr$id_var
