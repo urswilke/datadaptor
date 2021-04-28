@@ -110,8 +110,6 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
 
   data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
 
-  # data_mapping <- new_mapping_subclass(mapping, data = df, class = data_mapping_subclass_string)
-
   if (mapping[["vectorized"]] != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
   }
