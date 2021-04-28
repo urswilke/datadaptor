@@ -196,15 +196,14 @@ get_double_dispatch_class <- function(vectorized, try_catch) {
 translate_to_r_script <- function(
   mapping_file,
   rscript_name = "mapping.R",
-  spss_file
+  spss_file,
+  ...
   ) {
-  # TODO: clean up:
-  df_cmd <- mapp_cmd_table(mapping_file)$df_cmd
-
-  # TODO: repair for vectorized = TRUE
-  # if (mapping[["vectorized"]] == TRUE) {
-  #   df_cmd <- group_vectorizable_cmds(df_cmd)
-  # }
+  mapping <- mapp_cmd_table(mapping_file, ...)
+  df_cmd <- mapping$df_cmd
+  if (length(mapping[["vectorized"]]) > 0 & mapping[["vectorized"]] == TRUE) {
+    df_cmd <- group_vectorizable_cmds(df_cmd)
+  }
   cmd_list <-
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))

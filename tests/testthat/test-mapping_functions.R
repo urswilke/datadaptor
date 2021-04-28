@@ -52,8 +52,11 @@ test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
     attr(df_mod, "cmd_index") <- NULL
     attr(df_mod, "error_list") <- NULL
     testthat::expect_message(translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file))
+    # testthat::expect_message(translate_to_r_script(mapping_file, rscript_name = "mapping_vec.R", spss_file, vectorized = TRUE))
     source("mapping.R", echo = FALSE)
     testthat::expect_equal(df_mod, df)
+    # source("mapping_vec.R", echo = FALSE)
+    # testthat::expect_equal(df_mod, df)
   })
 })
 
