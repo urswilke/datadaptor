@@ -92,18 +92,25 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             check_id_is_unique = TRUE,
                             vectorized = FALSE) {
-  mapping <-  as_mapping(
+  cmd_table <- mapp_cmd_table(
     mapping,
     na_to_filter = na_to_filter,
+    vectorized = vectorized
+  )$df_cmd
+  mapping <-  new_mapping(
+    mapping,
+    data = df,
+    df_cmd = cmd_table,
+    na_to_filter = na_to_filter,
+    vectorized = vectorized,
     try_catch = try_catch
   )
 
 
-  cmd_table <- mapping[["df_cmd"]]
 
   data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
 
-  data_mapping <- new_mapping_subclass(mapping, data = df, class = data_mapping_subclass_string)
+  # data_mapping <- new_mapping_subclass(mapping, data = df, class = data_mapping_subclass_string)
 
   if (mapping[["vectorized"]] != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
@@ -124,14 +131,14 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
   }
   # add the class property to the dataset (first function arg of apply_one_cmd),
   # in order to make it choose the right method:
-  classy_df <- new_dataset_subclass(data_mapping, subclass = data_mapping_subclass_string)
+  classy_df <- new_dataset_subclass(mapping, subclass = data_mapping_subclass_string)
   res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
   if (try_catch) {
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
     attr(res, "error_list") <- datenanpassr.env$error_list
   }
-  data_mapping[["df_mod"]] <- res
-  data_mapping
+  mapping[["df_mod"]] <- res
+  mapping
 }
 
 new_dataset_subclass <- function(mapping, ..., subclass) {
@@ -189,15 +196,17 @@ get_double_dispatch_class <- function(vectorized, try_catch) {
 #' translate_to_r_script(mapping_vec, rscript_name = "mapping_vec.R", spss_file)
 #' }
 translate_to_r_script <- function(
-  mapping,
+  mapping_file,
   rscript_name = "mapping.R",
   spss_file
   ) {
-  mapping <- as_mapping(mapping)
-  df_cmd <- mapping[["df_cmd"]]
-  if (mapping[["vectorized"]] == TRUE) {
-    df_cmd <- group_vectorizable_cmds(df_cmd)
-  }
+  # TODO: clean up:
+  df_cmd <- mapp_cmd_table(mapping_file)$df_cmd
+
+  # TODO: repair for vectorized = TRUE
+  # if (mapping[["vectorized"]] == TRUE) {
+  #   df_cmd <- group_vectorizable_cmds(df_cmd)
+  # }
   cmd_list <-
     purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y))) %>%
     purrr::map(~c("df <- ", paste0("  ", .x)))
