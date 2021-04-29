@@ -32,14 +32,27 @@ mapp_cmd_table <- function(
   ...
 ) {
 
-  mapping <- new_mapping(
+  mapping <- as_mapping(
     mapping_file,
     ...
   )
 
   mapping$df_cmd <- generate_cmd_table(mapping)
 
+  structure(
+    mapping,
+    class = c("cmd_table", class(mapping))
+  )
+}
+
+as_cmd_table <- function(mapping) {
+  UseMethod("as_cmd_table")
+}
+as_cmd_table.cmd_table <- function(mapping) {
   mapping
+}
+as_cmd_table.mapping <- function(mapping) {
+  mapp_cmd_table(mapping)
 }
 
 
