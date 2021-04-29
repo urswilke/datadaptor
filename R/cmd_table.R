@@ -37,16 +37,12 @@ mapp_cmd_table <- function(
 
   mapping <- new_mapping(
     mapping_file,
-    na_to_filter,
-    vectorized
-  )
-
-  df_cmd <- generate_cmd_table(
-    mapping,
     na_to_filter = na_to_filter,
     add_r_command_colum = add_r_command_colum,
     vectorized = vectorized
   )
+
+  df_cmd <- generate_cmd_table(mapping)
   mapping[["df_cmd"]] <- df_cmd
 
 
@@ -54,10 +50,10 @@ mapp_cmd_table <- function(
 }
 
 
-generate_cmd_table <- function(mapping,
-                               na_to_filter,
-                               add_r_command_colum,
-                               vectorized) {
+generate_cmd_table <- function(mapping) {
+  na_to_filter <- mapping$na_to_filter
+  add_r_command_colum <- mapping$add_r_command_colum
+  vectorized <- mapping$vectorized
   sheet_cats <- mapping[["sheet_cats"]]
   id_var <- mapping[["id_var"]]
   df_cmd_manip_string <- mapping[["mapping_file_attrs"]]$manipulate_command_table
