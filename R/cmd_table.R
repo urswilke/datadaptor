@@ -84,10 +84,6 @@ generate_cmd_table <- function(mapping) {
       tidyr::unnest(.data$a)
   }
 
-  # attr(df_cmd, "vectorized") = vectorized
-  # attr(df_cmd, "id_var") <- id_var
-  # attr(df_cmd, "mapping_file") <- mapping_file
-  # class(df_cmd) <- c("cmd_table", class(df_cmd))
   df_cmd
 }
 
@@ -132,9 +128,6 @@ new_mapping <- function(
   mapping_file_attrs = list(),
   ...,
   class = character()) {
-  # if (is_mapping_file(mapping_file)) {
-  #   return(mapping_file)
-  # }
 
   stopifnot(is.character(mapping_file))
   stopifnot(is.logical(na_to_filter))
