@@ -137,7 +137,6 @@ new_mapping <- function(
   rec_fun = purrr::reduce2,
   check_id_is_unique = TRUE,
   mapping_file_attrs = list(),
-  ...,
   class = character()) {
 
   stopifnot(is.character(mapping_file))
