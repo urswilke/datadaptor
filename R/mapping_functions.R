@@ -109,7 +109,7 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
 
 
 
-
+  # TODO: move to validate() function:
   id_var <- mapping$id_var
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
