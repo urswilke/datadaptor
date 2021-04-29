@@ -146,6 +146,8 @@ new_mapping <- function(
   stopifnot(is.logical(try_catch))
   stopifnot(is.logical(check_id_is_unique))
   stopifnot(is.logical(vectorized))
+  stopifnot(is.data.frame(df_cmd))
+  stopifnot(is.data.frame(data))
   stopifnot(is.list(mapping_file_attrs))
   rec_fun <- match.fun(rec_fun, c(purrr::reduce2, purrr::accumulate2))
 
