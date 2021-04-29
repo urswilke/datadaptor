@@ -9,7 +9,8 @@ mapp_cmd_table(
   mapping_file,
   add_r_command_colum = FALSE,
   na_to_filter = TRUE,
-  vectorized = FALSE
+  vectorized = FALSE,
+  ...
 )
 }
 \arguments{
