@@ -117,14 +117,14 @@ tab_sheet_types <- function(sheets) {
 }
 new_mapping <- function(
   mapping_file,
-  na_to_filter = logical(),
+  na_to_filter = TRUE,
   vectorized = FALSE,
   df_cmd = tibble::tibble(),
   data = tibble::tibble(),
-  try_catch = logical(),
-  add_r_command_colum = logical(),
+  try_catch = FALSE,
+  add_r_command_colum = FALSE,
   rec_fun = purrr::reduce2,
-  check_id_is_unique = logical(),
+  check_id_is_unique = TRUE,
   mapping_file_attrs = list(),
   ...,
   class = character()) {
