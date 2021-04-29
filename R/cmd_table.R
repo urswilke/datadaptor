@@ -173,6 +173,8 @@ new_mapping <- function(
     mapping_file_attrs = l_configr,
     na_to_filter = na_to_filter,
     vectorized = vectorized,
+    try_catch = try_catch,
+    rec_fun = rec_fun,
     df_cmd = df_cmd,
     data = data
   )

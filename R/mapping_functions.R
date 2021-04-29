@@ -97,28 +97,35 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
     na_to_filter = na_to_filter,
     vectorized = vectorized
   )$df_cmd
-  mapping <-  new_mapping(
+  mapping <- new_mapping(
     mapping,
     data = df,
     df_cmd = cmd_table,
     na_to_filter = na_to_filter,
+    rec_fun = rec_fun,
     vectorized = vectorized,
     try_catch = try_catch
   )
 
 
 
-  data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
 
-  if (mapping$vectorized != vectorized) {
-    stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
-  }
   id_var <- mapping$id_var
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
   }
 
 
+
+  mapping$df_mod <- apply_commands_to_dataset(mapping)
+  mapping
+}
+
+apply_commands_to_dataset <- function(mapping) {
+  cmd_table <- mapping$df_cmd
+  vectorized <- mapping$vectorized
+  try_catch <- mapping$try_catch
+  rec_fun <- mapping$rec_fun
   if (try_catch) {
     datenanpassr.env$cmd_index <- 0
     datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
@@ -129,31 +136,28 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
   }
   # add the class property to the dataset (first function arg of apply_one_cmd),
   # in order to make it choose the right method:
-  classy_df <- new_dataset_subclass(mapping, subclass = data_mapping_subclass_string)
-  res <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
+  classy_df <- new_dataset_class(mapping, vectorized, try_catch)
+  df_mod <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
   if (try_catch) {
-    attr(res, "cmd_index") <- datenanpassr.env$cmd_index
-    attr(res, "error_list") <- datenanpassr.env$error_list
+    attr(df_mod, "cmd_index") <- datenanpassr.env$cmd_index
+    attr(df_mod, "error_list") <- datenanpassr.env$error_list
   }
-  mapping$df_mod <- res
-  mapping
-}
-
-new_dataset_subclass <- function(mapping, ..., subclass) {
-  structure(
-    mapping$data,
-    cmd_index = 0,
-    error_list = vector("character", length = nrow(mapping$df_cmd)),
-    ...,
-    class = c(subclass, class(mapping$data))
-  )
+  df_mod
 }
 
 # HACK to generate a subclass string which represents the 4 possible
 # combinations of two booleans; S3 doesnt offer double dispatch...
 # another possibility would be this:
 # https://gist.github.com/wch/adf13fd291976d6bf312
-get_double_dispatch_class <- function(vectorized, try_catch) {
+new_dataset_class <- function(mapping, vectorized, try_catch) {
+  vectorized_try_catch_pair_string <- get_vectorized_try_catch_pair_string(vectorized, try_catch)
+
+  structure(
+    mapping$data,
+    class = c(vectorized_try_catch_pair_string, class(mapping$data))
+  )
+}
+get_vectorized_try_catch_pair_string <- function(vectorized, try_catch) {
   dplyr::case_when(
     vectorized == FALSE & try_catch == FALSE ~ "nonvec_unsafe",
     vectorized == TRUE  & try_catch == FALSE ~ "vec_unsafe",

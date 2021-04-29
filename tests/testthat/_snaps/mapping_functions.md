@@ -195,8 +195,6 @@
        .. ..- attr(*, "names")= chr [1:2] "a" "b"
        ..@ label : chr "vl"
      $ free2_var             : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
-     - attr(*, "cmd_index")= num 0
-     - attr(*, "error_list")= chr [1:68] "" "" "" "" ...
 
 # result of mapp_cmd_table()
 
