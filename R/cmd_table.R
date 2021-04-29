@@ -126,6 +126,7 @@ new_mapping <- function(
   df_cmd = tibble::tibble(),
   data = tibble::tibble(),
   try_catch = logical(),
+  add_r_command_colum = logical(),
   rec_fun = purrr::reduce2,
   check_id_is_unique = logical(),
   mapping_file_attrs = list(),
@@ -162,27 +163,22 @@ new_mapping <- function(
 
   sheet_cats <- tab_sheet_types(sheets)
 
-  # very HACK-YYYyyyYYYY:
-  # replace existing elements in mapping by the arguments in the ellipsis (...)
-  # see https://stackoverflow.com/a/61543428
-  l <- list(...)
-  mapping_list <- list(
-    mapping_file = new_mapping_file(mapping_file, id_var),
-    id_var = id_var,
-    sheet_cats = sheet_cats,
-    mapping_file_attrs = l_configr,
-    na_to_filter = na_to_filter,
-    vectorized = vectorized,
-    try_catch = try_catch,
-    rec_fun = rec_fun,
-    df_cmd = df_cmd,
-    data = data
-  )
-  mapping_list[names(l)] <- l
 
   structure(
-    mapping_list,
-    class = c(class, "mapping")
+    list(
+      mapping_file = new_mapping_file(mapping_file, id_var),
+      id_var = id_var,
+      sheet_cats = sheet_cats,
+      mapping_file_attrs = l_configr,
+      na_to_filter = na_to_filter,
+      vectorized = vectorized,
+      try_catch = try_catch,
+      add_r_command_colum = add_r_command_colum,
+      rec_fun = rec_fun,
+      df_cmd = df_cmd,
+      data = data
+    ),
+    class = c("mapping", "list")
   )
 }
 
