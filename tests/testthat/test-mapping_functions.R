@@ -62,14 +62,25 @@ test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
 
 
 # TODO??: make it work with new OOP structure
-# test_that("minimal example for mapp_xl_to_data()", {
-#   df_cmd <- tibble::tibble(action = "#IF", data = list(list(new_var = "a", new_val = "7", condition = "a == 2")))
-#   attr(df_cmd, "id_var") <- "id"
-#   attr(df_cmd, "vectorized") <- FALSE
-#   result <- mapp_xl_to_data(data.frame(id = 1:3, a = 1:3), df_cmd) %>% dplyr::pull(a)
-#   attributes(result) <- NULL
-#   expect_equal(result, c(1, 7, 3))
-# })
+test_that("minimal example for mapp_xl_to_data()", {
+  df_cmd <- tibble::tibble(action = "#IF", data = list(list(new_var = "a", new_val = "7", condition = "a == 2")))
+  # attr(df_cmd, "id_var") <- "id"
+  # attr(df_cmd, "vectorized") <- FALSE
+  df <- data.frame(id = 1:3, a = 1:3)
+  mapping_minimal <- structure(
+    list(
+      df_cmd = df_cmd,
+      data = df,
+      id_var = "id",
+      try_catch = FALSE,
+      vectorized = FALSE,
+      rec_fun = purrr::reduce2
+    ),
+    class = c("cmd_table", "mapping")
+  )
+  result <- mapp_xl_to_data(df, mapping_minimal) %>% dplyr::pull(a)
+  expect_equal(result, c(1, 7, 3))
+})
 
 test_that("mapp_xl_to_data() throws error for erroneous code, and message if try_catch = TRUE", {
   mapping[["df_cmd"]] <- mapping[["df_cmd"]] %>% dplyr::filter(action == "#IF") %>% dplyr::slice(1)
