@@ -29,17 +29,12 @@
 #' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
 mapp_cmd_table <- function(
   mapping_file,
-  add_r_command_colum = FALSE,
-  na_to_filter = TRUE,
-  vectorized = FALSE,
   ...
 ) {
 
   mapping <- new_mapping(
     mapping_file,
-    na_to_filter = na_to_filter,
-    add_r_command_colum = add_r_command_colum,
-    vectorized = vectorized
+    ...
   )
 
   mapping$df_cmd <- generate_cmd_table(mapping)
