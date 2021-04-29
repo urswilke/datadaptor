@@ -85,7 +85,7 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
     check_id_is_unique,
     vectorized
   )
-  data_mapping[["df_mod"]]
+  data_mapping$df_mod
 }
 
 new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
@@ -110,10 +110,10 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
 
   data_mapping_subclass_string <- get_double_dispatch_class(vectorized, try_catch)
 
-  if (mapping[["vectorized"]] != vectorized) {
+  if (mapping$vectorized != vectorized) {
     stop("The command table data frame has to be generated with the same value of the `vectorized` argument.")
   }
-  id_var <- mapping[["id_var"]]
+  id_var <- mapping$id_var
   if (check_id_is_unique & length(unique(df[[id_var]])) < nrow(df)) {
     stop("Defined id variable ", id_var, " is not unique")
   }
@@ -135,17 +135,17 @@ new_data_mapping <- function(df, mapping, na_to_filter = TRUE,
     attr(res, "cmd_index") <- datenanpassr.env$cmd_index
     attr(res, "error_list") <- datenanpassr.env$error_list
   }
-  mapping[["df_mod"]] <- res
+  mapping$df_mod <- res
   mapping
 }
 
 new_dataset_subclass <- function(mapping, ..., subclass) {
   structure(
-    mapping[["data"]],
+    mapping$data,
     cmd_index = 0,
-    error_list = vector("character", length = nrow(mapping[["df_cmd"]])),
+    error_list = vector("character", length = nrow(mapping$df_cmd)),
     ...,
-    class = c(subclass, class(mapping[["data"]]))
+    class = c(subclass, class(mapping$data))
   )
 }
 
@@ -201,7 +201,7 @@ translate_to_r_script <- function(
   ) {
   mapping <- mapp_cmd_table(mapping_file, ...)
   df_cmd <- mapping$df_cmd
-  if (length(mapping[["vectorized"]]) > 0 & mapping[["vectorized"]] == TRUE) {
+  if (length(mapping$vectorized) > 0 & mapping$vectorized == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
   }
   cmd_list <-
