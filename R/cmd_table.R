@@ -118,7 +118,7 @@ tab_sheet_types <- function(sheets) {
 new_mapping <- function(
   mapping_file,
   na_to_filter = logical(),
-  vectorized = logical(),
+  vectorized = FALSE,
   df_cmd = tibble::tibble(),
   data = tibble::tibble(),
   try_catch = logical(),

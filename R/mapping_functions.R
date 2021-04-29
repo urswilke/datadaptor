@@ -205,7 +205,7 @@ translate_to_r_script <- function(
   ) {
   mapping <- mapp_cmd_table(mapping_file, ...)
   df_cmd <- mapping$df_cmd
-  if (length(mapping$vectorized) > 0 & mapping$vectorized == TRUE) {
+  if (mapping$vectorized == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
   }
   cmd_list <-
