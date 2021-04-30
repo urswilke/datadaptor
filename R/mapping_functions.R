@@ -94,7 +94,7 @@ new_data_mapping <- function(df, mapping, check_id_is_unique, ...) {
     ...
   )
 
-  mapping <- as_cmd_table(mapping)
+  mapping <- as_cmd_table(mapping, ...)
 
   # if a mapping object is passed to new_data_mapping(), the dataset has to be set afterwards:
   mapping$data <- df
@@ -195,8 +195,8 @@ translate_to_r_script <- function(
   spss_file,
   ...
   ) {
-  mapping <- mapp_cmd_table(mapping_file, ...)
-  mapping <- as_cmd_table(mapping)
+  mapping <- as_mapping(mapping_file, ...)
+  mapping <- as_cmd_table(mapping, ...)
   df_cmd <- mapping$df_cmd
   if (mapping$vectorized == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
