@@ -77,13 +77,13 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
                             check_id_is_unique = TRUE,
                             vectorized = FALSE) {
   data_mapping <- new_data_mapping(
-    df,
-    mapping,
-    na_to_filter,
-    try_catch,
-    rec_fun = purrr::reduce2,
-    check_id_is_unique,
-    vectorized
+    df = df,
+    mapping = mapping,
+    check_id_is_unique = check_id_is_unique,
+    na_to_filter = na_to_filter,
+    try_catch = try_catch,
+    rec_fun = rec_fun,
+    vectorized = vectorized
   )
   data_mapping$df_mod
 }
@@ -91,6 +91,7 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
 new_data_mapping <- function(df, mapping, check_id_is_unique, ...) {
   mapping <- as_mapping(
     mapping,
+    check_id_is_unique = check_id_is_unique,
     ...
   )
 
