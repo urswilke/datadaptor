@@ -95,6 +95,10 @@ new_data_mapping <- function(df, mapping, check_id_is_unique, ...) {
     ...
   )
 
+  # HACK to create a subclass of "mapping" with class attribute "cmd_table"
+  # added and df_cmd calculated by generate_cmd_table():
+  # TODO: implement cleaner solution as in
+  # https://adv-r.hadley.nz/s3.html#s3-subclassing
   mapping <- as_cmd_table(mapping, ...)
 
   # if a mapping object is passed to new_data_mapping(), the dataset has to be set afterwards:
