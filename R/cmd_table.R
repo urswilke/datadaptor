@@ -2,18 +2,7 @@
 #' Excel mapping file
 #'
 #' @param mapping_file filename of the Excel mapping file
-#' @param add_r_command_colum logical, whether to add a column `"R command"`
-#' specifying the corresponding R command; defaults to FALSE
-#' @param na_to_filter logical specifying whether a command is added whether
-#' `set_na_to_filter_except()` should be run as the very first command.
-#' @param vectorized logical whether groups of command blocks to calculate
-#' new vectors are applied to the data in a single `dplyr::mutate()`
-#' statement or whether to consecutively apply (by using `purrr::reduce()`)
-#' each command expression on the whole data frame. Probably something similar as the difference between:
-#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
-#' dataframe() %>% mutate(a = 1, b = 2).
-#' The second is faster. For many data operations or large datasets,
-#' vectorized = TRUE should also be faster
+#' @param ... Arguments passed to `new_mapping()`
 #'
 #' @return Command table containing the data of the command blocks of the Excel mapping file.
 #' @export
@@ -126,6 +115,51 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
+#' Constructor of mapping objects
+#'
+#' @param mapping_file filename of the Excel mapping file
+#' @param add_r_command_colum logical, whether to add a column `"R command"`
+#' specifying the corresponding R command; defaults to FALSE
+#' @param na_to_filter logical specifying whether a command is added whether
+#' `set_na_to_filter_except()` should be run as the very first command.
+#' @param vectorized logical whether groups of command blocks to calculate
+#' new vectors are applied to the data in a single `dplyr::mutate()`
+#' statement or whether to consecutively apply (by using `purrr::reduce()`)
+#' each command expression on the whole data frame. Probably something similar as the difference between:
+#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
+#' dataframe() %>% mutate(a = 1, b = 2).
+#' The second is faster. For many data operations or large datasets,
+#' vectorized = TRUE should also be faster
+#' @param df_cmd Table of commands (generated with `mapp_cmd_table()`); defaults to empty data.frame.
+#' @param data Dataset that is modified with the commands of `df_cmd`.
+#' @param try_catch logical; if TRUE, command blocks of the mapping file
+#'   that error out will be skipped; possible errors are attached to the
+#'   dataframe as a character vector of length of all the commands in the
+#'   command table; in combination with `rec_fun` = `purrr::accumulate2` this
+#'   can be used to examine intermediate results, in order to find the reason
+#'   for the error. Alternatively, run the script created by
+#'   `translate_to_r_script()`.
+#' @param rec_fun function either purrr::reduce2 or purrr::accumulate2; see
+#'   Value section
+#' @param check_id_is_unique logical whether to check that the specified id
+#'   variable (in sheet "configr") is unique; defaults to TRUE.
+#' @param vectorized logical whether groups of command blocks to calculate
+#' new vectors are applied to the data in a single `dplyr::mutate()`
+#' statement or whether to consecutively apply (by using `purrr::reduce()`)
+#' each command expression on the whole data frame. Probably something similar as the difference between:
+#' dataframe() %>% mutate(a = 1) %>% mutate(b = 2) or
+#' dataframe() %>% mutate(a = 1, b = 2).
+#' The second is faster. For many data operations or large datasets,
+#' vectorized = TRUE should also be faster
+#' @param mapping_file_attrs Parameter list that is read in from the "configr" sheet in `mapping_file`.
+#' @param class Class attribute to create a subclass.
+#'
+#' @return A list object of type mapping.
+#' @export
+#'
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' new_mapping(mapping_file)
 new_mapping <- function(
   mapping_file,
   na_to_filter = TRUE,

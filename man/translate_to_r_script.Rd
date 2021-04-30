@@ -13,7 +13,7 @@ translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file, ...)
 
 \item{spss_file}{file name of the SPSS dataset, the mapping is applied on.}
 
-\item{...}{Arguments passed to \code{mapp_cmd_table()} (only \code{vectorized} has an effect).}
+\item{...}{Arguments passed to \code{new_mapping()} (only \code{vectorized} has an effect).}
 }
 \description{
 This function generates an R script with the command blocks of the Excel mapping file

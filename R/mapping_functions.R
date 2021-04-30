@@ -166,7 +166,7 @@ get_vectorized_try_catch_pair_string <- function(vectorized, try_catch) {
 #' @param mapping_file Path of the Excel mapping file (character vector) or object of class "mapping".
 #' @param rscript_name file name of the R script to be saved.
 #' @param spss_file file name of the SPSS dataset, the mapping is applied on.
-#' @param ... Arguments passed to `mapp_cmd_table()` (only `vectorized` has an effect).
+#' @param ... Arguments passed to `new_mapping()` (only `vectorized` has an effect).
 #'
 #' @export
 #'

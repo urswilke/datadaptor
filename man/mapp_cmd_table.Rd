@@ -5,31 +5,12 @@
 \title{Create a summary table of the data modifications list read in from the
 Excel mapping file}
 \usage{
-mapp_cmd_table(
-  mapping_file,
-  add_r_command_colum = FALSE,
-  na_to_filter = TRUE,
-  vectorized = FALSE,
-  ...
-)
+mapp_cmd_table(mapping_file, ...)
 }
 \arguments{
 \item{mapping_file}{filename of the Excel mapping file}
 
-\item{add_r_command_colum}{logical, whether to add a column \code{"R command"}
-specifying the corresponding R command; defaults to FALSE}
-
-\item{na_to_filter}{logical specifying whether a command is added whether
-\code{set_na_to_filter_except()} should be run as the very first command.}
-
-\item{vectorized}{logical whether groups of command blocks to calculate
-new vectors are applied to the data in a single \code{dplyr::mutate()}
-statement or whether to consecutively apply (by using \code{purrr::reduce()})
-each command expression on the whole data frame. Probably something similar as the difference between:
-dataframe() \%>\% mutate(a = 1) \%>\% mutate(b = 2) or
-dataframe() \%>\% mutate(a = 1, b = 2).
-The second is faster. For many data operations or large datasets,
-vectorized = TRUE should also be faster}
+\item{...}{Arguments passed to \code{new_mapping()}}
 }
 \value{
 Command table containing the data of the command blocks of the Excel mapping file.
