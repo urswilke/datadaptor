@@ -17,8 +17,10 @@ r6mod <- R6::R6Class(
 rr <- r6mod$new()
 
 df_cmd = mapp_cmd_table(mapping_file)$df_cmd
+# apply first command in df_cmd:
 rr$mod(df_cmd$action[1], df_cmd$data[[1]])
 
+# apply all commands in df_cmd:
 walk2(df_cmd$action, df_cmd$data, rr$mod)
 rr$dat
 
