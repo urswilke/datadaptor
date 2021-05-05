@@ -18,7 +18,7 @@ mapp_xl_to_data(
 \item{df}{dataframe to apply mapping on}
 
 \item{mapping}{name of the mapping Excel file or the object returned by
-\code{mapp_cmd_table()} of this path}
+\code{mapp_cmd_table_()} of this path}
 
 \item{na_to_filter}{logical; if TRUE, NA values of numerical variables in df
 will be replaced by -2 with the value label "FILTER".}
@@ -72,9 +72,9 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 utils::browseURL(mapping_file)
 }
 # This command creates an overview table:
-mapping <- mapp_cmd_table_(mapping_file, add_r_command_colum = TRUE)
+mapping <- datenanpassr:::mapp_cmd_table_(mapping_file, add_r_command_colum = TRUE)
 
-mapp_xl_to_data(df, mapping)
+df_cmd <- mapp_xl_to_data(df, mapping)
 
 
 df_mod_list <- mapp_xl_to_data(

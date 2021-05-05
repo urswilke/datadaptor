@@ -27,7 +27,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 utils::browseURL(mapping_file)
 }
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-mapping <- mapp_cmd_table_(mapping_file)
+mapping <- datenanpassr:::mapp_cmd_table_(mapping_file)
 \dontrun{
 translate_to_r_script(mapping, rscript_name = "mapping.R", spss_file)
 
@@ -36,7 +36,7 @@ translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file)
 # For an illustration of the internal differences when using vectorized = TRUE in
 # `mapp_xl_to_data()`, compare the resulting script
 # "mapping.R", with the vectorized version:
-mapping_vec <- mapp_cmd_table_(mapping_file, vectorized = TRUE)
+mapping_vec <- datenanpassr:::mapp_cmd_table_(mapping_file, vectorized = TRUE)
 translate_to_r_script(mapping_vec, rscript_name = "mapping_vec.R", spss_file)
 }
 }

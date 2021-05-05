@@ -50,9 +50,9 @@
 #' utils::browseURL(mapping_file)
 #' }
 #' # This command creates an overview table:
-#' mapping <- mapp_cmd_table_(mapping_file, add_r_command_colum = TRUE)
+#' mapping <- datenanpassr:::mapp_cmd_table_(mapping_file, add_r_command_colum = TRUE)
 #'
-#' mapp_xl_to_data(df, mapping)
+#' df_cmd <- mapp_xl_to_data(df, mapping)
 #'
 #'
 #' df_mod_list <- mapp_xl_to_data(
@@ -183,7 +183,7 @@ get_vectorized_try_catch_pair_string <- function(vectorized, try_catch) {
 #' utils::browseURL(mapping_file)
 #' }
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' mapping <- mapp_cmd_table_(mapping_file)
+#' mapping <- datenanpassr:::mapp_cmd_table_(mapping_file)
 #' \dontrun{
 #' translate_to_r_script(mapping, rscript_name = "mapping.R", spss_file)
 #'
@@ -192,7 +192,7 @@ get_vectorized_try_catch_pair_string <- function(vectorized, try_catch) {
 #' # For an illustration of the internal differences when using vectorized = TRUE in
 #' # `mapp_xl_to_data()`, compare the resulting script
 #' # "mapping.R", with the vectorized version:
-#' mapping_vec <- mapp_cmd_table_(mapping_file, vectorized = TRUE)
+#' mapping_vec <- datenanpassr:::mapp_cmd_table_(mapping_file, vectorized = TRUE)
 #' translate_to_r_script(mapping_vec, rscript_name = "mapping_vec.R", spss_file)
 #' }
 translate_to_r_script <- function(
