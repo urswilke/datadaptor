@@ -75,4 +75,4 @@ mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping_file)
 mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_file)
 ```
 
- Under the hood, this is done with `as_mapping()` and `as_cmd_table()` functions.
+ Under the hood, this is done with the `as_mapping()` and `as_cmd_table()` functions.
