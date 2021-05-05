@@ -199,8 +199,7 @@ translate_to_r_script <- function(
   spss_file,
   ...
   ) {
-  mapping <- as_mapping(mapping_file, ...)
-  mapping <- as_cmd_table(mapping, ...)
+  mapping <- as_cmd_table(mapping_file, ...)
   df_cmd <- mapping$df_cmd
   if (mapping$vectorized == TRUE) {
     df_cmd <- group_vectorizable_cmds(df_cmd)
