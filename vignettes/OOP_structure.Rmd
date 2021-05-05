@@ -43,7 +43,7 @@ mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping)
 This creates an object of subclass `"cmd_table"`, inheriting from the "mapping"
 class and with object returned by `mapp_cmd_table()` added.
 
-### Data adaptions 
+### Data adaptations 
 
 In order to apply the commands from the Excel file to the dataset `fake_survey`
 (included in the package), you can call the function
