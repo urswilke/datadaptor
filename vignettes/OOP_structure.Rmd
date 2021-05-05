@@ -52,7 +52,7 @@ In order to apply the commands from the Excel file to the dataset `fake_survey`
 (mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_cmd))
 ```
 
-This add the subclass `"data_mod"` to the mapping object.
+This adds the subclass `"data_mod"` to the mapping object.
 
 To directly extract the modified data set from this structure:
 
