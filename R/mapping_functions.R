@@ -76,7 +76,7 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
                             try_catch = FALSE, rec_fun = purrr::reduce2,
                             check_id_is_unique = TRUE,
                             vectorized = FALSE) {
-  data_mapping <- new_data_mapping(
+  data_mapping <- mapp_xl_to_data_(
     df = df,
     mapping = mapping,
     check_id_is_unique = check_id_is_unique,
@@ -88,7 +88,7 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
   data_mapping$df_mod
 }
 
-new_data_mapping <- function(df, mapping, check_id_is_unique, ...) {
+mapp_xl_to_data_ <- function(df, mapping, check_id_is_unique, ...) {
   mapping <- as_mapping(
     mapping,
     check_id_is_unique = check_id_is_unique,
@@ -101,7 +101,8 @@ new_data_mapping <- function(df, mapping, check_id_is_unique, ...) {
   # https://adv-r.hadley.nz/s3.html#s3-subclassing
   mapping <- as_cmd_table(mapping, ...)
 
-  # if a mapping object is passed to new_data_mapping(), the dataset has to be set afterwards:
+  # if a mapping object without subclass is passed to mapp_xl_to_data_(), the
+  # dataset has to be set afterwards (HACKY):
   mapping$data <- df
 
 
