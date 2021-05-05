@@ -9,7 +9,7 @@ mapp_cmd_table_ <- function(
   )
 
   if (is.null(mapping$df_cmd)) {
-    mapping$df_cmd <- mapp_cmd_table(mapping)
+    mapping$df_cmd <- build_cmd_table(mapping)
   }
 
   structure(
@@ -29,6 +29,9 @@ as_cmd_table.cmd_table <- function(mapping, ...) {
 }
 as_cmd_table.mapping <- function(mapping, ...) {
   mapp_cmd_table_(mapping, ...)
+}
+as_cmd_table.character <- function(mapping, ...) {
+  as_cmd_table.mapping(new_mapping(mapping), ...)
 }
 
 
@@ -50,7 +53,14 @@ as_cmd_table.mapping <- function(mapping, ...) {
 #' mapp_cmd_table(mapping_file)
 #' # Add column for R command:
 #' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
-mapp_cmd_table <- function(mapping) {
+mapp_cmd_table <- function(mapping, ...) {
+  mapping <- mapp_cmd_table_(mapping, ...)
+  mapping$df_cmd
+}
+
+
+
+build_cmd_table <- function(mapping) {
   na_to_filter <- mapping$na_to_filter
   add_r_command_colum <- mapping$add_r_command_colum
   vectorized <- mapping$vectorized

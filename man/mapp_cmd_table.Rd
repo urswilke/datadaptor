@@ -5,12 +5,12 @@
 \title{Create a summary table of the data modifications list read in from the
 Excel mapping file}
 \usage{
-mapp_cmd_table(mapping)
+mapp_cmd_table(mapping, ...)
 }
 \arguments{
-\item{mapping_file}{filename of the Excel mapping file}
-
 \item{...}{Arguments passed to \code{new_mapping()}}
+
+\item{mapping_file}{filename of the Excel mapping file}
 }
 \value{
 Command table containing the data of the command blocks of the Excel mapping file.
