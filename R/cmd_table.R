@@ -31,7 +31,8 @@ as_cmd_table.mapping <- function(mapping, ...) {
   mapp_cmd_table_(mapping, ...)
 }
 as_cmd_table.character <- function(mapping, ...) {
-  as_cmd_table.mapping(new_mapping(mapping), ...)
+  mapping <- new_mapping(mapping)
+  as_cmd_table.mapping(mapping, ...)
 }
 
 
