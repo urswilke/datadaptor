@@ -1,22 +1,4 @@
-#' Create a summary table of the data modifications list read in from the
-#' Excel mapping file
-#'
-#' @param mapping_file filename of the Excel mapping file
-#' @param ... Arguments passed to `new_mapping()`
-#'
-#' @return Command table containing the data of the command blocks of the Excel mapping file.
-#' @export
-#'
-#' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' # open this Excel file (that comes with the package) via:
-#' \dontrun{
-#' utils::browseURL(mapping_file)
-#' }
-#' mapp_cmd_table(mapping_file)
-#' # Add column for R command:
-#' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
-mapp_cmd_table <- function(
+mapp_cmd_table_ <- function(
   mapping_file,
   ...
 ) {
@@ -27,7 +9,7 @@ mapp_cmd_table <- function(
   )
 
   if (is.null(mapping$df_cmd)) {
-    mapping$df_cmd <- generate_cmd_table(mapping)
+    mapping$df_cmd <- mapp_cmd_table(mapping)
   }
 
   structure(
@@ -46,11 +28,29 @@ as_cmd_table.cmd_table <- function(mapping, ...) {
   mapping
 }
 as_cmd_table.mapping <- function(mapping, ...) {
-  mapp_cmd_table(mapping, ...)
+  mapp_cmd_table_(mapping, ...)
 }
 
 
-generate_cmd_table <- function(mapping) {
+#' Create a summary table of the data modifications list read in from the
+#' Excel mapping file
+#'
+#' @param mapping_file filename of the Excel mapping file
+#' @param ... Arguments passed to `new_mapping()`
+#'
+#' @return Command table containing the data of the command blocks of the Excel mapping file.
+#' @export
+#'
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' # open this Excel file (that comes with the package) via:
+#' \dontrun{
+#' utils::browseURL(mapping_file)
+#' }
+#' mapp_cmd_table(mapping_file)
+#' # Add column for R command:
+#' mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
+mapp_cmd_table <- function(mapping) {
   na_to_filter <- mapping$na_to_filter
   add_r_command_colum <- mapping$add_r_command_colum
   vectorized <- mapping$vectorized
@@ -132,8 +132,8 @@ tab_sheet_types <- function(sheets) {
 #' dataframe() %>% mutate(a = 1, b = 2).
 #' The second is faster. For many data operations or large datasets,
 #' vectorized = TRUE should also be faster
-#' @param df_cmd Table of commands (generated with `mapp_cmd_table()`); defaults to empty data.frame.
-#' @param data Dataset that is modified with the commands of `df_cmd`.
+#' @param df_cmd Table of commands (generated with `mapp_cmd_table()`); defaults to NULL.
+#' @param data Dataset that is modified with the commands of `df_cmd`; defaults to NULL.
 #' @param try_catch logical; if TRUE, command blocks of the mapping file
 #'   that error out will be skipped; possible errors are attached to the
 #'   dataframe as a character vector of length of all the commands in the

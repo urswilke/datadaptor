@@ -72,7 +72,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 utils::browseURL(mapping_file)
 }
 # This command creates an overview table:
-mapping <- mapp_cmd_table(mapping_file, add_r_command_colum = TRUE)
+mapping <- mapp_cmd_table_(mapping_file, add_r_command_colum = TRUE)
 
 mapp_xl_to_data(df, mapping)
 

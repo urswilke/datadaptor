@@ -196,7 +196,7 @@
        ..@ label : chr "vl"
      $ free2_var             : num [1:100] 3 3 3 3 3 3 3 3 3 3 ...
 
-# result of mapp_cmd_table()
+# result of mapp_cmd_table_()
 
     tibble[,5] [68 x 5] (S3: tbl_df/tbl/data.frame)
      $ sheet  : chr [1:68] "Config" "Label" "Label" "Variables" ...

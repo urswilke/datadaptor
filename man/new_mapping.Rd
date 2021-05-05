@@ -8,8 +8,8 @@ new_mapping(
   mapping_file,
   na_to_filter = TRUE,
   vectorized = FALSE,
-  df_cmd = tibble::tibble(),
-  data = tibble::tibble(),
+  df_cmd = NULL,
+  data = NULL,
   try_catch = FALSE,
   add_r_command_colum = FALSE,
   rec_fun = purrr::reduce2,
@@ -33,9 +33,9 @@ dataframe() \%>\% mutate(a = 1, b = 2).
 The second is faster. For many data operations or large datasets,
 vectorized = TRUE should also be faster}
 
-\item{df_cmd}{Table of commands (generated with \code{mapp_cmd_table()}); defaults to empty data.frame.}
+\item{df_cmd}{Table of commands (generated with \code{mapp_cmd_table()}); defaults to NULL.}
 
-\item{data}{Dataset that is modified with the commands of \code{df_cmd}.}
+\item{data}{Dataset that is modified with the commands of \code{df_cmd}; defaults to NULL.}
 
 \item{try_catch}{logical; if TRUE, command blocks of the mapping file
 that error out will be skipped; possible errors are attached to the
