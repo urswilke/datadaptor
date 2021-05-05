@@ -1,0 +1,71 @@
+---
+title: "OOP_structure"
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+```{r setup}
+library(datenanpassr)
+```
+
+### Excel files
+
+The package is works with Excel files, such as the one included in the package:
+```{r}
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+
+```
+
+These can be transformed to objects of class "mapping" with 
+```{r}
+(mapping <- new_mapping(mapping_file))
+```
+
+### Command table
+
+The field `df_cmd` is initialized as `NULL` but can be computed with
+```{r}
+(df_cmd <- mapp_cmd_table(mapping))
+```
+
+Under the hood, this transforms the mapping structure, by calling 
+
+```{r}
+mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping)
+```
+
+This creates an object of subclass "cmd_table", inheriting from the "mapping"
+class and with object returned by `mapp_cmd_table()` added.
+
+### Data adaptions 
+
+In order to apply the commands from the Excel file to the dataset `fake_survey`
+(included in the package), you can call the function
+
+```{r}
+(mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_cmd))
+```
+
+This add the subclass "data_mod" to the mapping object.
+
+To directly extract the modified data set from this structure:
+
+```{r}
+(df_mod <- mapp_xl_to_data(fake_survey, mapping_cmd))
+```
+
+
+The functions `mapp_xl_to_data_()` and `mapp_cmd_table_()` can also be called
+with mapping file paths (instead of objects of class "cmd_table" and "mapping", respectively):
+
+```{r}
+mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping_file)
+mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_file)
+```
+

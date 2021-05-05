@@ -88,18 +88,12 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
   data_mapping$df_mod
 }
 
-mapp_xl_to_data_ <- function(df, mapping, check_id_is_unique, ...) {
-  mapping <- as_mapping(
-    mapping,
-    check_id_is_unique = check_id_is_unique,
-    ...
-  )
-
+mapp_xl_to_data_ <- function(df, mapping, check_id_is_unique = TRUE, ...) {
   # HACK to create a subclass of "mapping" with class attribute "cmd_table"
   # added and df_cmd calculated by generate_cmd_table():
   # TODO: implement cleaner solution as in
   # https://adv-r.hadley.nz/s3.html#s3-subclassing
-  mapping <- as_cmd_table(mapping, ...)
+  mapping <- as_cmd_table(mapping, check_id_is_unique = check_id_is_unique, ...)
 
   # if a mapping object without subclass is passed to mapp_xl_to_data_(), the
   # dataset has to be set afterwards (HACKY):
@@ -116,6 +110,10 @@ mapp_xl_to_data_ <- function(df, mapping, check_id_is_unique, ...) {
 
   mapping$df_mod <- apply_commands_to_dataset(mapping)
   mapping
+  structure(
+    mapping,
+    class = c("data_mod", class(mapping))
+  )
 }
 
 apply_commands_to_dataset <- function(mapping) {
