@@ -64,10 +64,10 @@ To directly extract the modified data set from this structure:
 
 ### Sequence of methods
 
-The execution of the shown methods can be done beforehand and then passed into 
-the following methods. (Under the hood, this is done with `as_mapping()` and `as_cmd_table()` functions).
+As above, the execution of the shown methods can be done beforehand and then passed into 
+the following methods.
 
-Alternatively, the functions `mapp_xl_to_data_()` and `mapp_cmd_table_()` (as well as their counter parts without the underscore `_` suffix) can also be directly called
+Alternatively, you can also directly call the functions `mapp_xl_to_data_()` and `mapp_cmd_table_()` (as well as their counter parts without the underscore `_` suffix)
 with mapping file paths (instead of objects of class `"cmd_table"` and `"mapping"`, respectively):
 
 ```{r, eval=FALSE}
@@ -75,3 +75,4 @@ mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping_file)
 mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_file)
 ```
 
+ Under the hood, this is done with `as_mapping()` and `as_cmd_table()` functions.
