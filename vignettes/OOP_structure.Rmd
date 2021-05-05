@@ -67,7 +67,7 @@ To directly extract the modified data set from this structure:
 The execution of the shown methods can be done beforehand and then passed into 
 the following methods. (Under the hood, this is done with `as_mapping()` and `as_cmd_table()` functions).
 
-Therefore, the functions `mapp_xl_to_data_()` and `mapp_cmd_table_()` (as well as their counter parts without the underscore `_` suffix) can also be directly called
+Alternatively, the functions `mapp_xl_to_data_()` and `mapp_cmd_table_()` (as well as their counter parts without the underscore `_` suffix) can also be directly called
 with mapping file paths (instead of objects of class `"cmd_table"` and `"mapping"`, respectively):
 
 ```{r, eval=FALSE}
