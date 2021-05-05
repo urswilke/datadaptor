@@ -26,7 +26,9 @@ mapp_cmd_table <- function(
     ...
   )
 
-  mapping$df_cmd <- generate_cmd_table(mapping)
+  if (is.null(mapping$df_cmd)) {
+    mapping$df_cmd <- generate_cmd_table(mapping)
+  }
 
   structure(
     mapping,
@@ -164,8 +166,8 @@ new_mapping <- function(
   mapping_file,
   na_to_filter = TRUE,
   vectorized = FALSE,
-  df_cmd = tibble::tibble(),
-  data = tibble::tibble(),
+  df_cmd = NULL,
+  data = NULL,
   try_catch = FALSE,
   add_r_command_colum = FALSE,
   rec_fun = purrr::reduce2,
@@ -178,8 +180,8 @@ new_mapping <- function(
   stopifnot(is.logical(try_catch))
   stopifnot(is.logical(check_id_is_unique))
   stopifnot(is.logical(vectorized))
-  stopifnot(is.data.frame(df_cmd))
-  stopifnot(is.data.frame(data))
+  stopifnot(is.null(df_cmd) | is.data.frame(df_cmd))
+  stopifnot(is.null(data)   | is.data.frame(data))
   stopifnot(is.list(mapping_file_attrs))
   rec_fun <- match.fun(rec_fun, c(purrr::reduce2, purrr::accumulate2))
 
