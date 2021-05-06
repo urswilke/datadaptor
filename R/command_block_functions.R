@@ -7,6 +7,7 @@
 #' @return modified dataframe `df` (see examples)
 #' @export
 #'
+#' @export
 #' @examples
 #' df <- data.frame(x = 1, y = 2)
 #' df <- cmd_rename(df, c("x", "y"), c("x_renamed", "y_renamed"))
@@ -26,6 +27,7 @@ cmd_rename <- function(df, orig_vars, new_names){
 #' @return modified dataframe `df` (see examples)
 #' @export
 #'
+#' @export
 #' @examples
 #' df <- data.frame(x = 1, y = 2)
 #' df <- cmd_drop(df, c("y"))
@@ -41,6 +43,7 @@ cmd_drop <- function(df, orig_vars){
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' df <- data.frame(x = 1)
 #' df <- cmd_set_lab_df(df, "x", "I'm the variable label")
@@ -60,6 +63,7 @@ cmd_set_lab_df <- function(df, orig_var, new_label){
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' df <- data.frame(x = 1:2)
 #' df <- cmd_set_labs_df(df, "x", new_vals = 1:2, new_labs = c("label for 1", "label for 2"))
@@ -79,6 +83,7 @@ cmd_set_labs_df <- function(df, orig_var, new_lab = NULL, new_vals, new_labs){
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' x <- haven::labelled(1:2, labels = c("label for 1" = 1), label = "var label")
 #' df <- data.frame(x)
@@ -97,6 +102,7 @@ cmd_add_labs_df <- function(df, orig_var, new_lab = NULL, vals_added, labs_added
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
 #' df <- data.frame(x, y = NA_real_)
@@ -119,6 +125,7 @@ cmd_dic_df <- function(df, orig_var, new_var){
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' cmd_kg_df(data.frame(a = 1:3, b = c(3, 3, 4)), "b", "a")
 cmd_kg_df <- function(df, split_var, by_var) {
@@ -177,6 +184,7 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' x <- haven::labelled(LETTERS[3:1], label = "variable label")
 #' df <- data.frame(x)
@@ -196,6 +204,7 @@ cmd_autorec_df <- function(df, var) {
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' x <- haven::labelled(as.character(3:1), label = "variable label")
 #' df <- data.frame(x)
@@ -220,6 +229,7 @@ cmd_str_to_num_df <- function(df, var) {
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' orig_var <- 1:5
 #' new_vals <- new_vals <- c(1, 1, 2, 3, 3)
@@ -260,6 +270,7 @@ cmd_sumvar_df <- function(df, new_var, orig_var, new_lab = NULL, orig_vals, new_
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' orig_var <- 1:5
 #' df <- data.frame(orig_var)
@@ -298,6 +309,7 @@ cmd_rec_df <- function(df, orig_var, new_var, new_lab = NULL, lb, ub, new_vals, 
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' cmd_comp_df(data.frame(x = 1:3), "y", "x * 2")
 #' cmd_comp_df(data.frame(x = haven::labelled(1:3, label = "variable label")), "x", "x * 2")
@@ -321,6 +333,7 @@ cmd_comp_df <- function(df, new_var, new_val) {
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' cmd_compr_df(data.frame(x = LETTERS[3:1]), "y", "x %>% as.factor()")
 #' # (When saving factors to an SPSS file by haven::write_sav they will be tranformed
@@ -344,6 +357,7 @@ cmd_compr_df <- function(df, new_var, new_val) {
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' cmd_if_df(data.frame(x = 1:3), "y", "x == 3", "2")
 #' # If the condition is not true, the previous values are kept, if existing:
@@ -377,6 +391,7 @@ cmd_if_df <- function(df, new_var, condition, new_val) {
 #'
 #' @return modified dataframe `df` (see examples)
 #'
+#' @export
 #' @examples
 #' df <- data.frame(id_var = 1:5)
 #' df <- cmd_verbatim_df(
@@ -410,6 +425,7 @@ cmd_verbatim_df <- function(df, var_ziel, val_assign, varlab, vallab, id = "id",
 #'
 #' @return manipulated dataframe `df` with the variables defined in `variable_names` added, merged by `id`
 #'
+#' @export
 #' @examples
 #' df <- data.frame(id = 1:100)
 #' variable_names <- c("q1", "q2")
@@ -450,6 +466,7 @@ cmd_merge_df <- function(df, merge_file, id = "id", variable_names) {
 #' @return Manipulated dataframe
 #' @export
 #'
+#' @export
 #' @examples
 #' df <- data.frame(k1 = 1, k2 = 2)
 #' r_script <- system.file("extdata", "example_R_function.R", package = "datenanpassr")
@@ -476,6 +493,7 @@ cmd_rfun <- function(df, r_script, fun_name) {
 #' @return Manipulated dataframe (the expression string is piped to `df`).
 #' @export
 #'
+#' @export
 #' @examples
 #' df <- data.frame(k1 = 1, k2 = 2)
 #' # To create a new named variable in `df`, wrap the output in a data.frame()
