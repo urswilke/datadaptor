@@ -92,7 +92,8 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-#' mapp_var_sheet_cmd_table(mapping_file)
+#' mapping <- datenanpassr:::new_mapping_file(mapping_file, id_var = 'id')
+#' mapp_var_sheet_cmd_table(mapping)
 mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables"){
   # mapping_file <- new_mapping_file(mapping_file)
   read_variables_sheet_raw(mapping_file, sheet) %>%
@@ -238,7 +239,8 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-#' mapp_vallab_sheet_cmd_table(mapping_file)
+#' mapping <- datenanpassr:::new_mapping_file(mapping_file, id_var = 'id')
+#' mapp_vallab_sheet_cmd_table(mapping)
 mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label") {
   # # TODO: think of a better way to set subclass, that the following doesnt has
   # # to be run here (or perhaps remove example):

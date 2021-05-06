@@ -25,5 +25,6 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 \dontrun{
 utils::browseURL(mapping_file)
 }
-mapp_vallab_sheet_cmd_table(mapping_file)
+mapping <- datenanpassr:::new_mapping_file(mapping_file, id_var = 'id')
+mapp_vallab_sheet_cmd_table(mapping)
 }
