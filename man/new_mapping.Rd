@@ -2,10 +2,11 @@
 % Please edit documentation in R/cmd_table.R
 \name{new_mapping}
 \alias{new_mapping}
+\alias{as_mapping}
 \title{Constructor of mapping objects}
 \usage{
 new_mapping(
-  mapping_file,
+  mapping,
   na_to_filter = TRUE,
   vectorized = FALSE,
   df_cmd = NULL,
@@ -15,11 +16,14 @@ new_mapping(
   rec_fun = purrr::reduce2,
   check_id_is_unique = TRUE,
   mapping_file_attrs = list(),
+  ...,
   class = character()
 )
+
+as_mapping(mapping, ...)
 }
 \arguments{
-\item{mapping_file}{filename of the Excel mapping file}
+\item{mapping}{filename of the Excel mapping file}
 
 \item{na_to_filter}{logical specifying whether a command is added whether
 \code{set_na_to_filter_except()} should be run as the very first command.}
@@ -55,6 +59,8 @@ Value section}
 variable (in sheet "configr") is unique; defaults to TRUE.}
 
 \item{mapping_file_attrs}{Parameter list that is read in from the "configr" sheet in \code{mapping_file}.}
+
+\item{...}{Parameters passed to subclass constructors.}
 
 \item{class}{Class attribute to create a subclass.}
 }
