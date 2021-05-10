@@ -88,15 +88,30 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
   data_mapping$df_mod
 }
 
+#' Return mapping object with dataset added after applying changes of mapping Excel file to dataframe.
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' Please refer to the help of `mapp_xl_to_data()`.
+#'
+#' @param df dataset
+#' @param mapping mapping object
+#' @param check_id_is_unique TODO: remove somehow
+#' @param ... arguments passed to `as_cmd_table()`
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' df <- haven::read_sav(spss_file)
+#' mapping <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' df_cmd <- mapp_xl_to_data_(df, mapping)
+#' df_cmd
 mapp_xl_to_data_ <- function(df, mapping, check_id_is_unique = TRUE, ...) {
-  # HACK to create a subclass of "mapping" with class attribute "cmd_table"
-  # added and df_cmd calculated by generate_cmd_table():
-  # TODO: implement cleaner solution as in
-  # https://adv-r.hadley.nz/s3.html#s3-subclassing
   mapping <- as_cmd_table(mapping, check_id_is_unique = check_id_is_unique, ...)
 
-  # if a mapping object without subclass is passed to mapp_xl_to_data_(), the
-  # dataset has to be set afterwards (HACKY):
   mapping$data <- df
 
 
@@ -106,9 +121,8 @@ mapp_xl_to_data_ <- function(df, mapping, check_id_is_unique = TRUE, ...) {
     stop("Defined id variable ", id_var, " is not unique")
   }
 
-
-
   mapping$df_mod <- apply_commands_to_dataset(mapping)
+
   mapping
   structure(
     mapping,
