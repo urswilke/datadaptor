@@ -4,7 +4,7 @@ apply_one_cmd <- function(df, action, data) {
 }
 
 #' @export
-apply_one_cmd.nonvec_unsafe <- function(df, action, data) {
+apply_one_cmd.unsafe <- function(df, action, data){
   cmd <- generate_cmd_expression(action, data)
   rlang::eval_tidy(cmd)
 }
@@ -15,7 +15,7 @@ apply_one_cmd.nonvec_safe <- function(df, action, data) {
   datenanpassr.env$cmd_index <- cmd_index
   res <- tryCatch({
     err_msg <- NA_character_
-    apply_one_cmd.nonvec_unsafe(df, action, data)
+    apply_one_cmd.unsafe(df, action, data)
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]
@@ -34,11 +34,6 @@ apply_one_cmd.nonvec_safe <- function(df, action, data) {
 }
 
 
-#' @export
-apply_one_cmd.vec_unsafe <- function(df, action, data){
-  group_expr <- generate_cmd_expression(action, data)
-  rlang::eval_tidy(group_expr)
-}
 
 #' @export
 apply_one_cmd.vec_safe <- function(df, action, data) {
@@ -48,7 +43,7 @@ apply_one_cmd.vec_safe <- function(df, action, data) {
 
   res <- tryCatch({
     err_msg <- NA_character_
-    apply_one_cmd.vec_unsafe(df, action, data)
+    apply_one_cmd.unsafe(df, action, data)
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]

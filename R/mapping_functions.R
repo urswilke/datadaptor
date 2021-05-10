@@ -154,8 +154,7 @@ new_dataset_class <- function(mapping, vectorized, try_catch) {
 }
 get_vectorized_try_catch_pair_string <- function(vectorized, try_catch) {
   dplyr::case_when(
-    vectorized == FALSE & try_catch == FALSE ~ "nonvec_unsafe",
-    vectorized == TRUE  & try_catch == FALSE ~ "vec_unsafe",
+    try_catch == FALSE                       ~ "unsafe",
     vectorized == FALSE & try_catch == TRUE  ~ "nonvec_safe",
     vectorized == TRUE  & try_catch == TRUE  ~ "vec_safe"
   )
