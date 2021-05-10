@@ -47,7 +47,9 @@ Imports:
     readr,
     fs,
     sourcetools,
-    labelled
+    labelled,
+    lifecycle
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr
+RdMacros: lifecycle

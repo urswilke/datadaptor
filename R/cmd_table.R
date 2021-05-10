@@ -1,3 +1,18 @@
+#' Return mapping object with the summary table of the data modifications list
+#' read in from the Excel mapping file
+#'
+#' @description
+#' `r lifecycle::badge("experimental")`
+#'
+#' @param mapping filename of the Excel mapping file
+#' @param ... Arguments passed to `new_mapping()`
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapp_cmd_table_(mapping_file)
 mapp_cmd_table_ <- function(
   mapping_file,
   ...
