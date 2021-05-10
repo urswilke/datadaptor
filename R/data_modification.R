@@ -88,12 +88,12 @@ mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
   data_mapping$df_mod
 }
 
-#' Return mapping object with dataset added after applying changes of mapping Excel file to dataframe.
+#' Add modified dataset to mapping object.
 #'
 #' @description
 #' `r lifecycle::badge("experimental")`
 #'
-#' Please refer to the help of `mapp_xl_to_data()`.
+#' To see what is added to the mapping object, please refer to the help of `mapp_xl_to_data()`.
 #'
 #' @param df dataset
 #' @param mapping mapping object
