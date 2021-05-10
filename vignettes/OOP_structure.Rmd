@@ -80,17 +80,17 @@ Under the hood, this is done with the `as_mapping()` and `as_cmd_table()` functi
 
 ### Summary
 
-The main class of the package can be built by calling the low-level constructor
-`new_mapping()`. It needs a file path of a valid mapping file and returns a list
-structure of class `"mapping"`. The constructor
-`datenanpassr:::mapp_cmd_table_()` takes a "mapping" object, adds the element
-`df_cmd` (resulting of the mapping file) to the list structure and returns an
-object of the subclass `"cmd_table"`. `mapp_xl_to_data()` takes an object of
-class `"cmd_table"` and additionally needs as an input argument the data set
-`df` on which the commands in `df_cmd` should be applied on. It then computes
-`df_mod` (resulting when the commands in `df_cmd` are applied to `df`), adds it 
-to the list structure . Finally the list structure is returned with the added
-subclass `"data_mod"`:
+* An object of the main class `"mapping"` provided by this package can be built
+by calling the low-level constructor `new_mapping()`. It needs a file path of a
+valid mapping file and returns a list structure.
+* The constructor `datenanpassr:::mapp_cmd_table_()` takes a "mapping" object,
+adds the element `df_cmd` (resulting of the mapping file) to the list structure
+and returns an object of the subclass `"cmd_table"`.
+* `mapp_xl_to_data_()` takes an object of class `"cmd_table"` and additionally
+needs as an input argument the data set `df` on which the commands in `df_cmd`
+should be applied on. It then computes `df_mod` (resulting when the commands in
+`df_cmd` are applied to `df`), adds it to the list structure . Finally the list
+structure is returned with the added subclass `"data_mod"`:
 
 ```{r}
 class(mapping)
