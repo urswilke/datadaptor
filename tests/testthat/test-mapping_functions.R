@@ -49,8 +49,8 @@ test_that("result of mapp_cmd_table_()", {
 test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
   withr::with_file("mapping.R", {
     testthat::expect_message(df_mod <- mapp_xl_to_data(df_test, mapping_file) %>% tibble::as_tibble())
-    attr(df_mod, "cmd_index") <- NULL
-    attr(df_mod, "error_list") <- NULL
+    # attr(df_mod, "cmd_index") <- NULL
+    # attr(df_mod, "error_list") <- NULL
     testthat::expect_message(translate_to_r_script(mapping_file, rscript_name = "mapping.R", spss_file))
     # testthat::expect_message(translate_to_r_script(mapping_file, rscript_name = "mapping_vec.R", spss_file, vectorized = TRUE))
     source("mapping.R", echo = FALSE)
@@ -88,6 +88,6 @@ test_that("mapp_xl_to_data() throws error for erroneous code, and message if try
   testthat::expect_error(df_mod <- mapp_xl_to_data(df_test, mapping))
   mapping$try_catch <- TRUE
   testthat::expect_message(df_mod <- mapp_xl_to_data(df_test, mapping))
-  testthat::expect_false(attr(df_mod, "error_list") == "")
+  # testthat::expect_false(attr(df_mod, "error_list") == "")
 })
 

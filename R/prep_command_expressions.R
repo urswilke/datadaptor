@@ -91,19 +91,19 @@ try_catch_expr <- function(mutate_expr) {
 
   rlang::expr(
     tryCatch({
-      datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
+      # datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
 
       # err_msg <- NA_character_
       !!mutate_expr
     },
     error = function(e) {
       err_msg <- geterrmessage()[1]
-      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
+      # datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
 
       message(cat(
         paste(
           "Error in command",
-          datenanpassr.env$cmd_index,
+          # datenanpassr.env$cmd_index,
           ": ",
           err_msg)
       ))

@@ -11,19 +11,19 @@ apply_one_cmd.unsafe <- function(df, action, data){
 
 #' @export
 apply_one_cmd.nonvec_safe <- function(df, action, data) {
-  cmd_index <- datenanpassr.env$cmd_index + 1
-  datenanpassr.env$cmd_index <- cmd_index
+  # cmd_index <- datenanpassr.env$cmd_index + 1
+  # datenanpassr.env$cmd_index <- cmd_index
   res <- tryCatch({
     err_msg <- NA_character_
     apply_one_cmd.unsafe(df, action, data)
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]
-    datenanpassr.env$error_list[cmd_index] <- err_msg
+    # datenanpassr.env$error_list[cmd_index] <- err_msg
     message(
       paste(
         "Error in command",
-        cmd_index,
+        # cmd_index,
         ": ",
         err_msg)
     )
@@ -37,9 +37,9 @@ apply_one_cmd.nonvec_safe <- function(df, action, data) {
 
 #' @export
 apply_one_cmd.vec_safe <- function(df, action, data) {
-  if (action != "#GROUP") {
-    datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
-  }
+  # if (action != "#GROUP") {
+  #   datenanpassr.env$cmd_index <- datenanpassr.env$cmd_index + 1
+  # }
 
   res <- tryCatch({
     err_msg <- NA_character_
@@ -47,13 +47,13 @@ apply_one_cmd.vec_safe <- function(df, action, data) {
   },
   error = function(e) {
     err_msg <- geterrmessage()[1]
-    if (action != "#GROUP") {
-      datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
-    }
+    # if (action != "#GROUP") {
+    #   datenanpassr.env$error_list[datenanpassr.env$cmd_index] <- err_msg
+    # }
     message(
       paste(
         "Error in command",
-        datenanpassr.env$cmd_index,
+        # datenanpassr.env$cmd_index,
         ": ",
         err_msg)
     )

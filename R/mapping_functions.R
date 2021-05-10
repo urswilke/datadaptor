@@ -61,15 +61,15 @@
 #'   try_catch = TRUE,
 #'   rec_fun = purrr::accumulate2
 #' )
-#' # For `try_catch = TRUE`, an attribute called "error_list" is added to the result
-#' # of `mapp_xl_to_data()`:
-#' error_list <- attr(df_mod_list, "error_list")
-#' error_list
+#    #' # For `try_catch = TRUE`, an attribute called "error_list" is added to the result
+#    #' # of `mapp_xl_to_data()`:
+#    #' error_list <- attr(df_mod_list, "error_list")
+#    #' error_list
 #'
 #' # Add further columns to df_cmd:
 #' # The first element of df_mod_list is the initial state of df:
 #' df_cmd["intermediate df"] <- list(df_mod_list[-1])
-#' df_cmd["error"] <- error_list
+#   #' df_cmd["error"] <- error_list
 #' df_cmd
 #' # In RStudio type: View(df_cmd)
 mapp_xl_to_data <- function(df, mapping, na_to_filter = TRUE,
@@ -121,11 +121,11 @@ apply_commands_to_dataset <- function(mapping) {
   vectorized <- mapping$vectorized
   try_catch <- mapping$try_catch
   rec_fun <- mapping$rec_fun
-  if (try_catch) {
-    datenanpassr.env$cmd_index <- 0
-    datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
-
-  }
+  # if (try_catch) {
+  #   datenanpassr.env$cmd_index <- 0
+  #   datenanpassr.env$error_list <- vector("character", length = nrow(cmd_table))
+  #
+  # }
   if (vectorized) {
     cmd_table <- group_vectorizable_cmds(cmd_table, try_catch = try_catch)
   }
@@ -133,10 +133,10 @@ apply_commands_to_dataset <- function(mapping) {
   # in order to make it choose the right method:
   classy_df <- new_dataset_class(mapping, vectorized, try_catch)
   df_mod <- rec_fun(cmd_table$action, cmd_table$data, apply_one_cmd, .init = classy_df)
-  if (try_catch) {
-    attr(df_mod, "cmd_index") <- datenanpassr.env$cmd_index
-    attr(df_mod, "error_list") <- datenanpassr.env$error_list
-  }
+  # if (try_catch) {
+  #   attr(df_mod, "cmd_index") <- datenanpassr.env$cmd_index
+  #   attr(df_mod, "error_list") <- datenanpassr.env$error_list
+  # }
   df_mod
 }
 

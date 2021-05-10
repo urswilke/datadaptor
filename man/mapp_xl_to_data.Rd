@@ -83,15 +83,10 @@ df_mod_list <- mapp_xl_to_data(
   try_catch = TRUE,
   rec_fun = purrr::accumulate2
 )
-# For `try_catch = TRUE`, an attribute called "error_list" is added to the result
-# of `mapp_xl_to_data()`:
-error_list <- attr(df_mod_list, "error_list")
-error_list
 
 # Add further columns to df_cmd:
 # The first element of df_mod_list is the initial state of df:
 df_cmd["intermediate df"] <- list(df_mod_list[-1])
-df_cmd["error"] <- error_list
 df_cmd
 # In RStudio type: View(df_cmd)
 }
