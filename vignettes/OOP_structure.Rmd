@@ -37,7 +37,7 @@ The field `df_cmd` is initialized as `NULL` but can be computed with
 Under the hood, this transforms the mapping structure, by calling 
 
 ```{r}
-mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping)
+mapping_cmd <- mapp_cmd_table_(mapping)
 ```
 
 This creates an object of subclass `"cmd_table"`, inheriting from the "mapping"
@@ -49,7 +49,7 @@ In order to apply the commands from the Excel file to the dataset `fake_survey`
 (included in the package), you can call the function
 
 ```{r}
-(mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_cmd))
+(mapping_mod <- mapp_xl_to_data_(df = fake_survey, mapping = mapping_cmd))
 ```
 
 This adds the subclass `"data_mod"` to the mapping object.
@@ -71,8 +71,8 @@ Alternatively, you can also directly call the functions `mapp_xl_to_data_()` and
 with mapping file paths (instead of objects of class `"cmd_table"` and `"mapping"`, respectively):
 
 ```{r, eval=FALSE}
-mapping_cmd <- datenanpassr:::mapp_cmd_table_(mapping_file)
-mapping_mod <- datenanpassr:::mapp_xl_to_data_(df = fake_survey, mapping = mapping_file)
+mapping_cmd <- mapp_cmd_table_(mapping_file)
+mapping_mod <- mapp_xl_to_data_(df = fake_survey, mapping = mapping_file)
 ```
 
 Under the hood, this is done with the `as_mapping()` and `as_cmd_table()` functions.
@@ -83,7 +83,7 @@ Under the hood, this is done with the `as_mapping()` and `as_cmd_table()` functi
 * An object of the main class `"mapping"` provided by this package can be built
 by calling the low-level constructor `new_mapping()`. It needs a file path of a
 valid mapping file and returns a list structure.
-* The constructor `datenanpassr:::mapp_cmd_table_()` takes a "mapping" object,
+* The constructor `mapp_cmd_table_()` takes a "mapping" object,
 adds the element `df_cmd` (resulting of the mapping file) to the list structure
 and returns an object of the subclass `"cmd_table"`.
 * `mapp_xl_to_data_()` takes an object of class `"cmd_table"` and additionally
