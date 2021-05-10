@@ -24,3 +24,69 @@ rr$mod(df_cmd$action[1], df_cmd$data[[1]])
 walk2(df_cmd$action, df_cmd$data, rr$mod)
 rr$dat
 
+
+
+
+
+
+
+
+# example with try_catch --------------------------------------------------
+
+
+
+apply_one_cmd_safe_to_self <- function(self, action, data) {
+  self$cmd_index <- self$cmd_index + 1
+  res <- tryCatch({
+    err_msg <- NA_character_
+    datenanpassr:::apply_one_cmd.nonvec_unsafe(self$dat, action, data)
+  },
+  error = function(e) {
+    err_msg <- geterrmessage()[1]
+    message(
+      paste(
+        "Error in command",
+        self$cmd_index,
+        ": ",
+        err_msg
+      )
+    )
+    self$error_list[self$cmd_index] <- err_msg
+    self$dat
+  }
+  )
+  self$dat <- res
+  invisible(self)
+}
+mapping <- mapp_cmd_table(mapping_file)
+df_cmd <- mapping$df_cmd
+# df_cmd %>% dplyr::filter(action == "#IF") %>% pull(data) %>% map("condition")
+df_cmd$data[[46]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+df_cmd$data[[47]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+df_cmd$data[[48]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+
+r6mod <- R6::R6Class(
+  "r6datamod",
+  list(
+    dat = datenanpassr::fake_survey,
+    cmd_index = 0,
+    error_list = vector("character", nrow(df_cmd)),
+    mod = function(action, data){
+      self <- apply_one_cmd_safe_to_self(self, action, data)
+      invisible(self)
+    }
+  )
+)
+
+rr <- r6mod$new()
+
+
+# # apply first command in df_cmd:
+# rr$mod(df_cmd$action[1], df_cmd$data[[1]])
+
+# apply all commands in df_cmd:
+walk2(df_cmd$action, df_cmd$data, rr$mod)
+rr$dat
+rr$cmd_index
+rr$error_list
+
