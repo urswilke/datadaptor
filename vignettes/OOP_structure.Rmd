@@ -22,7 +22,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
 ```
 
-These can be transformed to objects of class "mapping" with 
+These can be transformed to S3 objects of class `"mapping"` with 
 ```{r}
 (mapping <- new_mapping(mapping_file))
 ```
