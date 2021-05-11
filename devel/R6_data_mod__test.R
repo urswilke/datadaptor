@@ -60,7 +60,7 @@ apply_one_cmd_safe_to_self <- function(self, action, data) {
 }
 mapping <- mapp_cmd_table(mapping_file)
 df_cmd <- mapping$df_cmd
-# df_cmd %>% dplyr::filter(action == "#IF") %>% pull(data) %>% map("condition")
+# change conditions in #IF statements to incorrect syntax:
 df_cmd$data[[46]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 df_cmd$data[[47]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 df_cmd$data[[48]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
