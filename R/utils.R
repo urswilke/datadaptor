@@ -38,7 +38,8 @@ curliply <- function(df_free_raw) {
     dplyr::group_by(.data$raw_index) %>%
     dplyr::mutate(
       row = paste(row, collapse = ", "),
-      is_curly_group = dplyr::if_any(.fns = ~stringr::str_detect(.x[1], "\\{"))) %>%
+      is_curly_group = dplyr::if_any(.fns = ~stringr::str_detect(.x[1], "\\{")) %>% is_true()
+    ) %>%
     dplyr::group_split()
   is_curly_group <- l %>% purrr::map_lgl(~.x$is_curly_group[1])
   if (sum(is_curly_group) > 0) {
