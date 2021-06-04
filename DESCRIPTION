@@ -18,6 +18,7 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
+    markdown,
     pkgnet,
     withr,
     here,
