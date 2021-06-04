@@ -28,7 +28,7 @@
 
 ---
 
-    nonvec_unsafe[,52] [100 x 52] (S3: nonvec_unsafe/tbl_df/tbl/data.frame)
+    nonvec_unsafe [100 x 52] (S3: nonvec_unsafe/tbl_df/tbl/data.frame)
      $ q1                    : dbl+lbl [1:100]  3,  3,  1,  3,  5,  5, 99,  2, 99, 99,  4, 99,  3,  1...
        ..@ label      : chr "How much do you like the product?"
        ..@ format.spss: chr "F8.2"
@@ -198,7 +198,7 @@
 
 # result of mapp_cmd_table()
 
-    tibble[,5] [68 x 5] (S3: tbl_df/tbl/data.frame)
+    tibble [68 x 5] (S3: tbl_df/tbl/data.frame)
      $ sheet  : chr [1:68] "Config" "Label" "Label" "Variables" ...
      $ action : chr [1:68] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
      $ row    : chr [1:68] NA "8" "2, 3, 4, 5, 6" "8" ...
