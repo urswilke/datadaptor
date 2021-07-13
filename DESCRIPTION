@@ -48,7 +48,8 @@ Imports:
     readr,
     fs,
     sourcetools,
-    labelled
+    labelled,
+    R6
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr
