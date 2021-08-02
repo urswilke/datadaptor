@@ -19,12 +19,7 @@
     #   q6test_2 <dbl+lbl>, q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>,
     #   q6test_97 <dbl+lbl>, q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>,
     #   q6n3 <dbl+lbl>, q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>,
-    #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>,
-    #   abc <dbl>, kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>,
-    #   kq1xq2_renamedkminus20 <dbl+lbl>, kq1xq2_renamedk10 <dbl+lbl>,
-    #   kq1xq2_renamedk20 <dbl+lbl>, kq1xq2_renamedk990 <dbl+lbl>, n <dbl+lbl>,
-    #   a1 <dbl+lbl>, a2 <dbl+lbl>, r_expr_var <dbl+lbl>, q2 <dbl+lbl>,
-    #   sum_of_k_vars <dbl>, a <dbl>, kkq1 <dbl+lbl>, free2_var <dbl>
+    #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, ...
 
 ---
 
