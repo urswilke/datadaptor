@@ -57,45 +57,48 @@ apply_one_cmd_nonvec_safe_r6 <- function(df, action, data, self) {
 }
 
 
-
+#' @export
 Mapping <- R6::R6Class("apply_mods",
-                         public = list(
-                           dat = NULL,
-                           mapping_file = NA_character_,
-                           df_cmd = NULL,
-                           dat_mod = NULL,
+                       public = list(
+                         dat = NULL,
+                         mapping_file = NULL,
+                         df_cmd = NULL,
+                         dat_mod = NULL,
+                         vectorized = FALSE,
+                         try_catch = FALSE,
+                         params = NULL,
+                         id_var = NULL,
+                         initialize = function(
+                           dat,
+                           mapping_file,
                            vectorized = FALSE,
                            try_catch = FALSE,
-                           initialize = function(
-                             dat,
-                             mapping_file,
-                             vectorized = FALSE,
-                             try_catch = FALSE
-                           ) {
-                             self$dat = dat
-                             self$mapping_file = mapping_file
-                             self$df_cmd = gen_command_table(mapping_file)
-                             dat_mod <- structure(
-                               dat,
-                               class = c(datenanpassr:::get_vectorized_try_catch_pair_string(vectorized, try_catch), class(dat))
-                             )
-                             attr(dat_mod, "cmd_index") <- 1
-                             attr(dat_mod, "error_list") <- vector("character", nrow(self$df_cmd))
-                             self$dat_mod = dat_mod
-                           },
-                           mod_one = function(action, data){
-                             self$dat_mod <- apply_one_cmd_nonvec_safe_r6(self$dat_mod, action, data)
-                             invisible(self)
-                           },
-                           mod_all = function() {
-                             walk2(self$df_cmd$action, self$df_cmd$data, self$apply_one_cmd_r6)
-                             invisible(self)
-                           },
-                           apply_one_cmd_r6 = function(action, data) {
-                             self$dat_mod <- apply_one_cmd_nonvec_safe_r6(self$dat_mod, action, data, self) %>%
-                               rlang::eval_tidy()
-                             invisible(self)
-                           }
+                           id_var = "ID"
+                         ) {
+                           self$dat = dat
+                           self$mapping_file = new_mapping_file(mapping_file, id_var)
+                           self$vectorized = vectorized
+                           self$try_catch = try_catch
+                         },
+                         calc_command_table = function() {
+                           self$df_cmd = gen_command_table(self)
+                           dat_mod <- structure(
+                             self$dat,
+                             class = c(datenanpassr:::get_vectorized_try_catch_pair_string(self$vectorized, self$try_catch), class(self$dat))
+                           )
+                           attr(dat_mod, "cmd_index") <- 1
+                           attr(dat_mod, "error_list") <- vector("character", nrow(self$df_cmd))
+                           self$dat_mod = dat_mod
+                         },
+                         mod_all = function() {
+                           purrr::walk2(self$df_cmd$action, self$df_cmd$data, self$apply_one_cmd_r6)
+                           invisible(self)
+                         },
+                         apply_one_cmd_r6 = function(action, data) {
+                           self$dat_mod <- apply_one_cmd_nonvec_safe_r6(self$dat_mod, action, data, self) %>%
+                             rlang::eval_tidy()
+                           invisible(self)
+                         }
 
-                         )
+                       )
 )

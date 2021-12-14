@@ -1,10 +1,59 @@
-gen_command_table <- function(self) {
-  na_to_filter <- self$params$na_to_filter
-  add_r_command_colum <- self$params$add_r_command_colum
-  vectorized <- self$params$vectorized
-  sheet_cats <- self$params$sheet_cats
-  id_var <- self$params$id_var
-  df_cmd_manip_string <- self$params$mapping_file_attrs$manipulate_command_table
+
+gen_command_table <- function(
+  self,
+  na_to_filter = TRUE,
+  vectorized = FALSE,
+  df_cmd = tibble::tibble(),
+  data = tibble::tibble(),
+  try_catch = FALSE,
+  add_r_command_colum = FALSE,
+  rec_fun = purrr::reduce2,
+  check_id_is_unique = TRUE,
+  mapping_file_attrs = list(),
+  class = character()
+) {
+  stopifnot(is.character(mapping_file))
+  stopifnot(is.logical(na_to_filter))
+  stopifnot(is.logical(try_catch))
+  stopifnot(is.logical(check_id_is_unique))
+  stopifnot(is.logical(vectorized))
+  stopifnot(is.data.frame(df_cmd))
+  stopifnot(is.data.frame(data))
+  stopifnot(is.list(mapping_file_attrs))
+  rec_fun <- match.fun(rec_fun, c(purrr::reduce2, purrr::accumulate2))
+
+
+  # TODO: move to step where mapping object is filled (to keep constructor slim)
+  l_configr <- get_configr_args_list(self$mapping_file)
+  id_var <- l_configr$id_var
+
+
+  sheets <- self$mapping_file %>% readxl::excel_sheets()
+
+  # exchange positions of "Variables" & "Label" sheets (because otherwise,
+  # renaming a variable in the "Variables" sheet will not work when creating a
+  # summary variable out of it):
+  if (l_configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+    sheets <- switch_sheets_vars_label(sheets)
+  }
+
+  sheet_cats <- tab_sheet_types(sheets)
+
+
+  self$params <- list(
+    id_var = id_var,
+    sheet_cats = sheet_cats,
+    mapping_file_attrs = l_configr,
+    na_to_filter = na_to_filter,
+    vectorized = vectorized,
+    try_catch = try_catch,
+    add_r_command_colum = add_r_command_colum,
+    rec_fun = rec_fun,
+    df_cmd = df_cmd,
+    data = data
+  )
+
+
   df_cmd <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
@@ -12,6 +61,8 @@ gen_command_table <- function(self) {
     ~ generate_sheet_cmd_table(self$mapping_file, .y, .x),
     .id = "sheet"
   )
+
+  df_cmd_manip_string <- self$params$mapping_file_attrs$manipulate_command_table
   if (!is.na(df_cmd_manip_string)) {
     df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
   }
@@ -21,7 +72,7 @@ gen_command_table <- function(self) {
     dplyr::ungroup()
   if (na_to_filter == TRUE) {
     df_cmd <- dplyr::bind_rows(
-      generate_rec_na_cmd_table(mapping),
+      generate_rec_na_cmd_table(self),
       df_cmd
     )
   }
@@ -34,7 +85,7 @@ gen_command_table <- function(self) {
       tidyr::unnest(.data$a)
   }
 
-  df_cmd
+  self$df_cmd <- df_cmd
 }
 
 
@@ -64,8 +115,7 @@ generate_rec_na_cmd_table <- function(self) {
     )
   )
 }
-generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
-  mapping_file <- self$mapping_file
+generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name) {
   switch (
     sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name),

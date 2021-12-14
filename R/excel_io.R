@@ -99,26 +99,12 @@ mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables"){
     format_df_varl()
 }
 
-read_variables_sheet_raw <- function(mapping_file, sheet) {
-  UseMethod("read_variables_sheet_raw")
-}
-
-read_variables_sheet_raw.xlsx <- function(mapping_file, sheet = "Variables") {
+read_variables_sheet_raw <- function(mapping_file, sheet = "Variables") {
   readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
     col_types = "text"
   )
-}
-
-read_variables_sheet_raw.xlsm <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
-    col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
-    col_types = "text") %>%
-    dplyr::select(-dplyr::matches("^nn[1-8]$"))
 }
 
 format_df_varl <- function(df_varl) {
@@ -256,30 +242,10 @@ mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label") {
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet) {
-  UseMethod("read_label_sheet_raw")
-}
-
-read_label_sheet_raw.xlsx <- function(mapping_file, sheet) {
   readxl::read_xlsx(
     mapping_file,
     sheet = sheet
   )
-}
-read_label_sheet_raw.xlsm <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
-    col_names = c("var", "nv", "vallab", "new_label", "not_needed1",
-                  "not_needed2", "sum_var_label", "sum_var_value",
-                  "sum_var_vallab"),
-    col_types = "text") %>%
-    dplyr::select(-.data$not_needed1, -.data$not_needed2) %>%
-    dplyr::mutate(
-      nv = as.numeric(.data$nv),
-      sum_var_value = as.numeric(.data$sum_var_value)
-    ) %>%
-    tidyr::fill(.data$var)
 }
 
 
@@ -361,16 +327,8 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
 }
 
 translate_free_sheet <- function(df_free) {
-  UseMethod("translate_free_sheet")
-}
-
-translate_free_sheet.xlsx <- function(df_free) {
   df_free
 }
-translate_free_sheet.xlsm <- function(df_free) {
-  df_free %>% dplyr::slice(-1)
-}
-
 process_raw_free_cmd_table <- function(df_free) {
   if (nrow(df_free) == 0) {
     return(tibble::tibble())
