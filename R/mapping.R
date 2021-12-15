@@ -50,6 +50,7 @@ initialize_dat <- function(self, dat) {
     dat <- haven::read_sav(dat)
   }
   self$dat <- dat
+  self$dat_mod <- self$dat
   invisible(self)
 }
 
