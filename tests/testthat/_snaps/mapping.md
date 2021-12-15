@@ -457,3 +457,21 @@
     #   q6n3 <dbl+lbl>, q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>,
     #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, ...
 
+# class object print is reproduced
+
+    <apply_mods>
+      Public:
+        apply_one_cmd_r6: function (action, data) 
+        calc_command_table: function () 
+        clone: function (deep = FALSE) 
+        dat: tbl_df, tbl, data.frame
+        dat_mod: nonvec_safe, tbl_df, tbl, data.frame
+        df_cmd: tbl_df, tbl, data.frame
+        id_var: NULL
+        initialize: function (dat = NULL, mapping_file) 
+        mapping_file: /home/chief/R/datenanpassr/inst/extdata/mapping.xlsx
+        mod_all: function () 
+        params: list
+        try_catch: FALSE
+        vectorized: FALSE
+

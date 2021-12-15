@@ -36,3 +36,8 @@ test_that("modified data is reproduced", {
     dat_mod
   )
 })
+test_that("class object print is reproduced", {
+  testthat::expect_snapshot_output(
+    mapping
+  )
+})
