@@ -1,3 +1,59 @@
+
+
+#' @export
+Mapping <- R6::R6Class(
+  "apply_mods",
+  public = list(
+     dat = NULL,
+     mapping_file = NULL,
+     df_cmd = NULL,
+     dat_mod = NULL,
+     params = NULL,
+     initialize = function(
+       dat = NULL,
+       mapping_file
+     ) {
+       initialize_dat(self, dat)
+
+       self$mapping_file = mapping_file
+       set_default_parameters(self)
+     },
+     calc_command_table = function() {
+       load_configr_params(self)
+       self$df_cmd = gen_command_table(self)
+       dat_mod <- structure(
+         self$dat,
+         class = c(get_vectorized_try_catch_pair_string(self$params$vectorized, self$params$try_catch), class(self$dat))
+       )
+       attr(dat_mod, "cmd_index") <- 1
+       attr(dat_mod, "error_list") <- vector("character", nrow(self$df_cmd))
+       self$dat_mod = dat_mod
+     },
+     mod_all = function() {
+       purrr::walk2(self$df_cmd$action, self$df_cmd$data, self$apply_one_cmd_r6)
+       invisible(self)
+     },
+     apply_one_cmd_r6 = function(action, data) {
+       self$dat_mod <- apply_one_cmd_nonvec_safe_r6(self$dat_mod, action, data, self) %>%
+         rlang::eval_tidy()
+       invisible(self)
+     }
+  )
+)
+
+initialize_dat <- function(self, dat) {
+  if (is.null(dat)) {
+    self$dat <- NULL
+    return(invisible(self))
+  }
+  if (is.character(dat)) {
+    dat <- haven::read_sav(dat)
+  }
+  self$dat <- dat
+  invisible(self)
+}
+
+
 generate_cmd_expression_r6 <- function(action, data) {
   # Hack to prevent R CMD CHECK note
   # "no visible binding for global variable ‘df’":
@@ -56,59 +112,6 @@ apply_one_cmd_nonvec_safe_r6 <- function(df, action, data, self) {
   res
 }
 
-
-#' @export
-Mapping <- R6::R6Class(
-  "apply_mods",
-  public = list(
-     dat = NULL,
-     mapping_file = NULL,
-     df_cmd = NULL,
-     dat_mod = NULL,
-     params = NULL,
-     initialize = function(
-       dat = NULL,
-       mapping_file
-     ) {
-       initialize_dat(self, dat)
-
-       self$mapping_file = mapping_file
-       set_default_parameters(self)
-     },
-     calc_command_table = function() {
-       load_configr_params(self)
-       self$df_cmd = gen_command_table(self)
-       dat_mod <- structure(
-         self$dat,
-         class = c(get_vectorized_try_catch_pair_string(self$params$vectorized, self$params$try_catch), class(self$dat))
-       )
-       attr(dat_mod, "cmd_index") <- 1
-       attr(dat_mod, "error_list") <- vector("character", nrow(self$df_cmd))
-       self$dat_mod = dat_mod
-     },
-     mod_all = function() {
-       purrr::walk2(self$df_cmd$action, self$df_cmd$data, self$apply_one_cmd_r6)
-       invisible(self)
-     },
-     apply_one_cmd_r6 = function(action, data) {
-       self$dat_mod <- apply_one_cmd_nonvec_safe_r6(self$dat_mod, action, data, self) %>%
-         rlang::eval_tidy()
-       invisible(self)
-     }
-  )
-)
-
-initialize_dat <- function(self, dat) {
-  if (is.null(dat)) {
-    self$dat <- NULL
-    return(invisible(self))
-  }
-  if (is.character(dat)) {
-    dat <- haven::read_sav(dat)
-  }
-  self$dat <- dat
-  invisible(self)
-}
 
 set_default_parameters <- function(self) {
   self$params <- list(
