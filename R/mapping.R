@@ -75,7 +75,11 @@ Mapping <- R6::R6Class("apply_mods",
                            try_catch = FALSE,
                            id_var = "ID"
                          ) {
+                           if (is.character(dat)) {
+                             dat <- haven::read_sav(dat)
+                           }
                            self$dat = dat
+
                            self$mapping_file = new_mapping_file(mapping_file, id_var)
                            self$vectorized = vectorized
                            self$try_catch = try_catch
