@@ -70,16 +70,13 @@ Mapping <- R6::R6Class(
      params = NULL,
      id_var = NULL,
      initialize = function(
-       dat,
+       dat = NULL,
        mapping_file,
        vectorized = FALSE,
        try_catch = FALSE,
        id_var = "ID"
      ) {
-       if (is.character(dat)) {
-         dat <- haven::read_sav(dat)
-       }
-       self$dat = dat
+       initialize_dat(self, dat)
 
        self$mapping_file = new_mapping_file(mapping_file, id_var)
        set_default_parameters(self)
@@ -109,7 +106,17 @@ Mapping <- R6::R6Class(
   )
 )
 
-
+initialize_dat <- function(self, dat) {
+  if (is.null(dat)) {
+    self$dat <- NULL
+    return(invisible(self))
+  }
+  if (is.character(dat)) {
+    dat <- haven::read_sav(dat)
+  }
+  self$dat <- dat
+  invisible(self)
+}
 
 set_default_parameters <- function(self) {
   self$params <- list(

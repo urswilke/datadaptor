@@ -17,14 +17,14 @@
 #' }
 #' mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file)
 mapp_verbatim_sheet_cmd_tbl <- function(
-  mapping_file,
-  verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
+  self,
+  verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet),
   sheet = "Verbatims"
 ) {
-  # mapping_file <- new_mapping_file(mapping_file)
+  # self$mapping_file <- new_self$mapping_file(self$mapping_file)
   if (!is.na(verbatim_file)) {
-    id_var_str <- attr(mapping_file, "id_var")
-    l <- parse_verbatim_data_raw(mapping_file, verbatim_file, sheet)
+    id_var_str <- self$params$id_var
+    l <- parse_verbatim_data_raw(self$mapping_file, verbatim_file, sheet)
     generate_verbatim_assignment_table_raw(l) %>%
       dplyr::mutate(
         action = "#verbatim",

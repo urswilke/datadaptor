@@ -12,7 +12,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 # ℹ Use `all_of(.x)` instead of `.x` to silence this message.
 # ℹ See <https://tidyselect.r-lib.org/reference/faq-external-vector.html>.
 # This message is displayed once per session.
-testthat::expect_message(testthat::expect_message(mapping <- mapp_cmd_table(mapping_file)))
+# testthat::expect_message(testthat::expect_message(mapping <- mapp_cmd_table(mapping_file)))
 # testthat::expect_message(df_mod <- mapp_xl_to_data(df_test, mapping_file))
 
 # testthat::expect_message(df_mod_vec <- mapp_xl_to_data(df_test, mapping_file, vectorized = TRUE))
@@ -28,23 +28,23 @@ testthat::expect_message(testthat::expect_message(mapping <- mapp_cmd_table(mapp
 # })
 
 
-test_that("result of mapp_cmd_table()", {
-  testthat::expect_snapshot_output(
-    mapping[["df_cmd"]] %>%
-      # dirty hack to remove absolute path (in order to make the test pass on
-      # other systems...):
-      dplyr::mutate(data = ifelse(
-        action %in% c("#MERGE"),
-        purrr::map(data, ~{.x$merge_file <- stringr::str_remove(.x$merge_file, ".*/"); .x}),
-        data)
-      ) %>%
-      dplyr::mutate(data = ifelse(
-        action %in% c("#RFUN"),
-        purrr::map(data, ~{.x$r_script <- stringr::str_remove(.x$r_script, ".*/"); .x}),
-        data)
-      ) %>%
-      str())
-})
+# test_that("result of mapp_cmd_table()", {
+#   testthat::expect_snapshot_output(
+#     mapping[["df_cmd"]] %>%
+#       # dirty hack to remove absolute path (in order to make the test pass on
+#       # other systems...):
+#       dplyr::mutate(data = ifelse(
+#         action %in% c("#MERGE"),
+#         purrr::map(data, ~{.x$merge_file <- stringr::str_remove(.x$merge_file, ".*/"); .x}),
+#         data)
+#       ) %>%
+#       dplyr::mutate(data = ifelse(
+#         action %in% c("#RFUN"),
+#         purrr::map(data, ~{.x$r_script <- stringr::str_remove(.x$r_script, ".*/"); .x}),
+#         data)
+#       ) %>%
+#       str())
+# })
 
 # test_that("translate_to_r_script results in the same as mapp_xl_to_data", {
 #   withr::with_file("mapping.R", {

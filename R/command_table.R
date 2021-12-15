@@ -17,7 +17,7 @@ gen_command_table <- function(self) {
     sheet_cats$sheet %>%
       purrr::set_names(),
     sheet_cats$sheet_type,
-    ~ generate_sheet_cmd_table(self$mapping_file, .y, .x),
+    ~ generate_sheet_cmd_table(self, .y, .x),
     .id = "sheet"
   )
 
@@ -77,13 +77,13 @@ generate_rec_na_cmd_table <- function(self) {
     )
   )
 }
-generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name) {
+generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
   switch (
     sheet_cat,
-    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name)
+    "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
+    "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
+    "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
+    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
   )
 
 }

@@ -93,9 +93,9 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
-mapp_var_sheet_cmd_table <- function(mapping_file, sheet = "Variables"){
+mapp_var_sheet_cmd_table <- function(self, sheet = "Variables"){
   # mapping_file <- new_mapping_file(mapping_file)
-  read_variables_sheet_raw(mapping_file, sheet) %>%
+  read_variables_sheet_raw(self$mapping_file, sheet) %>%
     format_df_varl()
 }
 
@@ -225,12 +225,12 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_vallab_sheet_cmd_table(mapping_file)
-mapp_vallab_sheet_cmd_table <- function(mapping_file, sheet = "Label") {
+mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   # # TODO: think of a better way to set subclass, that the following doesnt has
   # # to be run here (or perhaps remove example):
   # mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
   # mapping_file <- new_mapping_file_subclass(mapping_file, subclass = mapping_type)
-  df_vall <- read_label_sheet_raw(mapping_file, sheet)
+  df_vall <- read_label_sheet_raw(self$mapping_file, sheet)
 
   df_vall <- df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
@@ -299,9 +299,9 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_free_sheet_cmd_table(mapping_file)
-mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1") {
+mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   # mapping_file <- new_mapping_file(mapping_file)
-  df_free <- mapp_free_sheet_cmd_table_raw(mapping_file, sheet)
+  df_free <- mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet)
   if (nrow(df_free) > 0) {
     df_free <- df_free %>%
       dplyr::select(1:5) %>%
@@ -314,7 +314,7 @@ mapp_free_sheet_cmd_table <- function(mapping_file, sheet = "Free1") {
       purrr::set_names(paste0("X", 1:5))
   }
   df_free %>%
-    put_absolute_filepaths(mapping_file) %>%
+    put_absolute_filepaths(self$mapping_file) %>%
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {

@@ -7,6 +7,7 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 
 
 rr <- Mapping$new(spss_file, mapping_file, try_catch = TRUE)
+rr <- Mapping$new(spss_file, mapping_file)
 rr$calc_command_table()
 
 rr$df_cmd$data[[46]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
