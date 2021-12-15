@@ -65,10 +65,7 @@ Mapping <- R6::R6Class(
      mapping_file = NULL,
      df_cmd = NULL,
      dat_mod = NULL,
-     vectorized = FALSE,
-     try_catch = FALSE,
      params = NULL,
-     id_var = NULL,
      initialize = function(
        dat = NULL,
        mapping_file

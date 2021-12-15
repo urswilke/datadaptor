@@ -467,11 +467,8 @@
         dat: tbl_df, tbl, data.frame
         dat_mod: nonvec_safe, tbl_df, tbl, data.frame
         df_cmd: tbl_df, tbl, data.frame
-        id_var: NULL
         initialize: function (dat = NULL, mapping_file) 
         mapping_file: /home/chief/R/datenanpassr/inst/extdata/mapping.xlsx
         mod_all: function () 
         params: list
-        try_catch: FALSE
-        vectorized: FALSE
 
