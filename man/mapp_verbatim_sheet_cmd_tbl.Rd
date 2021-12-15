@@ -5,17 +5,17 @@
 \title{Extract verbatim sheet related data of Excel mapping file to dataframe}
 \usage{
 mapp_verbatim_sheet_cmd_tbl(
-  mapping_file,
-  verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
+  self,
+  verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet),
   sheet = "Verbatims"
 )
 }
 \arguments{
-\item{mapping_file}{name of the Excel mapping file}
-
 \item{verbatim_file}{character string of the name of the Verbatim file}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
+
+\item{mapping_file}{name of the Excel mapping file}
 }
 \value{
 Command block table of the "Verbatims" sheet of the Excel mapping file.

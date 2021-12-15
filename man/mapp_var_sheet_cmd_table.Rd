@@ -4,12 +4,12 @@
 \alias{mapp_var_sheet_cmd_table}
 \title{Extract variable label sheet of Excel mapping file to dataframe}
 \usage{
-mapp_var_sheet_cmd_table(mapping_file, sheet = "Variables")
+mapp_var_sheet_cmd_table(self, sheet = "Variables")
 }
 \arguments{
-\item{mapping_file}{name of the Excel mapping file}
-
 \item{sheet}{name of the sheet in the Excel mapping file}
+
+\item{mapping_file}{name of the Excel mapping file}
 }
 \value{
 Command block table of the "Variables" sheet of the Excel mapping file.

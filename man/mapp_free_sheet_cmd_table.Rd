@@ -4,12 +4,12 @@
 \alias{mapp_free_sheet_cmd_table}
 \title{Extract free1 sheet of Excel mapping file to dataframe}
 \usage{
-mapp_free_sheet_cmd_table(mapping_file, sheet = "Free1")
+mapp_free_sheet_cmd_table(self, sheet = "Free1")
 }
 \arguments{
-\item{mapping_file}{name of the Excel mapping file}
-
 \item{sheet}{name of the sheet in the Excel mapping file}
+
+\item{mapping_file}{name of the Excel mapping file}
 }
 \value{
 Command block table of the "Free" sheet of the Excel mapping file.
