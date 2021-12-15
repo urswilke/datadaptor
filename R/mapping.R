@@ -71,24 +71,19 @@ Mapping <- R6::R6Class(
      id_var = NULL,
      initialize = function(
        dat = NULL,
-       mapping_file,
-       vectorized = FALSE,
-       try_catch = FALSE,
-       id_var = "ID"
+       mapping_file
      ) {
        initialize_dat(self, dat)
 
-       self$mapping_file = new_mapping_file(mapping_file, id_var)
+       self$mapping_file = mapping_file
        set_default_parameters(self)
-       self$vectorized = vectorized
-       self$try_catch = try_catch
      },
      calc_command_table = function() {
        load_configr_params(self)
        self$df_cmd = gen_command_table(self)
        dat_mod <- structure(
          self$dat,
-         class = c(get_vectorized_try_catch_pair_string(self$vectorized, self$try_catch), class(self$dat))
+         class = c(get_vectorized_try_catch_pair_string(self$params$vectorized, self$params$try_catch), class(self$dat))
        )
        attr(dat_mod, "cmd_index") <- 1
        attr(dat_mod, "error_list") <- vector("character", nrow(self$df_cmd))
