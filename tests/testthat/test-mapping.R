@@ -11,7 +11,7 @@ mapping$df_cmd$data[[47]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping$df_cmd$data[[48]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 
 mapping$mod_all()
-mapping$dat_mod
+dat_mod <- mapping$dat_mod
 
 test_that("command table is reproduced", {
   testthat::expect_snapshot_output(
@@ -29,4 +29,10 @@ test_that("command table is reproduced", {
         data)
       ) %>%
       str())
+})
+
+test_that("modified data is reproduced", {
+  testthat::expect_snapshot_output(
+    dat_mod
+  )
 })
