@@ -28,16 +28,6 @@ tab_sheet_types <- function(sheets) {
 
 
 
-new_mapping_file <- function(mapping_file, id_var) {
-  mapping_type <- stringr::str_remove(mapping_file, ".*\\.")
-  structure(
-    mapping_file,
-    id_var = id_var,
-    class = c(mapping_type, class(mapping_file))
-  )
-}
-
-
 apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
   df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
 }
