@@ -1,31 +1,5 @@
 
-gen_command_table <- function(
-  self,
-  na_to_filter = TRUE,
-  vectorized = FALSE,
-  df_cmd = tibble::tibble(),
-  data = tibble::tibble(),
-  try_catch = FALSE,
-  add_r_command_colum = FALSE,
-  rec_fun = purrr::reduce2,
-  check_id_is_unique = TRUE,
-  mapping_file_attrs = list(),
-  class = character()
-) {
-  stopifnot(is.character(mapping_file))
-  stopifnot(is.logical(na_to_filter))
-  stopifnot(is.logical(try_catch))
-  stopifnot(is.logical(check_id_is_unique))
-  stopifnot(is.logical(vectorized))
-  stopifnot(is.data.frame(df_cmd))
-  stopifnot(is.data.frame(data))
-  stopifnot(is.list(mapping_file_attrs))
-  rec_fun <- match.fun(rec_fun, c(purrr::reduce2, purrr::accumulate2))
-
-
-  # TODO: move to step where mapping object is filled (to keep constructor slim)
-  l_configr <- get_configr_args_list(self$mapping_file)
-  id_var <- l_configr$id_var
+gen_command_table <- function(self) {
 
 
   sheets <- self$mapping_file %>% readxl::excel_sheets()
@@ -33,26 +7,11 @@ gen_command_table <- function(
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (l_configr$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
     sheets <- switch_sheets_vars_label(sheets)
   }
 
   sheet_cats <- tab_sheet_types(sheets)
-
-
-  self$params <- list(
-    id_var = id_var,
-    sheet_cats = sheet_cats,
-    mapping_file_attrs = l_configr,
-    na_to_filter = na_to_filter,
-    vectorized = vectorized,
-    try_catch = try_catch,
-    add_r_command_colum = add_r_command_colum,
-    rec_fun = rec_fun,
-    df_cmd = df_cmd,
-    data = data
-  )
-
 
   df_cmd_raw <- purrr::map2_dfr(
     sheet_cats$sheet %>%
@@ -71,15 +30,15 @@ gen_command_table <- function(
   }
   df_cmd <- df_cmd %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data, vectorized)) %>%
+    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data, self$params$vectorized)) %>%
     dplyr::ungroup()
-  if (na_to_filter == TRUE) {
+  if (self$params$na_to_filter == TRUE) {
     df_cmd <- dplyr::bind_rows(
       generate_rec_na_cmd_table(self),
       df_cmd
     )
   }
-  if (add_r_command_colum) {
+  if (self$params$add_r_command_colum) {
     cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
     df_cmd["R command"] <-
       tibble::tibble(a = cmd_list) %>%

@@ -82,10 +82,12 @@ Mapping <- R6::R6Class(
        self$dat = dat
 
        self$mapping_file = new_mapping_file(mapping_file, id_var)
+       set_default_parameters(self)
        self$vectorized = vectorized
        self$try_catch = try_catch
      },
      calc_command_table = function() {
+       load_configr_params(self)
        self$df_cmd = gen_command_table(self)
        dat_mod <- structure(
          self$dat,
@@ -106,3 +108,29 @@ Mapping <- R6::R6Class(
      }
   )
 )
+
+
+
+set_default_parameters <- function(self) {
+  self$params <- list(
+    na_to_filter = TRUE,
+    vectorized = FALSE,
+    df_cmd = tibble::tibble(),
+    data = tibble::tibble(),
+    try_catch = FALSE,
+    add_r_command_colum = FALSE,
+    rec_fun = purrr::reduce2,
+    check_id_is_unique = TRUE,
+    mapping_file_attrs = list()
+  )
+  invisible(self)
+}
+
+load_configr_params <- function(self) {
+  l_configr <- get_configr_args_list(self$mapping_file)
+  id_var <- l_configr$id_var
+
+  self$params$mapping_file_attrs <- l_configr
+  self$params$id_var <- id_var
+  invisible(self)
+}
