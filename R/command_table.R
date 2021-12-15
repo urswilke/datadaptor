@@ -54,13 +54,16 @@ gen_command_table <- function(
   )
 
 
-  df_cmd <- purrr::map2_dfr(
+  df_cmd_raw <- purrr::map2_dfr(
     sheet_cats$sheet %>%
       purrr::set_names(),
     sheet_cats$sheet_type,
     ~ generate_sheet_cmd_table(self$mapping_file, .y, .x),
     .id = "sheet"
   )
+
+  self$params$df_cmd_raw <- df_cmd_raw
+  df_cmd <- df_cmd_raw
 
   df_cmd_manip_string <- self$params$mapping_file_attrs$manipulate_command_table
   if (!is.na(df_cmd_manip_string)) {

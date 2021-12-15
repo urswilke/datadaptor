@@ -17,3 +17,5 @@ rr$mod_all()
 rr$dat_mod
 
 Mapping$debug("initialize")
+Mapping$debug("mod_all")
+Mapping$debug("calc_command_table")
