@@ -51,9 +51,6 @@ gen_command_table <- function(self) {
 }
 
 
-apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
-  df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
-}
 generate_rec_na_cmd_table <- function(self) {
   # generates a row of a command table with the command to recode missing to -2,
   # labelled "FILTER"
@@ -77,6 +74,7 @@ generate_rec_na_cmd_table <- function(self) {
     )
   )
 }
+
 generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
   switch (
     sheet_cat,
@@ -96,6 +94,7 @@ switch_sheets_vars_label <- function(sheets) {
   sheets[lab_index] <- "Variables"
   sheets
 }
+
 tab_sheet_types <- function(sheets) {
   sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
 
@@ -118,18 +117,6 @@ tab_sheet_types <- function(sheets) {
 }
 
 
-
 apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
   df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
-}
-
-generate_sheet_cmd_table <- function(mapping_file, sheet_cat, sheet_name) {
-  switch (
-    sheet_cat,
-    "Variables" = mapp_var_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Label"     = mapp_vallab_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Free"      = mapp_free_sheet_cmd_table(mapping_file, sheet = sheet_name),
-    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(mapping_file, sheet = sheet_name)
-  )
-
 }
