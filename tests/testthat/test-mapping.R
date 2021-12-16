@@ -4,13 +4,14 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 
 mapping <- Mapping$new(spss_file, mapping_file)
 mapping$params$try_catch <- TRUE
-mapping$calc_command_table()
+testthat::expect_message(testthat::expect_message(mapping$calc_command_table()))
+
 
 mapping$df_cmd$data[[46]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping$df_cmd$data[[47]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping$df_cmd$data[[48]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 
-mapping$mod_all()
+testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping$mod_all())))
 dat_mod <- mapping$dat_mod
 
 test_that("command table is reproduced", {
@@ -42,7 +43,7 @@ test_that("class object print is reproduced", {
   )
 })
 mapping_s3 <- Mapping$new(spss_file, mapping_file)
-mapping_s3$gen_command_table_raw()
+testthat::expect_message(mapping_s3$gen_command_table_raw())
 # filter commands that are already implemented:
 mapping_s3$params$df_cmd_raw <- mapping_s3$params$df_cmd_raw %>%
   dplyr::filter(action %in% c("#IF", "#COMP", "#VARL")) %>%
