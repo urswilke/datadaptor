@@ -37,6 +37,10 @@ Mapping <- R6::R6Class(
        self$dat_mod <- apply_one_cmd_nonvec_safe_r6(self$dat_mod, action, data, self) %>%
          rlang::eval_tidy()
        invisible(self)
+     },
+     apply_cmd_s3 = function(x) {
+       apply_command(x, self)
+       invisible(self)
      }
   )
 )
