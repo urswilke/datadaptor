@@ -36,31 +36,32 @@ apply_command.cmd_if <- function(x, self) {
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
 
-  # add double NA column to data, if new_var doesn't exist yet:
+  # add double NA column to data, if new_var doesn't exist yet (together with
+  # the attributes copying below, this keeps the variable's labels if existing):
   if (!new_var %in% names(self$dat_mod)) {
     self$dat_mod[[new_var]] <- NA_real_
   }
 
-  rlang::eval_tidy(
-    self$dat_mod[[new_var]] <- rlang::expr(
-      # use data.table::fifelse with negate of condition (`!`),
-      # because it preserves the attributes of the yes value
-      # thus, if already existing, the variable's attributes are kept:
-      # in other words, irrespective of the attributes the following is
-      # equivalent to:
-      # ifelse(
-      #   datenanpassr:::is_true(!!cond),
-      #   !!val,
-      #   !!self$dat_mod[[new_var]]
-      # )
-      data.table::fifelse(
-        !datenanpassr:::is_true(!!cond),
-        !!self$dat_mod[[new_var]],
-        !!val
-      )
-    ),
-    env = list2env(self$dat_mod, parent = baseenv())
-  )
+
+
+  eval_in_data <- function(e) {
+    rlang::eval_tidy(
+      e,
+      env = list2env(self$dat_mod, parent = baseenv())
+    )
+  }
+  test <- eval_in_data(rlang::expr(datenanpassr:::is_true(!!cond)))
+  yes <- eval_in_data(rlang::expr(!!val))
+  no <- self$dat_mod[[new_var]]
+  attributes(yes) <- attributes(no)
+
+  self$dat_mod[[new_var]] <-
+    data.table::fifelse(
+      test,
+      yes,
+      no
+    )
+
 }
 
 
