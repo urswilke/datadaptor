@@ -1,37 +1,63 @@
-new_command_block <- function(x, ..., class = character()) {
+#' @export
+new_command_block <- function(x, ..., subclass = character()) {
   structure(
     x,
     ...,
-    class = c(class, "command_block")
+    class = c(subclass, "command_block")
   )
 }
-new_command_if <- function(x) {
-  new_command_block(x, class = "cmd_if")
+#' @export
+command_block_factory <- function(x) {
+  subclass <- switch (x$action,
+    "#IF"      = "cmd_if",
+    "#COMP"    = "cmd_comp",
+    "#VARL"    = "cmd_set_lab",
+    "#VALL"    = ,
+    "#RFUN"    = ,
+    "#R"       = ,
+    "#MERGE"   = ,
+    "#COMPR"   = ,
+    "#REC"     = ,
+    "#NEWVALL" = ,
+    "#AUTOREC" = ,
+    "#STR2NUM" = ,
+    "#SUMVAR"  = ,
+    "#RENAME"  = ,
+    "#DROP"    = ,
+    "#NEWLAB"  = ,
+    "#AVALL"   = ,
+    "#DIC"     = ,
+    "#KG"      = ,
+    "#verbatim"= ,
+  )
+  new_command_block(x, subclass = subclass)
 }
 
-parse_cmd_block_args <- function(x) {
-  UseMethod("parse_cmd_block_args")
-}
-parse_cmd_block_args.cmd_if <- function(x) {
-  assignment <- x$data[[1]]$X3 %>% stringr::str_split("=") %>% unlist() %>% stringr::str_squish()
 
-  x$args[[1]] <- list(
+#' @export
+parse_command_args <- function(x) {
+  UseMethod("parse_command_args")
+}
+#' @export
+parse_command_args.cmd_if <- function(x) {
+  assignment <- x$data$X3 %>% stringr::str_split("=") %>% unlist() %>% stringr::str_squish()
+
+  x$args <- list(
     new_var   = assignment[1],
     new_val   = assignment[2],
-    condition = x$data[[1]]$X2
+    condition = x$data$X2
   )
   x
 }
-# x <- rr$params$df_cmd_raw[45,] %>% new_command_if()
-# x <- parse_cmd_block_args(x)
-
+#' @export
 apply_command <- function(x, self) {
   UseMethod("apply_command")
 }
+#' @export
 apply_command.cmd_if <- function(x, self) {
-  new_var <- x$args[[1]]$new_var
-  condition <- x$args[[1]]$condition
-  new_val <- x$args[[1]]$new_val
+  new_var <- x$args$new_var
+  condition <- x$args$condition
+  new_val <- x$args$new_val
 
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
@@ -64,7 +90,65 @@ apply_command.cmd_if <- function(x, self) {
 
 }
 
+#' @export
+parse_command_args.cmd_comp <- function(x) {
+  x$args <- list(
+    new_var   = x$data$X2[1],
+    new_val   = x$data$X3[1]
+  )
+  x
+}
 
+#' @export
+apply_command.cmd_comp <- function(x, self) {
+  new_var <- x$args$new_var
+  new_val <- x$args$new_val
+
+  val <- rlang::parse_expr(new_val)
+
+  # add double NA column to data, if new_var doesn't exist yet (together with
+  # the attributes copying below, this keeps the variable's labels if existing):
+  if (!new_var %in% names(self$dat_mod)) {
+    self$dat_mod[[new_var]] <- NA_real_
+  }
+
+
+
+  eval_in_data <- function(e) {
+    rlang::eval_tidy(
+      e,
+      env = list2env(self$dat_mod, parent = baseenv())
+    )
+  }
+  vec <- eval_in_data(rlang::expr(!!val))
+  attributes(vec) <- attributes(self$dat_mod[[new_var]])
+
+  self$dat_mod[[new_var]] <- vec
+
+}
+
+#' @export
+parse_command_args.cmd_set_lab <- function(x) {
+  x$args <- list(
+    orig_var   = x$data$X2[1],
+    new_lab   = x$data$X3[1]
+  )
+  x
+}
+
+#' @export
+apply_command.cmd_set_lab <- function(x, self) {
+  orig_var <- x$args$orig_var
+  new_lab <- x$args$new_lab
+
+  vec <- self$dat_mod[[orig_var]]
+  self$dat_mod[[orig_var]] <- haven::labelled(
+    vec,
+    labels = attr(vec, "labels"),
+    label = new_lab
+  )
+
+}
 
 #' #' Compute numeric variable in data frame according to string expression
 #' #'

@@ -461,6 +461,8 @@
 
     <apply_mods>
       Public:
+        apply_all_s3_cmds: function () 
+        apply_cmd_s3: function (x) 
         apply_one_cmd_r6: function (action, data) 
         calc_command_table: function () 
         clone: function (deep = FALSE) 

@@ -41,9 +41,30 @@ Mapping <- R6::R6Class(
      apply_cmd_s3 = function(x) {
        apply_command(x, self)
        invisible(self)
+     },
+     apply_all_s3_cmds = function() {
+       gen_command_blocks_raw(self)
+       gen_command_blocks(self)
+
+       walk(self$params$command_blocks, self$apply_cmd_s3)
+       invisible(self)
      }
   )
 )
+gen_command_blocks_raw <- function(self) {
+  self$params$command_blocks_raw <- self$params$df_cmd_raw %>%
+    rowwise() %>%
+    transmute(cmd = list(command_block_factory(cur_data()))) %>%
+    pull()
+  invisible(self)
+}
+
+gen_command_blocks <- function(self) {
+  self$params$command_blocks <- map(self$params$command_blocks_raw, parse_command_args)
+  invisible(self)
+}
+
+
 
 initialize_dat <- function(self, dat) {
   if (is.null(dat)) {
