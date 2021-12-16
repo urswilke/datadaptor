@@ -41,3 +41,17 @@ test_that("class object print is reproduced", {
     mapping
   )
 })
+mapping_s3 <- Mapping$new(spss_file, mapping_file)
+mapping_s3$calc_command_table()
+mapping_s3$params$df_cmd_raw <- mapping_s3$params$df_cmd_raw %>%
+  dplyr::filter(action %in% c("#IF", "#COMP", "#VARL")) %>%
+  dplyr::slice(-3)
+mapping_s3$apply_all_s3_cmds()
+test_that("s3 modified data print is reproduced", {
+  testthat::expect_snapshot_output({
+    mapping_s3$dat_mod[-c(1:8)]
+  }
+
+  )
+})
+
