@@ -12,7 +12,7 @@ command_block_factory <- function(x) {
     "#IF"      = "cmd_if",
     "#COMP"    = "cmd_comp",
     "#VARL"    = "cmd_set_lab",
-    "#VALL"    = ,
+    "#VALL"    = "cmd_set_labs",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
@@ -149,6 +149,46 @@ apply_command.cmd_set_lab <- function(x, self) {
   )
 
 }
+
+
+#' @export
+parse_command_args.cmd_set_labs <- function(x) {
+
+  varlab <- x$data$X3[1]
+  if (is.na(varlab)) {
+    varlab <- NULL
+  }
+
+  x$args <- list(
+    orig_var  = x$data$X2[1],
+    new_lab  = varlab,
+    new_vals = x$data$X2[-1] %>% as.numeric(),
+    new_labs = x$data$X3[-1]
+  )
+  x
+}
+
+#' @export
+apply_command.cmd_set_labs <- function(x, self) {
+  orig_var <- x$args$orig_var
+  new_lab <- x$args$new_lab
+  new_vals <- x$args$new_vals
+  new_labs <- x$args$new_labs
+
+  if (is.null(new_lab)) {
+    new_lab <- attr(orig_var, "label", exact = TRUE)
+  }
+  self$dat_mod[[orig_var]] <- haven::labelled(
+    self$dat_mod[[orig_var]],
+    labels = purrr::set_names(new_vals, new_labs),
+    label = new_lab
+  )
+}
+
+
+
+
+
 
 #' #' Compute numeric variable in data frame according to string expression
 #' #'

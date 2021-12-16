@@ -478,17 +478,17 @@
 # s3 modified data print is reproduced
 
     # A tibble: 100 x 9
-          q8    q9 x       abc   kq6         n        a1        a2 free2_var
-       <dbl> <dbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+lbl> <dbl+lbl>     <dbl>
-     1     2    NA FALSE    NA    NA         1         3         4         3
-     2     9    NA FALSE    NA    NA         1         3         4         3
-     3     3    NA FALSE     7    NA         1         3         4         3
-     4     3    NA FALSE    NA    NA         1         3         4         3
-     5     9    NA FALSE     7    NA         1         3         4         3
-     6     7    NA FALSE    NA    NA         1         3         4         3
-     7    10    NA FALSE    NA    NA         1         3         4         3
-     8     1    NA TRUE     NA    NA         1         3         4         3
-     9     2    NA FALSE    NA     8         1         3         4         3
-    10     4    NA FALSE    NA     8         1         3         4         3
+          q8    q9 x       abc   kq6             n        a1        a2 free2_var
+       <dbl> <dbl> <lgl> <dbl> <dbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>     <dbl>
+     1     2    NA FALSE    NA    NA 1 [also with]         3         4         3
+     2     9    NA FALSE    NA    NA 1 [also with]         3         4         3
+     3     3    NA FALSE     7    NA 1 [also with]         3         4         3
+     4     3    NA FALSE    NA    NA 1 [also with]         3         4         3
+     5     9    NA FALSE     7    NA 1 [also with]         3         4         3
+     6     7    NA FALSE    NA    NA 1 [also with]         3         4         3
+     7    10    NA FALSE    NA    NA 1 [also with]         3         4         3
+     8     1    NA TRUE     NA    NA 1 [also with]         3         4         3
+     9     2    NA FALSE    NA     8 1 [also with]         3         4         3
+    10     4    NA FALSE    NA     8 1 [also with]         3         4         3
     # ... with 90 more rows
 
