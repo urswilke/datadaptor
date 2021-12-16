@@ -1,28 +1,8 @@
 
 gen_command_table <- function(self) {
+  self$gen_command_table_raw()
 
-
-  sheets <- self$mapping_file %>% readxl::excel_sheets()
-
-  # exchange positions of "Variables" & "Label" sheets (because otherwise,
-  # renaming a variable in the "Variables" sheet will not work when creating a
-  # summary variable out of it):
-  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
-    sheets <- switch_sheets_vars_label(sheets)
-  }
-
-  sheet_cats <- tab_sheet_types(sheets)
-
-  df_cmd_raw <- purrr::map2_dfr(
-    sheet_cats$sheet %>%
-      purrr::set_names(),
-    sheet_cats$sheet_type,
-    ~ generate_sheet_cmd_table(self, .y, .x),
-    .id = "sheet"
-  )
-
-  self$params$df_cmd_raw <- df_cmd_raw
-  df_cmd <- df_cmd_raw
+  df_cmd <- self$params$df_cmd_raw
 
   df_cmd_manip_string <- self$params$mapping_file_attrs$manipulate_command_table
   if (!is.na(df_cmd_manip_string)) {
@@ -49,7 +29,30 @@ gen_command_table <- function(self) {
 
   self$df_cmd <- df_cmd
 }
+gen_command_table_raw_ <- function(self) {
+  sheets <- self$mapping_file %>% readxl::excel_sheets()
 
+  # exchange positions of "Variables" & "Label" sheets (because otherwise,
+  # renaming a variable in the "Variables" sheet will not work when creating a
+  # summary variable out of it):
+  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+    sheets <- switch_sheets_vars_label(sheets)
+  }
+
+  sheet_cats <- tab_sheet_types(sheets)
+
+  df_cmd_raw <- purrr::map2_dfr(
+    sheet_cats$sheet %>%
+      purrr::set_names(),
+    sheet_cats$sheet_type,
+    ~ generate_sheet_cmd_table(self, .y, .x),
+    .id = "sheet"
+  )
+
+  self$params$df_cmd_raw <- df_cmd_raw
+
+  invisible(self)
+}
 
 generate_rec_na_cmd_table <- function(self) {
   # generates a row of a command table with the command to recode missing to -2,

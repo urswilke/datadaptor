@@ -48,6 +48,11 @@ Mapping <- R6::R6Class(
 
        purrr::walk(self$params$command_blocks, self$apply_cmd_s3)
        invisible(self)
+     },
+     gen_command_table_raw = function() {
+       load_configr_params(self)
+       gen_command_table_raw_(self)
+       invisible(self)
      }
   )
 )
