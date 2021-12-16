@@ -46,21 +46,21 @@ Mapping <- R6::R6Class(
        gen_command_blocks_raw(self)
        gen_command_blocks(self)
 
-       walk(self$params$command_blocks, self$apply_cmd_s3)
+       purrr::walk(self$params$command_blocks, self$apply_cmd_s3)
        invisible(self)
      }
   )
 )
 gen_command_blocks_raw <- function(self) {
   self$params$command_blocks_raw <- self$params$df_cmd_raw %>%
-    rowwise() %>%
-    transmute(cmd = list(command_block_factory(cur_data()))) %>%
-    pull()
+    dplyr::rowwise() %>%
+    dplyr::transmute(cmd = list(command_block_factory(dplyr::cur_data()))) %>%
+    dplyr::pull()
   invisible(self)
 }
 
 gen_command_blocks <- function(self) {
-  self$params$command_blocks <- map(self$params$command_blocks_raw, parse_command_args)
+  self$params$command_blocks <- purrr::map(self$params$command_blocks_raw, parse_command_args)
   invisible(self)
 }
 
