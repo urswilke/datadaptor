@@ -3,8 +3,8 @@
     tibble [68 x 5] (S3: tbl_df/tbl/data.frame)
      $ sheet  : chr [1:68] "Config" "Label" "Label" "Variables" ...
      $ action : chr [1:68] "#RECNA" "#NEWVALL" "#SUMVAR" "#STR2NUM" ...
-     $ row    : chr [1:68] NA "8" "2, 3, 4, 5, 6" "8" ...
-     $ new_var: chr [1:68] NA "q2" "kq1" "q8" ...
+     $ row    : chr [1:68] NA "8" "23, 24, 25, 26, 27" "8" ...
+     $ new_var: chr [1:68] NA "q2" "kq5" "q8" ...
      $ data   :List of 68
       ..$ :List of 3
       .. ..$ recode_na_exceptions: chr [1:2] "id" "DC_ID"
@@ -15,12 +15,12 @@
       .. ..$ vals_added: num 1
       .. ..$ labs_added: chr "YES"
       ..$ :List of 6
-      .. ..$ orig_var : chr "q1"
+      .. ..$ orig_var : chr "q5"
       .. ..$ new_lab  : chr "test"
       .. ..$ orig_vals: num [1:5] 1 2 3 4 5
       .. ..$ new_vals : num [1:5] 1 1 2 3 3
       .. ..$ new_labs : chr [1:5] "aaa" NA "bbb" "ccc" ...
-      .. ..$ new_var  : chr "kq1"
+      .. ..$ new_var  : chr "kq5"
       ..$ :List of 1
       .. ..$ var: chr "q8"
       ..$ :List of 1
@@ -436,7 +436,7 @@
 
 # modified data is reproduced
 
-    # A tibble: 100 x 49
+    # A tibble: 100 x 50
               q1  q2_renamed       q3  q4_renamed       q5    id      q6 q7       q8
        <dbl+lbl>   <dbl+lbl> <dbl+lb>   <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl>
      1  3 [norm~  2 [no]     3 [norm~ 4 [much]     2 [a b~     1 3 [bla~ bla ~     2
@@ -449,7 +449,7 @@
      8  2 [a bi~  2 [no]     5 [very~ 2 [a bit]    1 [not~     8 6 [bla~ bla ~     1
      9 99 [no a~ 99 [no ans~ 1 [not ~ 1 [not at ~  2 [a b~     9 6 [bla~ bla ~     2
     10 99 [no a~  1 [YES]    1 [not ~ 1 [not at ~  4 [muc~    10 3 [bla~ bla ~     4
-    # ... with 90 more rows, and 40 more variables: kq1 <dbl+lbl>, q6n <dbl+lbl>,
+    # ... with 90 more rows, and 41 more variables: kq5 <dbl+lbl>, q6n <dbl+lbl>,
     #   q7n <dbl+lbl>, q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>,
     #   q6_4 <dbl+lbl>, q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>,
     #   q6test_2 <dbl+lbl>, q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>,
@@ -475,40 +475,41 @@
         mod_all: function () 
         params: list
 
-# command blocks data.frame print is reproduced
+# command blocks print is reproduced
 
-    <command_block_rcrd[16]>
-     [1] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
-     [2] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
-     [3] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
-     [4] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [5] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [6] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
-     [7] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
-     [8] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
-     [9] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
-    [10] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
-    [11] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
-    [12] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
-    [13] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
-    [14] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [15] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [16] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+    <command_block_rcrd[17]>
+     [1] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
+     [2] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
+     [3] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
+     [4] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
+     [5] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [6] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [7] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
+     [8] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
+     [9] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
+    [10] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
+    [11] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
+    [12] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
+    [13] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
+    [14] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
+    [15] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
+    [16] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [17] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 12
-          q8    q9 x       abc   kq6       kq1       kq3        n    a1    a2   kkq1
-       <dbl> <dbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl> <dbl> <dbl+>
-     1     2    NA FALSE    NA    NA   2 [3]     2 [3]   1 [also~     3     4  2 [b]
-     2     9    NA FALSE    NA    NA   2 [3]     3 [4-5] 1 [also~     3     4  2 [b]
-     3     3    NA FALSE     7    NA   1 [1-2]   2 [3]   1 [also~     3     4  1 [a]
-     4     3    NA FALSE    NA    NA   2 [3]     3 [4-5] 1 [also~     3     4  2 [b]
-     5     9    NA FALSE     7    NA   3 [4-5]   1 [1-2] 1 [also~     3     4  2 [b]
-     6     7    NA FALSE    NA    NA   3 [4-5]   3 [4-5] 1 [also~     3     4  2 [b]
-     7    10    NA FALSE    NA    NA  NA         2 [3]   1 [also~     3     4 NA    
-     8     1    NA TRUE     NA    NA   1 [1-2]   3 [4-5] 1 [also~     3     4  2 [b]
-     9     2    NA FALSE    NA     8  NA         1 [1-2] 1 [also~     3     4 NA    
-    10     4    NA FALSE    NA     8  NA         1 [1-2] 1 [also~     3     4 NA    
-    # ... with 90 more rows, and 1 more variable: free2_var <dbl>
+    # A tibble: 100 x 13
+          q8    q9       kq5 x       abc   kq6       kq1     kq3       n    a1    a2
+       <dbl> <dbl> <dbl+lbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+l> <dbl+l> <dbl> <dbl>
+     1     2    NA   1 [aaa] FALSE    NA    NA   2 [3]   2 [3]   1 [als~     3     4
+     2     9    NA   3 [ccc] FALSE    NA    NA   2 [3]   3 [4-5] 1 [als~     3     4
+     3     3    NA   3 [ccc] FALSE     7    NA   1 [1-2] 2 [3]   1 [als~     3     4
+     4     3    NA   3 [ccc] FALSE    NA    NA   2 [3]   3 [4-5] 1 [als~     3     4
+     5     9    NA   2 [bbb] FALSE     7    NA   3 [4-5] 1 [1-2] 1 [als~     3     4
+     6     7    NA   1 [aaa] FALSE    NA    NA   3 [4-5] 3 [4-5] 1 [als~     3     4
+     7    10    NA  NA       FALSE    NA    NA  NA       2 [3]   1 [als~     3     4
+     8     1    NA   1 [aaa] TRUE     NA    NA   1 [1-2] 3 [4-5] 1 [als~     3     4
+     9     2    NA   1 [aaa] FALSE    NA     8  NA       1 [1-2] 1 [als~     3     4
+    10     4    NA   3 [ccc] FALSE    NA     8  NA       1 [1-2] 1 [als~     3     4
+    # ... with 90 more rows, and 2 more variables: kkq1 <dbl+lbl>, free2_var <dbl>
 

@@ -14,6 +14,7 @@ command_block_factory <- function(x) {
     "#VARL"    = "cmd_set_lab",
     "#VALL"    = "cmd_set_labs",
     "#REC"     = "cmd_rec",
+    "#SUMVAR"  = "cmd_sumvar",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
@@ -21,7 +22,6 @@ command_block_factory <- function(x) {
     "#NEWVALL" = ,
     "#AUTOREC" = ,
     "#STR2NUM" = ,
-    "#SUMVAR"  = ,
     "#RENAME"  = ,
     "#DROP"    = ,
     "#NEWLAB"  = ,
@@ -204,8 +204,6 @@ parse_command_args.cmd_rec <- function(x) {
 }
 
 
-cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = rlang::caller_env()) {
-}
 #' @export
 apply_command.cmd_rec <- function(x, self) {
   orig_var_name <- x$args$orig_var
@@ -248,6 +246,63 @@ apply_command.cmd_rec <- function(x, self) {
   invisible(self)
 
 }
+
+
+# #SUMMARY VARIABLE
+#' @export
+parse_command_args.cmd_sumvar <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    # use orig_var if new_var is NA (empty in Excel file):
+    new_var = paste0("k", d$var[1]),
+    orig_var = d$var[1],
+    new_lab = d$sum_var_label[1],
+    orig_vals  = d$nv %>% as.numeric(),
+    new_vals = d$sum_var_value %>% as.numeric(),
+    new_labs = d$sum_var_vallab
+  )
+  x
+}
+
+
+#' @export
+apply_command.cmd_sumvar <- function(x, self) {
+  new_var <- x$args$new_var
+  orig_var <- x$args$orig_var
+  new_lab <- x$args$new_lab
+  orig_vals <- x$args$orig_vals
+  new_vals <- x$args$new_vals
+  new_labs <- x$args$new_labs
+  if (is.null(new_lab)) {
+    new_lab <- attr(self$dat_mod[[orig_var]], "label", exact = TRUE)
+  }
+
+  sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
+    dplyr::group_by(new_vals) %>%
+    dplyr::summarise(val_lists = list(orig_vals),
+                     val_labs = dplyr::first(new_labs))
+  cond_statements <- purrr::map2(
+    sum_var_vals_n_labs$val_lists,
+    sum_var_vals_n_labs$new_vals,
+    ~ rlang::expr(!!rlang::sym(orig_var) %in% !!.x ~ !!.y)
+  )
+
+  x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
+
+  self$dat_mod[[new_var]] <- haven::labelled(
+    x,
+    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>% tibble::deframe(),
+    label = new_lab
+  )
+
+  invisible(self)
+
+}
+
+
+
+
 
 
 
