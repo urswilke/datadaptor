@@ -1,7 +1,7 @@
 command_block_rcrd <- function(command_blocks) {
   command_blocks %>%
-    transpose() %>%
-    new_rcrd(class = "command_block_rcrd")
+    purrr::transpose() %>%
+    vctrs::new_rcrd(class = "command_block_rcrd")
 }
 
 
@@ -10,30 +10,29 @@ command_block_rcrd <- function(command_blocks) {
 format.command_block_rcrd <- function(x, ..., formatter = cmd_block_formatter) {
   x_valid <- which(!is.na(x))
 
-  sheet <- field(x, "sheet") %>% abbreviate(6)
-  action <- field(x, "action") %>% abbreviate(6)
-  new_var <- field(x, "new_var")
-  max_var_len <- map_int(new_var, nchar) %>% max()
-  new_var <- new_var %>% str_pad(max_var_len, side = "right")
-  args <- field(x, "args")
+  sheet <- vctrs::field(x, "sheet") %>% abbreviate(6)
+  action <- vctrs::field(x, "action") %>% abbreviate(6)
+  new_var <- vctrs::field(x, "new_var")
+  max_var_len <- purrr::map_int(new_var, nchar) %>% max()
+  new_var <- new_var %>% stringr::str_pad(max_var_len, side = "right")
+  args <- vctrs::field(x, "args")
 
   ret <- cmd_block_args_formatter(sheet, action, args)
-  # It's important to keep NA in the vector!
   ret
 }
 
 
 cmd_block_args_formatter <- function(sheet, action, args) {
-  df_long <- tibble(sheet, action, args) %>%
-    mutate(row = row_number()) %>%
-    unnest(args) %>%
-    mutate(enframe(args))
+  df_long <- dplyr::tibble(sheet, action, args) %>%
+    dplyr::mutate(row = dplyr::row_number()) %>%
+    tidyr::unnest(args) %>%
+    dplyr::mutate(tibble::enframe(args))
 
   ret <- df_long %>%
-    rowwise() %>%
-    mutate(value = paste(value, collapse = ", ")) %>%
-    group_by(row) %>%
-    summarise(
+    dplyr::rowwise() %>%
+    dplyr::mutate(value = paste(value, collapse = ", ")) %>%
+    dplyr::group_by(row) %>%
+    dplyr::summarise(
       paste0(
         # cli::col_grey(abbreviate(sheet[1], 6)),
         # cli::col_grey(abbreviate(action[1], 6)),
@@ -43,13 +42,13 @@ cmd_block_args_formatter <- function(sheet, action, args) {
         # collapse = cli::col_grey("; ")
         abbreviate(name, 6),
         ": ",
-        value %>% str_trunc(16),
+        value %>% stringr::str_trunc(16),
         collapse = "; "
       )
     ) %>%
-    pull() %>%
+    dplyr::pull() %>%
     paste(abbreviate(sheet, 6), abbreviate(action, 6), .) %>%
-    str_pad(max(nchar(.)), side = "right")
+    stringr::str_pad(max(nchar(.)), side = "right")
   format(ret, justify = "right")
 }
 

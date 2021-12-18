@@ -475,6 +475,23 @@
         mod_all: function () 
         params: list
 
+# command blocks data.frame print is reproduced
+
+    <command_block_rcrd[13]>
+     [1] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                    
+     [2] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                
+     [3] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                         
+     [4] Free1 #COMP new_vr: n; new_vl: 1                                                          
+     [5] Free1 #VARL org_vr: n; new_lb: my new label                                               
+     [6] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...
+     [7] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                          
+     [8] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                          
+     [9] Free1 #COMP new_vr: a1; new_vl: 3                                                         
+    [10] Free1 #COMP new_vr: a2; new_vl: 4                                                         
+    [11] Free1 #VARL org_vr: a1; new_lb: same variable...                                          
+    [12] Free1 #VARL org_vr: a2; new_lb: same variable...                                          
+    [13] Free2 #COMP new_vr: free2_var; new_vl: 3                                                  
+
 # s3 modified data print is reproduced
 
     # A tibble: 100 x 9
