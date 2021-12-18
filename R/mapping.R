@@ -65,7 +65,13 @@ gen_command_blocks_raw <- function(self) {
 }
 
 gen_command_blocks <- function(self) {
-  self$params$command_blocks <- purrr::map(self$params$command_blocks_raw, parse_command_args)
+  command_blocks <- purrr::map(self$params$command_blocks_raw, parse_command_args)
+  class(command_blocks) <- c("command_blocks", "list")
+
+
+  self$params$command_blocks <- command_blocks
+
+
   invisible(self)
 }
 
