@@ -18,12 +18,12 @@ command_block_factory <- function(x) {
     "#AVALL"   = "cmd_add_labs",
     "#DIC"     = "cmd_dic",
     "#AUTOREC" = "cmd_autorec",
+    "#STR2NUM" = "cmd_str_to_num",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
     "#COMPR"   = ,
     "#NEWVALL" = ,
-    "#STR2NUM" = ,
     "#RENAME"  = ,
     "#DROP"    = ,
     "#NEWLAB"  = ,
@@ -417,6 +417,38 @@ apply_command.cmd_autorec <- function(x, self) {
 
 
 
+# #STR2NUM
+#' @export
+parse_command_args.cmd_str_to_num <- function(x) {
+  d <- x$data
+  x$args <- list(
+    var = d$var
+  )
+  x
+}
+
+
+#' @export
+apply_command.cmd_str_to_num <- function(x, self) {
+  var_name <- x$args$var
+  var <- self$dat_mod[[var_name]]
+  self$dat_mod[[var_name]] <- haven::labelled(
+    var %>% strip_attributes() %>% as.numeric(),
+    label = attr(var, "label", exact = TRUE)
+  )
+  invisible(self)
+}
+
+
+
+
+
+
+
+
+
+
+
 
 
 #' #' Split variable into multiple for each of the values of another variable
@@ -457,23 +489,6 @@ apply_command.cmd_autorec <- function(x, self) {
 #'     dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
 #' }
 #'
-#'
-#' #' Transform character variable to numeric variable
-#' #'
-#' #' @param var character variable to change to numeric
-#' #'
-#' #' @return modified variable `var` (see examples)
-#' #' @export
-#' #'
-#' #' @examples
-#' #' x <- haven::labelled(as.character(3:1), label = "variable label")
-#' #' cmd_str_to_num(x)
-#' cmd_str_to_num <- function(var) {
-#'   haven::labelled(
-#'     var %>% strip_attributes() %>% as.numeric(),
-#'     label = attr(var, "label", exact = TRUE)
-#'   )
-#' }
 #'
 #' #' Compute variable according to string expression
 #' #'
