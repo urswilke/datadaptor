@@ -13,11 +13,11 @@ command_block_factory <- function(x) {
     "#COMP"    = "cmd_comp",
     "#VARL"    = "cmd_set_lab",
     "#VALL"    = "cmd_set_labs",
+    "#REC"     = "cmd_rec",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
     "#COMPR"   = ,
-    "#REC"     = ,
     "#NEWVALL" = ,
     "#AUTOREC" = ,
     "#STR2NUM" = ,
@@ -70,14 +70,8 @@ apply_command.cmd_if <- function(x, self) {
 
 
 
-  eval_in_data <- function(e) {
-    rlang::eval_tidy(
-      e,
-      env = list2env(self$dat_mod, parent = baseenv())
-    )
-  }
-  test <- eval_in_data(rlang::expr(datenanpassr:::is_true(!!cond)))
-  yes <- eval_in_data(rlang::expr(!!val))
+  test <- eval_in_data(rlang::expr(datenanpassr:::is_true(!!cond)), self)
+  yes <- eval_in_data(rlang::expr(!!val), self)
   no <- self$dat_mod[[new_var]]
   attributes(yes) <- attributes(no)
 
@@ -89,6 +83,13 @@ apply_command.cmd_if <- function(x, self) {
     )
 
 }
+eval_in_data <- function(e, self) {
+  rlang::eval_tidy(
+    e,
+    env = list2env(self$dat_mod, parent = baseenv())
+  )
+}
+
 
 #' @export
 parse_command_args.cmd_comp <- function(x) {
@@ -114,13 +115,7 @@ apply_command.cmd_comp <- function(x, self) {
 
 
 
-  eval_in_data <- function(e) {
-    rlang::eval_tidy(
-      e,
-      env = list2env(self$dat_mod, parent = baseenv())
-    )
-  }
-  vec <- eval_in_data(rlang::expr(!!val))
+  vec <- eval_in_data(rlang::expr(!!val), self)
   attributes(vec) <- attributes(self$dat_mod[[new_var]])
 
   self$dat_mod[[new_var]] <- vec
@@ -184,6 +179,77 @@ apply_command.cmd_set_labs <- function(x, self) {
     label = new_lab
   )
 }
+
+
+
+
+
+
+
+# #REC
+#' @export
+parse_command_args.cmd_rec <- function(x) {
+  d <- x$data
+  x$args <- list(
+    # use orig_var if new_var is NA (empty in Excel file):
+    orig_var = d$X2[1],
+    new_var = d$X3[1],
+    new_lab = d$X4[1],
+    lb  = d$X2[-1] %>% as.numeric(),
+    ub  = d$X3[-1] %>% as.numeric(),
+    new_vals = d$X4[-1] %>% as.numeric(),
+    new_labs = d$X5[-1]
+  )
+  x
+}
+
+
+cmd_rec <- function(orig_var, new_lab = NULL, lb, ub, new_vals, new_labs, env = rlang::caller_env()) {
+}
+#' @export
+apply_command.cmd_rec <- function(x, self) {
+  orig_var_name <- x$args$orig_var
+  new_lab <- x$args$new_lab
+  if (is.null(new_lab)) {
+    new_lab <- attr(self$dat_mod[[orig_var]], "label", exact = TRUE)
+  }
+  new_var <- x$args$new_var
+
+  lb <- x$args$lb
+  ub <- x$args$ub
+  new_vals <- x$args$new_vals
+  new_labs <- x$args$new_labs
+  orig_var_name <- x$args$orig_var
+  recode_df <-
+    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
+    dplyr::mutate(
+      expr_str = paste0("(", orig_var_name, " >= ", lb, " & ", orig_var_name, " <= ", ub, ")")
+    ) %>%
+    dplyr::group_by(new_vals) %>%
+    dplyr::summarise(
+      expr_str = paste(.data$expr_str, collapse = " | "),
+      new_labs = new_labs[1]
+    )
+  cond_statements <-
+    recode_df %>%
+    dplyr::select(new_vals, .data$expr_str) %>%
+    purrr::pmap(
+      function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
+    )
+
+
+  x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
+
+  self$dat_mod[[new_var]] <- haven::labelled(
+    x,
+    labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
+    label = new_lab
+  )
+  invisible(self)
+
+}
+
+
 
 
 

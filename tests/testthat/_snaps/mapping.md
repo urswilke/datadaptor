@@ -477,35 +477,38 @@
 
 # command blocks data.frame print is reproduced
 
-    <command_block_rcrd[13]>
-     [1] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                    
-     [2] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                
-     [3] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                         
-     [4] Free1 #COMP new_vr: n; new_vl: 1                                                          
-     [5] Free1 #VARL org_vr: n; new_lb: my new label                                               
-     [6] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...
-     [7] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                          
-     [8] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                          
-     [9] Free1 #COMP new_vr: a1; new_vl: 3                                                         
-    [10] Free1 #COMP new_vr: a2; new_vl: 4                                                         
-    [11] Free1 #VARL org_vr: a1; new_lb: same variable...                                          
-    [12] Free1 #VARL org_vr: a2; new_lb: same variable...                                          
-    [13] Free2 #COMP new_vr: free2_var; new_vl: 3                                                  
+    <command_block_rcrd[16]>
+     [1] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
+     [2] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
+     [3] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
+     [4] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [5] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [6] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
+     [7] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
+     [8] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
+     [9] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
+    [10] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
+    [11] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
+    [12] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
+    [13] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
+    [14] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
+    [15] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [16] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 9
-          q8    q9 x       abc   kq6             n        a1        a2 free2_var
-       <dbl> <dbl> <lgl> <dbl> <dbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>     <dbl>
-     1     2    NA FALSE    NA    NA 1 [also with]         3         4         3
-     2     9    NA FALSE    NA    NA 1 [also with]         3         4         3
-     3     3    NA FALSE     7    NA 1 [also with]         3         4         3
-     4     3    NA FALSE    NA    NA 1 [also with]         3         4         3
-     5     9    NA FALSE     7    NA 1 [also with]         3         4         3
-     6     7    NA FALSE    NA    NA 1 [also with]         3         4         3
-     7    10    NA FALSE    NA    NA 1 [also with]         3         4         3
-     8     1    NA TRUE     NA    NA 1 [also with]         3         4         3
-     9     2    NA FALSE    NA     8 1 [also with]         3         4         3
-    10     4    NA FALSE    NA     8 1 [also with]         3         4         3
-    # ... with 90 more rows
+    # A tibble: 100 x 12
+          q8    q9 x       abc   kq6       kq1       kq3        n    a1    a2   kkq1
+       <dbl> <dbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl> <dbl> <dbl+>
+     1     2    NA FALSE    NA    NA   2 [3]     2 [3]   1 [also~     3     4  2 [b]
+     2     9    NA FALSE    NA    NA   2 [3]     3 [4-5] 1 [also~     3     4  2 [b]
+     3     3    NA FALSE     7    NA   1 [1-2]   2 [3]   1 [also~     3     4  1 [a]
+     4     3    NA FALSE    NA    NA   2 [3]     3 [4-5] 1 [also~     3     4  2 [b]
+     5     9    NA FALSE     7    NA   3 [4-5]   1 [1-2] 1 [also~     3     4  2 [b]
+     6     7    NA FALSE    NA    NA   3 [4-5]   3 [4-5] 1 [also~     3     4  2 [b]
+     7    10    NA FALSE    NA    NA  NA         2 [3]   1 [also~     3     4 NA    
+     8     1    NA TRUE     NA    NA   1 [1-2]   3 [4-5] 1 [also~     3     4  2 [b]
+     9     2    NA FALSE    NA     8  NA         1 [1-2] 1 [also~     3     4 NA    
+    10     4    NA FALSE    NA     8  NA         1 [1-2] 1 [also~     3     4 NA    
+    # ... with 90 more rows, and 1 more variable: free2_var <dbl>
 
