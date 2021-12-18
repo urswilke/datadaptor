@@ -50,7 +50,7 @@ mapping_s3$params$df_cmd_raw <- mapping_s3$params$df_cmd_raw %>%
   # command depends on variables built in those filtered:
   dplyr::slice(-3)
 mapping_s3$apply_all_s3_cmds()
-test_that("command blocks data.frame print is reproduced", {
+test_that("command blocks print is reproduced", {
   testthat::expect_snapshot_output({
     mapping_s3$params$command_blocks
   }
