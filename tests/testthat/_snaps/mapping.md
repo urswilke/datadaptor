@@ -477,7 +477,7 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[18]>
+    <command_block_rcrd[19]>
      [1] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [2] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
      [3] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
@@ -494,12 +494,13 @@
     [14] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
     [15] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
     [16] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [17] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [18] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+    [17] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
+    [18] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [19] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 13
+    # A tibble: 100 x 14
           q8    q9       kq5 x       abc   kq6       kq1     kq3       n    a1    a2
        <dbl> <dbl> <dbl+lbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+l> <dbl+l> <dbl> <dbl>
      1     2    NA   1 [aaa] FALSE    NA    NA   2 [3]   2 [3]   1 [als~     3     4
@@ -512,5 +513,6 @@
      8     1    NA   1 [aaa] TRUE     NA    NA   1 [1-2] 3 [4-5] 1 [als~     3     4
      9     2    NA   1 [aaa] FALSE    NA     8  NA       1 [1-2] 1 [als~     3     4
     10     4    NA   3 [ccc] FALSE    NA     8  NA       1 [1-2] 1 [als~     3     4
-    # ... with 90 more rows, and 2 more variables: kkq1 <dbl+lbl>, free2_var <dbl>
+    # ... with 90 more rows, and 3 more variables: q4_renamed <dbl+lbl>,
+    #   kkq1 <dbl+lbl>, free2_var <dbl>
 

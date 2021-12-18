@@ -16,6 +16,7 @@ command_block_factory <- function(x) {
     "#REC"     = "cmd_rec",
     "#SUMVAR"  = "cmd_sumvar",
     "#AVALL"   = "cmd_add_labs",
+    "#DIC"     = "cmd_dic",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
@@ -26,7 +27,6 @@ command_block_factory <- function(x) {
     "#RENAME"  = ,
     "#DROP"    = ,
     "#NEWLAB"  = ,
-    "#DIC"     = ,
     "#KG"      = ,
     "#verbatim"= ,
   )
@@ -225,18 +225,6 @@ apply_command.cmd_add_labs <- function(x, self) {
 
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 # #REC
 #' @export
 parse_command_args.cmd_rec <- function(x) {
@@ -359,6 +347,46 @@ apply_command.cmd_sumvar <- function(x, self) {
 
 
 
+#' @export
+parse_command_args.cmd_dic <- function(x) {
+  d <- x$data
+
+  varlab <- d$X3[1]
+  if (is.na(varlab)) {
+    varlab <- NULL
+  }
+  x$args <- list(
+    orig_var = d$X2[1],
+    new_var  = d$X3[1]
+  )
+  x
+}
+
+
+#' @export
+apply_command.cmd_dic <- function(x, self) {
+  orig_var <- x$args$orig_var
+  vec <- self$dat_mod[[orig_var]]
+  new_var <- x$args$new_var
+
+  varlab <- attr(vec, "label", exact = TRUE)
+  vallabs <- attr(vec, "labels", exact = TRUE)
+
+  if (!new_var %in% names(self$dat_mod)) {
+    self$dat_mod[[new_var]] <- NA_real_
+  }
+
+
+  self$dat_mod[[new_var]] <- haven::labelled(
+    self$dat_mod[[new_var]],
+    labels = vallabs,
+    label = varlab
+  )
+  invisible(self)
+
+}
+
+
 
 
 
@@ -398,29 +426,6 @@ apply_command.cmd_sumvar <- function(x, self) {
 #'     # add the new variables one by one to the dataframe:
 #'     purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
 #'     dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
-#' }
-#'
-#'
-#' #' Copy variable and value labels of a labelled variable orig_var to new_var
-#' #'
-#' #' @param orig_var character string of (labelled) variable in df
-#' #' @param new_var character string of (labelled) variable in df
-#' #'
-#' #' @return modified variable `new_var` (see examples)
-#' #' @export
-#' #'
-#' #' @examples
-#' #' x <- haven::labelled(1:2, "label" = "varlab1", labels = c(vallab1 = 1))
-#' #' y <- 2:1
-#' #' cmd_dic(x, y)
-#' cmd_dic <- function(orig_var, new_var){
-#'   varlab <- attr(orig_var, "label", exact = TRUE)
-#'   vallabs <- attr(orig_var, "labels", exact = TRUE)
-#'   haven::labelled(
-#'     new_var,
-#'     labels = vallabs,
-#'     label = varlab
-#'   )
 #' }
 #'
 #'
