@@ -477,26 +477,27 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[19]>
+    <command_block_rcrd[20]>
      [1] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
-     [2] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
-     [3] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
-     [4] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
-     [5] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [6] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [7] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
-     [8] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
-     [9] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
-    [10] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
-    [11] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
-    [12] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
-    [13] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
-    [14] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
-    [15] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
-    [16] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [17] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
-    [18] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [19] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+     [2] Varbls #AUTOR var: q6                                                                                                                    
+     [3] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
+     [4] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
+     [5] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
+     [6] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [7] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [8] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
+     [9] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
+    [10] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
+    [11] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
+    [12] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
+    [13] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
+    [14] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
+    [15] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
+    [16] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
+    [17] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
+    [18] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
+    [19] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [20] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 

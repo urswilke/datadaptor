@@ -17,12 +17,12 @@ command_block_factory <- function(x) {
     "#SUMVAR"  = "cmd_sumvar",
     "#AVALL"   = "cmd_add_labs",
     "#DIC"     = "cmd_dic",
+    "#AUTOREC" = "cmd_autorec",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
     "#COMPR"   = ,
     "#NEWVALL" = ,
-    "#AUTOREC" = ,
     "#STR2NUM" = ,
     "#RENAME"  = ,
     "#DROP"    = ,
@@ -346,7 +346,7 @@ apply_command.cmd_sumvar <- function(x, self) {
 
 
 
-
+# #DIC
 #' @export
 parse_command_args.cmd_dic <- function(x) {
   d <- x$data
@@ -390,6 +390,35 @@ apply_command.cmd_dic <- function(x, self) {
 
 
 
+
+
+# #AUTOREC
+#' @export
+parse_command_args.cmd_autorec <- function(x) {
+  d <- x$data
+  x$args <- list(
+    var = d$var
+  )
+
+  x
+}
+
+
+#' @export
+apply_command.cmd_autorec <- function(x, self) {
+  var_name <- x$args$var
+  vec <- self$dat_mod[[var_name]]
+  x_labelled <- labelled::to_labelled(as.factor(vec))
+  labelled::var_label(x_labelled) <- attr(vec, "label", exact = TRUE)
+
+  self$dat_mod[[var_name]] <- x_labelled
+  invisible(self)
+}
+
+
+
+
+
 #' #' Split variable into multiple for each of the values of another variable
 #' #'
 #' #' Create a set of variables for each value of split_var. The resulting variables
@@ -426,24 +455,6 @@ apply_command.cmd_dic <- function(x, self) {
 #'     # add the new variables one by one to the dataframe:
 #'     purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
 #'     dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
-#' }
-#'
-#'
-#' #' Autorecode character variable
-#' #'
-#' #' @param var character variable to auto-recode
-#' #'
-#' #' @return modified variable `var` (see examples)
-#' #' @export
-#' #'
-#' #' @examples
-#' #' x <- haven::labelled(LETTERS[3:1], label = "variable label")
-#' #' cmd_autorec(x)
-#' cmd_autorec <- function(var) {
-#'   x_labelled <- labelled::to_labelled(as.factor(var))
-#'   labelled::var_label(x_labelled) <- attr(var, "label", exact = TRUE)
-#'
-#'   x_labelled
 #' }
 #'
 #'
