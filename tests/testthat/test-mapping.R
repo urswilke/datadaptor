@@ -46,9 +46,9 @@ mapping_s3 <- Mapping$new(spss_file, mapping_file)
 testthat::expect_message(mapping_s3$gen_command_table_raw())
 # filter commands that are already implemented:
 mapping_s3$params$df_cmd_raw <- mapping_s3$params$df_cmd_raw %>%
-  dplyr::filter(action %in% c("#IF", "#COMP", "#VARL", "#VALL", "#REC", "#SUMVAR", "#AVALL", "#DIC", "#AUTOREC", "STR2NUM")) %>%
+  dplyr::filter(action %in% c("#IF", "#COMP", "#VARL", "#VALL", "#REC", "#SUMVAR", "#AVALL", "#DIC", "#AUTOREC", "STR2NUM", "#RENAME")) #%>%
   # command depends on variables built in those filtered:
-  dplyr::slice(-5)
+  # dplyr::slice(-5)
 mapping_s3$apply_all_s3_cmds()
 test_that("command blocks print is reproduced", {
   testthat::expect_snapshot_output({
@@ -60,7 +60,7 @@ test_that("command blocks print is reproduced", {
 
 test_that("s3 modified data print is reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$dat_mod[-c(1:8)]
+    mapping_s3$dat_mod %>% print(width = 10000)
   }
 
   )

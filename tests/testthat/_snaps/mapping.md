@@ -477,43 +477,80 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[20]>
+    <command_block_rcrd[22]>
      [1] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [2] Varbls #AUTOR var: q6                                                                                                                    
-     [3] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
-     [4] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
-     [5] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
-     [6] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [7] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [8] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
-     [9] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
-    [10] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
-    [11] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
-    [12] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
-    [13] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
-    [14] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
-    [15] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
-    [16] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
-    [17] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [18] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
-    [19] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [20] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+     [3] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                                   
+     [4] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
+     [5] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
+     [6] Free1 #IF new_vr: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                                
+     [7] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
+     [8] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+     [9] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+    [10] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
+    [11] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
+    [12] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
+    [13] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
+    [14] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
+    [15] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
+    [16] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
+    [17] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
+    [18] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
+    [19] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
+    [20] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
+    [21] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [22] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 14
-          q8    q9       kq5 x       abc   kq6       kq1     kq3       n    a1    a2
-       <dbl> <dbl> <dbl+lbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+l> <dbl+l> <dbl> <dbl>
-     1     2    NA   1 [aaa] FALSE    NA    NA   2 [3]   2 [3]   1 [als~     3     4
-     2     9    NA   3 [ccc] FALSE    NA    NA   2 [3]   3 [4-5] 1 [als~     3     4
-     3     3    NA   3 [ccc] FALSE     7    NA   1 [1-2] 2 [3]   1 [als~     3     4
-     4     3    NA   3 [ccc] FALSE    NA    NA   2 [3]   3 [4-5] 1 [als~     3     4
-     5     9    NA   2 [bbb] FALSE     7    NA   3 [4-5] 1 [1-2] 1 [als~     3     4
-     6     7    NA   1 [aaa] FALSE    NA    NA   3 [4-5] 3 [4-5] 1 [als~     3     4
-     7    10    NA  NA       FALSE    NA    NA  NA       2 [3]   1 [als~     3     4
-     8     1    NA   1 [aaa] TRUE     NA    NA   1 [1-2] 3 [4-5] 1 [als~     3     4
-     9     2    NA   1 [aaa] FALSE    NA     8  NA       1 [1-2] 1 [als~     3     4
-    10     4    NA   3 [ccc] FALSE    NA     8  NA       1 [1-2] 1 [als~     3     4
-    # ... with 90 more rows, and 3 more variables: q4_renamed <dbl+lbl>,
-    #   kkq1 <dbl+lbl>, free2_var <dbl>
+    # A tibble: 100 x 21
+                    q1     q2_renamed             q3     q4_renamed              q5
+             <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
+     1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
+     2  3 [normal]      1 [yes]       5 [very much]  4 [much]        5 [very much] 
+     3  1 [not at all]  1 [yes]       3 [normal]     2 [a bit]       5 [very much] 
+     4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
+     5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
+     6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
+     7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
+     8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
+     9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
+    10 99 [no answer]   1 [yes]       1 [not at all] 1 [not at all]  4 [much]      
+          id                    q6 q7                     q8    q9       kq5 x    
+       <dbl>             <dbl+lbl> <chr>               <dbl> <dbl> <dbl+lbl> <lgl>
+     1     1 3 [bla bla bla love]  bla bla bla anger       2    NA   1 [aaa] FALSE
+     2     2 4 [bla bla happiness] bla bla bla sadness     9    NA   7       FALSE
+     3     3 8 [bla joy]           bla bla bla sadness     3    NA   7       FALSE
+     4     4 5 [bla bla joy]       bla bla anger           3    NA   3 [ccc] FALSE
+     5     5 7 [bla happiness]     bla fear                9    NA   2 [bbb] FALSE
+     6     6 5 [bla bla joy]       bla pain                7    NA   1 [aaa] FALSE
+     7     7 9 [bla love]          bla bla sadness        10    NA  NA       FALSE
+     8     8 6 [bla bla love]      bla bla anger           1    NA   1 [aaa] TRUE 
+     9     9 6 [bla bla love]      bla bla sadness         2    NA   1 [aaa] FALSE
+    10    10 3 [bla bla bla love]  bla bla anger           4    NA   7       FALSE
+         abc   kq6       kq1       kq3             n        a1        a2      kkq1
+       <dbl> <dbl> <dbl+lbl> <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl>
+     1    NA    NA   2 [3]     2 [3]   1 [also with]         3         4     2 [b]
+     2    NA    NA   2 [3]     3 [4-5] 1 [also with]         3         4     2 [b]
+     3     7    NA   1 [1-2]   2 [3]   1 [also with]         3         4     1 [a]
+     4    NA    NA   2 [3]     3 [4-5] 1 [also with]         3         4     2 [b]
+     5     7    NA   3 [4-5]   1 [1-2] 1 [also with]         3         4     2 [b]
+     6    NA    NA   3 [4-5]   3 [4-5] 1 [also with]         3         4     2 [b]
+     7    NA    NA  NA         2 [3]   1 [also with]         3         4    NA    
+     8    NA    NA   1 [1-2]   3 [4-5] 1 [also with]         3         4     2 [b]
+     9    NA     8  NA         1 [1-2] 1 [also with]         3         4    NA    
+    10    NA     8  NA         1 [1-2] 1 [also with]         3         4    NA    
+       free2_var
+           <dbl>
+     1         3
+     2         3
+     3         3
+     4         3
+     5         3
+     6         3
+     7         3
+     8         3
+     9         3
+    10         3
+    # ... with 90 more rows
 
