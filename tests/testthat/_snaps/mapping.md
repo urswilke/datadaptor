@@ -477,33 +477,808 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[22]>
-     [1] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
-     [2] Varbls #AUTOR var: q6                                                                                                                    
-     [3] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                                   
-     [4] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
-     [5] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
-     [6] Free1 #IF new_vr: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                                
-     [7] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
-     [8] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-     [9] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-    [10] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
-    [11] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
-    [12] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
-    [13] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
-    [14] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
-    [15] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
-    [16] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
-    [17] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
-    [18] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
-    [19] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [20] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
-    [21] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [22] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+    [[1]]
+    $sheet
+    [1] "Label"
+    
+    $action
+    [1] "#SUMVAR"
+    
+    $row
+    [1] "23, 24, 25, 26, 27"
+    
+    $new_var
+    [1] "kq5"
+    
+    $data
+    # A tibble: 5 x 8
+      var      nv vallab   cv    sum_var_label sum_var_value sum_var_vallab orig_var
+      <chr> <dbl> <chr>    <lgl> <chr>                 <dbl> <chr>          <chr>   
+    1 q5        1 not at ~ NA    test                      1 aaa            q5      
+    2 q5        2 a bit    NA    <NA>                      1 <NA>           q5      
+    3 q5        3 normal   NA    <NA>                      2 bbb            q5      
+    4 q5        4 much     NA    <NA>                      3 ccc            q5      
+    5 q5        5 very mu~ NA    <NA>                      3 <NA>           q5      
+    
+    $args
+    $args$new_var
+    [1] "kq5"
+    
+    $args$orig_var
+    [1] "q5"
+    
+    $args$new_lab
+    [1] "test"
+    
+    $args$orig_vals
+    [1] 1 2 3 4 5
+    
+    $args$new_vals
+    [1] 1 1 2 3 3
+    
+    $args$new_labs
+    [1] "aaa" NA    "bbb" "ccc" NA   
+    
+    
+    attr(,"class")
+    [1] "cmd_sumvar"    "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[2]]
+    $sheet
+    [1] "Variables"
+    
+    $action
+    [1] "#AUTOREC"
+    
+    $row
+    [1] "7"
+    
+    $new_var
+    [1] "q6"
+    
+    $data
+    # A tibble: 1 x 1
+      var  
+      <chr>
+    1 q6   
+    
+    $args
+    $args$var
+    [1] "q6"
+    
+    
+    attr(,"class")
+    [1] "cmd_autorec"   "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[3]]
+    $sheet
+    [1] "Variables"
+    
+    $action
+    [1] "#RENAME"
+    
+    $row
+    [1] "3, 5"
+    
+    $new_var
+    [1] "q2_renamed, q4_renamed"
+    
+    $data
+    # A tibble: 1 x 2
+      new_names vars     
+      <list>    <list>   
+    1 <chr [2]> <chr [2]>
+    
+    $args
+    $args$orig_vars
+    [1] "q2" "q4"
+    
+    $args$new_names
+    [1] "q2_renamed" "q4_renamed"
+    
+    
+    attr(,"class")
+    [1] "cmd_rename"    "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[4]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#COMP"
+    
+    $row
+    [1] "3"
+    
+    $new_var
+    [1] "x"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3      X4    X5   
+      <chr> <chr> <chr>   <chr> <chr>
+    1 #COMP x     q1 == 2 <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "x"
+    
+    $args$new_val
+    [1] "q1 == 2"
+    
+    
+    attr(,"class")
+    [1] "cmd_comp"      "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[5]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#IF"
+    
+    $row
+    [1] "4"
+    
+    $new_var
+    [1] "abc"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2                X3      X4    X5   
+      <chr> <chr>             <chr>   <chr> <chr>
+    1 #IF   q1 == 1 | q3 == 2 abc = 7 <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "abc"
+    
+    $args$new_val
+    [1] "7"
+    
+    $args$condition
+    [1] "q1 == 1 | q3 == 2"
+    
+    
+    attr(,"class")
+    [1] "cmd_if"        "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[6]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#IF"
+    
+    $row
+    [1] "5_1"
+    
+    $new_var
+    [1] "kq5"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2              X3      X4    X5   
+      <chr> <chr>           <chr>   <chr> <chr>
+    1 #IF   q2_renamed == 1 kq5 = 7 <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "kq5"
+    
+    $args$new_val
+    [1] "7"
+    
+    $args$condition
+    [1] "q2_renamed == 1"
+    
+    
+    attr(,"class")
+    [1] "cmd_if"        "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[7]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#IF"
+    
+    $row
+    [1] "5_2"
+    
+    $new_var
+    [1] "kq6"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2      X3      X4    X5   
+      <chr> <chr>   <chr>   <chr> <chr>
+    1 #IF   q3 == 1 kq6 = 8 <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "kq6"
+    
+    $args$new_val
+    [1] "8"
+    
+    $args$condition
+    [1] "q3 == 1"
+    
+    
+    attr(,"class")
+    [1] "cmd_if"        "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[8]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#REC"
+    
+    $row
+    [1] "7, 8, 9, 10_1"
+    
+    $new_var
+    [1] "kq1"
+    
+    $data
+    # A tibble: 4 x 5
+      X1    X2    X3    X4                  X5   
+      <chr> <chr> <chr> <chr>               <chr>
+    1 #REC  q1    kq1   summarized variable <NA> 
+    2 <NA>  1     2     1                   1-2  
+    3 <NA>  3     3     2                   3    
+    4 .     4     5     3                   4-5  
+    
+    $args
+    $args$orig_var
+    [1] "q1"
+    
+    $args$new_var
+    [1] "kq1"
+    
+    $args$new_lab
+    [1] "summarized variable"
+    
+    $args$lb
+    [1] 1 3 4
+    
+    $args$ub
+    [1] 2 3 5
+    
+    $args$new_vals
+    [1] 1 2 3
+    
+    $args$new_labs
+    [1] "1-2" "3"   "4-5"
+    
+    
+    attr(,"class")
+    [1] "cmd_rec"       "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[9]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#REC"
+    
+    $row
+    [1] "7, 8, 9, 10_2"
+    
+    $new_var
+    [1] "kq3"
+    
+    $data
+    # A tibble: 4 x 5
+      X1    X2    X3    X4                  X5   
+      <chr> <chr> <chr> <chr>               <chr>
+    1 #REC  q3    kq3   summarized variable <NA> 
+    2 <NA>  1     2     1                   1-2  
+    3 <NA>  3     3     2                   3    
+    4 .     4     5     3                   4-5  
+    
+    $args
+    $args$orig_var
+    [1] "q3"
+    
+    $args$new_var
+    [1] "kq3"
+    
+    $args$new_lab
+    [1] "summarized variable"
+    
+    $args$lb
+    [1] 1 3 4
+    
+    $args$ub
+    [1] 2 3 5
+    
+    $args$new_vals
+    [1] 1 2 3
+    
+    $args$new_labs
+    [1] "1-2" "3"   "4-5"
+    
+    
+    attr(,"class")
+    [1] "cmd_rec"       "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[10]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#COMP"
+    
+    $row
+    [1] "13"
+    
+    $new_var
+    [1] "n"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3    X4    X5   
+      <chr> <chr> <chr> <chr> <chr>
+    1 #COMP n     1     <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "n"
+    
+    $args$new_val
+    [1] "1"
+    
+    
+    attr(,"class")
+    [1] "cmd_comp"      "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[11]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#VARL"
+    
+    $row
+    [1] "14"
+    
+    $new_var
+    [1] "n"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3           X4    X5   
+      <chr> <chr> <chr>        <chr> <chr>
+    1 #VARL n     my new label <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "n"
+    
+    $args$new_lab
+    [1] "my new label"
+    
+    
+    attr(,"class")
+    [1] "cmd_set_lab"   "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[12]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#VALL"
+    
+    $row
+    [1] "16, 17, 18, 19"
+    
+    $new_var
+    [1] "n"
+    
+    $data
+    # A tibble: 4 x 5
+      X1    X2    X3                  X4    X5   
+      <chr> <chr> <chr>               <chr> <chr>
+    1 #VALL n     overwrite new label <NA>  <NA> 
+    2 <NA>  1     also with           <NA>  <NA> 
+    3 <NA>  2     value labels        <NA>  <NA> 
+    4 .     3     now                 <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "n"
+    
+    $args$new_lab
+    [1] "overwrite new label"
+    
+    $args$new_vals
+    [1] 1 2 3
+    
+    $args$new_labs
+    [1] "also with"    "value labels" "now"         
+    
+    
+    attr(,"class")
+    [1] "cmd_set_labs"  "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[13]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#AVALL"
+    
+    $row
+    [1] "21, 22"
+    
+    $new_var
+    [1] "n"
+    
+    $data
+    # A tibble: 2 x 5
+      X1     X2    X3          X4    X5   
+      <chr>  <chr> <chr>       <chr> <chr>
+    1 #AVALL n     <NA>        <NA>  <NA> 
+    2 .      4     added label <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "n"
+    
+    $args$new_lab
+    NULL
+    
+    $args$vals_added
+    [1] 4
+    
+    $args$labs_added
+    [1] "added label"
+    
+    
+    attr(,"class")
+    [1] "cmd_add_labs"  "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[14]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#VARL"
+    
+    $row
+    [1] "26_1"
+    
+    $new_var
+    [1] "q3"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3                                       X4    X5   
+      <chr> <chr> <chr>                                    <chr> <chr>
+    1 #VARL q3    Almost same variable label for q3 and q5 <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "q3"
+    
+    $args$new_lab
+    [1] "Almost same variable label for q3 and q5"
+    
+    
+    attr(,"class")
+    [1] "cmd_set_lab"   "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[15]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#VARL"
+    
+    $row
+    [1] "26_2"
+    
+    $new_var
+    [1] "q5"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3                                       X4    X5   
+      <chr> <chr> <chr>                                    <chr> <chr>
+    1 #VARL q5    Almost same variable label for q5 and q3 <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "q5"
+    
+    $args$new_lab
+    [1] "Almost same variable label for q5 and q3"
+    
+    
+    attr(,"class")
+    [1] "cmd_set_lab"   "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[16]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#COMP"
+    
+    $row
+    [1] "29_1"
+    
+    $new_var
+    [1] "a1"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3    X4    X5   
+      <chr> <chr> <chr> <chr> <chr>
+    1 #COMP a1    3     <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "a1"
+    
+    $args$new_val
+    [1] "3"
+    
+    
+    attr(,"class")
+    [1] "cmd_comp"      "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[17]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#COMP"
+    
+    $row
+    [1] "29_2"
+    
+    $new_var
+    [1] "a2"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3    X4    X5   
+      <chr> <chr> <chr> <chr> <chr>
+    1 #COMP a2    4     <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "a2"
+    
+    $args$new_val
+    [1] "4"
+    
+    
+    attr(,"class")
+    [1] "cmd_comp"      "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[18]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#VARL"
+    
+    $row
+    [1] "30_1"
+    
+    $new_var
+    [1] "a1"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3                              X4    X5   
+      <chr> <chr> <chr>                           <chr> <chr>
+    1 #VARL a1    same variable label for a1 & a2 <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "a1"
+    
+    $args$new_lab
+    [1] "same variable label for a1 & a2"
+    
+    
+    attr(,"class")
+    [1] "cmd_set_lab"   "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[19]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#VARL"
+    
+    $row
+    [1] "30_2"
+    
+    $new_var
+    [1] "a2"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3                              X4    X5   
+      <chr> <chr> <chr>                           <chr> <chr>
+    1 #VARL a2    same variable label for a1 & a2 <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "a2"
+    
+    $args$new_lab
+    [1] "same variable label for a1 & a2"
+    
+    
+    attr(,"class")
+    [1] "cmd_set_lab"   "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[20]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#DIC"
+    
+    $row
+    [1] "32"
+    
+    $new_var
+    [1] "q4_renamed"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2    X3         X4    X5   
+      <chr> <chr> <chr>      <chr> <chr>
+    1 #DIC  q3    q4_renamed <NA>  <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "q3"
+    
+    $args$new_var
+    [1] "q4_renamed"
+    
+    
+    attr(,"class")
+    [1] "cmd_dic"       "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[21]]
+    $sheet
+    [1] "Free1"
+    
+    $action
+    [1] "#REC"
+    
+    $row
+    [1] "44, 45, 46, 47, 48, 49"
+    
+    $new_var
+    [1] "kkq1"
+    
+    $data
+    # A tibble: 6 x 5
+      X1    X2    X3    X4    X5   
+      <chr> <chr> <chr> <chr> <chr>
+    1 #REC  q1    kkq1  vl    <NA> 
+    2 <NA>  1     <NA>  1     a    
+    3 <NA>  2     <NA>  2     b    
+    4 <NA>  3     <NA>  2     <NA> 
+    5 <NA>  4     <NA>  2     <NA> 
+    6 <NA>  5     <NA>  2     <NA> 
+    
+    $args
+    $args$orig_var
+    [1] "q1"
+    
+    $args$new_var
+    [1] "kkq1"
+    
+    $args$new_lab
+    [1] "vl"
+    
+    $args$lb
+    [1] 1 2 3 4 5
+    
+    $args$ub
+    [1] NA NA NA NA NA
+    
+    $args$new_vals
+    [1] 1 2 2 2 2
+    
+    $args$new_labs
+    [1] "a" "b" NA  NA  NA 
+    
+    
+    attr(,"class")
+    [1] "cmd_rec"       "command_block"
+    attr(,"row.names")
+    [1] 1
+    
+    [[22]]
+    $sheet
+    [1] "Free2"
+    
+    $action
+    [1] "#COMP"
+    
+    $row
+    [1] "2"
+    
+    $new_var
+    [1] "free2_var"
+    
+    $data
+    # A tibble: 1 x 5
+      X1    X2        X3    X4    X5   
+      <chr> <chr>     <chr> <chr> <chr>
+    1 #COMP free2_var 3     <NA>  <NA> 
+    
+    $args
+    $args$new_var
+    [1] "free2_var"
+    
+    $args$new_val
+    [1] "3"
+    
+    
+    attr(,"class")
+    [1] "cmd_comp"      "command_block"
+    attr(,"row.names")
+    [1] 1
+    
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 21
+    # A tibble: 100 x 22
                     q1     q2_renamed             q3     q4_renamed              q5
              <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
@@ -528,29 +1303,29 @@
      8     8 6 [bla bla love]      bla bla anger           1    NA   1 [aaa] TRUE 
      9     9 6 [bla bla love]      bla bla sadness         2    NA   1 [aaa] FALSE
     10    10 3 [bla bla bla love]  bla bla anger           4    NA   7       FALSE
-         abc   kq6       kq1       kq3             n        a1        a2      kkq1
-       <dbl> <dbl> <dbl+lbl> <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl>
-     1    NA    NA   2 [3]     2 [3]   1 [also with]         3         4     2 [b]
-     2    NA    NA   2 [3]     3 [4-5] 1 [also with]         3         4     2 [b]
-     3     7    NA   1 [1-2]   2 [3]   1 [also with]         3         4     1 [a]
-     4    NA    NA   2 [3]     3 [4-5] 1 [also with]         3         4     2 [b]
-     5     7    NA   3 [4-5]   1 [1-2] 1 [also with]         3         4     2 [b]
-     6    NA    NA   3 [4-5]   3 [4-5] 1 [also with]         3         4     2 [b]
-     7    NA    NA  NA         2 [3]   1 [also with]         3         4    NA    
-     8    NA    NA   1 [1-2]   3 [4-5] 1 [also with]         3         4     2 [b]
-     9    NA     8  NA         1 [1-2] 1 [also with]         3         4    NA    
-    10    NA     8  NA         1 [1-2] 1 [also with]         3         4    NA    
-       free2_var
-           <dbl>
-     1         3
-     2         3
-     3         3
-     4         3
-     5         3
-     6         3
-     7         3
-     8         3
-     9         3
-    10         3
+         abc   kq6       kq1       kq3             n        a1        a2
+       <dbl> <dbl> <dbl+lbl> <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>
+     1    NA    NA   2 [3]     2 [3]   1 [also with]         3         4
+     2    NA    NA   2 [3]     3 [4-5] 1 [also with]         3         4
+     3     7    NA   1 [1-2]   2 [3]   1 [also with]         3         4
+     4    NA    NA   2 [3]     3 [4-5] 1 [also with]         3         4
+     5     7    NA   3 [4-5]   1 [1-2] 1 [also with]         3         4
+     6    NA    NA   3 [4-5]   3 [4-5] 1 [also with]         3         4
+     7    NA    NA  NA         2 [3]   1 [also with]         3         4
+     8    NA    NA   1 [1-2]   3 [4-5] 1 [also with]         3         4
+     9    NA     8  NA         1 [1-2] 1 [also with]         3         4
+    10    NA     8  NA         1 [1-2] 1 [also with]         3         4
+                   q2      kkq1 free2_var
+            <dbl+lbl> <dbl+lbl>     <dbl>
+     1  2 [no]            2 [b]         3
+     2  1 [yes]           2 [b]         3
+     3  1 [yes]           1 [a]         3
+     4 99 [no answer]     2 [b]         3
+     5 NA                 2 [b]         3
+     6 NA                 2 [b]         3
+     7  2 [no]           NA             3
+     8  2 [no]            2 [b]         3
+     9 99 [no answer]    NA             3
+    10  1 [yes]          NA             3
     # ... with 90 more rows
 

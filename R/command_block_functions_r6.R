@@ -22,7 +22,7 @@ command_block_factory <- function(x) {
     "#RENAME"  = "cmd_rename",
     "#RFUN"    = ,
     "#R"       = ,
-    "#MERGE"   = ,
+    "#MERGE"   = "cmd_merge",
     "#COMPR"   = ,
     "#NEWVALL" = ,
     "#DROP"    = ,
@@ -42,6 +42,64 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+#' @export
+parse_command_args.cmd_merge <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    variable_names  = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
+    merge_file  = d$X2,
+    id = d$X3[1]
+  )
+  x
+}
+#' @export
+apply_command.cmd_merge <- function(x, self) {
+  variable_names <- x$args$variable_names
+  merge_file <- x$args$merge_file
+  id <- x$args$id
+
+
+  id_var_name <- id
+  merge_vars <- c(id_var_name, variable_names)
+  df_merge <- haven::read_sav(merge_file)
+  if (is.na(variable_names)[1]) {
+    variable_names <- names(df_merge)
+  }
+  df_merge <- df_merge %>% dplyr::select(!!id_var_name, !!!variable_names)
+  id_var <- rlang::sym(id_var_name) %>% eval_in_data(self)
+  if (!identical(
+    sort(strip_attributes(df_merge[[id_var_name]])),
+    sort(strip_attributes(id_var))
+  )
+  ) {
+    warning("The merged dataframe doesn't contain the same id values")
+    df_merge <- df_merge %>% dplyr::filter(!!rlang::sym(id_var_name) %in% id_var)
+  }
+
+
+
+
+
+
+  self$dat_mod <- self$dat_mod %>%
+    dplyr::mutate(
+      tibble::tibble(id_var) %>%
+        dplyr::rename(!!id_var_name := id_var) %>%
+        dplyr::full_join(df_merge, by = id_var_name) %>%
+        dplyr::select(-!!id_var_name)
+    )
+
+
+}
+
+
+
+
+
+
+
+
 #' @export
 parse_command_args.cmd_rename <- function(x) {
   d <- x$data
