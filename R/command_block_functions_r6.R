@@ -35,6 +35,10 @@ command_block_factory <- function(x) {
 
 
 #' @export
+apply_command <- function(x, self) {
+  UseMethod("apply_command")
+}
+#' @export
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
@@ -48,10 +52,6 @@ parse_command_args.cmd_if <- function(x) {
     condition = x$data$X2
   )
   x
-}
-#' @export
-apply_command <- function(x, self) {
-  UseMethod("apply_command")
 }
 #' @export
 apply_command.cmd_if <- function(x, self) {
