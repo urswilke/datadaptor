@@ -19,12 +19,12 @@ command_block_factory <- function(x) {
     "#DIC"     = "cmd_dic",
     "#AUTOREC" = "cmd_autorec",
     "#STR2NUM" = "cmd_str_to_num",
+    "#RENAME"  = "cmd_rename",
     "#RFUN"    = ,
     "#R"       = ,
     "#MERGE"   = ,
     "#COMPR"   = ,
     "#NEWVALL" = ,
-    "#RENAME"  = ,
     "#DROP"    = ,
     "#NEWLAB"  = ,
     "#KG"      = ,
@@ -42,6 +42,33 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+#' @export
+parse_command_args.cmd_rename <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    orig_vars = d$vars[[1]],
+    new_names = d$new_names[[1]]
+  )
+  x
+}
+#' @export
+apply_command.cmd_rename <- function(x, self) {
+  orig_vars <- x$args$orig_vars
+  new_names <- x$args$new_names
+
+  self$dat_mod <- self$dat_mod %>%
+    dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
+
+
+}
+
+
+
+
+
+
+
 #' @export
 parse_command_args.cmd_if <- function(x) {
   assignment <- x$data$X3 %>% stringr::str_split("=") %>% unlist() %>% stringr::str_squish()
