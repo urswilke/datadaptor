@@ -64,15 +64,23 @@ gen_command_blocks_raw <- function(self) {
   invisible(self)
 }
 
-gen_command_blocks <- function(self) {
-  command_blocks <- purrr::map(self$params$command_blocks_raw, parse_command_args)
+new_command_blocks <- function(command_blocks) {
   class(command_blocks) <- c("command_blocks", "list")
 
+  command_blocks
+}
+
+gen_command_blocks <- function(self) {
+  command_blocks <- purrr::map(self$params$command_blocks_raw, parse_command_args) %>%
+    new_command_blocks()
 
   self$params$command_blocks <- command_blocks
 
-
   invisible(self)
+}
+
+`[.command_blocks` <- function(x, i) {
+  new_command_blocks(NextMethod(x))
 }
 
 
