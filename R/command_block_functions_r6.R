@@ -21,10 +21,10 @@ command_block_factory <- function(x) {
     "#STR2NUM" = "cmd_str_to_num",
     "#RENAME"  = "cmd_rename",
     "#MERGE"   = "cmd_merge",
+    "#NEWVALL" = "cmd_newvall",
     "#RFUN"    = ,
     "#R"       = ,
     "#COMPR"   = ,
-    "#NEWVALL" = ,
     "#DROP"    = ,
     "#NEWLAB"  = ,
     "#KG"      = ,
@@ -42,6 +42,7 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+
 #' @export
 parse_command_args.cmd_merge <- function(x) {
   d <- x$data
@@ -78,10 +79,6 @@ apply_command.cmd_merge <- function(x, self) {
   }
 
 
-
-
-
-
   self$dat_mod <- self$dat_mod %>%
     dplyr::mutate(
       tibble::tibble(id_var) %>%
@@ -89,8 +86,6 @@ apply_command.cmd_merge <- function(x, self) {
         dplyr::full_join(df_merge, by = id_var_name) %>%
         dplyr::select(-!!id_var_name)
     )
-
-
 }
 
 
@@ -309,6 +304,27 @@ apply_command.cmd_add_labs <- function(x, self) {
   invisible(self)
 
 }
+
+#' @export
+parse_command_args.cmd_newvall <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    orig_var = d$var[1],
+    vals_added = d$nv %>% as.numeric(),
+    labs_added = d$new_label
+  )
+  x
+}
+#' @export
+apply_command.cmd_newvall <- apply_command.cmd_add_labs
+
+
+
+
+
+
+
 
 # #REC
 #' @export
