@@ -22,13 +22,13 @@ command_block_factory <- function(x) {
     "#RENAME"  = "cmd_rename",
     "#MERGE"   = "cmd_merge",
     "#NEWVALL" = "cmd_newvall",
+    "#verbatim"= "cmd_verbatim" ,
     "#RFUN"    = ,
     "#R"       = ,
     "#COMPR"   = ,
     "#DROP"    = ,
     "#NEWLAB"  = ,
     "#KG"      = ,
-    "#verbatim"= ,
   )
   new_command_block(x, subclass = subclass)
 }
@@ -42,6 +42,55 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+
+#' @export
+parse_command_args.cmd_verbatim <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    var_ziel = d$var_ziel,
+    val_assign  = d$val_assign,
+    varlab = d$varlab[[1]],
+    vallab  = d$vallab[[1]],
+    id_list = d$id_list[[1]],
+    init_val = d$init_val
+  )
+  x
+}
+#' @export
+apply_command.cmd_verbatim <- function(x, self) {
+  var_ziel <- x$args$var_ziel
+  val_assign  <- x$args$val_assign
+  varlab <- x$args$varlab
+  vallab  <- x$args$vallab
+  id <- self$params$id_var
+  id_list <- x$args$id_list
+  init_val <- x$args$init_val
+
+
+  if (!var_ziel %in% names(self$dat_mod)) {
+    self$dat_mod[[var_ziel]] <- init_val
+  }
+
+  # hack to keep variable label if it already exists:
+  if (is.null(varlab)) {
+    varlab <- attr(var_ziel, "label", exact = TRUE)
+  }
+
+  self$dat_mod[[var_ziel]][self$dat_mod[[id]] %in% id_list] <- val_assign
+  self$dat_mod[[var_ziel]] <- haven::labelled(
+    self$dat_mod[[var_ziel]],
+    labels = vallab,
+    label = varlab
+  )
+}
+
+
+
+
+
+
+
 
 #' @export
 parse_command_args.cmd_merge <- function(x) {
