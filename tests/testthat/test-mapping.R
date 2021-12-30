@@ -46,7 +46,7 @@ mapping_s3 <- Mapping$new(spss_file, mapping_file)
 testthat::expect_message(mapping_s3$gen_command_table_raw())
 # filter commands that are already implemented:
 mapping_s3$params$df_cmd_raw <- mapping_s3$params$df_cmd_raw %>%
-  dplyr::filter(action %in% c("#IF", "#COMP", "#VARL", "#VALL", "#REC", "#SUMVAR", "#AVALL", "#DIC", "#AUTOREC", "STR2NUM", "#RENAME", "#MERGE", "#NEWVALL", "#verbatim", "#NEWLAB")) #%>%
+  dplyr::filter(action %in% c("#IF", "#COMP", "#VARL", "#VALL", "#REC", "#SUMVAR", "#AVALL", "#DIC", "#AUTOREC", "STR2NUM", "#RENAME", "#MERGE", "#NEWVALL", "#verbatim", "#NEWLAB", "#DROP")) #%>%
   # command depends on variables built in those filtered:
   # dplyr::slice(-5)
 mapping_s3$apply_all_s3_cmds()

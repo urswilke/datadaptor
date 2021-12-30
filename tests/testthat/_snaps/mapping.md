@@ -477,71 +477,72 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[60]>
+    <command_block_rcrd[61]>
      [1] Label #NEWVA org_vr: q2; vls_dd: 1; lbs_dd: YES                                                                                          
      [2] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [3] Varbls #AUTOR var: q6                                                                                                                    
-     [4] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                                   
-     [5] Varbls #NEWLA org_vr: q1; nw_lbl: Like Product                                                                                           
-     [6] Varbls #NEWLA org_vr: q2_renamed; nw_lbl: recommend pro...                                                                               
-     [7] Varbls #NEWLA org_vr: q5; nw_lbl: Like best friend                                                                                       
-     [8] Varbls #NEWLA org_vr: q8; nw_lbl: Now the varia...                                                                                       
-     [9] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: NA                           
-    [10] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: NA                           
-    [11] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: NA                           
-    [12] Vrbtms #vrbtm var_zl: q6n; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: NA                                          
-    [13] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 77, 87, 7, 9,...; int_vl: NA                           
-    [14] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 11, 19, 29...; int_vl: NA                           
-    [15] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 1, 28, 30, 36...; int_vl: NA                           
-    [16] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 6, 15, 23, 27...; int_vl: NA                           
-    [17] Vrbtms #vrbtm var_zl: q6_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 7, 17, 23, 51...; int_vl: 0                                   
-    [18] Vrbtms #vrbtm var_zl: q6_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: 3, 13, 22, 26...; int_vl: 0                                    
-    [19] Vrbtms #vrbtm var_zl: q6_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: 5, 12, 14, 39...; int_vl: 0                              
-    [20] Vrbtms #vrbtm var_zl: q6_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: 7, 58, 73; int_vl: 0                                      
-    [21] Vrbtms #vrbtm var_zl: q6_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                                
-    [22] Vrbtms #vrbtm var_zl: q6_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                             
-    [23] Vrbtms #vrbtm var_zl: q6test_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 1; int_vl: 0                                              
-    [24] Vrbtms #vrbtm var_zl: q6test_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: ; int_vl: 0                                                
-    [25] Vrbtms #vrbtm var_zl: q6test_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: ; int_vl: 0                                          
-    [26] Vrbtms #vrbtm var_zl: q6test_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: ; int_vl: 0                                           
-    [27] Vrbtms #vrbtm var_zl: q6test_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                            
-    [28] Vrbtms #vrbtm var_zl: q6test_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                         
-    [29] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: -2                          
-    [30] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: -2                          
-    [31] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: -2                          
-    [32] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 58, 73; int_vl: -2                                 
-    [33] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [34] Vrbtms #vrbtm var_zl: q6n3; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [35] Vrbtms #vrbtm var_zl: q6n4; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [36] Vrbtms #vrbtm var_zl: q6n5; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [37] Vrbtms #vrbtm var_zl: q6n6; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [38] Vrbtms #vrbtm var_zl: q6n7; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [39] Vrbtms #vrbtm var_zl: q6n8; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [40] Vrbtms #vrbtm var_zl: q6n9; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [41] Vrbtms #vrbtm var_zl: q6n10; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                        
-    [42] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
-    [43] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
-    [44] Free1 #IF new_vr: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                                
-    [45] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
-    [46] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-    [47] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-    [48] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
-    [49] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
-    [50] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
-    [51] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
-    [52] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
-    [53] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
-    [54] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
-    [55] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
-    [56] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
-    [57] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [58] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
-    [59] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [60] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+     [4] Varbls #DROP org_vr: q9                                                                                                                  
+     [5] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                                   
+     [6] Varbls #NEWLA org_vr: q1; nw_lbl: Like Product                                                                                           
+     [7] Varbls #NEWLA org_vr: q2_renamed; nw_lbl: recommend pro...                                                                               
+     [8] Varbls #NEWLA org_vr: q5; nw_lbl: Like best friend                                                                                       
+     [9] Varbls #NEWLA org_vr: q8; nw_lbl: Now the varia...                                                                                       
+    [10] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: NA                           
+    [11] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: NA                           
+    [12] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: NA                           
+    [13] Vrbtms #vrbtm var_zl: q6n; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: NA                                          
+    [14] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 77, 87, 7, 9,...; int_vl: NA                           
+    [15] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 11, 19, 29...; int_vl: NA                           
+    [16] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 1, 28, 30, 36...; int_vl: NA                           
+    [17] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 6, 15, 23, 27...; int_vl: NA                           
+    [18] Vrbtms #vrbtm var_zl: q6_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 7, 17, 23, 51...; int_vl: 0                                   
+    [19] Vrbtms #vrbtm var_zl: q6_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: 3, 13, 22, 26...; int_vl: 0                                    
+    [20] Vrbtms #vrbtm var_zl: q6_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: 5, 12, 14, 39...; int_vl: 0                              
+    [21] Vrbtms #vrbtm var_zl: q6_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: 7, 58, 73; int_vl: 0                                      
+    [22] Vrbtms #vrbtm var_zl: q6_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                                
+    [23] Vrbtms #vrbtm var_zl: q6_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                             
+    [24] Vrbtms #vrbtm var_zl: q6test_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 1; int_vl: 0                                              
+    [25] Vrbtms #vrbtm var_zl: q6test_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: ; int_vl: 0                                                
+    [26] Vrbtms #vrbtm var_zl: q6test_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: ; int_vl: 0                                          
+    [27] Vrbtms #vrbtm var_zl: q6test_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: ; int_vl: 0                                           
+    [28] Vrbtms #vrbtm var_zl: q6test_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                            
+    [29] Vrbtms #vrbtm var_zl: q6test_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                         
+    [30] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: -2                          
+    [31] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: -2                          
+    [32] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: -2                          
+    [33] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 58, 73; int_vl: -2                                 
+    [34] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [35] Vrbtms #vrbtm var_zl: q6n3; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [36] Vrbtms #vrbtm var_zl: q6n4; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [37] Vrbtms #vrbtm var_zl: q6n5; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [38] Vrbtms #vrbtm var_zl: q6n6; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [39] Vrbtms #vrbtm var_zl: q6n7; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [40] Vrbtms #vrbtm var_zl: q6n8; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [41] Vrbtms #vrbtm var_zl: q6n9; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [42] Vrbtms #vrbtm var_zl: q6n10; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                        
+    [43] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
+    [44] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
+    [45] Free1 #IF new_vr: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                                
+    [46] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
+    [47] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+    [48] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+    [49] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
+    [50] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
+    [51] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
+    [52] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
+    [53] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
+    [54] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
+    [55] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
+    [56] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
+    [57] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
+    [58] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
+    [59] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
+    [60] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [61] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 46
+    # A tibble: 100 x 45
                     q1     q2_renamed             q3     q4_renamed              q5
              <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
@@ -554,18 +555,18 @@
      8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
      9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
     10 99 [no answer]   1 [YES]       1 [not at all] 1 [not at all]  4 [much]      
-          id                    q6 q7                         q8    q9       kq5
-       <dbl>             <dbl+lbl> <chr>               <dbl+lbl> <dbl> <dbl+lbl>
-     1     1 3 [bla bla bla love]  bla bla bla anger           2    NA   1 [aaa]
-     2     2 4 [bla bla happiness] bla bla bla sadness         9    NA   7      
-     3     3 8 [bla joy]           bla bla bla sadness         3    NA   7      
-     4     4 5 [bla bla joy]       bla bla anger               3    NA   3 [ccc]
-     5     5 7 [bla happiness]     bla fear                    9    NA   2 [bbb]
-     6     6 5 [bla bla joy]       bla pain                    7    NA   1 [aaa]
-     7     7 9 [bla love]          bla bla sadness            10    NA  NA      
-     8     8 6 [bla bla love]      bla bla anger               1    NA   1 [aaa]
-     9     9 6 [bla bla love]      bla bla sadness             2    NA   1 [aaa]
-    10    10 3 [bla bla bla love]  bla bla anger               4    NA   7      
+          id                    q6 q7                         q8       kq5
+       <dbl>             <dbl+lbl> <chr>               <dbl+lbl> <dbl+lbl>
+     1     1 3 [bla bla bla love]  bla bla bla anger           2   1 [aaa]
+     2     2 4 [bla bla happiness] bla bla bla sadness         9   7      
+     3     3 8 [bla joy]           bla bla bla sadness         3   7      
+     4     4 5 [bla bla joy]       bla bla anger               3   3 [ccc]
+     5     5 7 [bla happiness]     bla fear                    9   2 [bbb]
+     6     6 5 [bla bla joy]       bla pain                    7   1 [aaa]
+     7     7 9 [bla love]          bla bla sadness            10  NA      
+     8     8 6 [bla bla love]      bla bla anger               1   1 [aaa]
+     9     9 6 [bla bla love]      bla bla sadness             2   1 [aaa]
+    10    10 3 [bla bla bla love]  bla bla anger               4   7      
                  q6n         q7n           q6_1           q6_2           q6_3
            <dbl+lbl>   <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>
      1 1 [love]      3 [anger]   1 [selected]   0 [unselected] 0 [unselected]

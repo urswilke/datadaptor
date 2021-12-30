@@ -23,11 +23,11 @@ command_block_factory <- function(x) {
     "#MERGE"   = "cmd_merge",
     "#NEWVALL" = "cmd_newvall",
     "#verbatim"= "cmd_verbatim" ,
+    "#DROP"    = "cmd_drop",
     "#NEWLAB"  = "cmd_newlab",
     "#RFUN"    = ,
     "#R"       = ,
     "#COMPR"   = ,
-    "#DROP"    = ,
     "#KG"      = ,
   )
   new_command_block(x, subclass = subclass)
@@ -42,6 +42,36 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+
+
+
+
+
+
+
+#' @export
+parse_command_args.cmd_drop <- function(x) {
+
+  d <- x$data
+
+  x$args <- list(
+    orig_vars = d$vars[[1]]
+  )
+  x
+}
+#' @export
+apply_command.cmd_drop <- function(x, self) {
+  orig_vars <- x$args$orig_vars
+  self$dat_mod[orig_vars] <- NULL
+}
+
+
+
+
+
+
+
+
 
 #' @export
 parse_command_args.cmd_verbatim <- function(x) {
