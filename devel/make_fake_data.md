@@ -59,7 +59,7 @@ enframe(question_texts, "var", "varlab") %>% mutate(types)
 ```
 
 ```
-## # A tibble: 5 x 3
+## # A tibble: 5 × 3
 ##   var   varlab                                       types    
 ##   <chr> <chr>                                        <list>   
 ## 1 q1    How much do you like the product?            <dbl [6]>
@@ -94,7 +94,7 @@ chr_vec2 <- map_chr(1:n, ~generate_bla_vector(c("sadness", "fear", "anger", "pai
 q6 <- haven::labelled(chr_vec1, label = "Tell me something positive.")
 q7 <- haven::labelled(chr_vec2, label = "Tell me something negative.")
 q8 <- haven::labelled(
-  sample(x = 1:10, size = n, replace = TRUE), 
+  sample(x = 1:10, size = n, replace = TRUE) %>% as.character(), 
   label = "A numeric variable in string format."
 )
 q9 <- rep(NA_real_, times = n)
@@ -104,19 +104,19 @@ fake_survey
 ```
 
 ```
-## # A tibble: 100 x 10
-##           q1        q2       q3       q4       q5    id q6    q7        q8    q9
-##    <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lb> <int> <chr> <chr+> <int> <dbl>
-##  1  3 [norm…  2 [no]   3 [norm… 4 [much]  2 [a b…     1 bla … bla b…     2    NA
-##  2  3 [norm…  1 [yes]  5 [very… 4 [much]  5 [ver…     2 bla … bla b…     9    NA
-##  3  1 [not …  1 [yes]  3 [norm… 2 [a bi…  5 [ver…     3 bla … bla b…     3    NA
-##  4  3 [norm… 99 [no a… 4 [much] 4 [much]  4 [muc…     4 bla … bla b…     3    NA
-##  5  5 [very… NA        2 [a bi… 3 [norm…  3 [nor…     5 bla … bla f…     9    NA
-##  6  5 [very… NA        4 [much] 3 [norm…  2 [a b…     6 bla … bla p…     7    NA
-##  7 99 [no a…  2 [no]   3 [norm… 4 [much] NA           7 bla … bla b…    10    NA
-##  8  2 [a bi…  2 [no]   5 [very… 2 [a bi…  1 [not…     8 bla … bla b…     1    NA
-##  9 99 [no a… 99 [no a… 1 [not … 1 [not …  2 [a b…     9 bla … bla b…     2    NA
-## 10 99 [no a…  1 [yes]  1 [not … 1 [not …  4 [muc…    10 bla … bla b…     4    NA
+## # A tibble: 100 × 10
+##           q1        q2       q3       q4       q5    id q6    q7     q8       q9
+##    <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+lb> <dbl+lb> <int> <chr> <chr+> <chr> <dbl>
+##  1  3 [norm…  2 [no]   3 [norm… 4 [much]  2 [a b…     1 bla … bla b… 2        NA
+##  2  3 [norm…  1 [yes]  5 [very… 4 [much]  5 [ver…     2 bla … bla b… 9        NA
+##  3  1 [not …  1 [yes]  3 [norm… 2 [a bi…  5 [ver…     3 bla … bla b… 3        NA
+##  4  3 [norm… 99 [no a… 4 [much] 4 [much]  4 [muc…     4 bla … bla b… 3        NA
+##  5  5 [very… NA        2 [a bi… 3 [norm…  3 [nor…     5 bla … bla f… 9        NA
+##  6  5 [very… NA        4 [much] 3 [norm…  2 [a b…     6 bla … bla p… 7        NA
+##  7 99 [no a…  2 [no]   3 [norm… 4 [much] NA           7 bla … bla b… 10       NA
+##  8  2 [a bi…  2 [no]   5 [very… 2 [a bi…  1 [not…     8 bla … bla b… 1        NA
+##  9 99 [no a… 99 [no a… 1 [not … 1 [not …  2 [a b…     9 bla … bla b… 2        NA
+## 10 99 [no a…  1 [yes]  1 [not … 1 [not …  4 [muc…    10 bla … bla b… 4        NA
 ## # … with 90 more rows
 ```
 
@@ -139,6 +139,6 @@ usethis::use_data(fake_survey, overwrite = TRUE)
 ```
 
 ```
-## ● Document your data (see 'https://r-pkgs.org/data.html')
+## • Document your data (see 'https://r-pkgs.org/data.html')
 ```
 

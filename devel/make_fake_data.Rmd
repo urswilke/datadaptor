@@ -86,7 +86,7 @@ chr_vec2 <- map_chr(1:n, ~generate_bla_vector(c("sadness", "fear", "anger", "pai
 q6 <- haven::labelled(chr_vec1, label = "Tell me something positive.")
 q7 <- haven::labelled(chr_vec2, label = "Tell me something negative.")
 q8 <- haven::labelled(
-  sample(x = 1:10, size = n, replace = TRUE), 
+  sample(x = 1:10, size = n, replace = TRUE) %>% as.character(), 
   label = "A numeric variable in string format."
 )
 q9 <- rep(NA_real_, times = n)
