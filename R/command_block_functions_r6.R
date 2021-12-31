@@ -27,7 +27,7 @@ command_block_factory <- function(x) {
     "#NEWLAB"  = "cmd_newlab",
     "#KG"      = "cmd_kg",
     "#RFUN"    = "cmd_rfun",
-    "#R"       = ,
+    "#R"       = "cmd_r",
     "#COMPR"   = ,
   )
   new_command_block(x, subclass = subclass)
@@ -42,6 +42,32 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+
+
+
+
+
+
+
+#' @export
+parse_command_args.cmd_r <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    r_code  = d$X2
+  )
+  x
+}
+#' @export
+apply_command.cmd_r <- function(x, self) {
+  r_code <- x$args$r_code
+  new_df <- r_code %>% rlang::parse_expr() %>% eval_in_data(self)
+  self$dat_mod <- dplyr::bind_cols(self$dat_mod, new_df)
+}
+
+
+
+
 
 
 
