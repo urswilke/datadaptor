@@ -25,10 +25,10 @@ command_block_factory <- function(x) {
     "#verbatim"= "cmd_verbatim" ,
     "#DROP"    = "cmd_drop",
     "#NEWLAB"  = "cmd_newlab",
+    "#KG"      = "cmd_kg",
     "#RFUN"    = ,
     "#R"       = ,
     "#COMPR"   = ,
-    "#KG"      = ,
   )
   new_command_block(x, subclass = subclass)
 }
@@ -42,6 +42,51 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+
+
+
+
+
+
+
+#' @export
+parse_command_args.cmd_kg <- function(x) {
+
+  d <- x$data
+
+  x$args <- list(
+    split_var = d$X3[1],
+    by_var = d$X2[1]
+  )
+  x
+}
+#' @export
+apply_command.cmd_kg <- function(x, self) {
+  split_var_name <- x$args$split_var
+  by_var_name <- x$args$by_var
+
+  split_var <- self$dat_mod[[split_var_name]]
+  by_var <- self$dat_mod[[by_var_name]]
+  df <- data.frame(split_var, by_var) %>% purrr::set_names(~c(split_var_name, by_var_name))
+  # by_var <- rlang::as_string(rlang::expr(by_var))
+  new_vars <- prepare_newvar_table(df, split_var_name, by_var_name)
+  self$dat_mod[new_vars$new_varnames] <- new_vars %>%
+    purrr::transpose() %>%
+    # these 2 lines would do the same
+    # rowwise() %>%
+    # group_split() %>%
+    # add the new variables one by one to the dataframe:
+    purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
+    dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
+
+
+}
+
+
+
+
+
+
 
 
 
