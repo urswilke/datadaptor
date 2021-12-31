@@ -463,6 +463,7 @@
       Public:
         apply_all_s3_cmds: function () 
         apply_cmd_s3: function (x) 
+        apply_cmd_s3_safe: function (x) 
         apply_one_cmd_r6: function (action, data) 
         calc_command_table: function () 
         clone: function (deep = FALSE) 
@@ -670,4 +671,16 @@
      9     1    NA             3
     10     1    NA             3
     # ... with 90 more rows
+
+# error list print is reproduced
+
+    [1] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
+    [2] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
+    [3] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
+
+# error string elements were added to the erroneous command blocks
+
+    [1] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
+    [2] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
+    [3] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
 

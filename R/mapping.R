@@ -42,11 +42,44 @@ Mapping <- R6::R6Class(
        apply_command(x, self)
        invisible(self)
      },
+     apply_cmd_s3_safe = function(x) {
+       cmd_index <- self$params$cmd_index + 1
+       self$params$cmd_index <- cmd_index
+       tryCatch(
+         {
+           err_msg <- NA_character_
+           apply_command(x, self)
+         },
+         error = function(e) {
+           err_msg <- geterrmessage()[1]
+           self$params$error_list[cmd_index] <- err_msg
+           message(
+             paste(
+               "Error in command",
+               cmd_index,
+               ": ",
+               err_msg)
+           )
+         }
+       )
+
+       invisible(self)
+     },
      apply_all_s3_cmds = function() {
        gen_command_blocks_raw(self)
        gen_command_blocks(self)
 
-       purrr::walk(self$params$command_blocks, self$apply_cmd_s3)
+       apply_command_method <- self$apply_cmd_s3
+       if (self$params$try_catch) {
+         apply_command_method <- self$apply_cmd_s3_safe
+         self$params$cmd_index <- 0
+         self$params$error_list <- vector("character", length(self$params$command_blocks))
+       }
+
+       purrr::walk(self$params$command_blocks, apply_command_method)
+       if (self$params$try_catch) {
+         add_error_list_to_command_blocks(self)
+       }
        invisible(self)
      },
      gen_command_table_raw = function() {
@@ -56,6 +89,20 @@ Mapping <- R6::R6Class(
      }
   )
 )
+
+add_error_list_to_command_blocks <- function(self) {
+  command_blocks <- self$params$command_blocks
+  error_list <- self$params$error_list
+  command_blocks_mod <- purrr::map2(
+    self$params$command_blocks,
+    self$params$error_list,
+    ~{.x$error = .y; .x}
+  )
+  class(command_blocks_mod) <- class(command_blocks)
+  self$params$command_blocks <- command_blocks_mod
+  invisible(self)
+}
+
 gen_command_blocks_raw <- function(self) {
 
   if (self$params$na_to_filter == TRUE) {
