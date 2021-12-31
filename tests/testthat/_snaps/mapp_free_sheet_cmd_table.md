@@ -133,7 +133,7 @@
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMPR"
       .. ..$ X2: chr "r_expr_var"
-      .. ..$ X3: chr "ifelse(q1 == 5, q3 * 10, q1 * 8) %>% haven::labelled(label = \"varlab\")"
+      .. ..$ X3: chr "haven::labelled(ifelse(q1 == 5, q3 * 10, q1 * 8), label = \"varlab\")"
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)

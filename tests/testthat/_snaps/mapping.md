@@ -412,7 +412,7 @@
       .. ..$ new_var : chr "q4_renamed"
       ..$ :List of 2
       .. ..$ new_var: chr "r_expr_var"
-      .. ..$ new_val: chr "ifelse(q1 == 5, q3 * 10, q1 * 8) %>% haven::labelled(label = \"varlab\")"
+      .. ..$ new_val: chr "haven::labelled(ifelse(q1 == 5, q3 * 10, q1 * 8), label = \"varlab\")"
       ..$ :List of 3
       .. ..$ variable_names: chr [1:2] "q1" "q2"
       .. ..$ merge_file    : chr "fake_survey.sav"
@@ -477,85 +477,87 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[65]>
-     [1] Label #NEWVA org_vr: q2; vls_dd: 1; lbs_dd: YES                                                                                          
-     [2] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
-     [3] Varbls #STR2N var: q8                                                                                                                    
-     [4] Varbls #AUTOR var: q6                                                                                                                    
-     [5] Varbls #DROP org_vr: q9                                                                                                                  
-     [6] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                                   
-     [7] Varbls #NEWLA org_vr: q1; nw_lbl: Like Product                                                                                           
-     [8] Varbls #NEWLA org_vr: q2_renamed; nw_lbl: recommend pro...                                                                               
-     [9] Varbls #NEWLA org_vr: q5; nw_lbl: Like best friend                                                                                       
-    [10] Varbls #NEWLA org_vr: q8; nw_lbl: Now the varia...                                                                                       
-    [11] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: NA                           
-    [12] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: NA                           
-    [13] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: NA                           
-    [14] Vrbtms #vrbtm var_zl: q6n; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: NA                                          
-    [15] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 77, 87, 7, 9,...; int_vl: NA                           
-    [16] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 11, 19, 29...; int_vl: NA                           
-    [17] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 1, 28, 30, 36...; int_vl: NA                           
-    [18] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 6, 15, 23, 27...; int_vl: NA                           
-    [19] Vrbtms #vrbtm var_zl: q6_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 7, 17, 23, 51...; int_vl: 0                                   
-    [20] Vrbtms #vrbtm var_zl: q6_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: 3, 13, 22, 26...; int_vl: 0                                    
-    [21] Vrbtms #vrbtm var_zl: q6_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: 5, 12, 14, 39...; int_vl: 0                              
-    [22] Vrbtms #vrbtm var_zl: q6_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: 7, 58, 73; int_vl: 0                                      
-    [23] Vrbtms #vrbtm var_zl: q6_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                                
-    [24] Vrbtms #vrbtm var_zl: q6_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                             
-    [25] Vrbtms #vrbtm var_zl: q6test_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 1; int_vl: 0                                              
-    [26] Vrbtms #vrbtm var_zl: q6test_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: ; int_vl: 0                                                
-    [27] Vrbtms #vrbtm var_zl: q6test_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: ; int_vl: 0                                          
-    [28] Vrbtms #vrbtm var_zl: q6test_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: ; int_vl: 0                                           
-    [29] Vrbtms #vrbtm var_zl: q6test_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                            
-    [30] Vrbtms #vrbtm var_zl: q6test_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                         
-    [31] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: -2                          
-    [32] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: -2                          
-    [33] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: -2                          
-    [34] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 58, 73; int_vl: -2                                 
-    [35] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [36] Vrbtms #vrbtm var_zl: q6n3; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [37] Vrbtms #vrbtm var_zl: q6n4; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [38] Vrbtms #vrbtm var_zl: q6n5; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [39] Vrbtms #vrbtm var_zl: q6n6; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [40] Vrbtms #vrbtm var_zl: q6n7; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [41] Vrbtms #vrbtm var_zl: q6n8; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [42] Vrbtms #vrbtm var_zl: q6n9; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
-    [43] Vrbtms #vrbtm var_zl: q6n10; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                        
-    [44] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
-    [45] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
-    [46] Free1 #IF new_vr: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                                
-    [47] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
-    [48] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-    [49] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
-    [50] Free1 #KG splt_v: q2_renamed; by_var: kq1                                                                                                
-    [51] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
-    [52] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
-    [53] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
-    [54] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
-    [55] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
-    [56] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
-    [57] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
-    [58] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
-    [59] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
-    [60] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
-    [61] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
-    [62] Free1 #RFUN r_scrp: /home/chief/R...; fun_nm: calc_sum_of_k...                                                                           
-    [63] Free1 #R r_code: data.frame(a=1)                                                                                                         
-    [64] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [65] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+    <command_block_rcrd[67]>
+     [1] Config #RECNA rcd_n_: id, DC_ID; rplc_v: -2; rplc_l: FILTER                                                                              
+     [2] Label #NEWVA org_vr: q2; vls_dd: 1; lbs_dd: YES                                                                                          
+     [3] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
+     [4] Varbls #STR2N var: q8                                                                                                                    
+     [5] Varbls #AUTOR var: q6                                                                                                                    
+     [6] Varbls #DROP org_vr: q9                                                                                                                  
+     [7] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                                   
+     [8] Varbls #NEWLA org_vr: q1; nw_lbl: Like Product                                                                                           
+     [9] Varbls #NEWLA org_vr: q2_renamed; nw_lbl: recommend pro...                                                                               
+    [10] Varbls #NEWLA org_vr: q5; nw_lbl: Like best friend                                                                                       
+    [11] Varbls #NEWLA org_vr: q8; nw_lbl: Now the varia...                                                                                       
+    [12] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: NA                           
+    [13] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: NA                           
+    [14] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: NA                           
+    [15] Vrbtms #vrbtm var_zl: q6n; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: NA                                          
+    [16] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 77, 87, 7, 9,...; int_vl: NA                           
+    [17] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 11, 19, 29...; int_vl: NA                           
+    [18] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 1, 28, 30, 36...; int_vl: NA                           
+    [19] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 6, 15, 23, 27...; int_vl: NA                           
+    [20] Vrbtms #vrbtm var_zl: q6_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 7, 17, 23, 51...; int_vl: 0                                   
+    [21] Vrbtms #vrbtm var_zl: q6_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: 3, 13, 22, 26...; int_vl: 0                                    
+    [22] Vrbtms #vrbtm var_zl: q6_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: 5, 12, 14, 39...; int_vl: 0                              
+    [23] Vrbtms #vrbtm var_zl: q6_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: 7, 58, 73; int_vl: 0                                      
+    [24] Vrbtms #vrbtm var_zl: q6_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                                
+    [25] Vrbtms #vrbtm var_zl: q6_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                             
+    [26] Vrbtms #vrbtm var_zl: q6test_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 1; int_vl: 0                                              
+    [27] Vrbtms #vrbtm var_zl: q6test_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: ; int_vl: 0                                                
+    [28] Vrbtms #vrbtm var_zl: q6test_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: ; int_vl: 0                                          
+    [29] Vrbtms #vrbtm var_zl: q6test_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: ; int_vl: 0                                           
+    [30] Vrbtms #vrbtm var_zl: q6test_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                            
+    [31] Vrbtms #vrbtm var_zl: q6test_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                         
+    [32] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: -2                          
+    [33] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: -2                          
+    [34] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: -2                          
+    [35] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 58, 73; int_vl: -2                                 
+    [36] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [37] Vrbtms #vrbtm var_zl: q6n3; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [38] Vrbtms #vrbtm var_zl: q6n4; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [39] Vrbtms #vrbtm var_zl: q6n5; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [40] Vrbtms #vrbtm var_zl: q6n6; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [41] Vrbtms #vrbtm var_zl: q6n7; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [42] Vrbtms #vrbtm var_zl: q6n8; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [43] Vrbtms #vrbtm var_zl: q6n9; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                         
+    [44] Vrbtms #vrbtm var_zl: q6n10; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                        
+    [45] Free1 #COMP new_vr: x; new_vl: q1 == 2                                                                                                   
+    [46] Free1 #IF new_vr: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                               
+    [47] Free1 #IF new_vr: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                                
+    [48] Free1 #IF new_vr: kq6; new_vl: 8; condtn: q3 == 1                                                                                        
+    [49] Free1 #REC org_vr: q1; new_vr: kq1; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+    [50] Free1 #REC org_vr: q3; new_vr: kq3; new_lb: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; nw_vls: 1, 2, 3; nw_lbs: 1-2, 3, 4-5             
+    [51] Free1 #KG splt_v: q2_renamed; by_var: kq1                                                                                                
+    [52] Free1 #COMP new_vr: n; new_vl: 1                                                                                                         
+    [53] Free1 #VARL org_vr: n; new_lb: my new label                                                                                              
+    [54] Free1 #VALL org_vr: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                               
+    [55] Free1 #AVALL org_vr: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                         
+    [56] Free1 #VARL org_vr: q3; new_lb: Almost same v...                                                                                         
+    [57] Free1 #VARL org_vr: q5; new_lb: Almost same v...                                                                                         
+    [58] Free1 #COMP new_vr: a1; new_vl: 3                                                                                                        
+    [59] Free1 #COMP new_vr: a2; new_vl: 4                                                                                                        
+    [60] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
+    [61] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
+    [62] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
+    [63] Free1 #COMPR new_vr: r_expr_var; new_vl: haven::labell...                                                                                
+    [64] Free1 #RFUN r_scrp: /home/chief/R...; fun_nm: calc_sum_of_k...                                                                           
+    [65] Free1 #R r_code: data.frame(a=1)                                                                                                         
+    [66] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [67] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 50
+    # A tibble: 100 x 52
                     q1     q2_renamed             q3     q4_renamed              q5
              <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
      2  3 [normal]      1 [YES]       5 [very much]  4 [much]        5 [very much] 
      3  1 [not at all]  1 [YES]       3 [normal]     2 [a bit]       5 [very much] 
      4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
-     5  5 [very much]  NA             2 [a bit]      3 [normal]      3 [normal]    
-     6  5 [very much]  NA             4 [much]       3 [normal]      2 [a bit]     
-     7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
+     5  5 [very much]  -2 [FILTER]    2 [a bit]      3 [normal]      3 [normal]    
+     6  5 [very much]  -2 [FILTER]    4 [much]       3 [normal]      2 [a bit]     
+     7 99 [no answer]   2 [no]        3 [normal]     4 [much]       -2 [FILTER]    
      8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
      9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
     10 99 [no answer]   1 [YES]       1 [not at all] 1 [not at all]  4 [much]      
@@ -619,41 +621,53 @@
      8 -2 [FILTER]   -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
      9 -2 [FILTER]   -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
     10 -2 [FILTER]   -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
-              q6n8        q6n9       q6n10 x       abc   kq6       kq1       kq3
-         <dbl+lbl>   <dbl+lbl>   <dbl+lbl> <lgl> <dbl> <dbl> <dbl+lbl> <dbl+lbl>
-     1 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA    NA   2 [3]     2 [3]  
-     2 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA    NA   2 [3]     3 [4-5]
-     3 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE     7    NA   1 [1-2]   2 [3]  
-     4 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA    NA   2 [3]     3 [4-5]
-     5 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE     7    NA   3 [4-5]   1 [1-2]
-     6 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA    NA   3 [4-5]   3 [4-5]
-     7 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA    NA  NA         2 [3]  
-     8 -2 [FILTER] -2 [FILTER] -2 [FILTER] TRUE     NA    NA   1 [1-2]   3 [4-5]
-     9 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA     8  NA         1 [1-2]
-    10 -2 [FILTER] -2 [FILTER] -2 [FILTER] FALSE    NA     8  NA         1 [1-2]
-       kq1xq2_renamedk10 kq1xq2_renamedk20 kq1xq2_renamedk990             n
-               <dbl+lbl>         <dbl+lbl>          <dbl+lbl>     <dbl+lbl>
-     1          NA                 2 [3]               NA     1 [also with]
-     2           2 [3]            NA                   NA     1 [also with]
-     3           1 [1-2]          NA                   NA     1 [also with]
-     4          NA                NA                    2 [3] 1 [also with]
-     5          NA                NA                   NA     1 [also with]
-     6          NA                NA                   NA     1 [also with]
-     7          NA                NA                   NA     1 [also with]
-     8          NA                 1 [1-2]             NA     1 [also with]
-     9          NA                NA                   NA     1 [also with]
-    10          NA                NA                   NA     1 [also with]
-              a1        a2             q2 sum_of_k_vars     a      kkq1 free2_var
-       <dbl+lbl> <dbl+lbl>      <dbl+lbl>         <dbl> <dbl> <dbl+lbl>     <dbl>
-     1         3         4  2 [no]                    7     1     2 [b]         3
-     2         3         4  1 [yes]                  14     1     2 [b]         3
-     3         3         4  1 [yes]                  11     1     1 [a]         3
-     4         3         4 99 [no answer]            10     1     2 [b]         3
-     5         3         4 NA                         6     1     2 [b]         3
-     6         3         4 NA                         7     1     2 [b]         3
-     7         3         4  2 [no]                    2     1    NA             3
-     8         3         4  2 [no]                    6     1     2 [b]         3
-     9         3         4 99 [no answer]            10     1    NA             3
-    10         3         4  1 [yes]                  16     1    NA             3
+              q6n8        q6n9       q6n10     x   abc   kq6       kq1       kq3
+         <dbl+lbl>   <dbl+lbl>   <dbl+lbl> <int> <dbl> <dbl> <dbl+lbl> <dbl+lbl>
+     1 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA    NA   2 [3]     2 [3]  
+     2 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA    NA   2 [3]     3 [4-5]
+     3 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0     7    NA   1 [1-2]   2 [3]  
+     4 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA    NA   2 [3]     3 [4-5]
+     5 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0     7    NA   3 [4-5]   1 [1-2]
+     6 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA    NA   3 [4-5]   3 [4-5]
+     7 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA    NA  NA         2 [3]  
+     8 -2 [FILTER] -2 [FILTER] -2 [FILTER]     1    NA    NA   1 [1-2]   3 [4-5]
+     9 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA     8  NA         1 [1-2]
+    10 -2 [FILTER] -2 [FILTER] -2 [FILTER]     0    NA     8  NA         1 [1-2]
+       kq1xq2_renamedkminus20 kq1xq2_renamedk10 kq1xq2_renamedk20 kq1xq2_renamedk990
+                    <dbl+lbl>         <dbl+lbl>         <dbl+lbl>          <dbl+lbl>
+     1               NA                NA                 2 [3]               NA    
+     2               NA                 2 [3]            NA                   NA    
+     3               NA                 1 [1-2]          NA                   NA    
+     4               NA                NA                NA                    2 [3]
+     5                3 [4-5]          NA                NA                   NA    
+     6                3 [4-5]          NA                NA                   NA    
+     7               NA                NA                NA                   NA    
+     8               NA                NA                 1 [1-2]             NA    
+     9               NA                NA                NA                   NA    
+    10               NA                NA                NA                   NA    
+                   n        a1        a2 r_expr_var             q2 sum_of_k_vars
+           <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl>      <dbl+lbl>         <dbl>
+     1 1 [also with]         3         4         24  2 [no]                    7
+     2 1 [also with]         3         4         24  1 [yes]                  14
+     3 1 [also with]         3         4          8  1 [yes]                  11
+     4 1 [also with]         3         4         24 99 [no answer]            10
+     5 1 [also with]         3         4         20 NA                         9
+     6 1 [also with]         3         4         40 NA                        10
+     7 1 [also with]         3         4        792  2 [no]                    2
+     8 1 [also with]         3         4         16  2 [no]                    6
+     9 1 [also with]         3         4        792 99 [no answer]            10
+    10 1 [also with]         3         4        792  1 [yes]                  16
+           a      kkq1 free2_var
+       <dbl> <dbl+lbl>     <dbl>
+     1     1     2 [b]         3
+     2     1     2 [b]         3
+     3     1     1 [a]         3
+     4     1     2 [b]         3
+     5     1     2 [b]         3
+     6     1     2 [b]         3
+     7     1    NA             3
+     8     1     2 [b]         3
+     9     1    NA             3
+    10     1    NA             3
     # ... with 90 more rows
 

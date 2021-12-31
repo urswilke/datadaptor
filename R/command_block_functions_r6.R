@@ -9,6 +9,7 @@ new_command_block <- function(x, ..., subclass = character()) {
 #' @export
 command_block_factory <- function(x) {
   subclass <- switch (x$action,
+    "#RECNA"   = "cmd_recna_xcpt",
     "#IF"      = "cmd_if",
     "#COMP"    = "cmd_comp",
     "#VARL"    = "cmd_set_lab",
@@ -28,7 +29,7 @@ command_block_factory <- function(x) {
     "#KG"      = "cmd_kg",
     "#RFUN"    = "cmd_rfun",
     "#R"       = "cmd_r",
-    "#COMPR"   = ,
+    "#COMPR"   = "cmd_comp",
   )
   new_command_block(x, subclass = subclass)
 }
@@ -46,6 +47,38 @@ parse_command_args <- function(x) {
 
 
 
+
+
+
+#' @export
+parse_command_args.cmd_recna_xcpt <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    recode_na_exceptions = d$recode_na_exceptions,
+    replace_val = d$replace_val,
+    replace_label = d$replace_label
+  )
+  x
+}
+#' @export
+apply_command.cmd_recna_xcpt <- function(x, self) {
+  recode_na_exceptions = x$args$recode_na_exceptions
+  replace_val = x$args$replace_val
+  replace_label = x$args$replace_label
+
+
+  # remove variable names not found in df:
+  # TODO: think of cleaner way to do this:
+  recode_na_exceptions <- intersect(recode_na_exceptions, names(self$dat_mod))
+  self$dat_mod <- self$dat_mod %>%
+    dplyr::mutate(
+      dplyr::across(
+        where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
+        ~set_na_to_filter(.x, replace_val, replace_label)
+      )
+    )
+}
 
 
 
@@ -362,8 +395,11 @@ parse_command_args.cmd_comp <- function(x) {
   )
   x
 }
+#' @export
+parse_command_args.cmd_compr <- parse_command_args.cmd_comp
 
 #' @export
+#' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(x, self) {
   new_var <- x$args$new_var
   new_val <- x$args$new_val
@@ -379,11 +415,25 @@ apply_command.cmd_comp <- function(x, self) {
 
 
   vec <- eval_in_data(rlang::expr(!!val), self)
-  attributes(vec) <- attributes(self$dat_mod[[new_var]])
+  varlab <- labelled::var_label(vec) %||% labelled::var_label(self$dat_mod[[new_var]])
+  vallabs <- labelled::val_labels(vec) %||% labelled::val_labels(self$dat_mod[[new_var]])
+  if (is.logical(vec)) {
+    vec <- as.integer(vec)
+  }
+  # attributes(vec) <- attributes(self$dat_mod[[new_var]])
+  if (!is.null(varlab) | !is.null(vallabs)) {
+    vec <- haven::labelled(
+      vec,
+      labels = vallabs,
+      label = varlab
+    )
+  }
 
   self$dat_mod[[new_var]] <- vec
 
 }
+#' @export
+apply_command.cmd_compr <- apply_command.cmd_comp
 
 #' @export
 parse_command_args.cmd_set_lab <- function(x) {

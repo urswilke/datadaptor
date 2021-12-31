@@ -57,6 +57,13 @@ Mapping <- R6::R6Class(
   )
 )
 gen_command_blocks_raw <- function(self) {
+
+  if (self$params$na_to_filter == TRUE) {
+    self$params$df_cmd_raw <- dplyr::bind_rows(
+      generate_rec_na_cmd_table(self),
+      self$params$df_cmd_raw
+    )
+  }
   self$params$command_blocks_raw <- self$params$df_cmd_raw %>%
     dplyr::rowwise() %>%
     dplyr::transmute(cmd = list(command_block_factory(dplyr::cur_data()))) %>%
@@ -79,6 +86,7 @@ gen_command_blocks <- function(self) {
   invisible(self)
 }
 
+#' @export
 `[.command_blocks` <- function(x, i) {
   new_command_blocks(NextMethod(x))
 }
