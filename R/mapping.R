@@ -90,6 +90,8 @@ Mapping <- R6::R6Class(
   )
 )
 
+# HACKY - would be easier to add to data.frame format
+# as in self$params$df_cmd_raw instead of self$params$command_blocks:
 add_error_list_to_command_blocks <- function(self) {
   command_blocks <- self$params$command_blocks
   error_list <- self$params$error_list
