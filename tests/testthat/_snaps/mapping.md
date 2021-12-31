@@ -345,15 +345,15 @@
       ..$ :List of 3
       .. ..$ new_var  : chr "abc"
       .. ..$ new_val  : chr "7"
-      .. ..$ condition: chr "q1 ==(*%$@ 1 |} q3 == 2"
+      .. ..$ condition: chr "q1 == 1 | q3 == 2"
       ..$ :List of 3
       .. ..$ new_var  : chr "kq5"
       .. ..$ new_val  : chr "7"
-      .. ..$ condition: chr "q1 ==(*%$@ 1 |} q3 == 2"
+      .. ..$ condition: chr "q2_renamed == 1"
       ..$ :List of 3
       .. ..$ new_var  : chr "kq6"
       .. ..$ new_val  : chr "8"
-      .. ..$ condition: chr "q1 ==(*%$@ 1 |} q3 == 2"
+      .. ..$ condition: chr "q3 == 1"
       ..$ :List of 7
       .. ..$ orig_var: chr "q1"
       .. ..$ new_lab : chr "summarized variable"
@@ -436,7 +436,7 @@
 
 # modified data is reproduced
 
-    # A tibble: 100 x 50
+    # A tibble: 100 x 52
               q1  q2_renamed       q3  q4_renamed       q5    id      q6 q7       q8
        <dbl+lbl>   <dbl+lbl> <dbl+lb>   <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl>
      1  3 [norm~  2 [no]     3 [norm~ 4 [much]     2 [a b~     1 3 [bla~ bla ~     2
@@ -449,7 +449,7 @@
      8  2 [a bi~  2 [no]     5 [very~ 2 [a bit]    1 [not~     8 6 [bla~ bla ~     1
      9 99 [no a~ 99 [no ans~ 1 [not ~ 1 [not at ~  2 [a b~     9 6 [bla~ bla ~     2
     10 99 [no a~  1 [YES]    1 [not ~ 1 [not at ~  4 [muc~    10 3 [bla~ bla ~     4
-    # ... with 90 more rows, and 41 more variables: kq5 <dbl+lbl>, q6n <dbl+lbl>,
+    # ... with 90 more rows, and 43 more variables: kq5 <dbl+lbl>, q6n <dbl+lbl>,
     #   q7n <dbl+lbl>, q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>,
     #   q6_4 <dbl+lbl>, q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>,
     #   q6test_2 <dbl+lbl>, q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>,

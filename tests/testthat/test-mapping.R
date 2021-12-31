@@ -7,11 +7,12 @@ mapping$params$try_catch <- TRUE
 testthat::expect_message(testthat::expect_message(mapping$calc_command_table()))
 
 
-mapping$df_cmd$data[[46]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping$df_cmd$data[[47]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping$df_cmd$data[[48]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+# mapping$df_cmd$data[[46]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+# mapping$df_cmd$data[[47]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
+# mapping$df_cmd$data[[48]]$condition <- "q1 ==(*%$@ 1 |} q3 == 2"
 
-testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping$mod_all())))
+# testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping$mod_all())))
+mapping$mod_all()
 dat_mod <- mapping$dat_mod
 
 test_that("command table is reproduced", {
@@ -62,3 +63,6 @@ test_that("s3 modified data print is reproduced", {
   )
 })
 
+# check that old and new method result in equivalent data_frames:
+testthat::expect_message(dat_mod_join_both_methods <- dplyr::full_join(dat_mod, mapping_s3$dat_mod))
+testthat::expect_equal(dim(dat_mod_join_both_methods), dim(mapping_s3$dat_mod))
