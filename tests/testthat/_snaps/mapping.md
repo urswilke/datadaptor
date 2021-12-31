@@ -477,7 +477,7 @@
 
 # command blocks print is reproduced
 
-    <command_block_rcrd[62]>
+    <command_block_rcrd[63]>
      [1] Label #NEWVA org_vr: q2; vls_dd: 1; lbs_dd: YES                                                                                          
      [2] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [3] Varbls #AUTOR var: q6                                                                                                                    
@@ -538,12 +538,13 @@
     [58] Free1 #VARL org_vr: a1; new_lb: same variable...                                                                                         
     [59] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
     [60] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
-    [61] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [62] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+    [61] Free1 #RFUN r_scrp: /home/chief/R...; fun_nm: calc_sum_of_k...                                                                           
+    [62] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [63] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 48
+    # A tibble: 100 x 49
                     q1     q2_renamed             q3     q4_renamed              q5
              <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
@@ -640,17 +641,17 @@
      8          NA                 1 [1-2]             NA     1 [also with]
      9          NA                NA                   NA     1 [also with]
     10          NA                NA                   NA     1 [also with]
-              a1        a2             q2      kkq1 free2_var
-       <dbl+lbl> <dbl+lbl>      <dbl+lbl> <dbl+lbl>     <dbl>
-     1         3         4  2 [no]            2 [b]         3
-     2         3         4  1 [yes]           2 [b]         3
-     3         3         4  1 [yes]           1 [a]         3
-     4         3         4 99 [no answer]     2 [b]         3
-     5         3         4 NA                 2 [b]         3
-     6         3         4 NA                 2 [b]         3
-     7         3         4  2 [no]           NA             3
-     8         3         4  2 [no]            2 [b]         3
-     9         3         4 99 [no answer]    NA             3
-    10         3         4  1 [yes]          NA             3
+              a1        a2             q2 sum_of_k_vars      kkq1 free2_var
+       <dbl+lbl> <dbl+lbl>      <dbl+lbl>         <dbl> <dbl+lbl>     <dbl>
+     1         3         4  2 [no]                    7     2 [b]         3
+     2         3         4  1 [yes]                  14     2 [b]         3
+     3         3         4  1 [yes]                  11     1 [a]         3
+     4         3         4 99 [no answer]            10     2 [b]         3
+     5         3         4 NA                         6     2 [b]         3
+     6         3         4 NA                         7     2 [b]         3
+     7         3         4  2 [no]                    2    NA             3
+     8         3         4  2 [no]                    6     2 [b]         3
+     9         3         4 99 [no answer]            10    NA             3
+    10         3         4  1 [yes]                  16    NA             3
     # ... with 90 more rows
 

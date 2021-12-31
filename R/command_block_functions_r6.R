@@ -26,7 +26,7 @@ command_block_factory <- function(x) {
     "#DROP"    = "cmd_drop",
     "#NEWLAB"  = "cmd_newlab",
     "#KG"      = "cmd_kg",
-    "#RFUN"    = ,
+    "#RFUN"    = "cmd_rfun",
     "#R"       = ,
     "#COMPR"   = ,
   )
@@ -42,6 +42,39 @@ apply_command <- function(x, self) {
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }
+
+
+
+
+
+
+
+#' @export
+parse_command_args.cmd_rfun <- function(x) {
+  d <- x$data
+
+  x$args <- list(
+    r_script  = d$X2,
+    fun_name = d$X3
+  )
+  x
+}
+#' @export
+apply_command.cmd_rfun <- function(x, self) {
+  r_script <- x$args$r_script
+  fun_name <- x$args$fun_name
+  if (!is.na(r_script)) {
+    source(r_script, echo = FALSE)
+  }
+
+  self$dat_mod <- do.call(fun_name, list(self$dat_mod))
+}
+
+
+
+
+
+
 
 
 
