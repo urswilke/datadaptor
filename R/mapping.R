@@ -151,7 +151,7 @@ gen_command_blocks <- function(self) {
 initialize_dat <- function(self, dat) {
   if (is.null(dat)) {
     self$dat <- NULL
-    return(invisible(self))
+    return(NULL)
   }
   if (is.character(dat)) {
     dat <- haven::read_sav(dat)
