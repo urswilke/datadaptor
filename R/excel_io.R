@@ -297,8 +297,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   df_free <- mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet)
   if (nrow(df_free) > 0) {
-    df_free <- df_free %>%
-      dplyr::select(1:5) %>%
+    df_free <- df_free[1:5] %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
       dplyr::mutate(row = dplyr::row_number())
   }
