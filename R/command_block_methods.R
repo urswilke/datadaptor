@@ -2,10 +2,6 @@
 apply_command <- function(x, self) {
   UseMethod("apply_command")
 }
-#' @export
-parse_command_args <- function(x) {
-  UseMethod("parse_command_args")
-}
 
 
 
@@ -13,17 +9,6 @@ parse_command_args <- function(x) {
 
 
 
-#' @export
-parse_command_args.cmd_recna_xcpt <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    recode_na_exceptions = d$recode_na_exceptions,
-    replace_val = d$replace_val,
-    replace_label = d$replace_label
-  )
-  x
-}
 #' @export
 apply_command.cmd_recna_xcpt <- function(x, self) {
   recode_na_exceptions = x$args$recode_na_exceptions
@@ -46,15 +31,6 @@ apply_command.cmd_recna_xcpt <- function(x, self) {
 
 
 #' @export
-parse_command_args.cmd_r <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    r_code  = d$X2
-  )
-  x
-}
-#' @export
 apply_command.cmd_r <- function(x, self) {
   r_code <- x$args$r_code
   new_df <- r_code %>% rlang::parse_expr() %>% eval_in_data(self)
@@ -71,16 +47,6 @@ apply_command.cmd_r <- function(x, self) {
 
 
 
-#' @export
-parse_command_args.cmd_rfun <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    r_script  = d$X2,
-    fun_name = d$X3
-  )
-  x
-}
 #' @export
 apply_command.cmd_rfun <- function(x, self) {
   r_script <- x$args$r_script
@@ -104,17 +70,6 @@ apply_command.cmd_rfun <- function(x, self) {
 
 
 
-#' @export
-parse_command_args.cmd_kg <- function(x) {
-
-  d <- x$data
-
-  x$args <- list(
-    split_var = d$X3[1],
-    by_var = d$X2[1]
-  )
-  x
-}
 #' @export
 apply_command.cmd_kg <- function(x, self) {
   split_var_name <- x$args$split_var
@@ -150,16 +105,6 @@ apply_command.cmd_kg <- function(x, self) {
 
 
 #' @export
-parse_command_args.cmd_drop <- function(x) {
-
-  d <- x$data
-
-  x$args <- list(
-    orig_vars = d$vars[[1]]
-  )
-  x
-}
-#' @export
 apply_command.cmd_drop <- function(x, self) {
   orig_vars <- x$args$orig_vars
   self$dat_mod[orig_vars] <- NULL
@@ -173,20 +118,6 @@ apply_command.cmd_drop <- function(x, self) {
 
 
 
-#' @export
-parse_command_args.cmd_verbatim <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    var_ziel = d$var_ziel,
-    val_assign  = d$val_assign,
-    varlab = d$varlab[[1]],
-    vallab  = d$vallab[[1]],
-    id_list = d$id_list[[1]],
-    init_val = d$init_val
-  )
-  x
-}
 #' @export
 apply_command.cmd_verbatim <- function(x, self) {
   var_ziel <- x$args$var_ziel
@@ -222,17 +153,6 @@ apply_command.cmd_verbatim <- function(x, self) {
 
 
 
-#' @export
-parse_command_args.cmd_merge <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    variable_names  = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
-    merge_file  = d$X2,
-    id = d$X3[1]
-  )
-  x
-}
 #' @export
 apply_command.cmd_merge <- function(x, self) {
   variable_names <- x$args$variable_names
@@ -275,16 +195,6 @@ apply_command.cmd_merge <- function(x, self) {
 
 
 #' @export
-parse_command_args.cmd_rename <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    orig_vars = d$vars[[1]],
-    new_names = d$new_names[[1]]
-  )
-  x
-}
-#' @export
 apply_command.cmd_rename <- function(x, self) {
   orig_vars <- x$args$orig_vars
   new_names <- x$args$new_names
@@ -301,17 +211,6 @@ apply_command.cmd_rename <- function(x, self) {
 
 
 
-#' @export
-parse_command_args.cmd_if <- function(x) {
-  assignment <- x$data$X3 %>% stringr::str_split("=") %>% unlist() %>% stringr::str_squish()
-
-  x$args <- list(
-    new_var   = assignment[1],
-    new_val   = assignment[2],
-    condition = x$data$X2
-  )
-  x
-}
 #' @export
 apply_command.cmd_if <- function(x, self) {
   new_var <- x$args$new_var
@@ -351,17 +250,6 @@ eval_in_data <- function(e, self) {
 
 
 #' @export
-parse_command_args.cmd_comp <- function(x) {
-  x$args <- list(
-    new_var   = x$data$X2[1],
-    new_val   = x$data$X3[1]
-  )
-  x
-}
-#' @export
-parse_command_args.cmd_compr <- parse_command_args.cmd_comp
-
-#' @export
 #' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(x, self) {
   new_var <- x$args$new_var
@@ -399,15 +287,6 @@ apply_command.cmd_comp <- function(x, self) {
 apply_command.cmd_compr <- apply_command.cmd_comp
 
 #' @export
-parse_command_args.cmd_set_lab <- function(x) {
-  x$args <- list(
-    orig_var   = x$data$X2[1],
-    new_lab   = x$data$X3[1]
-  )
-  x
-}
-
-#' @export
 apply_command.cmd_set_lab <- function(x, self) {
   orig_var <- x$args$orig_var
   new_lab <- x$args$new_lab
@@ -422,35 +301,9 @@ apply_command.cmd_set_lab <- function(x, self) {
 }
 
 #' @export
-parse_command_args.cmd_newlab <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    orig_var = d$var[1],
-    new_label = d$new_label[1]
-  )
-  x
-}
-#' @export
 apply_command.cmd_newlab <- apply_command.cmd_set_lab
 
 
-#' @export
-parse_command_args.cmd_set_labs <- function(x) {
-
-  varlab <- x$data$X3[1]
-  if (is.na(varlab)) {
-    varlab <- NULL
-  }
-
-  x$args <- list(
-    orig_var  = x$data$X2[1],
-    new_lab  = varlab,
-    new_vals = x$data$X2[-1] %>% as.numeric(),
-    new_labs = x$data$X3[-1]
-  )
-  x
-}
 
 #' @export
 apply_command.cmd_set_labs <- function(x, self) {
@@ -471,21 +324,6 @@ apply_command.cmd_set_labs <- function(x, self) {
 
 
 
-#' @export
-parse_command_args.cmd_add_labs <- function(x) {
-  d <- x$data
-  varlab <- d$X3[1]
-  if (is.na(varlab)) {
-    varlab <- NULL
-  }
-  x$args <- list(
-    orig_var  = d$X2[1],
-    new_lab  = varlab,
-    vals_added = d$X2[-1] %>% as.numeric(),
-    labs_added = d$X3[-1]
-  )
-  x
-}
 
 
 #' @export
@@ -515,17 +353,6 @@ apply_command.cmd_add_labs <- function(x, self) {
 }
 
 #' @export
-parse_command_args.cmd_newvall <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    orig_var = d$var[1],
-    vals_added = d$nv %>% as.numeric(),
-    labs_added = d$new_label
-  )
-  x
-}
-#' @export
 apply_command.cmd_newvall <- apply_command.cmd_add_labs
 
 
@@ -534,23 +361,6 @@ apply_command.cmd_newvall <- apply_command.cmd_add_labs
 
 
 
-
-# #REC
-#' @export
-parse_command_args.cmd_rec <- function(x) {
-  d <- x$data
-  x$args <- list(
-    # use orig_var if new_var is NA (empty in Excel file):
-    orig_var = d$X2[1],
-    new_var = d$X3[1],
-    new_lab = d$X4[1],
-    lb  = d$X2[-1] %>% as.numeric(),
-    ub  = d$X3[-1] %>% as.numeric(),
-    new_vals = d$X4[-1] %>% as.numeric(),
-    new_labs = d$X5[-1]
-  )
-  x
-}
 
 
 #' @export
@@ -597,23 +407,6 @@ apply_command.cmd_rec <- function(x, self) {
 }
 
 
-# #SUMMARY VARIABLE
-#' @export
-parse_command_args.cmd_sumvar <- function(x) {
-  d <- x$data
-
-  x$args <- list(
-    # use orig_var if new_var is NA (empty in Excel file):
-    new_var = paste0("k", d$var[1]),
-    orig_var = d$var[1],
-    new_lab = d$sum_var_label[1],
-    orig_vals  = d$nv %>% as.numeric(),
-    new_vals = d$sum_var_value %>% as.numeric(),
-    new_labs = d$sum_var_vallab
-  )
-  x
-}
-
 
 #' @export
 apply_command.cmd_sumvar <- function(x, self) {
@@ -656,22 +449,6 @@ apply_command.cmd_sumvar <- function(x, self) {
 
 
 
-# #DIC
-#' @export
-parse_command_args.cmd_dic <- function(x) {
-  d <- x$data
-
-  varlab <- d$X3[1]
-  if (is.na(varlab)) {
-    varlab <- NULL
-  }
-  x$args <- list(
-    orig_var = d$X2[1],
-    new_var  = d$X3[1]
-  )
-  x
-}
-
 
 #' @export
 apply_command.cmd_dic <- function(x, self) {
@@ -702,18 +479,6 @@ apply_command.cmd_dic <- function(x, self) {
 
 
 
-# #AUTOREC
-#' @export
-parse_command_args.cmd_autorec <- function(x) {
-  d <- x$data
-  x$args <- list(
-    var = d$var
-  )
-
-  x
-}
-
-
 #' @export
 apply_command.cmd_autorec <- function(x, self) {
   var_name <- x$args$var
@@ -728,16 +493,6 @@ apply_command.cmd_autorec <- function(x, self) {
 
 
 # #STR2NUM
-#' @export
-parse_command_args.cmd_str_to_num <- function(x) {
-  d <- x$data
-  x$args <- list(
-    var = d$var
-  )
-  x
-}
-
-
 #' @export
 apply_command.cmd_str_to_num <- function(x, self) {
   var_name <- x$args$var
