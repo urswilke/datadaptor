@@ -2,7 +2,7 @@
 
 #' @export
 Mapping <- R6::R6Class(
-  "apply_mods",
+  "Mapping",
   public = list(
      dat = NULL,
      mapping_file = NULL,
