@@ -118,8 +118,3 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
-
-
-apply_df_cmd_manip <- function(df_cmd_manip_string, df_cmd) {
-  df_cmd <- df_cmd_manip_string %>% rlang::parse_expr() %>% rlang::eval_tidy()
-}
