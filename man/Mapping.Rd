@@ -4,7 +4,9 @@
 \alias{Mapping}
 \title{Mapping class}
 \description{
-The class \code{Mapping} can be used to apply the changes specified in the command blocks of an Excel mapping file to a (labelled) dataframe.
+The class \code{Mapping} can be used to apply the changes
+specified in the command blocks of an Excel mapping file to a (labelled)
+dataframe.
 }
 \examples{
 # Create a Mapping object from the files provided by the package:
@@ -24,9 +26,13 @@ mapping$dat_mod
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
 \describe{
-\item{\code{dat}}{(filepath to pass to \code{haven::read_sav()} to read in the) labelled dataframe to apply the mapping on.}
+\item{\code{dat}}{(filepath to pass to \code{haven::read_sav()} to read in the)
+labelled dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{filepath of the Excel mapping file}
+
+\item{\code{cmd}}{R list structure containing the processed command block
+information of the Excel mapping file.}
 
 \item{\code{dat_mod}}{modified dataframe}
 

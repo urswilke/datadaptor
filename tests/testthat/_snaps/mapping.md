@@ -3,6 +3,7 @@
     <Mapping>
       Public:
         clone: function (deep = FALSE) 
+        cmd: list
         dat: tbl_df, tbl, data.frame
         dat_mod: NULL
         initialize: function (dat = NULL, mapping_file) 

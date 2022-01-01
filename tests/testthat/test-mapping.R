@@ -14,7 +14,7 @@ test_that("class object print is reproduced", {
 mapping_s3$modify_data()
 test_that("command blocks print is reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$params$command_blocks[mapping_s3$params$command_blocks %>% purrr::map_chr("action") != "#MERGE"]
+    mapping_s3$cmd$command_blocks[mapping_s3$cmd$command_blocks %>% purrr::map_chr("action") != "#MERGE"]
   }
 
   )
@@ -32,12 +32,12 @@ test_that("s3 modified data print is reproduced", {
 
 mapping_trycatch <- Mapping$new(spss_file, mapping_file)
 # testthat::expect_message(mapping_trycatch$gen_command_table_raw())
-mapping_trycatch$params$df_cmd_raw$data[[46]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$params$df_cmd_raw$data[[47]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$params$df_cmd_raw$data[[48]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$data[[46]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$data[[47]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$data[[48]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$params$try_catch <- TRUE
-mapping_trycatch$params$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
-mapping_trycatch$params$command_blocks <- gen_command_blocks(mapping_trycatch)
+mapping_trycatch$cmd$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
+mapping_trycatch$cmd$command_blocks <- gen_command_blocks(mapping_trycatch)
 
 testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
 test_that("error list print is reproduced", {
@@ -49,6 +49,6 @@ test_that("error list print is reproduced", {
 })
 test_that("error string elements were added to the erroneous command blocks", {
   testthat::expect_snapshot_output({
-    mapping_trycatch$params$command_blocks[46:48] %>% purrr::map_chr("error")
+    mapping_trycatch$cmd$command_blocks[46:48] %>% purrr::map_chr("error")
   })
 })
