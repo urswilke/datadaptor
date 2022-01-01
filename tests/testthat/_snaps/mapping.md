@@ -3,8 +3,6 @@
     <Mapping>
       Public:
         apply_all_s3_cmds: function (reset = TRUE) 
-        apply_cmd_s3: function (x) 
-        apply_cmd_s3_safe: function (x) 
         clone: function (deep = FALSE) 
         dat: tbl_df, tbl, data.frame
         dat_mod: NULL

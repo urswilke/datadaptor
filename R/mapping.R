@@ -48,41 +48,6 @@ Mapping <- R6::R6Class(
        self$params$command_blocks_raw <- gen_command_blocks_raw(self)
        self$params$command_blocks <- gen_command_blocks(self)
      },
-     #' @description Apply one command block to the data set.
-     #' The command blocks are specified in the \code{$params$command_blocks} field of the \code{Mapping} object.
-     #'
-     #' @param x Command block
-     apply_cmd_s3 = function(x) {
-       apply_command(x, self)
-       invisible(self)
-     },
-     #' @description Safely try to apply one command block to the data set (doesn't error out, but instead adds an "error" element to the command blocks)
-     #' The command blocks are specified in the \code{$params$command_blocks} field of the \code{Mapping} object.
-     #'
-     #' @param x Command block
-     apply_cmd_s3_safe = function(x) {
-       cmd_index <- self$params$cmd_index + 1
-       self$params$cmd_index <- cmd_index
-       tryCatch(
-         {
-           err_msg <- NA_character_
-           apply_command(x, self)
-         },
-         error = function(e) {
-           err_msg <- geterrmessage()[1]
-           self$params$error_list[cmd_index] <- err_msg
-           message(
-             paste(
-               "Error in command",
-               cmd_index,
-               ": ",
-               err_msg)
-           )
-         }
-       )
-
-       invisible(self)
-     },
      #' @description Run all command blocks of the mapping file.
      #' The command blocks of the Excel mapping file are translated to the field \code{$params$command_blocks} field of the \code{Mapping} object.
      #' @param reset whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{apply_all_s3_cmds()} multiple times).
@@ -91,21 +56,61 @@ Mapping <- R6::R6Class(
          self$dat_mod <- self$dat
        }
 
-       apply_command_method <- self$apply_cmd_s3
-       if (self$params$try_catch) {
-         apply_command_method <- self$apply_cmd_s3_safe
-         self$params$cmd_index <- 0
-         self$params$error_list <- vector("character", length(self$params$command_blocks))
-       }
+       apply_command_blocks(self$params$command_blocks, self)
 
-       purrr::walk(self$params$command_blocks, apply_command_method)
-       if (self$params$try_catch) {
-         add_error_list_to_command_blocks(self)
-       }
        invisible(self)
      }
   )
 )
+apply_command_blocks <- function(command_blocks, self) {
+  UseMethod("apply_command_blocks")
+}
+
+apply_command_blocks.unsafe <- function(command_blocks, self) {
+  purrr::walk(command_blocks, apply_cmd_s3, self)
+}
+apply_cmd_s3 <- function(x, self) {
+  apply_command(x, self)
+  invisible(self)
+}
+
+apply_command_blocks.safe <- function(command_blocks, self) {
+  self$params$cmd_index <- 0
+  self$params$error_list <- vector("character", length(self$params$command_blocks))
+
+  purrr::walk(self$params$command_blocks, apply_cmd_s3_safe, self)
+
+  add_error_list_to_command_blocks(self)
+
+}
+apply_cmd_s3_safe <- function(x, self) {
+  cmd_index <- self$params$cmd_index + 1
+  self$params$cmd_index <- cmd_index
+  tryCatch(
+    {
+      err_msg <- NA_character_
+      apply_command(x, self)
+    },
+    error = function(e) {
+      err_msg <- geterrmessage()[1]
+      self$params$error_list[cmd_index] <- err_msg
+      message(
+        paste(
+          "Error in command",
+          cmd_index,
+          ": ",
+          err_msg)
+      )
+    }
+  )
+
+  invisible(self)
+}
+
+
+
+
+
 
 # HACKY - would be easier to add to data.frame format
 # as in self$params$df_cmd_raw instead of self$params$command_blocks:
@@ -130,15 +135,16 @@ gen_command_blocks_raw <- function(self) {
     dplyr::pull()
 }
 
-new_command_blocks <- function(command_blocks) {
-  class(command_blocks) <- c("command_blocks", "list")
+new_command_blocks <- function(command_blocks, ..., subclass = character()) {
+  class(command_blocks) <- c(subclass, "command_blocks", "list")
 
   command_blocks
 }
 
 gen_command_blocks <- function(self) {
+  try_catch_subclass <- ifelse(self$params$try_catch, "safe", "unsafe")
   purrr::map(self$params$command_blocks_raw, parse_command_args) %>%
-    new_command_blocks()
+    new_command_blocks(subclass = try_catch_subclass)
 }
 
 #' @export

@@ -38,8 +38,6 @@ mapping$dat_mod
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Mapping$new()}}
-\item \href{#method-apply_cmd_s3}{\code{Mapping$apply_cmd_s3()}}
-\item \href{#method-apply_cmd_s3_safe}{\code{Mapping$apply_cmd_s3_safe()}}
 \item \href{#method-apply_all_s3_cmds}{\code{Mapping$apply_all_s3_cmds()}}
 \item \href{#method-clone}{\code{Mapping$clone()}}
 }
@@ -59,42 +57,6 @@ Initialize a Mapping object
 \item{\code{dat}}{Dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-apply_cmd_s3"></a>}}
-\if{latex}{\out{\hypertarget{method-apply_cmd_s3}{}}}
-\subsection{Method \code{apply_cmd_s3()}}{
-Apply one command block to the data set.
-The command blocks are specified in the \code{$params$command_blocks} field of the \code{Mapping} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$apply_cmd_s3(x)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{Command block}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-apply_cmd_s3_safe"></a>}}
-\if{latex}{\out{\hypertarget{method-apply_cmd_s3_safe}{}}}
-\subsection{Method \code{apply_cmd_s3_safe()}}{
-Safely try to apply one command block to the data set (doesn't error out, but instead adds an "error" element to the command blocks)
-The command blocks are specified in the \code{$params$command_blocks} field of the \code{Mapping} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$apply_cmd_s3_safe(x)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{x}}{Command block}
 }
 \if{html}{\out{</div>}}
 }
