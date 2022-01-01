@@ -59,9 +59,10 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
     mapping_file,
     sheet = sheet,
     range = cellranger::cell_cols(c("B:D")),
-    skip = 0
+    skip = 0,
+    col_types = c("text", "text", "text"),
+    col_names = LETTERS[2:4]
   ) %>%
-    dplyr::rename_all(~LETTERS[2:4]) %>%
     dplyr::filter(.data$B == "Filename input") %>%
     dplyr::pull(.data$D)
   adapt_filepath(file_path, mapping_file)
