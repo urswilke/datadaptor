@@ -1,34 +1,4 @@
 
-gen_command_table <- function(self) {
-  self$gen_command_table_raw()
-
-  df_cmd <- self$params$df_cmd_raw
-
-  df_cmd_manip_string <- self$params$mapping_file_attrs$manipulate_command_table
-  if (!is.na(df_cmd_manip_string)) {
-    df_cmd <- apply_df_cmd_manip(df_cmd_manip_string, df_cmd)
-  }
-  df_cmd <- df_cmd %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(data = parse_cmd_block_args(.data$action, .data$data, self$params$vectorized)) %>%
-    dplyr::ungroup()
-  if (self$params$na_to_filter == TRUE) {
-    df_cmd <- dplyr::bind_rows(
-      generate_rec_na_cmd_table(self),
-      df_cmd
-    )
-  }
-  if (self$params$add_r_command_colum) {
-    cmd_list <- purrr::map2(df_cmd$action, df_cmd$data, ~deparse(generate_cmd_expression(.x, .y)))
-    df_cmd["R command"] <-
-      tibble::tibble(a = cmd_list) %>%
-      dplyr::rowwise() %>%
-      dplyr::mutate(a = list(paste(stringr::str_squish(.data$a), collapse = " "))) %>%
-      tidyr::unnest(.data$a)
-  }
-
-  self$df_cmd <- df_cmd
-}
 gen_command_table_raw_ <- function(self) {
   sheets <- self$mapping_file %>% readxl::excel_sheets()
 
