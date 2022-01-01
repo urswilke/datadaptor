@@ -1,5 +1,5 @@
 
-gen_command_table_raw_ <- function(self) {
+gen_command_table <- function(self) {
   sheets <- self$mapping_file %>% readxl::excel_sheets()
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
@@ -19,9 +19,13 @@ gen_command_table_raw_ <- function(self) {
     .id = "sheet"
   )
 
-  self$params$df_cmd_raw <- df_cmd_raw
-
-  invisible(self)
+  if (self$params$na_to_filter == TRUE) {
+    df_cmd_raw <- dplyr::bind_rows(
+      generate_rec_na_cmd_table(self),
+      df_cmd_raw
+    )
+  }
+  df_cmd_raw
 }
 
 generate_rec_na_cmd_table <- function(self) {

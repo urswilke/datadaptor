@@ -2,13 +2,12 @@
 
     <Mapping>
       Public:
-        apply_all_s3_cmds: function () 
+        apply_all_s3_cmds: function (reset = TRUE) 
         apply_cmd_s3: function (x) 
         apply_cmd_s3_safe: function (x) 
         clone: function (deep = FALSE) 
         dat: tbl_df, tbl, data.frame
-        dat_mod: tbl_df, tbl, data.frame
-        gen_command_table_raw: function () 
+        dat_mod: NULL
         initialize: function (dat = NULL, mapping_file) 
         mapping_file: /home/chief/R/datenanpassr/inst/extdata/mapping.xlsx
         params: list
