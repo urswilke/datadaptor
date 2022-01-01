@@ -6,7 +6,6 @@ Mapping <- R6::R6Class(
   public = list(
      dat = NULL,
      mapping_file = NULL,
-     df_cmd = NULL,
      dat_mod = NULL,
      params = NULL,
      initialize = function(
@@ -142,7 +141,6 @@ set_default_parameters <- function(self) {
   self$params <- list(
     na_to_filter = TRUE,
     vectorized = FALSE,
-    df_cmd = tibble::tibble(),
     data = tibble::tibble(),
     try_catch = FALSE,
     add_r_command_colum = FALSE,
