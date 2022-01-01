@@ -1,41 +1,4 @@
 #' @export
-new_command_block <- function(x, ..., subclass = character()) {
-  structure(
-    x,
-    ...,
-    class = c(subclass, "command_block")
-  )
-}
-#' @export
-command_block_factory <- function(x) {
-  subclass <- switch (x$action,
-    "#RECNA"   = "cmd_recna_xcpt",
-    "#IF"      = "cmd_if",
-    "#COMP"    = "cmd_comp",
-    "#VARL"    = "cmd_set_lab",
-    "#VALL"    = "cmd_set_labs",
-    "#REC"     = "cmd_rec",
-    "#SUMVAR"  = "cmd_sumvar",
-    "#AVALL"   = "cmd_add_labs",
-    "#DIC"     = "cmd_dic",
-    "#AUTOREC" = "cmd_autorec",
-    "#STR2NUM" = "cmd_str_to_num",
-    "#RENAME"  = "cmd_rename",
-    "#MERGE"   = "cmd_merge",
-    "#NEWVALL" = "cmd_newvall",
-    "#verbatim"= "cmd_verbatim" ,
-    "#DROP"    = "cmd_drop",
-    "#NEWLAB"  = "cmd_newlab",
-    "#KG"      = "cmd_kg",
-    "#RFUN"    = "cmd_rfun",
-    "#R"       = "cmd_r",
-    "#COMPR"   = "cmd_comp",
-  )
-  new_command_block(x, subclass = subclass)
-}
-
-
-#' @export
 apply_command <- function(x, self) {
   UseMethod("apply_command")
 }

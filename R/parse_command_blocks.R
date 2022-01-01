@@ -1,3 +1,9 @@
+process_command_blocks <- function(self) {
+  self$cmd$df_cmd_raw <- gen_command_table(self)
+  self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
+  self$cmd$command_blocks <- gen_command_blocks(self)
+
+}
 
 gen_command_table <- function(self) {
   sheets <- self$mapping_file %>% readxl::excel_sheets()
@@ -92,3 +98,68 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
+
+
+
+gen_command_blocks_raw <- function(self) {
+
+  self$cmd$df_cmd_raw %>%
+    dplyr::rowwise() %>%
+    dplyr::transmute(cmd = list(command_block_factory(dplyr::cur_data()))) %>%
+    dplyr::pull()
+}
+#' @export
+new_command_block <- function(x, ..., subclass = character()) {
+  structure(
+    x,
+    ...,
+    class = c(subclass, "command_block")
+  )
+}
+#' @export
+command_block_factory <- function(x) {
+  subclass <- switch (x$action,
+    "#RECNA"   = "cmd_recna_xcpt",
+    "#IF"      = "cmd_if",
+    "#COMP"    = "cmd_comp",
+    "#VARL"    = "cmd_set_lab",
+    "#VALL"    = "cmd_set_labs",
+    "#REC"     = "cmd_rec",
+    "#SUMVAR"  = "cmd_sumvar",
+    "#AVALL"   = "cmd_add_labs",
+    "#DIC"     = "cmd_dic",
+    "#AUTOREC" = "cmd_autorec",
+    "#STR2NUM" = "cmd_str_to_num",
+    "#RENAME"  = "cmd_rename",
+    "#MERGE"   = "cmd_merge",
+    "#NEWVALL" = "cmd_newvall",
+    "#verbatim"= "cmd_verbatim" ,
+    "#DROP"    = "cmd_drop",
+    "#NEWLAB"  = "cmd_newlab",
+    "#KG"      = "cmd_kg",
+    "#RFUN"    = "cmd_rfun",
+    "#R"       = "cmd_r",
+    "#COMPR"   = "cmd_comp",
+  )
+  new_command_block(x, subclass = subclass)
+}
+
+
+
+new_command_blocks <- function(command_blocks, ..., subclass = character()) {
+  class(command_blocks) <- c(subclass, "command_blocks", "list")
+
+  command_blocks
+}
+
+gen_command_blocks <- function(self) {
+  try_catch_subclass <- ifelse(self$params$try_catch, "safe", "unsafe")
+  purrr::map(self$cmd$command_blocks_raw, parse_command_args) %>%
+    new_command_blocks(subclass = try_catch_subclass)
+}
+
+#' @export
+`[.command_blocks` <- function(x, i) {
+  new_command_blocks(NextMethod(x))
+}
+

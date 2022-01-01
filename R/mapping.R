@@ -1,5 +1,3 @@
-
-
 #' Mapping class
 #'
 #'
@@ -130,40 +128,6 @@ add_error_list_to_command_blocks <- function(self) {
   self$cmd$command_blocks <- command_blocks_mod
   invisible(self)
 }
-
-
-
-gen_command_blocks_raw <- function(self) {
-
-  self$cmd$df_cmd_raw %>%
-    dplyr::rowwise() %>%
-    dplyr::transmute(cmd = list(command_block_factory(dplyr::cur_data()))) %>%
-    dplyr::pull()
-}
-
-new_command_blocks <- function(command_blocks, ..., subclass = character()) {
-  class(command_blocks) <- c(subclass, "command_blocks", "list")
-
-  command_blocks
-}
-
-gen_command_blocks <- function(self) {
-  try_catch_subclass <- ifelse(self$params$try_catch, "safe", "unsafe")
-  purrr::map(self$cmd$command_blocks_raw, parse_command_args) %>%
-    new_command_blocks(subclass = try_catch_subclass)
-}
-
-#' @export
-`[.command_blocks` <- function(x, i) {
-  new_command_blocks(NextMethod(x))
-}
-process_command_blocks <- function(self) {
-  self$cmd$df_cmd_raw <- gen_command_table(self)
-  self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
-  self$cmd$command_blocks <- gen_command_blocks(self)
-
-}
-
 
 initialize_dat <- function(self, dat) {
   if (is.null(dat)) {
