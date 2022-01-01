@@ -7,13 +7,19 @@
 The class \code{Mapping} can be used to apply the changes specified in the command blocks of an Excel mapping file to a (labelled) dataframe.
 }
 \examples{
-## Create a Mapping object:
+# Create a Mapping object from the files provided by the package:
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 mapping <- Mapping$new(spss_file, mapping_file)
+
+# Generate command blocks:
 mapping$gen_command_table_raw()
+# Apply command blocks to dataset specified by spss_file:
 mapping$apply_all_s3_cmds()
+# Access the modified dataframe:
 mapping$dat_mod
+# To write it back to an SPSS file, you could do:
+# haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
