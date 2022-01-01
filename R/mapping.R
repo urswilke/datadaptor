@@ -50,9 +50,7 @@ Mapping <- R6::R6Class(
 
        self$mapping_file <- mapping_file
        self$params <- load_configr_params(self)
-       self$cmd$df_cmd_raw <- gen_command_table(self)
-       self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
-       self$cmd$command_blocks <- gen_command_blocks(self)
+       process_command_blocks(self)
      },
      #' @description Run all command blocks of the mapping file. The command
      #'   blocks of the Excel mapping file are translated to the field
@@ -115,12 +113,6 @@ apply_command_block_safe <- function(x, self) {
 
   invisible(self)
 }
-
-
-
-
-
-
 # HACKY - would be easier to add to data.frame format
 # as in self$cmd$df_cmd_raw instead of self$cmd$command_blocks:
 add_error_list_to_command_blocks <- function(self) {
@@ -135,6 +127,8 @@ add_error_list_to_command_blocks <- function(self) {
   self$cmd$command_blocks <- command_blocks_mod
   invisible(self)
 }
+
+
 
 gen_command_blocks_raw <- function(self) {
 
@@ -160,7 +154,12 @@ gen_command_blocks <- function(self) {
 `[.command_blocks` <- function(x, i) {
   new_command_blocks(NextMethod(x))
 }
+process_command_blocks <- function(self) {
+  self$cmd$df_cmd_raw <- gen_command_table(self)
+  self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
+  self$cmd$command_blocks <- gen_command_blocks(self)
 
+}
 
 
 initialize_dat <- function(self, dat) {
