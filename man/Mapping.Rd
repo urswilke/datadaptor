@@ -65,8 +65,9 @@ Initialize a Mapping object
 \if{html}{\out{<a id="method-modify_data"></a>}}
 \if{latex}{\out{\hypertarget{method-modify_data}{}}}
 \subsection{Method \code{modify_data()}}{
-Run all command blocks of the mapping file.
-The command blocks of the Excel mapping file are translated to the field \code{$params$command_blocks} field of the \code{Mapping} object.
+Run all command blocks of the mapping file. The command
+blocks of the Excel mapping file are translated to the field
+\code{$params$command_blocks} field of the \code{Mapping} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE)}\if{html}{\out{</div>}}
 }
