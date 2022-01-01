@@ -51,7 +51,9 @@ Mapping <- R6::R6Class(
      #' @description Run all command blocks of the mapping file. The command
      #'   blocks of the Excel mapping file are translated to the field
      #'   \code{$params$command_blocks} field of the \code{Mapping} object.
-     #' @param reset whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{modify_data()} multiple times).
+     #' @param reset whether to apply the modifications to the input data (field
+     #'   \code{dat}) or whether to keep previous modifications (only relevant
+     #'   when applying the \code{modify_data()} multiple times).
      modify_data = function(reset = TRUE) {
        if (reset == TRUE) {
          self$dat_mod <- self$dat

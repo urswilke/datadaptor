@@ -75,7 +75,9 @@ blocks of the Excel mapping file are translated to the field
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{reset}}{whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{modify_data()} multiple times).}
+\item{\code{reset}}{whether to apply the modifications to the input data (field
+\code{dat}) or whether to keep previous modifications (only relevant
+when applying the \code{modify_data()} multiple times).}
 }
 \if{html}{\out{</div>}}
 }
