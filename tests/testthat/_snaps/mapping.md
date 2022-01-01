@@ -1,6 +1,6 @@
 # class object print is reproduced
 
-    <apply_mods>
+    <Mapping>
       Public:
         apply_all_s3_cmds: function () 
         apply_cmd_s3: function (x) 
