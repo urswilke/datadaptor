@@ -20,7 +20,7 @@
 #' # Generate command blocks:
 #' mapping$gen_command_table_raw()
 #' # Apply command blocks to dataset specified by spss_file:
-#' mapping$apply_all_s3_cmds()
+#' mapping$modify_data()
 #' # Access the modified dataframe:
 #' mapping$dat_mod
 #' # To write it back to an SPSS file, you could do:
@@ -50,8 +50,8 @@ Mapping <- R6::R6Class(
      },
      #' @description Run all command blocks of the mapping file.
      #' The command blocks of the Excel mapping file are translated to the field \code{$params$command_blocks} field of the \code{Mapping} object.
-     #' @param reset whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{apply_all_s3_cmds()} multiple times).
-     apply_all_s3_cmds = function(reset = TRUE) {
+     #' @param reset whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{modify_data()} multiple times).
+     modify_data = function(reset = TRUE) {
        if (reset == TRUE) {
          self$dat_mod <- self$dat
        }
@@ -67,9 +67,9 @@ apply_command_blocks <- function(command_blocks, self) {
 }
 
 apply_command_blocks.unsafe <- function(command_blocks, self) {
-  purrr::walk(command_blocks, apply_cmd_s3, self)
+  purrr::walk(command_blocks, apply_command_block_unsafe, self)
 }
-apply_cmd_s3 <- function(x, self) {
+apply_command_block_unsafe <- function(x, self) {
   apply_command(x, self)
   invisible(self)
 }
@@ -78,12 +78,12 @@ apply_command_blocks.safe <- function(command_blocks, self) {
   self$params$cmd_index <- 0
   self$params$error_list <- vector("character", length(self$params$command_blocks))
 
-  purrr::walk(self$params$command_blocks, apply_cmd_s3_safe, self)
+  purrr::walk(self$params$command_blocks, apply_command_block_safe, self)
 
   add_error_list_to_command_blocks(self)
 
 }
-apply_cmd_s3_safe <- function(x, self) {
+apply_command_block_safe <- function(x, self) {
   cmd_index <- self$params$cmd_index + 1
   self$params$cmd_index <- cmd_index
   tryCatch(

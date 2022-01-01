@@ -11,7 +11,7 @@ test_that("class object print is reproduced", {
 # testthat::expect_message(testthat::expect_message(mapping_s3$gen_command_table_raw()))
 
 # filter commands that are already implemented:
-mapping_s3$apply_all_s3_cmds()
+mapping_s3$modify_data()
 test_that("command blocks print is reproduced", {
   testthat::expect_snapshot_output({
     mapping_s3$params$command_blocks[mapping_s3$params$command_blocks %>% purrr::map_chr("action") != "#MERGE"]
@@ -39,7 +39,7 @@ mapping_trycatch$params$try_catch <- TRUE
 mapping_trycatch$params$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
 mapping_trycatch$params$command_blocks <- gen_command_blocks(mapping_trycatch)
 
-testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$apply_all_s3_cmds())))
+testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
 test_that("error list print is reproduced", {
   testthat::expect_snapshot_output({
     mapping_trycatch$params$error_list[46:48]

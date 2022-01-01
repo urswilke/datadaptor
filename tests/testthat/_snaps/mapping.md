@@ -2,12 +2,12 @@
 
     <Mapping>
       Public:
-        apply_all_s3_cmds: function (reset = TRUE) 
         clone: function (deep = FALSE) 
         dat: tbl_df, tbl, data.frame
         dat_mod: NULL
         initialize: function (dat = NULL, mapping_file) 
         mapping_file: /home/chief/R/datenanpassr/inst/extdata/mapping.xlsx
+        modify_data: function (reset = TRUE) 
         params: list
 
 # command blocks print is reproduced

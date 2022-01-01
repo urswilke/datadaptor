@@ -15,7 +15,7 @@ mapping <- Mapping$new(spss_file, mapping_file)
 # Generate command blocks:
 mapping$gen_command_table_raw()
 # Apply command blocks to dataset specified by spss_file:
-mapping$apply_all_s3_cmds()
+mapping$modify_data()
 # Access the modified dataframe:
 mapping$dat_mod
 # To write it back to an SPSS file, you could do:
@@ -38,7 +38,7 @@ mapping$dat_mod
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Mapping$new()}}
-\item \href{#method-apply_all_s3_cmds}{\code{Mapping$apply_all_s3_cmds()}}
+\item \href{#method-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-clone}{\code{Mapping$clone()}}
 }
 }
@@ -62,19 +62,19 @@ Initialize a Mapping object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-apply_all_s3_cmds"></a>}}
-\if{latex}{\out{\hypertarget{method-apply_all_s3_cmds}{}}}
-\subsection{Method \code{apply_all_s3_cmds()}}{
+\if{html}{\out{<a id="method-modify_data"></a>}}
+\if{latex}{\out{\hypertarget{method-modify_data}{}}}
+\subsection{Method \code{modify_data()}}{
 Run all command blocks of the mapping file.
 The command blocks of the Excel mapping file are translated to the field \code{$params$command_blocks} field of the \code{Mapping} object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$apply_all_s3_cmds(reset = TRUE)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{reset}}{whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{apply_all_s3_cmds()} multiple times).}
+\item{\code{reset}}{whether to apply the modifications to the input data (field \code{dat}) or whether to keep previous modifications (only relevant when applying the \code{modify_data()} multiple times).}
 }
 \if{html}{\out{</div>}}
 }
