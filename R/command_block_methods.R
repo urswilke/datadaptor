@@ -9,18 +9,11 @@ apply_command <- function(x, self) {
   UseMethod("apply_command")
 }
 
-
-
-
-
-
-
 #' @export
 apply_command.cmd_recna_xcpt <- function(x, self) {
   recode_na_exceptions <- x$args$recode_na_exceptions
   replace_val <- x$args$replace_val
   replace_label <- x$args$replace_label
-
 
   # remove variable names not found in df:
   # TODO: think of cleaner way to do this:
@@ -34,8 +27,6 @@ apply_command.cmd_recna_xcpt <- function(x, self) {
     )
 }
 
-
-
 #' @export
 apply_command.cmd_r <- function(x, self) {
   r_code <- x$args$r_code
@@ -44,16 +35,6 @@ apply_command.cmd_r <- function(x, self) {
     eval_in_data(self)
   self$dat_mod <- dplyr::bind_cols(self$dat_mod, new_df)
 }
-
-
-
-
-
-
-
-
-
-
 
 #' @export
 apply_command.cmd_rfun <- function(x, self) {
@@ -65,18 +46,6 @@ apply_command.cmd_rfun <- function(x, self) {
 
   self$dat_mod <- do.call(fun_name, list(self$dat_mod))
 }
-
-
-
-
-
-
-
-
-
-
-
-
 
 #' @export
 apply_command.cmd_kg <- function(x, self) {
@@ -98,31 +67,11 @@ apply_command.cmd_kg <- function(x, self) {
     dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
 #' @export
 apply_command.cmd_drop <- function(x, self) {
   orig_vars <- x$args$orig_vars
   self$dat_mod[orig_vars] <- NULL
 }
-
-
-
-
-
-
-
-
 
 #' @export
 apply_command.cmd_verbatim <- function(x, self) {
@@ -133,7 +82,6 @@ apply_command.cmd_verbatim <- function(x, self) {
   id <- self$params$id_var
   id_list <- x$args$id_list
   init_val <- x$args$init_val
-
 
   if (!var_ziel %in% names(self$dat_mod)) {
     self$dat_mod[[var_ziel]] <- init_val
@@ -152,19 +100,11 @@ apply_command.cmd_verbatim <- function(x, self) {
   )
 }
 
-
-
-
-
-
-
-
 #' @export
 apply_command.cmd_merge <- function(x, self) {
   variable_names <- x$args$variable_names
   merge_file <- x$args$merge_file
   id <- x$args$id
-
 
   id_var_name <- id
   merge_vars <- c(id_var_name, variable_names)
@@ -183,7 +123,6 @@ apply_command.cmd_merge <- function(x, self) {
     df_merge <- df_merge %>% dplyr::filter(!!rlang::sym(id_var_name) %in% id_var)
   }
 
-
   self$dat_mod <- self$dat_mod %>%
     dplyr::mutate(
       tibble::tibble(id_var) %>%
@@ -193,13 +132,6 @@ apply_command.cmd_merge <- function(x, self) {
     )
 }
 
-
-
-
-
-
-
-
 #' @export
 apply_command.cmd_rename <- function(x, self) {
   orig_vars <- x$args$orig_vars
@@ -208,12 +140,6 @@ apply_command.cmd_rename <- function(x, self) {
   self$dat_mod <- self$dat_mod %>%
     dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
 }
-
-
-
-
-
-
 
 #' @export
 apply_command.cmd_if <- function(x, self) {
@@ -229,8 +155,6 @@ apply_command.cmd_if <- function(x, self) {
   if (!new_var %in% names(self$dat_mod)) {
     self$dat_mod[[new_var]] <- NA_real_
   }
-
-
 
   test <- eval_in_data(rlang::expr(datenanpassr:::is_true(!!cond)), self)
   yes <- eval_in_data(rlang::expr(!!val), self)
@@ -251,7 +175,6 @@ eval_in_data <- function(e, self) {
   )
 }
 
-
 #' @export
 #' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(x, self) {
@@ -265,8 +188,6 @@ apply_command.cmd_comp <- function(x, self) {
   if (!new_var %in% names(self$dat_mod)) {
     self$dat_mod[[new_var]] <- NA_real_
   }
-
-
 
   vec <- eval_in_data(rlang::expr(!!val), self)
   varlab <- labelled::var_label(vec) %||% labelled::var_label(self$dat_mod[[new_var]])
@@ -304,8 +225,6 @@ apply_command.cmd_set_lab <- function(x, self) {
 #' @export
 apply_command.cmd_newlab <- apply_command.cmd_set_lab
 
-
-
 #' @export
 apply_command.cmd_set_labs <- function(x, self) {
   orig_var <- x$args$orig_var
@@ -322,10 +241,6 @@ apply_command.cmd_set_labs <- function(x, self) {
     label = new_lab
   )
 }
-
-
-
-
 
 #' @export
 apply_command.cmd_add_labs <- function(x, self) {
@@ -355,14 +270,6 @@ apply_command.cmd_add_labs <- function(x, self) {
 
 #' @export
 apply_command.cmd_newvall <- apply_command.cmd_add_labs
-
-
-
-
-
-
-
-
 
 #' @export
 apply_command.cmd_rec <- function(x, self) {
@@ -395,7 +302,6 @@ apply_command.cmd_rec <- function(x, self) {
       function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
     )
 
-
   x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
 
   self$dat_mod[[new_var]] <- haven::labelled(
@@ -405,8 +311,6 @@ apply_command.cmd_rec <- function(x, self) {
   )
   invisible(self)
 }
-
-
 
 #' @export
 apply_command.cmd_sumvar <- function(x, self) {
@@ -443,14 +347,6 @@ apply_command.cmd_sumvar <- function(x, self) {
   invisible(self)
 }
 
-
-
-
-
-
-
-
-
 #' @export
 apply_command.cmd_dic <- function(x, self) {
   orig_var <- x$args$orig_var
@@ -464,7 +360,6 @@ apply_command.cmd_dic <- function(x, self) {
     self$dat_mod[[new_var]] <- NA_real_
   }
 
-
   self$dat_mod[[new_var]] <- haven::labelled(
     self$dat_mod[[new_var]],
     labels = vallabs,
@@ -472,12 +367,6 @@ apply_command.cmd_dic <- function(x, self) {
   )
   invisible(self)
 }
-
-
-
-
-
-
 
 #' @export
 apply_command.cmd_autorec <- function(x, self) {
@@ -489,8 +378,6 @@ apply_command.cmd_autorec <- function(x, self) {
   self$dat_mod[[var_name]] <- x_labelled
   invisible(self)
 }
-
-
 
 # #STR2NUM
 #' @export

@@ -228,7 +228,6 @@ parse_command_args.cmd_autorec <- function(x) {
   x
 }
 
-
 #' @export
 parse_command_args.cmd_str_to_num <- function(x) {
   d <- x$raw

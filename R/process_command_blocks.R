@@ -66,7 +66,6 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
   )
 }
 
-
 switch_sheets_vars_label <- function(sheets) {
   var_index <- which(sheets == "Variables")
   lab_index <- which(sheets == "Label")
@@ -95,8 +94,6 @@ tab_sheet_types <- function(sheets) {
     purrr::map_chr(~.x) %>%
     tibble::enframe("sheet", "sheet_type")
 }
-
-
 
 gen_command_blocks_raw <- function(self) {
 
@@ -140,8 +137,6 @@ new_command_block <- function(x, ..., subclass = character()) {
     class = c(subclass, "command_block")
   )
 }
-
-
 
 #' Command_blocks objects
 #'
