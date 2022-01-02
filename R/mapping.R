@@ -68,8 +68,8 @@ Mapping <- R6::R6Class(
      #' @param reset whether to apply the modifications to the input data (field
      #'   \code{dat}) or whether to keep previous modifications (only relevant
      #'   when applying the \code{modify_data()} multiple times).
-     #' @param command_blocks The \code{"command_blocks"}) object results of the Excel
-     #'   mapping file.
+     #' @param command_blocks The \code{"command_blocks"} object results of the
+     #'   processing of the Excel mapping file.
      #' @examples
      #' # Create a Mapping object from the files provided by the package:
      #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")

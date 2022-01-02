@@ -110,8 +110,8 @@ blocks of the Excel mapping file are translated to the field
 \code{dat}) or whether to keep previous modifications (only relevant
 when applying the \code{modify_data()} multiple times).}
 
-\item{\code{command_blocks}}{The \code{"command_blocks"}) object results of the Excel
-mapping file.}
+\item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
+processing of the Excel mapping file.}
 }
 \if{html}{\out{</div>}}
 }
