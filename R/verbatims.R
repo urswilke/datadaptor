@@ -24,7 +24,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
   # self$mapping_file <- new_self$mapping_file(self$mapping_file)
   if (!is.na(verbatim_file)) {
     id_var_str <- self$params$id_var
-    l <- parse_verbatim_data_raw(self$mapping_file, verbatim_file, sheet)
+    l <- self$cmd$sheet_data_raw[[sheet]]
     generate_verbatim_assignment_table_raw(l) %>%
       dplyr::mutate(
         action = "#verbatim",

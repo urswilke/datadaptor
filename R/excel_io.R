@@ -93,7 +93,7 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
 mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
-  read_variables_sheet_raw(self$mapping_file, sheet) %>%
+  self$cmd$sheet_data_raw[[sheet]] %>%
     format_df_varl()
 }
 
@@ -223,7 +223,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' }
 #' mapp_vallab_sheet_cmd_table(mapping_file)
 mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
-  df_vall <- read_label_sheet_raw(self$mapping_file, sheet)
+  df_vall <- self$cmd$sheet_data_raw[[sheet]]
 
   df_vall <- df_vall %>%
     dplyr::mutate(row = dplyr::row_number() + 1)
@@ -292,7 +292,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' }
 #' mapp_free_sheet_cmd_table(mapping_file)
 mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
-  df_free <- mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet)
+  df_free <- self$cmd$sheet_data_raw[[sheet]]
   if (nrow(df_free) > 0) {
     df_free <- df_free[1:5] %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%

@@ -1,12 +1,14 @@
 process_command_blocks <- function(self) {
+  self$cmd$sheet_cats <- gen_sheet_cats(self)
+  self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
   self$cmd$df_cmd_raw <- gen_command_table(self)
   self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
 }
 
 gen_command_table <- function(self) {
-  gen_sheet_cats(self)
   sheet_cats <- self$cmd$sheet_cats
+
 
   df_cmd_raw <- purrr::map2_dfr(
     sheet_cats$sheet %>%
@@ -35,8 +37,19 @@ gen_sheet_cats <- function(self) {
   }
 
   sheet_cats <- tab_sheet_types(sheets)
-  self$cmd$sheet_cats <- sheet_cats
+  sheet_cats
 }
+gen_sheet_data_raw_list <- function(self) {
+  sheet_cats <- self$cmd$sheet_cats
+  purrr::map2(
+    sheet_cats$sheet %>%
+      purrr::set_names(),
+    sheet_cats$sheet_type,
+    ~ gen_sheet_data_raw(self, .y, .x),
+    .id = "sheet"
+  )
+}
+
 generate_rec_na_cmd_table <- function(self) {
   # generates a row of a command table with the command to recode missing to -2,
   # labelled "FILTER"
@@ -67,6 +80,15 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
     "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
     "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
+  )
+}
+
+gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
+  switch(sheet_cat,
+         "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name),
+         "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name),
+         "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
+         "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name))
   )
 }
 
