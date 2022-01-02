@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/datenanpassr)](https://CRAN.R-project.org/package=datenanpassr)
 <!-- badges: end -->
 
-The R package datenanpassr is an approach to programatically manipulate
+The R package datenanpassr is an approach to programmatically manipulate
 labelled datasets via a pre-defined syntax of various types of commands
 in various types of Excel sheets. It is a replacement of what my brother
 initially programmed in VBA and SPSS and how we approach our daily work

@@ -17,4 +17,4 @@ knitr::opts_chunk$set(
 * Apply `mapp_xl_to_data()` with `try_catch = TRUE`; `rec_fun = purrr::accumulate2`
 * Put `#RFUN` with browser to interrupt execution jump and open the interactive debugger
 * `translate_to_r_script()` and process the code until the command you want to debug
-* To debug a funtion called with #RFUN: Set breakpoint in `cmd_rfun()` (after sourcing the script), then call `debugcall(function_in_script_you_want_to_debug(df))`
+* To debug a function called with #RFUN: Set breakpoint in `cmd_rfun()` (after sourcing the script), then call `debugcall(function_in_script_you_want_to_debug(df))`

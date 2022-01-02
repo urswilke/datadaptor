@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 
 
-The R package datenanpassr is an approach to programatically manipulate labelled datasets via a pre-defined syntax of various types of commands in various types of Excel sheets. It is a replacement of what my brother initially programmed in VBA and SPSS and how we approach our daily work of data cleaning of survey data. The package can be used to write various data manipulations in a concise way filling in commands in Excel cells.
+The R package datenanpassr is an approach to programmatically manipulate labelled datasets via a pre-defined syntax of various types of commands in various types of Excel sheets. It is a replacement of what my brother initially programmed in VBA and SPSS and how we approach our daily work of data cleaning of survey data. The package can be used to write various data manipulations in a concise way filling in commands in Excel cells.
 
 
 
