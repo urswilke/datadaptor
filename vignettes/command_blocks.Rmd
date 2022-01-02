@@ -76,7 +76,7 @@ m$cmd$command_blocks[1:3]
 But underneath, the structure is equal to `m$cmd$command_blocks_raw`, with an
 additional field `args` added:
 ```{r}
-m$cmd$command_blocks[[3]]
+m$cmd$command_blocks[[3]]$args
 ```
 
 ## Apply command blocks
@@ -87,7 +87,9 @@ These command blocks can then be applied to the data with
 m$modify_data()
 ```
 
-and you can access the data with
+Underneath the hood, this function calls `apply_commands()` and passes it the arguments `args` (see above).
+
+You can access the data with
 ```{r}
 m$dat_mod
 ```
