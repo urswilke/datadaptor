@@ -66,10 +66,16 @@ Mapping <- R6::R6Class(
      #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
      #'   \code{self$cmd$command_blocks} field of the \code{Mapping} object.
      #'
-     #'   The internally called method `apply_command_blocks()` depends on the
-     #'   value of `self$params$error_out` subclass. Then, the list of `command_block`
-     #'   objects is applied to the data accoriding to their subclass methods of
-     #'   `apply_command()`.
+     #'   The internally called `apply_command_blocks()` method depends on the
+     #'   value of `self$params$error_out` subclass. This subclass decides
+     #'   whether to interrupt code execution in case of an error in one of the
+     #'   command blocks (for `"unsafe"`), or not (for the subclass `"safe"`).
+     #'
+     #'
+     #'   `apply_command_blocks()` then walks through the list of
+     #'   `"command_block"` objects in `"command_blocks"` and applies each of them to
+     #'   the data in the field `"dat_mod"` according to their subclass methods
+     #'   of `apply_command()`.
      #' @param reset whether to apply the modifications to the input data (field
      #'   \code{dat}) or whether to keep previous modifications (only relevant
      #'   when applying the \code{modify_data()} multiple times).

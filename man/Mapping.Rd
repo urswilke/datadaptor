@@ -100,10 +100,15 @@ Run all command blocks of the mapping file. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
 \code{self$cmd$command_blocks} field of the \code{Mapping} object.
 
-The internally called method \code{apply_command_blocks()} depends on the
-value of \code{self$params$error_out} subclass. Then, the list of \code{command_block}
-objects is applied to the data accoriding to their subclass methods of
-\code{apply_command()}.
+The internally called \code{apply_command_blocks()} method depends on the
+value of \code{self$params$error_out} subclass. This subclass decides
+whether to interrupt code execution in case of an error in one of the
+command blocks (for \code{"unsafe"}), or not (for the subclass \code{"safe"}).
+
+\code{apply_command_blocks()} then walks through the list of
+\code{"command_block"} objects in \code{"command_blocks"} and applies each of them to
+the data in the field \code{"dat_mod"} according to their subclass methods
+of \code{apply_command()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd$command_blocks)}\if{html}{\out{</div>}}
 }
