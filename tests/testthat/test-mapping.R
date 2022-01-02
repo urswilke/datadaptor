@@ -37,7 +37,7 @@ mapping_trycatch$cmd$df_cmd_raw$raw[[47]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$cmd$df_cmd_raw$raw[[48]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$params$try_catch <- TRUE
 mapping_trycatch$cmd$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
-mapping_trycatch$cmd$command_blocks <- gen_command_blocks(mapping_trycatch)
+mapping_trycatch$cmd$command_blocks <- command_blocks(mapping_trycatch)
 
 testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
 test_that("error list print is reproduced", {

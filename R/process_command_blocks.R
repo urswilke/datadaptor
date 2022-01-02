@@ -1,7 +1,7 @@
 process_command_blocks <- function(self) {
   self$cmd$df_cmd_raw <- gen_command_table(self)
   self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
-  self$cmd$command_blocks <- gen_command_blocks(self)
+  self$cmd$command_blocks <- command_blocks(self)
 
 }
 
@@ -146,9 +146,22 @@ new_command_block <- function(x, ..., subclass = character()) {
 
 
 
-gen_command_blocks <- function(self) {
-  try_catch_subclass <- ifelse(self$params$try_catch, "safe", "unsafe")
-  purrr::map(self$cmd$command_blocks_raw, parse_command_args) %>%
+#' Generate command_blocks object
+#'
+#' @param mapping Mapping object
+#'
+#' @return command_blocks object
+#' @export
+#'
+#' @examples
+#' # Create a Mapping object from the files provided by the package:
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' m <- Mapping$new(spss_file, mapping_file)
+#' command_blocks(m)
+command_blocks <- function(mapping) {
+  try_catch_subclass <- ifelse(mapping$params$try_catch, "safe", "unsafe")
+  purrr::map(mapping$cmd$command_blocks_raw, parse_command_args) %>%
     new_command_blocks(subclass = try_catch_subclass)
 }
 
