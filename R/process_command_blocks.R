@@ -109,14 +109,6 @@ gen_command_blocks_raw <- function(self) {
     dplyr::pull()
 }
 #' @export
-new_command_block <- function(x, ..., subclass = character()) {
-  structure(
-    x,
-    ...,
-    class = c(subclass, "command_block")
-  )
-}
-#' @export
 command_block_factory <- function(x) {
   subclass <- switch (x$action,
     "#RECNA"   = "cmd_recna_xcpt",
@@ -143,19 +135,27 @@ command_block_factory <- function(x) {
   )
   new_command_block(x, subclass = subclass)
 }
-
-
-
-new_command_blocks <- function(command_blocks, ..., subclass = character()) {
-  class(command_blocks) <- c(subclass, "command_blocks", "list")
-
-  command_blocks
+#' @export
+new_command_block <- function(x, ..., subclass = character()) {
+  structure(
+    x,
+    ...,
+    class = c(subclass, "command_block")
+  )
 }
+
+
 
 gen_command_blocks <- function(self) {
   try_catch_subclass <- ifelse(self$params$try_catch, "safe", "unsafe")
   purrr::map(self$cmd$command_blocks_raw, parse_command_args) %>%
     new_command_blocks(subclass = try_catch_subclass)
+}
+
+new_command_blocks <- function(command_blocks, ..., subclass = character()) {
+  class(command_blocks) <- c(subclass, "command_blocks", "list")
+
+  command_blocks
 }
 
 #' @export
