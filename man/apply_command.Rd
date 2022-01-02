@@ -18,12 +18,19 @@ Apply a command block to the mapping
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
-cbs <- m$cmd$df_cmd_raw \%>\%
+# Construct a command_block of the 10th line in m$cmd$df_cmd_raw:
+cb <- m$cmd$df_cmd_raw \%>\%
   purrr::transpose() \%>\%
   .[[10]] \%>\%
   command_block_factory() \%>\%
-  parse_command_args() \%>\%
-  list(.) \%>\%
+  parse_command_args()
+# Generate command_blocks object:
+cbs <- list(cb) \%>\%
   datenanpassr:::new_command_blocks(subclass = "unsafe")
+# Apply it to the data:
 m$modify_data(command_blocks = cbs)
+
+The label of the variable in m$dat_mod was modified:
+m$dat$q5
+m$dat_mod$q5
 }
