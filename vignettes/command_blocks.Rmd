@@ -47,7 +47,7 @@ This is what the latter looks like for the  `"Free1"` sheet of the Excel file:
 m$cmd$sheet_data_raw$Free1
 ```
 
-## Command table
+## Raw command table
 
 The whole information in `m$cmd$sheet_data_raw` is then joint to a dataframe
 ```{r}
@@ -79,6 +79,16 @@ additional field `args` added:
 m$cmd$command_blocks[[3]]$args
 ```
 
+## Overview command table
+
+The whole information is put to `m$cmd_tbl`:
+
+```{r}
+m$cmd_tbl
+```
+
+
+
 ## Apply command blocks
 
 These command blocks can then be applied to the data with 
@@ -96,7 +106,7 @@ m$dat_mod
 
 
 <details>
-  <summary>Click here to show whole list structure print output!</summary>
+  <summary>Click here to show whole list structure print output of `m$cmd`!</summary>
 ```{r}
 m$cmd
 ```
