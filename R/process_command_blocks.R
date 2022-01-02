@@ -2,7 +2,6 @@ process_command_blocks <- function(self) {
   self$cmd$df_cmd_raw <- gen_command_table(self)
   self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
-
 }
 
 gen_command_table <- function(self) {
@@ -59,14 +58,12 @@ generate_rec_na_cmd_table <- function(self) {
 }
 
 generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
-  switch (
-    sheet_cat,
+  switch(sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
     "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
     "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
   )
-
 }
 
 
@@ -84,7 +81,7 @@ tab_sheet_types <- function(sheets) {
   # vector of sheets with names defined by types:
   sheet_cats <- purrr::map(
     sheets,
-    ~stringr::str_detect(.x, sheet_types)
+    ~ stringr::str_detect(.x, sheet_types)
   ) %>%
     purrr::map(
       ~ sheet_types[.x] %>%
@@ -185,4 +182,3 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
 `[.command_blocks` <- function(x, i) {
   new_command_blocks(NextMethod(x))
 }
-

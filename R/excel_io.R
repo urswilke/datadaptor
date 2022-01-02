@@ -19,7 +19,6 @@
 #' mapp_create(df, "mapping.xlsx")
 #' }
 mapp_create <- function(df_raw, mapping_file) {
-
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
     dplyr::mutate(new_label = "")
@@ -93,7 +92,7 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' utils::browseURL(mapping_file)
 #' }
 #' mapp_var_sheet_cmd_table(mapping_file)
-mapp_var_sheet_cmd_table <- function(self, sheet = "Variables"){
+mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
   read_variables_sheet_raw(self$mapping_file, sheet) %>%
     format_df_varl()
 }
@@ -110,7 +109,6 @@ format_df_varl <- function(df_varl) {
   df_varl %>%
     dplyr::mutate(row = dplyr::row_number() + 1) %>%
     parse_varlab_cmd_table()
-
 }
 
 
@@ -233,7 +231,6 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
   )
-
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet) {
@@ -254,7 +251,7 @@ parse_sumvar_cmd_table <- function(df_vall) {
     dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#SUMVAR") %>%
-    dplyr::relocate(.data$sheet, .data$action)  %>%
+    dplyr::relocate(.data$sheet, .data$action) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
@@ -266,7 +263,7 @@ parse_newvall_cmd_table <- function(df_vall) {
     dplyr::mutate(orig_var = .data$var) %>%
     dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#NEWVALL") %>%
-    dplyr::relocate(.data$sheet, .data$action)  %>%
+    dplyr::relocate(.data$sheet, .data$action) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$new_var) %>%
     dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
@@ -300,10 +297,9 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     df_free <- df_free[1:5] %>%
       # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
       dplyr::mutate(row = dplyr::row_number())
-  }
-  else {
+  } else {
     df_free <-
-      purrr::map_dfc(1:5, ~character()) %>%
+      purrr::map_dfc(1:5, ~ character()) %>%
       purrr::set_names(paste0("X", 1:5))
   }
   df_free %>%
@@ -353,11 +349,10 @@ get_new_var_name_free <- function(df_free) {
     dplyr::mutate(new_var = dplyr::case_when(
       action %in% col3_names ~ .data$X3[1],
       action %in% col2_names ~ .data$X2[1],
-      action == "#IF"        ~ stringr::str_remove(.data$X3, "=.*") %>% stringr::str_squish(),
-      action == "#KG"        ~ paste(.data$X2, .data$X3, sep = "_"),
-      action == "#MERGE"    ~ paste(.data$X4, collapse = ", ")
-    )
-  )
+      action == "#IF" ~ stringr::str_remove(.data$X3, "=.*") %>% stringr::str_squish(),
+      action == "#KG" ~ paste(.data$X2, .data$X3, sep = "_"),
+      action == "#MERGE" ~ paste(.data$X4, collapse = ", ")
+    ))
 }
 
 add_curlies_to_cell_with_spaces <- function(df_free) {
@@ -367,7 +362,7 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
       .data$X1 == "#VARL" & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
-  ))
+    ))
 }
 replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
   replace_single_equals_sign <- function(column) {

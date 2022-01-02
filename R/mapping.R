@@ -43,65 +43,61 @@
 Mapping <- R6::R6Class(
   "Mapping",
   public = list(
-     dat = NULL,
-     mapping_file = NULL,
-     cmd = list(),
-     dat_mod = NULL,
-     params = NULL,
-     #' @description Initialize a Mapping object
-     #'
-     #' @param dat Dataframe to apply the mapping on.
-     #' @param mapping_file Path to the Excel mapping file.
-     initialize = function(
-       dat = NULL,
-       mapping_file
-     ) {
-       self$dat <- initialize_dat(self, dat)
+    dat = NULL,
+    mapping_file = NULL,
+    cmd = list(),
+    dat_mod = NULL,
+    params = NULL,
+    #' @description Initialize a Mapping object
+    #'
+    #' @param dat Dataframe to apply the mapping on.
+    #' @param mapping_file Path to the Excel mapping file.
+    initialize = function(dat = NULL,
+                          mapping_file) {
+      self$dat <- initialize_dat(self, dat)
 
-       self$mapping_file <- mapping_file
-       self$params <- load_configr_params(self)
-       process_command_blocks(self)
-     },
-     #' @description Run all command blocks of the mapping file. The command
-     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
-     #'   \code{self$cmd$command_blocks} field of the \code{Mapping} object.
-     #'
-     #'   The internally called `apply_command_blocks()` method depends on the
-     #'   value of `self$params$error_out` subclass. This subclass decides
-     #'   whether to interrupt code execution in case of an error in one of the
-     #'   command blocks (for `"unsafe"`), or not (for the subclass `"safe"`).
-     #'
-     #'
-     #'   `apply_command_blocks()` then walks through the list of
-     #'   `"command_block"` objects in `"command_blocks"` and applies each of them to
-     #'   the data in the field `"dat_mod"` according to their subclass methods
-     #'   of `apply_command()`.
-     #' @param reset whether to apply the modifications to the input data (field
-     #'   \code{dat}) or whether to keep previous modifications (only relevant
-     #'   when applying the \code{modify_data()} multiple times).
-     #' @param command_blocks The \code{"command_blocks"} object results of the
-     #'   processing of the Excel mapping file.
-     #' @examples
-     #' # Create a Mapping object from the files provided by the package:
-     #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-     #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-     #' m <- Mapping$new(spss_file, mapping_file)
-     #'
-     #' # The method applies the modifications specified in a command_blocks object
-     #' m$modify_data(command_blocks = m$cmd$command_blocks)
-     #' m$dat_mod
-     modify_data = function(
-       reset = TRUE,
-       command_blocks = self$cmd$command_blocks
-     ) {
-       if (reset == TRUE) {
-         self$dat_mod <- self$dat
-       }
+      self$mapping_file <- mapping_file
+      self$params <- load_configr_params(self)
+      process_command_blocks(self)
+    },
+    #' @description Run all command blocks of the mapping file. The command
+    #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
+    #'   \code{self$cmd$command_blocks} field of the \code{Mapping} object.
+    #'
+    #'   The internally called `apply_command_blocks()` method depends on the
+    #'   value of `self$params$error_out` subclass. This subclass decides
+    #'   whether to interrupt code execution in case of an error in one of the
+    #'   command blocks (for `"unsafe"`), or not (for the subclass `"safe"`).
+    #'
+    #'
+    #'   `apply_command_blocks()` then walks through the list of
+    #'   `"command_block"` objects in `"command_blocks"` and applies each of them to
+    #'   the data in the field `"dat_mod"` according to their subclass methods
+    #'   of `apply_command()`.
+    #' @param reset whether to apply the modifications to the input data (field
+    #'   \code{dat}) or whether to keep previous modifications (only relevant
+    #'   when applying the \code{modify_data()} multiple times).
+    #' @param command_blocks The \code{"command_blocks"} object results of the
+    #'   processing of the Excel mapping file.
+    #' @examples
+    #' # Create a Mapping object from the files provided by the package:
+    #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+    #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+    #' m <- Mapping$new(spss_file, mapping_file)
+    #'
+    #' # The method applies the modifications specified in a command_blocks object
+    #' m$modify_data(command_blocks = m$cmd$command_blocks)
+    #' m$dat_mod
+    modify_data = function(reset = TRUE,
+                           command_blocks = self$cmd$command_blocks) {
+      if (reset == TRUE) {
+        self$dat_mod <- self$dat
+      }
 
-       apply_command_blocks(command_blocks, self)
+      apply_command_blocks(command_blocks, self)
 
-       invisible(self)
-     }
+      invisible(self)
+    }
   )
 )
 #' @param command_blocks object generated by `command_blocks()`
@@ -130,7 +126,6 @@ apply_command_blocks.safe <- function(command_blocks, self) {
   purrr::walk(self$cmd$command_blocks, apply_command_block_safe, self)
 
   add_error_list_to_command_blocks(self)
-
 }
 apply_command_block_safe <- function(x, self) {
   cmd_index <- self$params$cmd_index + 1
@@ -148,7 +143,8 @@ apply_command_block_safe <- function(x, self) {
           "Error in command",
           cmd_index,
           ": ",
-          err_msg)
+          err_msg
+        )
       )
     }
   )
@@ -163,7 +159,10 @@ add_error_list_to_command_blocks <- function(self) {
   command_blocks_mod <- purrr::map2(
     self$cmd$command_blocks,
     self$params$error_list,
-    ~{.x$error = .y; .x}
+    ~ {
+      .x$error <- .y
+      .x
+    }
   )
   class(command_blocks_mod) <- class(command_blocks)
   self$cmd$command_blocks <- command_blocks_mod

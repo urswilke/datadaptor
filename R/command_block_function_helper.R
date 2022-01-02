@@ -59,4 +59,3 @@ split_cat_by_cat <- function(df, new_vars, split_var, by_var) {
   df[[new_vars$new_varnames]][change_indices] <- df[[by_var]][change_indices]
   df
 }
-

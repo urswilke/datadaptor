@@ -37,16 +37,16 @@ mapp_verbatim_sheet_cmd_tbl <- function(
       tidyr::nest() %>%
       dplyr::ungroup() %>%
       dplyr::select(-.data$val_assign_temp)
-
   }
 }
 
 generate_verbatim_sheet_table <- function(mapping_file, sheet) {
   mapping_verbatim_sheet <-
     readxl::read_excel(mapping_file,
-                       skip = 16,
-                       sheet = sheet,
-                       col_names = TRUE) %>%
+      skip = 16,
+      sheet = sheet,
+      col_names = TRUE
+    ) %>%
     tidyr::drop_na(.data$VariableOriginal) %>%
     dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel) %>%
     # HACK!!! TODO: replace with general regex
@@ -72,7 +72,7 @@ generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
     verbatim_file %>%
     readxl::excel_sheets()
 
-  read_assigns <- function(sheet_name){
+  read_assigns <- function(sheet_name) {
     readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
       dplyr::select(orig_var = .data$`Orig. Variable`, .data$ID, dplyr::matches("^Zuord "))
   }
@@ -81,7 +81,7 @@ generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
   # except "Codestufen", the first sheet:
   verbatim_file_sheets[-1] %>%
     purrr::set_names() %>%
-    purrr::map(~read_assigns(.x))
+    purrr::map(~ read_assigns(.x))
 }
 generate_label_code_list <- function(verbatim_file) {
   df_codestufen <-
@@ -97,21 +97,25 @@ generate_label_code_list <- function(verbatim_file) {
     dplyr::relocate(.data$Code)
   2:length(df_codestufen) %>%
     purrr::set_names(names(df_codestufen)[-1]) %>%
-    purrr::map(~dplyr::select(df_codestufen, 1, lab = .x) %>% tidyr::drop_na())
+    purrr::map(~ dplyr::select(df_codestufen, 1, lab = .x) %>% tidyr::drop_na())
 }
-#function to replace the term {OT...} in var_ziel by the corresponding substring
-#in orig_var:
-un_OT_ize <- function(var_ziel,orig_var){
+# function to replace the term {OT...} in var_ziel by the corresponding substring
+# in orig_var:
+un_OT_ize <- function(var_ziel, orig_var) {
   # exctract the three digits in {OT...} :
-  copyDigits <- stringr::str_match(var_ziel,"\\{OT(.*?)\\}")[,2]
+  copyDigits <- stringr::str_match(var_ziel, "\\{OT(.*?)\\}")[, 2]
   # the first two digits in the beginning represent the starting positition:
-  cp1stPos <- copyDigits %>% stringr::str_match("^\\d\\d") %>% as.numeric()
+  cp1stPos <- copyDigits %>%
+    stringr::str_match("^\\d\\d") %>%
+    as.numeric()
   # the last digit in the end represent the length:
-  cpLength <- copyDigits %>% stringr::str_match("\\d$") %>% as.numeric()
+  cpLength <- copyDigits %>%
+    stringr::str_match("\\d$") %>%
+    as.numeric()
   # extract substring of orig_var:
   replaceStr <- stringr::str_sub(orig_var, cp1stPos, cp1stPos + cpLength - 1)
   # replace the term {OT...} by the latter substring:
-  var_name <- stringr::str_replace(var_ziel,"\\{OT\\d\\d\\d\\}",replaceStr)
+  var_name <- stringr::str_replace(var_ziel, "\\{OT\\d\\d\\d\\}", replaceStr)
   var_name
 }
 
@@ -201,15 +205,15 @@ parse_mcg_assignment_table <- function(i_l) {
   df_assigns
 }
 translate_verbatim_line <- function(verbatim_type, verbatim_data) {
-  switch (verbatim_type,
-          "1" = parse_efa_assignment_table(verbatim_data),
-          "2" = parse_mcg_assignment_table(verbatim_data),
-          "3" = parse_mdg_assignment_table(verbatim_data),
-          stop("Invalid verbatim type code.")
+  switch(verbatim_type,
+    "1" = parse_efa_assignment_table(verbatim_data),
+    "2" = parse_mcg_assignment_table(verbatim_data),
+    "3" = parse_mdg_assignment_table(verbatim_data),
+    stop("Invalid verbatim type code.")
   )
 }
 
-generate_verbatim_assignment_table_raw <- function(l){
+generate_verbatim_assignment_table_raw <- function(l) {
   verbatim_types <- l %>% purrr::map_dbl(purrr::chuck, "meta", "EFA1MCG2MDG3")
   purrr::map2(verbatim_types, l, translate_verbatim_line) %>%
     dplyr::bind_rows(.id = "row")

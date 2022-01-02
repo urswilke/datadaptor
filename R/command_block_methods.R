@@ -17,9 +17,9 @@ apply_command <- function(x, self) {
 
 #' @export
 apply_command.cmd_recna_xcpt <- function(x, self) {
-  recode_na_exceptions = x$args$recode_na_exceptions
-  replace_val = x$args$replace_val
-  replace_label = x$args$replace_label
+  recode_na_exceptions <- x$args$recode_na_exceptions
+  replace_val <- x$args$replace_val
+  replace_label <- x$args$replace_label
 
 
   # remove variable names not found in df:
@@ -29,7 +29,7 @@ apply_command.cmd_recna_xcpt <- function(x, self) {
     dplyr::mutate(
       dplyr::across(
         where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
-        ~set_na_to_filter(.x, replace_val, replace_label)
+        ~ set_na_to_filter(.x, replace_val, replace_label)
       )
     )
 }
@@ -39,7 +39,9 @@ apply_command.cmd_recna_xcpt <- function(x, self) {
 #' @export
 apply_command.cmd_r <- function(x, self) {
   r_code <- x$args$r_code
-  new_df <- r_code %>% rlang::parse_expr() %>% eval_in_data(self)
+  new_df <- r_code %>%
+    rlang::parse_expr() %>%
+    eval_in_data(self)
   self$dat_mod <- dplyr::bind_cols(self$dat_mod, new_df)
 }
 
@@ -83,7 +85,7 @@ apply_command.cmd_kg <- function(x, self) {
 
   split_var <- self$dat_mod[[split_var_name]]
   by_var <- self$dat_mod[[by_var_name]]
-  df <- data.frame(split_var, by_var) %>% purrr::set_names(~c(split_var_name, by_var_name))
+  df <- data.frame(split_var, by_var) %>% purrr::set_names(~ c(split_var_name, by_var_name))
   # by_var <- rlang::as_string(rlang::expr(by_var))
   new_vars <- prepare_newvar_table(df, split_var_name, by_var_name)
   self$dat_mod[new_vars$new_varnames] <- new_vars %>%
@@ -94,8 +96,6 @@ apply_command.cmd_kg <- function(x, self) {
     # add the new variables one by one to the dataframe:
     purrr::reduce(split_cat_by_cat, split_var_name, by_var_name, .init = df) %>%
     dplyr::select(-dplyr::all_of(c(split_var_name, by_var_name)))
-
-
 }
 
 
@@ -127,9 +127,9 @@ apply_command.cmd_drop <- function(x, self) {
 #' @export
 apply_command.cmd_verbatim <- function(x, self) {
   var_ziel <- x$args$var_ziel
-  val_assign  <- x$args$val_assign
+  val_assign <- x$args$val_assign
   varlab <- x$args$varlab
-  vallab  <- x$args$vallab
+  vallab <- x$args$vallab
   id <- self$params$id_var
   id_list <- x$args$id_list
   init_val <- x$args$init_val
@@ -207,8 +207,6 @@ apply_command.cmd_rename <- function(x, self) {
 
   self$dat_mod <- self$dat_mod %>%
     dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
-
-
 }
 
 
@@ -245,7 +243,6 @@ apply_command.cmd_if <- function(x, self) {
       yes,
       no
     )
-
 }
 eval_in_data <- function(e, self) {
   rlang::eval_tidy(
@@ -287,7 +284,6 @@ apply_command.cmd_comp <- function(x, self) {
   }
 
   self$dat_mod[[new_var]] <- vec
-
 }
 #' @export
 apply_command.cmd_compr <- apply_command.cmd_comp
@@ -303,7 +299,6 @@ apply_command.cmd_set_lab <- function(x, self) {
     labels = attr(vec, "labels"),
     label = new_lab
   )
-
 }
 
 #' @export
@@ -344,10 +339,11 @@ apply_command.cmd_add_labs <- function(x, self) {
   added_vallab_vec <- purrr::set_names(vals_added, labs_added)
   new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
 
-  if(is.null(new_lab))
-    varlab <-  attr(vec, "label", exact = TRUE)
-  else
+  if (is.null(new_lab)) {
+    varlab <- attr(vec, "label", exact = TRUE)
+  } else {
     varlab <- new_lab
+  }
 
   self$dat_mod[[orig_var]] <- haven::labelled(
     vec,
@@ -355,7 +351,6 @@ apply_command.cmd_add_labs <- function(x, self) {
     label = varlab
   )
   invisible(self)
-
 }
 
 #' @export
@@ -409,7 +404,6 @@ apply_command.cmd_rec <- function(x, self) {
     label = new_lab
   )
   invisible(self)
-
 }
 
 
@@ -428,8 +422,10 @@ apply_command.cmd_sumvar <- function(x, self) {
 
   sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
     dplyr::group_by(new_vals) %>%
-    dplyr::summarise(val_lists = list(orig_vals),
-                     val_labs = dplyr::first(new_labs))
+    dplyr::summarise(
+      val_lists = list(orig_vals),
+      val_labs = dplyr::first(new_labs)
+    )
   cond_statements <- purrr::map2(
     sum_var_vals_n_labs$val_lists,
     sum_var_vals_n_labs$new_vals,
@@ -445,7 +441,6 @@ apply_command.cmd_sumvar <- function(x, self) {
   )
 
   invisible(self)
-
 }
 
 
@@ -476,7 +471,6 @@ apply_command.cmd_dic <- function(x, self) {
     label = varlab
   )
   invisible(self)
-
 }
 
 
