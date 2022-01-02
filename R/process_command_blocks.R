@@ -150,7 +150,7 @@ new_command_block <- function(x, ..., subclass = character()) {
 #'
 #' @param self `Mapping` object
 #' @details
-#'   `command_blocks()` generates an object of class `command_blocks` and of subclasses
+#'   `command_blocks()` generates an object of class `command_blocks` and of subclass
 #' `self$params$error_out`.
 #'
 #'   `apply_command_blocks()` applies `"command_blocks"` object to a mapping object.

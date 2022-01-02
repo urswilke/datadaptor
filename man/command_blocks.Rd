@@ -24,7 +24,7 @@ command_blocks(self)
 Command_blocks objects
 }
 \details{
-\code{command_blocks()} generates an object of class \code{command_blocks} and of subclasses
+\code{command_blocks()} generates an object of class \code{command_blocks} and of subclass
 \code{self$params$error_out}.
 
 \code{apply_command_blocks()} applies \code{"command_blocks"} object to a mapping object.
