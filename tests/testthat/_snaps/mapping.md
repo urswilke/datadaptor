@@ -1,16 +1,3 @@
-# class object print is reproduced
-
-    <Mapping>
-      Public:
-        clone: function (deep = FALSE) 
-        cmd: list
-        dat: tbl_df, tbl, data.frame
-        dat_mod: NULL
-        initialize: function (dat = NULL, mapping_file) 
-        mapping_file: /home/chief/R/datenanpassr/inst/extdata/mapping.xlsx
-        modify_data: function (reset = TRUE, command_blocks = self$cmd$command_blocks) 
-        params: list
-
 # command blocks print is reproduced
 
     <command_block_rcrd[67]>
