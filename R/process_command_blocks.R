@@ -5,16 +5,8 @@ process_command_blocks <- function(self) {
 }
 
 gen_command_table <- function(self) {
-  sheets <- self$mapping_file %>% readxl::excel_sheets()
-
-  # exchange positions of "Variables" & "Label" sheets (because otherwise,
-  # renaming a variable in the "Variables" sheet will not work when creating a
-  # summary variable out of it):
-  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
-    sheets <- switch_sheets_vars_label(sheets)
-  }
-
-  sheet_cats <- tab_sheet_types(sheets)
+  gen_sheet_cats(self)
+  sheet_cats <- self$cmd$sheet_cats
 
   df_cmd_raw <- purrr::map2_dfr(
     sheet_cats$sheet %>%
@@ -32,7 +24,19 @@ gen_command_table <- function(self) {
   }
   df_cmd_raw %>% dplyr::rename(raw = .data$data)
 }
+gen_sheet_cats <- function(self) {
+  sheets <- self$mapping_file %>% readxl::excel_sheets()
 
+  # exchange positions of "Variables" & "Label" sheets (because otherwise,
+  # renaming a variable in the "Variables" sheet will not work when creating a
+  # summary variable out of it):
+  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+    sheets <- switch_sheets_vars_label(sheets)
+  }
+
+  sheet_cats <- tab_sheet_types(sheets)
+  self$cmd$sheet_cats <- sheet_cats
+}
 generate_rec_na_cmd_table <- function(self) {
   # generates a row of a command table with the command to recode missing to -2,
   # labelled "FILTER"
