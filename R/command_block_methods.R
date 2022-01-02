@@ -1,3 +1,9 @@
+#' Apply a command block to the mapping
+#'
+#' @param x command_block
+#'
+#' @param self mapping object
+#'
 #' @export
 apply_command <- function(x, self) {
   UseMethod("apply_command")

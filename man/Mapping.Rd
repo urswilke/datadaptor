@@ -20,7 +20,7 @@ mapping <- Mapping$new(spss_file, mapping_file)
 # The spss_file path was read into a dataframe in the "dat" field of the mapping object:
 mapping$dat
 
-# The Excel mapping file is translated to a "command_blocks" object.
+# The Excel mapping file is translated to a `command_blocks()` object.
 # It contains the processed information in a list structure that has
 # its own print method.
 # You can access it with
@@ -97,8 +97,8 @@ Initialize a Mapping object
 \if{latex}{\out{\hypertarget{method-modify_data}{}}}
 \subsection{Method \code{modify_data()}}{
 Run all command blocks of the mapping file. The command
-blocks of the Excel mapping file are translated to the field
-\code{$params$command_blocks} field of the \code{Mapping} object.
+blocks of the Excel mapping file are translated to the \code{command_blocks()} field
+\code{self$params$command_blocks} field of the \code{Mapping} object.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd$command_blocks)}\if{html}{\out{</div>}}
 }
