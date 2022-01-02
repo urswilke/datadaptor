@@ -146,14 +146,19 @@ new_command_block <- function(x, ..., subclass = character()) {
 
 
 
-#' Generate command_blocks object
-#'
-#' Returns an object of class `command_blocks` and of subclass
-#' `self$params$error_out`.
+#' Command_blocks objects
 #'
 #' @param self `Mapping` object
+#' @details
+#'   `command_blocks()` generates an object of class `command_blocks` and of subclasses
+#' `self$params$error_out`.
 #'
-#' @return command_blocks object
+#'   `apply_command_blocks()` applies `"command_blocks"` object to a mapping object.
+#'
+#'   The `"command_blocks"` objects is a list of multiple `"command_block"`
+#'   elements, that are applied to the mapping with `Mapping$modify_data()`
+#'   using the `apply_command()` method of their subclass.
+#'
 #' @export
 #'
 #' @examples

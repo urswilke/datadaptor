@@ -100,7 +100,10 @@ Run all command blocks of the mapping file. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
 \code{self$params$command_blocks} field of the \code{Mapping} object.
 
-The called internally called method \code{apply_command()} depends on the value of \code{self$params$error_out} subclass.
+The internally called method \code{apply_command_blocks()} depends on the
+value of \code{self$params$error_out} subclass. Then, the list of \code{command_block}
+objects is applied to the data accoriding to their subclass methods of
+\code{apply_command()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd$command_blocks)}\if{html}{\out{</div>}}
 }

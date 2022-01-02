@@ -5,7 +5,7 @@
 \alias{apply_command_blocks.unsafe}
 \alias{apply_command_blocks.safe}
 \alias{command_blocks}
-\title{Generate command_blocks object}
+\title{Command_blocks objects}
 \usage{
 apply_command_blocks(command_blocks, self)
 
@@ -20,12 +20,18 @@ command_blocks(self)
 
 \item{self}{\code{Mapping} object}
 }
-\value{
-command_blocks object
-}
 \description{
-Returns an object of class \code{command_blocks} and of subclass
+Command_blocks objects
+}
+\details{
+\code{command_blocks()} generates an object of class \code{command_blocks} and of subclasses
 \code{self$params$error_out}.
+
+\code{apply_command_blocks()} applies \code{"command_blocks"} object to a mapping object.
+
+The \code{"command_blocks"} objects is a list of multiple \code{"command_block"}
+elements, that are applied to the mapping with \code{Mapping$modify_data()}
+using the \code{apply_command()} method of their subclass.
 }
 \examples{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
