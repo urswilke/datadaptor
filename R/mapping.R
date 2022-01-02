@@ -64,7 +64,7 @@ Mapping <- R6::R6Class(
      },
      #' @description Run all command blocks of the mapping file. The command
      #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
-     #'   \code{self$params$command_blocks} field of the \code{Mapping} object.
+     #'   \code{self$cmd$command_blocks} field of the \code{Mapping} object.
      #'
      #'   The internally called method `apply_command_blocks()` depends on the
      #'   value of `self$params$error_out` subclass. Then, the list of `command_block`
