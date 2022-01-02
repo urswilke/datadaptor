@@ -1,0 +1,102 @@
+---
+title: "Translating the Excel mapping commands to R"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Translating the Excel mapping commands to R}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(datenanpassr)
+```
+
+When a `mapping` object is created,
+
+```{r}
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+m <- Mapping$new(spss_file, mapping_file)
+```
+
+the command blocks are translated to a list structure `m$cmd` containing intermediate 
+results. 
+
+## Excel sheets parsed
+
+First is just a small data.frame containing the `sheet` name and its
+`sheet_type`:
+
+```{r}
+m$cmd$sheet_cats
+```
+
+## Parse the sheets to R list objects
+
+The sheets are parsed to a named list with R list objects in `m$cmd$sheet_data_raw`.
+This is what the latter looks like for the  `"Free1"` sheet of the Excel file:
+
+```{r}
+m$cmd$sheet_data_raw$Free1
+```
+
+## Command table
+
+The whole information in `m$cmd$sheet_data_raw` is then joint to a dataframe
+```{r}
+m$cmd$df_cmd_raw
+```
+
+## Generating `"command_block"`s
+
+Each line in `m$cmd$df_cmd_raw` is translated to a `command_block()`. The list
+of all lines is written to `m$cmd$command_blocks_raw`. See for example the 3rd 
+element:
+```{r}
+m$cmd$command_blocks_raw[[3]]
+```
+
+## `"command_blocks"`
+
+The list `m$cmd$command_blocks_raw` finally is translated to a 
+`command_blocks()` object. These objects have their own printing method. See 
+here for the 3 first elements:
+
+```{r}
+m$cmd$command_blocks[1:3]
+```
+
+But underneath, the structure is equal to `m$cmd$command_blocks_raw`, with an
+additional field `args` added:
+```{r}
+m$cmd$command_blocks[[3]]
+```
+
+## Apply command blocks
+
+These command blocks can then be applied to the data with 
+
+```{r}
+m$modify_data()
+```
+
+and you can access the data with
+```{r}
+m$dat_mod
+```
+
+
+<details>
+  <summary>Click here to show whole list structure print output!</summary>
+```{r}
+m$cmd
+```
+  
+</details>
