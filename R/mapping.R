@@ -5,6 +5,9 @@
 #'   specified in the command blocks of an Excel mapping file to a (labelled)
 #'   dataframe.
 #'
+#'   The information of the Excel mapping file is processed in the list elements
+#'   of the cmd field of the mapping object.
+#'
 #' @field dat (filepath to pass to \code{haven::read_sav()} to read in the)
 #'   labelled dataframe to apply the mapping on.
 #' @field mapping_file filepath of the Excel mapping file
@@ -22,6 +25,12 @@
 #'
 #' # The spss_file path was read into a dataframe in the "dat" field of the mapping object:
 #' mapping$dat
+#'
+#' # The Excel mapping file is translated to a "command_blocks" object.
+#' # It contains the processed information in a list structure that has
+#' # its own print method.
+#' # You can access it with
+#' mapping$cmd$command_blocks
 #'
 #' # Apply the command blocks to the dataset:
 #' mapping$modify_data()
@@ -59,12 +68,26 @@ Mapping <- R6::R6Class(
      #' @param reset whether to apply the modifications to the input data (field
      #'   \code{dat}) or whether to keep previous modifications (only relevant
      #'   when applying the \code{modify_data()} multiple times).
-     modify_data = function(reset = TRUE) {
+     #' @param command_blocks The \code{"command_blocks"}) object results of the Excel
+     #'   mapping file.
+     #' @examples
+     #' # Create a Mapping object from the files provided by the package:
+     #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+     #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+     #' m <- Mapping$new(spss_file, mapping_file)
+     #'
+     #' # The method applies the modifications specified in a command_blocks object
+     #' m$modify_data(command_blocks = m$cmd$command_blocks)
+     #' m$dat_mod
+     modify_data = function(
+       reset = TRUE,
+       command_blocks = self$cmd$command_blocks
+     ) {
        if (reset == TRUE) {
          self$dat_mod <- self$dat
        }
 
-       apply_command_blocks(self$cmd$command_blocks, self)
+       apply_command_blocks(command_blocks, self)
 
        invisible(self)
      }
