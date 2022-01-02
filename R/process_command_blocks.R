@@ -122,7 +122,7 @@ command_block_factory <- function(x) {
     "#RENAME"   = "cmd_rename",
     "#MERGE"    = "cmd_merge",
     "#NEWVALL"  = "cmd_newvall",
-    "#verbatim" = "cmd_verbatim" ,
+    "#verbatim" = "cmd_verbatim",
     "#DROP"     = "cmd_drop",
     "#NEWLAB"   = "cmd_newlab",
     "#KG"       = "cmd_kg",
