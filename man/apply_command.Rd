@@ -30,7 +30,7 @@ cbs <- list(cb) \%>\%
 # Apply it to the data:
 m$modify_data(command_blocks = cbs)
 
-The label of the variable in m$dat_mod was modified:
+# The label of the variable in m$dat_mod was modified:
 m$dat$q5
 m$dat_mod$q5
 }
