@@ -21,6 +21,6 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 m$cmd$df_cmd_raw[10,] \%>\%
-  command_block_factory() \%>\%
+  command_block() \%>\%
   parse_command_args()
 }

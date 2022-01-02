@@ -125,7 +125,7 @@ gen_command_blocks_raw <- function(self) {
 
   self$cmd$df_cmd_raw %>%
     dplyr::rowwise() %>%
-    dplyr::transmute(cmd = list(command_block_factory(dplyr::cur_data()))) %>%
+    dplyr::transmute(cmd = list(command_block(dplyr::cur_data()))) %>%
     dplyr::pull()
 }
 #' Generate an object inheriting from `"command_block"`
@@ -137,10 +137,10 @@ gen_command_blocks_raw <- function(self) {
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' m$cmd$df_cmd_raw[10,] %>% command_block_factory()
-#' # command_block_factory() detects the subclass. So this is equivalent to:
+#' m$cmd$df_cmd_raw[10,] %>% command_block()
+#' # command_block() detects the subclass. So this is equivalent to:
 #' m$cmd$df_cmd_raw[10,] %>% new_command_block(subclass = "cmd_newlab")
-command_block_factory <- function(x) {
+command_block <- function(x) {
   subclass <- switch (x$action,
     "#RECNA"    = "cmd_recna_xcpt",
     "#IF"       = "cmd_if",
@@ -169,7 +169,7 @@ command_block_factory <- function(x) {
 #' @export
 #' @param ... further arguments passed to constructor
 #' @param subclass character vector containing the subclass of the object to construct
-#' @rdname command_block_factory
+#' @rdname command_block
 new_command_block <- function(x, ..., subclass = character()) {
   structure(
     x,

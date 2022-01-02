@@ -13,7 +13,7 @@
 #' cb <- m$cmd$df_cmd_raw %>%
 #'   purrr::transpose() %>%
 #'   .[[10]] %>%
-#'   command_block_factory() %>%
+#'   command_block() %>%
 #'   parse_command_args()
 #' # Generate command_blocks object:
 #' cbs <- list(cb) %>%
