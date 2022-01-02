@@ -24,7 +24,7 @@ mapping$dat
 # It contains the processed information in a list structure that has
 # its own print method.
 # You can access it with
-mapping$cmd$command_blocks
+mapping$cmd_tbl$command_blocks
 
 # Apply the command blocks to the dataset:
 mapping$modify_data()
@@ -45,7 +45,7 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 
 # The method applies the modifications specified in a command_blocks object
-m$modify_data(command_blocks = m$cmd$command_blocks)
+m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$dat_mod
 }
 \section{Public fields}{
@@ -55,6 +55,8 @@ m$dat_mod
 labelled dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{filepath of the Excel mapping file}
+
+\item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block
 information of the Excel mapping file.}
@@ -98,7 +100,7 @@ Initialize a Mapping object
 \subsection{Method \code{modify_data()}}{
 Run all command blocks of the mapping file. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
-\code{self$cmd$command_blocks} field of the \code{Mapping} object.
+\code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
 
 The internally called \code{apply_command_blocks()} method depends on the
 value of \code{self$params$error_out} subclass. This subclass decides
@@ -133,7 +135,7 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 
 # The method applies the modifications specified in a command_blocks object
-m$modify_data(command_blocks = m$cmd$command_blocks)
+m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$dat_mod
 }
 \if{html}{\out{</div>}}

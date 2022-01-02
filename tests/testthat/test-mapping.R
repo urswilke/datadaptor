@@ -15,7 +15,7 @@ mapping_s3 <- Mapping$new(spss_file, mapping_file)
 mapping_s3$modify_data()
 test_that("command blocks print is reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$cmd$command_blocks[mapping_s3$cmd$command_blocks %>% purrr::map_chr("action") != "#MERGE"]
+    mapping_s3$cmd_tbl$command_blocks[mapping_s3$cmd_tbl$command_blocks %>% purrr::map_chr("action") != "#MERGE"]
   }
 
   )
@@ -39,6 +39,7 @@ mapping_trycatch$cmd$df_cmd_raw$raw[[48]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$params$error_out <- "safe"
 mapping_trycatch$cmd$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
 mapping_trycatch$cmd$command_blocks <- command_blocks(mapping_trycatch)
+mapping_trycatch$cmd_tbl <- gen_command_table(mapping_trycatch)
 
 testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
 test_that("error list print is reproduced", {
@@ -50,6 +51,11 @@ test_that("error list print is reproduced", {
 })
 test_that("error string elements were added to the erroneous command blocks", {
   testthat::expect_snapshot_output({
-    mapping_trycatch$cmd$command_blocks[46:48] %>% purrr::map_chr("error")
+    mapping_trycatch$cmd_tbl$error[46:48]
+  })
+})
+test_that("error string elements were added to cmd_tbl", {
+  testthat::expect_snapshot_output({
+    mapping_trycatch$cmd_tbl
   })
 })

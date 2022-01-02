@@ -1,12 +1,19 @@
 process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
   self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
-  self$cmd$df_cmd_raw <- gen_command_table(self)
+  self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
+  self$cmd_tbl <- gen_command_table(self)
 }
-
 gen_command_table <- function(self) {
+  self$cmd$df_cmd_raw %>%
+    dplyr::mutate(
+      command_blocks_raw = self$cmd$command_blocks_raw,
+      command_blocks = self$cmd$command_blocks
+    )
+}
+gen_command_table_raw <- function(self) {
   sheet_cats <- self$cmd$sheet_cats
 
 

@@ -11,6 +11,7 @@
 #' @field dat (filepath to pass to \code{haven::read_sav()} to read in the)
 #'   labelled dataframe to apply the mapping on.
 #' @field mapping_file filepath of the Excel mapping file
+#' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file.
 #' @field dat_mod modified dataframe
@@ -30,7 +31,7 @@
 #' # It contains the processed information in a list structure that has
 #' # its own print method.
 #' # You can access it with
-#' mapping$cmd$command_blocks
+#' mapping$cmd_tbl$command_blocks
 #'
 #' # Apply the command blocks to the dataset:
 #' mapping$modify_data()
@@ -45,6 +46,7 @@ Mapping <- R6::R6Class(
   public = list(
     dat = NULL,
     mapping_file = NULL,
+    cmd_tbl = data.frame(),
     cmd = list(),
     dat_mod = NULL,
     params = NULL,
@@ -62,7 +64,7 @@ Mapping <- R6::R6Class(
     },
     #' @description Run all command blocks of the mapping file. The command
     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
-    #'   \code{self$cmd$command_blocks} field of the \code{Mapping} object.
+    #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
     #'
     #'   The internally called `apply_command_blocks()` method depends on the
     #'   value of `self$params$error_out` subclass. This subclass decides
@@ -86,7 +88,7 @@ Mapping <- R6::R6Class(
     #' m <- Mapping$new(spss_file, mapping_file)
     #'
     #' # The method applies the modifications specified in a command_blocks object
-    #' m$modify_data(command_blocks = m$cmd$command_blocks)
+    #' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
     #' m$dat_mod
     modify_data = function(reset = TRUE,
                            command_blocks = self$cmd$command_blocks) {
@@ -121,7 +123,7 @@ apply_command_block_unsafe <- function(x, self) {
 #' @rdname command_blocks
 apply_command_blocks.safe <- function(command_blocks, self) {
   self$params$cmd_index <- 0
-  self$params$error_list <- vector("character", length(self$cmd$command_blocks))
+  self$params$error_list <- vector("character", length(self$cmd_tbl$command_blocks))
 
   purrr::walk(self$cmd$command_blocks, apply_command_block_safe, self)
 
@@ -151,21 +153,9 @@ apply_command_block_safe <- function(x, self) {
 
   invisible(self)
 }
-# HACKY - would be easier to add to data.frame format
-# as in self$cmd$df_cmd_raw instead of self$cmd$command_blocks:
 add_error_list_to_command_blocks <- function(self) {
-  command_blocks <- self$cmd$command_blocks
   error_list <- self$params$error_list
-  command_blocks_mod <- purrr::map2(
-    self$cmd$command_blocks,
-    self$params$error_list,
-    ~ {
-      .x$error <- .y
-      .x
-    }
-  )
-  class(command_blocks_mod) <- class(command_blocks)
-  self$cmd$command_blocks <- command_blocks_mod
+  self$cmd_tbl$error <- error_list
   invisible(self)
 }
 

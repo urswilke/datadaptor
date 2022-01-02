@@ -10,10 +10,10 @@
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' rcrd <- m$cmd$command_blocks %>% command_block_rcrd()
+#' rcrd <- m$cmd_tbl$command_blocks %>% command_block_rcrd()
 #' rcrd
 #' # This results in the same print:
-#' m$cmd$command_blocks
+#' m$cmd_tbl$command_blocks
 command_block_rcrd <- function(command_blocks) {
   command_blocks %>%
     purrr::transpose() %>%
