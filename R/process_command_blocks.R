@@ -31,7 +31,7 @@ gen_command_table <- function(self) {
       df_cmd_raw
     )
   }
-  df_cmd_raw
+  df_cmd_raw %>% dplyr::rename(raw = .data$data)
 }
 
 generate_rec_na_cmd_table <- function(self) {
