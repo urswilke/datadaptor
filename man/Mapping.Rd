@@ -99,6 +99,8 @@ Initialize a Mapping object
 Run all command blocks of the mapping file. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
 \code{self$params$command_blocks} field of the \code{Mapping} object.
+
+The called internally called method \code{apply_command()} depends on the value of \code{self$params$error_out} subclass.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd$command_blocks)}\if{html}{\out{</div>}}
 }

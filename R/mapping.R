@@ -65,6 +65,8 @@ Mapping <- R6::R6Class(
      #' @description Run all command blocks of the mapping file. The command
      #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
      #'   \code{self$params$command_blocks} field of the \code{Mapping} object.
+     #'
+     #'   The called internally called method `apply_command()` depends on the value of `self$params$error_out` subclass.
      #' @param reset whether to apply the modifications to the input data (field
      #'   \code{dat}) or whether to keep previous modifications (only relevant
      #'   when applying the \code{modify_data()} multiple times).
@@ -177,7 +179,7 @@ initialize_dat <- function(self, dat) {
 load_configr_params <- function(self) {
   params <- list(
     na_to_filter = TRUE,
-    try_catch = FALSE,
+    error_out = "unsafe",
     mapping_file_attrs = list()
   )
   l_configr <- get_configr_args_list(self$mapping_file)

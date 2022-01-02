@@ -24,8 +24,8 @@ command_blocks(self)
 command_blocks object
 }
 \description{
-Depending on whether the \code{mapping$params$try_catch} is \code{TRUE} / \code{FALSE},
-the generator returns an object of subclass \code{"safe"} / \code{"unsafe"}, respectively.
+Returns an object of class \code{command_blocks} and of subclass
+\code{self$params$error_out}.
 }
 \examples{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")

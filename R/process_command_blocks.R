@@ -148,8 +148,8 @@ new_command_block <- function(x, ..., subclass = character()) {
 
 #' Generate command_blocks object
 #'
-#' Depending on whether the `mapping$params$try_catch` is `TRUE` / `FALSE`,
-#' the generator returns an object of subclass `"safe"` / `"unsafe"`, respectively.
+#' Returns an object of class `command_blocks` and of subclass
+#' `self$params$error_out`.
 #'
 #' @param self `Mapping` object
 #'
@@ -166,9 +166,8 @@ new_command_block <- function(x, ..., subclass = character()) {
 #' # m$cmd$command_blocks
 #' class(m$cmd$command_blocks)
 command_blocks <- function(self) {
-  try_catch_subclass <- ifelse(self$params$try_catch, "safe", "unsafe")
   purrr::map(self$cmd$command_blocks_raw, parse_command_args) %>%
-    new_command_blocks(subclass = try_catch_subclass)
+    new_command_blocks(subclass = self$params$error_out)
 }
 
 new_command_blocks <- function(command_blocks, ..., subclass = character()) {
