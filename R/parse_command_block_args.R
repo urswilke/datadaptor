@@ -1,4 +1,20 @@
+#' Parse command block arguments to named list
+#'
+#' Depending of the subclass of the command block, the method is chosen.
+#'
+#' @param x command block
+#'
+#' @return The command block is returned with an added list element `x$args`,
+#'   containing the named arguments, passed to the `apply_command()` method.
+#'
 #' @export
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' m <- Mapping$new(spss_file, mapping_file)
+#' m$cmd$df_cmd_raw[10,] %>%
+#'   command_block_factory() %>%
+#'   parse_command_args()
 parse_command_args <- function(x) {
   UseMethod("parse_command_args")
 }

@@ -1,6 +1,6 @@
 #' Extract verbatim sheet related data of Excel mapping file to dataframe
 #'
-#' @param mapping_file name of the Excel mapping file
+#' @param self \code{Mapping} object
 #' @param sheet name of the sheet in the Excel mapping file
 #' @param verbatim_file character string of the name of the Verbatim file
 #'
@@ -15,7 +15,8 @@
 #' utils::browseURL(mapping_file)
 #' utils::browseURL(verbatim_file)
 #' }
-#' mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file)
+#' m <- Mapping$new(NULL, mapping_file)
+#' mapp_verbatim_sheet_cmd_tbl(m, verbatim_file = verbatim_file)
 mapp_verbatim_sheet_cmd_tbl <- function(
   self,
   verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet),

@@ -26,7 +26,8 @@
 #'
 #' # Extensive example:
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file)
+#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) %>%
+#'   dplyr::filter(stringr::str_detect(X2, "\\{"))
 #' curliply(df_free_raw)
 #' # For reference, open the "Free1" sheet in the Excel file via:
 #' \dontrun{
@@ -126,11 +127,21 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
     tibble::deframe()
 }
 
-# https://github.com/r-lib/vctrs/issues/23
-# is FALSE for NA; works for vectors
+# From here: https://github.com/r-lib/vctrs/issues/23
+#' Vectorized \code{isTRUE()}
+#'
+#'
+#' @param x Logical vector
+#'
+#' @return Logical vector that's TRUE if \code{x = TRUE} and \code{FALSE} if \code{x = FALSE or NA}.
+#' @export
+#'
+#' @examples
+#' is_true(c(NA, TRUE, FALSE))
 is_true <- function(x) Vectorize(isTRUE)(x)
 
-
+# see https://github.com/tidyverse/magrittr/issues/29#issuecomment-74313262
+globalVariables(".")
 
 
 get_configr_args_list <- function(mapping_file) {
@@ -170,14 +181,6 @@ adapt_filepath <- function(file_path, mapping_file) {
     mapping_dir <- mapping_file %>% fs::path_dir()
     return(paste0(mapping_dir, "/", file_path))
   }
-}
-
-
-get_df_vars_of_expr_string <- function(expr_string, vars_in_df) {
-  expr_string %>%
-    sourcetools::tokenize_string() %>%
-    dplyr::filter(.data$type == "symbol", .data$value %in% vars_in_df) %>%
-    dplyr::pull(.data$value)
 }
 
 #' Remove attributes from a vector

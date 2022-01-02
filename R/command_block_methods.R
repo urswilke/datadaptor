@@ -5,10 +5,23 @@
 #' @param self mapping object
 #'
 #' @export
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' m <- Mapping$new(spss_file, mapping_file)
+#' cbs <- m$cmd$df_cmd_raw %>%
+#'   purrr::transpose() %>%
+#'   .[[10]] %>%
+#'   command_block_factory() %>%
+#'   parse_command_args() %>%
+#'   list(.) %>%
+#'   datenanpassr:::new_command_blocks(subclass = "unsafe")
+#' m$modify_data(command_blocks = cbs)
 apply_command <- function(x, self) {
   UseMethod("apply_command")
 }
-
+# see https://github.com/r-lib/tidyselect/issues/201#issuecomment-650547846:
+utils::globalVariables("where")
 #' @export
 apply_command.cmd_recna_xcpt <- function(x, self) {
   recode_na_exceptions <- x$args$recode_na_exceptions
@@ -156,7 +169,7 @@ apply_command.cmd_if <- function(x, self) {
     self$dat_mod[[new_var]] <- NA_real_
   }
 
-  test <- eval_in_data(rlang::expr(datenanpassr:::is_true(!!cond)), self)
+  test <- eval_in_data(rlang::expr(datenanpassr::is_true(!!cond)), self)
   yes <- eval_in_data(rlang::expr(!!val), self)
   no <- self$dat_mod[[new_var]]
   attributes(yes) <- attributes(no)
@@ -273,7 +286,7 @@ apply_command.cmd_newvall <- apply_command.cmd_add_labs
 
 #' @export
 apply_command.cmd_rec <- function(x, self) {
-  orig_var_name <- x$args$orig_var
+  orig_var <- x$args$orig_var
   new_lab <- x$args$new_lab
   if (is.null(new_lab)) {
     new_lab <- attr(self$dat_mod[[orig_var]], "label", exact = TRUE)
@@ -284,11 +297,10 @@ apply_command.cmd_rec <- function(x, self) {
   ub <- x$args$ub
   new_vals <- x$args$new_vals
   new_labs <- x$args$new_labs
-  orig_var_name <- x$args$orig_var
   recode_df <-
     tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
     dplyr::mutate(
-      expr_str = paste0("(", orig_var_name, " >= ", lb, " & ", orig_var_name, " <= ", ub, ")")
+      expr_str = paste0("(", orig_var, " >= ", lb, " & ", orig_var, " <= ", ub, ")")
     ) %>%
     dplyr::group_by(new_vals) %>%
     dplyr::summarise(

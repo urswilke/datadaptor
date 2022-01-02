@@ -77,7 +77,7 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
-#' @param mapping_file name of the Excel mapping file
+#' @param  self \code{Mapping} object
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return Command block table of the "Variables" sheet of the Excel mapping file.
@@ -87,11 +87,12 @@ mapp_configr <- function(mapping_file, sheet = "configr") {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-#' mapp_var_sheet_cmd_table(mapping_file)
+#' mapp_var_sheet_cmd_table(m)
 mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
   self$cmd$sheet_data_raw[[sheet]] %>%
     format_df_varl()
@@ -207,7 +208,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 
 #' Extract value label sheet of Excel mapping file to dataframe
 #'
-#' @param mapping_file name of the Excel mapping file
+#' @param  self \code{Mapping} object
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return Command block table of the "Label" sheet of the Excel mapping file.
@@ -217,11 +218,12 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-#' mapp_vallab_sheet_cmd_table(mapping_file)
+#' mapp_vallab_sheet_cmd_table(m)
 mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   df_vall <- self$cmd$sheet_data_raw[[sheet]]
 
@@ -276,7 +278,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 
 #' Extract free1 sheet of Excel mapping file to dataframe
 #'
-#' @param  mapping_file name of the Excel mapping file
+#' @param  self \code{Mapping} object
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return Command block table of the "Free" sheet of the Excel mapping file.
@@ -286,33 +288,35 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' # create empty template from labelled dataset `fake_survey` via:
 #' # mapp_create(fake_survey, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-#' mapp_free_sheet_cmd_table(mapping_file)
+#' mapp_free_sheet_cmd_table(m)
 mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   df_free <- self$cmd$sheet_data_raw[[sheet]]
   if (nrow(df_free) > 0) {
-    df_free <- df_free[1:5] %>%
-      # dplyr::rename_all( ~ paste0("X", 1:5)) %>%
-      dplyr::mutate(row = dplyr::row_number())
+    df_free <- df_free[1:6]
   } else {
     df_free <-
       purrr::map_dfc(1:5, ~ character()) %>%
-      purrr::set_names(paste0("X", 1:5))
+      purrr::set_names(paste0("X", 1:5)) %>%
+      dplyr::mutate(row = NA_character_)
   }
   df_free %>%
     put_absolute_filepaths(self$mapping_file) %>%
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
-  df_free <- readxl::read_xlsx(
+  readxl::read_xlsx(
     mapping_file,
     range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"
-  )
+  ) %>%
+    dplyr::mutate(row = dplyr::row_number()) %>%
+    dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~!is.na(.)))
 }
 
 translate_free_sheet <- function(df_free) {

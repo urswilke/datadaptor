@@ -1,3 +1,19 @@
+#' Construct command block record
+#'
+#' When a command_blocks object is printed, it is transform into a `"command_block_rcrd"`.
+#'
+#' @param command_blocks command_blocks object
+#'
+#' @export
+#'
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' m <- Mapping$new(spss_file, mapping_file)
+#' rcrd <- m$cmd$command_blocks %>% command_block_rcrd()
+#' rcrd
+#' # This results in the same print:
+#' m$cmd$command_blocks
 command_block_rcrd <- function(command_blocks) {
   command_blocks %>%
     purrr::transpose() %>%
@@ -6,8 +22,11 @@ command_block_rcrd <- function(command_blocks) {
 
 
 
+#' @param x command_block object
+#' @param ... not needed for now
 #' @export
-format.command_block_rcrd <- function(x, ..., formatter = cmd_block_formatter) {
+#' @rdname command_block_rcrd
+format.command_block_rcrd <- function(x, ...) {
   x_valid <- which(!is.na(x))
 
   sheet <- vctrs::field(x, "sheet") %>% abbreviate(6)
@@ -30,7 +49,7 @@ cmd_block_args_formatter <- function(sheet, action, args) {
 
   ret <- df_long %>%
     dplyr::rowwise() %>%
-    dplyr::mutate(value = paste(value, collapse = ", ")) %>%
+    dplyr::mutate(value = paste(.data$value, collapse = ", ")) %>%
     dplyr::group_by(row) %>%
     dplyr::summarise(
       paste0(
@@ -40,9 +59,9 @@ cmd_block_args_formatter <- function(sheet, action, args) {
         # cli::col_grey(": "),
         # value %>% str_trunc(16),
         # collapse = cli::col_grey("; ")
-        abbreviate(name, 6),
+        abbreviate(.data$name, 6),
         ": ",
-        value %>% stringr::str_trunc(16),
+        .data$value %>% stringr::str_trunc(16),
         collapse = "; "
       )
     ) %>%
@@ -52,11 +71,13 @@ cmd_block_args_formatter <- function(sheet, action, args) {
   format(ret, justify = "right")
 }
 
+#' @rdname command_block_rcrd
 #' @export
 vec_ptype_abbr.command_block_rcrd <- function(x) {
   "cmdblk"
 }
 
+#' @rdname command_block_rcrd
 #' @importFrom pillar pillar_shaft
 #' @export
 pillar_shaft.command_block_rcrd <- function(x, ...) {
@@ -64,6 +85,9 @@ pillar_shaft.command_block_rcrd <- function(x, ...) {
   pillar::new_pillar_shaft_simple(out, align = "right", min_width = 24)
 }
 
+#' @rdname command_blocks
+#' @param x command_block object
+#' @param ... not needed for now
 #' @export
 print.command_blocks <- function(x, ...) {
   print(command_block_rcrd(x), ...)

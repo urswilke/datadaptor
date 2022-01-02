@@ -14,3 +14,16 @@ apply_command(x, self)
 \description{
 Apply a command block to the mapping
 }
+\examples{
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+m <- Mapping$new(spss_file, mapping_file)
+cbs <- m$cmd$df_cmd_raw \%>\%
+  purrr::transpose() \%>\%
+  .[[10]] \%>\%
+  command_block_factory() \%>\%
+  parse_command_args() \%>\%
+  list(.) \%>\%
+  datenanpassr:::new_command_blocks(subclass = "unsafe")
+m$modify_data(command_blocks = cbs)
+}
