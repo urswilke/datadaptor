@@ -134,8 +134,8 @@ apply_command.cmd_merge <- function(x, self) {
   df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
   id_vec <- self$dat_mod[[id]]
   if (!identical(
-    sort(strip_attributes(df_merge[[id]])),
-    sort(strip_attributes(id_vec))
+    sort(tablab::strip_attributes(df_merge[[id]])),
+    sort(tablab::strip_attributes(id_vec))
   )
   ) {
     warning("The merged dataframe doesn't contain the same id values")
@@ -405,7 +405,7 @@ apply_command.cmd_str_to_num <- function(x, self) {
   var_name <- x$args$var
   var <- self$dat_mod[[var_name]]
   self$dat_mod[[var_name]] <- haven::labelled(
-    var %>% strip_attributes() %>% as.numeric(),
+    var %>% tablab::strip_attributes() %>% as.numeric(),
     label = attr(var, "label", exact = TRUE)
   )
   invisible(self)

@@ -183,17 +183,3 @@ adapt_filepath <- function(file_path, mapping_file) {
   }
 }
 
-#' Remove attributes from a vector
-#'
-#' @param x vector
-#'
-#' @return x with attributes removed
-#' @export
-#'
-#' @examples
-#' x <- haven::labelled(1:3, label = "variable_label")
-#' strip_attributes(x)
-strip_attributes <- function(x) {
-  attributes(x) <- NULL
-  x
-}
