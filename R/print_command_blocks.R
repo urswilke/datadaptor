@@ -1,6 +1,6 @@
 #' Construct command block record
 #'
-#' When a command_blocks object is printed, it is transform into a `"command_block_rcrd"`.
+#' When a `"command_blocks"` object is printed, it is transform into a `"command_block_rcrd"`.
 #'
 #' @param command_blocks command_blocks object
 #'
