@@ -206,7 +206,7 @@
     [2] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
     [3] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
 
-# error string elements were added to df_cmd
+# error string elements were added to cmd_tbl
 
     # A tibble: 68 x 8
        sheet     action   row    new_var raw   command_blocks_~ command_blocks error
