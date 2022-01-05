@@ -73,9 +73,11 @@ here for the 3 first elements:
 m$cmd$command_blocks[1:3]
 ```
 
-But underneath, the structure is equal to `m$cmd$command_blocks_raw`, with an
-additional field `args` added:
+But underneath, the structure is equal to `m$cmd$command_blocks_raw`
+except an additional field `args`:
 ```{r}
+names(m$cmd$command_blocks_raw[[3]])
+names(m$cmd$command_blocks[[3]])
 m$cmd$command_blocks[[3]]$args
 ```
 
