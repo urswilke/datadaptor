@@ -126,29 +126,30 @@ apply_command.cmd_merge <- function(x, self) {
   merge_file <- x$args$merge_file
   id <- x$args$id
 
-  id_var_name <- id
-  merge_vars <- c(id_var_name, variable_names)
+  merge_vars <- c(id, variable_names)
   df_merge <- haven::read_sav(merge_file)
   if (is.na(variable_names)[1]) {
     variable_names <- names(df_merge)
   }
-  df_merge <- df_merge %>% dplyr::select(!!id_var_name, !!!variable_names)
-  id_var <- rlang::sym(id_var_name) %>% eval_in_data(self)
+  df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
+  id_vec <- self$dat_mod[[id]]
   if (!identical(
-    sort(strip_attributes(df_merge[[id_var_name]])),
-    sort(strip_attributes(id_var))
+    sort(strip_attributes(df_merge[[id]])),
+    sort(strip_attributes(id_vec))
   )
   ) {
     warning("The merged dataframe doesn't contain the same id values")
-    df_merge <- df_merge %>% dplyr::filter(!!rlang::sym(id_var_name) %in% id_var)
+    df_merge <- df_merge %% dplyr::filter(!!rlang::sym(id) %in% id_vec)
   }
 
+  # This kind of merging overwrites variables if existing:
+  df_merge_sort <- tibble::tibble(id_vec) %>%
+    dplyr::rename(!!id := id_vec) %>%
+    dplyr::full_join(df_merge, by = id) %>%
+    dplyr::select(-!!id)
   self$dat_mod <- self$dat_mod %>%
     dplyr::mutate(
-      tibble::tibble(id_var) %>%
-        dplyr::rename(!!id_var_name := id_var) %>%
-        dplyr::full_join(df_merge, by = id_var_name) %>%
-        dplyr::select(-!!id_var_name)
+      df_merge_sort
     )
 }
 
