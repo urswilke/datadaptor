@@ -127,6 +127,9 @@ parse_verbatim_data_raw <- function(
   sheet,
   translate_xlsm = FALSE
 ) {
+  if (is.na(verbatim_file)) {
+    return(NULL)
+  }
   mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping_file, sheet = sheet)
   verbatim_sheets <- mapping_verbatim_sheet$q_id
   l_codestufen <- generate_label_code_list(verbatim_file)
