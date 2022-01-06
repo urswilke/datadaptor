@@ -254,7 +254,7 @@ apply_command.cmd_set_labs <- function(x, self) {
   new_labs <- x$args$new_labs
 
   if (is.null(new_lab)) {
-    new_lab <- attr(orig_var, "label", exact = TRUE)
+    new_lab <- attr(self$dat_mod[[orig_var]], "label", exact = TRUE)
   }
   self$dat_mod[[orig_var]] <- haven::labelled(
     self$dat_mod[[orig_var]],
