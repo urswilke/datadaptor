@@ -178,6 +178,7 @@ load_configr_params <- function(self) {
   params <- list(
     na_to_filter = TRUE,
     error_out = "unsafe",
+    translate_xlsm = FALSE,
     mapping_file_attrs = list()
   )
   l_configr <- get_configr_args_list(self$mapping_file)

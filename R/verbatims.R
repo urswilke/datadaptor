@@ -121,7 +121,12 @@ un_OT_ize <- function(var_ziel, orig_var) {
 }
 
 
-parse_verbatim_data_raw <- function(mapping_file, verbatim_file, sheet) {
+parse_verbatim_data_raw <- function(
+  mapping_file,
+  verbatim_file,
+  sheet,
+  translate_xlsm = FALSE
+) {
   mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping_file, sheet = sheet)
   verbatim_sheets <- mapping_verbatim_sheet$q_id
   l_codestufen <- generate_label_code_list(verbatim_file)
