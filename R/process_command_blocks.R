@@ -170,6 +170,7 @@ command_block <- function(x) {
     "#RFUN"     = "cmd_rfun",
     "#R"        = "cmd_r",
     "#COMPR"    = "cmd_comp",
+    stop(x$action, " command block specifier not found. See `?command_block()` for allowed ones.")
   )
   new_command_block(x, subclass = subclass)
 }

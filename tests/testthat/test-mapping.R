@@ -59,3 +59,4 @@ test_that("error string elements were added to cmd_tbl", {
     mapping_trycatch$cmd_tbl
   })
 })
+
