@@ -71,6 +71,7 @@ information of the Excel mapping file.}
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-new}{\code{Mapping$new()}}
+\item \href{#method-prep_cmd_tbl}{\code{Mapping$prep_cmd_tbl()}}
 \item \href{#method-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-clone}{\code{Mapping$clone()}}
 }
@@ -90,6 +91,25 @@ Initialize a Mapping object
 \item{\code{dat}}{Dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-prep_cmd_tbl"></a>}}
+\if{latex}{\out{\hypertarget{method-prep_cmd_tbl}{}}}
+\subsection{Method \code{prep_cmd_tbl()}}{
+Process all command blocks of the Excel mapping file to R. The command
+blocks of the Excel mapping file are translated to the \code{command_blocks()} field
+\code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$prep_cmd_tbl(translate_xlsm = FALSE)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{translate_xlsm}}{For internal use}
 }
 \if{html}{\out{</div>}}
 }

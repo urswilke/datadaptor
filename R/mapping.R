@@ -60,7 +60,21 @@ Mapping <- R6::R6Class(
 
       self$mapping_file <- mapping_file
       self$params <- load_configr_params(self)
+      if (!is.null(mapping_file)) {
+        self$prep_cmd_tbl()
+      }
+
+    },
+    #' @description Process all command blocks of the Excel mapping file to R. The command
+    #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
+    #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
+    #'
+    #' @param translate_xlsm For internal use
+    prep_cmd_tbl = function(translate_xlsm = FALSE) {
+      self$params$translate_xlsm <- translate_xlsm
       process_command_blocks(self)
+
+      invisible(self)
     },
     #' @description Run all command blocks of the mapping file. The command
     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
