@@ -1,0 +1,32 @@
+---
+title: "Untitled"
+author: "Urs Wilke"
+date: "1/6/2022"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(datenanpassr)
+library(tidyverse)
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+mapping_s3 <- Mapping$new(spss_file, mapping_file)
+# filter commands that are already implemented:
+cbs <- mapping_s3$cmd$command_blocks
+unique_cmd_bloks <- cbs[!duplicated(map_chr(cbs, "action"))]
+type_list <-  tibble(
+  action = map_chr(unique_cmd_bloks, "action"),
+  unique_cmd_bloks %>% 
+    map("args") %>% 
+    map_dfr(~map(.x, typeof))
+)
+  
+# %>% 
+#   mutate(action = unique_cmd_bloks %>% map_chr("action"))
+type_list
+```
+
