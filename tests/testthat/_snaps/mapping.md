@@ -193,18 +193,6 @@
     10     1    NA             3
     # ... with 90 more rows
 
-# error list print is reproduced
-
-    [1] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
-    [2] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
-    [3] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
-
-# error string elements were added to the erroneous command blocks
-
-    [1] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
-    [2] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
-    [3] "<text>:1:7: unexpected '*'\n1: q1 ==(*\n          ^"
-
 # error string elements were added to cmd_tbl
 
     # A tibble: 68 x 8

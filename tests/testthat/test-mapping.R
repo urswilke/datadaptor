@@ -46,17 +46,13 @@ mapping_trycatch$cmd$command_blocks <- command_blocks(mapping_trycatch)
 mapping_trycatch$cmd_tbl <- gen_command_table(mapping_trycatch)
 
 testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
-test_that("error list print is reproduced", {
-  testthat::expect_snapshot_output({
-    mapping_trycatch$params$error_list[46:48]
-  }
-
-  )
-})
-test_that("error string elements were added to the erroneous command blocks", {
-  testthat::expect_snapshot_output({
-    mapping_trycatch$cmd_tbl$error[46:48]
-  })
+error_list <- mapping_trycatch$params$error_list
+cmd_tbl_error_col <- mapping_trycatch$cmd_tbl$error
+err_idx <- which(error_list != "")
+err_idx2 <- which(cmd_tbl_error_col != "")
+test_that("Non-empty indices of error list are correctly detected", {
+  testthat::expect_equal(err_idx, 46:48)
+  testthat::expect_equal(err_idx2, 46:48)
 })
 test_that("error string elements were added to cmd_tbl", {
   testthat::expect_snapshot_output({
