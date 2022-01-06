@@ -346,7 +346,7 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     put_absolute_filepaths(self$mapping_file) %>%
     process_raw_free_cmd_table()
 }
-mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", translate_xlsm = FALSE) {
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
   df_free <- readxl::read_xlsx(
     mapping_file,
     range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
@@ -355,15 +355,9 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1", transla
   ) %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~!is.na(.)))
-  if (translate_xlsm) {
-    df_free <- translate_xlsm_free_sheet(df_free)
-  }
   df_free
 }
 
-translate_xlsm_free_sheet <- function(df_free) {
-  df_free %>% dplyr::slice(-1)
-}
 
 
 process_raw_free_cmd_table <- function(df_free) {
