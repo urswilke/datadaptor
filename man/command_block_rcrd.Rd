@@ -23,7 +23,7 @@ vec_ptype_abbr.command_block_rcrd(x)
 \item{...}{not needed for now}
 }
 \description{
-When a command_blocks object is printed, it is transform into a \code{"command_block_rcrd"}.
+When a \code{"command_blocks"} object is printed, it is transform into a \code{"command_block_rcrd"}.
 }
 \examples{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
