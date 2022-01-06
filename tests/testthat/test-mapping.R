@@ -11,11 +11,15 @@ mapping_s3 <- Mapping$new(spss_file, mapping_file)
 # })
 # testthat::expect_message(testthat::expect_message(mapping_s3$gen_command_table_raw()))
 
-# filter commands that are already implemented:
 mapping_s3$modify_data()
+
+cbs <- mapping_s3$cmd_tbl$command_blocks
+incl_block_bool <-
+  !purrr::map_chr(cbs, "action") %in%
+  c("#MERGE", "#RFUN")
 test_that("command blocks print is reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$cmd_tbl$command_blocks[mapping_s3$cmd_tbl$command_blocks %>% purrr::map_chr("action") != "#MERGE"]
+    cbs[incl_block_bool]
   }
 
   )

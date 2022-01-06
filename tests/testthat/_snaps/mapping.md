@@ -1,6 +1,6 @@
 # command blocks print is reproduced
 
-    <command_block_rcrd[67]>
+    <command_block_rcrd[66]>
      [1] Config #RECNA rcd_n_: id, DC_ID; rplc_v: -2; rplc_l: FILTER                                                                              
      [2] Label #NEWVA org_vr: q2; vls_dd: 1; lbs_dd: YES                                                                                          
      [3] Label #SUMVA new_vr: kq5; org_vr: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
@@ -64,10 +64,9 @@
     [61] Free1 #VARL org_vr: a2; new_lb: same variable...                                                                                         
     [62] Free1 #DIC org_vr: q3; new_vr: q4_renamed                                                                                                
     [63] Free1 #COMPR new_vr: r_expr_var; new_vl: haven::labell...                                                                                
-    [64] Free1 #RFUN r_scrp: /home/chief/R...; fun_nm: calc_sum_of_k...                                                                           
-    [65] Free1 #R r_code: data.frame(a=1)                                                                                                         
-    [66] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
-    [67] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
+    [64] Free1 #R r_code: data.frame(a=1)                                                                                                         
+    [65] Free1 #REC org_vr: q1; new_vr: kkq1; new_lb: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; nw_vls: 1, 2, 2, 2, 2; nw_lbs: a, b, NA, NA, NA
+    [66] Free2 #COMP new_vr: free2_var; new_vl: 3                                                                                                 
 
 # s3 modified data print is reproduced
 
