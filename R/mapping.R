@@ -55,11 +55,11 @@ Mapping <- R6::R6Class(
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
     initialize = function(dat = NULL,
-                          mapping_file) {
+                          mapping_file = NULL) {
       self$dat <- initialize_dat(self, dat)
 
       self$mapping_file <- mapping_file
-      self$params <- load_configr_params(self)
+      self$params <- load_params(self)
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
@@ -72,6 +72,7 @@ Mapping <- R6::R6Class(
     #' @param translate_xlsm For internal use
     prep_cmd_tbl = function(translate_xlsm = FALSE) {
       self$params$translate_xlsm <- translate_xlsm
+      self$params <- add_configr_params(self)
       process_command_blocks(self)
 
       invisible(self)
@@ -188,17 +189,23 @@ initialize_dat <- function(self, dat) {
 
 
 
-load_configr_params <- function(self) {
+load_params <- function(self) {
   params <- list(
     na_to_filter = TRUE,
     error_out = "unsafe",
     translate_xlsm = FALSE,
     mapping_file_attrs = list()
   )
+  params
+}
+
+add_configr_params <- function(self) {
+  params <- self$params
   l_configr <- get_configr_args_list(self$mapping_file)
   id_var <- l_configr$id_var
 
   params$mapping_file_attrs <- l_configr
   params$id_var <- id_var
   params
+
 }
