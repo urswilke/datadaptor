@@ -373,7 +373,7 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
   # transform X2 containing spaces to curliply()able (surrounded by curly braces):
   df_free %>%
     dplyr::mutate(X2 = ifelse(
-      .data$X1 == "#VARL" & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
+      grepl("(#VARL|#REC|#VALL|#AVALL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
     ))
