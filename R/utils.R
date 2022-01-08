@@ -145,7 +145,7 @@ globalVariables(".")
 
 
 get_configr_args_list <- function(mapping_file) {
-  named_regions <- as_tibble(openxlsx::getNamedRegions(mapping_file))
+  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping_file))
   configr <- named_regions %>%
     dplyr::filter(., grepl("^R_*", value)) %>%
     dplyr::mutate(data = purrr:::map(.x=value, ~openxlsx::read.xlsx(xlsxFile = mapping_file, namedRegion = .x, colNames = FALSE)))
