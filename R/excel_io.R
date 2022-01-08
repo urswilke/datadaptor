@@ -47,34 +47,6 @@ mapp_create <- function(df_raw, mapping_file) {
   # Export the file
   openxlsx::saveWorkbook(wb, mapping_file)
 }
-#' Extract configr sheet of Excel mapping file to dataframe
-#'
-#' @param mapping_file name of the Excel mapping file
-#' @param  sheet name of the sheet in the Excel mapping file
-#'
-#' @return Dataframe containing the information of the "configr" sheet in the Excel mapping file.
-#' @export
-#' @importFrom rlang := .data
-#'
-#' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' # open this Excel file (that comes with the package) via:
-#' \dontrun{
-#' utils::browseURL(mapping_file)
-#' }
-#' mapp_configr(mapping_file)
-mapp_configr <- function(mapping_file, sheet = "configr") {
-  df_config <- readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet
-  ) %>%
-    dplyr::mutate(row = dplyr::row_number() + 1)
-  df_config
-}
-
-
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param  self \code{Mapping} object

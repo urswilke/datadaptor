@@ -145,26 +145,17 @@ globalVariables(".")
 
 
 get_configr_args_list <- function(mapping_file) {
-  df_config <- mapp_configr(mapping_file)
-  l_configr <- df_config %>%
-    dplyr::mutate(value = as.list(.data$value)) %>%
-    dplyr::select(.data$item, .data$value) %>%
-    tibble::deframe()
+  named_regions <- as_tibble(openxlsx::getNamedRegions(mapping_file))
+  configr <- named_regions %>%
+    dplyr::filter(., grepl("^R_*", value)) %>%
+    dplyr::mutate(data = purrr:::map(.x=value, ~openxlsx::read.xlsx(xlsxFile = mapping_file, namedRegion = .x, colNames = FALSE)))
 
-  l_configr$miss_replace_lab_val <- purrr::set_names(
-    l_configr$miss_rec_val %>% as.numeric(),
-    l_configr$miss_rec_lab
-  )
-  l_configr[c("miss_rec_val", "miss_rec_lab")] <- NULL
-
-  l_configr$not_miss_to_filter_vars <-
-    l_configr$not_miss_to_filter_vars %>%
-    stringr::str_split("[, ;]+") %>%
-    unlist() %>%
-    dplyr::setdiff(NA)
-
+  l_configr <- configr$data
+  names(l_configr) <- stringr::str_sub(configr$value, 3)
   l_configr
 }
+
+
 
 
 # Function to replace windows backslashes to slashes and replace relative

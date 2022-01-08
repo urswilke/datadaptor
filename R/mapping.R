@@ -202,7 +202,7 @@ load_params <- function(self) {
 add_configr_params <- function(self) {
   params <- self$params
   l_configr <- get_configr_args_list(self$mapping_file)
-  id_var <- l_configr$id_var
+  id_var <- as.character(l_configr$id_var)
 
   params$mapping_file_attrs <- l_configr
   params$id_var <- id_var

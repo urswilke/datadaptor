@@ -39,7 +39,7 @@ gen_sheet_cats <- function(self) {
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (self$params$mapping_file_attrs$lab_before_var_sheet == TRUE & "Variables" %in% sheets & "Label" %in% sheets) {
     sheets <- switch_sheets_vars_label(sheets)
   }
 
@@ -61,11 +61,12 @@ generate_rec_na_cmd_table <- function(self) {
   # generates a row of a command table with the command to recode missing to -2,
   # labelled "FILTER"
   vars_to_exclude_na_to_filter <- c(
-    self$params$mapping_file_attrs$not_miss_to_filter_vars,
-    self$params$id_var,
-    self$params$mapping_file_attrs$added_id_var
+    self$params$mapping_file_attrs$not_miss_to_filter_vars %>%
+      stringr::str_split("[, ;]+") %>%
+      unlist() %>%
+      dplyr::setdiff(NA),
+    self$params$id_var
   )
-  na_rec_vec <- self$params$mapping_file_attrs$miss_replace_lab_val
   tibble::tibble(
     sheet = "Config",
     action = "#RECNA",
@@ -74,8 +75,8 @@ generate_rec_na_cmd_table <- function(self) {
     data = list(
       list(
         recode_na_exceptions = vars_to_exclude_na_to_filter,
-        replace_val = unname(na_rec_vec),
-        replace_label = names(na_rec_vec)
+        replace_val = as.numeric(self$params$mapping_file_attrs$miss_rec_val),
+        replace_label = as.character(self$params$mapping_file_attrs$miss_rec_lab)
       )
     )
   )
