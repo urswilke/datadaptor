@@ -296,10 +296,14 @@ apply_command.cmd_newvall <- apply_command.cmd_add_labs
 apply_command.cmd_rec <- function(x, self) {
   orig_var <- x$args$orig_var
   new_lab <- x$args$new_lab
-  if (is.null(new_lab)) {
+  if (is.na(new_lab)) {
     new_lab <- attr(self$dat_mod[[orig_var]], "label", exact = TRUE)
   }
+
   new_var <- x$args$new_var
+  if (is.na(new_var)) {
+    new_var <- orig_var
+  }
 
   lb <- x$args$lb
   ub <- x$args$ub
