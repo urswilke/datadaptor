@@ -11,6 +11,7 @@
 #' @param mapping_file name of the Excel file to be created
 #'
 #' @export
+#' @importFrom rlang := .data
 #'
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
