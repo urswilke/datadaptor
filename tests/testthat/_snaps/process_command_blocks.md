@@ -14,7 +14,7 @@
     [1] "id"
     
     $mapping_file_attrs$lab_before_var_sheet
-    [1] TRUE
+    [1] "yes"
     
     $mapping_file_attrs$miss_rec_lab
     [1] "FILTER"

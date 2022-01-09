@@ -39,7 +39,7 @@ gen_sheet_cats <- function(self) {
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (self$params$mapping_file_attrs$lab_before_var_sheet == TRUE & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
     sheets <- switch_sheets_vars_label(sheets)
   }
 
