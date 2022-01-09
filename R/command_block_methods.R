@@ -327,6 +327,9 @@ apply_command.cmd_rec <- function(x, self) {
     )
 
   x <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
+  if(new_var == orig_var) {
+    x <- dplyr::coalesce(x, self$dat_mod[[orig_var]])
+  }
 
   self$dat_mod[[new_var]] <- haven::labelled(
     x,
