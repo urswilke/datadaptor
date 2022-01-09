@@ -58,13 +58,11 @@ gen_sheet_data_raw_list <- function(self) {
 }
 
 generate_rec_na_cmd_table <- function(self) {
-  # generates a row of a command table with the command to recode missing to -2,
-  # labelled "FILTER"
+  params <- self$params$mapping_file_attrs
   vars_to_exclude_na_to_filter <- c(
-    self$params$mapping_file_attrs$not_miss_to_filter_vars %>%
+      params$not_miss_to_filter_vars %>%
       stringr::str_split("[, ;]+") %>%
-      unlist() %>%
-      dplyr::setdiff(NA),
+      unlist(),
     self$params$id_var
   )
   tibble::tibble(
@@ -75,8 +73,8 @@ generate_rec_na_cmd_table <- function(self) {
     data = list(
       list(
         recode_na_exceptions = vars_to_exclude_na_to_filter,
-        replace_val = as.numeric(self$params$mapping_file_attrs$miss_rec_val),
-        replace_label = as.character(self$params$mapping_file_attrs$miss_rec_lab)
+        replace_val = params$miss_rec_val,
+        replace_label = params$miss_rec_lab
       )
     )
   )
