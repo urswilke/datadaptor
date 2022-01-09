@@ -150,10 +150,10 @@ get_configr_args_list <- function(mapping_file) {
   # ℹ No data found on worksheet.
   suppressWarnings(
     configr <- named_regions %>%
-      dplyr::filter(., grepl("^R_*", value)) %>%
+      dplyr::filter(., grepl("^R_*", .data$value)) %>%
       dplyr::mutate(
-        data = purrr:::map(
-          .x=value,
+        data = purrr::map(
+          .x=.data$value,
           ~openxlsx::read.xlsx(
             xlsxFile = mapping_file,
             namedRegion = .x,
