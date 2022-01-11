@@ -338,7 +338,6 @@ process_raw_free_cmd_table <- function(df_free) {
     return(tibble::tibble())
   }
   df_free %>%
-    replace_single_equals_sign_IF_AND_COMP() %>%
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
     curliply() %>%
@@ -377,27 +376,6 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
       grepl("(#VARL|#REC|#VALL|#AVALL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
-    ))
-}
-replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
-  replace_single_equals_sign <- function(column) {
-    # see: https://stackoverflow.com/questions/28460473/how-do-i-match-a-single-equals-sign-with-regular-expressions/28460640
-    stringr::str_replace_all(
-      column,
-      "(?<![=><])=(?!=)",
-      "=="
-    )
-  }
-  df_free %>%
-    dplyr::mutate(X2 = ifelse(
-      .data$X1 %in% "#IF",
-      replace_single_equals_sign(.data$X2),
-      .data$X2
-    )) %>%
-    dplyr::mutate(X3 = ifelse(
-      .data$X1 %in% "#COMP",
-      replace_single_equals_sign(.data$X3),
-      .data$X3
     ))
 }
 delete_empty_X1_not_multiline <- function(df_free) {
