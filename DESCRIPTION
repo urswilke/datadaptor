@@ -6,7 +6,8 @@ Authors@R:
         person(given = "Urs",
                family = "Wilke",
                role = c("aut", "cre"),
-               email = "urs.wilke@gmail.com"),
+               email = "urs.wilke@gmail.com",
+               comment = c(ORCID = "0000-0001-7257-2524")),
         person(given = "Wolf",
                family = "Wilke",
                role = c("aut"),
@@ -18,16 +19,15 @@ Suggests:
     testthat,
     knitr,
     rmarkdown,
-    pkgnet,
+    markdown,
     withr,
     here,
-    visNetwork,
-    tidygraph
+    spelling
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Depends: 
     R (>= 2.10)
 Imports: 
@@ -46,8 +46,12 @@ Imports:
     stringr,
     readr,
     fs,
-    sourcetools,
-    labelled
+    labelled,
+    R6,
+    vctrs,
+    pillar,
+    data.table
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr
+Language: en-US

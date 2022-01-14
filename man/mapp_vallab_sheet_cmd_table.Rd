@@ -4,18 +4,12 @@
 \alias{mapp_vallab_sheet_cmd_table}
 \title{Extract value label sheet of Excel mapping file to dataframe}
 \usage{
-mapp_vallab_sheet_cmd_table(
-  mapping_file,
-  sheet = "Label",
-  translate_xlsm = FALSE
-)
+mapp_vallab_sheet_cmd_table(self, sheet = "Label")
 }
 \arguments{
-\item{mapping_file}{name of the Excel mapping file}
+\item{self}{\code{Mapping} object}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
-
-\item{translate_xlsm}{logical whether to translate the format of Wolf's mapping file to the format of `mapp_create()``}
 }
 \value{
 Command block table of the "Label" sheet of the Excel mapping file.
@@ -27,9 +21,10 @@ Extract value label sheet of Excel mapping file to dataframe
 # create empty template from labelled dataset `fake_survey` via:
 # mapp_create(fake_survey, "mapping.xlsx")
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+m <- Mapping$new(NULL, mapping_file)
 # open this Excel file (that comes with the package) via:
 \dontrun{
 utils::browseURL(mapping_file)
 }
-mapp_vallab_sheet_cmd_table(mapping_file)
+mapp_vallab_sheet_cmd_table(m)
 }

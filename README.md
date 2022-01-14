@@ -11,7 +11,7 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/datenanpassr)](https://CRAN.R-project.org/package=datenanpassr)
 <!-- badges: end -->
 
-The R package datenanpassr is an approach to programatically manipulate
+The R package datenanpassr is an approach to programmatically manipulate
 labelled datasets via a pre-defined syntax of various types of commands
 in various types of Excel sheets. It is a replacement of what my brother
 initially programmed in VBA and SPSS and how we approach our daily work
@@ -43,32 +43,28 @@ Suppose you have an SPSS data file
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 df <- haven::read_sav(spss_file)
 df
-#> # A tibble: 100 x 10
-#>           q1        q2       q3      q4       q5    id q6     q7        q8    q9
-#>    <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+l> <dbl+lb> <dbl> <chr>  <chr>  <dbl> <dbl>
-#>  1  3 [norm…  2 [no]   3 [norm… 4 [muc…  2 [a b…     1 bla b… bla b…     2    NA
-#>  2  3 [norm…  1 [yes]  5 [very… 4 [muc…  5 [ver…     2 bla b… bla b…     9    NA
-#>  3  1 [not …  1 [yes]  3 [norm… 2 [a b…  5 [ver…     3 bla j… bla b…     3    NA
-#>  4  3 [norm… 99 [no a… 4 [much] 4 [muc…  4 [muc…     4 bla b… bla b…     3    NA
-#>  5  5 [very… NA        2 [a bi… 3 [nor…  3 [nor…     5 bla h… bla f…     9    NA
-#>  6  5 [very… NA        4 [much] 3 [nor…  2 [a b…     6 bla b… bla p…     7    NA
-#>  7 99 [no a…  2 [no]   3 [norm… 4 [muc… NA           7 bla l… bla b…    10    NA
-#>  8  2 [a bi…  2 [no]   5 [very… 2 [a b…  1 [not…     8 bla b… bla b…     1    NA
-#>  9 99 [no a… 99 [no a… 1 [not … 1 [not…  2 [a b…     9 bla b… bla b…     2    NA
-#> 10 99 [no a…  1 [yes]  1 [not … 1 [not…  4 [muc…    10 bla b… bla b…     4    NA
+#> # A tibble: 100 × 10
+#>           q1        q2       q3      q4       q5    id q6     q7     q8       q9
+#>    <dbl+lbl> <dbl+lbl> <dbl+lb> <dbl+l> <dbl+lb> <dbl> <chr>  <chr>  <chr> <dbl>
+#>  1  3 [norm…  2 [no]   3 [norm… 4 [muc…  2 [a b…     1 bla b… bla b… 2        NA
+#>  2  3 [norm…  1 [yes]  5 [very… 4 [muc…  5 [ver…     2 bla b… bla b… 9        NA
+#>  3  1 [not …  1 [yes]  3 [norm… 2 [a b…  5 [ver…     3 bla j… bla b… 3        NA
+#>  4  3 [norm… 99 [no a… 4 [much] 4 [muc…  4 [muc…     4 bla b… bla b… 3        NA
+#>  5  5 [very… NA        2 [a bi… 3 [nor…  3 [nor…     5 bla h… bla f… 9        NA
+#>  6  5 [very… NA        4 [much] 3 [nor…  2 [a b…     6 bla b… bla p… 7        NA
+#>  7 99 [no a…  2 [no]   3 [norm… 4 [muc… NA           7 bla l… bla b… 10       NA
+#>  8  2 [a bi…  2 [no]   5 [very… 2 [a b…  1 [not…     8 bla b… bla b… 1        NA
+#>  9 99 [no a… 99 [no a… 1 [not … 1 [not…  2 [a b…     9 bla b… bla b… 2        NA
+#> 10 99 [no a…  1 [yes]  1 [not … 1 [not…  4 [muc…    10 bla b… bla b… 4        NA
 #> # … with 90 more rows
 ```
 
 and want to modify some of the content.
 
 <!-- TODO:  -->
-
 <!-- You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset: -->
-
 <!-- ```{r, eval=FALSE} -->
-
 <!-- datenanpassr::mapp_create(df, "mapping.xlsx") -->
-
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping
@@ -96,16 +92,24 @@ vignette("excel_command_blocks")
 There you can find out more about the syntax how the commands in the
 mapping file work.
 
-Once you have added the commands to manipulate your data, you can apply
-the changes to your dataset with:
+Once you have added the commands to manipulate your data, you can
+generate a mapping object with
 
 ``` r
-df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_file)
+mapping <- Mapping$new(df, mapping_file)
 ```
 
+and apply the changes to your dataset with:
+
 ``` r
-df_mod
-#> # A tibble: 100 x 52
+mapping$modify_data()
+```
+
+You can then access the modified data with:
+
+``` r
+(df_mod <- mapping$dat_mod)
+#> # A tibble: 100 × 52
 #>           q1  q2_renamed       q3  q4_renamed       q5    id      q6 q7       q8
 #>    <dbl+lbl>   <dbl+lbl> <dbl+lb>   <dbl+lbl> <dbl+lb> <dbl> <dbl+l> <chr> <dbl>
 #>  1  3 [norm…  2 [no]     3 [norm… 4 [much]     2 [a b…     1 3 [bla… bla …     2
@@ -118,18 +122,13 @@ df_mod
 #>  8  2 [a bi…  2 [no]     5 [very… 2 [a bit]    1 [not…     8 6 [bla… bla …     1
 #>  9 99 [no a… 99 [no ans… 1 [not … 1 [not at …  2 [a b…     9 6 [bla… bla …     2
 #> 10 99 [no a…  1 [YES]    1 [not … 1 [not at …  4 [muc…    10 3 [bla… bla …     4
-#> # … with 90 more rows, and 43 more variables: kq1 <dbl+lbl>, q6n <dbl+lbl>,
+#> # … with 90 more rows, and 43 more variables: kq5 <dbl+lbl>, q6n <dbl+lbl>,
 #> #   q7n <dbl+lbl>, q6_1 <dbl+lbl>, q6_2 <dbl+lbl>, q6_3 <dbl+lbl>,
 #> #   q6_4 <dbl+lbl>, q6_97 <dbl+lbl>, q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>,
 #> #   q6test_2 <dbl+lbl>, q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>,
 #> #   q6test_97 <dbl+lbl>, q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>,
 #> #   q6n3 <dbl+lbl>, q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>,
-#> #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <dbl>,
-#> #   abc <dbl>, kq5 <dbl>, kq6 <dbl>, kq3 <dbl+lbl>,
-#> #   kq1xq2_renamedkminus20 <dbl+lbl>, kq1xq2_renamedk10 <dbl+lbl>,
-#> #   kq1xq2_renamedk20 <dbl+lbl>, kq1xq2_renamedk990 <dbl+lbl>, n <dbl+lbl>,
-#> #   a1 <dbl+lbl>, a2 <dbl+lbl>, r_expr_var <dbl+lbl>, q2 <dbl+lbl>,
-#> #   sum_of_k_vars <dbl>, a <dbl>, kkq1 <dbl+lbl>, free2_var <dbl>
+#> #   q6n7 <dbl+lbl>, q6n8 <dbl+lbl>, q6n9 <dbl+lbl>, q6n10 <dbl+lbl>, x <int>, …
 ```
 
 Let’s also have a closer look at one of the new variables:

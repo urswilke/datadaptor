@@ -1,0 +1,62 @@
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+
+
+mapping_s3 <- Mapping$new(spss_file, mapping_file)
+# tests doesnt work on other machines:
+# test_that("class object print is reproduced", {
+#   testthat::expect_snapshot_output(
+#     mapping_s3
+#   )
+# })
+# testthat::expect_message(testthat::expect_message(mapping_s3$gen_command_table_raw()))
+
+mapping_s3$modify_data()
+
+cbs <- mapping_s3$cmd_tbl$command_blocks
+incl_block_bool <-
+  !purrr::map_chr(cbs, "action") %in%
+  c("#MERGE", "#RFUN")
+test_that("command blocks print is reproduced", {
+  testthat::expect_snapshot_output({
+    cbs[incl_block_bool]
+  }
+
+  )
+})
+
+test_that("s3 modified data print is reproduced", {
+  testthat::expect_snapshot_output({
+    mapping_s3$dat_mod %>% print(width = 10000)
+  }
+
+  )
+})
+
+
+
+mapping_trycatch <- Mapping$new(spss_file, mapping_file)
+# testthat::expect_message(mapping_trycatch$gen_command_table_raw())
+mapping_trycatch$cmd$df_cmd_raw$raw[[46]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$raw[[47]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$raw[[48]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$params$error_out <- "safe"
+mapping_trycatch$cmd$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
+mapping_trycatch$cmd$command_blocks <- command_blocks(mapping_trycatch)
+mapping_trycatch$cmd_tbl <- gen_command_table(mapping_trycatch)
+
+testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
+error_list <- mapping_trycatch$params$error_list
+cmd_tbl_error_col <- mapping_trycatch$cmd_tbl$error
+err_idx <- which(error_list != "")
+err_idx2 <- which(cmd_tbl_error_col != "")
+test_that("Non-empty indices of error list are correctly detected", {
+  testthat::expect_equal(err_idx, 46:48)
+  testthat::expect_equal(err_idx2, 46:48)
+})
+test_that("error string elements were added to cmd_tbl", {
+  testthat::expect_snapshot_output({
+    mapping_trycatch$cmd_tbl
+  })
+})
+

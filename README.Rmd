@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 
 
 
-The R package datenanpassr is an approach to programatically manipulate labelled datasets via a pre-defined syntax of various types of commands in various types of Excel sheets. It is a replacement of what my brother initially programmed in VBA and SPSS and how we approach our daily work of data cleaning of survey data. The package can be used to write various data manipulations in a concise way filling in commands in Excel cells.
+The R package datenanpassr is an approach to programmatically manipulate labelled datasets via a pre-defined syntax of various types of commands in various types of Excel sheets. It is a replacement of what my brother initially programmed in VBA and SPSS and how we approach our daily work of data cleaning of survey data. The package can be used to write various data manipulations in a concise way filling in commands in Excel cells.
 
 
 
@@ -85,16 +85,24 @@ vignette("excel_command_blocks")
 There you can find out more about the syntax how the commands in the mapping file work.
 
 
-Once you have added the commands to manipulate your data, you can apply the changes to your dataset with:
+Once you have added the commands to manipulate your data, you can generate a mapping object with
+
 
 ```{r, message=FALSE, warning=FALSE}
-df_mod <- datenanpassr::mapp_xl_to_data(df, mapping_file)
+mapping <- Mapping$new(df, mapping_file)
 ```
 
+and apply the changes to your dataset with:
 
 ```{r}
-df_mod
+mapping$modify_data()
 ```
+You can  then access the modified data with:
+```{r}
+(df_mod <- mapping$dat_mod)
+```
+
+
 Let's also have a closer look at one of the new variables:
 
 ```{r}

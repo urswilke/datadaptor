@@ -5,20 +5,17 @@
 \title{Extract verbatim sheet related data of Excel mapping file to dataframe}
 \usage{
 mapp_verbatim_sheet_cmd_tbl(
-  mapping_file,
-  verbatim_file = extract_verbatim_file_name(mapping_file, sheet),
-  sheet = "Verbatims",
-  id_var_str
+  self,
+  verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet),
+  sheet = "Verbatims"
 )
 }
 \arguments{
-\item{mapping_file}{name of the Excel mapping file}
+\item{self}{\code{Mapping} object}
 
 \item{verbatim_file}{character string of the name of the Verbatim file}
 
 \item{sheet}{name of the sheet in the Excel mapping file}
-
-\item{id_var_str}{character string of the name of the id variable in the data file}
 }
 \value{
 Command block table of the "Verbatims" sheet of the Excel mapping file.
@@ -34,5 +31,6 @@ verbatim_file <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = 
 utils::browseURL(mapping_file)
 utils::browseURL(verbatim_file)
 }
-mapp_verbatim_sheet_cmd_tbl(mapping_file, verbatim_file = verbatim_file, id_var_str = "id")
+m <- Mapping$new(NULL, mapping_file)
+mapp_verbatim_sheet_cmd_tbl(m, verbatim_file = verbatim_file)
 }

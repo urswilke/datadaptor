@@ -34,7 +34,8 @@ curliply(df_curly)
 
 # Extensive example:
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file)
+df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) \%>\%
+  dplyr::filter(stringr::str_detect(X2, "\\\\{"))
 curliply(df_free_raw)
 # For reference, open the "Free1" sheet in the Excel file via:
 \dontrun{
