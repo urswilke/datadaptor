@@ -145,26 +145,34 @@ globalVariables(".")
 
 
 get_configr_args_list <- function(mapping_file) {
-  df_config <- mapp_configr(mapping_file)
-  l_configr <- df_config %>%
-    dplyr::mutate(value = as.list(.data$value)) %>%
-    dplyr::select(.data$item, .data$value) %>%
-    tibble::deframe()
-
-  l_configr$miss_replace_lab_val <- purrr::set_names(
-    l_configr$miss_rec_val %>% as.numeric(),
-    l_configr$miss_rec_lab
+  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping_file))
+  # if there is a named region that's empty, it would throw the warning:
+  # ℹ No data found on worksheet.
+  suppressWarnings(
+    configr <- named_regions %>%
+      dplyr::filter(., grepl("^R_*", .data$value)) %>%
+      dplyr::mutate(
+        data = purrr::map(
+          .x=.data$value,
+          ~openxlsx::read.xlsx(
+            xlsxFile = mapping_file,
+            namedRegion = .x,
+            colNames = FALSE
+          )
+        ) %>%
+          purrr::map_if(
+            purrr::negate(is.null),
+            dplyr::pull
+          )
+      )
   )
-  l_configr[c("miss_rec_val", "miss_rec_lab")] <- NULL
 
-  l_configr$not_miss_to_filter_vars <-
-    l_configr$not_miss_to_filter_vars %>%
-    stringr::str_split("[, ;]+") %>%
-    unlist() %>%
-    dplyr::setdiff(NA)
-
+  l_configr <- configr$data
+  names(l_configr) <- stringr::str_sub(configr$value, 3)
   l_configr
 }
+
+
 
 
 # Function to replace windows backslashes to slashes and replace relative

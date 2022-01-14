@@ -11,6 +11,7 @@
 #' @param mapping_file name of the Excel file to be created
 #'
 #' @export
+#' @importFrom rlang := .data
 #'
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
@@ -47,34 +48,6 @@ mapp_create <- function(df_raw, mapping_file) {
   # Export the file
   openxlsx::saveWorkbook(wb, mapping_file)
 }
-#' Extract configr sheet of Excel mapping file to dataframe
-#'
-#' @param mapping_file name of the Excel mapping file
-#' @param  sheet name of the sheet in the Excel mapping file
-#'
-#' @return Dataframe containing the information of the "configr" sheet in the Excel mapping file.
-#' @export
-#' @importFrom rlang := .data
-#'
-#' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' # open this Excel file (that comes with the package) via:
-#' \dontrun{
-#' utils::browseURL(mapping_file)
-#' }
-#' mapp_configr(mapping_file)
-mapp_configr <- function(mapping_file, sheet = "configr") {
-  df_config <- readxl::read_xlsx(
-    mapping_file,
-    sheet = sheet
-  ) %>%
-    dplyr::mutate(row = dplyr::row_number() + 1)
-  df_config
-}
-
-
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param  self \code{Mapping} object
@@ -365,7 +338,6 @@ process_raw_free_cmd_table <- function(df_free) {
     return(tibble::tibble())
   }
   df_free %>%
-    replace_single_equals_sign_IF_AND_COMP() %>%
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
     curliply() %>%
@@ -401,30 +373,9 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
   # transform X2 containing spaces to curliply()able (surrounded by curly braces):
   df_free %>%
     dplyr::mutate(X2 = ifelse(
-      .data$X1 == "#VARL" & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
+      grepl("(#VARL|#REC|#VALL|#AVALL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
-    ))
-}
-replace_single_equals_sign_IF_AND_COMP <- function(df_free) {
-  replace_single_equals_sign <- function(column) {
-    # see: https://stackoverflow.com/questions/28460473/how-do-i-match-a-single-equals-sign-with-regular-expressions/28460640
-    stringr::str_replace_all(
-      column,
-      "(?<![=><])=(?!=)",
-      "=="
-    )
-  }
-  df_free %>%
-    dplyr::mutate(X2 = ifelse(
-      .data$X1 %in% "#IF",
-      replace_single_equals_sign(.data$X2),
-      .data$X2
-    )) %>%
-    dplyr::mutate(X3 = ifelse(
-      .data$X1 %in% "#COMP",
-      replace_single_equals_sign(.data$X3),
-      .data$X3
     ))
 }
 delete_empty_X1_not_multiline <- function(df_free) {
