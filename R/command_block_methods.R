@@ -166,10 +166,10 @@ apply_command.cmd_rename <- function(cdb, self) {
 apply_command.cmd_if <- function(cdb, self) {
   x <- cdb$args$x
   condition <- cdb$args$condition
-  new_val <- cdb$args$new_val
+  e <- cdb$args$e
 
   cond <- rlang::parse_expr(condition)
-  val <- rlang::parse_expr(new_val)
+  val <- rlang::parse_expr(e)
 
   # add double NA column to data, if x doesn't exist yet (together with
   # the attributes copying below, this keeps the variable's labels if existing):
@@ -200,9 +200,9 @@ eval_in_data <- function(e, self) {
 #' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(cdb, self) {
   x <- cdb$args$x
-  new_val <- cdb$args$new_val
+  e <- cdb$args$e
 
-  val <- rlang::parse_expr(new_val)
+  val <- rlang::parse_expr(e)
 
   # add double NA column to data, if x doesn't exist yet (together with
   # the attributes copying below, this keeps the variable's labels if existing):

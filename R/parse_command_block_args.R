@@ -111,7 +111,7 @@ parse_command_args.cmd_if <- function(cdb) {
 
   cdb$args <- list(
     x   = assignment[1],
-    new_val   = assignment[2],
+    e   = assignment[2],
     condition = cdb$raw$X2
   )
   cdb
@@ -120,7 +120,7 @@ parse_command_args.cmd_if <- function(cdb) {
 parse_command_args.cmd_comp <- function(cdb) {
   cdb$args <- list(
     x   = cdb$raw$X2[1],
-    new_val   = cdb$raw$X3[1]
+    e   = cdb$raw$X3[1]
   )
   cdb
 }

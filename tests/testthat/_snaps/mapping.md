@@ -45,28 +45,28 @@
     [42] Vrbtms #vrbtm x: q6n8; v: NA; varlab: ; vallbs: -2, 1, 2, 3, ...; id_lst: ; v0: -2                                         
     [43] Vrbtms #vrbtm x: q6n9; v: NA; varlab: ; vallbs: -2, 1, 2, 3, ...; id_lst: ; v0: -2                                         
     [44] Vrbtms #vrbtm x: q6n10; v: NA; varlab: ; vallbs: -2, 1, 2, 3, ...; id_lst: ; v0: -2                                        
-    [45] Free1 #COMP x: x; new_vl: q1 == 2                                                                                          
-    [46] Free1 #IF x: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                      
-    [47] Free1 #IF x: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                       
-    [48] Free1 #IF x: kq6; new_vl: 8; condtn: q3 == 1                                                                               
+    [45] Free1 #COMP x: x; e: q1 == 2                                                                                               
+    [46] Free1 #IF x: abc; e: 7; condtn: q1 == 1 | q3 ...                                                                           
+    [47] Free1 #IF x: kq5; e: 7; condtn: q2_renamed == 1                                                                            
+    [48] Free1 #IF x: kq6; e: 8; condtn: q3 == 1                                                                                    
     [49] Free1 #REC y: q1; x: kq1; varlab: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; vs: 1, 2, 3; vallbs: 1-2, 3, 4-5             
     [50] Free1 #REC y: q3; x: kq3; varlab: summarized va...; lb: 1, 3, 4; ub: 2, 3, 5; vs: 1, 2, 3; vallbs: 1-2, 3, 4-5             
     [51] Free1 #KG splt_v: q2_renamed; by_var: kq1                                                                                  
-    [52] Free1 #COMP x: n; new_vl: 1                                                                                                
+    [52] Free1 #COMP x: n; e: 1                                                                                                     
     [53] Free1 #VARL x: n; varlab: my new label                                                                                     
     [54] Free1 #VALL x: n; varlab: overwrite new...; vs: 1, 2, 3; vallbs: also with, va...                                          
     [55] Free1 #AVALL x: n; varlab: ; vs: 4; vallbs: added label                                                                    
     [56] Free1 #VARL x: q3; varlab: Almost same v...                                                                                
     [57] Free1 #VARL x: q5; varlab: Almost same v...                                                                                
-    [58] Free1 #COMP x: a1; new_vl: 3                                                                                               
-    [59] Free1 #COMP x: a2; new_vl: 4                                                                                               
+    [58] Free1 #COMP x: a1; e: 3                                                                                                    
+    [59] Free1 #COMP x: a2; e: 4                                                                                                    
     [60] Free1 #VARL x: a1; varlab: same variable...                                                                                
     [61] Free1 #VARL x: a2; varlab: same variable...                                                                                
     [62] Free1 #DIC y: q3; x: q4_renamed                                                                                            
-    [63] Free1 #COMPR x: r_expr_var; new_vl: haven::labell...                                                                       
+    [63] Free1 #COMPR x: r_expr_var; e: haven::labell...                                                                            
     [64] Free1 #R r_code: data.frame(a=1)                                                                                           
     [65] Free1 #REC y: q1; x: kkq1; varlab: vl; lb: 1, 2, 3, 4, 5; ub: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA
-    [66] Free2 #COMP x: free2_var; new_vl: 3                                                                                        
+    [66] Free2 #COMP x: free2_var; e: 3                                                                                             
 
 # s3 modified data print is reproduced
 
