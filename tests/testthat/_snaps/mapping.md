@@ -12,39 +12,39 @@
      [9] Varbls #NEWLA x: q2_renamed; nw_lbl: recommend pro...                                                                          
     [10] Varbls #NEWLA x: q5; nw_lbl: Like best friend                                                                                  
     [11] Varbls #NEWLA x: q8; nw_lbl: Now the varia...                                                                                  
-    [12] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: NA                 
-    [13] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: NA                 
-    [14] Vrbtms #vrbtm var_zl: q6n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: NA                 
-    [15] Vrbtms #vrbtm var_zl: q6n; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: NA                                
-    [16] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 77, 87, 7, 9,...; int_vl: NA                 
-    [17] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 11, 19, 29...; int_vl: NA                 
-    [18] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 1, 28, 30, 36...; int_vl: NA                 
-    [19] Vrbtms #vrbtm var_zl: q7n; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 6, 15, 23, 27...; int_vl: NA                 
-    [20] Vrbtms #vrbtm var_zl: q6_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 7, 17, 23, 51...; int_vl: 0                         
-    [21] Vrbtms #vrbtm var_zl: q6_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: 3, 13, 22, 26...; int_vl: 0                          
-    [22] Vrbtms #vrbtm var_zl: q6_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: 5, 12, 14, 39...; int_vl: 0                    
-    [23] Vrbtms #vrbtm var_zl: q6_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: 7, 58, 73; int_vl: 0                            
-    [24] Vrbtms #vrbtm var_zl: q6_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                      
-    [25] Vrbtms #vrbtm var_zl: q6_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                   
-    [26] Vrbtms #vrbtm var_zl: q6test_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 1; int_vl: 0                                    
-    [27] Vrbtms #vrbtm var_zl: q6test_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: ; int_vl: 0                                      
-    [28] Vrbtms #vrbtm var_zl: q6test_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: ; int_vl: 0                                
-    [29] Vrbtms #vrbtm var_zl: q6test_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: ; int_vl: 0                                 
-    [30] Vrbtms #vrbtm var_zl: q6test_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                  
-    [31] Vrbtms #vrbtm var_zl: q6test_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                               
-    [32] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: -2                
-    [33] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: -2                
-    [34] Vrbtms #vrbtm var_zl: q6n1; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: -2                
-    [35] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 58, 73; int_vl: -2                       
-    [36] Vrbtms #vrbtm var_zl: q6n2; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [37] Vrbtms #vrbtm var_zl: q6n3; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [38] Vrbtms #vrbtm var_zl: q6n4; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [39] Vrbtms #vrbtm var_zl: q6n5; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [40] Vrbtms #vrbtm var_zl: q6n6; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [41] Vrbtms #vrbtm var_zl: q6n7; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [42] Vrbtms #vrbtm var_zl: q6n8; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [43] Vrbtms #vrbtm var_zl: q6n9; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                               
-    [44] Vrbtms #vrbtm var_zl: q6n10; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                              
+    [12] Vrbtms #vrbtm x: q6n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: NA                      
+    [13] Vrbtms #vrbtm x: q6n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: NA                      
+    [14] Vrbtms #vrbtm x: q6n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: NA                      
+    [15] Vrbtms #vrbtm x: q6n; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: NA                                     
+    [16] Vrbtms #vrbtm x: q7n; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 77, 87, 7, 9,...; int_vl: NA                      
+    [17] Vrbtms #vrbtm x: q7n; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 11, 19, 29...; int_vl: NA                      
+    [18] Vrbtms #vrbtm x: q7n; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 1, 28, 30, 36...; int_vl: NA                      
+    [19] Vrbtms #vrbtm x: q7n; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 6, 15, 23, 27...; int_vl: NA                      
+    [20] Vrbtms #vrbtm x: q6_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 7, 17, 23, 51...; int_vl: 0                              
+    [21] Vrbtms #vrbtm x: q6_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: 3, 13, 22, 26...; int_vl: 0                               
+    [22] Vrbtms #vrbtm x: q6_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: 5, 12, 14, 39...; int_vl: 0                         
+    [23] Vrbtms #vrbtm x: q6_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: 7, 58, 73; int_vl: 0                                 
+    [24] Vrbtms #vrbtm x: q6_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                           
+    [25] Vrbtms #vrbtm x: q6_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                        
+    [26] Vrbtms #vrbtm x: q6test_1; vl_ssg: 1; varlab: love; vallab: 0, 1; id_lst: 1; int_vl: 0                                         
+    [27] Vrbtms #vrbtm x: q6test_2; vl_ssg: 1; varlab: joy; vallab: 0, 1; id_lst: ; int_vl: 0                                           
+    [28] Vrbtms #vrbtm x: q6test_3; vl_ssg: 1; varlab: happiness; vallab: 0, 1; id_lst: ; int_vl: 0                                     
+    [29] Vrbtms #vrbtm x: q6test_4; vl_ssg: 1; varlab: noch wat; vallab: 0, 1; id_lst: ; int_vl: 0                                      
+    [30] Vrbtms #vrbtm x: q6test_97; vl_ssg: 1; varlab: Others; vallab: 0, 1; id_lst: ; int_vl: 0                                       
+    [31] Vrbtms #vrbtm x: q6test_99; vl_ssg: 1; varlab: No answer; vallab: 0, 1; id_lst: ; int_vl: 0                                    
+    [32] Vrbtms #vrbtm x: q6n1; vl_ssg: 1; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; int_vl: -2                     
+    [33] Vrbtms #vrbtm x: q6n1; vl_ssg: 2; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; int_vl: -2                     
+    [34] Vrbtms #vrbtm x: q6n1; vl_ssg: 3; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; int_vl: -2                     
+    [35] Vrbtms #vrbtm x: q6n2; vl_ssg: 4; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: 7, 58, 73; int_vl: -2                            
+    [36] Vrbtms #vrbtm x: q6n2; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [37] Vrbtms #vrbtm x: q6n3; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [38] Vrbtms #vrbtm x: q6n4; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [39] Vrbtms #vrbtm x: q6n5; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [40] Vrbtms #vrbtm x: q6n6; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [41] Vrbtms #vrbtm x: q6n7; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [42] Vrbtms #vrbtm x: q6n8; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [43] Vrbtms #vrbtm x: q6n9; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                    
+    [44] Vrbtms #vrbtm x: q6n10; vl_ssg: NA; varlab: ; vallab: -2, 1, 2, 3, ...; id_lst: ; int_vl: -2                                   
     [45] Free1 #COMP x: x; new_vl: q1 == 2                                                                                              
     [46] Free1 #IF x: abc; new_vl: 7; condtn: q1 == 1 | q3 ...                                                                          
     [47] Free1 #IF x: kq5; new_vl: 7; condtn: q2_renamed == 1                                                                           

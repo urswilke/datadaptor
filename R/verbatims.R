@@ -29,7 +29,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
     generate_verbatim_assignment_table_raw(l) %>%
       dplyr::mutate(
         action = "#verbatim",
-        new_var = .data$var_ziel,
+        new_var = .data$x,
         sheet = sheet,
         val_assign_temp = .data$val_assign,
         id_var_str = id_var_str
@@ -100,11 +100,11 @@ generate_label_code_list <- function(verbatim_file) {
     purrr::set_names(names(df_codestufen)[-1]) %>%
     purrr::map(~ dplyr::select(df_codestufen, 1, lab = .x) %>% tidyr::drop_na())
 }
-# function to replace the term {OT...} in var_ziel by the corresponding substring
+# function to replace the term {OT...} in x by the corresponding substring
 # in orig_var:
-un_OT_ize <- function(var_ziel, orig_var) {
+un_OT_ize <- function(x, orig_var) {
   # exctract the three digits in {OT...} :
-  copyDigits <- stringr::str_match(var_ziel, "\\{OT(.*?)\\}")[, 2]
+  copyDigits <- stringr::str_match(x, "\\{OT(.*?)\\}")[, 2]
   # the first two digits in the beginning represent the starting positition:
   cp1stPos <- copyDigits %>%
     stringr::str_match("^\\d\\d") %>%
@@ -116,7 +116,7 @@ un_OT_ize <- function(var_ziel, orig_var) {
   # extract substring of orig_var:
   replaceStr <- stringr::str_sub(orig_var, cp1stPos, cp1stPos + cpLength - 1)
   # replace the term {OT...} by the latter substring:
-  var_name <- stringr::str_replace(var_ziel, "\\{OT\\d\\d\\d\\}", replaceStr)
+  var_name <- stringr::str_replace(x, "\\{OT\\d\\d\\d\\}", replaceStr)
   var_name
 }
 
@@ -149,7 +149,7 @@ parse_mdg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   df_vars_n_labs <- i_l$labs[[1]] %>%
     dplyr::mutate(
-      var_ziel = var_template %>% stringr::str_replace(
+      x = var_template %>% stringr::str_replace(
         "\\{nn\\}",
         .data$Code %>% as.character()
       )
@@ -197,7 +197,7 @@ parse_mcg_assignment_table <- function(i_l) {
     # Hack to not assign missing values: TODO: find cleaner way!
     dplyr::mutate(id_list = ifelse(is.na(.data$val_assign), list(NULL), .data$id_list)) %>%
     dplyr::mutate(
-      var_ziel = var_template %>% stringr::str_replace(
+      x = var_template %>% stringr::str_replace(
         "\\{nn\\}",
         .data$i_assign %>% as.character()
       )

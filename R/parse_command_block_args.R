@@ -72,7 +72,7 @@ parse_command_args.cmd_verbatim <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    var_ziel = d$var_ziel,
+    x = d$x,
     val_assign = d$val_assign,
     varlab = d$varlab[[1]],
     vallab = d$vallab[[1]],
