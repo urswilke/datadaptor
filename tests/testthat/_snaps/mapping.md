@@ -8,10 +8,10 @@
      [5] Varbls #AUTOR x: q6                                                                                                        
      [6] Varbls #DROP xs: q9                                                                                                        
      [7] Varbls #RENAM xs: q2_renamed, q...; ys: q2, q4                                                                             
-     [8] Varbls #NEWLA x: q1; nw_lbl: Like Product                                                                                  
-     [9] Varbls #NEWLA x: q2_renamed; nw_lbl: recommend pro...                                                                      
-    [10] Varbls #NEWLA x: q5; nw_lbl: Like best friend                                                                              
-    [11] Varbls #NEWLA x: q8; nw_lbl: Now the varia...                                                                              
+     [8] Varbls #NEWLA x: q1; varlab: Like Product                                                                                  
+     [9] Varbls #NEWLA x: q2_renamed; varlab: recommend pro...                                                                      
+    [10] Varbls #NEWLA x: q5; varlab: Like best friend                                                                              
+    [11] Varbls #NEWLA x: q8; varlab: Now the varia...                                                                              
     [12] Vrbtms #vrbtm x: q6n; v: 1; varlab: ; vallbs: -2, 1, 2, 3, ...; id_lst: 7, 17, 23, 51...; v0: NA                           
     [13] Vrbtms #vrbtm x: q6n; v: 2; varlab: ; vallbs: -2, 1, 2, 3, ...; id_lst: 3, 13, 22, 26...; v0: NA                           
     [14] Vrbtms #vrbtm x: q6n; v: 3; varlab: ; vallbs: -2, 1, 2, 3, ...; id_lst: 5, 12, 14, 39...; v0: NA                           

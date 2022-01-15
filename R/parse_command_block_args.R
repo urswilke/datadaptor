@@ -142,7 +142,7 @@ parse_command_args.cmd_newlab <- function(cdb) {
 
   cdb$args <- list(
     x = d$var[1],
-    new_label = d$new_label[1]
+    varlab = d$new_label[1]
   )
   cdb
 }
