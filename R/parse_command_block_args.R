@@ -110,7 +110,7 @@ parse_command_args.cmd_if <- function(cdb) {
     stringr::str_squish()
 
   cdb$args <- list(
-    new_var   = assignment[1],
+    x   = assignment[1],
     new_val   = assignment[2],
     condition = cdb$raw$X2
   )
@@ -119,7 +119,7 @@ parse_command_args.cmd_if <- function(cdb) {
 #' @export
 parse_command_args.cmd_comp <- function(cdb) {
   cdb$args <- list(
-    new_var   = cdb$raw$X2[1],
+    x   = cdb$raw$X2[1],
     new_val   = cdb$raw$X3[1]
   )
   cdb
@@ -192,7 +192,7 @@ parse_command_args.cmd_rec <- function(cdb) {
   d <- cdb$raw
   cdb$args <- list(
     y = d$X2[1],
-    new_var = d$X3[1],
+    x = d$X3[1],
     new_lab = d$X4[1],
     lb = d$X2[-1] %>% as.numeric(),
     ub = d$X3[-1] %>% as.numeric(),
@@ -207,7 +207,7 @@ parse_command_args.cmd_sumvar <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    new_var = paste0("k", d$var[1]),
+    x = paste0("k", d$var[1]),
     y = d$var[1],
     new_lab = d$sum_var_label[1],
     orig_vals = d$nv %>% as.numeric(),
@@ -227,7 +227,7 @@ parse_command_args.cmd_dic <- function(cdb) {
   }
   cdb$args <- list(
     y = d$X2[1],
-    new_var  = d$X3[1]
+    x  = d$X3[1]
   )
   cdb
 }

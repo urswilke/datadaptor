@@ -164,25 +164,25 @@ apply_command.cmd_rename <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_if <- function(cdb, self) {
-  new_var <- cdb$args$new_var
+  x <- cdb$args$x
   condition <- cdb$args$condition
   new_val <- cdb$args$new_val
 
   cond <- rlang::parse_expr(condition)
   val <- rlang::parse_expr(new_val)
 
-  # add double NA column to data, if new_var doesn't exist yet (together with
+  # add double NA column to data, if x doesn't exist yet (together with
   # the attributes copying below, this keeps the variable's labels if existing):
-  if (!new_var %in% names(self$dat_mod)) {
-    self$dat_mod[[new_var]] <- NA_real_
+  if (!x %in% names(self$dat_mod)) {
+    self$dat_mod[[x]] <- NA_real_
   }
 
   test <- eval_in_data(rlang::expr(datenanpassr::is_true(!!cond)), self)
   yes <- eval_in_data(rlang::expr(!!val), self)
-  no <- self$dat_mod[[new_var]]
+  no <- self$dat_mod[[x]]
   attributes(yes) <- attributes(no)
 
-  self$dat_mod[[new_var]] <-
+  self$dat_mod[[x]] <-
     data.table::fifelse(
       test,
       yes,
@@ -199,24 +199,24 @@ eval_in_data <- function(e, self) {
 #' @export
 #' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(cdb, self) {
-  new_var <- cdb$args$new_var
+  x <- cdb$args$x
   new_val <- cdb$args$new_val
 
   val <- rlang::parse_expr(new_val)
 
-  # add double NA column to data, if new_var doesn't exist yet (together with
+  # add double NA column to data, if x doesn't exist yet (together with
   # the attributes copying below, this keeps the variable's labels if existing):
-  if (!new_var %in% names(self$dat_mod)) {
-    self$dat_mod[[new_var]] <- NA_real_
+  if (!x %in% names(self$dat_mod)) {
+    self$dat_mod[[x]] <- NA_real_
   }
 
   vec <- eval_in_data(rlang::expr(!!val), self)
-  varlab <- labelled::var_label(vec) %||% labelled::var_label(self$dat_mod[[new_var]])
-  vallabs <- labelled::val_labels(vec) %||% labelled::val_labels(self$dat_mod[[new_var]])
+  varlab <- labelled::var_label(vec) %||% labelled::var_label(self$dat_mod[[x]])
+  vallabs <- labelled::val_labels(vec) %||% labelled::val_labels(self$dat_mod[[x]])
   if (is.logical(vec)) {
     vec <- as.integer(vec)
   }
-  # attributes(vec) <- attributes(self$dat_mod[[new_var]])
+  # attributes(vec) <- attributes(self$dat_mod[[x]])
   if (!is.null(varlab) | !is.null(vallabs)) {
     vec <- haven::labelled(
       vec,
@@ -225,7 +225,7 @@ apply_command.cmd_comp <- function(cdb, self) {
     )
   }
 
-  self$dat_mod[[new_var]] <- vec
+  self$dat_mod[[x]] <- vec
 }
 #' @export
 apply_command.cmd_compr <- apply_command.cmd_comp
@@ -300,9 +300,9 @@ apply_command.cmd_rec <- function(cdb, self) {
     new_lab <- attr(self$dat_mod[[y]], "label", exact = TRUE)
   }
 
-  new_var <- cdb$args$new_var
-  if (is.na(new_var)) {
-    new_var <- y
+  x <- cdb$args$x
+  if (is.na(x)) {
+    x <- y
   }
 
   lb <- cdb$args$lb
@@ -327,11 +327,11 @@ apply_command.cmd_rec <- function(cdb, self) {
     )
 
   res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
-  if(new_var == y) {
+  if(x == y) {
     res_num <- dplyr::coalesce(res_num, self$dat_mod[[y]])
   }
 
-  self$dat_mod[[new_var]] <- haven::labelled(
+  self$dat_mod[[x]] <- haven::labelled(
     res_num,
     labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
     label = new_lab
@@ -341,7 +341,7 @@ apply_command.cmd_rec <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_sumvar <- function(cdb, self) {
-  new_var <- cdb$args$new_var
+  x <- cdb$args$x
   y <- cdb$args$y
   new_lab <- cdb$args$new_lab
   orig_vals <- cdb$args$orig_vals
@@ -365,7 +365,7 @@ apply_command.cmd_sumvar <- function(cdb, self) {
 
   vec_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
 
-  self$dat_mod[[new_var]] <- haven::labelled(
+  self$dat_mod[[x]] <- haven::labelled(
     vec_num,
     labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>% tibble::deframe(),
     label = new_lab
@@ -378,17 +378,17 @@ apply_command.cmd_sumvar <- function(cdb, self) {
 apply_command.cmd_dic <- function(cdb, self) {
   y <- cdb$args$y
   vec <- self$dat_mod[[y]]
-  new_var <- cdb$args$new_var
+  x <- cdb$args$x
 
   varlab <- attr(vec, "label", exact = TRUE)
   vallabs <- attr(vec, "labels", exact = TRUE)
 
-  if (!new_var %in% names(self$dat_mod)) {
-    self$dat_mod[[new_var]] <- NA_real_
+  if (!x %in% names(self$dat_mod)) {
+    self$dat_mod[[x]] <- NA_real_
   }
 
-  self$dat_mod[[new_var]] <- haven::labelled(
-    self$dat_mod[[new_var]],
+  self$dat_mod[[x]] <- haven::labelled(
+    self$dat_mod[[x]],
     labels = vallabs,
     label = varlab
   )
