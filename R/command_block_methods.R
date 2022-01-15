@@ -233,13 +233,13 @@ apply_command.cmd_compr <- apply_command.cmd_comp
 #' @export
 apply_command.cmd_set_lab <- function(cdb, self) {
   x <- cdb$args$x
-  new_lab <- cdb$args$new_lab
+  varlab <- cdb$args$varlab
 
   vec <- self$dat_mod[[x]]
   self$dat_mod[[x]] <- haven::labelled(
     vec,
     labels = attr(vec, "labels"),
-    label = new_lab
+    label = varlab
   )
 }
 
@@ -249,24 +249,24 @@ apply_command.cmd_newlab <- apply_command.cmd_set_lab
 #' @export
 apply_command.cmd_set_labs <- function(cdb, self) {
   x <- cdb$args$x
-  new_lab <- cdb$args$new_lab
-  new_vals <- cdb$args$new_vals
-  new_labs <- cdb$args$new_labs
+  varlab <- cdb$args$varlab
+  vs <- cdb$args$vs
+  vallabs <- cdb$args$vallabs
 
-  if (is.null(new_lab)) {
-    new_lab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
+  if (is.null(varlab)) {
+    varlab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
   }
   self$dat_mod[[x]] <- haven::labelled(
     self$dat_mod[[x]],
-    labels = purrr::set_names(new_vals, new_labs),
-    label = new_lab
+    labels = purrr::set_names(vs, vallabs),
+    label = varlab
   )
 }
 
 #' @export
 apply_command.cmd_add_labs <- function(cdb, self) {
   x <- cdb$args$x
-  new_lab <- cdb$args$new_lab
+  varlab <- cdb$args$varlab
   vs <- cdb$args$vs
   vallabs <- cdb$args$vallabs
 
@@ -275,10 +275,10 @@ apply_command.cmd_add_labs <- function(cdb, self) {
   added_vallab_vec <- purrr::set_names(vs, vallabs)
   new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
 
-  if (is.null(new_lab)) {
+  if (is.null(varlab)) {
     varlab <- attr(vec, "label", exact = TRUE)
   } else {
-    varlab <- new_lab
+    varlab <- varlab
   }
 
   self$dat_mod[[x]] <- haven::labelled(
@@ -295,9 +295,9 @@ apply_command.cmd_newvall <- apply_command.cmd_add_labs
 #' @export
 apply_command.cmd_rec <- function(cdb, self) {
   y <- cdb$args$y
-  new_lab <- cdb$args$new_lab
-  if (is.na(new_lab)) {
-    new_lab <- attr(self$dat_mod[[y]], "label", exact = TRUE)
+  varlab <- cdb$args$varlab
+  if (is.na(varlab)) {
+    varlab <- attr(self$dat_mod[[y]], "label", exact = TRUE)
   }
 
   x <- cdb$args$x
@@ -307,23 +307,23 @@ apply_command.cmd_rec <- function(cdb, self) {
 
   lb <- cdb$args$lb
   ub <- cdb$args$ub
-  new_vals <- cdb$args$new_vals
-  new_labs <- cdb$args$new_labs
+  vs <- cdb$args$vs
+  vallabs <- cdb$args$vallabs
   recode_df <-
-    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), new_vals, new_labs) %>%
+    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), vs, vallabs) %>%
     dplyr::mutate(
       expr_str = paste0("(", y, " >= ", lb, " & ", y, " <= ", ub, ")")
     ) %>%
-    dplyr::group_by(new_vals) %>%
+    dplyr::group_by(vs) %>%
     dplyr::summarise(
       expr_str = paste(.data$expr_str, collapse = " | "),
-      new_labs = new_labs[1]
+      vallabs = vallabs[1]
     )
   cond_statements <-
     recode_df %>%
-    dplyr::select(new_vals, .data$expr_str) %>%
+    dplyr::select(vs, .data$expr_str) %>%
     purrr::pmap(
-      function(new_vals, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!new_vals)
+      function(vs, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!vs)
     )
 
   res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
@@ -333,8 +333,8 @@ apply_command.cmd_rec <- function(cdb, self) {
 
   self$dat_mod[[x]] <- haven::labelled(
     res_num,
-    labels = purrr::set_names(recode_df$new_vals, recode_df$new_labs),
-    label = new_lab
+    labels = purrr::set_names(recode_df$vs, recode_df$vallabs),
+    label = varlab
   )
   invisible(self)
 }
@@ -343,23 +343,23 @@ apply_command.cmd_rec <- function(cdb, self) {
 apply_command.cmd_sumvar <- function(cdb, self) {
   x <- cdb$args$x
   y <- cdb$args$y
-  new_lab <- cdb$args$new_lab
-  orig_vals <- cdb$args$orig_vals
-  new_vals <- cdb$args$new_vals
-  new_labs <- cdb$args$new_labs
-  if (is.null(new_lab)) {
-    new_lab <- attr(self$dat_mod[[y]], "label", exact = TRUE)
+  varlab <- cdb$args$varlab
+  vs0 <- cdb$args$vs0
+  vs <- cdb$args$vs
+  vallabs <- cdb$args$vallabs
+  if (is.na(varlab)) {
+    varlab <- attr(self$dat_mod[[y]], "label", exact = TRUE)
   }
 
-  sum_var_vals_n_labs <- tibble::tibble(orig_vals, new_vals, new_labs) %>%
-    dplyr::group_by(new_vals) %>%
+  sum_var_vals_n_labs <- tibble::tibble(vs0, vs, vallabs) %>%
+    dplyr::group_by(vs) %>%
     dplyr::summarise(
-      val_lists = list(orig_vals),
-      val_labs = dplyr::first(new_labs)
+      val_lists = list(vs0),
+      val_labs = dplyr::first(vallabs)
     )
   cond_statements <- purrr::map2(
     sum_var_vals_n_labs$val_lists,
-    sum_var_vals_n_labs$new_vals,
+    sum_var_vals_n_labs$vs,
     ~ rlang::expr(!!rlang::sym(y) %in% !!.x ~ !!.y)
   )
 
@@ -368,7 +368,7 @@ apply_command.cmd_sumvar <- function(cdb, self) {
   self$dat_mod[[x]] <- haven::labelled(
     vec_num,
     labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>% tibble::deframe(),
-    label = new_lab
+    label = varlab
   )
 
   invisible(self)

@@ -131,7 +131,7 @@ parse_command_args.cmd_compr <- parse_command_args.cmd_comp
 parse_command_args.cmd_set_lab <- function(cdb) {
   cdb$args <- list(
     x = cdb$raw$X2[1],
-    new_lab = cdb$raw$X3[1]
+    varlab = cdb$raw$X3[1]
   )
   cdb
 }
@@ -155,9 +155,9 @@ parse_command_args.cmd_set_labs <- function(cdb) {
 
   cdb$args <- list(
     x = cdb$raw$X2[1],
-    new_lab = varlab,
-    new_vals = cdb$raw$X2[-1] %>% as.numeric(),
-    new_labs = cdb$raw$X3[-1]
+    varlab = varlab,
+    vs = cdb$raw$X2[-1] %>% as.numeric(),
+    vallabs = cdb$raw$X3[-1]
   )
   cdb
 }
@@ -170,7 +170,7 @@ parse_command_args.cmd_add_labs <- function(cdb) {
   }
   cdb$args <- list(
     x = d$X2[1],
-    new_lab = varlab,
+    varlab = varlab,
     vs = d$X2[-1] %>% as.numeric(),
     vallabs = d$X3[-1]
   )
@@ -193,11 +193,11 @@ parse_command_args.cmd_rec <- function(cdb) {
   cdb$args <- list(
     y = d$X2[1],
     x = d$X3[1],
-    new_lab = d$X4[1],
+    varlab = d$X4[1],
     lb = d$X2[-1] %>% as.numeric(),
     ub = d$X3[-1] %>% as.numeric(),
-    new_vals = d$X4[-1] %>% as.numeric(),
-    new_labs = d$X5[-1]
+    vs = d$X4[-1] %>% as.numeric(),
+    vallabs = d$X5[-1]
   )
   cdb
 }
@@ -209,10 +209,10 @@ parse_command_args.cmd_sumvar <- function(cdb) {
   cdb$args <- list(
     x = paste0("k", d$var[1]),
     y = d$var[1],
-    new_lab = d$sum_var_label[1],
-    orig_vals = d$nv %>% as.numeric(),
-    new_vals = d$sum_var_value %>% as.numeric(),
-    new_labs = d$sum_var_vallab
+    varlab = d$sum_var_label[1],
+    vs0 = d$nv %>% as.numeric(),
+    vs = d$sum_var_value %>% as.numeric(),
+    vallabs = d$sum_var_vallab
   )
   cdb
 }
