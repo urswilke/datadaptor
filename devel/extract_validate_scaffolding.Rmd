@@ -30,3 +30,7 @@ type_list <-  tibble(
 type_list
 ```
 
+```{r}
+names(type_list)
+```
+
