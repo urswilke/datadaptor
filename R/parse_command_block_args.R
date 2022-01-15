@@ -130,7 +130,7 @@ parse_command_args.cmd_compr <- parse_command_args.cmd_comp
 #' @export
 parse_command_args.cmd_set_lab <- function(cdb) {
   cdb$args <- list(
-    orig_var = cdb$raw$X2[1],
+    x = cdb$raw$X2[1],
     new_lab = cdb$raw$X3[1]
   )
   cdb
@@ -141,7 +141,7 @@ parse_command_args.cmd_newlab <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    orig_var = d$var[1],
+    x = d$var[1],
     new_label = d$new_label[1]
   )
   cdb
@@ -154,7 +154,7 @@ parse_command_args.cmd_set_labs <- function(cdb) {
   }
 
   cdb$args <- list(
-    orig_var = cdb$raw$X2[1],
+    x = cdb$raw$X2[1],
     new_lab = varlab,
     new_vals = cdb$raw$X2[-1] %>% as.numeric(),
     new_labs = cdb$raw$X3[-1]
@@ -169,7 +169,7 @@ parse_command_args.cmd_add_labs <- function(cdb) {
     varlab <- NULL
   }
   cdb$args <- list(
-    orig_var = d$X2[1],
+    x = d$X2[1],
     new_lab = varlab,
     vals_added = d$X2[-1] %>% as.numeric(),
     labs_added = d$X3[-1]
@@ -181,7 +181,7 @@ parse_command_args.cmd_newvall <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    orig_var = d$var[1],
+    x = d$var[1],
     vals_added = d$nv %>% as.numeric(),
     labs_added = d$new_label
   )
@@ -191,8 +191,7 @@ parse_command_args.cmd_newvall <- function(cdb) {
 parse_command_args.cmd_rec <- function(cdb) {
   d <- cdb$raw
   cdb$args <- list(
-    # use orig_var if new_var is NA (empty in Excel file):
-    orig_var = d$X2[1],
+    y = d$X2[1],
     new_var = d$X3[1],
     new_lab = d$X4[1],
     lb = d$X2[-1] %>% as.numeric(),
@@ -208,9 +207,8 @@ parse_command_args.cmd_sumvar <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    # use orig_var if new_var is NA (empty in Excel file):
     new_var = paste0("k", d$var[1]),
-    orig_var = d$var[1],
+    y = d$var[1],
     new_lab = d$sum_var_label[1],
     orig_vals = d$nv %>% as.numeric(),
     new_vals = d$sum_var_value %>% as.numeric(),
@@ -228,7 +226,7 @@ parse_command_args.cmd_dic <- function(cdb) {
     varlab <- NULL
   }
   cdb$args <- list(
-    orig_var = d$X2[1],
+    y = d$X2[1],
     new_var  = d$X3[1]
   )
   cdb
