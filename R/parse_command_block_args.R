@@ -63,7 +63,7 @@ parse_command_args.cmd_drop <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    orig_vars = d$vars[[1]]
+    xs = d$vars[[1]]
   )
   cdb
 }
@@ -97,8 +97,8 @@ parse_command_args.cmd_rename <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    orig_vars = d$vars[[1]],
-    new_names = d$new_names[[1]]
+    xs = d$new_names[[1]],
+    ys = d$vars[[1]]
   )
   cdb
 }

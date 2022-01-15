@@ -6,8 +6,8 @@
      [3] Label #SUMVA x: kq5; y: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [4] Varbls #STR2N x: q8                                                                                                            
      [5] Varbls #AUTOR x: q6                                                                                                            
-     [6] Varbls #DROP org_vr: q9                                                                                                        
-     [7] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                         
+     [6] Varbls #DROP xs: q9                                                                                                            
+     [7] Varbls #RENAM xs: q2_renamed, q...; ys: q2, q4                                                                                 
      [8] Varbls #NEWLA x: q1; nw_lbl: Like Product                                                                                      
      [9] Varbls #NEWLA x: q2_renamed; nw_lbl: recommend pro...                                                                          
     [10] Varbls #NEWLA x: q5; nw_lbl: Like best friend                                                                                  

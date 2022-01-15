@@ -89,8 +89,8 @@ apply_command.cmd_kg <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_drop <- function(cdb, self) {
-  orig_vars <- cdb$args$orig_vars
-  self$dat_mod[orig_vars] <- NULL
+  xs <- cdb$args$xs
+  self$dat_mod[xs] <- NULL
 }
 
 #' @export
@@ -155,11 +155,11 @@ apply_command.cmd_merge <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_rename <- function(cdb, self) {
-  orig_vars <- cdb$args$orig_vars
-  new_names <- cdb$args$new_names
+  xs <- cdb$args$xs
+  ys <- cdb$args$ys
 
   self$dat_mod <- self$dat_mod %>%
-    dplyr::rename(!!!purrr::set_names(orig_vars, new_names))
+    dplyr::rename(!!!purrr::set_names(ys, xs))
 }
 
 #' @export
