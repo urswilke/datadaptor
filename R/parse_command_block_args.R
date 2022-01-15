@@ -23,7 +23,7 @@ parse_command_args.cmd_recna_xcpt <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    recode_na_exceptions = d$recode_na_exceptions,
+    xs = d$xs,
     replace_val = d$replace_val,
     replace_label = d$replace_label
   )

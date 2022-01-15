@@ -31,17 +31,17 @@ apply_command <- function(cdb, self) {
 utils::globalVariables("where")
 #' @export
 apply_command.cmd_recna_xcpt <- function(cdb, self) {
-  recode_na_exceptions <- cdb$args$recode_na_exceptions
+  xs <- cdb$args$xs
   replace_val <- cdb$args$replace_val
   replace_label <- cdb$args$replace_label
 
   # remove variable names not found in df:
   # TODO: think of cleaner way to do this:
-  recode_na_exceptions <- intersect(recode_na_exceptions, names(self$dat_mod))
+  xs <- intersect(xs, names(self$dat_mod))
   self$dat_mod <- self$dat_mod %>%
     dplyr::mutate(
       dplyr::across(
-        where(is.numeric) & !c(dplyr::one_of(recode_na_exceptions)),
+        where(is.numeric) & !c(dplyr::one_of(xs)),
         ~ set_na_to_filter(.x, replace_val, replace_label)
       )
     )
