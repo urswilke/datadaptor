@@ -397,21 +397,21 @@ apply_command.cmd_dic <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_autorec <- function(cdb, self) {
-  var_name <- cdb$args$var
-  vec <- self$dat_mod[[var_name]]
+  x <- cdb$args$x
+  vec <- self$dat_mod[[x]]
   x_labelled <- labelled::to_labelled(as.factor(vec))
   labelled::var_label(x_labelled) <- attr(vec, "label", exact = TRUE)
 
-  self$dat_mod[[var_name]] <- x_labelled
+  self$dat_mod[[x]] <- x_labelled
   invisible(self)
 }
 
 # #STR2NUM
 #' @export
 apply_command.cmd_str_to_num <- function(cdb, self) {
-  var_name <- cdb$args$var
-  var <- self$dat_mod[[var_name]]
-  self$dat_mod[[var_name]] <- haven::labelled(
+  x <- cdb$args$x
+  var <- self$dat_mod[[x]]
+  self$dat_mod[[x]] <- haven::labelled(
     var %>% tablab::strip_attributes() %>% as.numeric(),
     label = attr(var, "label", exact = TRUE)
   )

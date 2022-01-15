@@ -4,8 +4,8 @@
      [1] Config #RECNA rcd_n_: id; rplc_v: -2; rplc_l: FILTER                                                                           
      [2] Label #NEWVA x: q2; vls_dd: 1; lbs_dd: YES                                                                                     
      [3] Label #SUMVA x: kq5; y: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
-     [4] Varbls #STR2N var: q8                                                                                                          
-     [5] Varbls #AUTOR var: q6                                                                                                          
+     [4] Varbls #STR2N x: q8                                                                                                            
+     [5] Varbls #AUTOR x: q6                                                                                                            
      [6] Varbls #DROP org_vr: q9                                                                                                        
      [7] Varbls #RENAM org_vr: q2, q4; nw_nms: q2_renamed, q...                                                                         
      [8] Varbls #NEWLA x: q1; nw_lbl: Like Product                                                                                      

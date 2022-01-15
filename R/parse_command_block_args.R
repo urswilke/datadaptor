@@ -236,7 +236,7 @@ parse_command_args.cmd_dic <- function(cdb) {
 parse_command_args.cmd_autorec <- function(cdb) {
   d <- cdb$raw
   cdb$args <- list(
-    var = d$var
+    x = d$var
   )
 
   cdb
@@ -246,7 +246,7 @@ parse_command_args.cmd_autorec <- function(cdb) {
 parse_command_args.cmd_str_to_num <- function(cdb) {
   d <- cdb$raw
   cdb$args <- list(
-    var = d$var
+    x = d$var
   )
   cdb
 }
