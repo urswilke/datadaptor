@@ -86,7 +86,7 @@ parse_command_args.cmd_merge <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    variable_names = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
+    xs = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
     merge_file = d$X2,
     id = d$X3[1]
   )

@@ -122,16 +122,16 @@ apply_command.cmd_verbatim <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_merge <- function(cdb, self) {
-  variable_names <- cdb$args$variable_names
+  xs <- cdb$args$xs
   merge_file <- cdb$args$merge_file
   id <- cdb$args$id
 
-  merge_vars <- c(id, variable_names)
+  merge_vars <- c(id, xs)
   df_merge <- haven::read_sav(merge_file)
-  if (is.na(variable_names)[1]) {
-    variable_names <- names(df_merge)
+  if (is.na(xs)[1]) {
+    xs <- names(df_merge)
   }
-  df_merge <- df_merge %>% dplyr::select(!!id, !!!variable_names)
+  df_merge <- df_merge %>% dplyr::select(!!id, !!!xs)
   id_vec <- self$dat_mod[[id]]
   if (!identical(
     sort(tablab::strip_attributes(df_merge[[id]])),
