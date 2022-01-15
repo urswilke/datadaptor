@@ -24,8 +24,8 @@ parse_command_args.cmd_recna_xcpt <- function(cdb) {
 
   cdb$args <- list(
     xs = d$xs,
-    replace_val = d$replace_val,
-    replace_label = d$replace_label
+    v = d$replace_val,
+    vallab = d$replace_label
   )
   cdb
 }

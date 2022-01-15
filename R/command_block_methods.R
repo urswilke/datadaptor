@@ -32,8 +32,8 @@ utils::globalVariables("where")
 #' @export
 apply_command.cmd_recna_xcpt <- function(cdb, self) {
   xs <- cdb$args$xs
-  replace_val <- cdb$args$replace_val
-  replace_label <- cdb$args$replace_label
+  v <- cdb$args$v
+  vallab <- cdb$args$vallab
 
   # remove variable names not found in df:
   # TODO: think of cleaner way to do this:
@@ -42,7 +42,7 @@ apply_command.cmd_recna_xcpt <- function(cdb, self) {
     dplyr::mutate(
       dplyr::across(
         where(is.numeric) & !c(dplyr::one_of(xs)),
-        ~ set_na_to_filter(.x, replace_val, replace_label)
+        ~ set_na_to_filter(.x, v, vallab)
       )
     )
 }

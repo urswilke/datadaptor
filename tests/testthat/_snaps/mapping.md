@@ -1,7 +1,7 @@
 # command blocks print is reproduced
 
     <command_block_rcrd[66]>
-     [1] Config #RECNA xs: q1, q5, id; rplc_v: -2; rplc_l: FILTER                                                                       
+     [1] Config #RECNA xs: q1, q5, id; v: -2; vallab: FILTER                                                                            
      [2] Label #NEWVA x: q2; vls_dd: 1; lbs_dd: YES                                                                                     
      [3] Label #SUMVA x: kq5; y: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [4] Varbls #STR2N x: q8                                                                                                            
