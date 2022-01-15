@@ -267,12 +267,12 @@ apply_command.cmd_set_labs <- function(cdb, self) {
 apply_command.cmd_add_labs <- function(cdb, self) {
   x <- cdb$args$x
   new_lab <- cdb$args$new_lab
-  vals_added <- cdb$args$vals_added
-  labs_added <- cdb$args$labs_added
+  vs <- cdb$args$vs
+  vallabs <- cdb$args$vallabs
 
   vec <- self$dat_mod[[x]]
   old_vallab_vec <- attr(vec, "labels")
-  added_vallab_vec <- purrr::set_names(vals_added, labs_added)
+  added_vallab_vec <- purrr::set_names(vs, vallabs)
   new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
 
   if (is.null(new_lab)) {

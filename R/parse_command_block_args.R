@@ -171,8 +171,8 @@ parse_command_args.cmd_add_labs <- function(cdb) {
   cdb$args <- list(
     x = d$X2[1],
     new_lab = varlab,
-    vals_added = d$X2[-1] %>% as.numeric(),
-    labs_added = d$X3[-1]
+    vs = d$X2[-1] %>% as.numeric(),
+    vallabs = d$X3[-1]
   )
   cdb
 }
@@ -182,8 +182,8 @@ parse_command_args.cmd_newvall <- function(cdb) {
 
   cdb$args <- list(
     x = d$var[1],
-    vals_added = d$nv %>% as.numeric(),
-    labs_added = d$new_label
+    vs = d$nv %>% as.numeric(),
+    vallabs = d$new_label
   )
   cdb
 }

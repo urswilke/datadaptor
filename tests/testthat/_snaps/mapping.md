@@ -2,7 +2,7 @@
 
     <command_block_rcrd[66]>
      [1] Config #RECNA xs: q1, q5, id; v: -2; vallab: FILTER                                                                            
-     [2] Label #NEWVA x: q2; vls_dd: 1; lbs_dd: YES                                                                                     
+     [2] Label #NEWVA x: q2; vs: 1; vallbs: YES                                                                                         
      [3] Label #SUMVA x: kq5; y: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [4] Varbls #STR2N x: q8                                                                                                            
      [5] Varbls #AUTOR x: q6                                                                                                            
@@ -55,7 +55,7 @@
     [52] Free1 #COMP x: n; new_vl: 1                                                                                                    
     [53] Free1 #VARL x: n; new_lb: my new label                                                                                         
     [54] Free1 #VALL x: n; new_lb: overwrite new...; nw_vls: 1, 2, 3; nw_lbs: also with, va...                                          
-    [55] Free1 #AVALL x: n; new_lb: ; vls_dd: 4; lbs_dd: added label                                                                    
+    [55] Free1 #AVALL x: n; new_lb: ; vs: 4; vallbs: added label                                                                        
     [56] Free1 #VARL x: q3; new_lb: Almost same v...                                                                                    
     [57] Free1 #VARL x: q5; new_lb: Almost same v...                                                                                    
     [58] Free1 #COMP x: a1; new_vl: 3                                                                                                   
