@@ -4,13 +4,13 @@
 \alias{parse_command_args}
 \title{Parse command block arguments to named list}
 \usage{
-parse_command_args(x)
+parse_command_args(cdb)
 }
 \arguments{
-\item{x}{command block}
+\item{cdb}{command block}
 }
 \value{
-The command block is returned with an added list element \code{x$args},
+The command block is returned with an added list element \code{cdb$args},
 containing the named arguments, passed to the \code{apply_command()} method.
 }
 \description{
