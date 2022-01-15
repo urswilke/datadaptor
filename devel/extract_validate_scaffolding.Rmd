@@ -34,3 +34,17 @@ type_list
 names(type_list)
 ```
 
+```{r}
+c("orig_var", "new_var", "var", "orig_vars", "var_ziel", "split_var", 
+"by_var", "variable_names")
+```
+
+```{r}
+c("action", "replace_val", "replace_label", 
+"x", "vals_added", "labs_added", "y", "new_lab", "orig_vals", 
+"new_vals", "new_labs", "xs", "ys", "new_label", "val_assign", 
+"varlab", "vallab", "id_list", "init_val", "new_val", "condition", 
+"lb", "ub", "split_var", "by_var", "merge_file", "id", "r_script", 
+"fun_name", "r_code")
+```
+
