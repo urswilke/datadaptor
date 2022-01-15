@@ -1,7 +1,7 @@
 # command blocks print is reproduced
 
     <command_block_rcrd[66]>
-     [1] Config #RECNA xs: id; rplc_v: -2; rplc_l: FILTER                                                                               
+     [1] Config #RECNA xs: q1, q5, id; rplc_v: -2; rplc_l: FILTER                                                                       
      [2] Label #NEWVA x: q2; vls_dd: 1; lbs_dd: YES                                                                                     
      [3] Label #SUMVA x: kq5; y: q5; new_lb: test; org_vl: 1, 2, 3, 4, 5; nw_vls: 1, 1, 2, 3, 3; nw_lbs: aaa, NA, bbb,...               
      [4] Varbls #STR2N x: q8                                                                                                            
@@ -79,7 +79,7 @@
      4  3 [normal]     99 [no answer] 4 [much]       4 [much]        4 [much]      
      5  5 [very much]  -2 [FILTER]    2 [a bit]      3 [normal]      3 [normal]    
      6  5 [very much]  -2 [FILTER]    4 [much]       3 [normal]      2 [a bit]     
-     7 99 [no answer]   2 [no]        3 [normal]     4 [much]       -2 [FILTER]    
+     7 99 [no answer]   2 [no]        3 [normal]     4 [much]       NA             
      8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
      9 99 [no answer]  99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
     10 99 [no answer]   1 [YES]       1 [not at all] 1 [not at all]  4 [much]      
