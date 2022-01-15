@@ -129,8 +129,8 @@ apply_command_blocks <- function(command_blocks, self) {
 apply_command_blocks.unsafe <- function(command_blocks, self) {
   purrr::walk(command_blocks, apply_command_block_unsafe, self)
 }
-apply_command_block_unsafe <- function(x, self) {
-  apply_command(x, self)
+apply_command_block_unsafe <- function(cdb, self) {
+  apply_command(cdb, self)
   invisible(self)
 }
 
@@ -144,13 +144,13 @@ apply_command_blocks.safe <- function(command_blocks, self) {
 
   add_error_list_to_command_blocks(self)
 }
-apply_command_block_safe <- function(x, self) {
+apply_command_block_safe <- function(cdb, self) {
   cmd_index <- self$params$cmd_index + 1
   self$params$cmd_index <- cmd_index
   tryCatch(
     {
       err_msg <- NA_character_
-      apply_command(x, self)
+      apply_command(cdb, self)
     },
     error = function(e) {
       err_msg <- geterrmessage()[1]
