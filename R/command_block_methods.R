@@ -96,15 +96,15 @@ apply_command.cmd_drop <- function(cdb, self) {
 #' @export
 apply_command.cmd_verbatim <- function(cdb, self) {
   x <- cdb$args$x
-  val_assign <- cdb$args$val_assign
+  v <- cdb$args$v
   varlab <- cdb$args$varlab
-  vallab <- cdb$args$vallab
+  vallabs <- cdb$args$vallabs
   id <- self$params$id_var
   id_list <- cdb$args$id_list
-  init_val <- cdb$args$init_val
+  v0 <- cdb$args$v0
 
   if (!x %in% names(self$dat_mod)) {
-    self$dat_mod[[x]] <- init_val
+    self$dat_mod[[x]] <- v0
   }
 
   # hack to keep variable label if it already exists:
@@ -112,10 +112,10 @@ apply_command.cmd_verbatim <- function(cdb, self) {
     varlab <- attr(x, "label", exact = TRUE)
   }
 
-  self$dat_mod[[x]][self$dat_mod[[id]] %in% id_list] <- val_assign
+  self$dat_mod[[x]][self$dat_mod[[id]] %in% id_list] <- v
   self$dat_mod[[x]] <- haven::labelled(
     self$dat_mod[[x]],
-    labels = vallab,
+    labels = vallabs,
     label = varlab
   )
 }
