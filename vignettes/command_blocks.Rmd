@@ -133,7 +133,8 @@ args_tbl2 <- args_tbl %>%
   tidyr::pivot_wider(names_from = arg_class,
                      values_from = example,
                      values_fn = list) %>%
-  tidyr::unnest(c(varlab, e, condition, filepath, id, fun_name), keep_empty = TRUE)
+  tidyr::unnest(c(varlab, e, condition, filepath, id, fun_name), keep_empty = TRUE) %>%
+  dplyr::relocate(y, varlab, .after = x) 
 ```
 
 </details>
