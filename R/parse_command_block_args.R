@@ -12,9 +12,47 @@
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' m$cmd$df_cmd_raw[10,] %>%
-#'   command_block() %>%
-#'   parse_command_args()
+#' (cdb_raw <- m$cmd_tbl$command_blocks_raw[[10]])
+#' cdb <- parse_command_args(cdb_raw)
+#' cdb$args
+#' cdbs <- m$cmd_tbl
+#'
+#' # Generate a `command_blocks` object with all unique types of
+#' # `command_block`s  in the mapping file
+#' (unique_cmd_tbl <- m$cmd_tbl[!duplicated(cdbs$action), ])
+#'
+#' # Generate/print a list of all args sub-elements:
+#' (args_overview <- setNames(
+#'   purrr::map(unique_cmd_tbl$command_blocks, "args"),
+#'   unique_cmd_tbl$action
+#' ))
+#'
+#' # Show a table of all `arg`s, and an example of their type & length
+#' # for all command block types `cmd`:
+#' args_tbl <- tibble::tibble(
+#'   cmd = unique_cmd_tbl$action,
+#'   example = args_overview) %>%
+#'   tidyr::unnest_longer(example, indices_to = "arg") %>%
+#'   .[c(1, 3, 2)]
+#'
+#' print(args_tbl, n = 1000)
+#'
+#' args_tbl %>%
+#'   dplyr::group_by(arg_class = arg %>%
+#'     str_remove("\\d$") %>%
+#'     str_remove("s$")
+#'   ) %>%
+#'  group_by(cmd) %>%
+#'  mutate(arg = paste(arg, collapse = " "))  %>%
+#'  mutate(example = unname(example)) %>%
+#'  pivot_wider(
+#'    names_from = arg_class,
+#'    values_from = example,
+#'    values_fn = list
+#'  ) %>%
+#'  print(n=100)
+#'
+
 parse_command_args <- function(cdb) {
   UseMethod("parse_command_args")
 }
