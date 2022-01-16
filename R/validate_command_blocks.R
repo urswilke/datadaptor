@@ -19,6 +19,7 @@ validate_command_block.cmd_if <- function(cdb) {
   condition <- cdb$args$condition
   e <- cdb$args$e
 
+  stopifnot(all(!purrr::map_lgl(list(x, condition, e), is.na)))
   stopifnot(all(purrr::map_lgl(list(x, condition, e), is.character)))
   lens <- lengths(list(x, condition, e)) %>% unique()
   stopifnot(lens == 1)
