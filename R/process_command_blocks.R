@@ -221,9 +221,9 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
 }
 validate_command_blocks <- function(cdbs, self) {
   if (self$params$validate) {
-    subclass_str = c("validated", class(cdbs))
+    classes = c("validated", class(cdbs))
     cdbs <- purrr::map(cdbs, validate_command_block)
-    class(cdbs) <- subclass_str
+    class(cdbs) <- classes
   }
   cdbs
 }
