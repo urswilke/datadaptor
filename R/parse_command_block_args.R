@@ -53,8 +53,8 @@ parse_command_args.cmd_kg <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    split_var = d$X3[1],
-    by_var = d$X2[1]
+    x = d$X3[1],
+    y = d$X2[1]
   )
   cdb
 }

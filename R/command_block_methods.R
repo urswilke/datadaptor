@@ -69,8 +69,8 @@ apply_command.cmd_rfun <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_kg <- function(cdb, self) {
-  split_var_name <- cdb$args$split_var
-  by_var_name <- cdb$args$by_var
+  split_var_name <- cdb$args$x
+  by_var_name <- cdb$args$y
 
   split_var <- self$dat_mod[[split_var_name]]
   by_var <- self$dat_mod[[by_var_name]]
