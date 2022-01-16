@@ -179,6 +179,11 @@ apply_command.cmd_if <- function(cdb, self) {
 
   test <- eval_in_data(rlang::expr(datenanpassr::is_true(!!cond)), self)
   yes <- eval_in_data(rlang::expr(!!val), self)
+
+  if (self$params$dyn_validate) {
+    dyn_validate_cmd_if(test, yes, x, self)
+  }
+
   no <- self$dat_mod[[x]]
   attributes(yes) <- attributes(no)
 
@@ -189,6 +194,14 @@ apply_command.cmd_if <- function(cdb, self) {
       no
     )
 }
+dyn_validate_cmd_if <- function(test, yes, x, self) {
+  stopifnot(x %in% names(self$dat_mod))
+  vec <- self$dat_mod[[x]]
+  stopifnot(is.logical(test))
+  stopifnot(typeof(yes) == typeof(vec))
+  stopifnot(typeof(yes) %in% c("double", "character"))
+}
+
 eval_in_data <- function(e, self) {
   rlang::eval_tidy(
     e,

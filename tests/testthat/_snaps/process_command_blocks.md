@@ -12,6 +12,9 @@
     $validate
     [1] TRUE
     
+    $dyn_validate
+    [1] TRUE
+    
     $mapping_file_attrs
     $mapping_file_attrs$id_var
     [1] "id"
