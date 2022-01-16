@@ -31,7 +31,7 @@ type_list
 ```
 
 ```{r}
-names(type_list)
+names(type_list) %>% sort()
 ```
 
 ```{r}

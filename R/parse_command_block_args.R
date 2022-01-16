@@ -43,7 +43,7 @@ parse_command_args.cmd_rfun <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    r_script = d$X2,
+    filepath = d$X2,
     fun_name = d$X3
   )
   cdb
@@ -87,7 +87,7 @@ parse_command_args.cmd_merge <- function(cdb) {
 
   cdb$args <- list(
     xs = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
-    merge_file = d$X2,
+    filepath = d$X2,
     id = d$X3[1]
   )
   cdb

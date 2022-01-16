@@ -58,10 +58,10 @@ apply_command.cmd_r <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_rfun <- function(cdb, self) {
-  r_script <- cdb$args$r_script
+  filepath <- cdb$args$filepath
   fun_name <- cdb$args$fun_name
-  if (!is.na(r_script)) {
-    source(r_script, echo = FALSE)
+  if (!is.na(filepath)) {
+    source(filepath, echo = FALSE)
   }
 
   self$dat_mod <- do.call(fun_name, list(self$dat_mod))
@@ -123,11 +123,11 @@ apply_command.cmd_verbatim <- function(cdb, self) {
 #' @export
 apply_command.cmd_merge <- function(cdb, self) {
   xs <- cdb$args$xs
-  merge_file <- cdb$args$merge_file
+  filepath <- cdb$args$filepath
   id <- cdb$args$id
 
   merge_vars <- c(id, xs)
-  df_merge <- haven::read_sav(merge_file)
+  df_merge <- haven::read_sav(filepath)
   if (is.na(xs)[1]) {
     xs <- names(df_merge)
   }
