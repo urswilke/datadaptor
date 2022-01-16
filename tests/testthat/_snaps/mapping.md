@@ -193,6 +193,228 @@
     10     1    NA             3
     # ... with 90 more rows
 
+# value labels are reproduced
+
+    # A tibble: 177 x 4
+        var                       nv vallab                cv   
+        <chr>                  <dbl> <chr>                 <chr>
+      1 q1                         1 not at all            <NA> 
+      2 q1                         2 a bit                 <NA> 
+      3 q1                         3 normal                <NA> 
+      4 q1                         4 much                  <NA> 
+      5 q1                         5 very much             <NA> 
+      6 q1                        99 no answer             <NA> 
+      7 q2_renamed                -2 FILTER                <NA> 
+      8 q2_renamed                 1 YES                   <NA> 
+      9 q2_renamed                 2 no                    <NA> 
+     10 q2_renamed                99 no answer             <NA> 
+     11 q3                        -2 FILTER                <NA> 
+     12 q3                         1 not at all            <NA> 
+     13 q3                         2 a bit                 <NA> 
+     14 q3                         3 normal                <NA> 
+     15 q3                         4 much                  <NA> 
+     16 q3                         5 very much             <NA> 
+     17 q3                        99 no answer             <NA> 
+     18 q4_renamed                -2 FILTER                <NA> 
+     19 q4_renamed                 1 not at all            <NA> 
+     20 q4_renamed                 2 a bit                 <NA> 
+     21 q4_renamed                 3 normal                <NA> 
+     22 q4_renamed                 4 much                  <NA> 
+     23 q4_renamed                 5 very much             <NA> 
+     24 q4_renamed                99 no answer             <NA> 
+     25 q5                        -2 FILTER                <NA> 
+     26 q5                         1 not at all            <NA> 
+     27 q5                         2 a bit                 <NA> 
+     28 q5                         3 normal                <NA> 
+     29 q5                         4 much                  <NA> 
+     30 q5                         5 very much             <NA> 
+     31 q5                        99 no answer             <NA> 
+     32 q6                         1 bla bla bla happiness <NA> 
+     33 q6                         2 bla bla bla joy       <NA> 
+     34 q6                         3 bla bla bla love      <NA> 
+     35 q6                         4 bla bla happiness     <NA> 
+     36 q6                         5 bla bla joy           <NA> 
+     37 q6                         6 bla bla love          <NA> 
+     38 q6                         7 bla happiness         <NA> 
+     39 q6                         8 bla joy               <NA> 
+     40 q6                         9 bla love              <NA> 
+     41 kq5                        1 aaa                   <NA> 
+     42 kq5                        2 bbb                   <NA> 
+     43 kq5                        3 ccc                   <NA> 
+     44 q6n                       -2 FILTER                <NA> 
+     45 q6n                        1 love                  <NA> 
+     46 q6n                        2 joy                   <NA> 
+     47 q6n                        3 happiness             <NA> 
+     48 q6n                       97 Others                <NA> 
+     49 q6n                       99 No answer             <NA> 
+     50 q7n                       -2 FILTER                <NA> 
+     51 q7n                        1 sadness               <NA> 
+     52 q7n                        2 fear                  <NA> 
+     53 q7n                        3 anger                 <NA> 
+     54 q7n                        4 pain                  <NA> 
+     55 q7n                       97 Others                <NA> 
+     56 q7n                       99 No answer             <NA> 
+     57 q6_1                       0 unselected            <NA> 
+     58 q6_1                       1 selected              <NA> 
+     59 q6_2                       0 unselected            <NA> 
+     60 q6_2                       1 selected              <NA> 
+     61 q6_3                       0 unselected            <NA> 
+     62 q6_3                       1 selected              <NA> 
+     63 q6_4                       0 unselected            <NA> 
+     64 q6_4                       1 selected              <NA> 
+     65 q6_97                      0 unselected            <NA> 
+     66 q6_97                      1 selected              <NA> 
+     67 q6_99                      0 unselected            <NA> 
+     68 q6_99                      1 selected              <NA> 
+     69 q6test_1                   0 unselected            <NA> 
+     70 q6test_1                   1 selected              <NA> 
+     71 q6test_2                   0 unselected            <NA> 
+     72 q6test_2                   1 selected              <NA> 
+     73 q6test_3                   0 unselected            <NA> 
+     74 q6test_3                   1 selected              <NA> 
+     75 q6test_4                   0 unselected            <NA> 
+     76 q6test_4                   1 selected              <NA> 
+     77 q6test_97                  0 unselected            <NA> 
+     78 q6test_97                  1 selected              <NA> 
+     79 q6test_99                  0 unselected            <NA> 
+     80 q6test_99                  1 selected              <NA> 
+     81 q6n1                      -2 FILTER                <NA> 
+     82 q6n1                       1 love                  <NA> 
+     83 q6n1                       2 joy                   <NA> 
+     84 q6n1                       3 happiness             <NA> 
+     85 q6n1                       4 noch wat              <NA> 
+     86 q6n1                      97 Others                <NA> 
+     87 q6n1                      99 No answer             <NA> 
+     88 q6n2                      -2 FILTER                <NA> 
+     89 q6n2                       1 love                  <NA> 
+     90 q6n2                       2 joy                   <NA> 
+     91 q6n2                       3 happiness             <NA> 
+     92 q6n2                       4 noch wat              <NA> 
+     93 q6n2                      97 Others                <NA> 
+     94 q6n2                      99 No answer             <NA> 
+     95 q6n3                      -2 FILTER                <NA> 
+     96 q6n3                       1 love                  <NA> 
+     97 q6n3                       2 joy                   <NA> 
+     98 q6n3                       3 happiness             <NA> 
+     99 q6n3                       4 noch wat              <NA> 
+    100 q6n3                      97 Others                <NA> 
+    101 q6n3                      99 No answer             <NA> 
+    102 q6n4                      -2 FILTER                <NA> 
+    103 q6n4                       1 love                  <NA> 
+    104 q6n4                       2 joy                   <NA> 
+    105 q6n4                       3 happiness             <NA> 
+    106 q6n4                       4 noch wat              <NA> 
+    107 q6n4                      97 Others                <NA> 
+    108 q6n4                      99 No answer             <NA> 
+    109 q6n5                      -2 FILTER                <NA> 
+    110 q6n5                       1 love                  <NA> 
+    111 q6n5                       2 joy                   <NA> 
+    112 q6n5                       3 happiness             <NA> 
+    113 q6n5                       4 noch wat              <NA> 
+    114 q6n5                      97 Others                <NA> 
+    115 q6n5                      99 No answer             <NA> 
+    116 q6n6                      -2 FILTER                <NA> 
+    117 q6n6                       1 love                  <NA> 
+    118 q6n6                       2 joy                   <NA> 
+    119 q6n6                       3 happiness             <NA> 
+    120 q6n6                       4 noch wat              <NA> 
+    121 q6n6                      97 Others                <NA> 
+    122 q6n6                      99 No answer             <NA> 
+    123 q6n7                      -2 FILTER                <NA> 
+    124 q6n7                       1 love                  <NA> 
+    125 q6n7                       2 joy                   <NA> 
+    126 q6n7                       3 happiness             <NA> 
+    127 q6n7                       4 noch wat              <NA> 
+    128 q6n7                      97 Others                <NA> 
+    129 q6n7                      99 No answer             <NA> 
+    130 q6n8                      -2 FILTER                <NA> 
+    131 q6n8                       1 love                  <NA> 
+    132 q6n8                       2 joy                   <NA> 
+    133 q6n8                       3 happiness             <NA> 
+    134 q6n8                       4 noch wat              <NA> 
+    135 q6n8                      97 Others                <NA> 
+    136 q6n8                      99 No answer             <NA> 
+    137 q6n9                      -2 FILTER                <NA> 
+    138 q6n9                       1 love                  <NA> 
+    139 q6n9                       2 joy                   <NA> 
+    140 q6n9                       3 happiness             <NA> 
+    141 q6n9                       4 noch wat              <NA> 
+    142 q6n9                      97 Others                <NA> 
+    143 q6n9                      99 No answer             <NA> 
+    144 q6n10                     -2 FILTER                <NA> 
+    145 q6n10                      1 love                  <NA> 
+    146 q6n10                      2 joy                   <NA> 
+    147 q6n10                      3 happiness             <NA> 
+    148 q6n10                      4 noch wat              <NA> 
+    149 q6n10                     97 Others                <NA> 
+    150 q6n10                     99 No answer             <NA> 
+    151 kq1                        1 1-2                   <NA> 
+    152 kq1                        2 3                     <NA> 
+    153 kq1                        3 4-5                   <NA> 
+    154 kq3                        1 1-2                   <NA> 
+    155 kq3                        2 3                     <NA> 
+    156 kq3                        3 4-5                   <NA> 
+    157 kq1xq2_renamedkminus20     1 1-2                   <NA> 
+    158 kq1xq2_renamedkminus20     2 3                     <NA> 
+    159 kq1xq2_renamedkminus20     3 4-5                   <NA> 
+    160 kq1xq2_renamedk10          1 1-2                   <NA> 
+    161 kq1xq2_renamedk10          2 3                     <NA> 
+    162 kq1xq2_renamedk10          3 4-5                   <NA> 
+    163 kq1xq2_renamedk20          1 1-2                   <NA> 
+    164 kq1xq2_renamedk20          2 3                     <NA> 
+    165 kq1xq2_renamedk20          3 4-5                   <NA> 
+    166 kq1xq2_renamedk990         1 1-2                   <NA> 
+    167 kq1xq2_renamedk990         2 3                     <NA> 
+    168 kq1xq2_renamedk990         3 4-5                   <NA> 
+    169 n                          1 also with             <NA> 
+    170 n                          2 value labels          <NA> 
+    171 n                          3 now                   <NA> 
+    172 n                          4 added label           <NA> 
+    173 q2                         1 yes                   <NA> 
+    174 q2                         2 no                    <NA> 
+    175 q2                        99 no answer             <NA> 
+    176 kkq1                       1 a                     <NA> 
+    177 kkq1                       2 b                     <NA> 
+
+# variable labels are reproduced
+
+    # A tibble: 33 x 2
+       var                    varlab                                  
+       <chr>                  <chr>                                   
+     1 q1                     How much do you like the product?       
+     2 q2_renamed             recommend product                       
+     3 q3                     Almost same variable label for q3 and q5
+     4 q4_renamed             Almost same variable label for q3 and q5
+     5 q5                     Almost same variable label for q5 and q3
+     6 q6                     Tell me something positive.             
+     7 q7                     Tell me something negative.             
+     8 q8                     Now the variable is in numeric format.  
+     9 kq5                    test                                    
+    10 q6_1                   love                                    
+    11 q6_2                   joy                                     
+    12 q6_3                   happiness                               
+    13 q6_4                   noch wat                                
+    14 q6_97                  Others                                  
+    15 q6_99                  No answer                               
+    16 q6test_1               love                                    
+    17 q6test_2               joy                                     
+    18 q6test_3               happiness                               
+    19 q6test_4               noch wat                                
+    20 q6test_97              Others                                  
+    21 q6test_99              No answer                               
+    22 kq1                    summarized variable                     
+    23 kq3                    summarized variable                     
+    24 kq1xq2_renamedkminus20 FILTER: summarized variable             
+    25 kq1xq2_renamedk10      YES: summarized variable                
+    26 kq1xq2_renamedk20      no: summarized variable                 
+    27 kq1xq2_renamedk990     no answer: summarized variable          
+    28 n                      overwrite new label                     
+    29 a1                     same variable label for a1 & a2         
+    30 a2                     same variable label for a1 & a2         
+    31 r_expr_var             varlab                                  
+    32 q2                     Do you want to recommend the product?   
+    33 kkq1                   vl                                      
+
 # error string elements were added to cmd_tbl
 
     # A tibble: 68 x 8
