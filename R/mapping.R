@@ -194,6 +194,7 @@ load_params <- function(self) {
     na_to_filter = TRUE,
     error_out = "unsafe",
     translate_xlsm = FALSE,
+    validate = TRUE,
     mapping_file_attrs = list()
   )
   params

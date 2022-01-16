@@ -9,6 +9,9 @@
     $translate_xlsm
     [1] FALSE
     
+    $validate
+    [1] TRUE
+    
     $mapping_file_attrs
     $mapping_file_attrs$id_var
     [1] "id"
