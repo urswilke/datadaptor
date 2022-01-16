@@ -305,9 +305,9 @@ apply_command.cmd_rec <- function(cdb, self) {
     x <- y
   }
 
-  lb <- cdb$args$lb
-  ub <- cdb$args$ub
+  lb <- cdb$args$vs0
   vs <- cdb$args$vs
+  ub <- cdb$args$vs2
   vallabs <- cdb$args$vallabs
   recode_df <-
     tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), vs, vallabs) %>%

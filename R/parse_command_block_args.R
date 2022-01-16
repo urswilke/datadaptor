@@ -193,11 +193,11 @@ parse_command_args.cmd_rec <- function(cdb) {
   cdb$args <- list(
     y = d$X2[1],
     x = d$X3[1],
-    varlab = d$X4[1],
-    lb = d$X2[-1] %>% as.numeric(),
-    ub = d$X3[-1] %>% as.numeric(),
+    vs0 = d$X2[-1] %>% as.numeric(),
+    vs2 = d$X3[-1] %>% as.numeric(),
     vs = d$X4[-1] %>% as.numeric(),
-    vallabs = d$X5[-1]
+    vallabs = d$X5[-1],
+    varlab = d$X4[1]
   )
   cdb
 }
