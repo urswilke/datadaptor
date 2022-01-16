@@ -64,7 +64,7 @@
     [61] Free1 #VARL x: a2; varlab: same variable...                                                                                  
     [62] Free1 #DIC y: q3; x: q4_renamed                                                                                              
     [63] Free1 #COMPR x: r_expr_var; e: haven::labell...                                                                              
-    [64] Free1 #R r_code: data.frame(a=1)                                                                                             
+    [64] Free1 #R e: data.frame(a=1)                                                                                                  
     [65] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl
     [66] Free2 #COMP x: free2_var; e: 3                                                                                               
 

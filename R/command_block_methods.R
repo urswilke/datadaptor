@@ -49,8 +49,8 @@ apply_command.cmd_recna_xcpt <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_r <- function(cdb, self) {
-  r_code <- cdb$args$r_code
-  new_df <- r_code %>%
+  e <- cdb$args$e
+  new_df <- e %>%
     rlang::parse_expr() %>%
     eval_in_data(self)
   self$dat_mod <- dplyr::bind_cols(self$dat_mod, new_df)

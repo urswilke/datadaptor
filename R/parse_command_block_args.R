@@ -34,7 +34,7 @@ parse_command_args.cmd_r <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    r_code = d$X2
+    e = d$X2
   )
   cdb
 }
