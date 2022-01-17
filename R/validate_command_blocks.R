@@ -16,12 +16,12 @@ new_validated_command_block <- function(cdb) {
 #' @export
 validate_command_block.cmd_if <- function(cdb) {
   x <- cdb$args$x
-  condition <- cdb$args$condition
-  e <- cdb$args$e
+  ex_cond <- cdb$args$ex_cond
+  ex <- cdb$args$ex
 
-  stopifnot(all(!purrr::map_lgl(list(x, condition, e), is.na)))
-  stopifnot(all(purrr::map_lgl(list(x, condition, e), is.character)))
-  lens <- lengths(list(x, condition, e)) %>% unique()
+  stopifnot(all(!purrr::map_lgl(list(x, ex_cond, ex), is.na)))
+  stopifnot(all(purrr::map_lgl(list(x, ex_cond, ex), is.character)))
+  lens <- lengths(list(x, ex_cond, ex)) %>% unique()
   stopifnot(lens == 1)
   new_validated_command_block(cdb)
 
