@@ -72,7 +72,7 @@ generate_rec_na_cmd_table <- function(self) {
     new_var = NA_character_,
     data = list(
       list(
-        recode_na_exceptions = vars_to_exclude_na_to_filter,
+        xs = vars_to_exclude_na_to_filter,
         replace_val = params$miss_rec_val,
         replace_label = params$miss_rec_lab
       )

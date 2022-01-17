@@ -4,13 +4,13 @@
 \alias{parse_command_args}
 \title{Parse command block arguments to named list}
 \usage{
-parse_command_args(x)
+parse_command_args(cdb)
 }
 \arguments{
-\item{x}{command block}
+\item{cdb}{command block}
 }
 \value{
-The command block is returned with an added list element \code{x$args},
+The command block is returned with an added list element \code{cdb$args},
 containing the named arguments, passed to the \code{apply_command()} method.
 }
 \description{
@@ -20,7 +20,28 @@ Depending of the subclass of the command block, the method is chosen.
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
-m$cmd$df_cmd_raw[10,] \%>\%
-  command_block() \%>\%
-  parse_command_args()
+(cdb_raw <- m$cmd_tbl$command_blocks_raw[[10]])
+cdb <- parse_command_args(cdb_raw)
+cdb$args
+cdbs <- m$cmd_tbl
+
+# Generate a `command_blocks` object with all unique types of
+# `command_block`s  in the mapping file
+(unique_cmd_tbl <- m$cmd_tbl[!duplicated(cdbs$action), ])
+
+# Generate/print a list of all args sub-elements:
+(args_overview <- setNames(
+  purrr::map(unique_cmd_tbl$command_blocks, "args"),
+  unique_cmd_tbl$action
+))
+
+# Show a table of all `arg`s, and an example of their type & length
+for all command block types `cmd`:
+args_tbl <- tibble::tibble(
+  cmd = unique_cmd_tbl$action,
+  example = args_overview) \%>\%
+  tidyr::unnest_longer(example, indices_to = "arg") \%>\%
+  .[c(1, 3, 2)]
+
+print(args_tbl, n = 1000)
 }

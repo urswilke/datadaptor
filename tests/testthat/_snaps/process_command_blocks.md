@@ -23,7 +23,7 @@
     [1] -2
     
     $mapping_file_attrs$not_miss_to_filter_vars
-    NULL
+    [1] "q1 q5"
     
     
     $id_var
