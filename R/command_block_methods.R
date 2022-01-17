@@ -98,10 +98,13 @@ apply_command.cmd_verbatim <- function(cdb, self) {
   x <- cdb$args$x
   v <- cdb$args$v
   varlab <- cdb$args$varlab
-  vallabs <- cdb$args$vallabs
+  vs <- cdb$args$vs
+  vallabs_chr <- cdb$args$vallabs
   id <- self$params$id_var
   id_list <- cdb$args$id_list
   v0 <- cdb$args$v0
+
+  vallabs <- purrr::set_names(vs, vallabs_chr)
 
   if (!x %in% names(self$dat_mod)) {
     self$dat_mod[[x]] <- v0
