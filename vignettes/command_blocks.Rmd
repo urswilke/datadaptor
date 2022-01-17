@@ -95,8 +95,20 @@ m$cmd_tbl
 Lets have a look at a table with an example of the types of the objects
 in `args` for each of the `"command_block"` subclasses:
 
+  * `x`, `y`: Character strings of variable names in the data set (or to be created).
+  * `varlab` Character string containing a variable label
+  * `v`: numeric() (or character()) vector; value(s) of a value label
+  * `vallab`: character() vector; value label(s)
+  * `id_list`: a list of ids in the data,
+  * valid R character vectors of R expressions: 
+    * `ex`: an expression, 
+    * `ex_cond`: a conditonal expression, 
+    * `ex_fun`: an existing function name
+    * `filepath`: a filepath
+
+
 <details>
-  <summary>Click here to show intermediate steps! </summary>
+  <summary>Click here to show intermediate steps to calculate `args_tbl2`! </summary>
 
 ```{r}
 cdbs <- m$cmd_tbl
@@ -130,38 +142,36 @@ args_tbl2 <- args_tbl %>%
     stringr::str_remove("s$")  
   ) %>% 
   dplyr::group_by(cmd) %>%
-  dplyr::mutate(args = paste(args, collapse = ";"))  %>%
-  dplyr::mutate(example = unname(example)) %>%
+  dplyr::mutate(args = list(args))  %>%
   tidyr::pivot_wider(names_from = arg_class,
                      values_from = example,
                      values_fn = list) %>%
-  # tidyr::unnest(c(v, vallab), keep_empty = TRUE) %>%
-  # dplyr::mutate(args = paste(args, collapse = ";"))  %>%
-  # tidyr::unnest(c(v, vallab)) %>% 
-  # tidyr::unnest(c(varlab, v, vallab, ex, id), keep_empty = TRUE) %>%
-  # tidyr::unnest(c(varlab, ex, id), keep_empty = TRUE) %>%
   dplyr::relocate(y, varlab, .after = x) 
+args_tbl2
 ```
 
 </details>
 
-  * `x`, `y`: Character strings of variable names in the data set (or to be created).
-  * `varlab` Character string containing a variable label
-  * `v`: numeric() (or character()) vector; value(s) of a value label
-  * `vallab`: character() vector; value label(s)
-  * `id_list`: a list of ids in the data,
-  * valid R character vectors of R expressions: 
-    * `ex`: an expression, 
-    * `ex_cond`: a conditonal expression, 
-    * `ex_fun`: an existing function name
-    * `filepath`: a filepath
-  
+The following table shows an example of a subset of the columns arguments passed for each of the
+command blocks:
 
 ```{r}
-requireNamespace("DT", quietly = TRUE)
+# This is a hack to print the named arguments. 
+# If you use RStudio, the dataframe is best shown with:
+# View(args_tbl2)
 args_tbl2 %>% 
-  dplyr::select(-id_list) %>% 
-  DT::datatable()
+  dplyr::mutate(
+    dplyr::across(
+      x:id, 
+      ~ paste(names(.x), .x, sep = "; ", collapse = "; ") %>%
+        stringr::str_remove_all(
+          'list\\(|\\)|c\\(|; NULL|"|^; '
+        )
+      )
+    ) %>% 
+  # show a subset of the columns:
+    dplyr::select(-x, -id_list, -id, -args) %>% 
+    print(n=222)
 ```
 
 
