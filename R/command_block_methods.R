@@ -49,8 +49,8 @@ apply_command.cmd_recna_xcpt <- function(cdb, self) {
 
 #' @export
 apply_command.cmd_r <- function(cdb, self) {
-  e <- cdb$args$e
-  new_df <- e %>%
+  ex <- cdb$args$ex
+  new_df <- ex %>%
     rlang::parse_expr() %>%
     eval_in_data(self)
   self$dat_mod <- dplyr::bind_cols(self$dat_mod, new_df)
@@ -59,12 +59,12 @@ apply_command.cmd_r <- function(cdb, self) {
 #' @export
 apply_command.cmd_rfun <- function(cdb, self) {
   filepath <- cdb$args$filepath
-  fun_name <- cdb$args$fun_name
+  ex_fun <- cdb$args$ex_fun
   if (!is.na(filepath)) {
     source(filepath, echo = FALSE)
   }
 
-  self$dat_mod <- do.call(fun_name, list(self$dat_mod))
+  self$dat_mod <- do.call(ex_fun, list(self$dat_mod))
 }
 
 #' @export
@@ -98,10 +98,13 @@ apply_command.cmd_verbatim <- function(cdb, self) {
   x <- cdb$args$x
   v <- cdb$args$v
   varlab <- cdb$args$varlab
-  vallabs <- cdb$args$vallabs
+  vs <- cdb$args$vs
+  vallabs_chr <- cdb$args$vallabs
   id <- self$params$id_var
   id_list <- cdb$args$id_list
   v0 <- cdb$args$v0
+
+  vallabs <- purrr::set_names(vs, vallabs_chr)
 
   if (!x %in% names(self$dat_mod)) {
     self$dat_mod[[x]] <- v0
@@ -165,11 +168,11 @@ apply_command.cmd_rename <- function(cdb, self) {
 #' @export
 apply_command.cmd_if <- function(cdb, self) {
   x <- cdb$args$x
-  condition <- cdb$args$condition
-  e <- cdb$args$e
+  ex_cond <- cdb$args$ex_cond
+  ex <- cdb$args$ex
 
-  cond <- rlang::parse_expr(condition)
-  val <- rlang::parse_expr(e)
+  cond <- rlang::parse_expr(ex_cond)
+  val <- rlang::parse_expr(ex)
 
   # add double NA column to data, if x doesn't exist yet (together with
   # the attributes copying below, this keeps the variable's labels if existing):
@@ -179,6 +182,11 @@ apply_command.cmd_if <- function(cdb, self) {
 
   test <- eval_in_data(rlang::expr(datenanpassr::is_true(!!cond)), self)
   yes <- eval_in_data(rlang::expr(!!val), self)
+
+  if (self$params$dyn_validate) {
+    dyn_validate_cmd_if(test, yes, x, self)
+  }
+
   no <- self$dat_mod[[x]]
   attributes(yes) <- attributes(no)
 
@@ -189,9 +197,17 @@ apply_command.cmd_if <- function(cdb, self) {
       no
     )
 }
-eval_in_data <- function(e, self) {
+dyn_validate_cmd_if <- function(test, yes, x, self) {
+  stopifnot(x %in% names(self$dat_mod))
+  vec <- self$dat_mod[[x]]
+  stopifnot(is.logical(test))
+  stopifnot(typeof(yes) == typeof(vec))
+  stopifnot(typeof(yes) %in% c("double", "character"))
+}
+
+eval_in_data <- function(ex, self) {
   rlang::eval_tidy(
-    e,
+    ex,
     env = list2env(self$dat_mod, parent = baseenv())
   )
 }
@@ -200,9 +216,9 @@ eval_in_data <- function(e, self) {
 #' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(cdb, self) {
   x <- cdb$args$x
-  e <- cdb$args$e
+  ex <- cdb$args$ex
 
-  val <- rlang::parse_expr(e)
+  val <- rlang::parse_expr(ex)
 
   # add double NA column to data, if x doesn't exist yet (together with
   # the attributes copying below, this keeps the variable's labels if existing):

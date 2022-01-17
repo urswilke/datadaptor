@@ -125,7 +125,9 @@ print(args_tbl, n = 1000)
 args_tbl2 <- args_tbl %>% 
   dplyr::group_by(arg_class = args %>% 
     stringr::str_remove("\\d$") %>% 
-    stringr::str_remove("s$")
+    ifelse(. == "filepath", "ex_filepath", .) %>% 
+    stringr::str_remove("(?<=ex)_.*") %>% 
+    stringr::str_remove("s$")  
   ) %>% 
   dplyr::group_by(cmd) %>%
   dplyr::mutate(args = paste(args, collapse = ";"))  %>%
@@ -133,10 +135,27 @@ args_tbl2 <- args_tbl %>%
   tidyr::pivot_wider(names_from = arg_class,
                      values_from = example,
                      values_fn = list) %>%
-  tidyr::unnest(c(varlab, e, condition, filepath, id, fun_name), keep_empty = TRUE)
+  # tidyr::unnest(c(v, vallab), keep_empty = TRUE) %>%
+  # dplyr::mutate(args = paste(args, collapse = ";"))  %>%
+  # tidyr::unnest(c(v, vallab)) %>% 
+  # tidyr::unnest(c(varlab, v, vallab, ex, id), keep_empty = TRUE) %>%
+  # tidyr::unnest(c(varlab, ex, id), keep_empty = TRUE) %>%
+  dplyr::relocate(y, varlab, .after = x) 
 ```
 
 </details>
+
+  * `x`, `y`: Character strings of variable names in the data set (or to be created).
+  * `varlab` Character string containing a variable label
+  * `v`: numeric() (or character()) vector; value(s) of a value label
+  * `vallab`: character() vector; value label(s)
+  * `id_list`: a list of ids in the data,
+  * valid R character vectors of R expressions: 
+    * `ex`: an expression, 
+    * `ex_cond`: a conditonal expression, 
+    * `ex_fun`: an existing function name
+    * `filepath`: a filepath
+  
 
 ```{r}
 requireNamespace("DT", quietly = TRUE)

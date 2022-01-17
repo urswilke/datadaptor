@@ -72,7 +72,7 @@ parse_command_args.cmd_r <- function(cdb) {
   d <- cdb$raw
 
   cdb$args <- list(
-    e = d$X2
+    ex = d$X2
   )
   cdb
 }
@@ -82,7 +82,7 @@ parse_command_args.cmd_rfun <- function(cdb) {
 
   cdb$args <- list(
     filepath = d$X2,
-    fun_name = d$X3
+    ex_fun = d$X3
   )
   cdb
 }
@@ -108,12 +108,14 @@ parse_command_args.cmd_drop <- function(cdb) {
 #' @export
 parse_command_args.cmd_verbatim <- function(cdb) {
   d <- cdb$raw
+  vallabs_named <- d$vallab[[1]]
 
   cdb$args <- list(
     x = d$x,
     v = d$val_assign,
     varlab = d$varlab[[1]],
-    vallabs = d$vallab[[1]],
+    vs = unname(vallabs_named),
+    vallabs = names(vallabs_named),
     id_list = d$id_list[[1]],
     v0 = d$init_val
   )
@@ -149,8 +151,8 @@ parse_command_args.cmd_if <- function(cdb) {
 
   cdb$args <- list(
     x   = assignment[1],
-    e   = assignment[2],
-    condition = cdb$raw$X2
+    ex   = assignment[2],
+    ex_cond = cdb$raw$X2
   )
   cdb
 }
@@ -158,7 +160,7 @@ parse_command_args.cmd_if <- function(cdb) {
 parse_command_args.cmd_comp <- function(cdb) {
   cdb$args <- list(
     x   = cdb$raw$X2[1],
-    e   = cdb$raw$X3[1]
+    ex   = cdb$raw$X3[1]
   )
   cdb
 }
