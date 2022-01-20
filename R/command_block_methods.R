@@ -112,7 +112,7 @@ apply_command.cmd_verbatim <- function(cdb, self) {
 
   # hack to keep variable label if it already exists:
   if (is.null(varlab)) {
-    varlab <- attr(x, "label", exact = TRUE)
+    varlab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
   }
 
   self$dat_mod[[x]][self$dat_mod[[id]] %in% id_list] <- v
