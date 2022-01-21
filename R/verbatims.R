@@ -49,7 +49,7 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
       col_names = TRUE
     ) %>%
     tidyr::drop_na(.data$VariableOriginal) %>%
-    dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel) %>%
+    dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel, .data$further_ex_cond) %>%
     # HACK!!! TODO: replace with general regex
     dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal)) %>%
     dplyr::relocate(q_id = .data$`Tabellen-blatt`)
@@ -224,6 +224,8 @@ translate_verbatim_line <- function(verbatim_type, verbatim_data) {
 
 generate_verbatim_assignment_table_raw <- function(l) {
   verbatim_types <- l %>% purrr::map_dbl(purrr::chuck, "meta", "EFA1MCG2MDG3")
+  further_ex_cond <- l %>% purrr::map_chr(purrr::chuck, "meta", "further_ex_cond")
   purrr::map2(verbatim_types, l, translate_verbatim_line) %>%
+    purrr::map2(further_ex_cond, ~dplyr::mutate(.x, further_ex_cond = .y)) %>%
     dplyr::bind_rows(.id = "row")
 }
