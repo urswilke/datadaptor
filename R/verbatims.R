@@ -46,10 +46,11 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
     readxl::read_excel(mapping_file,
       skip = 16,
       sheet = sheet,
-      col_names = TRUE
+      col_names = TRUE,
+      col_types = "text"
     ) %>%
     tidyr::drop_na(.data$VariableOriginal) %>%
-    dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel, dplyr::any_of("ex_further_cond")) %>%
+    dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel, dplyr::any_of(c("ex_further_cond", "ex_assign"))) %>%
     # HACK!!! TODO: replace with general regex
     dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal)) %>%
     dplyr::relocate(q_id = .data$`Tabellen-blatt`)
@@ -145,6 +146,44 @@ parse_verbatim_data_raw <- function(
   }
   l
 }
+extract_custom_mdg_assignment_table <- function(i_l) {
+  var_template <- i_l$meta$VariableZiel
+  df_vars_n_labs <- i_l$labs[[1]] %>%
+    dplyr::mutate(
+      x = var_template %>% stringr::str_replace(
+        "\\{nn\\}",
+        .data$Code %>% as.character()
+      )
+    ) %>%
+    dplyr::rename(varlab = .data$lab) %>%
+    dplyr::mutate(varlab = as.list(.data$varlab))
+  df_assigns <- i_l$assignments %>%
+    tidyr::gather("i_assign", "code_assign", dplyr::starts_with("Zuord")) %>%
+    dplyr::select(-.data$i_assign) %>%
+    tidyr::drop_na() %>%
+    dplyr::group_by(.data$code_assign) %>%
+    dplyr::summarise(id_list = list(unique(.data$ID))) %>%
+    dplyr::full_join(
+      df_vars_n_labs,
+      by = c("code_assign" = "Code")
+    )
+  ex_assign <- purrr::pluck(i_l$meta, "ex_assign")
+  if (is.null(ex_assign)) {
+    stop(
+      "You need to specify a value of a column named `ex_mdg_assign` for variable ",
+      i_l$meta$VariableZiel,
+      ".")
+  }
+
+  df_assigns <- df_assigns %>%
+    dplyr::mutate(
+      ex_assign = ex_assign,
+      vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(df_assigns)),
+      init_val = 0
+    ) %>%
+    dplyr::select(-.data$code_assign)
+  df_assigns
+}
 extract_mdg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   df_vars_n_labs <- i_l$labs[[1]] %>%
@@ -166,6 +205,7 @@ extract_mdg_assignment_table <- function(i_l) {
       df_vars_n_labs,
       by = c("code_assign" = "Code")
     )
+
   df_assigns <- df_assigns %>%
     dplyr::mutate(
       val_assign = 1,
@@ -218,15 +258,20 @@ translate_verbatim_line <- function(verbatim_type, verbatim_data) {
     "1" = extract_efa_assignment_table(verbatim_data),
     "2" = extract_mcg_assignment_table(verbatim_data),
     "3" = extract_mdg_assignment_table(verbatim_data),
+    "mdg_custom" = extract_custom_mdg_assignment_table(verbatim_data),
     stop("Invalid verbatim type code.")
   )
 }
 
 generate_verbatim_assignment_table_raw <- function(l) {
-  verbatim_types <- l %>% purrr::map_dbl(purrr::chuck, "meta", "EFA1MCG2MDG3")
+  # hopefully preliminary structure to use new apply_command.cmd_verbatim_new():
+  verbatim_types <- l %>% purrr::map_chr(purrr::chuck, "meta", "EFA1MCG2MDG3")
   # allow to not specify ex_further_cond in excel mapping file -> then write NA column
   ex_further_cond <- l %>% purrr::map_chr(purrr::pluck, "meta", "ex_further_cond", .default = NA_character_)
+  ex_assign <- l %>% purrr::map_chr(purrr::pluck, "meta", "ex_assign", .default = NA_character_)
   purrr::map2(verbatim_types, l, translate_verbatim_line) %>%
     purrr::map2(ex_further_cond, ~dplyr::mutate(.x, ex_further_cond = .y)) %>%
+    purrr::map2(ex_assign, ~dplyr::mutate(.x, ex_assign = .y)) %>%
+    purrr::map2(verbatim_types, ~dplyr::mutate(.x, , EFA1MCG2MDG3 = .y)) %>%
     dplyr::bind_rows(.id = "row")
 }

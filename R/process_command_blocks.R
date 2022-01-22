@@ -3,6 +3,25 @@ process_command_blocks <- function(self) {
   self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
+
+  # hopefully preliminary method to use new apply_command.cmd_verbatim_new():
+  verbatim_types <- self$cmd$command_blocks_raw %>%
+    purrr::map("raw") %>%
+    purrr::map_chr("EFA1MCG2MDG3", .default = NA_character_)
+
+  is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
+  new_verbatypes_classes <- self$cmd$command_blocks_raw[is_new_verbatype] %>% purrr::map(class)
+  new_verbatypes_classes <- purrr::map(new_verbatypes_classes, ~ c("cmd_new_verba", .x))
+  self$cmd$command_blocks_raw[is_new_verbatype] <- purrr::map2(
+    self$cmd$command_blocks_raw[is_new_verbatype],
+    new_verbatypes_classes,
+    ~ {
+      class(.x) <- .y
+      .x
+    }
+  )
+
+
   self$cmd$command_blocks <- command_blocks(self) %>% validate_command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
 }
@@ -163,6 +182,7 @@ command_block <- function(x) {
     "#MERGE"    = "cmd_merge",
     "#NEWVALL"  = "cmd_newvall",
     "#verbatim" = "cmd_verbatim",
+    "cmd_new_verba" = "cmd_new_verba",
     "#DROP"     = "cmd_drop",
     "#NEWLAB"   = "cmd_newlab",
     "#KG"       = "cmd_kg",

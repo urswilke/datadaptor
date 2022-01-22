@@ -47,9 +47,9 @@ test_that("variable labels are reproduced", {
 
 mapping_trycatch <- Mapping$new(spss_file, mapping_file)
 # testthat::expect_message(mapping_trycatch$gen_command_table_raw())
-mapping_trycatch$cmd$df_cmd_raw$raw[[46]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$cmd$df_cmd_raw$raw[[47]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$cmd$df_cmd_raw$raw[[48]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$raw[[52]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$raw[[53]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd$df_cmd_raw$raw[[54]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$params$error_out <- "safe"
 mapping_trycatch$cmd$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
 mapping_trycatch$cmd$command_blocks <- command_blocks(mapping_trycatch)
@@ -61,8 +61,8 @@ cmd_tbl_error_col <- mapping_trycatch$cmd_tbl$error
 err_idx <- which(error_list != "")
 err_idx2 <- which(cmd_tbl_error_col != "")
 test_that("Non-empty indices of error list are correctly detected", {
-  testthat::expect_equal(err_idx, 46:48)
-  testthat::expect_equal(err_idx2, 46:48)
+  testthat::expect_equal(err_idx, 52:54)
+  testthat::expect_equal(err_idx2, 52:54)
 })
 test_that("error string elements were added to cmd_tbl", {
   testthat::expect_snapshot_output({

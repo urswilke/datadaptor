@@ -92,7 +92,6 @@ apply_command.cmd_drop <- function(cdb, self) {
   xs <- cdb$args$xs
   self$dat_mod[xs] <- NULL
 }
-
 #' @export
 apply_command.cmd_verbatim <- function(cdb, self) {
   x <- cdb$args$x
@@ -124,6 +123,64 @@ apply_command.cmd_verbatim <- function(cdb, self) {
   }
 
   self$dat_mod[[x]][self$dat_mod[[id]] %in% id_list & further_ex_bool] <- v
+  self$dat_mod[[x]] <- haven::labelled(
+    self$dat_mod[[x]],
+    labels = vallabs,
+    label = varlab
+  )
+}
+
+#' @export
+apply_command.cmd_new_verba <- function(cdb, self) {
+  x <- cdb$args$x
+  v <- cdb$args$v
+  varlab <- cdb$args$varlab
+  vs <- cdb$args$vs
+  vallabs_chr <- cdb$args$vallabs
+  id <- self$params$id_var
+  id_list <- cdb$args$id_list
+  v0 <- cdb$args$v0
+  ex_further_cond <- cdb$args$ex_further_cond
+  ex_assign <- cdb$args$ex_assign
+  vallabs <- purrr::set_names(vs, vallabs_chr)
+
+  if (!x %in% names(self$dat_mod)) {
+    self$dat_mod[[x]] <- v0
+  }
+
+  # hack to keep variable label if it already exists:
+  if (is.null(varlab)) {
+    varlab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
+  }
+
+  if (!is.na(ex_further_cond)) {
+    further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), self) %>%
+      is_true()
+  }
+  else {
+    further_ex_bool <- rep(TRUE, nrow(self$dat_mod))
+  }
+
+  if (!is.na(ex_assign)) {
+    ex_assign_vec <- eval_in_data(rlang::parse_expr(ex_assign), self)
+    # don't take the variable label of the verbatim coding...:
+    # varlab <- attr(ex_assign_vec, "label", exact = TRUE)
+    # ... only keep the existing value labels:
+    vallabs <- attr(ex_assign_vec, "labels")
+  }
+  else {
+    ex_assign_vec <- rep(v, nrow(self$dat_mod))
+  }
+
+  id_list_existing <- intersect(id_list, self$dat[[self$params$id_var]])
+  if (length(id_list_existing) < length(id_list))  {
+    warning("there are id values in the verbatim sheet not in the data")
+  }
+  ex_row_indices <- match(id_list_existing, self$dat[[self$params$id_var]])
+  assign_indices <- intersect(which(further_ex_bool), ex_row_indices)
+
+
+  self$dat_mod[assign_indices,][[x]] <- ex_assign_vec[assign_indices]
   self$dat_mod[[x]] <- haven::labelled(
     self$dat_mod[[x]],
     labels = vallabs,
