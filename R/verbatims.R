@@ -145,7 +145,7 @@ parse_verbatim_data_raw <- function(
   }
   l
 }
-parse_mdg_assignment_table <- function(i_l) {
+extract_mdg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   df_vars_n_labs <- i_l$labs[[1]] %>%
     dplyr::mutate(
@@ -175,15 +175,15 @@ parse_mdg_assignment_table <- function(i_l) {
     dplyr::select(-.data$code_assign)
   df_assigns
 }
-parse_efa_assignment_table <- function(i_l) {
+extract_efa_assignment_table <- function(i_l) {
   # in case multiple "Zuord" columns occur in assignment data, code would break
   # and only the first is needed:
   i_l$assignments <- i_l$assignments %>%
     dplyr::select(1:3)
-  parse_mcg_assignment_table(i_l) %>%
+  extract_mcg_assignment_table(i_l) %>%
     dplyr::mutate(init_val = NA_real_)
 }
-parse_mcg_assignment_table <- function(i_l) {
+extract_mcg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   vallabs <- i_l$labs[[1]] %>%
     dplyr::relocate(2) %>%
@@ -215,9 +215,9 @@ parse_mcg_assignment_table <- function(i_l) {
 }
 translate_verbatim_line <- function(verbatim_type, verbatim_data) {
   switch(verbatim_type,
-    "1" = parse_efa_assignment_table(verbatim_data),
-    "2" = parse_mcg_assignment_table(verbatim_data),
-    "3" = parse_mdg_assignment_table(verbatim_data),
+    "1" = extract_efa_assignment_table(verbatim_data),
+    "2" = extract_mcg_assignment_table(verbatim_data),
+    "3" = extract_mdg_assignment_table(verbatim_data),
     stop("Invalid verbatim type code.")
   )
 }
