@@ -118,7 +118,7 @@ parse_command_args.cmd_verbatim <- function(cdb) {
     vallabs = names(vallabs_named),
     id_list = d$id_list[[1]],
     v0 = d$init_val,
-    further_ex_cond = d$further_ex_cond
+    ex_further_cond = d$ex_further_cond
   )
   cdb
 }

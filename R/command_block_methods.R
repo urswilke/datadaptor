@@ -103,7 +103,7 @@ apply_command.cmd_verbatim <- function(cdb, self) {
   id <- self$params$id_var
   id_list <- cdb$args$id_list
   v0 <- cdb$args$v0
-  further_ex_cond <- cdb$args$further_ex_cond
+  ex_further_cond <- cdb$args$ex_further_cond
   vallabs <- purrr::set_names(vs, vallabs_chr)
 
   if (!x %in% names(self$dat_mod)) {
@@ -115,8 +115,8 @@ apply_command.cmd_verbatim <- function(cdb, self) {
     varlab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
   }
 
-  if (!is.na(further_ex_cond)) {
-    further_ex_bool <- eval_in_data(rlang::parse_expr(further_ex_cond), self) %>%
+  if (!is.na(ex_further_cond)) {
+    further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), self) %>%
       is_true()
   }
   else {
