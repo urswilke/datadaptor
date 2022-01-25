@@ -95,7 +95,7 @@ apply_command.cmd_drop <- function(cdb, self) {
 #' @export
 apply_command.cmd_verbatim <- function(cdb, self) {
   x <- cdb$args$x
-  v <- cdb$args$v
+  v <- as.numeric(cdb$args$v)
   varlab <- cdb$args$varlab
   vs <- cdb$args$vs
   vallabs_chr <- cdb$args$vallabs
