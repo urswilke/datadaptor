@@ -131,7 +131,7 @@ apply_command.cmd_verbatim <- function(cdb, self) {
 }
 
 #' @export
-apply_command.cmd_new_verba <- function(cdb, self) {
+apply_command.cmd_verbatim_custom <- function(cdb, self) {
   x <- cdb$args$x
   v <- cdb$args$v
   varlab <- cdb$args$varlab

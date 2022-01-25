@@ -11,7 +11,7 @@ process_command_blocks <- function(self) {
 
   is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
   new_verbatypes_classes <- self$cmd$command_blocks_raw[is_new_verbatype] %>% purrr::map(class)
-  new_verbatypes_classes <- purrr::map(new_verbatypes_classes, ~ c("cmd_new_verba", .x))
+  new_verbatypes_classes <- purrr::map(new_verbatypes_classes, ~ c("cmd_verbatim_custom", .x))
   self$cmd$command_blocks_raw[is_new_verbatype] <- purrr::map2(
     self$cmd$command_blocks_raw[is_new_verbatype],
     new_verbatypes_classes,
@@ -182,7 +182,7 @@ command_block <- function(x) {
     "#MERGE"    = "cmd_merge",
     "#NEWVALL"  = "cmd_newvall",
     "#verbatim" = "cmd_verbatim",
-    "cmd_new_verba" = "cmd_new_verba",
+    "cmd_verbatim_custom" = "cmd_verbatim_custom",
     "#DROP"     = "cmd_drop",
     "#NEWLAB"   = "cmd_newlab",
     "#KG"       = "cmd_kg",
