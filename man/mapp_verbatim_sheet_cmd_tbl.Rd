@@ -4,18 +4,14 @@
 \alias{mapp_verbatim_sheet_cmd_tbl}
 \title{Extract verbatim sheet related data of Excel mapping file to dataframe}
 \usage{
-mapp_verbatim_sheet_cmd_tbl(
-  self,
-  verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet),
-  sheet = "Verbatims"
-)
+mapp_verbatim_sheet_cmd_tbl(self, sheet = "Verbatims")
 }
 \arguments{
 \item{self}{\code{Mapping} object}
 
-\item{verbatim_file}{character string of the name of the Verbatim file}
-
 \item{sheet}{name of the sheet in the Excel mapping file}
+
+\item{verbatim_file}{character string of the name of the Verbatim file}
 }
 \value{
 Command block table of the "Verbatims" sheet of the Excel mapping file.
@@ -32,5 +28,5 @@ utils::browseURL(mapping_file)
 utils::browseURL(verbatim_file)
 }
 m <- Mapping$new(NULL, mapping_file)
-mapp_verbatim_sheet_cmd_tbl(m, verbatim_file = verbatim_file)
+mapp_verbatim_sheet_cmd_tbl(m)
 }

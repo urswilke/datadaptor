@@ -16,7 +16,7 @@
 #' utils::browseURL(verbatim_file)
 #' }
 #' m <- Mapping$new(NULL, mapping_file)
-#' mapp_verbatim_sheet_cmd_tbl(m, verbatim_file = verbatim_file)
+#' mapp_verbatim_sheet_cmd_tbl(m)
 mapp_verbatim_sheet_cmd_tbl <- function(
   self,
   sheet = "Verbatims"
