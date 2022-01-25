@@ -4,23 +4,6 @@ process_command_blocks <- function(self) {
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
 
-  # hopefully preliminary method to use new apply_command.cmd_verbatim_new():
-  verbatim_types <- self$cmd$command_blocks_raw %>%
-    purrr::map("raw") %>%
-    purrr::map_chr("EFA1MCG2MDG3", .default = NA_character_)
-
-  is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
-  new_verbatypes_classes <- self$cmd$command_blocks_raw[is_new_verbatype] %>% purrr::map(class)
-  new_verbatypes_classes <- purrr::map(new_verbatypes_classes, ~ c("cmd_verbatim_custom", .x))
-  self$cmd$command_blocks_raw[is_new_verbatype] <- purrr::map2(
-    self$cmd$command_blocks_raw[is_new_verbatype],
-    new_verbatypes_classes,
-    ~ {
-      class(.x) <- .y
-      .x
-    }
-  )
-
 
   self$cmd$command_blocks <- command_blocks(self) %>% validate_command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
@@ -148,10 +131,31 @@ tab_sheet_types <- function(sheets) {
 
 gen_command_blocks_raw <- function(self) {
 
-  self$cmd$df_cmd_raw %>%
+  cdbs_raw <- self$cmd$df_cmd_raw %>%
     dplyr::rowwise() %>%
     dplyr::transmute(cmd = list(command_block(dplyr::cur_data()))) %>%
     dplyr::pull()
+
+
+  # hopefully preliminary method to use new apply_command.cmd_verbatim_new():
+  verbatim_types <- cdbs_raw %>%
+    purrr::map("raw") %>%
+    purrr::map_chr("EFA1MCG2MDG3", .default = NA_character_)
+
+  is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
+  new_verbatypes_classes <- cdbs_raw[is_new_verbatype] %>%
+    purrr::map(class) %>%
+    purrr::map(~ c("cmd_verbatim_custom", .x))
+  cdbs_raw[is_new_verbatype] <- purrr::map2(
+    cdbs_raw[is_new_verbatype],
+    new_verbatypes_classes,
+    ~ {
+      class(.x) <- .y
+      .x
+    }
+  )
+  cdbs_raw
+
 }
 #' Generate an object inheriting from `"command_block"`
 #'
