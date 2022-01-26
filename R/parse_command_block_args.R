@@ -31,28 +31,28 @@
 #' # for all command block types `cmd`:
 #' args_tbl <- tibble::tibble(
 #'   cmd = unique_cmd_tbl$action,
-#'   example = args_overview) %>%
+#'   example = args_overview
+#' ) %>%
 #'   tidyr::unnest_longer(example, indices_to = "arg") %>%
 #'   .[c(1, 3, 2)]
 #'
 #' print(args_tbl, n = 1000)
 #'
 #' args_tbl %>%
-#'   dplyr::group_by(arg_class = arg %>%
+#'   dplyr::group_by(
+#'     arg_class = arg %>%
 #'     str_remove("\\d$") %>%
 #'     str_remove("s$")
 #'   ) %>%
-#'  group_by(cmd) %>%
-#'  mutate(arg = paste(arg, collapse = " "))  %>%
-#'  mutate(example = unname(example)) %>%
-#'  pivot_wider(
-#'    names_from = arg_class,
-#'    values_from = example,
-#'    values_fn = list
-#'  ) %>%
-#'  print(n=100)
-#'
-
+#'   group_by(cmd) %>%
+#'   mutate(arg = paste(arg, collapse = " ")) %>%
+#'   mutate(example = unname(example)) %>%
+#'   pivot_wider(
+#'     names_from = arg_class,
+#'     values_from = example,
+#'     values_fn = list
+#'   ) %>%
+#'   print(n = 100)
 parse_command_args <- function(cdb) {
   UseMethod("parse_command_args")
 }
@@ -112,14 +112,16 @@ parse_command_args.cmd_verbatim <- function(cdb) {
 
   cdb$args <- list(
     x = d$x,
-    v = d$val_assign,
+    v = d$ex_assign,
     varlab = d$varlab[[1]],
     vs = unname(vallabs_named),
     vallabs = names(vallabs_named),
     id_list = d$id_list[[1]],
     v0 = d$init_val,
-    ex_further_cond = d$ex_further_cond
+    ex_further_cond = d$ex_further_cond,
+    ex_assign = d$ex_assign
   )
+
   cdb
 }
 #' @export
@@ -151,8 +153,8 @@ parse_command_args.cmd_if <- function(cdb) {
     stringr::str_squish()
 
   cdb$args <- list(
-    x   = assignment[1],
-    ex   = assignment[2],
+    x = assignment[1],
+    ex = assignment[2],
     ex_cond = cdb$raw$X2
   )
   cdb
@@ -160,8 +162,8 @@ parse_command_args.cmd_if <- function(cdb) {
 #' @export
 parse_command_args.cmd_comp <- function(cdb) {
   cdb$args <- list(
-    x   = cdb$raw$X2[1],
-    ex   = cdb$raw$X3[1]
+    x = cdb$raw$X2[1],
+    ex = cdb$raw$X3[1]
   )
   cdb
 }
@@ -268,7 +270,7 @@ parse_command_args.cmd_dic <- function(cdb) {
   }
   cdb$args <- list(
     y = d$X2[1],
-    x  = d$X3[1]
+    x = d$X3[1]
   )
   cdb
 }

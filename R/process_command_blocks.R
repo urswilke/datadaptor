@@ -60,7 +60,7 @@ gen_sheet_data_raw_list <- function(self) {
 generate_rec_na_cmd_table <- function(self) {
   params <- self$params$mapping_file_attrs
   vars_to_exclude_na_to_filter <- c(
-      params$not_miss_to_filter_vars %>%
+    params$not_miss_to_filter_vars %>%
       stringr::str_split("[, ;]+") %>%
       unlist(),
     self$params$id_var
@@ -91,10 +91,10 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
 
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
   switch(sheet_cat,
-         "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = self$params$translate_xlsm),
-         "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = self$params$translate_xlsm),
-         "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
-         "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name), translate_xlsm = self$params$translate_xlsm)
+    "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = self$params$translate_xlsm),
+    "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = self$params$translate_xlsm),
+    "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
+    "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name), translate_xlsm = self$params$translate_xlsm)
   )
 }
 
@@ -128,11 +128,30 @@ tab_sheet_types <- function(sheets) {
 }
 
 gen_command_blocks_raw <- function(self) {
-
-  self$cmd$df_cmd_raw %>%
+  cdbs_raw <- self$cmd$df_cmd_raw %>%
     dplyr::rowwise() %>%
     dplyr::transmute(cmd = list(command_block(dplyr::cur_data()))) %>%
     dplyr::pull()
+
+
+  # hopefully preliminary method to use new apply_command.cmd_verbatim_new():
+  verbatim_types <- cdbs_raw %>%
+    purrr::map("raw") %>%
+    purrr::map_chr("EFA1MCG2MDG3", .default = NA_character_)
+
+  is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
+  new_verbatypes_classes <- cdbs_raw[is_new_verbatype] %>%
+    purrr::map(class) %>%
+    purrr::map(~ c("cmd_verbatim_custom", .x))
+  cdbs_raw[is_new_verbatype] <- purrr::map2(
+    cdbs_raw[is_new_verbatype],
+    new_verbatypes_classes,
+    ~ {
+      class(.x) <- .y
+      .x
+    }
+  )
+  cdbs_raw
 }
 #' Generate an object inheriting from `"command_block"`
 #'
@@ -143,11 +162,11 @@ gen_command_blocks_raw <- function(self) {
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' m$cmd$df_cmd_raw[10,] %>% command_block()
+#' m$cmd$df_cmd_raw[10, ] %>% command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
-#' m$cmd$df_cmd_raw[10,] %>% new_command_block(subclass = "cmd_newlab")
+#' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
 command_block <- function(x) {
-  subclass <- switch (x$action,
+  subclass <- switch(x$action,
     "#RECNA"    = "cmd_recna_xcpt",
     "#IF"       = "cmd_if",
     "#COMP"     = "cmd_comp",
@@ -163,6 +182,7 @@ command_block <- function(x) {
     "#MERGE"    = "cmd_merge",
     "#NEWVALL"  = "cmd_newvall",
     "#verbatim" = "cmd_verbatim",
+    "cmd_verbatim_custom" = "cmd_verbatim_custom",
     "#DROP"     = "cmd_drop",
     "#NEWLAB"   = "cmd_newlab",
     "#KG"       = "cmd_kg",
@@ -221,7 +241,7 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
 }
 validate_command_blocks <- function(cdbs, self) {
   if (self$params$validate) {
-    classes = c("validated", class(cdbs))
+    classes <- c("validated", class(cdbs))
     cdbs <- purrr::map(cdbs, validate_command_block)
     class(cdbs) <- classes
   }

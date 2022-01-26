@@ -74,8 +74,7 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
 read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   if (translate_xlsm) {
     df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
-  }
-  else {
+  } else {
     df_varl <- readxl::read_xlsx(
       mapping_file,
       sheet = sheet,
@@ -90,7 +89,8 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
     sheet = sheet,
     range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
     col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
-    col_types = "text") %>%
+    col_types = "text"
+  ) %>%
     dplyr::select(-dplyr::matches("^nn[1-8]$"))
 }
 
@@ -226,8 +226,7 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
 read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
   if (translate_xlsm) {
     df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
-  }
-  else {
+  } else {
     df_vall <- readxl::read_xlsx(
       mapping_file,
       sheet = sheet
@@ -240,10 +239,13 @@ read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
     mapping_file,
     sheet = sheet,
     range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
-    col_names = c("var", "nv", "vallab", "new_label", "not_needed1",
-                  "not_needed2", "sum_var_label", "sum_var_value",
-                  "sum_var_vallab"),
-    col_types = "text") %>%
+    col_names = c(
+      "var", "nv", "vallab", "new_label", "not_needed1",
+      "not_needed2", "sum_var_label", "sum_var_value",
+      "sum_var_vallab"
+    ),
+    col_types = "text"
+  ) %>%
     dplyr::select(-.data$not_needed1, -.data$not_needed2) %>%
     dplyr::mutate(
       nv = as.numeric(.data$nv),
@@ -327,7 +329,7 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
     col_types = "text"
   ) %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
-    dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~!is.na(.)))
+    dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~ !is.na(.)))
   df_free
 }
 

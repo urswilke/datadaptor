@@ -147,8 +147,8 @@ get_configr_args_list <- function(mapping_file) {
       dplyr::filter(., grepl("^R_*", .data$value)) %>%
       dplyr::mutate(
         data = purrr::map(
-          .x=.data$value,
-          ~openxlsx::read.xlsx(
+          .x = .data$value,
+          ~ openxlsx::read.xlsx(
             xlsxFile = mapping_file,
             namedRegion = .x,
             colNames = FALSE
@@ -184,4 +184,3 @@ adapt_filepath <- function(file_path, mapping_file) {
     return(paste0(mapping_dir, "/", file_path))
   }
 }
-
