@@ -201,15 +201,15 @@ load_params <- function(...) {
 
   passed_args <- list(...)
 
-  # match.arg() uses the first argument of choices if NULL is passed:
-  if (length(passed_args) > 0) {
-    names(passed_args) <- match.arg(
-      arg = names(passed_args),
-      choices = names(params),
-      several.ok = TRUE
+  if (!all(names(passed_args) %in% names(params))) {
+    stop(
+      "The parameters passed (via `...`) to the Mapping object",
+      "need to be a subset of the following names:\n",
+      names(params) %>% paste(collapse = ", ")
     )
-    params[names(passed_args)] <- passed_args
   }
+
+  params[names(passed_args)] <- passed_args
 
   params
 }
