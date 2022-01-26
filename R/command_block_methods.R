@@ -191,12 +191,13 @@ apply_command.cmd_merge <- function(cdb, self) {
   filepath <- cdb$args$filepath
   id <- cdb$args$id
 
-  merge_vars <- c(id, xs)
-  df_merge <- haven::read_sav(filepath)
-  if (is.na(xs)[1]) {
-    xs <- names(df_merge)
+
+  # If `xs` isn't specified in Excel sheet, merge all variables in the file:
+  if (length(xs) == 1 & is.na(xs[1])) {
+    df_merge <- haven::read_sav(filepath)
+  } else {
+    df_merge <- haven::read_sav(filepath, col_select = !!c(id, xs))
   }
-  df_merge <- df_merge %>% dplyr::select(!!id, !!!xs)
   id_vec <- self$dat_mod[[id]]
   if (!identical(
     sort(tablab::strip_attributes(df_merge[[id]])),
