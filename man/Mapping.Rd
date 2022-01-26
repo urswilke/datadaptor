@@ -82,7 +82,7 @@ information of the Excel mapping file.}
 \subsection{Method \code{new()}}{
 Initialize a Mapping object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
