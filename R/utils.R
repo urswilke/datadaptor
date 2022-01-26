@@ -111,20 +111,14 @@ explode_multi_row_blocks <- function(df) {
 
 
 merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
-  if (!is.null(old_vallab_vec)) {
-    df_new_labels <- old_vallab_vec %>% tibble::enframe()
-  } else {
-    df_new_labels <- tibble::tibble(name = character(), value = numeric())
-  }
-  dplyr::full_join(
-    added_vallab_vec %>%
-      tibble::enframe(),
-    df_new_labels,
-    by = c("name", "value")
+  all_vals <- c(old_vallab_vec, added_vallab_vec)
+  all_labels <- c(names(old_vallab_vec), names(added_vallab_vec))
+  replaced_vals <- duplicated(all_vals, fromLast = TRUE)
+  purrr::set_names(
+    all_vals[!replaced_vals],
+    all_labels[!replaced_vals]
   ) %>%
-    dplyr::distinct(.data$value, .keep_all = T) %>%
-    dplyr::arrange(.data$value) %>%
-    tibble::deframe()
+    sort()
 }
 
 # From here: https://github.com/r-lib/vctrs/issues/23
