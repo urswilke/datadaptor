@@ -55,11 +55,12 @@ Mapping <- R6::R6Class(
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
     initialize = function(dat = NULL,
-                          mapping_file = NULL) {
+                          mapping_file = NULL,
+                          ...) {
       self$dat <- initialize_dat(self, dat)
 
       self$mapping_file <- mapping_file
-      self$params <- load_params(self)
+      self$params <- load_params(...)
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
@@ -188,7 +189,7 @@ initialize_dat <- function(self, dat) {
 
 
 
-load_params <- function(self) {
+load_params <- function(...) {
   params <- list(
     na_to_filter = TRUE,
     error_out = "unsafe",
@@ -197,6 +198,19 @@ load_params <- function(self) {
     dyn_validate = TRUE,
     mapping_file_attrs = list()
   )
+
+  passed_args <- list(...)
+
+  # match.arg() uses the first argument of choices if NULL is passed:
+  if (length(passed_args) > 0) {
+    names(passed_args) <- match.arg(
+      arg = names(passed_args),
+      choices = names(params),
+      several.ok = TRUE
+    )
+    params[names(passed_args)] <- passed_args
+  }
+
   params
 }
 
