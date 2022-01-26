@@ -91,6 +91,8 @@ Initialize a Mapping object
 \item{\code{dat}}{Dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
+
+\item{\code{...}}{Arguments passed to load_params()}
 }
 \if{html}{\out{</div>}}
 }

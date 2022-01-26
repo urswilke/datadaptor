@@ -54,6 +54,7 @@ Mapping <- R6::R6Class(
     #'
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
+    #' @param ... Arguments passed to load_params()
     initialize = function(dat = NULL,
                           mapping_file = NULL,
                           ...) {
