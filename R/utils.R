@@ -193,7 +193,7 @@ safe_f <- c(
   getGroupMembers("Compare"),
   getGroupMembers("Logic"),
   "{", "(",
-  "rowSums", "::", "%in%", "ifelse", "data.frame"
+  "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na"
 )
 
 #' @export
