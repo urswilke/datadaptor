@@ -27,7 +27,7 @@ Generate an object inheriting from \code{"command_block"}
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
-m$cmd$df_cmd_raw[10,] \%>\% command_block()
+m$cmd$df_cmd_raw[10, ] \%>\% command_block()
 # command_block() detects the subclass. So this is equivalent to:
-m$cmd$df_cmd_raw[10,] \%>\% new_command_block(subclass = "cmd_newlab")
+m$cmd$df_cmd_raw[10, ] \%>\% new_command_block(subclass = "cmd_newlab")
 }

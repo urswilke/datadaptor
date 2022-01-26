@@ -109,7 +109,7 @@ apply_command.cmd_verbatim <- function(cdb, self) {
     self$dat_mod[[x]] <- v0
   }
 
-  # hack to keep variable label if it already exists:
+  # keep variable label if it already exists:
   if (is.null(varlab)) {
     varlab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
   }
@@ -117,8 +117,7 @@ apply_command.cmd_verbatim <- function(cdb, self) {
   if (!is.na(ex_further_cond)) {
     further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), self) %>%
       is_true()
-  }
-  else {
+  } else {
     further_ex_bool <- TRUE
   }
 
@@ -148,7 +147,7 @@ apply_command.cmd_verbatim_custom <- function(cdb, self) {
     self$dat_mod[[x]] <- v0
   }
 
-  # hack to keep variable label if it already exists:
+  # keep variable label if it already exists:
   if (is.null(varlab)) {
     varlab <- attr(self$dat_mod[[x]], "label", exact = TRUE)
   }
@@ -156,8 +155,7 @@ apply_command.cmd_verbatim_custom <- function(cdb, self) {
   if (!is.na(ex_further_cond)) {
     further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), self) %>%
       is_true()
-  }
-  else {
+  } else {
     further_ex_bool <- rep(TRUE, nrow(self$dat_mod))
   }
 
@@ -167,20 +165,19 @@ apply_command.cmd_verbatim_custom <- function(cdb, self) {
     # varlab <- attr(ex_assign_vec, "label", exact = TRUE)
     # ... only keep the existing value labels:
     vallabs <- attr(ex_assign_vec, "labels")
-  }
-  else {
+  } else {
     ex_assign_vec <- rep(v, nrow(self$dat_mod))
   }
 
   id_list_existing <- intersect(id_list, self$dat[[self$params$id_var]])
-  if (length(id_list_existing) < length(id_list))  {
+  if (length(id_list_existing) < length(id_list)) {
     warning("there are id values in the verbatim sheet not in the data")
   }
   ex_row_indices <- match(id_list_existing, self$dat[[self$params$id_var]])
   assign_indices <- intersect(which(further_ex_bool), ex_row_indices)
 
 
-  self$dat_mod[assign_indices,][[x]] <- ex_assign_vec[assign_indices]
+  self$dat_mod[assign_indices, ][[x]] <- ex_assign_vec[assign_indices]
   self$dat_mod[[x]] <- haven::labelled(
     self$dat_mod[[x]],
     labels = vallabs,
@@ -408,7 +405,7 @@ apply_command.cmd_rec <- function(cdb, self) {
     )
 
   res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(self)
-  if(x == y) {
+  if (x == y) {
     res_num <- dplyr::coalesce(res_num, self$dat_mod[[y]])
   }
 

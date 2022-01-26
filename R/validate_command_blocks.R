@@ -24,5 +24,4 @@ validate_command_block.cmd_if <- function(cdb) {
   lens <- lengths(list(x, ex_cond, ex)) %>% unique()
   stopifnot(lens == 1)
   new_validated_command_block(cdb)
-
 }

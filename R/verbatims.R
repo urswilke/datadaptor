@@ -171,7 +171,8 @@ extract_custom_mdg_assignment_table <- function(i_l) {
     stop(
       "You need to specify a value of a column named `ex_assign` for variable ",
       i_l$meta$VariableZiel,
-      ".")
+      "."
+    )
   }
 
   df_assigns <- df_assigns %>%
@@ -270,7 +271,7 @@ generate_verbatim_assignment_table_raw <- function(l) {
   # allow to not specify ex_further_cond in excel mapping file -> then write NA column
   ex_further_cond <- l %>% purrr::map_chr(purrr::pluck, "meta", "ex_further_cond", .default = NA_character_)
   purrr::map2(verbatim_types, l, translate_verbatim_line) %>%
-    purrr::map2(ex_further_cond, ~dplyr::mutate(.x, ex_further_cond = .y)) %>%
-    purrr::map2(verbatim_types, ~dplyr::mutate(.x, , EFA1MCG2MDG3 = .y)) %>%
+    purrr::map2(ex_further_cond, ~ dplyr::mutate(.x, ex_further_cond = .y)) %>%
+    purrr::map2(verbatim_types, ~ dplyr::mutate(.x, EFA1MCG2MDG3 = .y)) %>%
     dplyr::bind_rows(.id = "row")
 }

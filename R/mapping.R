@@ -63,7 +63,6 @@ Mapping <- R6::R6Class(
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
-
     },
     #' @description Process all command blocks of the Excel mapping file to R. The command
     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
@@ -209,5 +208,4 @@ add_configr_params <- function(self) {
   params$mapping_file_attrs <- l_configr
   params$id_var <- id_var
   params
-
 }
