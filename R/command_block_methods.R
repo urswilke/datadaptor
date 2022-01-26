@@ -271,7 +271,7 @@ dyn_validate_cmd_if <- function(test, yes, x, self) {
 eval_in_data <- function(ex, self) {
   rlang::eval_tidy(
     ex,
-    env = list2env(self$dat_mod, parent = baseenv())
+    env = list2env(self$dat_mod, parent = self$params$expr_eval_env)
   )
 }
 

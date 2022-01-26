@@ -184,3 +184,22 @@ adapt_filepath <- function(file_path, mapping_file) {
     return(paste0(mapping_dir, "/", file_path))
   }
 }
+
+
+# original from here: https://stackoverflow.com/a/18391779
+safe_f <- c(
+  getGroupMembers("Math"),
+  getGroupMembers("Arith"),
+  getGroupMembers("Compare"),
+  getGroupMembers("Logic"),
+  "{", "(",
+  "rowSums", "::", "%in%", "ifelse", "data.frame"
+)
+
+#' @export
+safer_env <- new.env(parent = emptyenv())
+
+for (f in safe_f) {
+  safer_env[[f]] <- get(f, "package:base")
+}
+safer_env[["case_when"]] <- dplyr::case_when

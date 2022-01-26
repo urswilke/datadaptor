@@ -5,7 +5,7 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 mapping_s3 <- Mapping$new(spss_file, mapping_file)
 test_that("parameters were built correctly", {
   testthat::expect_snapshot_output(
-    mapping_s3$params)
+    mapping_s3$params[!names(mapping_s3$params) %in% "expr_eval_env"])
 })
 
 cb_err <- mapping_s3$cmd$df_cmd_raw[10,]

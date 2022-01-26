@@ -196,6 +196,7 @@ load_params <- function(...) {
     translate_xlsm = FALSE,
     validate = TRUE,
     dyn_validate = TRUE,
+    expr_eval_env = safer_env,
     mapping_file_attrs = list()
   )
 
