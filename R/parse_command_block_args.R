@@ -128,8 +128,13 @@ parse_command_args.cmd_verbatim <- function(cdb) {
 parse_command_args.cmd_merge <- function(cdb) {
   d <- cdb$raw
 
+  varnames_vec <- d$X4[1] %>%
+    stringr::str_trim() %>%
+    stringr::str_split(" ", simplify = TRUE) %>%
+    as.vector()
+
   cdb$args <- list(
-    xs = d$X4[1] %>% stringr::str_split(" ", simplify = T) %>% as.vector(),
+    xs = varnames_vec,
     filepath = d$X2,
     id = d$X3[1]
   )

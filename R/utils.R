@@ -71,10 +71,10 @@ extract_curly_lists <- function(var) {
   l_curly_parts <-
     var %>%
     stringr::str_squish() %>%
-    stringr::str_extract_all("(\\{.+?\\})", simplify = T) %>%
+    stringr::str_extract_all("(\\{.+?\\})", simplify = TRUE) %>%
     purrr::map(~ stringr::str_remove_all(.x, "[\\{\\}]")) %>%
     stringr::str_squish() %>%
-    stringr::str_split(" +", simplify = T) %>%
+    stringr::str_split(" +", simplify = TRUE) %>%
     tibble::as_tibble(.name_repair = "minimal")
 
   replace_1curly <- function(orig_str, replacement) stringr::str_replace(orig_str, "\\{.+?\\}", replacement)

@@ -382,7 +382,7 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
 }
 delete_empty_X1_not_multiline <- function(df_free) {
   df_free %>%
-    dplyr::mutate(temp = stringr::str_detect(.data$X1, "^#VALL$|^#REC$|^#AVALL$", negate = T)) %>%
+    dplyr::mutate(temp = stringr::str_detect(.data$X1, "^#VALL$|^#REC$|^#AVALL$", negate = TRUE)) %>%
     tidyr::fill(.data$temp) %>%
     dplyr::mutate(temp = .data$temp & is.na(.data$X1)) %>%
     dplyr::filter(!.data$temp) %>%
