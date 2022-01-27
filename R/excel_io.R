@@ -126,7 +126,7 @@ parse_newlab_cmd_blocks <- function(df_varl) {
     dplyr::ungroup()
 }
 parse_rename_cmd_block <- function(df_varl) {
-  df_rename <- df_varl %>%
+  df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(.data$new_name) %>%
     dplyr::mutate(sheet = "Variables") %>%
@@ -146,7 +146,7 @@ parse_rename_cmd_block <- function(df_varl) {
 }
 
 parse_autorecode_cmd_block <- function(df_varl) {
-  df_autorec <- df_varl %>%
+  df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "a") %>%
     dplyr::mutate(sheet = "Variables") %>%
@@ -160,7 +160,7 @@ parse_autorecode_cmd_block <- function(df_varl) {
 
 
 parse_drop_cmd_block <- function(df_varl) {
-  df_autorec <- df_varl %>%
+  df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "d") %>%
     dplyr::mutate(sheet = "Variables") %>%
@@ -178,7 +178,7 @@ parse_drop_cmd_block <- function(df_varl) {
 
 
 parse_str_to_num_cmd_block <- function(df_varl) {
-  df_autorec <- df_varl %>%
+  df_varl %>%
     dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "n") %>%
     dplyr::mutate(sheet = "Variables") %>%
