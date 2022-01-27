@@ -5,7 +5,7 @@
 #' by each of the parts inside (separated by spaces). This can help to save yourself
 #' from repetitive writing without diving into something like regular expressions.
 #'
-#' @param df_free_raw code blocks read in by \code{mapp_free1()}
+#' @param df_free_raw code blocks read in by \code{mapp_free_sheet_cmd_table_raw()}
 #'
 #' @return Dataframe containing multiple code blocks. The number of returned code blocks
 #'  corresponds to the number of space separated parts in the curly brackets.
@@ -33,22 +33,22 @@
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-curliply <- function(dff) {
-  df_prep <- dff %>%
+curliply <- function(df_free_raw) {
+  df_prep <- df_free_raw %>%
     dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
     dplyr::group_by(.data$raw_index) %>%
     dplyr::mutate(
       row = paste(row, collapse = ", "),
       is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) %>% is_true()
     ) %>%
-    dplyr::add_count(raw_index) %>%
-    dplyr::group_by(raw_index)
+    dplyr::add_count(.data$raw_index) %>%
+    dplyr::group_by(.data$raw_index)
 
   df_curly_headers <- df_prep %>%
-    dplyr::filter(dplyr::if_any(c(X2, X3), ~stringr::str_detect(.x, "\\{.*\\}")))
+    dplyr::filter(dplyr::if_any(c(.data$X2, .data$X3), ~stringr::str_detect(.x, "\\{.*\\}")))
   if (nrow(df_curly_headers) == 0) {
     return(df_prep %>%
-              dplyr::select(-is_curly_group, -n))
+              dplyr::select(-.data$is_curly_group, -.data$n))
   }
   df_headers_curliplied <- df_curly_headers %>%
     curliply_headers()
@@ -56,29 +56,29 @@ curliply <- function(dff) {
   l_commands <- df_prep %>%
     dplyr::group_split()
   command_has_curlies_lgl <- df_prep %>%
-    dplyr::summarise(lgl = is_curly_group[1], .groups = "drop") %>%
-    dplyr::pull(lgl)
+    dplyr::summarise(lgl = .data$is_curly_group[1], .groups = "drop") %>%
+    dplyr::pull(.data$lgl)
 
   l_commands[command_has_curlies_lgl] <- purrr::map2(
-    df_headers_curliplied %>% dplyr::group_by(raw_index) %>% dplyr::group_split(),
+    df_headers_curliplied %>% dplyr::group_by(.data$raw_index) %>% dplyr::group_split(),
     l_commands[command_has_curlies_lgl],
     add_further_rows_to_multiline_curlies
   )
 
   dplyr::bind_rows(l_commands) %>%
-    dplyr::select(-is_curly_group, -n)
+    dplyr::select(-.data$is_curly_group, -.data$n)
 }
 curliply_headers <- function(df) {
   df %>%
     dplyr::mutate(
-      X3 = X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),
-      X2 = X2 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies)
+      X3 = .data$X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),
+      X2 = .data$X2 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies)
     ) %>%
-    tidyr::unnest_wider(X2, names_sep = "_") %>%
-    tidyr::unnest_wider(X3, names_sep = "_") %>%
+    tidyr::unnest_wider(.data$X2, names_sep = "_") %>%
+    tidyr::unnest_wider(.data$X3, names_sep = "_") %>%
     tidyr::unnest(dplyr::matches("X[23]")) %>%
-    tidyr::unite(X2, dplyr::matches("X2"), sep = "", na.rm = TRUE) %>%
-    tidyr::unite(X3, dplyr::matches("X3"), sep = "", na.rm = TRUE)
+    tidyr::unite("X2", dplyr::matches("X2"), sep = "", na.rm = TRUE) %>%
+    tidyr::unite("X3", dplyr::matches("X3"), sep = "", na.rm = TRUE)
 
 }
 
