@@ -55,7 +55,9 @@ curliply <- function(dff) {
 
   l_commands <- df_prep %>%
     dplyr::group_split()
-  command_has_curlies_lgl <- df_prep %>% dplyr::summarise(lgl = is_curly_group[1], .groups = "drop") %>% dplyr::pull(lgl)
+  command_has_curlies_lgl <- df_prep %>%
+    dplyr::summarise(lgl = is_curly_group[1], .groups = "drop") %>%
+    dplyr::pull(lgl)
 
   l_commands[command_has_curlies_lgl] <- purrr::map2(
     df_headers_curliplied %>% dplyr::group_by(raw_index) %>% dplyr::group_split(),
@@ -81,18 +83,6 @@ curliply_headers <- function(df) {
 }
 
 
-add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_original) {
-  if (df_header_lines$n[1] == 1) {
-    return(
-      df_header_lines %>%
-        dplyr::mutate(row = paste0(row, "_", dplyr::row_number()))
-    )
-  }
-  df_header_lines %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
-    purrr::imap_dfr(~.x %>% dplyr::bind_rows(df_block_original[-1, ]) %>% dplyr::mutate(row = paste0(row, "_", .y)))
-}
 chop_out_curly_parts <- function(x) {
   # split string into list of substrings at "{" and "}" (keeping these with
   # positive look-aheads & -behinds):
@@ -119,6 +109,24 @@ split_space_separated <- function(x_without_curlies, is_between_curlies) {
   }
 }
 
+# first argument are the severalized header lines of the command block,
+# the second is the original command block dataframe:
+add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_original) {
+  if (df_header_lines$n[1] == 1) {
+    return(
+      df_header_lines %>%
+        dplyr::mutate(row = paste0(row, "_", dplyr::row_number()))
+    )
+  }
+  df_header_lines %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::imap_dfr(
+      ~.x %>%
+        dplyr::bind_rows(df_block_original[-1, ]) %>%
+        dplyr::mutate(row = paste0(row, "_", .y))
+    )
+}
 
 merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
   all_vals <- c(old_vallab_vec, added_vallab_vec)
