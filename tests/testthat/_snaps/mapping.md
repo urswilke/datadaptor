@@ -477,17 +477,17 @@
 # error string elements were added to cmd_tbl
 
     # A tibble: 74 x 8
-       sheet     action   row    new_var raw   command_blocks_~ command_blocks error
-       <chr>     <chr>    <chr>  <chr>   <lis> <list>           <cmmnd_bl>     <chr>
-     1 Config    #RECNA   <NA>   <NA>    <nam~ <cmd_rcn_>       <cmd_rcn_>     ""   
-     2 Label     #NEWVALL 8      q2      <tib~ <cmd_nwvl>       <cmd_nwvl>     ""   
-     3 Label     #SUMVAR  23, 2~ kq5     <tib~ <cmd_smvr>       <cmd_smvr>     ""   
-     4 Variables #STR2NUM 8      q8      <tib~ <cmd_st__>       <cmd_st__>     ""   
-     5 Variables #AUTOREC 7      q6      <tib~ <cmd_atrc>       <cmd_atrc>     ""   
-     6 Variables #DROP    9      <NA>    <tib~ <cmd_drop>       <cmd_drop>     ""   
-     7 Variables #RENAME  3, 5   q2_ren~ <tib~ <cmd_renm>       <cmd_renm>     ""   
-     8 Variables #NEWLAB  2      q1      <tib~ <cmd_nwlb>       <cmd_nwlb>     ""   
-     9 Variables #NEWLAB  3      q2_ren~ <tib~ <cmd_nwlb>       <cmd_nwlb>     ""   
-    10 Variables #NEWLAB  6      q5      <tib~ <cmd_nwlb>       <cmd_nwlb>     ""   
+       sheet action row   new_var raw          command_blocks_~ command_blocks error
+       <chr> <chr>  <chr> <chr>   <list>       <list>           <cmmnd_bl>     <chr>
+     1 Conf~ #RECNA <NA>  <NA>    <named list> <cmd_rcn_>       <cmd_rcn_>     ""   
+     2 Label #NEWV~ 8     q2      <tibble>     <cmd_nwvl>       <cmd_nwvl>     ""   
+     3 Label #SUMV~ 23, ~ kq5     <tibble>     <cmd_smvr>       <cmd_smvr>     ""   
+     4 Vari~ #STR2~ 8     q8      <tibble>     <cmd_st__>       <cmd_st__>     ""   
+     5 Vari~ #AUTO~ 7     q6      <tibble>     <cmd_atrc>       <cmd_atrc>     ""   
+     6 Vari~ #DROP  9     <NA>    <tibble>     <cmd_drop>       <cmd_drop>     ""   
+     7 Vari~ #RENA~ 3, 5  q2_ren~ <tibble>     <cmd_renm>       <cmd_renm>     ""   
+     8 Vari~ #NEWL~ 2     q1      <tibble>     <cmd_nwlb>       <cmd_nwlb>     ""   
+     9 Vari~ #NEWL~ 3     q2_ren~ <tibble>     <cmd_nwlb>       <cmd_nwlb>     ""   
+    10 Vari~ #NEWL~ 6     q5      <tibble>     <cmd_nwlb>       <cmd_nwlb>     ""   
     # ... with 64 more rows
 
