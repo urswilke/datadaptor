@@ -64,7 +64,7 @@ curliply <- function(df_free_raw) {
   }
   l %>%
     dplyr::bind_rows() %>%
-    dplyr::select(-is_curly_group)
+    dplyr::select(-.data$is_curly_group)
 }
 
 extract_curly_lists <- function(var) {
