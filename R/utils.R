@@ -55,11 +55,11 @@ curliply <- function(dff) {
 
   l_commands <- df_prep %>%
     dplyr::group_split()
-  command_is_curly_and_multiline_lgl <- df_prep %>% dplyr::summarise(lgl = is_curly_group[1], .groups = "drop") %>% dplyr::pull(lgl)
+  command_has_curlies_lgl <- df_prep %>% dplyr::summarise(lgl = is_curly_group[1], .groups = "drop") %>% dplyr::pull(lgl)
 
-  l_commands[command_is_curly_and_multiline_lgl] <- purrr::map2(
+  l_commands[command_has_curlies_lgl] <- purrr::map2(
     df_headers_curliplied %>% dplyr::group_by(raw_index) %>% dplyr::group_split(),
-    l_commands[command_is_curly_and_multiline_lgl],
+    l_commands[command_has_curlies_lgl],
     add_further_rows_to_multiline_curlies
   )
 
