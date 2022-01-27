@@ -1,3 +1,13 @@
-test_that("extract_curly_lists() works", {
-  expect_equal(extract_curly_lists("{1 2}a{3 4}"), c("1a3", "2a4"))
+df_curly <- data.frame(
+  X1 = "#IF",
+  X2 = "q{2 3} == 1",
+  X3 = "kq{5 6} = {7 8}",
+  X4 = NA_character_,
+  row = "1"
+)
+
+test_that("snapshot of curliply() is reproduced", {
+  testthat::expect_snapshot_output(
+    curliply(df_curly)
+  )
 })
