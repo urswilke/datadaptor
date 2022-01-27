@@ -102,7 +102,7 @@ in `args` for each of the `"command_block"` subclasses:
   * `id_list`: a list of ids in the data,
   * valid R character vectors of R expressions: 
     * `ex`: an expression, 
-    * `ex_cond`: a conditonal expression, 
+    * `ex_cond`: a conditional expression, 
     * `ex_fun`: an existing function name
     * `filepath`: a filepath
 

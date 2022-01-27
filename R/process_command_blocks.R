@@ -155,7 +155,7 @@ gen_command_blocks_raw <- function(self) {
 }
 #' Generate an object inheriting from `"command_block"`
 #'
-#' @param x row of command table
+#' @param cdb row of command table
 #'
 #' @export
 #' @examples
@@ -165,8 +165,8 @@ gen_command_blocks_raw <- function(self) {
 #' m$cmd$df_cmd_raw[10, ] %>% command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
 #' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
-command_block <- function(x) {
-  subclass <- switch(x$action,
+command_block <- function(cdb) {
+  subclass <- switch(cdb$action,
     "#RECNA"    = "cmd_recna_xcpt",
     "#IF"       = "cmd_if",
     "#COMP"     = "cmd_comp",
@@ -189,17 +189,17 @@ command_block <- function(x) {
     "#RFUN"     = "cmd_rfun",
     "#R"        = "cmd_r",
     "#COMPR"    = "cmd_comp",
-    stop(x$action, " command block specifier not found. See `?command_block()` for allowed ones.")
+    stop(cdb$action, " command block specifier not found. See `?command_block()` for allowed ones.")
   )
-  cdb <- new_command_block(x, subclass = subclass)
+  cdb <- new_command_block(cdb, subclass = subclass)
 }
 #' @export
 #' @param ... further arguments passed to constructor
 #' @param subclass character vector containing the subclass of the object to construct
 #' @rdname command_block
-new_command_block <- function(x, ..., subclass = character()) {
+new_command_block <- function(cdb, ..., subclass = character()) {
   structure(
-    x,
+    cdb,
     ...,
     class = c(subclass, "command_block")
   )

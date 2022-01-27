@@ -2,7 +2,6 @@
 #'
 #' @param self \code{Mapping} object
 #' @param sheet name of the sheet in the Excel mapping file
-#' @param verbatim_file character string of the name of the Verbatim file
 #'
 #' @return Command block table of the "Verbatims" sheet of the Excel mapping file.
 #' @export
@@ -212,7 +211,7 @@ extract_mdg_assignment_table <- function(i_l) {
       vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(df_assigns)),
       init_val = 0
     ) %>%
-    dplyr::mutate(ex_assign = as.character(ex_assign)) %>%
+    dplyr::mutate(ex_assign = as.character(.data$ex_assign)) %>%
     dplyr::select(-.data$code_assign)
   df_assigns
 }
@@ -233,7 +232,7 @@ extract_mcg_assignment_table <- function(i_l) {
   df_assigns <- i_l$assignments %>%
     tidyr::gather("i_assign", "ex_assign", dplyr::starts_with("Zuord")) %>%
     dplyr::mutate(i_assign = stringr::str_remove(.data$i_assign, "^Zuord ") %>% as.numeric()) %>%
-    dplyr::mutate(ex_assign = as.character(ex_assign)) %>%
+    dplyr::mutate(ex_assign = as.character(.data$ex_assign)) %>%
     dplyr::group_by(.data$i_assign, .data$ex_assign) %>%
     dplyr::summarise(id_list = list(.data$ID)) %>%
     # Hack to not assign missing values: TODO: find cleaner way!

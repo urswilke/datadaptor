@@ -196,7 +196,13 @@ safe_f <- c(
   "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na"
 )
 
+#' Environment where expressions from the Excel mapping file are evaluated
+#'
+#' See `?Mapping`
+#'
 #' @export
+#' @examples
+#' safer_env %>% as.list() %>% names()
 safer_env <- new.env(parent = emptyenv())
 
 for (f in safe_f) {

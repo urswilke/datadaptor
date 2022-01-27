@@ -9,7 +9,7 @@
 \usage{
 command_block_rcrd(command_blocks)
 
-\method{format}{command_block_rcrd}(cdbr, ...)
+\method{format}{command_block_rcrd}(x, ...)
 
 vec_ptype_abbr.command_block_rcrd(x)
 
@@ -18,7 +18,7 @@ vec_ptype_abbr.command_block_rcrd(x)
 \arguments{
 \item{command_blocks}{command_blocks object}
 
-\item{cdbr}{command_block_rcrd object}
+\item{x}{command_block_rcrd object}
 
 \item{...}{not needed for now}
 }

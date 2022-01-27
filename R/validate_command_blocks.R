@@ -1,3 +1,9 @@
+#' S3 method to validate `"command_block"`s
+#'
+#' See `?Mapping`
+#'
+#' @param cdb `"command_block"` object
+#'
 #' @export
 validate_command_block <- function(cdb) {
   UseMethod("validate_command_block")

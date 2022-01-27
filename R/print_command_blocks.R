@@ -22,19 +22,19 @@ command_block_rcrd <- function(command_blocks) {
 
 
 
-#' @param cdbr command_block_rcrd object
+#' @param x command_block_rcrd object
 #' @param ... not needed for now
 #' @export
 #' @rdname command_block_rcrd
-format.command_block_rcrd <- function(cdbr, ...) {
-  x_valid <- which(!is.na(cdbr))
+format.command_block_rcrd <- function(x, ...) {
+  x_valid <- which(!is.na(x))
 
-  sheet <- vctrs::field(cdbr, "sheet") %>% abbreviate(6)
-  action <- vctrs::field(cdbr, "action") %>% abbreviate(6)
-  new_var <- vctrs::field(cdbr, "new_var")
+  sheet <- vctrs::field(x, "sheet") %>% abbreviate(6)
+  action <- vctrs::field(x, "action") %>% abbreviate(6)
+  new_var <- vctrs::field(x, "new_var")
   max_var_len <- purrr::map_int(new_var, nchar) %>% max()
   new_var <- new_var %>% stringr::str_pad(max_var_len, side = "right")
-  args <- vctrs::field(cdbr, "args")
+  args <- vctrs::field(x, "args")
 
   ret <- cmd_block_args_formatter(sheet, action, args)
   ret
