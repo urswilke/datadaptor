@@ -33,81 +33,91 @@
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-curliply <- function(df_free_raw) {
-  l <- df_free_raw %>%
+curliply <- function(dff) {
+  df_prep <- dff %>%
     dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
     dplyr::group_by(.data$raw_index) %>%
     dplyr::mutate(
       row = paste(row, collapse = ", "),
       is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) %>% is_true()
     ) %>%
+    dplyr::add_count(raw_index) %>%
+    dplyr::group_by(raw_index)
+
+  df_curly_headers <- df_prep %>%
+    dplyr::filter(dplyr::if_any(c(X2, X3), ~stringr::str_detect(.x, "\\{.*\\}")))
+  if (nrow(df_curly_headers) == 0) {
+    return(df_prep %>%
+              dplyr::select(-is_curly_group, -n))
+  }
+  df_headers_curliplied <- df_curly_headers %>%
+    curliply_headers()
+
+  l_commands <- df_prep %>%
     dplyr::group_split()
-  is_curly_group <- l %>% purrr::map_lgl(~ .x$is_curly_group[1])
-  if (sum(is_curly_group) > 0) {
-    l[is_curly_group] <- l[is_curly_group] %>%
-      purrr::map(~ collapse_multi_row_blocks(.x, raw_index)) %>%
-      purrr::map_dfr(curliply_block) %>%
-      dplyr::add_count(row) %>%
-      dplyr::mutate(curly_index = ifelse(.data$n == 1, NA_integer_, .data$curly_index)) %>%
-      dplyr::select(-.data$n) %>%
-      dplyr::group_by(.data$raw_index) %>%
-      dplyr::group_split() %>%
-      purrr::map(
-        function(x) {
-          dplyr::rowwise(x) %>%
-            dplyr::group_split() %>%
-            purrr::map_dfr(explode_multi_row_blocks) %>%
-            tidyr::fill(.data$curly_index) %>%
-            tidyr::unite(row, c("row", "curly_index"), na.rm = TRUE)
-        }
-      )
-  }
-  l %>%
-    dplyr::bind_rows() %>%
-    dplyr::select(-is_curly_group)
-}
+  command_is_curly_and_multiline_lgl <- df_prep %>% dplyr::summarise(lgl = is_curly_group[1], .groups = "drop") %>% dplyr::pull(lgl)
 
-extract_curly_lists <- function(var) {
-  l_curly_parts <-
-    var %>%
-    stringr::str_squish() %>%
-    stringr::str_extract_all("(\\{.+?\\})", simplify = TRUE) %>%
-    purrr::map(~ stringr::str_remove_all(.x, "[\\{\\}]")) %>%
-    stringr::str_squish() %>%
-    stringr::str_split(" +", simplify = TRUE) %>%
-    tibble::as_tibble(.name_repair = "minimal")
-
-  replace_1curly <- function(orig_str, replacement) stringr::str_replace(orig_str, "\\{.+?\\}", replacement)
-  replace_all_curlies <- function(orig_str, l_1curly_parts) purrr::reduce(l_1curly_parts, replace_1curly, .init = orig_str)
-  if (!all(dim(l_curly_parts) == c(0, 0))) {
-    l_curly_parts %>%
-      purrr::map_chr(~ replace_all_curlies(var, .x)) %>%
-      unname()
-  } else {
-    var
-  }
-}
-
-curliply_block <- function(df_free) {
-  df_free %>%
-    dplyr::mutate_at(2:4, ~ purrr::map(.x, ~ extract_curly_lists(.))) %>%
-    tidyr::unnest(cols = c("X2", "X3", "X4")) %>%
-    dplyr::mutate(curly_index = dplyr::row_number())
-}
-
-
-collapse_multi_row_blocks <- function(df, raw_index) {
-  df %>%
-    dplyr::slice(1) %>%
-    dplyr::mutate(further_rows = list(df %>% dplyr::slice(-1)))
-}
-explode_multi_row_blocks <- function(df) {
-  dplyr::bind_rows(
-    df %>% dplyr::select(-.data$further_rows),
-    df %>% dplyr::pull(.data$further_rows)
+  l_commands[command_is_curly_and_multiline_lgl] <- purrr::map2(
+    df_headers_curliplied %>% dplyr::group_by(raw_index) %>% dplyr::group_split(),
+    l_commands[command_is_curly_and_multiline_lgl],
+    add_further_rows_to_multiline_curlies
   )
+
+  dplyr::bind_rows(l_commands) %>%
+    dplyr::select(-is_curly_group, -n)
+}
+curliply_headers <- function(df) {
+  df %>%
+    dplyr::mutate(
+      X3 = X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),
+      X2 = X2 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies)
+    ) %>%
+    tidyr::unnest_wider(X2, names_sep = "_") %>%
+    tidyr::unnest_wider(X3, names_sep = "_") %>%
+    tidyr::unnest(dplyr::matches("X[23]")) %>%
+    tidyr::unite(X2, dplyr::matches("X2"), sep = "", na.rm = TRUE) %>%
+    tidyr::unite(X3, dplyr::matches("X3"), sep = "", na.rm = TRUE)
+
 }
 
+
+add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_original) {
+  if (df_header_lines$n[1] == 1) {
+    return(
+      df_header_lines %>%
+        dplyr::mutate(row = paste0(row, "_", dplyr::row_number()))
+    )
+  }
+  df_header_lines %>%
+    dplyr::rowwise() %>%
+    dplyr::group_split() %>%
+    purrr::imap_dfr(~.x %>% dplyr::bind_rows(df_block_original[-1, ]) %>% dplyr::mutate(row = paste0(row, "_", .y)))
+}
+chop_out_curly_parts <- function(x) {
+  # split string into list of substrings at "{" and "}" (keeping these with
+  # positive look-aheads & -behinds):
+  stringr::str_split(x, "(?=\\{)|(?<=\\})") %>%
+    purrr::map(~dplyr::setdiff(.x, ""))
+}
+
+# transform list of substrings:
+# space-separated elements surrounded by curly brackets get replaced by lists:
+chop_if_between_curlies <- function(x) {
+  is_between_curlies <- x %>%
+    stringr::str_detect("^\\{.*\\}$")
+  x_without_curlies <- x %>%
+    stringr::str_remove_all("\\{|\\}")
+
+  purrr::map2(x_without_curlies, is_between_curlies, split_space_separated)
+}
+
+split_space_separated <- function(x_without_curlies, is_between_curlies) {
+  if (is_between_curlies) {
+    stringr::str_split(x_without_curlies, " +")[[1]]
+  } else {
+    x_without_curlies
+  }
+}
 
 
 merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
