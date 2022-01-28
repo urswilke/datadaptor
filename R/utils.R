@@ -94,7 +94,8 @@ chop_out_curly_parts <- function(x) {
 # space-separated elements surrounded by curly brackets get replaced by lists:
 chop_if_between_curlies <- function(x) {
   is_between_curlies <- x %>%
-    stringr::str_detect("^\\{.*\\}$")
+    stringr::str_detect("^\\{.*\\}$") %>%
+    is_true()
   x_without_curlies <- x %>%
     stringr::str_remove_all("\\{|\\}")
 
