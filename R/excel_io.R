@@ -22,7 +22,7 @@
 mapp_create <- function(df_raw, mapping_file) {
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
-    dplyr::mutate(new_label = "")
+    dplyr::mutate(new_label = "", new_name = "", op = "")
   df_vallabs <-
     tablab::tab_vallabs(df_raw) %>%
     dplyr::mutate(
