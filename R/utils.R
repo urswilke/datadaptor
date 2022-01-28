@@ -158,6 +158,10 @@ globalVariables(".")
 
 get_configr_args_list <- function(mapping_file) {
   named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping_file))
+
+  if (nrow(named_regions) == 0) {
+    stop('You need to define at least the named region "R_id_var" in the mapping file.')
+  }
   # if there is a named region that's empty, it would throw the warning:
   # ℹ No data found on worksheet.
   suppressWarnings(
@@ -179,12 +183,21 @@ get_configr_args_list <- function(mapping_file) {
       )
   )
 
-  l_configr <- configr$data
-  names(l_configr) <- stringr::str_sub(configr$value, 3)
-  l_configr
+  l_configr_excel <- configr$data
+  names(l_configr_excel) <- stringr::str_sub(configr$value, 3)
+  l_configr_default <- gen_default_configr_params()
+  l_configr_default[names(l_configr_excel)] <- l_configr_excel
+  l_configr_default
 }
 
-
+gen_default_configr_params <- function() {
+  list(
+    lab_before_var_sheet = "yes",
+    miss_rec_lab = "FILTER",
+    miss_rec_val = -2,
+    not_miss_to_filter_vars = NA_character_
+  )
+}
 
 
 # Function to replace windows backslashes to slashes and replace relative
