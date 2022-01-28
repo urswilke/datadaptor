@@ -125,6 +125,23 @@ parse_command_args.cmd_verbatim <- function(cdb) {
   cdb
 }
 #' @export
+parse_command_args.cmd_write_stata <- function(cdb) {
+  d <- cdb$raw
+
+  varnames_vec <- d$X3[1] %>%
+    stringr::str_trim() %>%
+    stringr::str_split(" ", simplify = TRUE) %>%
+    as.vector()
+
+  cdb$args <- list(
+    filepath = d$X2,
+    xs = varnames_vec,
+    sheet_name = cdb$sheet,
+    stata_index =d$X5
+  )
+  cdb
+}
+#' @export
 parse_command_args.cmd_merge <- function(cdb) {
   d <- cdb$raw
 

@@ -48,6 +48,20 @@ apply_command.cmd_recna_xcpt <- function(cdb, self) {
 }
 
 #' @export
+apply_command.cmd_write_stata <- function(cdb, self) {
+  filepath <- cdb$args$filepath
+  stata_index <- cdb$args$stata_index
+  sheet_name <- cdb$args$sheet_name
+  if (is.na(filepath)) {
+    filepath <- paste0("stata_output_", sheet_name, "_", stata_index, ".dta")
+  }
+  xs <- cdb$args$xs
+  if (is.na(xs)) {
+    xs <- names(self$dat_mod)
+  }
+  haven::write_dta(self$dat_mod[xs], filepath)
+}
+#' @export
 apply_command.cmd_r <- function(cdb, self) {
   ex <- cdb$args$ex
   new_df <- ex %>%

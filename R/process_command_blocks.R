@@ -167,6 +167,7 @@ gen_command_blocks_raw <- function(self) {
 #' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
 command_block <- function(cdb) {
   subclass <- switch(cdb$action,
+    "#STATA"    = "cmd_write_stata",
     "#RECNA"    = "cmd_recna_xcpt",
     "#IF"       = "cmd_if",
     "#COMP"     = "cmd_comp",

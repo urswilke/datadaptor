@@ -22,7 +22,7 @@
 mapp_create <- function(df_raw, mapping_file) {
   df_varlab <-
     tablab::tab_varlabs(df_raw) %>%
-    dplyr::mutate(new_label = "")
+    dplyr::mutate(new_label = "", new_name = "", op = "")
   df_vallabs <-
     tablab::tab_vallabs(df_raw) %>%
     dplyr::mutate(
@@ -319,6 +319,7 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   }
   df_free %>%
     put_absolute_filepaths(self$mapping_file) %>%
+    add_stata_indices() %>%
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
@@ -358,6 +359,13 @@ put_absolute_filepaths <- function(df_free, mapping_file) {
     purrr::map_chr(~ adapt_filepath(.x, mapping_file))
   df_free
 }
+add_stata_indices <- function(df_free) {
+  df_free[df_free$X1 %in% c("#STATA"), ] <-
+    df_free[df_free$X1 %in% c("#STATA"), ] %>%
+    dplyr::mutate(X5 = dplyr::row_number() %>% as.character())
+  df_free
+}
+
 get_new_var_name_free <- function(df_free) {
   col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL")
   col3_names <- c("#REC", "#DIC")

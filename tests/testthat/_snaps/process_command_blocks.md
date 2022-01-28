@@ -16,9 +16,6 @@
     [1] TRUE
     
     $mapping_file_attrs
-    $mapping_file_attrs$id_var
-    [1] "id"
-    
     $mapping_file_attrs$lab_before_var_sheet
     [1] "yes"
     
@@ -30,6 +27,9 @@
     
     $mapping_file_attrs$not_miss_to_filter_vars
     [1] "q1 q5"
+    
+    $mapping_file_attrs$id_var
+    [1] "id"
     
     
     $id_var
