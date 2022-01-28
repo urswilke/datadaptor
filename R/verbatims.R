@@ -55,14 +55,18 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping_file, sheet) {
-  file_path <- readxl::read_xlsx(
+  verbatims_sheet <- readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
     range = cellranger::cell_cols(c("B:D")),
     skip = 0,
     col_types = c("text", "text", "text"),
     col_names = LETTERS[2:4]
-  ) %>%
+  )
+  if (nrow(verbatims_sheet) == 0) {
+    return(NA_character_)
+  }
+  file_path <- verbatims_sheet %>%
     dplyr::filter(.data$B == "Filename input") %>%
     dplyr::pull(.data$D)
   adapt_filepath(file_path, mapping_file)
