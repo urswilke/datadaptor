@@ -35,7 +35,16 @@
     $dyn_validate
     [1] TRUE
     
+    $harakiri
+    [1] FALSE
+    
     $stata_harakiri
+    [1] FALSE
+    
+    $r_harakiri
+    [1] FALSE
+    
+    $spss_harakiri
     [1] FALSE
     
     $override_excel

@@ -62,6 +62,8 @@ apply_command.cmd_write_stata <- function(cdb, self) {
   haven::write_dta(self$dat_mod[xs], filepath)
   if (self$params$stata_harakiri) {
     browseURL(filepath)
+  }
+  if (self$params$r_harakiri) {
     browser()
   }
 }

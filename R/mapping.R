@@ -158,6 +158,13 @@ apply_command_block_safe <- function(cdb, self) {
         filepath <- "dat_at_error.dta"
         haven::write_dta(self$dat_mod, filepath)
         browseURL(filepath)
+      }
+      if (self$params$spss_harakiri) {
+        filepath <- "dat_at_error.sav"
+        haven::write_sav(self$dat_mod, filepath)
+        browseURL(filepath)
+      }
+      if (self$params$r_harakiri) {
         debugonce(apply_command)
         apply_command(cdb, self)
       }
@@ -205,7 +212,10 @@ gen_mapping_params <- function(
   translate_xlsm = FALSE,
   validate = TRUE,
   dyn_validate = TRUE,
-  stata_harakiri = FALSE,
+  harakiri = FALSE,
+  stata_harakiri = harakiri,
+  r_harakiri = harakiri,
+  spss_harakiri = harakiri,
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -235,7 +245,10 @@ gen_mapping_params <- function(
     translate_xlsm,
     validate,
     dyn_validate,
+    harakiri,
     stata_harakiri,
+    r_harakiri,
+    spss_harakiri,
     override_excel,
     expr_eval_env,
     lab_before_var_sheet,
@@ -244,6 +257,13 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars,
     ...
   )
+  # make sure to enter debug mode, when any of these is set to true:
+  if (any(stata_harakiri,
+          r_harakiri,
+          spss_harakiri)) {
+    p$harakiri <- TRUE
+    p$error_out <- "safe"
+  }
 
   if (!is.null(p$excel_params)) {
     p[names(p$excel_params)] <- p$excel_params
