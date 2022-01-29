@@ -1,8 +1,5 @@
 # parameters were built correctly
 
-    $mapping_file
-    [1] "K:/Projects/UW git/datenanpassr/inst/extdata/mapping.xlsx"
-    
     $excel_params
     $excel_params$id_var
     [1] "id"
