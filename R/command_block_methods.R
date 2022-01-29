@@ -60,6 +60,10 @@ apply_command.cmd_write_stata <- function(cdb, self) {
     xs <- names(self$dat_mod)
   }
   haven::write_dta(self$dat_mod[xs], filepath)
+  if (self$params$stata_harakiri) {
+    browseURL(filepath)
+    browser()
+  }
 }
 #' @export
 apply_command.cmd_r <- function(cdb, self) {

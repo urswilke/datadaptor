@@ -154,6 +154,14 @@ apply_command_block_safe <- function(cdb, self) {
       apply_command(cdb, self)
     },
     error = function(e) {
+      if (self$params$stata_harakiri) {
+        filepath <- "dat_at_error.dta"
+        haven::write_dta(self$dat_mod, filepath)
+        browseURL(filepath)
+        debugonce(apply_command)
+        apply_command(cdb, self)
+      }
+
       err_msg <- geterrmessage()[1]
       self$params$error_list[cmd_index] <- err_msg
       message(
@@ -197,6 +205,7 @@ load_params <- function(...) {
     translate_xlsm = FALSE,
     validate = TRUE,
     dyn_validate = TRUE,
+    stata_harakiri = FALSE,
     expr_eval_env = safer_env,
     mapping_file_attrs = list()
   )

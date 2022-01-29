@@ -15,6 +15,9 @@
     $dyn_validate
     [1] TRUE
     
+    $stata_harakiri
+    [1] FALSE
+    
     $mapping_file_attrs
     $mapping_file_attrs$lab_before_var_sheet
     [1] "yes"
