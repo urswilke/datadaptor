@@ -54,14 +54,14 @@ Mapping <- R6::R6Class(
     #'
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
-    #' @param ... Arguments passed to load_params()
+    #' @param ... Arguments passed to gen_mapping_params()
     initialize = function(dat = NULL,
                           mapping_file = NULL,
                           ...) {
       self$dat <- initialize_dat(self, dat)
 
       self$mapping_file <- mapping_file
-      self$params <- load_params(...)
+      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
@@ -72,8 +72,8 @@ Mapping <- R6::R6Class(
     #'
     #' @param translate_xlsm For internal use
     prep_cmd_tbl = function(translate_xlsm = FALSE) {
-      self$params$translate_xlsm <- translate_xlsm
-      self$params <- add_configr_params(self)
+      # self$params$translate_xlsm <- translate_xlsm
+      # self$params <- add_configr_params(self)
       process_command_blocks(self)
 
       invisible(self)
@@ -196,41 +196,60 @@ initialize_dat <- function(self, dat) {
 
 
 
+gen_mapping_params <- function(
+  mapping_file = NULL,
+  excel_params = extract_excel_params(mapping_file),
+  id_var = NULL,
+  na_to_filter = TRUE,
+  error_out = "unsafe",
+  translate_xlsm = FALSE,
+  validate = TRUE,
+  dyn_validate = TRUE,
+  stata_harakiri = FALSE,
+  override_excel = FALSE,
+  expr_eval_env = safer_env,
+  lab_before_var_sheet = "yes",
+  miss_rec_lab = "FILTER",
+  miss_rec_val = -2,
+  not_miss_to_filter_vars = NA_character_,
+  # These only need to interest you if you want to override params that
+  # already were defined in the Excel file already (see arg `override_excel`):
+  dots_args,
+  ...
 
-
-load_params <- function(...) {
-  params <- list(
-    na_to_filter = TRUE,
-    error_out = "unsafe",
-    translate_xlsm = FALSE,
-    validate = TRUE,
-    dyn_validate = TRUE,
-    stata_harakiri = FALSE,
-    expr_eval_env = safer_env,
-    mapping_file_attrs = list()
-  )
-
-  passed_args <- list(...)
-
-  if (!all(names(passed_args) %in% names(params))) {
+) {
+  if (is.null(id_var) & is.null(excel_params)) {
     stop(
-      "The parameters passed (via `...`) to the Mapping object",
-      "need to be a subset of the following names:\n",
-      names(params) %>% paste(collapse = ", ")
-    )
+      'You need to pass a valid id variable name character string in your dataset\n',
+      'for instance, ',
+      'id_var = "ID_VARIABLE_NAME"\n',
+      'or you can define this string with a named region "R_id_var" in the Excel mapping file.')
   }
 
-  params[names(passed_args)] <- passed_args
+  p <- tibble::lst(
+    mapping_file,
+    excel_params,
+    id_var,
+    na_to_filter,
+    error_out,
+    translate_xlsm,
+    validate,
+    dyn_validate,
+    stata_harakiri,
+    override_excel,
+    expr_eval_env,
+    lab_before_var_sheet,
+    miss_rec_lab,
+    miss_rec_val,
+    not_miss_to_filter_vars,
+    ...
+  )
 
-  params
-}
-
-add_configr_params <- function(self) {
-  params <- self$params
-  l_configr <- get_configr_args_list(self$mapping_file)
-  id_var <- l_configr$id_var
-
-  params$mapping_file_attrs <- l_configr
-  params$id_var <- id_var
-  params
+  if (!is.null(p$excel_params)) {
+    p[names(p$excel_params)] <- p$excel_params
+  }
+  if (override_excel) {
+    p[names(dots_args)] <- dots_args
+  }
+  p
 }

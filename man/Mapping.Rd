@@ -92,7 +92,7 @@ Initialize a Mapping object
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
 
-\item{\code{...}}{Arguments passed to load_params()}
+\item{\code{...}}{Arguments passed to gen_mapping_params()}
 }
 \if{html}{\out{</div>}}
 }
