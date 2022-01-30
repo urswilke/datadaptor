@@ -94,7 +94,7 @@ Mapping <- R6::R6Class(
     #'   of `apply_command()`.
     #' @param reset whether to apply the modifications to the input data (field
     #'   \code{dat}) or whether to keep previous modifications (only relevant
-    #'   when applying the \code{modify_data()} multiple times).
+    #'   when applying \code{modify_data()} multiple times).
     #' @param command_blocks The \code{"command_blocks"} object results of the
     #'   processing of the Excel mapping file.
     #' @examples
@@ -154,17 +154,10 @@ apply_command_block_safe <- function(cdb, self) {
       apply_command(cdb, self)
     },
     error = function(e) {
-      if (self$params$stata_harakiri) {
-        filepath <- "dat_at_error.dta"
-        haven::write_dta(self$dat_mod, filepath)
-        browseURL(filepath)
+      if (self$params$debug) {
+        call_external_debuggers(cdb, self)
       }
-      if (self$params$spss_harakiri) {
-        filepath <- "dat_at_error.sav"
-        haven::write_sav(self$dat_mod, filepath)
-        browseURL(filepath)
-      }
-      if (self$params$r_harakiri) {
+      if (self$params$r_debug) {
         debugonce(apply_command)
         apply_command(cdb, self)
       }
@@ -184,6 +177,34 @@ apply_command_block_safe <- function(cdb, self) {
 
   invisible(self)
 }
+
+call_external_debuggers <- function(cdb, self) {
+  if (self$params$stata_debug) {
+    dta_filepath <- paste0(self$params$debug_filepath, "/dat_at_error.dta")
+    haven::write_dta(self$dat_mod, dta_filepath)
+    browseURL(dta_filepath)
+  }
+  if (self$params$spss_debug | self$params$python_debug) {
+    sav_filepath <- paste0(self$params$debug_filepath, "/dat_at_error.sav")
+    haven::write_sav(self$dat_mod, sav_filepath)
+  }
+  if (self$params$spss_debug) {
+    browseURL(sav_filepath)
+  }
+  if (self$params$python_debug) {
+    params_for_py <- cdb$args
+    params_for_py$sav_file <- sav_filepath
+    if ("cmd_if" %in% class(cdb)) {
+      template_file <- system.file("rmarkdown", "templates", "python-debbuging", "skeleton", "if_skeleton.Rmd", package = "datenanpassr")
+      debug_rmd <- paste0(self$params$debug_filepath, "/if_debug.Rmd")
+      fs::file_copy(template_file, debug_rmd, overwrite = TRUE)
+      rmarkdown::render(debug_rmd, params = params_for_py)
+    }
+  }
+
+}
+
+
 add_error_list_to_command_blocks <- function(self) {
   error_list <- self$params$error_list
   self$cmd_tbl$error <- error_list
@@ -212,10 +233,12 @@ gen_mapping_params <- function(
   translate_xlsm = FALSE,
   validate = TRUE,
   dyn_validate = TRUE,
-  harakiri = FALSE,
-  stata_harakiri = harakiri,
-  r_harakiri = harakiri,
-  spss_harakiri = harakiri,
+  debug = FALSE,
+  stata_debug = debug,
+  r_debug = debug,
+  python_debug = FALSE,
+  spss_debug = debug,
+  debug_filepath = tempdir(),
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -245,10 +268,12 @@ gen_mapping_params <- function(
     translate_xlsm,
     validate,
     dyn_validate,
-    harakiri,
-    stata_harakiri,
-    r_harakiri,
-    spss_harakiri,
+    debug,
+    stata_debug,
+    r_debug,
+    spss_debug,
+    python_debug,
+    debug_filepath,
     override_excel,
     expr_eval_env,
     lab_before_var_sheet,
@@ -258,10 +283,11 @@ gen_mapping_params <- function(
     ...
   )
   # make sure to enter debug mode, when any of these is set to true:
-  if (any(stata_harakiri,
-          r_harakiri,
-          spss_harakiri)) {
-    p$harakiri <- TRUE
+  if (any(stata_debug,
+          r_debug,
+          spss_debug,
+          python_debug)) {
+    p$debug <- TRUE
     p$error_out <- "safe"
   }
 
