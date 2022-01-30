@@ -154,15 +154,8 @@ apply_command_block_safe <- function(cdb, self) {
       apply_command(cdb, self)
     },
     error = function(e) {
-      if (self$params$stata_harakiri) {
-        filepath <- "dat_at_error.dta"
-        haven::write_dta(self$dat_mod, filepath)
-        browseURL(filepath)
-      }
-      if (self$params$spss_harakiri) {
-        filepath <- "dat_at_error.sav"
-        haven::write_sav(self$dat_mod, filepath)
-        browseURL(filepath)
+      if (self$params$harakiri) {
+        call_external_debuggers(cdb, self)
       }
       if (self$params$r_harakiri) {
         debugonce(apply_command)
@@ -184,6 +177,34 @@ apply_command_block_safe <- function(cdb, self) {
 
   invisible(self)
 }
+
+call_external_debuggers <- function(cdb, self) {
+  if (self$params$stata_harakiri) {
+    dta_filepath <- paste0(self$params$debug_filepath, "/dat_at_error.dta")
+    haven::write_dta(self$dat_mod, dta_filepath)
+    browseURL(dta_filepath)
+  }
+  if (self$params$spss_harakiri | self$params$python_harakiri) {
+    sav_filepath <- paste0(self$params$debug_filepath, "/dat_at_error.sav")
+    haven::write_sav(self$dat_mod, sav_filepath)
+  }
+  if (self$params$spss_harakiri) {
+    browseURL(sav_filepath)
+  }
+  if (self$params$python_harakiri) {
+    params_for_py <- cdb$args
+    params_for_py$sav_file <- sav_filepath
+    if ("cmd_if" %in% class(cdb)) {
+      template_file <- system.file("rmarkdown", "templates", "python-debbuging", "skeleton", "if_skeleton.Rmd", package = "datenanpassr")
+      debug_rmd <- paste0(self$params$debug_filepath, "/if_debug.Rmd")
+      fs::file_copy(template_file, debug_rmd, overwrite = TRUE)
+      rmarkdown::render(debug_rmd, params = params_for_py)
+    }
+  }
+
+}
+
+
 add_error_list_to_command_blocks <- function(self) {
   error_list <- self$params$error_list
   self$cmd_tbl$error <- error_list
@@ -215,7 +236,9 @@ gen_mapping_params <- function(
   harakiri = FALSE,
   stata_harakiri = harakiri,
   r_harakiri = harakiri,
+  python_harakiri = FALSE,
   spss_harakiri = harakiri,
+  debug_filepath = tempdir(),
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -249,6 +272,8 @@ gen_mapping_params <- function(
     stata_harakiri,
     r_harakiri,
     spss_harakiri,
+    python_harakiri,
+    debug_filepath,
     override_excel,
     expr_eval_env,
     lab_before_var_sheet,
@@ -260,7 +285,8 @@ gen_mapping_params <- function(
   # make sure to enter debug mode, when any of these is set to true:
   if (any(stata_harakiri,
           r_harakiri,
-          spss_harakiri)) {
+          spss_harakiri,
+          python_harakiri)) {
     p$harakiri <- TRUE
     p$error_out <- "safe"
   }

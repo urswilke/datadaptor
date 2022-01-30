@@ -1,4 +1,4 @@
-# parameters were built correctly
+# parameters (exept containing filepaths) were built correctly
 
     $excel_params
     $excel_params$id_var
@@ -45,6 +45,9 @@
     [1] FALSE
     
     $spss_harakiri
+    [1] FALSE
+    
+    $python_harakiri
     [1] FALSE
     
     $override_excel
