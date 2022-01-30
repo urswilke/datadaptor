@@ -94,7 +94,7 @@ Mapping <- R6::R6Class(
     #'   of `apply_command()`.
     #' @param reset whether to apply the modifications to the input data (field
     #'   \code{dat}) or whether to keep previous modifications (only relevant
-    #'   when applying the \code{modify_data()} multiple times).
+    #'   when applying \code{modify_data()} multiple times).
     #' @param command_blocks The \code{"command_blocks"} object results of the
     #'   processing of the Excel mapping file.
     #' @examples
