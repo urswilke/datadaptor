@@ -20,10 +20,7 @@ knitr::opts_chunk$set(echo = params$printcode)
 ```{r}
 library(reticulate)
 
-params$sav_file
-params$ex_cond
-params$ex
-params$x
+params
 ```
 
 ```{python}
