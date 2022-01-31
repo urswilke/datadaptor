@@ -107,7 +107,7 @@ Mapping <- R6::R6Class(
     #' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
     #' m$dat_mod
     modify_data = function(reset = TRUE,
-                           command_blocks = self$cmd$command_blocks) {
+                           command_blocks = self$cmd_tbl$command_blocks) {
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }
@@ -141,7 +141,7 @@ apply_command_blocks.safe <- function(command_blocks, self) {
   self$params$cmd_index <- 0
   self$params$error_list <- vector("character", length(self$cmd_tbl$command_blocks))
 
-  purrr::walk(self$cmd$command_blocks, apply_command_block_safe, self)
+  purrr::walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
 
   add_error_list_to_command_blocks(self)
 }
