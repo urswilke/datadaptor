@@ -60,10 +60,8 @@ apply_command.cmd_write_stata <- function(cdb, self) {
     xs <- names(self$dat_mod)
   }
   haven::write_dta(self$dat_mod[xs], filepath)
-  if (self$params$stata_debug) {
+  if (self$params$debug) {
     browseURL(filepath)
-  }
-  if (self$params$r_debug) {
     browser()
   }
 }

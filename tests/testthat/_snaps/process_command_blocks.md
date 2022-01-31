@@ -38,18 +38,6 @@
     $debug
     [1] FALSE
     
-    $stata_debug
-    [1] FALSE
-    
-    $r_debug
-    [1] FALSE
-    
-    $spss_debug
-    [1] FALSE
-    
-    $python_debug
-    [1] FALSE
-    
     $override_excel
     [1] FALSE
     
