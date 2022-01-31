@@ -207,6 +207,15 @@ extract_excel_params <- function(mapping_file) {
 
   l_configr_excel <- configr$data
   names(l_configr_excel) <- stringr::str_sub(configr$value, 3)
+
+  is_correct_idx <- names(l_configr_excel) %in% names(formals(gen_mapping_params))
+  if (any(is_correct_idx == FALSE)) {
+    stop(
+      "The following parameters are unknown:\n",
+      paste(names(l_configr_excel[is_correct_idx]), collapse = ", "),
+      "\nsee ?gen_mapping_params for all allowed parameters."
+    )
+  }
   l_configr_excel
 }
 
