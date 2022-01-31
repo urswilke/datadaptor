@@ -134,7 +134,7 @@ command blocks (for \code{"unsafe"}), or not (for the subclass \code{"safe"}).
 the data in the field \code{"dat_mod"} according to their subclass methods
 of \code{apply_command()}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd$command_blocks)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
