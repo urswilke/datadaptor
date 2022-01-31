@@ -15,7 +15,7 @@ gen_mapping_params(
   validate = TRUE,
   dyn_validate = TRUE,
   debug = FALSE,
-  debug_filepath = tempdir(),
+  save_path = tempdir(),
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -50,7 +50,7 @@ Adds a column "error" to the mapping's command table \code{mapping$cmd_tbl}.}
 
 \item{debug}{whether to enter in debug mode when an error occurs. Automatically sets \code{error_out = "safe"}.}
 
-\item{debug_filepath}{filepath where to save files.}
+\item{save_path}{filepath where to save files.}
 
 \item{override_excel}{should arguments passed with the \code{...} dots when initializing overwrite those
 from the Excel file? Defaults to \code{FALSE}.}

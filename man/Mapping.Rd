@@ -190,7 +190,7 @@ export removes variable & value labels.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{path}}{\code{character()} vector or \code{NULL}. If \code{NULL} (the default) it
-will write the file to the path in \code{self$params$debug_filepath} with
+will write the file to the path in \code{self$params$save_path} with
 the file \code{name}(s) & \code{filetype}(s) specified.}
 
 \item{\code{show}}{Whether to directly open the file (needs the according

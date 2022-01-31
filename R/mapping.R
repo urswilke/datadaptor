@@ -124,7 +124,7 @@ Mapping <- R6::R6Class(
     #' export removes variable & value labels.
     #'
     #' @param path `character()` vector or `NULL`. If `NULL` (the default) it
-    #'   will write the file to the path in `self$params$debug_filepath` with
+    #'   will write the file to the path in `self$params$save_path` with
     #'   the file `name`(s) & `filetype`(s) specified.
     #' @param show Whether to directly open the file (needs the according
     #'   software installed and setup to open its filetype).
@@ -135,7 +135,7 @@ Mapping <- R6::R6Class(
     #'   written. Is overwritten, by `path` if not `NULL`.
     save = function(path = NULL, show = FALSE, name = "dat", filetype = "sav") {
       if (is.null(path)) {
-        path <- paste0(self$params$debug_filepath, "/", name, ".", filetype)
+        path <- paste0(self$params$save_path, "/", name, ".", filetype)
       } else {
         filetype <- stringr::str_remove(path, ".*\\.")
       }
@@ -276,7 +276,7 @@ initialize_dat <- function(self, dat) {
 #' @param validate whether to validate the parsed arguments of the command blocks from the Excel file.
 #' @param dyn_validate whether to validate expressions when running (highly experimental).
 #' @param debug whether to enter in debug mode when an error occurs. Automatically sets `error_out = "safe"`.
-#' @param debug_filepath filepath where to save files.
+#' @param save_path filepath where to save files.
 #' @param override_excel should arguments passed with the `...` dots when initializing overwrite those
 #'   from the Excel file? Defaults to `FALSE`.
 #' @param expr_eval_env The environment where expressions are evaluated. See `?safer_env`.
@@ -305,7 +305,7 @@ gen_mapping_params <- function(
   validate = TRUE,
   dyn_validate = TRUE,
   debug = FALSE,
-  debug_filepath = tempdir(),
+  save_path = tempdir(),
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -337,7 +337,7 @@ gen_mapping_params <- function(
     validate,
     dyn_validate,
     debug,
-    debug_filepath,
+    save_path,
     override_excel,
     expr_eval_env,
     lab_before_var_sheet,
