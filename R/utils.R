@@ -84,10 +84,12 @@ curliply_headers <- function(df) {
 
 
 chop_out_curly_parts <- function(x) {
-  # split string into list of substrings at "{" and "}" (keeping these with
-  # positive look-aheads & -behinds):
-  stringr::str_split(x, "(?=\\{)|(?<=\\})") %>%
-    purrr::map(~dplyr::setdiff(.x, ""))
+  # split string into list of substrings at "{" and "}"
+  # Explanation regex:
+  # split at curly bracket (keeping the brackets)"\\{" if not at the beginning, or
+  # split at curly bracket "\\}" if not at the end of the string.
+  # (positive/negative) look-aheads & -behinds:
+  stringr::str_split(x, "(?<!^)(?=\\{)|(?<=\\})(?!$)")
 }
 
 # transform list of substrings:
