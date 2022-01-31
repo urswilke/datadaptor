@@ -22,18 +22,18 @@
 #'   X4 = NA_character_,
 #'   row = "1"
 #' )
-#' curliply(df_curly)
+#' curlychop(df_curly)
 #'
 #' # Extensive example:
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) %>%
 #'   dplyr::filter(stringr::str_detect(X2, "\\{"))
-#' curliply(df_free_raw)
+#' curlychop(df_free_raw)
 #' # For reference, open the "Free1" sheet in the Excel file via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-curliply <- function(df_free_raw) {
+curlychop <- function(df_free_raw) {
   df_prep <- df_free_raw %>%
     dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
     dplyr::group_by(.data$raw_index) %>%
@@ -51,7 +51,7 @@ curliply <- function(df_free_raw) {
               dplyr::select(-.data$is_curly_group, -.data$n))
   }
   df_headers_curliplied <- df_curly_headers %>%
-    curliply_headers()
+    curlychop_headers()
 
   l_commands <- df_prep %>%
     dplyr::group_split()
@@ -68,7 +68,7 @@ curliply <- function(df_free_raw) {
   dplyr::bind_rows(l_commands) %>%
     dplyr::select(-.data$is_curly_group, -.data$n)
 }
-curliply_headers <- function(df) {
+curlychop_headers <- function(df) {
   df %>%
     dplyr::mutate(
       X3 = .data$X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),

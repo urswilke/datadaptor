@@ -1,4 +1,4 @@
-# snapshot of curliply() is reproduced
+# snapshot of curlychop() is reproduced
 
     # A tibble: 2 x 6
       X1    X2      X3      X4    row   raw_index
