@@ -1,4 +1,4 @@
-# parameters (exept containing filepaths) were built correctly
+# parameters (except those containing filepaths) were built correctly
 
     $excel_params
     $excel_params$id_var
