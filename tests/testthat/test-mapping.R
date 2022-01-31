@@ -48,15 +48,10 @@ test_that("variable labels are reproduced", {
 
 
 
-mapping_trycatch <- Mapping$new(spss_file, mapping_file)
-# testthat::expect_message(mapping_trycatch$gen_command_table_raw())
-mapping_trycatch$cmd$df_cmd_raw$raw[[52]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$cmd$df_cmd_raw$raw[[53]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$cmd$df_cmd_raw$raw[[54]]$X2 <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$params$error_out <- "safe"
-mapping_trycatch$cmd$command_blocks_raw <- gen_command_blocks_raw(mapping_trycatch)
-mapping_trycatch$cmd$command_blocks <- command_blocks(mapping_trycatch)
-mapping_trycatch$cmd_tbl <- gen_command_table(mapping_trycatch)
+mapping_trycatch <- Mapping$new(spss_file, mapping_file, error_out = "safe")
+mapping_trycatch$cmd_tbl$command_blocks[[52]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd_tbl$command_blocks[[53]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd_tbl$command_blocks[[54]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 
 testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
 error_list <- mapping_trycatch$params$error_list
