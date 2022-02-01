@@ -76,10 +76,6 @@ names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 \item{dots_args}{for internal use.}
 
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
-
-\item{store_intermediate}{Whether to store the intermediate data after the
-execution of each command_block in an extra column \code{result} in the
-\code{self$cmd_tbl} data frame.}
 }
 \value{
 

@@ -316,9 +316,6 @@ initialize_dat <- function(self, dat) {
 #' @param save_path filepath where to save files.
 #' @param override_excel should arguments passed with the `...` dots when
 #'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
-#' @param store_intermediate Whether to store the intermediate data after the
-#'   execution of each command_block in an extra column `result` in the
-#'   `self$cmd_tbl` data frame.
 #' @param expr_eval_env The environment where expressions are evaluated. See
 #'   `?safer_env`.
 #' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
