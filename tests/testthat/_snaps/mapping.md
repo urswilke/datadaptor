@@ -478,7 +478,7 @@
 
     # A tibble: 74 x 8
        sheet action row   new_var raw          command_blocks_~ command_blocks error
-       <chr> <chr>  <chr> <chr>   <list>       <list>           <cmmnd_bl>     <chr>
+       <chr> <chr>  <chr> <chr>   <list>       <list>           <validatd>     <chr>
      1 Conf~ #RECNA <NA>  <NA>    <named list> <cmd_rcn_>       <validatd>     ""   
      2 Label #NEWV~ 8     q2      <tibble>     <cmd_nwvl>       <validatd>     ""   
      3 Label #SUMV~ 23, ~ kq5     <tibble>     <cmd_smvr>       <validatd>     ""   

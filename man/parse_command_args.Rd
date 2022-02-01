@@ -49,8 +49,8 @@ print(args_tbl, n = 1000)
 args_tbl \%>\%
   dplyr::group_by(
     arg_class = arg \%>\%
-    stringr::str_remove("\\\\d$") \%>\%
-    stringr::str_remove("s$")
+      stringr::str_remove("\\\\d$") \%>\%
+      stringr::str_remove("s$")
   ) \%>\%
   dplyr::group_by(cmd) \%>\%
   dplyr::mutate(arg = paste(arg, collapse = " ")) \%>\%

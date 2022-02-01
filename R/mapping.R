@@ -169,9 +169,9 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   # add a sav file when there is an Rmd(that will import the sav):
   df <- raw %>%
     dplyr::bind_rows(raw %>%
-                dplyr::filter(filetype == "Rmd") %>%
-                dplyr::mutate(path = stringr::str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
-              .
+      dplyr::filter(filetype == "Rmd") %>%
+      dplyr::mutate(path = stringr::str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
+    .
     ) %>%
     dplyr::distinct() %>%
     # For Rmd the result is a html:
@@ -184,11 +184,11 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
 
 save_type <- function(df, path, filetype) {
   switch (filetype,
-          "sav"  = haven::write_sav(df, path),
-          "dta"  = haven::write_dta(df, path),
-          "xlsx" = save_xlsx(df, path),
-          "Rmd"  = render_python_rmd(path),
-          stop("unknown filetype")
+    "sav"  = haven::write_sav(df, path),
+    "dta"  = haven::write_dta(df, path),
+    "xlsx" = save_xlsx(df, path),
+    "Rmd"  = render_python_rmd(path),
+    stop("unknown filetype")
   )
 }
 save_xlsx <- function(df, path) {
@@ -221,7 +221,8 @@ apply_command_blocks.unsafe <- function(command_blocks, self) {
   purrr::walk(command_blocks, apply_command_block_unsafe, self)
 }
 apply_command_block_unsafe <- function(cdb, self) {
-  apply_command(cdb, self)
+  args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+  do.call(apply_command, args)
   invisible(self)
 }
 
@@ -241,13 +242,15 @@ apply_command_block_safe <- function(cdb, self) {
   tryCatch(
     {
       err_msg <- NA_character_
-      apply_command(cdb, self)
+      args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+      do.call(apply_command, args)
     },
     error = function(e) {
       if (self$params$debug) {
         browser()
         debugonce(apply_command)
-        apply_command(cdb, self)
+        args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+        do.call(apply_command, args)
       }
 
       err_msg <- geterrmessage()[1]
@@ -290,30 +293,37 @@ initialize_dat <- function(self, dat) {
 #'
 #' Generate list of named elements with mapping parameters. The argument values
 #' are the below default values, then overwritten if passed by the `...` dots,
-#' and then overwritten by the Excel file. If `override_excel = FALSE` the
-#' Excel parameters will prevail, and otherwise overwritten by the dots.
+#' and then overwritten by the Excel file. If `override_excel = FALSE` the Excel
+#' parameters will prevail, and otherwise overwritten by the dots.
 #'
 #' @param mapping_file Path of the Excel mapping file
-#' @param excel_params Params parameters read from Excel file; see `extract_excel_params()`.
+#' @param excel_params Params parameters read from Excel file; see
+#'   `extract_excel_params()`.
 #' @param id_var character string of the id variable name in the dataset.
-#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are transformed with.
-#'   `apply_command.cmd_recna_xcpt()` in the first command block.
+#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are
+#'   transformed with. `apply_command.cmd_recna_xcpt()` in the first command
+#'   block.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
 #' @param translate_xlsm for internal use
-#' @param validate whether to validate the parsed arguments of the command blocks from the Excel file.
-#' @param dyn_validate whether to validate expressions when running (highly experimental).
-#' @param debug whether to enter in debug mode when an error occurs. Automatically sets `error_out = "safe"`.
+#' @param validate whether to validate the parsed arguments of the command
+#'   blocks from the Excel file.
+#' @param dyn_validate whether to validate expressions when running (highly
+#'   experimental).
+#' @param debug whether to enter in debug mode when an error occurs.
+#'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
-#' @param override_excel should arguments passed with the `...` dots when initializing overwrite those
-#'   from the Excel file? Defaults to `FALSE`.
-#' @param expr_eval_env The environment where expressions are evaluated. See `?safer_env`.
-#' @param lab_before_var_sheet Whether to apply the "Label" sheet before the "Variables" sheet. Defaults to `TRUE`.
+#' @param override_excel should arguments passed with the `...` dots when
+#'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
+#' @param expr_eval_env The environment where expressions are evaluated. See
+#'   `?safer_env`.
+#' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
+#'   "Variables" sheet. Defaults to `TRUE`.
 #' @param miss_rec_lab Label given if `na_to_filter = TRUE`.
 #' @param miss_rec_val Replace value if `na_to_filter = TRUE`.
-#' @param not_miss_to_filter_vars Space separated character string of variable names spared out
-#'   for `apply_command.cmd_recna_xcpt()`.
+#' @param not_miss_to_filter_vars Space separated character string of variable
+#'   names spared out for `apply_command.cmd_recna_xcpt()`.
 #' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #'
@@ -343,15 +353,15 @@ gen_mapping_params <- function(
   not_miss_to_filter_vars = NA_character_,
   # Needed for developing...:
   # These only need to interest you if you want to override params that
-  # already were defined in the Excel file already (see arg `override_excel`):
+  # already were defined in the Excel file (see arg `override_excel`):
   dots_args,
   ...
 
 ) {
   if (is.null(id_var) & is.null(excel_params)) {
     stop(
-      'You need to pass a valid id variable name character string in your dataset\n',
-      'for instance, ',
+      "You need to pass a valid id variable name character string in your dataset\n",
+      "for instance, ",
       'id_var = "ID_VARIABLE_NAME"\n',
       'or you can define this string with a named region "R_id_var" in the Excel mapping file.')
   }
@@ -375,7 +385,6 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars,
     ...
   )
-  # make sure to enter debug mode, when any of these is set to true:
   if (debug) {
     p$error_out <- "safe"
   }
