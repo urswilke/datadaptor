@@ -221,7 +221,8 @@ apply_command_blocks.unsafe <- function(command_blocks, self) {
   purrr::walk(command_blocks, apply_command_block_unsafe, self)
 }
 apply_command_block_unsafe <- function(cdb, self) {
-  apply_command(cdb, self)
+  args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+  do.call(apply_command, args)
   invisible(self)
 }
 
@@ -241,13 +242,15 @@ apply_command_block_safe <- function(cdb, self) {
   tryCatch(
     {
       err_msg <- NA_character_
-      apply_command(cdb, self)
+      args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+      do.call(apply_command, args)
     },
     error = function(e) {
       if (self$params$debug) {
         browser()
         debugonce(apply_command)
-        apply_command(cdb, self)
+        args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+        do.call(apply_command, args)
       }
 
       err_msg <- geterrmessage()[1]

@@ -4,12 +4,10 @@
 \alias{apply_command}
 \title{Apply a command block to the mapping}
 \usage{
-apply_command(cdb, self)
+apply_command(cdb, mapping, ...)
 }
 \arguments{
-\item{cdb}{command_block}
-
-\item{self}{mapping object}
+\item{mapping}{mapping object}
 }
 \description{
 Apply a command block to the mapping
