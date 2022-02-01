@@ -35,7 +35,8 @@ written. Is overwritten, by \code{path} if not \code{NULL}.}
 \description{
 The data can be exported to the file formats of Stata & SPSS. The Excel
 export removes variable & value labels. Rmarkdown filetypes ("Rmd") can
-be used to setup a python session with the data
+be used to setup a python session with the data. Also see
+\code{vignette("debugging")}.
 }
 \examples{
 \dontrun{

@@ -74,8 +74,6 @@ Mapping <- R6::R6Class(
     #'
     #' @param translate_xlsm For internal use
     prep_cmd_tbl = function(translate_xlsm = FALSE) {
-      # self$params$translate_xlsm <- translate_xlsm
-      # self$params <- add_configr_params(self)
       process_command_blocks(self)
 
       invisible(self)
@@ -134,7 +132,8 @@ Mapping <- R6::R6Class(
 #'
 #' The data can be exported to the file formats of Stata & SPSS. The Excel
 #' export removes variable & value labels. Rmarkdown filetypes ("Rmd") can
-#' be used to setup a python session with the data
+#' be used to setup a python session with the data. Also see
+#' `vignette("debugging")`.
 #'
 #' @param mapping `Mappjng` object
 #' @param path `character()` vector or `NULL`. If `NULL` (the default) it
