@@ -41,8 +41,8 @@
 #' args_tbl %>%
 #'   dplyr::group_by(
 #'     arg_class = arg %>%
-#'     stringr::str_remove("\\d$") %>%
-#'     stringr::str_remove("s$")
+#'       stringr::str_remove("\\d$") %>%
+#'       stringr::str_remove("s$")
 #'   ) %>%
 #'   dplyr::group_by(cmd) %>%
 #'   dplyr::mutate(arg = paste(arg, collapse = " ")) %>%
@@ -137,7 +137,7 @@ parse_command_args.cmd_write_stata <- function(cdb) {
     filepath = d$X2,
     xs = varnames_vec,
     sheet_name = cdb$sheet,
-    stata_index =d$X5
+    stata_index = d$X5
   )
   cdb
 }

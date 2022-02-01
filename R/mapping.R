@@ -169,9 +169,9 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   # add a sav file when there is an Rmd(that will import the sav):
   df <- raw %>%
     dplyr::bind_rows(raw %>%
-                dplyr::filter(filetype == "Rmd") %>%
-                dplyr::mutate(path = stringr::str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
-              .
+      dplyr::filter(filetype == "Rmd") %>%
+      dplyr::mutate(path = stringr::str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
+    .
     ) %>%
     dplyr::distinct() %>%
     # For Rmd the result is a html:
@@ -184,11 +184,11 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
 
 save_type <- function(df, path, filetype) {
   switch (filetype,
-          "sav"  = haven::write_sav(df, path),
-          "dta"  = haven::write_dta(df, path),
-          "xlsx" = save_xlsx(df, path),
-          "Rmd"  = render_python_rmd(path),
-          stop("unknown filetype")
+    "sav"  = haven::write_sav(df, path),
+    "dta"  = haven::write_dta(df, path),
+    "xlsx" = save_xlsx(df, path),
+    "Rmd"  = render_python_rmd(path),
+    stop("unknown filetype")
   )
 }
 save_xlsx <- function(df, path) {
@@ -363,8 +363,8 @@ gen_mapping_params <- function(
 ) {
   if (is.null(id_var) & is.null(excel_params)) {
     stop(
-      'You need to pass a valid id variable name character string in your dataset\n',
-      'for instance, ',
+      "You need to pass a valid id variable name character string in your dataset\n",
+      "for instance, ",
       'id_var = "ID_VARIABLE_NAME"\n',
       'or you can define this string with a named region "R_id_var" in the Excel mapping file.')
   }

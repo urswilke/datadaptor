@@ -45,10 +45,10 @@ curlychop <- function(df_free_raw) {
     dplyr::group_by(.data$raw_index)
 
   df_curly_headers <- df_prep %>%
-    dplyr::filter(dplyr::if_any(c(.data$X2, .data$X3), ~stringr::str_detect(.x, "\\{.*\\}")))
+    dplyr::filter(dplyr::if_any(c(.data$X2, .data$X3), ~ stringr::str_detect(.x, "\\{.*\\}")))
   if (nrow(df_curly_headers) == 0) {
     return(df_prep %>%
-              dplyr::select(-.data$is_curly_group, -.data$n))
+      dplyr::select(-.data$is_curly_group, -.data$n))
   }
   df_headers_curliplied <- df_curly_headers %>%
     curlychop_headers()
@@ -128,7 +128,7 @@ add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_orig
     dplyr::rowwise() %>%
     dplyr::group_split() %>%
     purrr::imap_dfr(
-      ~.x %>%
+      ~ .x %>%
         dplyr::bind_rows(df_block_original[-1, ]) %>%
         dplyr::mutate(row = paste0(row, "_", .y))
     )

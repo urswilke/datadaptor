@@ -236,7 +236,7 @@ apply_command.cmd_merge <- function(
   )
   ) {
     warning("The merged dataframe doesn't contain the same id values")
-    df_merge <- df_merge[df_merge[[id]] %in% id_vec,]
+    df_merge <- df_merge[df_merge[[id]] %in% id_vec, ]
   }
 
   # This kind of merging overwrites variables if existing:
