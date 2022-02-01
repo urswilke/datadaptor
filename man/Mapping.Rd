@@ -183,25 +183,13 @@ export removes variable & value labels.
 \if{latex}{\out{\hypertarget{method-save}{}}}
 \subsection{Method \code{save()}}{
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(path = NULL, show = FALSE, name = "dat", filetype = "sav")}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{path}}{\code{character()} vector or \code{NULL}. If \code{NULL} (the default) it
-will write the file to the path in \code{self$params$save_path} with
-the file \code{name}(s) & \code{filetype}(s) specified.}
-
-\item{\code{show}}{Whether to directly open the file (needs the according
-software installed and setup to open its filetype).}
-
-\item{\code{name}}{\code{character()} vector containing all the filenames to be
-written. Needs to be of length 1 or the same length as \code{filetype}. Is
-overwritten, by \code{path} if not \code{NULL}.}
-
-\item{\code{filetype}}{\code{character()} vector containing all the filetypes to be
-written. Is overwritten, by \code{path} if not \code{NULL}.}
+\item{\code{...}}{arguments passed to \code{save_mapping()}}
 }
 \if{html}{\out{</div>}}
 }

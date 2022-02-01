@@ -123,37 +123,65 @@ Mapping <- R6::R6Class(
     #' The data can be exported to the file formats of Stata & SPSS. The Excel
     #' export removes variable & value labels.
     #'
-    #' @param path `character()` vector or `NULL`. If `NULL` (the default) it
-    #'   will write the file to the path in `self$params$save_path` with
-    #'   the file `name`(s) & `filetype`(s) specified.
-    #' @param show Whether to directly open the file (needs the according
-    #'   software installed and setup to open its filetype).
-    #' @param name `character()` vector containing all the filenames to be
-    #' written. Needs to be of length 1 or the same length as `filetype`. Is
-    #' overwritten, by `path` if not `NULL`.
-    #' @param filetype `character()` vector containing all the filetypes to be
-    #'   written. Is overwritten, by `path` if not `NULL`.
-    save = function(path = NULL, show = FALSE, name = "dat", filetype = "sav") {
-      if (is.null(path)) {
-        path <- paste0(self$params$save_path, "/", name, ".", filetype)
-      } else {
-        filetype <- stringr::str_remove(path, ".*\\.")
-      }
-      raw <- tibble(path, name, filetype, show)
-      df <- raw %>%
-        bind_rows(raw %>%
-          filter(filetype == "Rmd") %>%
-          mutate(path = str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
-          .
-        ) %>%
-        distinct()
-      walk2(df$path, df$filetype, ~ save_type(self$dat_mod, .x, .y))
-
-      df$path[df$show] %>% walk(browseURL)
+    #' @param ... arguments passed to `save_mapping()`
+    save = function(...) {
+      save_mapping(self, ...)
       invisible(self)
     }
   )
 )
+#' Save the modified data of a mapping to a file
+#'
+#' The data can be exported to the file formats of Stata & SPSS. The Excel
+#' export removes variable & value labels. Rmarkdown filetypes ("Rmd") can
+#' be used to setup a python session with the data
+#'
+#' @param path `character()` vector or `NULL`. If `NULL` (the default) it
+#'   will write the file to the path in `self$params$save_path` with
+#'   the file `name`(s) & `filetype`(s) specified.
+#' @param show Whether to directly open the file (needs the according
+#'   software installed and setup to open its filetype).
+#' @param name `character()` vector containing all the filenames to be
+#' written. Needs to be of length 1 or the same length as `filetype`. Is
+#' overwritten, by `path` if not `NULL`.
+#' @param filetype `character()` vector containing all the filetypes to be
+#'   written. Is overwritten, by `path` if not `NULL`.
+#' @export
+#' @examples
+#' \dontrun{
+#' # Create a Mapping object from the files provided by the package:
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' m <- Mapping$new(spss_file, mapping_file)
+#'
+#' # The method applies the modifications specified in a command_blocks object
+#' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
+#' m$save("stata_data.dta", show = TRUE)
+#' }
+save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filetype = "sav", ...) {
+  if (is.null(path)) {
+    path <- paste0(self$params$save_path, "/", name, ".", filetype)
+  } else {
+    filetype <- stringr::str_remove(path, ".*\\.")
+  }
+  raw <- tibble(path, name, filetype, show, res_path = path)
+  df <- raw %>%
+    bind_rows(raw %>%
+                filter(filetype == "Rmd") %>%
+                mutate(path = str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
+              .
+    ) %>%
+    distinct() %>%
+    mutate(res_path = ifelse(
+      filetype == "Rmd",
+      str_replace(res_path, "\\.Rmd$", ".html"),
+      res_path))
+  walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+
+  df$path[df$show] %>% walk(browseURL)
+}
+
+
 save_type <- function(df, path, filetype) {
   switch (filetype,
           "sav"  = haven::write_sav(df, path),
@@ -217,6 +245,7 @@ apply_command_block_safe <- function(cdb, self) {
     },
     error = function(e) {
       if (self$params$debug) {
+        browser()
         debugonce(apply_command)
         apply_command(cdb, self)
       }
