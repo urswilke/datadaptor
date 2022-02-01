@@ -15,8 +15,10 @@ knitr::opts_chunk$set(
 )
 ```
 
+## Debugging
+
 In order to debug the command blocks of a mapping you can set the option
-`debug == TRUE`.
+`debug = TRUE`.
 
 ```{r}
 library(datenanpassr)
@@ -25,13 +27,28 @@ m <- Mapping$new(fake_survey, mapping_file, debug = TRUE)
 ```
 
 When the execution of a code block runs into an error, this then jumps into the code.
+We'll sneak an error in one of the `"command_block"`s:
+```{r}
+m$cmd_tbl$command_blocks[[52]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+```
 
+Now, when we execute the modifications, the debugger stops at the `browser()`.
 ```{r}
 m$modify_data()
 ```
 
-When the debugger stops at the `browser()` you can also study the data with other
-software depending on the filetype:
+and you will see the command prompt of the debugger:
+
+`Browse[1]> `
+
+There, you can move forward into once again debugging the command to be executed
+(by navigating with Debug -> "Continue", "Execute next line" and "Step into
+function", ...) and study the values of the objects passed into the `apply.command()` 
+method for this `"command_block"`.
+
+## Debugging in other programs
+
+You can also study the data with other software depending on the filetype passed:
 
 * `"sav"` : SPSS
 * `"dta"` : Stata
@@ -50,3 +67,4 @@ same length as the `path` argument.
 self$save(path = c("a.sav", "a.dta", "a.Rmd", "a.xlsx"), show = c(FALSE, FALSE, FALSE, TRUE))
 ```
 
+Or only save without opening by omitting the `show` argument (default `= FALSE`).
