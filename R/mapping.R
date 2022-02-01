@@ -293,30 +293,40 @@ initialize_dat <- function(self, dat) {
 #'
 #' Generate list of named elements with mapping parameters. The argument values
 #' are the below default values, then overwritten if passed by the `...` dots,
-#' and then overwritten by the Excel file. If `override_excel = FALSE` the
-#' Excel parameters will prevail, and otherwise overwritten by the dots.
+#' and then overwritten by the Excel file. If `override_excel = FALSE` the Excel
+#' parameters will prevail, and otherwise overwritten by the dots.
 #'
 #' @param mapping_file Path of the Excel mapping file
-#' @param excel_params Params parameters read from Excel file; see `extract_excel_params()`.
+#' @param excel_params Params parameters read from Excel file; see
+#'   `extract_excel_params()`.
 #' @param id_var character string of the id variable name in the dataset.
-#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are transformed with.
-#'   `apply_command.cmd_recna_xcpt()` in the first command block.
+#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are
+#'   transformed with. `apply_command.cmd_recna_xcpt()` in the first command
+#'   block.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
 #' @param translate_xlsm for internal use
-#' @param validate whether to validate the parsed arguments of the command blocks from the Excel file.
-#' @param dyn_validate whether to validate expressions when running (highly experimental).
-#' @param debug whether to enter in debug mode when an error occurs. Automatically sets `error_out = "safe"`.
+#' @param validate whether to validate the parsed arguments of the command
+#'   blocks from the Excel file.
+#' @param dyn_validate whether to validate expressions when running (highly
+#'   experimental).
+#' @param debug whether to enter in debug mode when an error occurs.
+#'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
-#' @param override_excel should arguments passed with the `...` dots when initializing overwrite those
-#'   from the Excel file? Defaults to `FALSE`.
-#' @param expr_eval_env The environment where expressions are evaluated. See `?safer_env`.
-#' @param lab_before_var_sheet Whether to apply the "Label" sheet before the "Variables" sheet. Defaults to `TRUE`.
+#' @param override_excel should arguments passed with the `...` dots when
+#'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
+#' @param store_intermediate Whether to store the intermediate data after the
+#'   execution of each command_block in an extra column `result` in the
+#'   `self$cmd_tbl` data frame.
+#' @param expr_eval_env The environment where expressions are evaluated. See
+#'   `?safer_env`.
+#' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
+#'   "Variables" sheet. Defaults to `TRUE`.
 #' @param miss_rec_lab Label given if `na_to_filter = TRUE`.
 #' @param miss_rec_val Replace value if `na_to_filter = TRUE`.
-#' @param not_miss_to_filter_vars Space separated character string of variable names spared out
-#'   for `apply_command.cmd_recna_xcpt()`.
+#' @param not_miss_to_filter_vars Space separated character string of variable
+#'   names spared out for `apply_command.cmd_recna_xcpt()`.
 #' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #'
@@ -346,7 +356,7 @@ gen_mapping_params <- function(
   not_miss_to_filter_vars = NA_character_,
   # Needed for developing...:
   # These only need to interest you if you want to override params that
-  # already were defined in the Excel file already (see arg `override_excel`):
+  # already were defined in the Excel file (see arg `override_excel`):
   dots_args,
   ...
 
@@ -378,7 +388,6 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars,
     ...
   )
-  # make sure to enter debug mode, when any of these is set to true:
   if (debug) {
     p$error_out <- "safe"
   }
