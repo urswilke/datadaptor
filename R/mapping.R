@@ -164,7 +164,8 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   } else {
     filetype <- stringr::str_remove(path, ".*\\.")
   }
-  raw <- tibble(path, name, filetype, show, res_path = path)
+  raw <- tibble(path, name, filetype, show)
+  # add a sav file when there is an Rmd(that will import the sav):
   df <- raw %>%
     bind_rows(raw %>%
                 filter(filetype == "Rmd") %>%
@@ -172,13 +173,11 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
               .
     ) %>%
     distinct() %>%
-    mutate(res_path = ifelse(
-      filetype == "Rmd",
-      str_replace(res_path, "\\.Rmd$", ".html"),
-      res_path))
+    # For Rmd the result is a html:
+    mutate(res_path = str_replace(path, "\\.Rmd$", ".html"))
   walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
 
-  df$path[df$show] %>% walk(browseURL)
+  df$res_path[df$show] %>% walk(browseURL)
 }
 
 
