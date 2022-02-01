@@ -33,6 +33,8 @@ mapping$modify_data()
 mapping$dat_mod
 
 # To write it back to an SPSS file, you could do:
+# mapping$save("path/to/your/file.sav")
+# or with haven (used under the hood by `save()`):
 # haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
 
 ## ------------------------------------------------
@@ -73,6 +75,7 @@ information of the Excel mapping file.}
 \item \href{#method-new}{\code{Mapping$new()}}
 \item \href{#method-prep_cmd_tbl}{\code{Mapping$prep_cmd_tbl()}}
 \item \href{#method-modify_data}{\code{Mapping$modify_data()}}
+\item \href{#method-save}{\code{Mapping$save()}}
 \item \href{#method-clone}{\code{Mapping$clone()}}
 }
 }
@@ -92,7 +95,7 @@ Initialize a Mapping object
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
 
-\item{\code{...}}{Arguments passed to load_params()}
+\item{\code{...}}{Arguments passed to gen_mapping_params()}
 }
 \if{html}{\out{</div>}}
 }
@@ -134,7 +137,7 @@ command blocks (for \code{"unsafe"}), or not (for the subclass \code{"safe"}).
 the data in the field \code{"dat_mod"} according to their subclass methods
 of \code{apply_command()}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd$command_blocks)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -142,7 +145,7 @@ of \code{apply_command()}.
 \describe{
 \item{\code{reset}}{whether to apply the modifications to the input data (field
 \code{dat}) or whether to keep previous modifications (only relevant
-when applying the \code{modify_data()} multiple times).}
+when applying \code{modify_data()} multiple times).}
 
 \item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
 processing of the Excel mapping file.}
@@ -164,6 +167,26 @@ m$dat_mod
 
 }
 
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-save"></a>}}
+\if{latex}{\out{\hypertarget{method-save}{}}}
+\subsection{Method \code{save()}}{
+Save the modified data to a file
+
+The data can be exported to the file formats of Stata & SPSS. The Excel
+export removes variable & value labels.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{arguments passed to \code{save_mapping()}}
+}
+\if{html}{\out{</div>}}
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-clone"></a>}}

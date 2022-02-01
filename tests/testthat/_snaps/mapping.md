@@ -479,15 +479,15 @@
     # A tibble: 74 x 8
        sheet action row   new_var raw          command_blocks_~ command_blocks error
        <chr> <chr>  <chr> <chr>   <list>       <list>           <cmmnd_bl>     <chr>
-     1 Conf~ #RECNA <NA>  <NA>    <named list> <cmd_rcn_>       <cmd_rcn_>     ""   
-     2 Label #NEWV~ 8     q2      <tibble>     <cmd_nwvl>       <cmd_nwvl>     ""   
-     3 Label #SUMV~ 23, ~ kq5     <tibble>     <cmd_smvr>       <cmd_smvr>     ""   
-     4 Vari~ #STR2~ 8     q8      <tibble>     <cmd_st__>       <cmd_st__>     ""   
-     5 Vari~ #AUTO~ 7     q6      <tibble>     <cmd_atrc>       <cmd_atrc>     ""   
-     6 Vari~ #DROP  9     <NA>    <tibble>     <cmd_drop>       <cmd_drop>     ""   
-     7 Vari~ #RENA~ 3, 5  q2_ren~ <tibble>     <cmd_renm>       <cmd_renm>     ""   
-     8 Vari~ #NEWL~ 2     q1      <tibble>     <cmd_nwlb>       <cmd_nwlb>     ""   
-     9 Vari~ #NEWL~ 3     q2_ren~ <tibble>     <cmd_nwlb>       <cmd_nwlb>     ""   
-    10 Vari~ #NEWL~ 6     q5      <tibble>     <cmd_nwlb>       <cmd_nwlb>     ""   
+     1 Conf~ #RECNA <NA>  <NA>    <named list> <cmd_rcn_>       <validatd>     ""   
+     2 Label #NEWV~ 8     q2      <tibble>     <cmd_nwvl>       <validatd>     ""   
+     3 Label #SUMV~ 23, ~ kq5     <tibble>     <cmd_smvr>       <validatd>     ""   
+     4 Vari~ #STR2~ 8     q8      <tibble>     <cmd_st__>       <validatd>     ""   
+     5 Vari~ #AUTO~ 7     q6      <tibble>     <cmd_atrc>       <validatd>     ""   
+     6 Vari~ #DROP  9     <NA>    <tibble>     <cmd_drop>       <validatd>     ""   
+     7 Vari~ #RENA~ 3, 5  q2_ren~ <tibble>     <cmd_renm>       <validatd>     ""   
+     8 Vari~ #NEWL~ 2     q1      <tibble>     <cmd_nwlb>       <validatd>     ""   
+     9 Vari~ #NEWL~ 3     q2_ren~ <tibble>     <cmd_nwlb>       <validatd>     ""   
+    10 Vari~ #NEWL~ 6     q5      <tibble>     <cmd_nwlb>       <validatd>     ""   
     # ... with 64 more rows
 

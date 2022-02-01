@@ -50,7 +50,8 @@ Imports:
     R6,
     vctrs,
     pillar,
-    data.table
+    data.table,
+    writexl
 Remotes: 
     urswilke/tablab
 VignetteBuilder: knitr

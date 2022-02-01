@@ -343,7 +343,7 @@ process_raw_free_cmd_table <- function(df_free) {
   df_free %>%
     delete_empty_X1_not_multiline() %>%
     add_curlies_to_cell_with_spaces() %>%
-    curliply() %>%
+    curlychop() %>%
     dplyr::group_by(.data$row) %>%
     dplyr::mutate(action = .data$X1[1]) %>%
     dplyr::group_by(.data$action, .data$row) %>%
@@ -380,7 +380,7 @@ get_new_var_name_free <- function(df_free) {
 }
 
 add_curlies_to_cell_with_spaces <- function(df_free) {
-  # transform X2 containing spaces to curliply()able (surrounded by curly braces):
+  # transform X2 containing spaces to curlychop()able (surrounded by curly braces):
   df_free %>%
     dplyr::mutate(X2 = ifelse(
       grepl("(#VARL|#REC|#VALL|#AVALL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),

@@ -22,18 +22,18 @@
 #'   X4 = NA_character_,
 #'   row = "1"
 #' )
-#' curliply(df_curly)
+#' curlychop(df_curly)
 #'
 #' # Extensive example:
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) %>%
 #'   dplyr::filter(stringr::str_detect(X2, "\\{"))
-#' curliply(df_free_raw)
+#' curlychop(df_free_raw)
 #' # For reference, open the "Free1" sheet in the Excel file via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
 #' }
-curliply <- function(df_free_raw) {
+curlychop <- function(df_free_raw) {
   df_prep <- df_free_raw %>%
     dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
     dplyr::group_by(.data$raw_index) %>%
@@ -51,7 +51,7 @@ curliply <- function(df_free_raw) {
               dplyr::select(-.data$is_curly_group, -.data$n))
   }
   df_headers_curliplied <- df_curly_headers %>%
-    curliply_headers()
+    curlychop_headers()
 
   l_commands <- df_prep %>%
     dplyr::group_split()
@@ -68,7 +68,7 @@ curliply <- function(df_free_raw) {
   dplyr::bind_rows(l_commands) %>%
     dplyr::select(-.data$is_curly_group, -.data$n)
 }
-curliply_headers <- function(df) {
+curlychop_headers <- function(df) {
   df %>%
     dplyr::mutate(
       X3 = .data$X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),
@@ -84,10 +84,15 @@ curliply_headers <- function(df) {
 
 
 chop_out_curly_parts <- function(x) {
-  # split string into list of substrings at "{" and "}" (keeping these with
-  # positive look-aheads & -behinds):
-  stringr::str_split(x, "(?=\\{)|(?<=\\})") %>%
-    purrr::map(~dplyr::setdiff(.x, ""))
+  # split string x into list of substrings at "{" and "}"
+  # Explanation:
+  # regex tries to cut out the separator.
+  # The positive look-aheads & -behinds, will match but keep the separator.
+  # split at curly bracket (keeping the brackets)"\\{" if not at the beginning, or
+  # split at curly bracket "\\}" if not at the end of the string.
+  # pseudo code:
+  # (not a beginning of x)(there is a curly "{"}) OR (not at the end)(there is a "}")
+  stringr::str_split(x, "(?<!^)(?=\\{)|(?<=\\})(?!$)")
 }
 
 # transform list of substrings:
@@ -157,7 +162,23 @@ is_true <- function(x) Vectorize(isTRUE)(x)
 globalVariables(".")
 
 
-get_configr_args_list <- function(mapping_file) {
+#' Extract named regions from mapping file
+#'
+#' The named region starting with "R_" in the Excel mapping file are read into a
+#' named list, having their "R_" prefix removed.
+#'
+#' @return named list
+#' @export
+#' @rdname gen_mapping_params
+#'
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#'
+#' extract_excel_params(mapping_file)
+extract_excel_params <- function(mapping_file) {
+  if (is.null(mapping_file)) {
+    return(NULL)
+  }
   named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping_file))
 
   if (nrow(named_regions) == 0) {
@@ -186,18 +207,16 @@ get_configr_args_list <- function(mapping_file) {
 
   l_configr_excel <- configr$data
   names(l_configr_excel) <- stringr::str_sub(configr$value, 3)
-  l_configr_default <- gen_default_configr_params()
-  l_configr_default[names(l_configr_excel)] <- l_configr_excel
-  l_configr_default
-}
 
-gen_default_configr_params <- function() {
-  list(
-    lab_before_var_sheet = "yes",
-    miss_rec_lab = "FILTER",
-    miss_rec_val = -2,
-    not_miss_to_filter_vars = NA_character_
-  )
+  is_correct_idx <- names(l_configr_excel) %in% names(formals(gen_mapping_params))
+  if (any(is_correct_idx == FALSE)) {
+    stop(
+      "The following parameters are unknown:\n",
+      paste(names(l_configr_excel[is_correct_idx]), collapse = ", "),
+      "\nsee ?gen_mapping_params for all allowed parameters."
+    )
+  }
+  l_configr_excel
 }
 
 

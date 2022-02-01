@@ -55,8 +55,7 @@ make_cdb_raw <- function(name, meta, assignments, labs) {
 cdbs_raw <- list(meta_mdg_custom, meta_efa) %>%
   purrr::map(~make_cdb_raw(name = name, meta = .x, assignments = assignments, labs = labs))
 
-m <- Mapping$new(dat, na_to_filter = FALSE)
-m$params$id_var <- "id"
+m <- Mapping$new(dat, na_to_filter = FALSE, id_var = "id")
 m$cmd$sheet_data_raw$Verbatims <- cdbs_raw
 m$cmd$sheet_cats <- tibble::tibble(sheet = "Verbatims", sheet_type = "Verbatims")
 

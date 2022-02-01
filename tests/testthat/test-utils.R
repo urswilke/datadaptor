@@ -6,8 +6,8 @@ df_curly <- data.frame(
   row = "1"
 )
 
-test_that("snapshot of curliply() is reproduced", {
+test_that("snapshot of curlychop() is reproduced", {
   testthat::expect_snapshot_output(
-    curliply(df_curly)
+    curlychop(df_curly)
   )
 })

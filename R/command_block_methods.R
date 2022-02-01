@@ -60,6 +60,10 @@ apply_command.cmd_write_stata <- function(cdb, self) {
     xs <- names(self$dat_mod)
   }
   haven::write_dta(self$dat_mod[xs], filepath)
+  if (self$params$debug) {
+    utils::browseURL(filepath)
+    browser()
+  }
 }
 #' @export
 apply_command.cmd_r <- function(cdb, self) {
@@ -203,7 +207,7 @@ apply_command.cmd_verbatim_custom <- function(cdb, self) {
 apply_command.cmd_merge <- function(cdb, self) {
   xs <- cdb$args$xs
   filepath <- cdb$args$filepath
-  id <- cdb$args$id
+  id <- self$params$id_var
 
 
   # If `xs` isn't specified in Excel sheet, merge all variables in the file:
@@ -219,7 +223,7 @@ apply_command.cmd_merge <- function(cdb, self) {
   )
   ) {
     warning("The merged dataframe doesn't contain the same id values")
-    df_merge <- df_merge %% dplyr::filter(!!rlang::sym(id) %in% id_vec)
+    df_merge <- df_merge[df_merge[[id]] %in% id_vec,]
   }
 
   # This kind of merging overwrites variables if existing:

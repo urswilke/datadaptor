@@ -39,7 +39,7 @@ gen_sheet_cats <- function(self) {
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (self$params$mapping_file_attrs$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (self$params$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
     sheets <- switch_sheets_vars_label(sheets)
   }
 
@@ -58,7 +58,7 @@ gen_sheet_data_raw_list <- function(self) {
 }
 
 generate_rec_na_cmd_table <- function(self) {
-  params <- self$params$mapping_file_attrs
+  params <- self$params
   vars_to_exclude_na_to_filter <- c(
     params$not_miss_to_filter_vars %>%
       stringr::str_split("[, ;]+") %>%
