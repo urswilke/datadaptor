@@ -31,12 +31,14 @@ extract_excel_params(mapping_file)
 \arguments{
 \item{mapping_file}{Path of the Excel mapping file}
 
-\item{excel_params}{Params parameters read from Excel file; see \code{extract_excel_params()}.}
+\item{excel_params}{Params parameters read from Excel file; see
+\code{extract_excel_params()}.}
 
 \item{id_var}{character string of the id variable name in the dataset.}
 
-\item{na_to_filter}{if TRUE (the default), NA values ("missing" in SPSS) are transformed with.
-\code{apply_command.cmd_recna_xcpt()} in the first command block.}
+\item{na_to_filter}{if TRUE (the default), NA values ("missing" in SPSS) are
+transformed with. \code{apply_command.cmd_recna_xcpt()} in the first command
+block.}
 
 \item{error_out}{character string. Either "safe" or "unsafe" (the default).
 Whether to continue executing when a command block fails, or to error out.
@@ -44,31 +46,40 @@ Adds a column "error" to the mapping's command table \code{mapping$cmd_tbl}.}
 
 \item{translate_xlsm}{for internal use}
 
-\item{validate}{whether to validate the parsed arguments of the command blocks from the Excel file.}
+\item{validate}{whether to validate the parsed arguments of the command
+blocks from the Excel file.}
 
-\item{dyn_validate}{whether to validate expressions when running (highly experimental).}
+\item{dyn_validate}{whether to validate expressions when running (highly
+experimental).}
 
-\item{debug}{whether to enter in debug mode when an error occurs. Automatically sets \code{error_out = "safe"}.}
+\item{debug}{whether to enter in debug mode when an error occurs.
+Automatically sets \code{error_out = "safe"}.}
 
 \item{save_path}{filepath where to save files.}
 
-\item{override_excel}{should arguments passed with the \code{...} dots when initializing overwrite those
-from the Excel file? Defaults to \code{FALSE}.}
+\item{override_excel}{should arguments passed with the \code{...} dots when
+initializing overwrite those from the Excel file? Defaults to \code{FALSE}.}
 
-\item{expr_eval_env}{The environment where expressions are evaluated. See \code{?safer_env}.}
+\item{expr_eval_env}{The environment where expressions are evaluated. See
+\code{?safer_env}.}
 
-\item{lab_before_var_sheet}{Whether to apply the "Label" sheet before the "Variables" sheet. Defaults to \code{TRUE}.}
+\item{lab_before_var_sheet}{Whether to apply the "Label" sheet before the
+"Variables" sheet. Defaults to \code{TRUE}.}
 
 \item{miss_rec_lab}{Label given if \code{na_to_filter = TRUE}.}
 
 \item{miss_rec_val}{Replace value if \code{na_to_filter = TRUE}.}
 
-\item{not_miss_to_filter_vars}{Space separated character string of variable names spared out
-for \code{apply_command.cmd_recna_xcpt()}.}
+\item{not_miss_to_filter_vars}{Space separated character string of variable
+names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 
 \item{dots_args}{for internal use.}
 
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
+
+\item{store_intermediate}{Whether to store the intermediate data after the
+execution of each command_block in an extra column \code{result} in the
+\code{self$cmd_tbl} data frame.}
 }
 \value{
 
@@ -78,8 +89,8 @@ named list
 \description{
 Generate list of named elements with mapping parameters. The argument values
 are the below default values, then overwritten if passed by the \code{...} dots,
-and then overwritten by the Excel file. If \code{override_excel = FALSE} the
-Excel parameters will prevail, and otherwise overwritten by the dots.
+and then overwritten by the Excel file. If \code{override_excel = FALSE} the Excel
+parameters will prevail, and otherwise overwritten by the dots.
 
 The named region starting with "R_" in the Excel mapping file are read into a
 named list, having their "R_" prefix removed.
