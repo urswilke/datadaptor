@@ -14,6 +14,8 @@ save_mapping(
 )
 }
 \arguments{
+\item{mapping}{\code{Mappjng} object}
+
 \item{path}{\code{character()} vector or \code{NULL}. If \code{NULL} (the default) it
 will write the file to the path in \code{self$params$save_path} with
 the file \code{name}(s) & \code{filetype}(s) specified.}
@@ -27,6 +29,8 @@ overwritten, by \code{path} if not \code{NULL}.}
 
 \item{filetype}{\code{character()} vector containing all the filetypes to be
 written. Is overwritten, by \code{path} if not \code{NULL}.}
+
+\item{...}{used to pass arguments from \code{Mapping$save(...)}}
 }
 \description{
 The data can be exported to the file formats of Stata & SPSS. The Excel

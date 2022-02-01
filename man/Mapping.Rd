@@ -49,11 +49,6 @@ m <- Mapping$new(spss_file, mapping_file)
 # The method applies the modifications specified in a command_blocks object
 m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$dat_mod
-Save the modified data to a file
-
-The data can be exported to the file formats of Stata & SPSS. The Excel
-export removes variable & value labels.
-
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -167,11 +162,6 @@ m <- Mapping$new(spss_file, mapping_file)
 # The method applies the modifications specified in a command_blocks object
 m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$dat_mod
-Save the modified data to a file
-
-The data can be exported to the file formats of Stata & SPSS. The Excel
-export removes variable & value labels.
-
 }
 \if{html}{\out{</div>}}
 
@@ -182,6 +172,10 @@ export removes variable & value labels.
 \if{html}{\out{<a id="method-save"></a>}}
 \if{latex}{\out{\hypertarget{method-save}{}}}
 \subsection{Method \code{save()}}{
+Save the modified data to a file
+
+The data can be exported to the file formats of Stata & SPSS. The Excel
+export removes variable & value labels.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$save(...)}\if{html}{\out{</div>}}
 }

@@ -118,7 +118,7 @@ Mapping <- R6::R6Class(
 
       invisible(self)
     },
-    #' Save the modified data to a file
+    #' @description Save the modified data to a file
     #'
     #' The data can be exported to the file formats of Stata & SPSS. The Excel
     #' export removes variable & value labels.
@@ -136,6 +136,7 @@ Mapping <- R6::R6Class(
 #' export removes variable & value labels. Rmarkdown filetypes ("Rmd") can
 #' be used to setup a python session with the data
 #'
+#' @param mapping `Mappjng` object
 #' @param path `character()` vector or `NULL`. If `NULL` (the default) it
 #'   will write the file to the path in `self$params$save_path` with
 #'   the file `name`(s) & `filetype`(s) specified.
@@ -146,6 +147,7 @@ Mapping <- R6::R6Class(
 #' overwritten, by `path` if not `NULL`.
 #' @param filetype `character()` vector containing all the filetypes to be
 #'   written. Is overwritten, by `path` if not `NULL`.
+#' @param ... used to pass arguments from `Mapping$save(...)`
 #' @export
 #' @examples
 #' \dontrun{
@@ -160,24 +162,24 @@ Mapping <- R6::R6Class(
 #' }
 save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filetype = "sav", ...) {
   if (is.null(path)) {
-    path <- paste0(self$params$save_path, "/", name, ".", filetype)
+    path <- paste0(mapping$params$save_path, "/", name, ".", filetype)
   } else {
     filetype <- stringr::str_remove(path, ".*\\.")
   }
-  raw <- tibble(path, name, filetype, show)
+  raw <- tidyr::tibble(path, name, filetype, show)
   # add a sav file when there is an Rmd(that will import the sav):
   df <- raw %>%
-    bind_rows(raw %>%
-                filter(filetype == "Rmd") %>%
-                mutate(path = str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
+    dplyr::bind_rows(raw %>%
+                dplyr::filter(filetype == "Rmd") %>%
+                dplyr::mutate(path = stringr::str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
               .
     ) %>%
-    distinct() %>%
+    dplyr::distinct() %>%
     # For Rmd the result is a html:
-    mutate(res_path = str_replace(path, "\\.Rmd$", ".html"))
-  walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+    dplyr::mutate(res_path = stringr::str_replace(path, "\\.Rmd$", ".html"))
+  purrr::walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
 
-  df$res_path[df$show] %>% walk(browseURL)
+  df$res_path[df$show] %>% purrr::walk(utils::browseURL)
 }
 
 
@@ -192,11 +194,11 @@ save_type <- function(df, path, filetype) {
 }
 save_xlsx <- function(df, path) {
   df %>%
-    dplyr::mutate(across(everything(), tablab::strip_attributes)) %>%
+    dplyr::mutate(dplyr::across(dplyr::everything(), tablab::strip_attributes)) %>%
     writexl::write_xlsx(path)
 }
 render_python_rmd <- function(path) {
-  params_for_py <- list(sav_file = str_replace(path, "\\.Rmd", ".sav"))
+  params_for_py <- list(sav_file = stringr::str_replace(path, "\\.Rmd", ".sav"))
   template_file <- system.file(
     "rmarkdown", "templates", "python-debbuging",
     "skeleton", "debug_skeleton.Rmd",
