@@ -252,5 +252,7 @@ validate_command_blocks <- function(cdbs, self) {
 
 #' @export
 `[.command_blocks` <- function(x, i) {
-  new_command_blocks(NextMethod(x))
+  res <- new_command_blocks(NextMethod(x))
+  class(res) <- class(x)
+  res
 }
