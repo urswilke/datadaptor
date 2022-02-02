@@ -25,3 +25,19 @@
 #' df <- haven::read_sav(path)
 #' df
 "fake_survey"
+
+#' `command_block` overview
+#'
+#' A dataset containing the list of `keyword`s that can be used in the Excel
+#' mapping file to generate command_block objects.
+#'
+#'
+#' @format A data frame of 23 `keyword`s and their corresponding command_block
+#' classes:
+#' \describe{
+#'   \item{keyword}{Excel mapping file keyword}
+#'   \item{command_block}{String denoting the name of the command_block subclass}
+#' }
+#' @examples
+#' command_block_classes
+"command_block_classes"
