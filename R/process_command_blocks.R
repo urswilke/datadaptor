@@ -166,34 +166,22 @@ gen_command_blocks_raw <- function(self) {
 #' # command_block() detects the subclass. So this is equivalent to:
 #' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
 command_block <- function(cdb) {
-  subclass <- switch(cdb$action,
-    "#STATA"    = "cmd_write_stata",
-    "#RECNA"    = "cmd_recna_xcpt",
-    "#IF"       = "cmd_if",
-    "#COMP"     = "cmd_comp",
-    "#VARL"     = "cmd_set_lab",
-    "#VALL"     = "cmd_set_labs",
-    "#REC"      = "cmd_rec",
-    "#SUMVAR"   = "cmd_sumvar",
-    "#AVALL"    = "cmd_add_labs",
-    "#DIC"      = "cmd_dic",
-    "#AUTOREC"  = "cmd_autorec",
-    "#STR2NUM"  = "cmd_str_to_num",
-    "#RENAME"   = "cmd_rename",
-    "#MERGE"    = "cmd_merge",
-    "#NEWVALL"  = "cmd_newvall",
-    "#verbatim" = "cmd_verbatim",
-    "cmd_verbatim_custom" = "cmd_verbatim_custom",
-    "#DROP"     = "cmd_drop",
-    "#NEWLAB"   = "cmd_newlab",
-    "#KG"       = "cmd_kg",
-    "#RFUN"     = "cmd_rfun",
-    "#R"        = "cmd_r",
-    "#COMPR"    = "cmd_comp",
-    stop(cdb$action, " command block specifier not found. See `?command_block()` for allowed ones.")
-  )
+  subclass <- match_command_block_class(cdb$action)
   cdb <- new_command_block(cdb, subclass = subclass)
 }
+
+match_command_block_class <- function(keyword) {
+  command_block_row <- command_block_classes$keyword == keyword
+  if (sum(command_block_row) == 0) {
+    stop(
+      "command block keyword doesn't exist.",
+      "See the package dataset `command_block_classes` for allowed ones."
+    )
+  }
+  command_block_classes[["command_block"]][command_block_row]
+}
+
+
 #' @export
 #' @param ... further arguments passed to constructor
 #' @param subclass character vector containing the subclass of the object to construct
