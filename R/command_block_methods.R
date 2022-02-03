@@ -408,7 +408,7 @@ apply_command.cmd_rec <- function(
     varlab <- attr(mapping$dat_mod[[y]], "label", exact = TRUE)
   }
 
-  if (is.na(x)) {
+  if (is.na(x) || x == "") {
     x <- y
   }
 
