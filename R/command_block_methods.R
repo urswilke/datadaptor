@@ -382,8 +382,6 @@ apply_command.cmd_add_labs <- function(
 
   if (is.null(varlab)) {
     varlab <- attr(vec, "label", exact = TRUE)
-  } else {
-    varlab <- varlab
   }
 
   mapping$dat_mod[[x]] <- haven::labelled(

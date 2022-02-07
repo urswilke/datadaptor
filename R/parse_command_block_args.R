@@ -214,7 +214,7 @@ parse_command_args.cmd_newlab <- function(cdb) {
 #' @export
 parse_command_args.cmd_set_labs <- function(cdb) {
   varlab <- cdb$raw$X3[1]
-  if (is.na(varlab)) {
+  if (is.na(varlab) | varlab == "") {
     varlab <- NULL
   }
 
@@ -230,7 +230,7 @@ parse_command_args.cmd_set_labs <- function(cdb) {
 parse_command_args.cmd_add_labs <- function(cdb) {
   d <- cdb$raw
   varlab <- d$X3[1]
-  if (is.na(varlab)) {
+  if (is.na(varlab) | varlab == "") {
     varlab <- NULL
   }
   cdb$args <- list(
