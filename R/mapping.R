@@ -24,7 +24,8 @@
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' mapping <- Mapping$new(spss_file, mapping_file)
 #'
-#' # The spss_file path was read into a dataframe in the "dat" field of the mapping object:
+#' # The spss_file path was read into a dataframe in the "dat" field of the
+#' # mapping object:
 #' mapping$dat
 #'
 #' # The Excel mapping file is translated to a `command_blocks()` object.
@@ -79,8 +80,9 @@ Mapping <- R6::R6Class(
       invisible(self)
     },
     #' @description Run all command blocks of the mapping file. The command
-    #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
-    #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
+    #'   blocks of the Excel mapping file are translated to the
+    #'   `command_blocks()` field \code{self$cmd_tbl$command_blocks} field of
+    #'   the \code{Mapping} object.
     #'
     #'   The internally called `apply_command_blocks()` method depends on the
     #'   value of `self$params$error_out` subclass. This subclass decides
@@ -89,9 +91,9 @@ Mapping <- R6::R6Class(
     #'
     #'
     #'   `apply_command_blocks()` then walks through the list of
-    #'   `"command_block"` objects in `"command_blocks"` and applies each of them to
-    #'   the data in the field `"dat_mod"` according to their subclass methods
-    #'   of `apply_command()`.
+    #'   `"command_block"` objects in `"command_blocks"` and applies each of
+    #'   them to the data in the field `"dat_mod"` according to their subclass
+    #'   methods of `apply_command()`.
     #' @param reset whether to apply the modifications to the input data (field
     #'   \code{dat}) or whether to keep previous modifications (only relevant
     #'   when applying \code{modify_data()} multiple times).
@@ -103,7 +105,8 @@ Mapping <- R6::R6Class(
     #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
     #' m <- Mapping$new(spss_file, mapping_file)
     #'
-    #' # The method applies the modifications specified in a command_blocks object
+    #' # The method applies the modifications specified in a command_blocks
+    #' # object:
     #' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
     #' m$dat_mod
     modify_data = function(reset = TRUE,
@@ -170,7 +173,10 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   df <- raw %>%
     dplyr::bind_rows(raw %>%
       dplyr::filter(filetype == "Rmd") %>%
-      dplyr::mutate(path = stringr::str_replace(path, "\\.Rmd$", ".sav"), filetype = "sav"),
+      dplyr::mutate(
+        path = stringr::str_replace(path, "\\.Rmd$", ".sav"),
+        filetype = "sav"
+      ),
     .
     ) %>%
     dplyr::distinct() %>%
@@ -193,7 +199,10 @@ save_type <- function(df, path, filetype) {
 }
 save_xlsx <- function(df, path) {
   df %>%
-    dplyr::mutate(dplyr::across(dplyr::everything(), tablab::strip_attributes)) %>%
+    dplyr::mutate(dplyr::across(
+      dplyr::everything(),
+      tablab::strip_attributes
+    )) %>%
     writexl::write_xlsx(path)
 }
 render_python_rmd <- function(path) {
@@ -230,7 +239,10 @@ apply_command_block_unsafe <- function(cdb, self) {
 #' @rdname command_blocks
 apply_command_blocks.safe <- function(command_blocks, self) {
   self$params$cmd_index <- 0
-  self$params$error_list <- vector("character", length(self$cmd_tbl$command_blocks))
+  self$params$error_list <- vector(
+    "character",
+    length(self$cmd_tbl$command_blocks)
+  )
 
   purrr::walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
 
@@ -363,7 +375,8 @@ gen_mapping_params <- function(
       "You need to pass a valid id variable name character string in your dataset\n",
       "for instance, ",
       'id_var = "ID_VARIABLE_NAME"\n',
-      'or you can define this string with a named region "R_id_var" in the Excel mapping file.')
+      'or you can define this string with a named region "R_id_var"',
+      'in the Excel mapping file.')
   }
 
   p <- tibble::lst(

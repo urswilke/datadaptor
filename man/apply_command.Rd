@@ -116,21 +116,25 @@ apply_command(cdb, mapping, ...)
 
 \item{filepath}{Character string containing valid file path}
 
-\item{stata_index}{Ascending index for each of the #STATA commands in the Excel sheet.}
+\item{stata_index}{Ascending index for each of the #STATA commands in the
+Excel sheet.}
 
-\item{sheet_name}{Sheet where the command is from in the \code{mapping$mapping_file}.}
+\item{sheet_name}{Sheet where the command is from in the
+\code{mapping$mapping_file}.}
 
 \item{ex, ex_cond, ex_fun, ex_further_cond, ex_assign}{Character strings
 containing valid R expressions. They will be evaluated in
 \code{mapping$params$expr_eval_env} (see \code{gen_mapping_params()}).}
 
-\item{x, xs, y, ys}{character string (vector) of variable names in \code{mapping$dat_mod}}
+\item{x, xs, y, ys}{character string (vector) of variable names in
+\code{mapping$dat_mod}}
 
 \item{varlab}{Character string containing a variable label}
 
 \item{id_list}{Vector of id values in \code{mapping$dat_mod[id]}.}
 
-\item{id}{Character string of the variable name of the id variable in \code{mapping$dat}.}
+\item{id}{Character string of the variable name of the id variable in
+\code{mapping$dat}.}
 }
 \description{
 Apply a command block to the mapping

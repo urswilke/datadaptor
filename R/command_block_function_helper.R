@@ -5,7 +5,8 @@
 #' @param replace_label character value, value label `replace_val` will be
 #' labelled by; defaults to "FILTER"
 #'
-#' @return `x` where NAs are replaced by `replace_val` with added label `replace_label`
+#' @return `x` where NAs are replaced by `replace_val` with added label
+#'   `replace_label`
 #' @export
 #'
 #' @examples

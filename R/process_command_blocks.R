@@ -168,6 +168,7 @@ gen_command_blocks_raw <- function(self) {
 command_block <- function(cdb) {
   subclass <- match_command_block_class(cdb$action)
   cdb <- new_command_block(cdb, subclass = subclass)
+  cdb
 }
 
 match_command_block_class <- function(keyword) {
@@ -229,11 +230,11 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
   command_blocks
 }
 validate_command_blocks <- function(cdbs, self) {
-  if (self$params$validate) {
-    classes <- c("validated", class(cdbs))
+  # if (self$params$validate) {
+    classes <- c(class(cdbs))
     cdbs <- purrr::map(cdbs, validate_command_block)
     class(cdbs) <- classes
-  }
+  # }
   cdbs
 }
 

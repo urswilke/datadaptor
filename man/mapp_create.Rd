@@ -7,17 +7,19 @@
 mapp_create(df_raw, mapping_file)
 }
 \arguments{
-\item{df_raw}{dataframe with labelled variables, e.g. resulting from haven::read_sav}
+\item{df_raw}{dataframe with labelled variables, e.g. resulting from
+haven::read_sav}
 
 \item{mapping_file}{name of the Excel file to be created}
 }
 \description{
-The mapping file consists of the sheets "Variables", "Label", "Verbatims" & "Free".
-Each of these controls different aspects of data manipulations you can apply
-to a labelled dataset. You can add as much of those sheets as you want to the file.
-The commands entered in the mapping file can later be executed on the data set
-with \code{mapp_xl_to_data()}. The
-sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
+The mapping file consists of the sheets "Variables", "Label", "Verbatims" &
+"Free". Each of these controls different aspects of data manipulations you
+can apply to a labelled dataset. You can add as much of those sheets as you
+want to the file. The commands entered in the mapping file can later be
+executed on the data set with \code{mapp_xl_to_data()}. The sequence of
+commands is executed in the same order as the sequence of sheets in the
+mapping file.
 }
 \examples{
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")

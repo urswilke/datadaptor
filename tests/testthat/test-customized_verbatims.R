@@ -46,7 +46,7 @@ make_cdb_raw <- function(name, meta, assignments, labs) {
     assignments = assignments,
     labs = list()
   )
-  cdb_raw$labs$name = labs
+  cdb_raw$labs$name <- labs
   cdb_raw
 }
 
