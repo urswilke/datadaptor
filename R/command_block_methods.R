@@ -389,8 +389,6 @@ apply_command.cmd_add_labs <- function(
 
   if (is.null(varlab)) {
     varlab <- attr(vec, "label", exact = TRUE)
-  } else {
-    varlab <- varlab
   }
 
   mapping$dat_mod[[x]] <- haven::labelled(
@@ -415,7 +413,7 @@ apply_command.cmd_rec <- function(
     varlab <- attr(mapping$dat_mod[[y]], "label", exact = TRUE)
   }
 
-  if (is.na(x)) {
+  if (is.na(x) || x == "") {
     x <- y
   }
 
