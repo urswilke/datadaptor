@@ -230,11 +230,11 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
   command_blocks
 }
 validate_command_blocks <- function(cdbs, self) {
-  # if (self$params$validate) {
-    classes <- c(class(cdbs))
+  if (self$params$validate) {
+    classes <- c("validated", class(cdbs))
     cdbs <- purrr::map(cdbs, validate_command_block)
     class(cdbs) <- classes
-  # }
+  }
   cdbs
 }
 
