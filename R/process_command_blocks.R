@@ -141,7 +141,7 @@ command_block <- function(cdb, validate = TRUE) {
   subclass <- match_command_block_class(cdb$action)
 
   # hopefully preliminary method to use new apply_command.cmd_verbatim_custom():
-  if (subclass == "cmd_verbatim" && cdb$raw$EFA1MCG2MDG3 == "mdg_custom") {
+  if (subclass == "cmd_verbatim" && cdb$raw[[1]]$EFA1MCG2MDG3 == "mdg_custom") {
     subclass <- c("cmd_verbatim_custom", subclass)
   }
   new_command_block(cdb, validate = validate, subclass = subclass)
