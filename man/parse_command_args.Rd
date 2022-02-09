@@ -20,8 +20,10 @@ Depending of the subclass of the command block, the method is chosen.
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
-(cdb_raw <- m$cmd_tbl$command_blocks_raw[[10]])
-cdb <- parse_command_args(cdb_raw)
+(cdb <- command_block(m$cmd$df_cmd_raw[10, ]))
+# Under the hood the command_block() generator calls
+# parse_command_args() which adds the args field:
+parse_command_args(cdb)
 cdb$args
 cdbs <- m$cmd_tbl
 
