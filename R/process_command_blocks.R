@@ -133,24 +133,6 @@ gen_command_blocks_raw <- function(self) {
     dplyr::transmute(cmd = list(command_block(dplyr::cur_data()))) %>%
     dplyr::pull()
 
-
-  # hopefully preliminary method to use new apply_command.cmd_verbatim_new():
-  verbatim_types <- cdbs_raw %>%
-    purrr::map("raw") %>%
-    purrr::map_chr("EFA1MCG2MDG3", .default = NA_character_)
-
-  is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
-  new_verbatypes_classes <- cdbs_raw[is_new_verbatype] %>%
-    purrr::map(class) %>%
-    purrr::map(~ c("cmd_verbatim_custom", .x))
-  cdbs_raw[is_new_verbatype] <- purrr::map2(
-    cdbs_raw[is_new_verbatype],
-    new_verbatypes_classes,
-    ~ {
-      class(.x) <- .y
-      .x
-    }
-  )
   cdbs_raw
 }
 #' Generate an object inheriting from `"command_block"`
@@ -167,8 +149,12 @@ gen_command_blocks_raw <- function(self) {
 #' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
 command_block <- function(cdb) {
   subclass <- match_command_block_class(cdb$action)
-  cdb <- new_command_block(cdb, subclass = subclass)
-  cdb
+
+  # hopefully preliminary method to use new apply_command.cmd_verbatim_custom():
+  if (subclass == "cmd_verbatim" && cdb$raw$EFA1MCG2MDG3 == "mdg_custom") {
+    subclass <- c("cmd_verbatim_custom", subclass)
+  }
+  new_command_block(cdb, subclass = subclass)
 }
 
 match_command_block_class <- function(keyword) {
