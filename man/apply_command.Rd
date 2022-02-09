@@ -198,9 +198,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 # Construct a command_block of the 10th line in m$cmd$df_cmd_raw:
-cb <- m$cmd$df_cmd_raw \%>\%
-  purrr::transpose() \%>\%
-  .[[10]] \%>\%
+cb <- m$cmd$df_cmd_raw[10, ] \%>\%
   command_block() \%>\%
   parse_command_args()
 # Generate command_blocks object:
