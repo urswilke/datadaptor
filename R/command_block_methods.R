@@ -33,7 +33,8 @@ apply_command <- function(cdb, mapping, ...) {
 # We can collect all the roxxygen `@param`s in one place:
 #' @name apply_command_args
 #' @rdname apply_command
-#' @param x,xs,y,ys character string (vector) of variable names in `mapping$dat_mod`
+#' @param x,xs,y,ys character string (vector) of variable names in
+#'   `mapping$dat_mod`
 #' @param v,v0,vs,vs0,vs2 Numeric value(s)
 #' @param vallab,vallabs Value label(s)
 #' @param varlab Character string containing a variable label
@@ -41,10 +42,13 @@ apply_command <- function(cdb, mapping, ...) {
 #'   containing valid R expressions. They will be evaluated in
 #'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`).
 #' @param filepath Character string containing valid file path
-#' @param id Character string of the variable name of the id variable in `mapping$dat`.
+#' @param id Character string of the variable name of the id variable in
+#'   `mapping$dat`.
 #' @param id_list Vector of id values in `mapping$dat_mod[id]`.
-#' @param sheet_name Sheet where the command is from in the `mapping$mapping_file`.
-#' @param stata_index Ascending index for each of the #STATA commands in the Excel sheet.
+#' @param sheet_name Sheet where the command is from in the
+#'   `mapping$mapping_file`.
+#' @param stata_index Ascending index for each of the #STATA commands in the
+#'   Excel sheet.
 #'
 NULL
 # see https://github.com/r-lib/tidyselect/issues/201#issuecomment-650547846:
@@ -151,7 +155,10 @@ apply_command.cmd_verbatim <- function(
   }
 
   if (!is.na(ex_further_cond)) {
-    further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), mapping) %>%
+    further_ex_bool <- eval_in_data(
+      rlang::parse_expr(ex_further_cond),
+      mapping
+    ) %>%
       is_true()
   } else {
     further_ex_bool <- TRUE
@@ -431,7 +438,8 @@ apply_command.cmd_rec <- function(
       function(vs, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!vs)
     )
 
-  res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(mapping)
+  res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>%
+    eval_in_data(mapping)
   if (x == y) {
     res_num <- dplyr::coalesce(res_num, mapping$dat_mod[[y]])
   }
@@ -466,11 +474,14 @@ apply_command.cmd_sumvar <- function(
     ~ rlang::expr(!!rlang::sym(y) %in% !!.x ~ !!.y)
   )
 
-  vec_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>% eval_in_data(mapping)
+  vec_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>%
+    eval_in_data(mapping)
 
   mapping$dat_mod[[x]] <- haven::labelled(
     vec_num,
-    labels = sum_var_vals_n_labs[-2] %>% dplyr::select(2, 1) %>% tibble::deframe(),
+    labels = sum_var_vals_n_labs[-2] %>%
+      dplyr::select(2, 1) %>%
+      tibble::deframe(),
     label = varlab
   )
 

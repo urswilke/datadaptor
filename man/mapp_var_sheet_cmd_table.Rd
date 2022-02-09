@@ -12,7 +12,8 @@ mapp_var_sheet_cmd_table(self, sheet = "Variables")
 \item{sheet}{name of the sheet in the Excel mapping file}
 }
 \value{
-Command block table of the "Variables" sheet of the Excel mapping file.
+Command block table of the "Variables" sheet of the Excel mapping
+file.
 }
 \description{
 Extract variable label sheet of Excel mapping file to dataframe

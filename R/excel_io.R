@@ -1,13 +1,15 @@
 #' Create an Excel mapping file based on a labelled dataframe
 #'
-#' The mapping file consists of the sheets "Variables", "Label", "Verbatims" & "Free".
-#' Each of these controls different aspects of data manipulations you can apply
-#' to a labelled dataset. You can add as much of those sheets as you want to the file.
-#' The commands entered in the mapping file can later be executed on the data set
-#' with \code{mapp_xl_to_data()}. The
-#' sequence of commands is executed in the same order as the sequence of sheets in the mapping file.
+#' The mapping file consists of the sheets "Variables", "Label", "Verbatims" &
+#' "Free". Each of these controls different aspects of data manipulations you
+#' can apply to a labelled dataset. You can add as much of those sheets as you
+#' want to the file. The commands entered in the mapping file can later be
+#' executed on the data set with \code{mapp_xl_to_data()}. The sequence of
+#' commands is executed in the same order as the sequence of sheets in the
+#' mapping file.
 #'
-#' @param df_raw dataframe with labelled variables, e.g. resulting from haven::read_sav
+#' @param df_raw dataframe with labelled variables, e.g. resulting from
+#'   haven::read_sav
 #' @param mapping_file name of the Excel file to be created
 #'
 #' @export
@@ -53,7 +55,8 @@ mapp_create <- function(df_raw, mapping_file) {
 #' @param  self \code{Mapping} object
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
-#' @return Command block table of the "Variables" sheet of the Excel mapping file.
+#' @return Command block table of the "Variables" sheet of the Excel mapping
+#'   file.
 #' @export
 #'
 #' @examples
@@ -380,7 +383,8 @@ get_new_var_name_free <- function(df_free) {
 }
 
 add_curlies_to_cell_with_spaces <- function(df_free) {
-  # transform X2 containing spaces to curlychop()able (surrounded by curly braces):
+  # transform X2 containing spaces to curlychop()able (surrounded by curly
+  # braces):
   df_free %>%
     dplyr::mutate(X2 = ifelse(
       grepl("(#VARL|#REC|#VALL|#AVALL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
@@ -390,7 +394,11 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
 }
 delete_empty_X1_not_multiline <- function(df_free) {
   df_free %>%
-    dplyr::mutate(temp = stringr::str_detect(.data$X1, "^#VALL$|^#REC$|^#AVALL$", negate = TRUE)) %>%
+    dplyr::mutate(temp = stringr::str_detect(
+      .data$X1,
+      "^#VALL$|^#REC$|^#AVALL$",
+      negate = TRUE
+    )) %>%
     tidyr::fill(.data$temp) %>%
     dplyr::mutate(temp = .data$temp & is.na(.data$X1)) %>%
     dplyr::filter(!.data$temp) %>%

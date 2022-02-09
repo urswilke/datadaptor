@@ -17,7 +17,8 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 mapping <- Mapping$new(spss_file, mapping_file)
 
-# The spss_file path was read into a dataframe in the "dat" field of the mapping object:
+# The spss_file path was read into a dataframe in the "dat" field of the
+# mapping object:
 mapping$dat
 
 # The Excel mapping file is translated to a `command_blocks()` object.
@@ -46,7 +47,8 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 
-# The method applies the modifications specified in a command_blocks object
+# The method applies the modifications specified in a command_blocks
+# object:
 m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$dat_mod
 }
@@ -124,8 +126,9 @@ blocks of the Excel mapping file are translated to the \code{command_blocks()} f
 \if{latex}{\out{\hypertarget{method-modify_data}{}}}
 \subsection{Method \code{modify_data()}}{
 Run all command blocks of the mapping file. The command
-blocks of the Excel mapping file are translated to the \code{command_blocks()} field
-\code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
+blocks of the Excel mapping file are translated to the
+\code{command_blocks()} field \code{self$cmd_tbl$command_blocks} field of
+the \code{Mapping} object.
 
 The internally called \code{apply_command_blocks()} method depends on the
 value of \code{self$params$error_out} subclass. This subclass decides
@@ -133,9 +136,9 @@ whether to interrupt code execution in case of an error in one of the
 command blocks (for \code{"unsafe"}), or not (for the subclass \code{"safe"}).
 
 \code{apply_command_blocks()} then walks through the list of
-\code{"command_block"} objects in \code{"command_blocks"} and applies each of them to
-the data in the field \code{"dat_mod"} according to their subclass methods
-of \code{apply_command()}.
+\code{"command_block"} objects in \code{"command_blocks"} and applies each of
+them to the data in the field \code{"dat_mod"} according to their subclass
+methods of \code{apply_command()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}\if{html}{\out{</div>}}
 }
@@ -159,7 +162,8 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 
-# The method applies the modifications specified in a command_blocks object
+# The method applies the modifications specified in a command_blocks
+# object:
 m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$dat_mod
 }

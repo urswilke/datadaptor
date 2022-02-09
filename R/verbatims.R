@@ -140,7 +140,7 @@ parse_verbatim_data_raw <- function(
   l_assigns <- generate_assignments_list(verbatim_file, mapping_verbatim_sheet)
   l_assigns <- l_assigns[verbatim_sheets]
   l <- vector("list", length(verbatim_sheets))
-  for (i in 1:length(verbatim_sheets)) {
+  for (i in seq_len(length(verbatim_sheets))) {
     l[[i]][["name"]] <- verbatim_sheets[i]
     l[[i]][["meta"]] <- mapping_verbatim_sheet %>% dplyr::slice(i)
     l[[i]][["assignments"]] <- l_assigns[[i]] %>% dplyr::filter(.data$orig_var == l[[i]][["meta"]] %>% dplyr::pull(.data$VariableOriginal))

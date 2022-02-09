@@ -7,14 +7,17 @@
 \alias{validate_command_block.command_block}
 \title{Generate an object inheriting from \code{"command_block"}}
 \usage{
-command_block(cdb)
+command_block(cdb, validate = TRUE)
 
-new_command_block(cdb, ..., subclass = character())
+new_command_block(cdb, validate = TRUE, ..., subclass = character())
 
 \method{validate_command_block}{command_block}(cdb)
 }
 \arguments{
 \item{cdb}{row of command table}
+
+\item{validate}{Whether to validate the arguments passed to generate the
+command block. Defaults to TRUE.}
 
 \item{...}{further arguments passed to constructor}
 

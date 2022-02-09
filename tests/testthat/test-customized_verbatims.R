@@ -46,7 +46,7 @@ make_cdb_raw <- function(name, meta, assignments, labs) {
     assignments = assignments,
     labs = list()
   )
-  cdb_raw$labs$name = labs
+  cdb_raw$labs$name <- labs
   cdb_raw
 }
 
@@ -60,14 +60,6 @@ m$cmd$sheet_data_raw$Verbatims <- cdbs_raw
 m$cmd$sheet_cats <- tibble::tibble(sheet = "Verbatims", sheet_type = "Verbatims")
 
 m$cmd$df_cmd_raw <- datenanpassr:::gen_command_table_raw(m)
-m$cmd$command_blocks_raw <- datenanpassr:::gen_command_blocks_raw(m)
-# m$cmd$command_blocks_raw <- purrr::map(
-#   m$cmd$command_blocks_raw,
-#   ~ {
-#     class(.x) <- c("cmd_new_verba", class(.x))
-#     .x
-#   }
-# )
 
 m$cmd$command_blocks <- datenanpassr:::command_blocks(m)
 m$cmd_tbl <- datenanpassr:::gen_command_table(m)

@@ -2,14 +2,12 @@ process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
   self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
-  self$cmd$command_blocks_raw <- gen_command_blocks_raw(self)
-  self$cmd$command_blocks <- command_blocks(self) %>% validate_command_blocks(self)
+  self$cmd$command_blocks <- command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
 }
 gen_command_table <- function(self) {
   self$cmd$df_cmd_raw %>%
     dplyr::mutate(
-      command_blocks_raw = self$cmd$command_blocks_raw,
       command_blocks = self$cmd$command_blocks
     )
 }
@@ -127,32 +125,6 @@ tab_sheet_types <- function(sheets) {
     tibble::enframe("sheet", "sheet_type")
 }
 
-gen_command_blocks_raw <- function(self) {
-  cdbs_raw <- self$cmd$df_cmd_raw %>%
-    dplyr::rowwise() %>%
-    dplyr::transmute(cmd = list(command_block(dplyr::cur_data()))) %>%
-    dplyr::pull()
-
-
-  # hopefully preliminary method to use new apply_command.cmd_verbatim_new():
-  verbatim_types <- cdbs_raw %>%
-    purrr::map("raw") %>%
-    purrr::map_chr("EFA1MCG2MDG3", .default = NA_character_)
-
-  is_new_verbatype <- is_true(verbatim_types == "mdg_custom")
-  new_verbatypes_classes <- cdbs_raw[is_new_verbatype] %>%
-    purrr::map(class) %>%
-    purrr::map(~ c("cmd_verbatim_custom", .x))
-  cdbs_raw[is_new_verbatype] <- purrr::map2(
-    cdbs_raw[is_new_verbatype],
-    new_verbatypes_classes,
-    ~ {
-      class(.x) <- .y
-      .x
-    }
-  )
-  cdbs_raw
-}
 #' Generate an object inheriting from `"command_block"`
 #'
 #' @param cdb row of command table
@@ -165,45 +137,45 @@ gen_command_blocks_raw <- function(self) {
 #' m$cmd$df_cmd_raw[10, ] %>% command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
 #' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
-command_block <- function(cdb) {
-  subclass <- switch(cdb$action,
-    "#STATA"    = "cmd_write_stata",
-    "#RECNA"    = "cmd_recna_xcpt",
-    "#IF"       = "cmd_if",
-    "#COMP"     = "cmd_comp",
-    "#VARL"     = "cmd_set_lab",
-    "#VALL"     = "cmd_set_labs",
-    "#REC"      = "cmd_rec",
-    "#SUMVAR"   = "cmd_sumvar",
-    "#AVALL"    = "cmd_add_labs",
-    "#DIC"      = "cmd_dic",
-    "#AUTOREC"  = "cmd_autorec",
-    "#STR2NUM"  = "cmd_str_to_num",
-    "#RENAME"   = "cmd_rename",
-    "#MERGE"    = "cmd_merge",
-    "#NEWVALL"  = "cmd_newvall",
-    "#verbatim" = "cmd_verbatim",
-    "cmd_verbatim_custom" = "cmd_verbatim_custom",
-    "#DROP"     = "cmd_drop",
-    "#NEWLAB"   = "cmd_newlab",
-    "#KG"       = "cmd_kg",
-    "#RFUN"     = "cmd_rfun",
-    "#R"        = "cmd_r",
-    "#COMPR"    = "cmd_comp",
-    stop(cdb$action, " command block specifier not found. See `?command_block()` for allowed ones.")
-  )
-  cdb <- new_command_block(cdb, subclass = subclass)
+command_block <- function(cdb, validate = TRUE) {
+  subclass <- match_command_block_class(cdb$action)
+
+  # hopefully preliminary method to use new apply_command.cmd_verbatim_custom():
+  if (subclass == "cmd_verbatim" && cdb$raw$EFA1MCG2MDG3 == "mdg_custom") {
+    subclass <- c("cmd_verbatim_custom", subclass)
+  }
+  new_command_block(cdb, validate = validate, subclass = subclass)
 }
+
+match_command_block_class <- function(keyword) {
+  command_block_row <- command_block_classes$keyword == keyword
+  if (sum(command_block_row) == 0) {
+    stop(
+      "command block keyword doesn't exist.",
+      "See the package dataset `command_block_classes` for allowed ones."
+    )
+  }
+  command_block_classes[["command_block"]][command_block_row]
+}
+
+
 #' @export
 #' @param ... further arguments passed to constructor
+#' @param validate Whether to validate the arguments passed to generate the
+#'   command block. Defaults to TRUE.
 #' @param subclass character vector containing the subclass of the object to construct
 #' @rdname command_block
-new_command_block <- function(cdb, ..., subclass = character()) {
-  structure(
+new_command_block <- function(cdb, validate = TRUE, ..., subclass = character()) {
+  cdb <- structure(
     cdb,
     ...,
     class = c(subclass, "command_block")
   )
+  cdb <- parse_command_args(cdb)
+  if (validate) {
+    cdb <- validate_command_block(cdb)
+  }
+  cdb
 }
 
 #' Command_blocks objects
@@ -231,22 +203,24 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 #' # m$cmd$command_blocks
 #' class(m$cmd$command_blocks)
 command_blocks <- function(self) {
-  purrr::map(self$cmd$command_blocks_raw, parse_command_args) %>%
-    new_command_blocks(subclass = self$params$error_out)
+  cdbs <- self$cmd$df_cmd_raw %>%
+    dplyr::rowwise() %>%
+    dplyr::transmute(cmd = list(
+      command_block(dplyr::cur_data(), validate = self$params$validate)
+    )) %>%
+    dplyr::pull()
+
+  subclass <- self$params$error_out
+  if (self$params$validate) {
+    subclass <- c("validated", subclass)
+  }
+  new_command_blocks(cdbs, subclass = subclass)
 }
 
 new_command_blocks <- function(command_blocks, ..., subclass = character()) {
   class(command_blocks) <- c(subclass, "command_blocks", "list")
 
   command_blocks
-}
-validate_command_blocks <- function(cdbs, self) {
-  if (self$params$validate) {
-    classes <- c("validated", class(cdbs))
-    cdbs <- purrr::map(cdbs, validate_command_block)
-    class(cdbs) <- classes
-  }
-  cdbs
 }
 
 
