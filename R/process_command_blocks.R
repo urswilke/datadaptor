@@ -2,7 +2,7 @@ process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
   self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
-  self$cmd$command_blocks <- command_blocks(self) %>% validate_command_blocks(self)
+  self$cmd$command_blocks <- command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
 }
 gen_command_table <- function(self) {
@@ -221,14 +221,6 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
   class(command_blocks) <- c(subclass, "command_blocks", "list")
 
   command_blocks
-}
-validate_command_blocks <- function(cdbs, self) {
-  if (self$params$validate) {
-    classes <- c("validated", class(cdbs))
-    cdbs <- purrr::map(cdbs, validate_command_block)
-    class(cdbs) <- classes
-  }
-  cdbs
 }
 
 
