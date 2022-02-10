@@ -4,10 +4,10 @@
 \alias{parse_command_args}
 \title{Parse command block arguments to named list}
 \usage{
-parse_command_args(cdb)
+parse_command_args(cdb_raw)
 }
 \arguments{
-\item{cdb}{command block}
+\item{cdb_raw}{\code{raw} data field of a \code{command_block}}
 }
 \value{
 The command block is returned with an added list element \code{cdb$args},
@@ -22,9 +22,8 @@ spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 (cdb <- command_block(m$cmd$df_cmd_raw[10, ]))
 # Under the hood the command_block() generator calls
-# parse_command_args() which adds the args field:
-parse_command_args(cdb)
-cdb$args
+# parse_command_args() and adds its result to the args field:
+parse_command_args(structure(cdb$raw, class = class(cdb)))
 cdbs <- m$cmd_tbl
 
 # Generate a `command_blocks` object with all unique types of

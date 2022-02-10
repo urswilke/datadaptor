@@ -2,7 +2,7 @@
 #'
 #' Depending of the subclass of the command block, the method is chosen.
 #'
-#' @param cdb command block
+#' @param cdb_raw `raw` data field of a `command_block`
 #'
 #' @return The command block is returned with an added list element `cdb$args`,
 #'   containing the named arguments, passed to the `apply_command()` method.
@@ -14,9 +14,8 @@
 #' m <- Mapping$new(spss_file, mapping_file)
 #' (cdb <- command_block(m$cmd$df_cmd_raw[10, ]))
 #' # Under the hood the command_block() generator calls
-#' # parse_command_args() which adds the args field:
-#' parse_command_args(cdb)
-#' cdb$args
+#' # parse_command_args() and adds its result to the args field:
+#' parse_command_args(structure(cdb$raw, class = class(cdb)))
 #' cdbs <- m$cmd_tbl
 #'
 #' # Generate a `command_blocks` object with all unique types of
@@ -55,265 +54,199 @@
 #'     values_fn = list
 #'   ) %>%
 #'   print(n = 100)
-parse_command_args <- function(cdb) {
+parse_command_args <- function(cdb_raw) {
   UseMethod("parse_command_args")
 }
 #' @export
-parse_command_args.cmd_recna_xcpt <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    xs = d$xs,
-    v = d$replace_val,
-    vallab = d$replace_label
+parse_command_args.cmd_recna_xcpt <- function(cdb_raw) {
+  list(
+    xs = cdb_raw$xs,
+    v = cdb_raw$replace_val,
+    vallab = cdb_raw$replace_label
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_r <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    ex = d$X2
+parse_command_args.cmd_r <- function(cdb_raw) {
+  list(
+    ex = cdb_raw$X2
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_rfun <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    filepath = d$X2,
-    ex_fun = d$X3
+parse_command_args.cmd_rfun <- function(cdb_raw) {
+  list(
+    filepath = cdb_raw$X2,
+    ex_fun = cdb_raw$X3
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_kg <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    x = d$X3[1],
-    y = d$X2[1]
+parse_command_args.cmd_kg <- function(cdb_raw) {
+  list(
+    x = cdb_raw$X3[1],
+    y = cdb_raw$X2[1]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_drop <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    xs = d$vars[[1]]
+parse_command_args.cmd_drop <- function(cdb_raw) {
+  list(
+    xs = cdb_raw$vars[[1]]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_verbatim <- function(cdb) {
-  d <- cdb$raw[[1]]
-  vallabs_named <- d$vallab[[1]]
+parse_command_args.cmd_verbatim <- function(cdb_raw) {
+  vallabs_named <- cdb_raw$vallab[[1]]
 
-  cdb$args <- list(
-    x = d$x,
-    v = d$ex_assign,
-    varlab = d$varlab[[1]],
+  list(
+    x = cdb_raw$x,
+    v = cdb_raw$ex_assign,
+    varlab = cdb_raw$varlab[[1]],
     vs = unname(vallabs_named),
     vallabs = names(vallabs_named),
-    id_list = d$id_list[[1]],
-    v0 = d$init_val,
-    ex_further_cond = d$ex_further_cond,
-    ex_assign = d$ex_assign
+    id_list = cdb_raw$id_list[[1]],
+    v0 = cdb_raw$init_val,
+    ex_further_cond = cdb_raw$ex_further_cond,
+    ex_assign = cdb_raw$ex_assign
   )
-
-  cdb
 }
 #' @export
-parse_command_args.cmd_write_stata <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  varnames_vec <- d$X3[1] %>%
+parse_command_args.cmd_merge <- function(cdb_raw) {
+  varnames_vec <- cdb_raw$X4[1] %>%
     stringr::str_trim() %>%
     stringr::str_split(" ", simplify = TRUE) %>%
     as.vector()
 
-  cdb$args <- list(
-    filepath = d$X2,
+  list(
     xs = varnames_vec,
-    sheet_name = cdb$sheet,
-    stata_index = d$X5
+    filepath = cdb_raw$X2,
+    id = cdb_raw$X3[1]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_merge <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  varnames_vec <- d$X4[1] %>%
-    stringr::str_trim() %>%
-    stringr::str_split(" ", simplify = TRUE) %>%
-    as.vector()
-
-  cdb$args <- list(
-    xs = varnames_vec,
-    filepath = d$X2,
-    id = d$X3[1]
+parse_command_args.cmd_rename <- function(cdb_raw) {
+  list(
+    xs = cdb_raw$new_names[[1]],
+    ys = cdb_raw$vars[[1]]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_rename <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    xs = d$new_names[[1]],
-    ys = d$vars[[1]]
-  )
-  cdb
-}
-#' @export
-parse_command_args.cmd_if <- function(cdb) {
-  assignment <- cdb$raw[[1]]$X3 %>%
+parse_command_args.cmd_if <- function(cdb_raw) {
+  assignment <- cdb_raw$X3 %>%
     stringr::str_split("=") %>%
     unlist() %>%
     stringr::str_squish()
 
-  cdb$args <- list(
+  list(
     x = assignment[1],
     ex = assignment[2],
-    ex_cond = cdb$raw[[1]]$X2
+    ex_cond = cdb_raw$X2
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_comp <- function(cdb) {
-  cdb$args <- list(
-    x = cdb$raw[[1]]$X2[1],
-    ex = cdb$raw[[1]]$X3[1]
+parse_command_args.cmd_comp <- function(cdb_raw) {
+  list(
+    x = cdb_raw$X2[1],
+    ex = cdb_raw$X3[1]
   )
-  cdb
 }
 #' @export
 parse_command_args.cmd_compr <- parse_command_args.cmd_comp
 
 #' @export
-parse_command_args.cmd_set_lab <- function(cdb) {
-  cdb$args <- list(
-    x = cdb$raw[[1]]$X2[1],
-    varlab = cdb$raw[[1]]$X3[1]
+parse_command_args.cmd_set_lab <- function(cdb_raw) {
+  list(
+    x = cdb_raw$X2[1],
+    varlab = cdb_raw$X3[1]
   )
-  cdb
 }
 
 #' @export
-parse_command_args.cmd_newlab <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    x = d$var[1],
-    varlab = d$new_label[1]
+parse_command_args.cmd_newlab <- function(cdb_raw) {
+  list(
+    x = cdb_raw$var[1],
+    varlab = cdb_raw$new_label[1]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_set_labs <- function(cdb) {
-  varlab <- cdb$raw[[1]]$X3[1]
+parse_command_args.cmd_set_labs <- function(cdb_raw) {
+  varlab <- cdb_raw$X3[1]
   if (is.na(varlab) | varlab == "") {
     varlab <- NULL
   }
 
-  cdb$args <- list(
-    x = cdb$raw[[1]]$X2[1],
+  list(
+    x = cdb_raw$X2[1],
     varlab = varlab,
-    vs = cdb$raw[[1]]$X2[-1] %>% as.numeric(),
-    vallabs = cdb$raw[[1]]$X3[-1]
+    vs = cdb_raw$X2[-1] %>% as.numeric(),
+    vallabs = cdb_raw$X3[-1]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_add_labs <- function(cdb) {
-  d <- cdb$raw[[1]]
-  varlab <- d$X3[1]
+parse_command_args.cmd_add_labs <- function(cdb_raw) {
+  varlab <- cdb_raw$X3[1]
   if (is.na(varlab) | varlab == "") {
     varlab <- NULL
   }
-  cdb$args <- list(
-    x = d$X2[1],
+  list(
+    x = cdb_raw$X2[1],
     varlab = varlab,
-    vs = d$X2[-1] %>% as.numeric(),
-    vallabs = d$X3[-1]
+    vs = cdb_raw$X2[-1] %>% as.numeric(),
+    vallabs = cdb_raw$X3[-1]
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_newvall <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    x = d$var[1],
-    vs = d$nv %>% as.numeric(),
-    vallabs = d$new_label
+parse_command_args.cmd_newvall <- function(cdb_raw) {
+  list(
+    x = cdb_raw$var[1],
+    vs = cdb_raw$nv %>% as.numeric(),
+    vallabs = cdb_raw$new_label
   )
-  cdb
 }
 #' @export
-parse_command_args.cmd_rec <- function(cdb) {
-  d <- cdb$raw[[1]]
-  cdb$args <- list(
-    y = d$X2[1],
-    x = d$X3[1],
-    vs0 = d$X2[-1] %>% as.numeric(),
-    vs2 = d$X3[-1] %>% as.numeric(),
-    vs = d$X4[-1] %>% as.numeric(),
-    vallabs = d$X5[-1],
-    varlab = d$X4[1]
+parse_command_args.cmd_rec <- function(cdb_raw) {
+  list(
+    y = cdb_raw$X2[1],
+    x = cdb_raw$X3[1],
+    vs0 = cdb_raw$X2[-1] %>% as.numeric(),
+    vs2 = cdb_raw$X3[-1] %>% as.numeric(),
+    vs = cdb_raw$X4[-1] %>% as.numeric(),
+    vallabs = cdb_raw$X5[-1],
+    varlab = cdb_raw$X4[1]
   )
-  cdb
 }
 
 #' @export
-parse_command_args.cmd_sumvar <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  cdb$args <- list(
-    x = paste0("k", d$var[1]),
-    y = d$var[1],
-    varlab = d$sum_var_label[1],
-    vs0 = d$nv %>% as.numeric(),
-    vs = d$sum_var_value %>% as.numeric(),
-    vallabs = d$sum_var_vallab
+parse_command_args.cmd_sumvar <- function(cdb_raw) {
+  list(
+    x = paste0("k", cdb_raw$var[1]),
+    y = cdb_raw$var[1],
+    varlab = cdb_raw$sum_var_label[1],
+    vs0 = cdb_raw$nv %>% as.numeric(),
+    vs = cdb_raw$sum_var_value %>% as.numeric(),
+    vallabs = cdb_raw$sum_var_vallab
   )
-  cdb
 }
 
 #' @export
-parse_command_args.cmd_dic <- function(cdb) {
-  d <- cdb$raw[[1]]
-
-  varlab <- d$X3[1]
+parse_command_args.cmd_dic <- function(cdb_raw) {
+  varlab <- cdb_raw$X3[1]
   if (is.na(varlab)) {
     varlab <- NULL
   }
-  cdb$args <- list(
-    y = d$X2[1],
-    x = d$X3[1]
+  list(
+    y = cdb_raw$X2[1],
+    x = cdb_raw$X3[1]
   )
-  cdb
 }
 
 #' @export
-parse_command_args.cmd_autorec <- function(cdb) {
-  d <- cdb$raw[[1]]
-  cdb$args <- list(
-    x = d$var
+parse_command_args.cmd_autorec <- function(cdb_raw) {
+  list(
+    x = cdb_raw$var
   )
-
-  cdb
 }
 
 #' @export
-parse_command_args.cmd_str_to_num <- function(cdb) {
-  d <- cdb$raw[[1]]
-  cdb$args <- list(
-    x = d$var
+parse_command_args.cmd_str_to_num <- function(cdb_raw) {
+  list(
+    x = cdb_raw$var
   )
-  cdb
 }

@@ -22,7 +22,6 @@ library(purrr)
 ```{r}
 command_block_classes <- tribble(
   ~ keyword,             ~ command_block,
-  "#STATA",              "cmd_write_stata",
   "#RECNA",              "cmd_recna_xcpt",
   "#IF",                 "cmd_if",
   "#COMP",               "cmd_comp",
