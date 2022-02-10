@@ -35,11 +35,11 @@
 #' }
 curlychop <- function(df_free_raw) {
   df_prep <- df_free_raw %>%
-    dplyr::mutate(raw_index = cumsum(is_true(stringr::str_detect(.data$X1, "^#")))) %>%
+    dplyr::mutate(raw_index = cumsum(is_true_vec(stringr::str_detect(.data$X1, "^#")))) %>%
     dplyr::group_by(.data$raw_index) %>%
     dplyr::mutate(
       row = paste(row, collapse = ", "),
-      is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) %>% is_true()
+      is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) %>% is_true_vec()
     ) %>%
     dplyr::add_count(.data$raw_index) %>%
     dplyr::group_by(.data$raw_index)
@@ -100,7 +100,7 @@ chop_out_curly_parts <- function(x) {
 chop_if_between_curlies <- function(x) {
   is_between_curlies <- x %>%
     stringr::str_detect("^\\{.*\\}$") %>%
-    is_true()
+    is_true_vec()
   x_without_curlies <- x %>%
     stringr::str_remove_all("\\{|\\}")
 
@@ -155,8 +155,8 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 #' @export
 #'
 #' @examples
-#' is_true(c(NA, TRUE, FALSE))
-is_true <- function(x) Vectorize(isTRUE)(x)
+#' is_true_vec(c(NA, TRUE, FALSE))
+is_true_vec <- function(x) Vectorize(isTRUE)(x)
 
 # see https://github.com/tidyverse/magrittr/issues/29#issuecomment-74313262
 globalVariables(".")

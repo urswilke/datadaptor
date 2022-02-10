@@ -133,7 +133,7 @@ apply_command.cmd_verbatim <- function(
       rlang::parse_expr(ex_further_cond),
       mapping
     ) %>%
-      is_true()
+      is_true_vec()
   } else {
     further_ex_bool <- TRUE
   }
@@ -167,7 +167,7 @@ apply_command.cmd_verbatim_custom <- function(
 
   if (!is.na(ex_further_cond)) {
     further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), mapping) %>%
-      is_true()
+      is_true_vec()
   } else {
     further_ex_bool <- rep(TRUE, nrow(mapping$dat_mod))
   }
@@ -252,7 +252,7 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
     mapping$dat_mod[[x]] <- NA_real_
   }
 
-  test <- eval_in_data(rlang::expr(datenanpassr::is_true(!!cond)), mapping)
+  test <- eval_in_data(rlang::expr(datenanpassr::is_true_vec(!!cond)), mapping)
   yes <- eval_in_data(rlang::expr(!!val), mapping)
 
   if (mapping$params$dyn_validate) {
