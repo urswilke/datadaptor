@@ -1,6 +1,3 @@
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-mapping <- Mapping$new(mapping_file = mapping_file)
-
 df_free <- mapp_free_sheet_cmd_table(mapping)
 test_that("snapshot of (the structure of) mapp_free_sheet_cmd_table()", {
   testthat::expect_snapshot_output(df_free)

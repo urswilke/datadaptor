@@ -5,7 +5,7 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 
 
-mapping_s3 <- Mapping$new(spss_file, mapping_file)
+mapping_s3 <- mapping$clone(deep = TRUE)
 # tests doesnt work on other machines:
 # test_that("class object print is reproduced", {
 #   testthat::expect_snapshot_output(
@@ -47,8 +47,11 @@ test_that("variable labels are reproduced", {
 })
 
 
-
-mapping_trycatch <- Mapping$new(spss_file, mapping_file, error_out = "safe")
+# The following 3 lines would lead to the same as:
+# mapping_trycatch <- Mapping$new(spss_file, mapping_file, error_out = "safe")
+mapping_trycatch <- mapping$clone(deep = TRUE)
+mapping_trycatch$params$error_out  <-  "safe"
+class(mapping_trycatch$cmd_tbl$command_blocks) <- c("validated", "safe", "command_blocks", "list")
 mapping_trycatch$cmd_tbl$command_blocks[[52]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$cmd_tbl$command_blocks[[53]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 mapping_trycatch$cmd_tbl$command_blocks[[54]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
