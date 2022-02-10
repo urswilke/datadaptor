@@ -33,7 +33,7 @@ Depends:
 Imports: 
     openxlsx,
     tablab (>= 0.0.0.9000),
-    dplyr,
+    dplyr (>= 1.0.8),
     haven,
     magrittr,
     readxl,
