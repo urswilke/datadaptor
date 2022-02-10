@@ -101,7 +101,7 @@ generate_label_code_list <- function(verbatim_file) {
     dplyr::relocate(.data$Code)
   2:length(df_codestufen) %>%
     purrr::set_names(names(df_codestufen)[-1]) %>%
-    purrr::map(~ dplyr::select(df_codestufen, 1, lab = .x) %>% tidyr::drop_na())
+    purrr::map(~ dplyr::select(df_codestufen, 1, lab = !!.x) %>% tidyr::drop_na())
 }
 # function to replace the term {OT...} in x by the corresponding substring
 # in orig_var:
