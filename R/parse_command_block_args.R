@@ -15,7 +15,7 @@
 #' (cdb <- command_block(m$cmd$df_cmd_raw[10, ]))
 #' # Under the hood the command_block() generator calls
 #' # parse_command_args() and adds its result to the args field:
-#' parse_command_args(structure(cdb$raw, class = class(cdb)))
+#' parse_command_args(structure(cdb$raw[[1]], class = class(cdb)))
 #' cdbs <- m$cmd_tbl
 #'
 #' # Generate a `command_blocks` object with all unique types of
