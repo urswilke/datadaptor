@@ -117,7 +117,6 @@ apply_command.cmd_verbatim <- function(
   id = mapping$params$id_var, ...
 ) {
   vallabs_named <- purrr::set_names(vs, vallabs)
-  v <- as.numeric(v)
 
   if (!x %in% names(mapping$dat_mod)) {
     mapping$dat_mod[[x]] <- v0
@@ -150,7 +149,7 @@ apply_command.cmd_verbatim <- function(
 #'
 #' @export
 apply_command.cmd_verbatim_custom <- function(
-  cdb, mapping, x, v, varlab, vs, vallabs,
+  cdb, mapping, x, varlab, vs, vallabs,
   id_list, v0, ex_further_cond, ex_assign,
   id = mapping$params$id_var, ...
 ) {
@@ -172,15 +171,11 @@ apply_command.cmd_verbatim_custom <- function(
     further_ex_bool <- rep(TRUE, nrow(mapping$dat_mod))
   }
 
-  if (!is.na(ex_assign)) {
-    ex_assign_vec <- eval_in_data(rlang::parse_expr(ex_assign), mapping)
-    # don't take the variable label of the verbatim coding...:
-    # varlab <- attr(ex_assign_vec, "label", exact = TRUE)
-    # ... only keep the existing value labels:
-    vallabs_named <- attr(ex_assign_vec, "labels")
-  } else {
-    ex_assign_vec <- rep(v, nrow(mapping$dat_mod))
-  }
+  ex_assign_vec <- eval_in_data(rlang::parse_expr(ex_assign), mapping)
+  # don't take the variable label of the verbatim coding...:
+  # varlab <- attr(ex_assign_vec, "label", exact = TRUE)
+  # ... only keep the existing value labels:
+  vallabs_named <- attr(ex_assign_vec, "labels")
 
   id_list_existing <- intersect(id_list, mapping$dat[[id]])
   if (length(id_list_existing) < length(id_list)) {

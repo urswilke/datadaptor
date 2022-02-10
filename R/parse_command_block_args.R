@@ -97,7 +97,22 @@ parse_command_args.cmd_verbatim <- function(cdb_raw) {
 
   list(
     x = cdb_raw$x,
-    v = cdb_raw$ex_assign,
+    v = as.numeric(cdb_raw$ex_assign),
+    varlab = cdb_raw$varlab[[1]],
+    vs = unname(vallabs_named),
+    vallabs = names(vallabs_named),
+    id_list = cdb_raw$id_list[[1]],
+    v0 = cdb_raw$init_val,
+    ex_further_cond = cdb_raw$ex_further_cond,
+    ex_assign = cdb_raw$ex_assign
+  )
+}
+#' @export
+parse_command_args.cmd_verbatim_custom <- function(cdb_raw) {
+  vallabs_named <- cdb_raw$vallab[[1]]
+
+  list(
+    x = cdb_raw$x,
     varlab = cdb_raw$varlab[[1]],
     vs = unname(vallabs_named),
     vallabs = names(vallabs_named),

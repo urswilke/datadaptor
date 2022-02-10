@@ -45,12 +45,12 @@
     [42] Vrbtms #vrbtm x: q6n8; v: NA; varlab: ; vs: -2, 1, 2, 3, ...; vallbs: FILTER, love,...; id_lst: ; v0: -2; ex_fr_: NA; ex_ssg: NA                  
     [43] Vrbtms #vrbtm x: q6n9; v: NA; varlab: ; vs: -2, 1, 2, 3, ...; vallbs: FILTER, love,...; id_lst: ; v0: -2; ex_fr_: NA; ex_ssg: NA                  
     [44] Vrbtms #vrbtm x: q6n10; v: NA; varlab: ; vs: -2, 1, 2, 3, ...; vallbs: FILTER, love,...; id_lst: ; v0: -2; ex_fr_: NA; ex_ssg: NA                 
-    [45] Vrbtms #vrbtm x: q6mw_1; v: q1; varlab: love; vs: 0, 1; vallbs: unselected, s...; id_lst: 7, 17, 23, 51...; v0: 0; ex_fr_: NA; ex_ssg: q1         
-    [46] Vrbtms #vrbtm x: q6mw_2; v: q1; varlab: joy; vs: 0, 1; vallbs: unselected, s...; id_lst: 3, 13, 22, 26...; v0: 0; ex_fr_: NA; ex_ssg: q1          
-    [47] Vrbtms #vrbtm x: q6mw_3; v: q1; varlab: happiness; vs: 0, 1; vallbs: unselected, s...; id_lst: 5, 12, 14, 39...; v0: 0; ex_fr_: NA; ex_ssg: q1    
-    [48] Vrbtms #vrbtm x: q6mw_4; v: q1; varlab: noch wat; vs: 0, 1; vallbs: unselected, s...; id_lst: 7, 58, 73; v0: 0; ex_fr_: NA; ex_ssg: q1            
-    [49] Vrbtms #vrbtm x: q6mw_97; v: q1; varlab: Others; vs: 0, 1; vallbs: unselected, s...; id_lst: ; v0: 0; ex_fr_: NA; ex_ssg: q1                      
-    [50] Vrbtms #vrbtm x: q6mw_99; v: q1; varlab: No answer; vs: 0, 1; vallbs: unselected, s...; id_lst: ; v0: 0; ex_fr_: NA; ex_ssg: q1                   
+    [45] Vrbtms #vrbtm x: q6mw_1; varlab: love; vs: 0, 1; vallbs: unselected, s...; id_lst: 7, 17, 23, 51...; v0: 0; ex_fr_: NA; ex_ssg: q1                
+    [46] Vrbtms #vrbtm x: q6mw_2; varlab: joy; vs: 0, 1; vallbs: unselected, s...; id_lst: 3, 13, 22, 26...; v0: 0; ex_fr_: NA; ex_ssg: q1                 
+    [47] Vrbtms #vrbtm x: q6mw_3; varlab: happiness; vs: 0, 1; vallbs: unselected, s...; id_lst: 5, 12, 14, 39...; v0: 0; ex_fr_: NA; ex_ssg: q1           
+    [48] Vrbtms #vrbtm x: q6mw_4; varlab: noch wat; vs: 0, 1; vallbs: unselected, s...; id_lst: 7, 58, 73; v0: 0; ex_fr_: NA; ex_ssg: q1                   
+    [49] Vrbtms #vrbtm x: q6mw_97; varlab: Others; vs: 0, 1; vallbs: unselected, s...; id_lst: ; v0: 0; ex_fr_: NA; ex_ssg: q1                             
+    [50] Vrbtms #vrbtm x: q6mw_99; varlab: No answer; vs: 0, 1; vallbs: unselected, s...; id_lst: ; v0: 0; ex_fr_: NA; ex_ssg: q1                          
     [51] Free1 #COMP x: x; ex: q1 == 2                                                                                                                     
     [52] Free1 #IF x: abc; ex: 7; ex_cnd: q1 == 1 | q3 ...                                                                                                 
     [53] Free1 #IF x: kq5; ex: 7; ex_cnd: q2_renamed == 1                                                                                                  
