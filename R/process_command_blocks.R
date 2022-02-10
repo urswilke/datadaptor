@@ -171,7 +171,14 @@ new_command_block <- function(cdb, validate = TRUE, ..., subclass = character())
     ...,
     class = c(subclass, "command_block")
   )
-  cdb <- parse_command_args(cdb)
+
+  # create temporary object of the `raw` data field with the same class as the
+  # command block:
+  raw_data <- structure(
+    cdb$raw[[1]],
+    class = subclass
+  )
+  cdb$args <- parse_command_args(raw_data)
   if (validate) {
     cdb <- validate_command_block(cdb)
   }
