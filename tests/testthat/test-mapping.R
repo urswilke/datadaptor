@@ -47,7 +47,7 @@ test_that("variable labels are reproduced", {
 })
 
 
-# The following 3 lines would lead to the same as:
+# The following 3 lines lead to the same as:
 # mapping_trycatch <- Mapping$new(spss_file, mapping_file, error_out = "safe")
 mapping_trycatch <- mapping$clone(deep = TRUE)
 mapping_trycatch$params$error_out  <-  "safe"
