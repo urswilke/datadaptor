@@ -213,7 +213,7 @@ render_python_rmd <- function(path) {
     package = "datenanpassr"
   )
   fs::file_copy(template_file, path, overwrite = TRUE)
-  rmarkdown::render(path, params = params_for_py)
+  rmarkdown::render(path, params = params_for_py, quiet = TRUE)
 }
 
 
