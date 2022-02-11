@@ -29,15 +29,20 @@ testthat::expect_equal(names(attr(res_vec, "labels", exact = TRUE)), "YES")
 
 # #SUMVAR:
 m1 <- m$clone(deep = TRUE)
-m1$dat <- data.frame(q5 = haven::labelled(c(1:5, NA_real_), labels = c("xyz" = 1)))
+m1$dat <- data.frame(q5 = haven::labelled(c(1:5, NA_real_), labels = c("xyz" = 1), label = "a"))
 cdb <- cmd_tbl %>% filter(action == "#SUMVAR", new_var == "kq5") %>% pull(command_blocks)
 res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$kq5
+
 
 vallabs <- attr(res_vec, "labels")
 
 testthat::expect_equal(names(vallabs), c("aaa", "bbb", "ccc"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(tablab::strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
+# check that varlab is preserved if not defined:
+cdb[[1]]$args$varlab <- NA_character_
+res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$kq5
+testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "a")
 
 # #DROP:
 m1 <- m$clone(deep = TRUE)
@@ -122,7 +127,7 @@ testthat::expect_equal(tablab::strip_attributes(res_vec), c(7, 7, NA))
 
 # #REC:
 m1 <- m$clone(deep = TRUE)
-m1$dat <- data.frame(q1 = haven::labelled(c(1:5, NA_real_), labels = c("xyz" = 1)))
+m1$dat <- data.frame(q1 = haven::labelled(c(1:5, NA_real_), labels = c("xyz" = 1), label = "aaa"))
 cdb <- cmd_tbl %>% filter(action == "#REC", new_var == "kq1") %>% pull(command_blocks)
 res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$kq1
 
@@ -132,6 +137,24 @@ testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "summarized variabl
 testthat::expect_equal(names(vallabs), c("1-2", "3", "4-5"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(tablab::strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
+
+# check that partial overwriting of existing variable works:
+cdb[[1]]$args$x <- NA_character_
+res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$q1
+
+vallabs <- attr(res_vec, "labels")
+
+testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "summarized variable")
+testthat::expect_equal(names(vallabs), c("1-2", "3", "4-5"))
+testthat::expect_equal(unname(vallabs), 1:3)
+testthat::expect_equal(tablab::strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
+
+# check that varlab is preserved if not defined:
+cdb <- cmd_tbl %>% filter(action == "#REC", new_var == "kq1") %>% pull(command_blocks)
+cdb[[1]]$args$varlab <- NA_character_
+res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$kq1
+testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "aaa")
+
 
 
 # #KG:
@@ -172,6 +195,15 @@ testthat::expect_equal(names(vallabs), c("also with", "value labels", "now"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(tablab::strip_attributes(res_vec), 1)
 
+#check that varlab is preserved if not defined:
+m1$dat <- data.frame(n = haven::labelled(1, label = "aaa"))
+cdb[[1]]$args["varlab"] <- list(NULL)
+res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$n
+vallabs <- attr(res_vec, "labels")
+
+testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "aaa")
+
+
 # #AVALL:
 m1 <- m$clone(deep = TRUE)
 m1$dat <- data.frame(n = haven::labelled(1:3, labels = c(a =1), label = "b"))
@@ -200,6 +232,11 @@ testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
 testthat::expect_equal(names(vallabs), "a")
 testthat::expect_equal(unname(vallabs), 1)
 testthat::expect_equal(tablab::strip_attributes(res_vec), 1:3)
+
+# check that variable is initialized if not already present:
+cdb[[1]]$args$x <- "newvar"
+res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$newvar
+testthat::expect_equal(tablab::strip_attributes(res_vec), rep(NA_real_, 3))
 
 
 
