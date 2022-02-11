@@ -2,7 +2,7 @@ library(dplyr, warn.conflicts = FALSE)
 
 m <- mapping$clone(deep = TRUE)
 
-cmd_tbl <- m$cmd_tbl %>% filter(!duplicated(action) | action == "#verbatim", .keep_all = TRUE)
+cmd_tbl <- m$cmd_tbl %>% filter(!duplicated(action) | action == "#verbatim")
 
 # #RECNA:
 m1 <- m$clone(deep = TRUE)
