@@ -69,7 +69,7 @@ testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "Like Product")
 
 # #verbatim EFA:
 m1 <- m$clone(deep = TRUE)
-m1$dat <- data.frame(id = 1:100, q5 = rep(1:2, 50))
+m1$dat <- data.frame(id = 1:10, q5 = rep(1:2, 5))
 cdb <- cmd_tbl %>% filter(action == "#verbatim", new_var == "q6n") %>% pull(command_blocks)
 res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$q6n
 vallabs <- attr(res_vec, "labels")
@@ -80,7 +80,7 @@ testthat::expect_equal(
 )
 testthat::expect_equal(unname(vallabs), c(-2, 1, 2, 3, 97, 99))
 testthat::expect_equal(
-  tablab::strip_attributes(res_vec[1:10]),
+  tablab::strip_attributes(res_vec),
   c(NA, 3, NA, 2, NA, 2, NA, 1, NA, 1)
 )
 testthat::expect_null(attr(res_vec, "label", exact = TRUE))
