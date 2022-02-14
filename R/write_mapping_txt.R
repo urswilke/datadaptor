@@ -1,7 +1,6 @@
 write_mapping_txt <- function(self, path = paste0(self$params$save_path, "/mapping_raw.txt")) {
-  filepath <- path
   withr::with_output_sink(
-    filepath,
+    path,
     withr::with_options(
       list(
         # pillar.width = 111111,
