@@ -38,7 +38,7 @@
     $debug
     [1] FALSE
     
-    $write_raw_csvs
+    $write_mapping_to_txt
     [1] FALSE
     
     $override_excel
