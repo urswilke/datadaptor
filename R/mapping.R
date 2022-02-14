@@ -326,6 +326,9 @@ initialize_dat <- function(self, dat) {
 #' @param debug whether to enter in debug mode when an error occurs.
 #'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
+#' @param write_mapping_to_txt Whether to write the `Mapping`'s data to text
+#'   files (for instance, in order to allow for git version control during the
+#'   course of a project that evolves). Defaults to FALSE.
 #' @param override_excel should arguments passed with the `...` dots when
 #'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
 #' @param expr_eval_env The environment where expressions are evaluated. See
