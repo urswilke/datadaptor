@@ -58,7 +58,6 @@ apply_command(cdb, mapping, ...)
   cdb,
   mapping,
   x,
-  v,
   varlab,
   vs,
   vallabs,

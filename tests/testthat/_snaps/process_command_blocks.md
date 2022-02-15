@@ -38,6 +38,9 @@
     $debug
     [1] FALSE
     
+    $write_mapping_to_txt
+    [1] FALSE
+    
     $override_excel
     [1] FALSE
     

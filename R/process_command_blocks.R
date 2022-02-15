@@ -1,6 +1,9 @@
 process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
   self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+  if (self$params$write_mapping_to_txt) {
+    write_mapping_txt(self)
+  }
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
