@@ -40,7 +40,6 @@ Imports:
     tidyr,
     tibble,
     purrr,
-    forcats,
     cellranger,
     rlang,
     stringr,
