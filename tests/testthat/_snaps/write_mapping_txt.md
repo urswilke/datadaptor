@@ -1,7 +1,7 @@
 # mapping txt export works
 
     Code
-      cat(readr::read_file(path))
+      cat(readLines(path), sep = "\n")
     Output
       $Label
       # A tibble: 27 x 8

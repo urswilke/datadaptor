@@ -43,7 +43,6 @@ Imports:
     cellranger,
     rlang,
     stringr,
-    readr,
     fs,
     labelled,
     R6,

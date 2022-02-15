@@ -9,6 +9,6 @@ test_that("mapping txt export works", {
   withr::with_file(
     path, {
       write_mapping_txt(m, path)
-      testthat::expect_snapshot(cat(readr::read_file(path)))
+      testthat::expect_snapshot(cat(readLines(path), sep = "\n"))
     })
 })
