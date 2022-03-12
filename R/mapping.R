@@ -73,8 +73,9 @@ Mapping <- R6::R6Class(
     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
     #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
     #'
-    #' @param translate_xlsm For internal use
-    prep_cmd_tbl = function(translate_xlsm = FALSE) {
+    #' @param ... Arguments passed to gen_mapping_params()
+    prep_cmd_tbl = function(...) {
+      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
       process_command_blocks(self)
 
       invisible(self)
@@ -99,6 +100,7 @@ Mapping <- R6::R6Class(
     #'   when applying \code{modify_data()} multiple times).
     #' @param command_blocks The \code{"command_blocks"} object results of the
     #'   processing of the Excel mapping file.
+    #' @param ... Arguments passed to gen_mapping_params()
     #' @examples
     #' # Create a Mapping object from the files provided by the package:
     #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
@@ -110,7 +112,9 @@ Mapping <- R6::R6Class(
     #' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
     #' m$dat_mod
     modify_data = function(reset = TRUE,
-                           command_blocks = self$cmd_tbl$command_blocks) {
+                           command_blocks = self$cmd_tbl$command_blocks,
+                           ...) {
+      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }
@@ -374,14 +378,14 @@ gen_mapping_params <- function(
   ...
 
 ) {
-  if (is.null(id_var) & is.null(excel_params)) {
-    stop(
-      "You need to pass a valid id variable name character string in your dataset\n",
-      "for instance, ",
-      'id_var = "ID_VARIABLE_NAME"\n',
-      'or you can define this string with a named region "R_id_var"',
-      'in the Excel mapping file.')
-  }
+  # if (is.null(id_var) & is.null(excel_params)) {
+  #   stop(
+  #     "You need to pass a valid id variable name character string in your dataset\n",
+  #     "for instance, ",
+  #     'id_var = "ID_VARIABLE_NAME"\n',
+  #     'or you can define this string with a named region "R_id_var"',
+  #     'in the Excel mapping file.')
+  # }
 
   p <- tibble::lst(
     mapping_file,
