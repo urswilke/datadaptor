@@ -20,7 +20,10 @@ refresh_mapping <- function(self) {
   active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) %>% openxlsx::activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]
   sheet_data_raw_index <- which(self$cmd$sheet_cats$sheet == active_sheet_name)
+  active_sheet_type <- self$cmd$sheet_cats$sheet_type[sheet_data_raw_index]
   self$cmd$sheet_data_raw[[active_sheet_name]] <- gen_sheet_data_raw(self, self$cmd$sheet_cats$sheet_type[sheet_data_raw_index], self$cmd$sheet_cats$sheet[sheet_data_raw_index])
+  self$cmd$sheet_command_tables_raw[[active_sheet_name]] <- generate_sheet_cmd_table(self, active_sheet_type, active_sheet_name)
+  self$cmd$df_cmd_raw <- gen_command_table_raw(self)
 }
 
 gen_command_table <- function(self) {
