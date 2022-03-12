@@ -1,13 +1,27 @@
 process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
-  self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+
+  if (self$params$refresh) {
+    refresh_mapping(self)
+  } else {
+    self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+    self$cmd$df_cmd_raw <- gen_command_table_raw(self)
+    self$cmd$command_blocks <- command_blocks(self)
+    self$cmd_tbl <- gen_command_table(self)
+  }
+
   if (self$params$write_mapping_to_txt) {
     write_mapping_txt(self)
   }
-  self$cmd$df_cmd_raw <- gen_command_table_raw(self)
-  self$cmd$command_blocks <- command_blocks(self)
-  self$cmd_tbl <- gen_command_table(self)
 }
+refresh_mapping <- function(self) {
+  all_sheets <- readxl::excel_sheets(self$mapping_file)
+  active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) %>% openxlsx::activeSheet()
+  active_sheet_name <- all_sheets[active_sheet_index]
+  sheet_data_raw_index <- which(self$cmd$sheet_cats$sheet == active_sheet_name)
+  self$cmd$sheet_data_raw[[active_sheet_name]] <- gen_sheet_data_raw(self, self$cmd$sheet_cats$sheet_type[sheet_data_raw_index], self$cmd$sheet_cats$sheet[sheet_data_raw_index])
+}
+
 gen_command_table <- function(self) {
   self$cmd$df_cmd_raw %>%
     dplyr::mutate(

@@ -23,6 +23,7 @@ gen_mapping_params(
   miss_rec_lab = "FILTER",
   miss_rec_val = -2,
   not_miss_to_filter_vars = NA_character_,
+  refresh = FALSE,
   dots_args,
   ...
 )

@@ -75,7 +75,7 @@ Mapping <- R6::R6Class(
     #'
     #' @param ... Arguments passed to gen_mapping_params()
     prep_cmd_tbl = function(...) {
-      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
+      self$params <- gen_mapping_params(self$mapping_file, refresh = self$params$refresh, dots_args = tibble::lst(...), ...)
       process_command_blocks(self)
 
       invisible(self)
@@ -114,7 +114,7 @@ Mapping <- R6::R6Class(
     modify_data = function(reset = TRUE,
                            command_blocks = self$cmd_tbl$command_blocks,
                            ...) {
-      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
+      self$params <- gen_mapping_params(self$mapping_file, refresh = self$params$refresh, dots_args = tibble::lst(...), ...)
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }
@@ -371,6 +371,7 @@ gen_mapping_params <- function(
   miss_rec_lab = "FILTER",
   miss_rec_val = -2,
   not_miss_to_filter_vars = NA_character_,
+  refresh = FALSE,
   # Needed for developing...:
   # These only need to interest you if you want to override params that
   # already were defined in the Excel file (see arg `override_excel`):
@@ -405,6 +406,7 @@ gen_mapping_params <- function(
     miss_rec_lab,
     miss_rec_val,
     not_miss_to_filter_vars,
+    refresh,
     ...
   )
   if (debug) {
