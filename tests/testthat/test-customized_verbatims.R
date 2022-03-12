@@ -59,6 +59,7 @@ m <- Mapping$new(dat, na_to_filter = FALSE, id_var = "id")
 m$cmd$sheet_data_raw$Verbatims <- cdbs_raw
 m$cmd$sheet_cats <- tibble::tibble(sheet = "Verbatims", sheet_type = "Verbatims")
 
+m$cmd$sheet_command_tables_raw <- datenanpassr:::gen_sheet_command_tables_raw(m)
 m$cmd$df_cmd_raw <- datenanpassr:::gen_command_table_raw(m)
 
 m$cmd$command_blocks <- datenanpassr:::command_blocks(m)
