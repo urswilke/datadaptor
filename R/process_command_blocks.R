@@ -5,6 +5,7 @@ process_command_blocks <- function(self) {
     refresh_mapping(self)
   } else {
     self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+    self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
     self$cmd$df_cmd_raw <- gen_command_table_raw(self)
     self$cmd$command_blocks <- command_blocks(self)
     self$cmd_tbl <- gen_command_table(self)
@@ -28,26 +29,33 @@ gen_command_table <- function(self) {
       command_blocks = self$cmd$command_blocks
     )
 }
-gen_command_table_raw <- function(self) {
+
+gen_sheet_command_tables_raw <- function(self) {
   sheet_cats <- self$cmd$sheet_cats
 
 
-  df_cmd_raw <- purrr::map2_dfr(
+  sheet_command_tables_raw <- purrr::map2(
     sheet_cats$sheet %>%
       purrr::set_names(),
     sheet_cats$sheet_type,
-    ~ generate_sheet_cmd_table(self, .y, .x),
-    .id = "sheet"
+    ~ generate_sheet_cmd_table(self, .y, .x)
   )
 
   if (self$params$na_to_filter == TRUE) {
-    df_cmd_raw <- dplyr::bind_rows(
-      generate_rec_na_cmd_table(self),
-      df_cmd_raw
+    sheet_command_tables_raw <- append(
+      list(Config = generate_rec_na_cmd_table(self)),
+      sheet_command_tables_raw
     )
   }
-  df_cmd_raw
+  sheet_command_tables_raw
 }
+gen_command_table_raw <- function(self) {
+  dplyr::bind_rows(
+    self$cmd$sheet_command_tables_raw,
+    .id = "sheet"
+  )
+}
+
 gen_sheet_cats <- function(self) {
   sheets <- self$mapping_file %>% readxl::excel_sheets()
 
