@@ -64,7 +64,7 @@ m$cmd$df_cmd_raw <- datenanpassr:::gen_command_table_raw(m)
 m$cmd$command_blocks <- datenanpassr:::command_blocks(m)
 m$cmd_tbl <- datenanpassr:::gen_command_table(m)
 
-m$modify_data()
+m$modify_data(id_var = "id")
 test_that("modified data print is reproduced", {
   testthat::expect_snapshot_output(
     m$dat_mod
