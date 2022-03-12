@@ -74,8 +74,10 @@ Mapping <- R6::R6Class(
     #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
     #'
     #' @param ... Arguments passed to gen_mapping_params()
-    prep_cmd_tbl = function(...) {
-      self$params <- gen_mapping_params(self$mapping_file, refresh = self$params$refresh, dots_args = tibble::lst(...), ...)
+    prep_cmd_tbl = function(
+      refresh = self$params$refresh,
+      ...) {
+      self$params <- gen_mapping_params(self$mapping_file, refresh = refresh, dots_args = tibble::lst(...), ...)
       process_command_blocks(self)
 
       invisible(self)
