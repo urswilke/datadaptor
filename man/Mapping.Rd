@@ -110,13 +110,13 @@ Process all command blocks of the Excel mapping file to R. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
 \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$prep_cmd_tbl(refresh = self$params$refresh, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$prep_cmd_tbl(...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{refresh, ...}}{Arguments passed to gen_mapping_params()}
+\item{\code{...}}{Arguments passed to update_mapping_params()}
 }
 \if{html}{\out{</div>}}
 }
@@ -143,7 +143,6 @@ methods of \code{apply_command()}.
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(
   reset = TRUE,
   command_blocks = self$cmd_tbl$command_blocks,
-  refresh = self$params$refresh,
   ...
 )}\if{html}{\out{</div>}}
 }
@@ -158,7 +157,7 @@ when applying \code{modify_data()} multiple times).}
 \item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
 processing of the Excel mapping file.}
 
-\item{\code{refresh, ...}}{Arguments passed to gen_mapping_params()}
+\item{\code{...}}{Arguments passed to gen_mapping_params()}
 }
 \if{html}{\out{</div>}}
 }
