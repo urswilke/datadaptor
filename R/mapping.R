@@ -73,7 +73,7 @@ Mapping <- R6::R6Class(
     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
     #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
     #'
-    #' @param ... Arguments passed to gen_mapping_params()
+    #' @param refresh,... Arguments passed to gen_mapping_params()
     prep_cmd_tbl = function(
       refresh = self$params$refresh,
       ...) {
@@ -102,7 +102,7 @@ Mapping <- R6::R6Class(
     #'   when applying \code{modify_data()} multiple times).
     #' @param command_blocks The \code{"command_blocks"} object results of the
     #'   processing of the Excel mapping file.
-    #' @param ... Arguments passed to gen_mapping_params()
+    #' @param refresh,... Arguments passed to gen_mapping_params()
     #' @examples
     #' # Create a Mapping object from the files provided by the package:
     #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
@@ -349,6 +349,8 @@ initialize_dat <- function(self, dat) {
 #' @param miss_rec_val Replace value if `na_to_filter = TRUE`.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
+#' @param refresh Whether to only refresh the generation of the current active
+#'   sheet in the Excel mapping file.
 #' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #'

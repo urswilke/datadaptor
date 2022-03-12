@@ -79,6 +79,9 @@ initializing overwrite those from the Excel file? Defaults to \code{FALSE}.}
 \item{not_miss_to_filter_vars}{Space separated character string of variable
 names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 
+\item{refresh}{Whether to only refresh the generation of the current active
+sheet in the Excel mapping file.}
+
 \item{dots_args}{for internal use.}
 
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
