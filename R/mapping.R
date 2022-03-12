@@ -113,8 +113,12 @@ Mapping <- R6::R6Class(
     #' m$dat_mod
     modify_data = function(reset = TRUE,
                            command_blocks = self$cmd_tbl$command_blocks,
+                           refresh = self$params$refresh,
                            ...) {
-      self$params <- gen_mapping_params(self$mapping_file, refresh = self$params$refresh, dots_args = tibble::lst(...), ...)
+      self$params <- gen_mapping_params(self$mapping_file, refresh = refresh, dots_args = tibble::lst(...), ...)
+      if (self$params$refresh) {
+        self$prep_cmd_tbl()
+      }
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }
