@@ -46,7 +46,7 @@ gen_command_table_raw <- function(self) {
       df_cmd_raw
     )
   }
-  df_cmd_raw %>% dplyr::rename(raw = .data$data)
+  df_cmd_raw
 }
 gen_sheet_cats <- function(self) {
   sheets <- self$mapping_file %>% readxl::excel_sheets()
@@ -85,7 +85,7 @@ generate_rec_na_cmd_table <- function(self) {
     action = "#RECNA",
     row = NA_character_,
     new_var = NA_character_,
-    data = list(
+    raw = list(
       list(
         xs = vars_to_exclude_na_to_filter,
         replace_val = params$miss_rec_val,
@@ -96,12 +96,17 @@ generate_rec_na_cmd_table <- function(self) {
 }
 
 generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
-  switch(sheet_cat,
+  res <- switch(sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
     "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
     "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
   )
+  if (is.null(res)) {
+    return(NULL)
+  }
+  res %>%
+    dplyr::rename(raw = .data$data)
 }
 
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
