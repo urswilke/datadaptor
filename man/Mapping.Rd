@@ -116,7 +116,7 @@ blocks of the Excel mapping file are translated to the \code{command_blocks()} f
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{Arguments passed to update_mapping_params()}
+\item{\code{...}}{Arguments passed to \code{update_mapping_params()}}
 }
 \if{html}{\out{</div>}}
 }
@@ -157,7 +157,7 @@ when applying \code{modify_data()} multiple times).}
 \item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
 processing of the Excel mapping file.}
 
-\item{\code{...}}{Arguments passed to gen_mapping_params()}
+\item{\code{...}}{Arguments passed to \code{update_mapping_params()}}
 }
 \if{html}{\out{</div>}}
 }
