@@ -66,7 +66,7 @@ Mapping <- R6::R6Class(
       self$mapping_file <- mapping_file
       self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
       if (!is.null(mapping_file)) {
-        do.call(self$prep_cmd_tbl, args = list(...))
+        self$prep_cmd_tbl()
       }
     },
     #' @description Process all command blocks of the Excel mapping file to R. The command
