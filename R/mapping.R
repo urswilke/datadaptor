@@ -73,7 +73,7 @@ Mapping <- R6::R6Class(
     #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
     #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
     #'
-    #' @param ... Arguments passed to update_mapping_params()
+    #' @param ... Arguments passed to `update_mapping_params()`
     prep_cmd_tbl = function(
       ...) {
       self$params <- update_mapping_params(self$params, ...)
@@ -101,7 +101,7 @@ Mapping <- R6::R6Class(
     #'   when applying \code{modify_data()} multiple times).
     #' @param command_blocks The \code{"command_blocks"} object results of the
     #'   processing of the Excel mapping file.
-    #' @param ... Arguments passed to gen_mapping_params()
+    #' @param ... Arguments passed to `update_mapping_params()`
     #' @examples
     #' # Create a Mapping object from the files provided by the package:
     #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
