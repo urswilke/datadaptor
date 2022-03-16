@@ -192,19 +192,19 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
     dplyr::distinct() %>%
     # For Rmd the result is a html:
     dplyr::mutate(res_path = stringr::str_replace(path, "\\.Rmd$", ".html"))
-  purrr::walk2(df$path, df$filetype, ~ save_type(mapping, .x, .y, ...))
+  purrr::walk2(df$path, df$filetype, ~ save_type(mapping, .x, .y))
 
   df$res_path[df$show] %>% purrr::walk(utils::browseURL)
 }
 
 
-save_type <- function(mapping, path, filetype, ...) {
+save_type <- function(mapping, path, filetype) {
   switch (filetype,
     "sav"  = haven::write_sav(mapping$dat_mod, path),
     "dta"  = haven::write_dta(mapping$dat_mod, path),
     "xlsx" = save_xlsx(mapping$dat_mod, path),
     "Rmd"  = render_python_rmd(path),
-    "txt"  = write_txt_files(mapping, ...),
+    "txt"  = write_txt_files(mapping),
     stop("unknown filetype")
   )
 }
