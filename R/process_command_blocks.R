@@ -11,9 +11,6 @@ process_command_blocks <- function(self) {
     self$cmd_tbl <- gen_command_table(self)
   }
 
-  if (self$params$write_mapping_to_txt) {
-    write_mapping_txt(self)
-  }
 }
 refresh_mapping <- function(self) {
   all_sheets <- readxl::excel_sheets(self$mapping_file)

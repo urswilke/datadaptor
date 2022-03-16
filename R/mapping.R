@@ -192,21 +192,51 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
     dplyr::distinct() %>%
     # For Rmd the result is a html:
     dplyr::mutate(res_path = stringr::str_replace(path, "\\.Rmd$", ".html"))
-  purrr::walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+  purrr::walk2(df$path, df$filetype, ~ save_type(mapping, .x, .y, ...))
 
   df$res_path[df$show] %>% purrr::walk(utils::browseURL)
 }
 
 
-save_type <- function(df, path, filetype) {
+save_type <- function(mapping, path, filetype, ...) {
   switch (filetype,
-    "sav"  = haven::write_sav(df, path),
-    "dta"  = haven::write_dta(df, path),
-    "xlsx" = save_xlsx(df, path),
+    "sav"  = haven::write_sav(mapping$dat_mod, path),
+    "dta"  = haven::write_dta(mapping$dat_mod, path),
+    "xlsx" = save_xlsx(mapping$dat_mod, path),
     "Rmd"  = render_python_rmd(path),
+    "txt"  = write_txt_files(mapping, ...),
     stop("unknown filetype")
   )
 }
+
+
+write_txt_files <- function(self) {
+  if (self$params$write_mapping_to_txt) {
+    write_mapping_txt(self)
+  }
+  if (self$params$write_varlabs_to_txt) {
+    write_varlabs_txt(self)
+  }
+  if (self$params$write_vallabs_to_txt) {
+    write_vallabs_txt(self)
+  }
+  if (self$params$write_varlabs_raw_to_txt) {
+    write_varlabs_raw_txt(self)
+  }
+  if (self$params$write_vallabs_raw_to_txt) {
+    write_vallabs_raw_txt(self)
+  }
+  if (self$params$write_counts_to_txt) {
+    write_counts_txt(self)
+  }
+  if (self$params$write_counts_raw_to_txt) {
+    write_counts_raw_txt(self)
+  }
+
+}
+
+
+
 save_xlsx <- function(df, path) {
   df %>%
     dplyr::mutate(dplyr::across(
@@ -371,8 +401,15 @@ gen_mapping_params <- function(
   validate = TRUE,
   dyn_validate = TRUE,
   debug = FALSE,
-  save_path = tempdir(),
-  write_mapping_to_txt = FALSE,
+  save_path = ".",
+  write_to_txt = TRUE,
+  write_mapping_to_txt = write_to_txt,
+  write_varlabs_to_txt = write_to_txt,
+  write_vallabs_to_txt = write_to_txt,
+  write_varlabs_raw_to_txt = write_to_txt,
+  write_vallabs_raw_to_txt = write_to_txt,
+  write_counts_to_txt = write_to_txt,
+  write_counts_raw_to_txt = write_to_txt,
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -407,6 +444,12 @@ gen_mapping_params <- function(
     dyn_validate,
     debug,
     write_mapping_to_txt,
+    write_varlabs_to_txt,
+    write_vallabs_to_txt,
+    write_varlabs_raw_to_txt,
+    write_vallabs_raw_to_txt,
+    write_counts_to_txt,
+    write_counts_raw_to_txt,
     save_path,
     override_excel,
     expr_eval_env,

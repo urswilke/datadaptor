@@ -39,7 +39,25 @@
     [1] FALSE
     
     $write_mapping_to_txt
-    [1] FALSE
+    [1] TRUE
+    
+    $write_varlabs_to_txt
+    [1] TRUE
+    
+    $write_vallabs_to_txt
+    [1] TRUE
+    
+    $write_varlabs_raw_to_txt
+    [1] TRUE
+    
+    $write_vallabs_raw_to_txt
+    [1] TRUE
+    
+    $write_counts_to_txt
+    [1] TRUE
+    
+    $write_counts_raw_to_txt
+    [1] TRUE
     
     $override_excel
     [1] FALSE
