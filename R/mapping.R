@@ -220,7 +220,12 @@ write_txt_files <- function(self) {
   write_counts_raw_txt(self)
   txt_files <- list.files(path = self$params$save_path, pattern = "txt")
 
-  zip(paste0(self$params$save_path, "/txt_", Sys.time(), ".zip"), files = txt_files)
+  zipfile_name <- paste0(self$params$save_path, "/txt_", Sys.time(), ".zip") %>%
+    stringr::str_replace_all("[ :]", "_")
+  zip::zip(
+    zipfile_name,
+    files = paste0(self$params$save_path, "/", txt_files)
+  )
 }
 
 
