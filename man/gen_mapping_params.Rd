@@ -17,14 +17,6 @@ gen_mapping_params(
   dyn_validate = TRUE,
   debug = FALSE,
   save_path = ".",
-  write_to_txt = TRUE,
-  write_mapping_to_txt = write_to_txt,
-  write_varlabs_to_txt = write_to_txt,
-  write_vallabs_to_txt = write_to_txt,
-  write_varlabs_raw_to_txt = write_to_txt,
-  write_vallabs_raw_to_txt = write_to_txt,
-  write_counts_to_txt = write_to_txt,
-  write_counts_raw_to_txt = write_to_txt,
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -68,10 +60,6 @@ experimental).}
 Automatically sets \code{error_out = "safe"}.}
 
 \item{save_path}{filepath where to save files.}
-
-\item{write_mapping_to_txt}{Whether to write the \code{Mapping}'s data to text
-files (for instance, in order to allow for git version control during the
-course of a project that evolves). Defaults to FALSE.}
 
 \item{override_excel}{should arguments passed with the \code{...} dots when
 initializing overwrite those from the Excel file? Defaults to \code{FALSE}.}

@@ -211,27 +211,13 @@ save_type <- function(mapping, path, filetype) {
 
 
 write_txt_files <- function(self) {
-  if (self$params$write_mapping_to_txt) {
-    write_mapping_txt(self)
-  }
-  if (self$params$write_varlabs_to_txt) {
-    write_varlabs_txt(self)
-  }
-  if (self$params$write_vallabs_to_txt) {
-    write_vallabs_txt(self)
-  }
-  if (self$params$write_varlabs_raw_to_txt) {
-    write_varlabs_raw_txt(self)
-  }
-  if (self$params$write_vallabs_raw_to_txt) {
-    write_vallabs_raw_txt(self)
-  }
-  if (self$params$write_counts_to_txt) {
-    write_counts_txt(self)
-  }
-  if (self$params$write_counts_raw_to_txt) {
-    write_counts_raw_txt(self)
-  }
+  write_mapping_txt(self)
+  write_varlabs_txt(self)
+  write_vallabs_txt(self)
+  write_varlabs_raw_txt(self)
+  write_vallabs_raw_txt(self)
+  write_counts_txt(self)
+  write_counts_raw_txt(self)
   txt_files <- list.files(path = self$params$save_path, pattern = "txt")
 
   zip(paste0(self$params$save_path, "/txt_", Sys.time(), ".zip"), files = txt_files)
@@ -368,9 +354,6 @@ initialize_dat <- function(self, dat) {
 #' @param debug whether to enter in debug mode when an error occurs.
 #'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
-#' @param write_mapping_to_txt Whether to write the `Mapping`'s data to text
-#'   files (for instance, in order to allow for git version control during the
-#'   course of a project that evolves). Defaults to FALSE.
 #' @param override_excel should arguments passed with the `...` dots when
 #'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
 #' @param expr_eval_env The environment where expressions are evaluated. See
@@ -404,14 +387,6 @@ gen_mapping_params <- function(
   dyn_validate = TRUE,
   debug = FALSE,
   save_path = ".",
-  write_to_txt = TRUE,
-  write_mapping_to_txt = write_to_txt,
-  write_varlabs_to_txt = write_to_txt,
-  write_vallabs_to_txt = write_to_txt,
-  write_varlabs_raw_to_txt = write_to_txt,
-  write_vallabs_raw_to_txt = write_to_txt,
-  write_counts_to_txt = write_to_txt,
-  write_counts_raw_to_txt = write_to_txt,
   override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
@@ -445,13 +420,6 @@ gen_mapping_params <- function(
     validate,
     dyn_validate,
     debug,
-    write_mapping_to_txt,
-    write_varlabs_to_txt,
-    write_vallabs_to_txt,
-    write_varlabs_raw_to_txt,
-    write_vallabs_raw_to_txt,
-    write_counts_to_txt,
-    write_counts_raw_to_txt,
     save_path,
     override_excel,
     expr_eval_env,
