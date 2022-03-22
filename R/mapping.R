@@ -232,7 +232,9 @@ write_txt_files <- function(self) {
   if (self$params$write_counts_raw_to_txt) {
     write_counts_raw_txt(self)
   }
+  txt_files <- list.files(path = self$params$save_path, pattern = "txt")
 
+  zip(paste0("txt_", Sys.time(), ".zip"), files = txt_files)
 }
 
 
