@@ -234,7 +234,7 @@ write_txt_files <- function(self) {
   }
   txt_files <- list.files(path = self$params$save_path, pattern = "txt")
 
-  zip(paste0("txt_", Sys.time(), ".zip"), files = txt_files)
+  zip(paste0(self$params$save_path, "/txt_", Sys.time(), ".zip"), files = txt_files)
 }
 
 
