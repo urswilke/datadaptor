@@ -1,4 +1,4 @@
-testthat::expect_error(Mapping$new(luifaliufli = 1))
+# testthat::expect_error(Mapping$new(luifaliufli = 1))
 
 
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
