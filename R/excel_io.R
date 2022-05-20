@@ -341,7 +341,7 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
 
 process_raw_free_cmd_table <- function(df_free) {
   if (nrow(df_free) == 0) {
-    return(tibble::tibble())
+    return(NULL)
   }
   df_free %>%
     delete_empty_X1_not_multiline() %>%

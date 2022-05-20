@@ -1,39 +1,66 @@
 process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
-  self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+
+  if (self$params$refresh) {
+    refresh_mapping(self)
+  } else {
+    self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+    self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
+    self$cmd$df_cmd_raw <- gen_command_table_raw(self)
+    self$cmd$command_blocks <- command_blocks(self)
+    self$cmd_tbl <- gen_command_table(self)
+  }
+
   if (self$params$write_mapping_to_txt) {
     write_mapping_txt(self)
   }
+}
+refresh_mapping <- function(self) {
+  all_sheets <- readxl::excel_sheets(self$mapping_file)
+  active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) %>% openxlsx::activeSheet()
+  active_sheet_name <- all_sheets[active_sheet_index]
+  sheet_data_raw_index <- which(self$cmd$sheet_cats$sheet == active_sheet_name)
+  active_sheet_type <- self$cmd$sheet_cats$sheet_type[sheet_data_raw_index]
+  self$cmd$sheet_data_raw[[active_sheet_name]] <- gen_sheet_data_raw(self, self$cmd$sheet_cats$sheet_type[sheet_data_raw_index], self$cmd$sheet_cats$sheet[sheet_data_raw_index])
+  self$cmd$sheet_command_tables_raw[[active_sheet_name]] <- generate_sheet_cmd_table(self, active_sheet_type, active_sheet_name)
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
 }
+
 gen_command_table <- function(self) {
   self$cmd$df_cmd_raw %>%
     dplyr::mutate(
       command_blocks = self$cmd$command_blocks
     )
 }
-gen_command_table_raw <- function(self) {
+
+gen_sheet_command_tables_raw <- function(self) {
   sheet_cats <- self$cmd$sheet_cats
 
 
-  df_cmd_raw <- purrr::map2_dfr(
+  sheet_command_tables_raw <- purrr::map2(
     sheet_cats$sheet %>%
       purrr::set_names(),
     sheet_cats$sheet_type,
-    ~ generate_sheet_cmd_table(self, .y, .x),
-    .id = "sheet"
+    ~ generate_sheet_cmd_table(self, .y, .x)
   )
 
   if (self$params$na_to_filter == TRUE) {
-    df_cmd_raw <- dplyr::bind_rows(
-      generate_rec_na_cmd_table(self),
-      df_cmd_raw
+    sheet_command_tables_raw <- append(
+      list(Config = generate_rec_na_cmd_table(self)),
+      sheet_command_tables_raw
     )
   }
-  df_cmd_raw %>% dplyr::rename(raw = .data$data)
+  sheet_command_tables_raw
 }
+gen_command_table_raw <- function(self) {
+  dplyr::bind_rows(
+    self$cmd$sheet_command_tables_raw,
+    .id = "sheet"
+  )
+}
+
 gen_sheet_cats <- function(self) {
   sheets <- self$mapping_file %>% readxl::excel_sheets()
 
@@ -71,7 +98,7 @@ generate_rec_na_cmd_table <- function(self) {
     action = "#RECNA",
     row = NA_character_,
     new_var = NA_character_,
-    data = list(
+    raw = list(
       list(
         xs = vars_to_exclude_na_to_filter,
         replace_val = params$miss_rec_val,
@@ -82,12 +109,17 @@ generate_rec_na_cmd_table <- function(self) {
 }
 
 generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
-  switch(sheet_cat,
+  res <- switch(sheet_cat,
     "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
     "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
     "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
     "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
   )
+  if (is.null(res)) {
+    return(NULL)
+  }
+  res %>%
+    dplyr::rename(raw = .data$data)
 }
 
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
