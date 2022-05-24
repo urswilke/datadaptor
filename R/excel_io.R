@@ -322,7 +322,6 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   }
   df_free %>%
     put_absolute_filepaths(self$mapping_file) %>%
-    add_stata_indices() %>%
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
@@ -360,12 +359,6 @@ put_absolute_filepaths <- function(df_free, mapping_file) {
   df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
     df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] %>%
     purrr::map_chr(~ adapt_filepath(.x, mapping_file))
-  df_free
-}
-add_stata_indices <- function(df_free) {
-  df_free[df_free$X1 %in% c("#STATA"), ] <-
-    df_free[df_free$X1 %in% c("#STATA"), ] %>%
-    dplyr::mutate(X5 = dplyr::row_number() %>% as.character())
   df_free
 }
 
