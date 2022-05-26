@@ -6,7 +6,7 @@
 #' @param abort_if_commands_lost logical whether to abort if commands in the
 #'   sheet are lost when updating; defaults to `TRUE`.
 #'
-#' @return Updated Variables sheet
+#' @return Dataframe containing the table of the updated "Variables" sheet
 #' @export
 #'
 #' @examples
@@ -14,9 +14,10 @@
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' dat <- spss_file %>%
 #'   haven::read_sav() %>%
-#'   # add a new variable:
+#'   # add a new variable in the first column of the dataframe:
 #'   dplyr::mutate(
-#'     new_var = haven::labelled(1, label = "new variable label"), .before = 1
+#'     new_var = haven::labelled(1, label = "variable label of new_var"),
+#'     .before = 1
 #'   )
 #' update_var_sheet(dat, mapping_file)
 update_var_sheet <- function(dat,

@@ -22,7 +22,7 @@ update_var_sheet(
 sheet are lost when updating; defaults to \code{TRUE}.}
 }
 \value{
-Updated Variables sheet
+Dataframe containing the table of the updated "Variables" sheet
 }
 \description{
 Update the "Variables" sheet table with new dataset
@@ -32,9 +32,10 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 dat <- spss_file \%>\%
   haven::read_sav() \%>\%
-  # add a new variable:
+  # add a new variable in the first column of the dataframe:
   dplyr::mutate(
-    new_var = haven::labelled(1, label = "new variable label"), .before = 1
+    new_var = haven::labelled(1, label = "variable label of new_var"),
+    .before = 1
   )
 update_var_sheet(dat, mapping_file)
 }
