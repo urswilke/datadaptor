@@ -99,7 +99,7 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
 
 format_df_varl <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = dplyr::row_number() + 1) %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     parse_varlab_cmd_table()
 }
 
@@ -117,7 +117,6 @@ parse_varlab_cmd_table <- function(df_varl) {
 
 parse_newlab_cmd_blocks <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(.data$new_label) %>%
     dplyr::mutate(var = dplyr::coalesce(.data$new_name, .data$var)) %>%
     dplyr::mutate(new_var = .data$var) %>%
@@ -130,7 +129,6 @@ parse_newlab_cmd_blocks <- function(df_varl) {
 }
 parse_rename_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(.data$new_name) %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#RENAME") %>%
@@ -150,7 +148,6 @@ parse_rename_cmd_block <- function(df_varl) {
 
 parse_autorecode_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "a") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#AUTOREC") %>%
@@ -164,7 +161,6 @@ parse_autorecode_cmd_block <- function(df_varl) {
 
 parse_drop_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "d") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#DROP") %>%
@@ -182,7 +178,6 @@ parse_drop_cmd_block <- function(df_varl) {
 
 parse_str_to_num_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "n") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#STR2NUM") %>%
