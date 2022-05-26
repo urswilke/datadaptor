@@ -36,17 +36,17 @@
       27 q5       99 no an~ NA    <NA>      <NA>                     NA <NA>          
       
       $Variables
-      # A tibble: 8 x 5
-        var   varlab                                       new_label    op    new_name
-        <chr> <chr>                                        <chr>        <chr> <chr>   
-      1 q1    How much do you like the product?            Like Product <NA>  <NA>    
-      2 q2    Do you want to recommend the product?        recommend p~ <NA>  q2_rena~
-      3 q3    How likely will you go dancing this weekend? <NA>         <NA>  <NA>    
-      4 q4    How much do you like your friends?           <NA>         <NA>  q4_rena~
-      5 q5    How much do you like your best friend?       Like best f~ <NA>  <NA>    
-      6 q6    <NA>                                         <NA>         a     <NA>    
-      7 q8    A numeric variable in string format.         Now the var~ n     <NA>    
-      8 q9    <NA>                                         <NA>         d     <NA>    
+      # A tibble: 8 x 6
+        var   varlab                                    type  new_label op    new_name
+        <chr> <chr>                                     <chr> <chr>     <chr> <chr>   
+      1 q1    How much do you like the product?         doub~ Like Pro~ <NA>  <NA>    
+      2 q2    Do you want to recommend the product?     doub~ recommen~ <NA>  q2_rena~
+      3 q3    How likely will you go dancing this week~ doub~ <NA>      <NA>  <NA>    
+      4 q4    How much do you like your friends?        doub~ <NA>      <NA>  q4_rena~
+      5 q5    How much do you like your best friend?    doub~ Like bes~ <NA>  <NA>    
+      6 q6    Tell me something positive.               char~ <NA>      a     <NA>    
+      7 q8    A numeric variable in string format.      char~ Now the ~ n     <NA>    
+      8 q9    <NA>                                      doub~ <NA>      d     <NA>    
       
       $Verbatims
       $Verbatims[[1]]
