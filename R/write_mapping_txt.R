@@ -49,9 +49,9 @@ write_counts_txt <- function(
   dat %>%
     dplyr::select(where(is.numeric)) %>%
     tidyr::pivot_longer(dplyr::everything()) %>%
-    dplyr::count(name, value) %>%
-    dplyr::group_by(name) %>%
-    dplyr::filter(dplyr::n() != nrow(m$dat)) %>%
+    dplyr::count(.data$name, .data$value) %>%
+    dplyr::group_by(.data$name) %>%
+    dplyr::filter(dplyr::n() != nrow(dat)) %>%
     dplyr::ungroup() %>%
     write_object(path)
 }
@@ -64,9 +64,9 @@ write_counts_raw_txt <- function(
   dat %>%
     dplyr::select(where(is.numeric)) %>%
     tidyr::pivot_longer(dplyr::everything()) %>%
-    dplyr::count(name, value) %>%
-    dplyr::group_by(name) %>%
-    dplyr::filter(dplyr::n() != nrow(m$dat)) %>%
+    dplyr::count(.data$name, .data$value) %>%
+    dplyr::group_by(.data$name) %>%
+    dplyr::filter(dplyr::n() != nrow(dat)) %>%
     dplyr::ungroup() %>%
     write_object(path)
 }
