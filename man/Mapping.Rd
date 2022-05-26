@@ -74,16 +74,16 @@ information of the Excel mapping file.}
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
-\item \href{#method-new}{\code{Mapping$new()}}
-\item \href{#method-prep_cmd_tbl}{\code{Mapping$prep_cmd_tbl()}}
-\item \href{#method-modify_data}{\code{Mapping$modify_data()}}
-\item \href{#method-save}{\code{Mapping$save()}}
-\item \href{#method-clone}{\code{Mapping$clone()}}
+\item \href{#method-Mapping-new}{\code{Mapping$new()}}
+\item \href{#method-Mapping-prep_cmd_tbl}{\code{Mapping$prep_cmd_tbl()}}
+\item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
+\item \href{#method-Mapping-save}{\code{Mapping$save()}}
+\item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-new"></a>}}
-\if{latex}{\out{\hypertarget{method-new}{}}}
+\if{html}{\out{<a id="method-Mapping-new"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-new}{}}}
 \subsection{Method \code{new()}}{
 Initialize a Mapping object
 \subsection{Usage}{
@@ -103,8 +103,8 @@ Initialize a Mapping object
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-prep_cmd_tbl"></a>}}
-\if{latex}{\out{\hypertarget{method-prep_cmd_tbl}{}}}
+\if{html}{\out{<a id="method-Mapping-prep_cmd_tbl"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-prep_cmd_tbl}{}}}
 \subsection{Method \code{prep_cmd_tbl()}}{
 Process all command blocks of the Excel mapping file to R. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
@@ -122,8 +122,8 @@ blocks of the Excel mapping file are translated to the \code{command_blocks()} f
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-modify_data"></a>}}
-\if{latex}{\out{\hypertarget{method-modify_data}{}}}
+\if{html}{\out{<a id="method-Mapping-modify_data"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-modify_data}{}}}
 \subsection{Method \code{modify_data()}}{
 Run all command blocks of the mapping file. The command
 blocks of the Excel mapping file are translated to the
@@ -179,8 +179,8 @@ m$dat_mod
 
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-save"></a>}}
-\if{latex}{\out{\hypertarget{method-save}{}}}
+\if{html}{\out{<a id="method-Mapping-save"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-save}{}}}
 \subsection{Method \code{save()}}{
 Save the modified data to a file
 
@@ -199,8 +199,8 @@ export removes variable & value labels.
 }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-clone"></a>}}
-\if{latex}{\out{\hypertarget{method-clone}{}}}
+\if{html}{\out{<a id="method-Mapping-clone"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-clone}{}}}
 \subsection{Method \code{clone()}}{
 The objects of this class are cloneable with this method.
 \subsection{Usage}{
