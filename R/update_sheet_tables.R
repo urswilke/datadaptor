@@ -109,3 +109,46 @@ update_label_table <- function(dat,
 gen_label_table_raw <- function(dat) {
   tablab::tab_vallabs(dat)
 }
+
+#' Generate the "Variables" sheet table
+#'
+#' @param dat The dataset containing variables of type `haven::labelled `.
+#'
+#' @return Dataframe containing the table of the "Variables" sheet
+#' @export
+#'
+#' @examples
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' dat <- spss_file %>%
+#'   haven::read_sav()
+#' gen_var_table(dat)
+gen_var_table <- function(dat) {
+  gen_var_table_raw(dat) %>%
+    dplyr::mutate(
+      new_label = "",
+      new_name = "",
+      op = ""
+    )
+}
+
+#' Generate the "Label" sheet table
+#'
+#' @param dat The dataset containing variables of type `haven::labelled `.
+#'
+#' @return Dataframe containing the table of the "Label" sheet
+#' @export
+#'
+#' @examples
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' dat <- spss_file %>%
+#'   haven::read_sav()
+#' gen_label_table(dat)
+gen_label_table <- function(dat) {
+  gen_label_table_raw(dat) %>%
+    dplyr::mutate(
+      new_label      = "",
+      sum_var_label  = "",
+      sum_var_value  = "",
+      sum_var_vallab = ""
+    )
+}

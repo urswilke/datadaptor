@@ -22,15 +22,8 @@
 #' mapp_create(df, "mapping.xlsx")
 #' }
 mapp_create <- function(df_raw, mapping_file) {
-  df_varlab <- gen_var_table_raw(df_raw) %>%
-    dplyr::mutate(new_label = "", new_name = "", op = "")
-  df_vallabs <- gen_label_table_raw(df_raw) %>%
-    dplyr::mutate(
-      new_label      = "",
-      sum_var_label  = "",
-      sum_var_value  = "",
-      sum_var_vallab = ""
-    )
+  df_varlab <- gen_var_table(df_raw)
+  df_vallabs <- gen_label_table(df_raw)
 
   wb <- openxlsx::createWorkbook()
 
