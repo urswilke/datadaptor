@@ -19,8 +19,8 @@
 #'     new_var = haven::labelled(1, label = "variable label of new_var"),
 #'     .before = 1
 #'   )
-#' update_var_sheet(dat_mod, mapping_file)
-update_var_sheet <- function(dat,
+#' update_var_table(dat_mod, mapping_file)
+update_var_table <- function(dat,
                              mapping_file,
                              sheet = "Variables",
                              abort_if_commands_lost = TRUE) {
@@ -29,7 +29,7 @@ update_var_sheet <- function(dat,
     sheet = sheet,
     col_types = "text"
   )
-  df_varl_new <- gen_var_table(dat)
+  df_varl_new <- gen_var_table_raw(dat)
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_varl %>%
@@ -42,7 +42,7 @@ update_var_sheet <- function(dat,
     dplyr::left_join(df_varl, by = c("var", "varlab", "type"))
 }
 
-gen_var_table <- function(dat) {
+gen_var_table_raw <- function(dat) {
   df_types <- dat %>%
     purrr::map_chr(typeof) %>%
     tibble::enframe("var", "type")
@@ -78,8 +78,8 @@ gen_var_table <- function(dat) {
 #'     ),
 #'     .before = 1
 #'   )
-#' update_label_sheet(dat_mod, mapping_file)
-update_label_sheet <- function(dat,
+#' update_label_table(dat_mod, mapping_file)
+update_label_table <- function(dat,
                                mapping_file,
                                sheet = "Label",
                                abort_if_commands_lost = TRUE) {
@@ -89,7 +89,7 @@ update_label_sheet <- function(dat,
     col_types = "text"
   ) %>%
     dplyr::mutate(nv = as.numeric(.data$nv))
-  df_vall_new <- gen_label_table(dat)
+  df_vall_new <- gen_label_table_raw(dat)
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_vall %>%
@@ -106,6 +106,6 @@ update_label_sheet <- function(dat,
 
 }
 
-gen_label_table <- function(dat) {
+gen_label_table_raw <- function(dat) {
   tablab::tab_vallabs(dat)
 }

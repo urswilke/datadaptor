@@ -1,4 +1,4 @@
-# update_var_sheet() print is reproduced
+# update_var_table() print is reproduced
 
     # A tibble: 11 x 6
        var     type      varlab                             new_label op    new_name
@@ -15,7 +15,7 @@
     10 q8      character A numeric variable in string form~ Now the ~ n     <NA>    
     11 q9      double    <NA>                               <NA>      d     <NA>    
 
-# update_label_sheet() print is reproduced
+# update_label_table() print is reproduced
 
     # A tibble: 28 x 8
        var      nv vallab cv    new_label sum_var_label sum_var_value sum_var_vallab
