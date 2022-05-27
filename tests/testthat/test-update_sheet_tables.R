@@ -12,5 +12,12 @@ dat_mod <- dat %>%
   )
 test_that("update_var_sheet() print is reproduced", {
   testthat::expect_snapshot_output({
+    update_var_sheet(dat_mod, mapping_file) %>% print(n = 1111)
+  })
+})
+test_that("update_label_sheet() print is reproduced", {
+  testthat::expect_snapshot_output({
+    update_label_sheet(dat_mod, mapping_file) %>% print(n = 1111)
+  })
 })
 

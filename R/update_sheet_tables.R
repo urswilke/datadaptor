@@ -53,3 +53,59 @@ gen_var_table <- function(dat) {
       by = "var"
     )
 }
+
+#' Update the "Label" sheet table with new dataset
+#'
+#' @param dat The new dataset
+#' @param mapping_file Path the Excel mapping file
+#' @param sheet Name of the "Label" sheet in the mapping file
+#' @param abort_if_commands_lost logical whether to abort if commands in the
+#'   sheet are lost when updating; defaults to `TRUE`.
+#'
+#' @return Dataframe containing the table of the updated "Label" sheet
+#' @export
+#'
+#' @examples
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' dat_mod <- spss_file %>%
+#'   haven::read_sav() %>%
+#'   # add a new variable in the first column of the dataframe:
+#'   dplyr::mutate(
+#'     new_var = haven::labelled(
+#'       1,
+#'       labels = c("value label of value 1 of new_var" = 1)
+#'     ),
+#'     .before = 1
+#'   )
+#' update_label_sheet(dat_mod, mapping_file)
+update_label_sheet <- function(dat,
+                               mapping_file,
+                               sheet = "Label",
+                               abort_if_commands_lost = TRUE) {
+  df_vall <- readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    col_types = "text"
+  ) %>%
+    dplyr::mutate(nv = as.numeric(.data$nv))
+  df_vall_new <- gen_label_table(dat)
+
+  if (abort_if_commands_lost) {
+    df_commands_lost <- df_vall %>%
+      dplyr::filter(if_any(
+        c("new_label", "sum_var_label", "sum_var_value", "sum_var_vallab"),
+        ~is.na(.x)
+      )) %>%
+      dplyr::anti_join(df_vall_new, by = c("var", "nv", "cv", "vallab"))
+    stopifnot(nrow(df_commands_lost) == 0)
+  }
+
+  df_vall_new %>%
+    dplyr::left_join(df_vall, by = c("var", "nv", "cv", "vallab"))
+
+}
+
+gen_label_table <- function(dat) {
+  tablab::tab_vallabs(dat)
+}
