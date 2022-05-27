@@ -29,15 +29,7 @@ update_var_sheet <- function(dat,
     sheet = sheet,
     col_types = "text"
   )
-  df_types <- dat %>%
-    purrr::map_chr(typeof) %>%
-    tibble::enframe("var", "type")
-  df_varl_new <- df_types %>%
-    dplyr::full_join(
-      dat %>%
-        tablab::tab_varlabs(),
-      by = "var"
-    )
+  df_varl_new <- gen_var_table(dat)
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_varl %>%
@@ -48,4 +40,16 @@ update_var_sheet <- function(dat,
 
   df_varl_new %>%
     dplyr::left_join(df_varl, by = c("var", "varlab", "type"))
+}
+
+gen_var_table <- function(dat) {
+  df_types <- dat %>%
+    purrr::map_chr(typeof) %>%
+    tibble::enframe("var", "type")
+  df_types %>%
+    dplyr::full_join(
+      dat %>%
+        tablab::tab_varlabs(),
+      by = "var"
+    )
 }

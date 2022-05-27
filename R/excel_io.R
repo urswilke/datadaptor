@@ -22,10 +22,7 @@
 #' mapp_create(df, "mapping.xlsx")
 #' }
 mapp_create <- function(df_raw, mapping_file) {
-  df_types <- df_raw %>% purrr::map_chr(typeof) %>% tibble::enframe("var", "type")
-  df_varlab <-
-    tablab::tab_varlabs(df_raw) %>%
-    dplyr::left_join(df_types, by = "var") %>%
+  df_varlab <- gen_var_table(df_raw) %>%
     dplyr::mutate(new_label = "", new_name = "", op = "")
   df_vallabs <-
     tablab::tab_vallabs(df_raw) %>%
