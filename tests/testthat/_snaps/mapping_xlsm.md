@@ -562,6 +562,7 @@
      9        -2
     10        -2
     # ... with 141 more rows
+    # i Use `print(n = ...)` to see more rows
 
 # value labels are reproduced
 

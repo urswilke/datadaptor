@@ -52,18 +52,18 @@ test_that("variable labels are reproduced", {
 mapping_trycatch <- mapping$clone(deep = TRUE)
 mapping_trycatch$params$error_out  <-  "safe"
 class(mapping_trycatch$cmd_tbl$command_blocks) <- c("validated", "safe", "command_blocks", "list")
-mapping_trycatch$cmd_tbl$command_blocks[[52]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$cmd_tbl$command_blocks[[53]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
-mapping_trycatch$cmd_tbl$command_blocks[[54]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+mapping_trycatch$cmd_tbl$command_blocks[[62]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+# mapping_trycatch$cmd_tbl$command_blocks[[62]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+# mapping_trycatch$cmd_tbl$command_blocks[[63]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 
-testthat::expect_message(testthat::expect_message(testthat::expect_message(mapping_trycatch$modify_data())))
+testthat::expect_message(mapping_trycatch$modify_data())
 error_list <- mapping_trycatch$params$error_list
 cmd_tbl_error_col <- mapping_trycatch$cmd_tbl$error
 err_idx <- which(error_list != "")
 err_idx2 <- which(cmd_tbl_error_col != "")
 test_that("Non-empty indices of error list are correctly detected", {
-  testthat::expect_equal(err_idx, 52:54)
-  testthat::expect_equal(err_idx2, 52:54)
+  testthat::expect_equal(err_idx, 62)
+  testthat::expect_equal(err_idx2, 62)
 })
 test_that("error string elements were added to cmd_tbl", {
   testthat::expect_snapshot_output({

@@ -9,11 +9,12 @@
      4 5_2            #IF    kq6            <tibble [1 x 5]>
      5 7, 8, 9, 10_1  #REC   kq1            <tibble [4 x 5]>
      6 7, 8, 9, 10_2  #REC   kq3            <tibble [4 x 5]>
-     7 12             #KG    kq1_q2_renamed <tibble [1 x 5]>
-     8 13             #COMP  n              <tibble [1 x 5]>
-     9 14             #VARL  n              <tibble [1 x 5]>
-    10 16, 17, 18, 19 #VALL  n              <tibble [4 x 5]>
+     7 13             #KG    kq1_q2_renamed <tibble [1 x 5]>
+     8 14             #COMP  n              <tibble [1 x 5]>
+     9 15             #VARL  n              <tibble [1 x 5]>
+    10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
     # ... with 13 more rows
+    # i Use `print(n = ...)` to see more rows
 
 ---
 

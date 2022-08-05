@@ -22,17 +22,8 @@
 #' mapp_create(df, "mapping.xlsx")
 #' }
 mapp_create <- function(df_raw, mapping_file) {
-  df_varlab <-
-    tablab::tab_varlabs(df_raw) %>%
-    dplyr::mutate(new_label = "", new_name = "", op = "")
-  df_vallabs <-
-    tablab::tab_vallabs(df_raw) %>%
-    dplyr::mutate(
-      `new_label`      = "",
-      `sum_var_label`  = "",
-      `sum_var_value`  = "",
-      `sum_var_vallab` = ""
-    )
+  df_varlab <- gen_var_table(df_raw)
+  df_vallabs <- gen_label_table(df_raw)
 
   wb <- openxlsx::createWorkbook()
 
@@ -99,7 +90,7 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
 
 format_df_varl <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = dplyr::row_number() + 1) %>%
+    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     parse_varlab_cmd_table()
 }
 
@@ -117,7 +108,6 @@ parse_varlab_cmd_table <- function(df_varl) {
 
 parse_newlab_cmd_blocks <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(.data$new_label) %>%
     dplyr::mutate(var = dplyr::coalesce(.data$new_name, .data$var)) %>%
     dplyr::mutate(new_var = .data$var) %>%
@@ -130,7 +120,6 @@ parse_newlab_cmd_blocks <- function(df_varl) {
 }
 parse_rename_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     tidyr::drop_na(.data$new_name) %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#RENAME") %>%
@@ -150,7 +139,6 @@ parse_rename_cmd_block <- function(df_varl) {
 
 parse_autorecode_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "a") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#AUTOREC") %>%
@@ -164,7 +152,6 @@ parse_autorecode_cmd_block <- function(df_varl) {
 
 parse_drop_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "d") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#DROP") %>%
@@ -182,7 +169,6 @@ parse_drop_cmd_block <- function(df_varl) {
 
 parse_str_to_num_cmd_block <- function(df_varl) {
   df_varl %>%
-    dplyr::mutate(row = (dplyr::row_number() + 1) %>% as.character()) %>%
     dplyr::filter(.data$op == "n") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#STR2NUM") %>%
@@ -387,13 +373,17 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
 }
 delete_empty_X1_not_multiline <- function(df_free) {
   df_free %>%
-    dplyr::mutate(temp = stringr::str_detect(
-      .data$X1,
-      "^#VALL$|^#REC$|^#AVALL$",
-      negate = TRUE
-    )) %>%
+    dplyr::mutate(
+      not_multiline_cmd = stringr::str_detect(
+        .data$X1,
+        "^#VALL$|^#REC$|^#AVALL$",
+        negate = TRUE
+      ),
+      after_dot = (lag(str_detect(.data$X1, "\\.")) & !str_detect(.data$X1, "^#")) %>% is_true_vec(),
+      temp = not_multiline_cmd & !after_dot
+    ) %>%
     tidyr::fill(.data$temp) %>%
     dplyr::mutate(temp = .data$temp & is.na(.data$X1)) %>%
     dplyr::filter(!.data$temp) %>%
-    dplyr::select(-.data$temp)
+    dplyr::select(-.data$temp, -.data$not_multiline_cmd, -.data$after_dot)
 }

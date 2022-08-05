@@ -1,6 +1,6 @@
 m <- mapping$clone(deep = TRUE)
 
-cmd_tbl <- m$cmd_tbl %>% filter(!duplicated(action) | action == "#verbatim")
+cmd_tbl <- m$cmd_tbl %>% filter(!duplicated(action) | action == "#verbatim" | new_var == "x")
 
 # #RECNA:
 m1 <- m$clone(deep = TRUE)
