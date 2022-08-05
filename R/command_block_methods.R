@@ -318,6 +318,13 @@ apply_command.cmd_compr <- apply_command.cmd_comp
 #'
 #' @export
 apply_command.cmd_set_lab <- function(cdb, mapping, x, varlab, ...) {
+  # faster execution if variable is already of type haven::labelled:
+  if (haven::is.labelled(mapping$dat_mod[[x]])) {
+    attr(mapping$dat_mod[[x]], "label") <- varlab
+    # break function execution:
+    return(NULL)
+  }
+
   vec <- mapping$dat_mod[[x]]
   mapping$dat_mod[[x]] <- haven::labelled(
     vec,
