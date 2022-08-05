@@ -50,6 +50,15 @@
       8 q9    <NA>                                         doub~ <NA>    d     <NA>   
       # ... with abbreviated variable names 1: new_label, 2: new_name
       
+      $Free0
+      # A tibble: 4 x 6
+        X1    X2    X3         X4    X5      row
+        <chr> <chr> <chr>      <chr> <chr> <int>
+      1 #COMP q2    q2_renamed <NA>  <NA>      3
+      2 #COMP q4    q4_renamed <NA>  <NA>      4
+      3 #COMP q97   10         <NA>  <NA>      5
+      4 #COMP q99   11         <NA>  <NA>      6
+      
       $Verbatims
       $Verbatims[[1]]
       $Verbatims[[1]]$name
@@ -730,6 +739,140 @@
       
       $Verbatims[[6]]$labs
       $Verbatims[[6]]$labs$q6mdg
+      # A tibble: 6 x 2
+         Code lab      
+        <int> <chr>    
+      1     1 love     
+      2     2 joy      
+      3     3 happiness
+      4     4 noch wat 
+      5    97 Others   
+      6    99 No answer
+      
+      
+      
+      $Verbatims[[7]]
+      $Verbatims[[7]]$name
+      [1] "q6mdg"
+      
+      $Verbatims[[7]]$meta
+      # A tibble: 1 x 6
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel      ex_further_cond ex_ass~1
+        <chr> <chr>            <chr>        <chr>             <chr>           <chr>   
+      1 q6mdg q6               mdg_custom   q6_assign_nn_{nn} <NA>            q{nn}   
+      # ... with abbreviated variable name 1: ex_assign
+      
+      $Verbatims[[7]]$assignments
+      # A tibble: 100 x 12
+          orig_var    ID `Zuord 1` `Zuord 2` `Zuord 3` Zuord~1 Zuord~2 Zuord~3 Zuord~4
+          <chr>    <dbl>     <dbl>     <dbl> <lgl>     <lgl>   <lgl>   <lgl>   <lgl>  
+        1 q6           7         1         4 NA        NA      NA      NA      NA     
+        2 q6          17         1        NA NA        NA      NA      NA      NA     
+        3 q6          23         1        NA NA        NA      NA      NA      NA     
+        4 q6          51         1        NA NA        NA      NA      NA      NA     
+        5 q6          58         1         4 NA        NA      NA      NA      NA     
+        6 q6          65         1        NA NA        NA      NA      NA      NA     
+        7 q6          67         1        NA NA        NA      NA      NA      NA     
+        8 q6          73         1         4 NA        NA      NA      NA      NA     
+        9 q6          74         1        NA NA        NA      NA      NA      NA     
+       10 q6          91         1        NA NA        NA      NA      NA      NA     
+       11 q6         100         1        NA NA        NA      NA      NA      NA     
+       12 q6           3         2        NA NA        NA      NA      NA      NA     
+       13 q6          13         2        NA NA        NA      NA      NA      NA     
+       14 q6          22         2        NA NA        NA      NA      NA      NA     
+       15 q6          26         2        NA NA        NA      NA      NA      NA     
+       16 q6          35         2        NA NA        NA      NA      NA      NA     
+       17 q6          38         2        NA NA        NA      NA      NA      NA     
+       18 q6          45         2        NA NA        NA      NA      NA      NA     
+       19 q6          47         2        NA NA        NA      NA      NA      NA     
+       20 q6          55         2        NA NA        NA      NA      NA      NA     
+       21 q6          72         2        NA NA        NA      NA      NA      NA     
+       22 q6          78         2        NA NA        NA      NA      NA      NA     
+       23 q6          88         2        NA NA        NA      NA      NA      NA     
+       24 q6          89         2        NA NA        NA      NA      NA      NA     
+       25 q6          97         2        NA NA        NA      NA      NA      NA     
+       26 q6           5         3        NA NA        NA      NA      NA      NA     
+       27 q6          12         3        NA NA        NA      NA      NA      NA     
+       28 q6          14         3        NA NA        NA      NA      NA      NA     
+       29 q6          39         3        NA NA        NA      NA      NA      NA     
+       30 q6          49         3        NA NA        NA      NA      NA      NA     
+       31 q6          62         3        NA NA        NA      NA      NA      NA     
+       32 q6          79         3        NA NA        NA      NA      NA      NA     
+       33 q6          98         3        NA NA        NA      NA      NA      NA     
+       34 q6           8         1        NA NA        NA      NA      NA      NA     
+       35 q6           9         1        NA NA        NA      NA      NA      NA     
+       36 q6          24         1        NA NA        NA      NA      NA      NA     
+       37 q6          30         1        NA NA        NA      NA      NA      NA     
+       38 q6          32         1        NA NA        NA      NA      NA      NA     
+       39 q6          36         1        NA NA        NA      NA      NA      NA     
+       40 q6          53         1        NA NA        NA      NA      NA      NA     
+       41 q6          61         1        NA NA        NA      NA      NA      NA     
+       42 q6          70         1        NA NA        NA      NA      NA      NA     
+       43 q6           4         2        NA NA        NA      NA      NA      NA     
+       44 q6           6         2        NA NA        NA      NA      NA      NA     
+       45 q6          19         2        NA NA        NA      NA      NA      NA     
+       46 q6          25         2        NA NA        NA      NA      NA      NA     
+       47 q6          28         2        NA NA        NA      NA      NA      NA     
+       48 q6          34         2        NA NA        NA      NA      NA      NA     
+       49 q6          44         2        NA NA        NA      NA      NA      NA     
+       50 q6          52         2        NA NA        NA      NA      NA      NA     
+       51 q6          54         2        NA NA        NA      NA      NA      NA     
+       52 q6          56         2        NA NA        NA      NA      NA      NA     
+       53 q6          57         2        NA NA        NA      NA      NA      NA     
+       54 q6          66         2        NA NA        NA      NA      NA      NA     
+       55 q6          71         2        NA NA        NA      NA      NA      NA     
+       56 q6          77         2        NA NA        NA      NA      NA      NA     
+       57 q6          83         2        NA NA        NA      NA      NA      NA     
+       58 q6          85         2        NA NA        NA      NA      NA      NA     
+       59 q6          90         2        NA NA        NA      NA      NA      NA     
+       60 q6          94         2        NA NA        NA      NA      NA      NA     
+       61 q6          96         2        NA NA        NA      NA      NA      NA     
+       62 q6           2         3        NA NA        NA      NA      NA      NA     
+       63 q6          15         3        NA NA        NA      NA      NA      NA     
+       64 q6          21         3        NA NA        NA      NA      NA      NA     
+       65 q6          27         3        NA NA        NA      NA      NA      NA     
+       66 q6          37         3        NA NA        NA      NA      NA      NA     
+       67 q6          40         3        NA NA        NA      NA      NA      NA     
+       68 q6          63         3        NA NA        NA      NA      NA      NA     
+       69 q6          69         3        NA NA        NA      NA      NA      NA     
+       70 q6          76         3        NA NA        NA      NA      NA      NA     
+       71 q6          99         3        NA NA        NA      NA      NA      NA     
+       72 q6           1         1        NA NA        NA      NA      NA      NA     
+       73 q6          10         1        NA NA        NA      NA      NA      NA     
+       74 q6          16         1        NA NA        NA      NA      NA      NA     
+       75 q6          33         1        NA NA        NA      NA      NA      NA     
+       76 q6          41         1        NA NA        NA      NA      NA      NA     
+       77 q6          42         1        NA NA        NA      NA      NA      NA     
+       78 q6          68         1        NA NA        NA      NA      NA      NA     
+       79 q6          75         1        NA NA        NA      NA      NA      NA     
+       80 q6          82         1        NA NA        NA      NA      NA      NA     
+       81 q6          86         1        NA NA        NA      NA      NA      NA     
+       82 q6          93         1        NA NA        NA      NA      NA      NA     
+       83 q6          11         2        NA NA        NA      NA      NA      NA     
+       84 q6          20         2        NA NA        NA      NA      NA      NA     
+       85 q6          29         2        NA NA        NA      NA      NA      NA     
+       86 q6          46         2        NA NA        NA      NA      NA      NA     
+       87 q6          50         2        NA NA        NA      NA      NA      NA     
+       88 q6          81         2        NA NA        NA      NA      NA      NA     
+       89 q6          84         2        NA NA        NA      NA      NA      NA     
+       90 q6          87         2        NA NA        NA      NA      NA      NA     
+       91 q6          18         3        NA NA        NA      NA      NA      NA     
+       92 q6          31         3        NA NA        NA      NA      NA      NA     
+       93 q6          43         3        NA NA        NA      NA      NA      NA     
+       94 q6          48         3        NA NA        NA      NA      NA      NA     
+       95 q6          59         3        NA NA        NA      NA      NA      NA     
+       96 q6          60         3        NA NA        NA      NA      NA      NA     
+       97 q6          64         3        NA NA        NA      NA      NA      NA     
+       98 q6          80         3        NA NA        NA      NA      NA      NA     
+       99 q6          92         3        NA NA        NA      NA      NA      NA     
+      100 q6          95         3        NA NA        NA      NA      NA      NA     
+      # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
+      #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
+      #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
+      # i Use `colnames()` to see all variable names
+      
+      $Verbatims[[7]]$labs
+      $Verbatims[[7]]$labs$q6mdg
       # A tibble: 6 x 2
          Code lab      
         <int> <chr>    
