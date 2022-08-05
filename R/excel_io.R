@@ -373,13 +373,17 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
 }
 delete_empty_X1_not_multiline <- function(df_free) {
   df_free %>%
-    dplyr::mutate(temp = stringr::str_detect(
-      .data$X1,
-      "^#VALL$|^#REC$|^#AVALL$",
-      negate = TRUE
-    )) %>%
+    dplyr::mutate(
+      not_multiline_cmd = stringr::str_detect(
+        .data$X1,
+        "^#VALL$|^#REC$|^#AVALL$",
+        negate = TRUE
+      ),
+      after_dot = (lag(str_detect(.data$X1, "\\.")) & !str_detect(.data$X1, "^#")) %>% is_true_vec(),
+      temp = not_multiline_cmd & !after_dot
+    ) %>%
     tidyr::fill(.data$temp) %>%
     dplyr::mutate(temp = .data$temp & is.na(.data$X1)) %>%
     dplyr::filter(!.data$temp) %>%
-    dplyr::select(-.data$temp)
+    dplyr::select(-.data$temp, -.data$not_multiline_cmd, -.data$after_dot)
 }
