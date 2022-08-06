@@ -379,7 +379,10 @@ delete_empty_X1_not_multiline <- function(df_free) {
         "^#VALL$|^#REC$|^#AVALL$",
         negate = TRUE
       ),
-      after_dot = (lag(str_detect(.data$X1, "\\.")) & !str_detect(.data$X1, "^#")) %>% is_true_vec(),
+      after_dot = (dplyr::lag(stringr::str_detect(.data$X1, "\\.")) &
+                     !stringr::str_detect(.data$X1, "^#")
+                   ) %>%
+        is_true_vec(),
       temp = not_multiline_cmd & !after_dot
     ) %>%
     tidyr::fill(.data$temp) %>%
