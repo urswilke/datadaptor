@@ -231,7 +231,7 @@ There are also other R packages that can help to modify labelled data like
 
 
 ## Numeric variable
-
+<!-- TODO: remove this comment when publishing this package: -->
 *This kind of tabulation is done with the type* **`cat`** *in the type column of the
 "Questions" sheet in the Excel mapping file.*
 
@@ -367,6 +367,7 @@ excelish(cdbs)
 
 ## Multiple choice questions
 
+<!-- TODO: remove this comment when publishing this package: -->
 *This kind of tabulation is done with the type* **`mdg`** *in the type column of the
 "Questions" sheet in the Excel mapping file.*
 
@@ -442,6 +443,7 @@ excelish(cdbs)
 
 ## Multiple answers on the same scale
 
+<!-- TODO: remove this comment when publishing this package: -->
 *This kind of tabulation is done with the type* **`mw`** *in the type column of the
 "Questions" sheet in the Excel mapping file.*
 
