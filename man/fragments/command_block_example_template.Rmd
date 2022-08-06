@@ -10,14 +10,14 @@ res <- command_block_doc_helper(dat, cdb_args_raw)
 We use this original dataset:
 
 ```{r}
-dat %>% gt()
+dat %>% excelish()
 ```
 
 
 ... and this command block of class `"`r res$cdb_class`"`:
 
 ```{r}
-cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% gt()
+cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
 ```
 
 When we pass this command block to `parse_command_args()`, it results in the following arguments:
@@ -28,5 +28,5 @@ res$cdb_args
 When we apply the command block on the data, it results in this modified data:
 
 ```{r}
-res$result %>% gt()
+res$result %>% excelish()
 ```

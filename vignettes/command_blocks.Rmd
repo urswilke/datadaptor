@@ -18,13 +18,15 @@ knitr::opts_chunk$set(
 knitr::opts_chunk$set(echo = FALSE)
 library(datenanpassr)
 library(dplyr)
-library(gt)
+```
+
+```{r child="../man/fragments/gt_table_stylers.Rmd", include=FALSE}
 ```
 
 In this document, we will show how the different command blocks in datenanpassr work. 
 There are the following keywords that you can use to enter the command blocks in your Excel mapping file:
 ```{r}
-command_block_classes %>% gt()
+command_block_classes %>% excelish()
 ```
 
 *The column* `"command_block"` *shows the class, which determines how 
