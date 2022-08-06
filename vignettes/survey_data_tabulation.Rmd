@@ -28,24 +28,8 @@ library(stringr)
 suppressMessages(library(dplyr))
 ```
 
-Define function to produce styled table:
-```{r}
-excelish <- purrr::compose(
-  # purrr::partial(gt::cols_align, align = "right"), 
-  # purrr::partial(gt::fmt_markdown, columns = everything()),
-  gtExtras::gt_theme_excel, 
-  gt::gt
-) 
-# add tooltips to gt column titles:
-with_tooltip <- function(value, tooltip) {
-    htmltools::tags$abbr(
-        style = "text-decoration: underline;
-    text-decoration-style: solid; color: blue",
-    title = tooltip,
-    value
-    ) %>% 
-        as.character()
-}
+
+```{r child="../man/fragments/gt_table_stylers.Rmd", include=FALSE}
 ```
 
 </details>
