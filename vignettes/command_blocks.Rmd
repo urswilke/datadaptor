@@ -1,8 +1,18 @@
 ---
-title: "Untitled"
-output: html_document
-date: '2022-08-05'
+title: "Documentation of the Excel mapping command blocks"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Documentation of the Excel mapping command blocks}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
