@@ -136,6 +136,13 @@ parse_command_args.cmd_merge <- function(cdb_raw) {
   )
 }
 #' @export
+parse_command_args.cmd_rmval <- function(cdb_raw) {
+  list(
+    x  = cdb_raw$X2[1],
+    vs = as.numeric(cdb_raw$X2[-1])
+  )
+}
+#' @export
 parse_command_args.cmd_rename <- function(cdb_raw) {
   list(
     xs = cdb_raw$new_names[[1]],

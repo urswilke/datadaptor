@@ -349,7 +349,7 @@ put_absolute_filepaths <- function(df_free, mapping_file) {
 }
 
 get_new_var_name_free <- function(df_free) {
-  col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL")
+  col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL", "#RMVAL")
   col3_names <- c("#REC", "#DIC")
   df_free %>%
     dplyr::mutate(new_var = dplyr::case_when(
@@ -366,7 +366,7 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
   # braces):
   df_free %>%
     dplyr::mutate(X2 = ifelse(
-      grepl("(#VARL|#REC|#VALL|#AVALL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
+      grepl("(#VARL|#REC|#VALL|#AVALL|#RMVAL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
     ))
@@ -376,7 +376,7 @@ delete_empty_X1_not_multiline <- function(df_free) {
     dplyr::mutate(
       not_multiline_cmd = stringr::str_detect(
         .data$X1,
-        "^#VALL$|^#REC$|^#AVALL$",
+        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$",
         negate = TRUE
       ),
       after_dot = (dplyr::lag(stringr::str_detect(.data$X1, "\\.")) &

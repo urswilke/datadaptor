@@ -341,6 +341,21 @@ apply_command.cmd_newlab <- apply_command.cmd_set_lab
 #' @describeIn apply_command
 #'
 #' @export
+apply_command.cmd_rmval <- function(cdb, mapping, x, vs, ...) {
+  vec <- mapping$dat_mod[[x]]
+  vallabs <- attr(vec, "labels")
+  vec[vec %in% vs] <- NA_real_
+  vallabs_mod <- vallabs[!vallabs %in% vs]
+  mapping$dat_mod[[x]] <- haven::labelled(
+    vec,
+    labels = vallabs_mod,
+    label = attr(vec, "label", exact = TRUE)
+  )
+}
+
+#' @describeIn apply_command
+#'
+#' @export
 apply_command.cmd_set_labs <- function(cdb, mapping, x, varlab, vs, vallabs, ...) {
   if (is.null(varlab)) {
     varlab <- attr(mapping$dat_mod[[x]], "label", exact = TRUE)
