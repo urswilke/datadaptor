@@ -3,12 +3,11 @@ output: html_document
 ---
 
 ```{r}
-excelish <- purrr::compose(
-  # purrr::partial(gt::cols_align, align = "right"), 
-  # purrr::partial(gt::fmt_markdown, columns = everything()),
-  gtExtras::gt_theme_excel, 
-  gt::gt
-) 
+excelish <- function(data) {
+  gt::gt(data) %>% 
+  gt::tab_options(table.align = "left") %>% 
+  gtExtras::gt_theme_excel()
+}
 # add tooltips to gt column titles:
 with_tooltip <- function(value, tooltip) {
     htmltools::tags$abbr(
