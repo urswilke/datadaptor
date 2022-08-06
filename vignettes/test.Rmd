@@ -5,20 +5,25 @@ date: '2022-08-05'
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(datenanpassr)
 library(dplyr)
 library(gt)
 ```
 
-
+In this document, we will show how the different command blocks in datenanpassr work. 
+There are the following keywords that you can use to enter the command blocks in your Excel mapping file:
 ```{r}
 command_block_classes %>% gt()
 ```
 
-## #drp
+*The column* `"command_block"` *shows the class, which determines how 
+datenanpassr parses the command block* (with `parse_command_args()`) *and 
+then applies it on the data* (with `apply_command()`).
+
+
 ```{r}
-command_block_doc_helper <- function(dat, cdb_args) {
+command_block_doc_helper <- function(dat, cdb_args_raw) {
   cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
   class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))
   cdb_args <- cdb_args_raw %>% parse_command_args()
@@ -37,7 +42,7 @@ command_block_doc_helper <- function(dat, cdb_args) {
   do.call(apply_command, arg_list)  
   
   list(
-    command_block_class = cdb_class,
+    cdb_class = cdb_class,
     cdb_args = cdb_args,
     result = m0$dat_mod
   )
@@ -46,15 +51,51 @@ command_block_doc_helper <- function(dat, cdb_args) {
 ```
 
 
-```{r}
-dat <- tibble(id = 1:3, x = 4:6)
+## `#VARL`
 
-cdb_args_raw <- tibble(X1 = "#VARL", X2 = "x", X3 = "assigned variable label")
+```{r}
+dat <- tibble(id = 1:3, q1 = 4:6)
+
+cdb_args_raw <- tibble(X1 = "#VARL", X2 = "q1", X3 = "assigned variable label")
 
 res <- command_block_doc_helper(dat, cdb_args_raw)
-res$command_block_class
-res$cdb_args
-res$result
-res$result$x
 ```
 
+```{r child="../man/fragments/command_block_example_template.Rmd"}
+```
+
+Actually, this command does not change the values, but it assigns the variable 
+label specified in column **C** of the command to the variable specified in 
+column **B**.
+
+```{r}
+attributes(res$result$q1)
+```
+
+
+## `#VALL`
+
+```{r}
+dat <- tibble(id = 1:3, q1 = c(1, 1, 2))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3,
+  "#VALL", "q1", "yes/no question",
+   NA,  "1",     "Yes",
+   NA,  "2", "No"
+  )
+
+res <- command_block_doc_helper(dat, cdb_args_raw)
+```
+
+```{r child="../man/fragments/command_block_example_template.Rmd"}
+```
+This command also does not change the values. Just like `#VARL`, it assigns the variable label
+specified in the first row of column **C** (if empty, it keeps the variable
+label, if already existing) to the variable specified in the first row in column
+**B**. It also assigns the value labels in column **C** to 
+the values in column **B** in the following rows of the command.
+
+```{r}
+attributes(res$result$q1)
+```
