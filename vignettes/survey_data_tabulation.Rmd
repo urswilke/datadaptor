@@ -38,35 +38,8 @@ suppressMessages(library(dplyr))
 
 </details>
 
-# Survey data
-
-
-
-
-## Toy survey
-
-We'll first define a small toy survey:
-
-### Q1. what's your age? {#Q1}
-
-### Q2. What's your gender? {#Q2}
- * male
- * female
- * non-binary
- 
-### Q3. Select all that applies {#Q3}
-* I'm curious
-* I'm cautios
-* I'm lazy
-* I don't care
-
-### Q4. Please rate the following items {#Q4} 
-
-*Use a scale from 1 = "I really like it" to 5 = "I don't like it at all".*
-
-* Sports
-* Watching TV
-* Reading
+```{r child="../man/fragments/toy_survey.Rmd", include=FALSE}
+```
 
 ## Survey data in R
 
