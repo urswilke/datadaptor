@@ -349,8 +349,8 @@ put_absolute_filepaths <- function(df_free, mapping_file) {
 }
 
 get_new_var_name_free <- function(df_free) {
-  col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL", "#RMVAL")
-  col3_names <- c("#REC", "#DIC")
+  col2_names <- c("#VALL", "#AVALL", "#COMP", "#COMPR", "#VARL")
+  col3_names <- c("#REC", "#DIC", "#RMVAL")
   df_free %>%
     dplyr::mutate(new_var = dplyr::case_when(
       action %in% col3_names ~ .data$X3[1],

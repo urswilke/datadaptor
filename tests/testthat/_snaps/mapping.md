@@ -82,7 +82,7 @@
     [79] Free1 #COMPR x: r_expr_var; ex: haven::labell...                                                                                                  
     [80] Free1 #R ex: data.frame(a=1)                                                                                                                      
     [81] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl                     
-    [82] Free1 #RMVAL x: q1; vs: 99                                                                                                                        
+    [82] Free1 #RMVAL x: q1; y: q1; vs: 99; varlab: new_varlab                                                                                             
     [83] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
 
 # s3 modified data print is reproduced
@@ -500,7 +500,7 @@
     # A tibble: 46 x 2
        var                    varlab                                  
        <chr>                  <chr>                                   
-     1 q1                     How much do you like the product?       
+     1 q1                     new_varlab                              
      2 q2_renamed             recommend product                       
      3 q3                     Almost same variable label for q3 and q5
      4 q4_renamed             Almost same variable label for q3 and q5

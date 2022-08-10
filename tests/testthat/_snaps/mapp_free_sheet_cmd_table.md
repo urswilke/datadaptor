@@ -164,7 +164,7 @@
       ..$ : tibble [2 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr [1:2] "#RMVAL" NA
       .. ..$ X2: chr [1:2] "q1" "99"
-      .. ..$ X3: chr [1:2] NA NA
-      .. ..$ X4: chr [1:2] NA NA
+      .. ..$ X3: chr [1:2] "q1" NA
+      .. ..$ X4: chr [1:2] "new_varlab" NA
       .. ..$ X5: chr [1:2] NA NA
 
