@@ -1,0 +1,22 @@
+---
+output: html_document
+---
+
+```{r}
+set.seed(123)
+tibble()
+q1 <- haven::labelled(sample(18:88, 10, TRUE), label = c("what's your age?"), labels = NULL)
+q2 <- haven::labelled(sample(c(NA, 1:3), 10, TRUE), label = c("What's your gender?"), labels = c(male = 1, female = 2, "non-binary" = 3))
+q3_1 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I'm curious"), labels = c(unselected = 0, selected = 1))
+q3_2 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I'm cautios"), labels = c(unselected = 0, selected = 1))
+q3_3 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I'm lazy"), labels = c(unselected = 0, selected = 1))
+q3_4 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I don't care"), labels = c(unselected = 0, selected = 1))
+q4_vallabs <- c("1 = I like it" = 1, "2" = 2, "3" = 3, "4" = 4, '5 = I don`t like it at all' = 5)
+q4_answers <- 
+q4_text <- 'Please rate the following items from 1 = "I really like it" to 5 = "I don`t like it at all' 
+q4_1 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, 'Sports', sep = " - "), labels = q4_vallabs)
+q4_2 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, 'Watching TV', sep = " - "), labels = q4_vallabs)
+q4_3 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, 'Reading', sep = " - "), labels = q4_vallabs)
+
+df <- tibble(id = 1:10, q1, q2, q3_1, q3_2, q3_3, q3_4, q4_1, q4_2, q4_3)
+```
