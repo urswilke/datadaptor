@@ -369,6 +369,9 @@ df_q3_counts <- df_q3_long %>% count(var)
 df_q3_counts
 ```
 
+This results in the same as counting all the values of 1 in each of the columns 
+of the variables of Q3 in `df` (see [here](#dfdef)).
+
 However, we want to show the variable labels in this frequency table. We can 
 obtain the variable labels from the dataset:
 ```{r}
