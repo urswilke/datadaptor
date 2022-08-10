@@ -1,0 +1,18 @@
+---
+output: html_document
+---
+
+# R for beginners
+
+If you are new to R, you could have a look at one of the many teaching materials.
+For instance:
+
+* [this](https://rstudio-education.github.io/hopr/) is nice, but also becomes
+challenging quite quickly.
+* [R for Data Science](https://r4ds.had.co.nz) is the most complete reference.
+* [here](https://paulvanderlaken.com/2017/10/18/learn-r/) is another ressource, 
+but already a bit outdated (2017 is a long time in the R world).
+* [swirl](https://swirlstats.com/students.html) is an interactive approach.
+* [in this reddit](https://www.reddit.com/r/rstats/comments/eh5e4q/what_is_the_best_way_to_learn_r_for_a_complete/) you might still find other ressources.
+
+In the beginning, R can be very frustrating and it takes time.
