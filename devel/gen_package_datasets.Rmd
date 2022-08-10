@@ -44,6 +44,7 @@ command_block_classes <- tribble(
   "#RFUN",               "cmd_rfun",
   "#R",                  "cmd_r",
   "#COMPR",              "cmd_comp",
+  "#RMVAL",              "cmd_rmval",
 )
 usethis::use_data(command_block_classes, overwrite = TRUE)
 

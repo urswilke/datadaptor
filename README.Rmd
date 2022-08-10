@@ -76,11 +76,7 @@ utils::browseURL(mapping_file)
 ```
 
 
-Have a look at the Excel command block vignette for examples how to manipulate and generate new variables in your labelled dataset:
-
-```{r, eval=FALSE}
-vignette("excel_command_blocks")
-```
+Have a look at the `vignette("command_blocks")` for examples how to manipulate and generate new variables in your labelled dataset.
 
 There you can find out more about the syntax how the commands in the mapping file work.
 

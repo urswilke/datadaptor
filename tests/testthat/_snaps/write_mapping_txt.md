@@ -887,7 +887,7 @@
       
       
       $Free1
-      # A tibble: 36 x 6
+      # A tibble: 38 x 6
          X1     X2                   X3                              X4    X5      row
          <chr>  <chr>                <chr>                           <chr> <chr> <int>
        1 #COMP  x                    "q1 == 2"                       <NA>   <NA>     3
@@ -926,6 +926,8 @@
       34 <NA>   3                     <NA>                           2      <NA>    48
       35 <NA>   4                     <NA>                           2      <NA>    49
       36 <NA>   5                     <NA>                           2      <NA>    50
+      37 #RMVAL q1                   "q1"                            new_~  <NA>    53
+      38 <NA>   99                    <NA>                           <NA>   <NA>    54
       
       $Free2
       # A tibble: 1 x 6

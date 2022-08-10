@@ -318,6 +318,13 @@ apply_command.cmd_compr <- apply_command.cmd_comp
 #'
 #' @export
 apply_command.cmd_set_lab <- function(cdb, mapping, x, varlab, ...) {
+  # faster execution if variable is already of type haven::labelled:
+  if (haven::is.labelled(mapping$dat_mod[[x]])) {
+    attr(mapping$dat_mod[[x]], "label") <- varlab
+    # break function execution:
+    return(NULL)
+  }
+
   vec <- mapping$dat_mod[[x]]
   mapping$dat_mod[[x]] <- haven::labelled(
     vec,
@@ -330,6 +337,24 @@ apply_command.cmd_set_lab <- function(cdb, mapping, x, varlab, ...) {
 #'
 #' @export
 apply_command.cmd_newlab <- apply_command.cmd_set_lab
+
+#' @describeIn apply_command
+#'
+#' @export
+apply_command.cmd_rmval <- function(cdb, mapping, x, y, vs, varlab, ...) {
+  vec <- mapping$dat_mod[[y]]
+  vallabs <- attr(vec, "labels")
+  vec[vec %in% vs] <- NA_real_
+  vallabs_mod <- vallabs[!vallabs %in% vs]
+  if (is.null(varlab)) {
+    varlab <- attr(vec, "label", exact = TRUE)
+  }
+  mapping$dat_mod[[x]] <- haven::labelled(
+    vec,
+    labels = vallabs_mod,
+    label = varlab
+  )
+}
 
 #' @describeIn apply_command
 #'

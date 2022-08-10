@@ -1,0 +1,22 @@
+---
+output: html_document
+---
+
+```{r}
+excelish <- function(data) {
+  gt::gt(data) %>% 
+  gt::tab_options(table.align = "left") %>% 
+  gtExtras::gt_theme_excel() %>% 
+  gt::sub_missing(missing_text = "")
+}
+# add tooltips to gt column titles:
+with_tooltip <- function(value, tooltip) {
+    htmltools::tags$abbr(
+        style = "text-decoration: underline;
+    text-decoration-style: solid; color: blue",
+    title = tooltip,
+    value
+    ) %>% 
+        as.character()
+}
+```

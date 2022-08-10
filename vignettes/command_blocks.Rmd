@@ -1,8 +1,8 @@
 ---
-title: "Translating the Excel mapping commands to R"
+title: "Documentation of the Excel mapping command blocks"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Translating the Excel mapping commands to R}
+  %\VignetteIndexEntry{Documentation of the Excel mapping command blocks}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -14,178 +14,100 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
 library(datenanpassr)
+library(dplyr)
 ```
 
-When a `mapping` object is created,
+```{r child="../man/fragments/gt_table_stylers.Rmd", include=FALSE}
+```
+
+In this document, we will show how the different command blocks in datenanpassr work. 
+There are the following keywords that you can use to enter the command blocks in your Excel mapping file:
+```{r}
+command_block_classes %>% excelish()
+```
+
+*The column* `"command_block"` *shows the class, which determines how 
+datenanpassr parses the command block* (with `parse_command_args()`) *and 
+then applies it on the data* (with `apply_command()`).
+
 
 ```{r}
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-m <- Mapping$new(spss_file, mapping_file)
-```
-
-the command blocks are translated to a list structure `m$cmd` containing intermediate 
-results. 
-
-## Excel sheets parsed
-
-First is just a small data.frame containing the `sheet` name and its
-`sheet_type`:
-
-```{r}
-m$cmd$sheet_cats
-```
-
-## Parse the sheets to R list objects
-
-The sheets are parsed to a named list with R list objects in `m$cmd$sheet_data_raw`.
-This is what the latter looks like for the  `"Free1"` sheet of the Excel file:
-
-```{r}
-m$cmd$sheet_data_raw$Free1
-```
-
-## Raw command table
-
-The whole information in `m$cmd$sheet_data_raw` is then joint to a dataframe
-```{r}
-m$cmd$df_cmd_raw
-```
-
-## Generating `"command_block"`s
-
-Each line in `m$cmd$df_cmd_raw` is translated to a `command_block()`. The whole
-resulting list of all lines comprised in a `command_blocks()` object. These
-objects have their own printing method. See here for the 3 first elements:
-
-```{r}
-m$cmd$command_blocks[1:3]
-```
-
-But underneath, it is a list where each element has a field `args`.
-For instance, the third element looks like this:
-```{r}
-names(m$cmd$command_blocks[[3]])
-m$cmd$command_blocks[[3]]$args
-```
-
-## Overview command table
-
-The whole information is put to `m$cmd_tbl`:
-
-```{r}
-m$cmd_tbl
-```
-
-
-## `args` overview table
-
-Lets have a look at a table with an example of the types of the objects
-in `args` for each of the `"command_block"` subclasses:
-
-  * `x`, `y`: Character strings of variable names in the data set (or to be created).
-  * `varlab` Character string containing a variable label
-  * `v`: numeric() (or character()) vector; value(s) of a value label
-  * `vallab`: character() vector; value label(s)
-  * `id_list`: a list of ids in the data,
-  * valid R character vectors of R expressions: 
-    * `ex`: an expression, 
-    * `ex_cond`: a conditional expression, 
-    * `ex_fun`: an existing function name
-    * `filepath`: a filepath
-
-
-<details>
-  <summary>Click here to show intermediate steps to calculate `args_tbl2`! </summary>
-
-```{r}
-cdbs <- m$cmd_tbl
-# Generate a `command_blocks` object with all unique types of
-# `command_block`s  in the mapping file
-(unique_cmd_tbl <- m$cmd_tbl[!duplicated(cdbs$action), ])
-# Generate/print a list of all args sub-elements:
-
-args_overview <- setNames(
-  purrr::map(unique_cmd_tbl$command_blocks, "args"),
-  unique_cmd_tbl$action
-)
-args_overview[1:3]
-
-
-# Show a table of all `arg`s, and an example of their type & length
-# for all command block types `cmd`:
-args_tbl <- tibble::tibble(
-  cmd = unique_cmd_tbl$action,
-  example = args_overview) %>%
-  tidyr::unnest_longer(example, indices_to = "args") %>%
-  .[c(1, 3, 2)]
-
-print(args_tbl, n = 1000)
-
-args_tbl2 <- args_tbl %>% 
-  dplyr::group_by(arg_class = args %>% 
-    stringr::str_remove("\\d$") %>% 
-    ifelse(. == "filepath", "ex_filepath", .) %>% 
-    stringr::str_remove("(?<=ex)_.*") %>% 
-    stringr::str_remove("s$")  
-  ) %>% 
-  dplyr::group_by(cmd) %>%
-  dplyr::mutate(args = list(args))  %>%
-  tidyr::pivot_wider(names_from = arg_class,
-                     values_from = example,
-                     values_fn = list) %>%
-  dplyr::relocate(y, varlab, .after = x) 
-args_tbl2
-```
-
-</details>
-
-The following table shows an example of a subset of the columns arguments passed for each of the
-command blocks:
-
-```{r}
-# This is a hack to print the named arguments. 
-# If you use RStudio, the dataframe is best shown with:
-# View(args_tbl2)
-args_tbl2 %>% 
-  dplyr::mutate(
-    dplyr::across(
-      x:id, 
-      ~ paste(names(.x), .x, sep = "; ", collapse = "; ") %>%
-        stringr::str_remove_all(
-          'list\\(|\\)|c\\(|; NULL|"|^; '
-        )
-      )
-    ) %>% 
-  # show a subset of the columns:
-    dplyr::select(-x, -id_list, -id, -args) %>% 
-    print(n=222)
-```
-
-
-
-## Apply command blocks
-
-These command blocks can then be applied to the data with 
-
-```{r}
-m$modify_data()
-```
-
-Underneath the hood, this function calls `apply_commands()` and passes it the arguments `args` (see above).
-
-You can then access the data with
-```{r}
-m$dat_mod
-```
-
-
-<details>
-  <summary>Click here to show whole list structure print output of `m$cmd`!</summary>
-```{r}
-m$cmd
-```
+command_block_doc_helper <- function(dat, cdb_args_raw) {
+  cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
+  class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))
+  cdb_args <- cdb_args_raw %>% parse_command_args()
+  m0 <- Mapping$new()
+  m0$dat_mod <- dat
   
-</details>
+  arg_list <- list(
+    cdb = structure(
+      list(),
+      class = cdb_class
+    ),
+    mapping = m0
+  ) %>% append(
+    cdb_args
+  )
+  do.call(apply_command, arg_list)  
+  
+  list(
+    cdb_class = cdb_class,
+    cdb_args = cdb_args,
+    result = m0$dat_mod
+  )
+  
+}
+```
+
+
+## `#VARL`
+
+```{r}
+dat <- tibble(id = 1:3, q1 = 4:6)
+
+cdb_args_raw <- tibble(X1 = "#VARL", X2 = "q1", X3 = "assigned variable label")
+
+res <- command_block_doc_helper(dat, cdb_args_raw)
+```
+
+```{r child="../man/fragments/command_block_example_template.Rmd"}
+```
+
+Actually, this command does not change the values, but it assigns the variable 
+label specified in column **C** of the command to the variable specified in 
+column **B**.
+
+```{r}
+attributes(res$result$q1)
+```
+
+
+## `#VALL`
+
+```{r}
+dat <- tibble(id = 1:3, q1 = c(1, 1, 2))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3,
+  "#VALL", "q1", "yes/no question",
+   NA,  "1",     "Yes",
+   NA,  "2", "No"
+  )
+
+res <- command_block_doc_helper(dat, cdb_args_raw)
+```
+
+```{r child="../man/fragments/command_block_example_template.Rmd"}
+```
+This command also does not change the values. Just like `#VARL`, it assigns the variable label
+specified in the first row of column **C** (if empty, it keeps the variable
+label, if already existing) to the variable specified in the first row in column
+**B**. It also assigns the value labels in column **C** to 
+the values in column **B** in the following rows of the command.
+
+```{r}
+attributes(res$result$q1)
+```
