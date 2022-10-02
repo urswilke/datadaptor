@@ -5,7 +5,7 @@
 \alias{safer_env}
 \title{Environment where expressions from the Excel mapping file are evaluated}
 \format{
-An object of class \code{environment} of length 64.
+An object of class \code{environment} of length 65.
 }
 \usage{
 safer_env
