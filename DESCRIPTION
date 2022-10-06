@@ -22,7 +22,10 @@ Suggests:
     markdown,
     withr,
     here,
-    spelling
+    spelling,
+    gt,
+    gtExtras,
+    htmltools
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
@@ -38,6 +41,10 @@ Imports:
     magrittr,
     readxl,
     tidyr,
+    starter,
+    renv,
+    cli,
+    glue,
     tibble,
     purrr,
     cellranger,
