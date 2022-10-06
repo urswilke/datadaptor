@@ -67,14 +67,16 @@ create_mapping_project <- function(proj_path,
     starter::create_project(r_folder,
                             template = starter_template,
                             git = use_git,
-                            renv = use_renv)
+                            renv = use_renv,
+                            open = TRUE)
     if (use_renv) {
+      renv::snapshot(r_folder, packages = "datenanpassr", prompt = FALSE)
       renv::deactivate(r_folder)
     }
     cli::cli_alert_success("In your new Rstudio project type `usethis::use_git()` to commit the files.")
 
   }
   if (open_mapping) {
-    browseURL(mapping_proj_path)
+    utils::browseURL(mapping_proj_path)
   }
 }
