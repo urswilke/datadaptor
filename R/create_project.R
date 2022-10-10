@@ -31,11 +31,11 @@ create_mapping_project <- function(proj_path,
                                    open_mapping = TRUE
                                    ) {
 
-  mapping_template_path <- file.path(proj_path, "Syntax/Mapping Entwicklung.xlsm")
+  mapping_template_path <- file.path(proj_path, "Syntax/Mapping aktuell.xlsm")
 
   fs::dir_copy(proj_template_path, proj_path)
 
-  mapping_proj_path <- stringr::str_replace(mapping_template_path, "Entwicklung", proj_name)
+  mapping_proj_path <- stringr::str_replace(mapping_template_path, "aktuell", proj_name)
   fs::file_move(mapping_template_path, mapping_proj_path)
 
   r_folder <- file.path(proj_path, "R")
