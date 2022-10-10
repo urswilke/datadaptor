@@ -17,6 +17,7 @@
 \alias{apply_command.cmd_compr}
 \alias{apply_command.cmd_set_lab}
 \alias{apply_command.cmd_newlab}
+\alias{apply_command.cmd_rmval}
 \alias{apply_command.cmd_set_labs}
 \alias{apply_command.cmd_add_labs}
 \alias{apply_command.cmd_newvall}
@@ -83,6 +84,8 @@ apply_command(cdb, mapping, ...)
 
 \method{apply_command}{cmd_newlab}(cdb, mapping, x, varlab, ...)
 
+\method{apply_command}{cmd_rmval}(cdb, mapping, x, y, vs, varlab, ...)
+
 \method{apply_command}{cmd_set_labs}(cdb, mapping, x, varlab, vs, vallabs, ...)
 
 \method{apply_command}{cmd_add_labs}(cdb, mapping, x, varlab = NULL, vs, vallabs, ...)
@@ -131,54 +134,56 @@ Apply a command block to the mapping
 }
 \section{Methods (by class)}{
 \itemize{
-\item \code{cmd_recna_xcpt}: Replace missing values of the labelled variables in
+\item \code{apply_command(cmd_recna_xcpt)}: Replace missing values of the labelled variables in
 \code{mapping$dat_mod} (except those specified in \code{xs}) with the value \code{v},
 labelled \code{vallab}.
 
-\item \code{cmd_r}: Execute R code
+\item \code{apply_command(cmd_r)}: Execute R code
 
-\item \code{cmd_rfun}: Execute the function named \code{ex_fun} and
+\item \code{apply_command(cmd_rfun)}: Execute the function named \code{ex_fun} and
 defined in the R script named \code{filepath}.
 
-\item \code{cmd_kg}: Split variable
+\item \code{apply_command(cmd_kg)}: Split variable
 
-\item \code{cmd_drop}: 
+\item \code{apply_command(cmd_drop)}: 
 
-\item \code{cmd_verbatim}: 
+\item \code{apply_command(cmd_verbatim)}: 
 
-\item \code{cmd_verbatim_custom}: 
+\item \code{apply_command(cmd_verbatim_custom)}: 
 
-\item \code{cmd_merge}: 
+\item \code{apply_command(cmd_merge)}: 
 
-\item \code{cmd_rename}: 
+\item \code{apply_command(cmd_rename)}: 
 
-\item \code{cmd_if}: 
+\item \code{apply_command(cmd_if)}: 
 
-\item \code{cmd_comp}: 
+\item \code{apply_command(cmd_comp)}: 
 
-\item \code{cmd_compr}: 
+\item \code{apply_command(cmd_compr)}: 
 
-\item \code{cmd_set_lab}: 
+\item \code{apply_command(cmd_set_lab)}: 
 
-\item \code{cmd_newlab}: 
+\item \code{apply_command(cmd_newlab)}: 
 
-\item \code{cmd_set_labs}: 
+\item \code{apply_command(cmd_rmval)}: 
 
-\item \code{cmd_add_labs}: 
+\item \code{apply_command(cmd_set_labs)}: 
 
-\item \code{cmd_newvall}: 
+\item \code{apply_command(cmd_add_labs)}: 
 
-\item \code{cmd_rec}: 
+\item \code{apply_command(cmd_newvall)}: 
 
-\item \code{cmd_sumvar}: 
+\item \code{apply_command(cmd_rec)}: 
 
-\item \code{cmd_dic}: 
+\item \code{apply_command(cmd_sumvar)}: 
 
-\item \code{cmd_autorec}: 
+\item \code{apply_command(cmd_dic)}: 
 
-\item \code{cmd_str_to_num}: 
+\item \code{apply_command(cmd_autorec)}: 
+
+\item \code{apply_command(cmd_str_to_num)}: 
+
 }}
-
 \examples{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
