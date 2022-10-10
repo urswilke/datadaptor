@@ -1,4 +1,3 @@
-proj_path <- "../../UW test starter"
 #' Create Mapping directory structure from template folder
 #'
 #' @param proj_path The path of your new mapping project.
