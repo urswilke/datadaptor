@@ -109,7 +109,7 @@ chop_if_between_curlies <- function(x) {
 
 split_space_separated <- function(x_without_curlies, is_between_curlies) {
   if (is_between_curlies) {
-    stringr::str_split(x_without_curlies, " +")[[1]]
+    stringr::str_split(stringr::str_squish(x_without_curlies), " ")[[1]]
   } else {
     x_without_curlies
   }
