@@ -908,7 +908,7 @@
       16 .      3                    "now"                           <NA>   <NA>    20
       17 #AVALL n                     <NA>                           <NA>   <NA>    22
       18 .      4                    "added label"                   <NA>   <NA>    23
-      19 #VARL  q{3 5}               "Almost same variable label fo~ <NA>   <NA>    27
+      19 #VARL  q{ 3 5}              "Almost same variable label fo~ <NA>   <NA>    27
       20 <NA>   should be ignored     <NA>                           <NA>   <NA>    28
       21 <NA>   <NA>                 "should be ignored"             <NA>   <NA>    29
       22 #COMP  a{1 2}               "{3 4}"                         <NA>   <NA>    30
