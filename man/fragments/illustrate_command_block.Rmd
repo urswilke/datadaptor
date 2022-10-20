@@ -118,13 +118,13 @@ color_gt_labels <- function(gt_obj) {
 illustrate_cmd_block <- function(dat, cdb_args_raw) {
   cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
   gts <- print_cmd_exe(dat, cdb_args_raw)
-  htmltools::div(
+  div(
     class = "flex-container", 
-    htmltools::div(style = "align-self: flex-start", gts$old_gt),
-    htmltools::div(style = "font-size: 45px", "&"),
-    htmltools::div(style = "flex-item", cmd_block),
-    htmltools::div(style = "font-size: 45px", "=>"),
-    htmltools::div(style = "align-self: flex-start", gts$new_gt),
+    div(style = "align-self: flex-start", gts$old_gt),
+    div(style = "font-size: 45px", "&"),
+    div(style = "flex-item", cmd_block),
+    div(style = "font-size: 45px", "=>"),
+    div(style = "align-self: flex-start", gts$new_gt),
   )
 }
 # This generates the following html:
