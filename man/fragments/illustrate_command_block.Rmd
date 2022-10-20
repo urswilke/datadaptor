@@ -3,10 +3,19 @@ output: html_document
 ---
 
 ```{r fun_defs_illu}
+get_cdb_class <- function(cdb_args_raw) {
+  cdb_class <- attr(cdb_args_raw, "cdb_class")
+  if (!is.null(cdb_class)) {
+    return(cdb_class)
+  }
+  command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
+}
+
+
 process_cdb_raw <- function(dat, cdb_args_raw) {
-  cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
+  cdb_class <- get_cdb_class(cdb_args_raw)
   class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))
-  cdb_args <- cdb_args_raw %>% parse_command_args()
+  cdb_args <- cdb_args_raw |> parse_command_args()
   m0 <- Mapping$new()
   m0$dat_mod <- dat
   
@@ -116,7 +125,11 @@ color_gt_labels <- function(gt_obj) {
 }
 
 illustrate_cmd_block <- function(dat, cdb_args_raw) {
-  cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
+  cdb_class <- attr(cdb_args_raw, "cdb_class")
+  if (is.null(cdb_class)) {
+    cdb_args_raw <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))])
+  }
+  cmd_block <- cdb_args_raw %>% excelish()
   gts <- print_cmd_exe(dat, cdb_args_raw)
   htmltools::div(
     class = "flex-container", 

@@ -325,3 +325,29 @@ The value labels are copied from `q1` (the variable in column **B**). The new va
 labels are a combination of the value labels of `q2` and the variable label of `q1`.
 The values are copied of `q1` if `q2` takes the value specified in the variable 
 label and are `NA` otherwise.
+
+
+## #DROP
+
+### Example
+
+```{r kg1}
+dat <- tibble(
+  q1 = 1, q2 = 3, q3 = 4
+)
+
+cdb_args_raw <- tibble::tribble(
+  ~var, ~op, 
+  "q1", "d", 
+  "q3", "d", 
+  ) |> 
+  # hack to emulate parse_drop_cmd_block():
+  # TODO: find cleaner solution!
+  summarise(var = list(var))
+attr(cdb_args_raw, "cdb_class") <- "cmd_drop"
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+The `#DROP` command can be triggered by putting a `d` in the `op` column on the 
+`Variables` sheet. It will remove the variables specified in the `var` 
+column from the dataset.
