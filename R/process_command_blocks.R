@@ -119,7 +119,7 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
     return(NULL)
   }
   res %>%
-    dplyr::rename(raw = .data$data)
+    dplyr::rename(raw = "data")
 }
 
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {

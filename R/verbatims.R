@@ -36,7 +36,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
     dplyr::group_by(sheet, .data$action, row, .data$new_var, .data$ex_assign_temp) %>%
     tidyr::nest() %>%
     dplyr::ungroup() %>%
-    dplyr::select(-.data$ex_assign_temp)
+    dplyr::select(-"ex_assign_temp")
 }
 
 generate_verbatim_sheet_table <- function(mapping_file, sheet) {
@@ -47,11 +47,11 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
       col_names = TRUE,
       col_types = "text"
     ) %>%
-    tidyr::drop_na(.data$VariableOriginal) %>%
-    dplyr::select(.data$VariableOriginal:.data$`Tabellen-blatt`, .data$VariableZiel, dplyr::any_of(c("ex_further_cond", "ex_assign"))) %>%
+    tidyr::drop_na("VariableOriginal") %>%
+    dplyr::select("VariableOriginal":"Tabellen-blatt", "VariableZiel", dplyr::any_of(c("ex_further_cond", "ex_assign"))) %>%
     # HACK!!! TODO: replace with general regex
     dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal) %>% un_OT_ize(.data$VariableOriginal)) %>%
-    dplyr::relocate(q_id = .data$`Tabellen-blatt`)
+    dplyr::relocate(q_id = "Tabellen-blatt")
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping_file, sheet) {
@@ -78,7 +78,7 @@ generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
 
   read_assigns <- function(sheet_name) {
     readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
-      dplyr::select(orig_var = .data$`Orig. Variable`, .data$ID, dplyr::matches("^Zuord "))
+      dplyr::select(orig_var = "Orig. Variable", "ID", dplyr::matches("^Zuord "))
   }
 
 
@@ -98,7 +98,7 @@ generate_label_code_list <- function(verbatim_file) {
     dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) %>%
     dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) %>%
     dplyr::mutate(Code = dplyr::row_number()) %>%
-    dplyr::relocate(.data$Code)
+    dplyr::relocate("Code")
   2:length(df_codestufen) %>%
     purrr::set_names(names(df_codestufen)[-1]) %>%
     purrr::map(~ dplyr::select(df_codestufen, 1, lab = !!.x) %>% tidyr::drop_na())
@@ -157,11 +157,11 @@ extract_custom_mdg_assignment_table <- function(i_l) {
         .data$Code %>% as.character()
       )
     ) %>%
-    dplyr::rename(varlab = .data$lab) %>%
+    dplyr::rename(varlab = "lab") %>%
     dplyr::mutate(varlab = as.list(.data$varlab))
   df_assigns <- i_l$assignments %>%
     tidyr::gather("i_assign", "code_assign", dplyr::starts_with("Zuord")) %>%
-    dplyr::select(-.data$i_assign) %>%
+    dplyr::select(-"i_assign") %>%
     tidyr::drop_na() %>%
     dplyr::group_by(.data$code_assign) %>%
     dplyr::summarise(id_list = list(unique(.data$ID))) %>%
@@ -188,7 +188,7 @@ extract_custom_mdg_assignment_table <- function(i_l) {
       vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(df_assigns)),
       init_val = 0
     ) %>%
-    dplyr::select(-.data$code_assign)
+    dplyr::select(-"code_assign")
   df_assigns
 }
 extract_mdg_assignment_table <- function(i_l) {
@@ -200,11 +200,11 @@ extract_mdg_assignment_table <- function(i_l) {
         .data$Code %>% as.character()
       )
     ) %>%
-    dplyr::rename(varlab = .data$lab) %>%
+    dplyr::rename(varlab = "lab") %>%
     dplyr::mutate(varlab = as.list(.data$varlab))
   df_assigns <- i_l$assignments %>%
     tidyr::gather("i_assign", "code_assign", dplyr::starts_with("Zuord")) %>%
-    dplyr::select(-.data$i_assign) %>%
+    dplyr::select(-"i_assign") %>%
     tidyr::drop_na() %>%
     dplyr::group_by(.data$code_assign) %>%
     dplyr::summarise(id_list = list(unique(.data$ID))) %>%
@@ -220,7 +220,7 @@ extract_mdg_assignment_table <- function(i_l) {
       init_val = 0
     ) %>%
     dplyr::mutate(ex_assign = as.character(.data$ex_assign)) %>%
-    dplyr::select(-.data$code_assign)
+    dplyr::select(-"code_assign")
   df_assigns
 }
 extract_efa_assignment_table <- function(i_l) {
@@ -258,7 +258,7 @@ extract_mcg_assignment_table <- function(i_l) {
       varlab = rep(list(NULL), nrow(df_assigns)),
       vallab = rep(list(vallabs), nrow(df_assigns))
     ) %>%
-    dplyr::select(-.data$i_assign) %>%
+    dplyr::select(-"i_assign") %>%
     dplyr::mutate(init_val = -2)
   df_assigns
 }

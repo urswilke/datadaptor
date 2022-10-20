@@ -427,7 +427,7 @@ apply_command.cmd_rec <- function(
     )
   cond_statements <-
     recode_df %>%
-    dplyr::select(vs, .data$expr_str) %>%
+    dplyr::select(vs, "expr_str") %>%
     purrr::pmap(
       function(vs, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!vs)
     )

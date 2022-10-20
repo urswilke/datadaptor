@@ -45,10 +45,10 @@ curlychop <- function(df_free_raw) {
     dplyr::group_by(.data$raw_index)
 
   df_curly_headers <- df_prep %>%
-    dplyr::filter(dplyr::if_any(c(.data$X2, .data$X3), ~ stringr::str_detect(.x, "\\{.*\\}")))
+    dplyr::filter(dplyr::if_any(c("X2", "X3"), ~ stringr::str_detect(.x, "\\{.*\\}")))
   if (nrow(df_curly_headers) == 0) {
     return(df_prep %>%
-      dplyr::select(-.data$is_curly_group, -.data$n))
+      dplyr::select(-dplyr::all_of(c("is_curly_group", "n"))))
   }
   df_headers_curliplied <- df_curly_headers %>%
     curlychop_headers()
@@ -66,7 +66,7 @@ curlychop <- function(df_free_raw) {
   )
 
   dplyr::bind_rows(l_commands) %>%
-    dplyr::select(-.data$is_curly_group, -.data$n)
+    dplyr::select(-dplyr::all_of(c("is_curly_group", "n")))
 }
 curlychop_headers <- function(df) {
   df %>%
@@ -74,8 +74,8 @@ curlychop_headers <- function(df) {
       X3 = .data$X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),
       X2 = .data$X2 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies)
     ) %>%
-    tidyr::unnest_wider(.data$X2, names_sep = "_") %>%
-    tidyr::unnest_wider(.data$X3, names_sep = "_") %>%
+    tidyr::unnest_wider("X2", names_sep = "_") %>%
+    tidyr::unnest_wider("X3", names_sep = "_") %>%
     tidyr::unnest(dplyr::matches("X[23]")) %>%
     tidyr::unite("X2", dplyr::matches("X2"), sep = "", na.rm = TRUE) %>%
     tidyr::unite("X3", dplyr::matches("X3"), sep = "", na.rm = TRUE)
