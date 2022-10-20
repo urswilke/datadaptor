@@ -4,9 +4,7 @@ output: html_document
 
 ```{r}
 res <- command_block_doc_helper(dat, cdb_args_raw)
-input_data <- dat %>% excelish()
 cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
-output_data <- res$result %>% excelish()
 ```
 
 
@@ -48,54 +46,24 @@ print_cmd_exe <- function(dat) {
   res <- command_block_doc_helper(dat, cdb_args_raw)
   input_data <- dat %>% excelish()
   cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
-  output_data <- res$result %>% excelish()
-
   
   old_table <- join_labs(dat)
   new_table <- join_labs(res$result)
   
-  join_cols <- dplyr::intersect(names(old_table), names(new_table))
-  
-  changed_table <- new_table |> dplyr::anti_join(old_table, by = join_cols)
+  join_cols <- dplyr::union(names(old_table), names(new_table))
   
   old_gt <- old_table |>
-    # full_join(changed_table |> mutate(cc = T)) |> 
     gt::gt(
-      # rowname_col = "val",
       groupname_col = "type"
     ) |> 
     gt::sub_missing(missing_text = "") |> 
-    gt::cols_label(val = "")
+    gt::cols_label(val = "") |> 
+    color_gt_labels()
   new_gt <- new_table |>
-    dplyr::full_join(changed_table |> dplyr::mutate(cc = T), by = join_cols) |> 
-    dplyr::mutate(is_num = !suppressWarnings(is.na(as.numeric(val)))) |> 
     gt::gt(
-      # rowname_col = "val",
       groupname_col = "type"
-    ) |>
-    gt::tab_style(
-      style = list(
-        gt::cell_fill(color = "#C4E694")
-      ),
-      locations = gt::cells_body(
-        # columns = vars(V1, V2), # not needed if coloring all columns
-        rows = val == "varlab")
     ) |> 
-    gt::tab_style(
-      style = list(
-        gt::cell_fill(color = "#C7E9E9")
-      ),
-      locations = gt::cells_body(rows = is_num)
-    ) |> 
-    gt::tab_style(
-      style = list(
-        gt::cell_borders(color = "#E9998B", weight = gt::px(5))
-      ),
-      locations = gt::cells_body(rows = cc)
-    ) |> 
-    gt::cols_hide(c(cc, is_num)) |>
-    gt::sub_missing(missing_text = "") |> 
-    gt::cols_label(val = "")
+    color_gt_labels()
   
   tibble::lst(
     old_gt,
@@ -103,70 +71,55 @@ print_cmd_exe <- function(dat) {
   )
 
 }
-
-  
-# data_color(
-  #   columns = c(cc),
-  #   colors = scales::col_numeric(
-  #     palette = paletteer::paletteer_d(
-  #       palette = "ggsci::red_material"
-  #     ) |>
-  #       as.character(),
-  #     domain = NULL
-  #   )
-  # )
-# labs <- tab_labels_wide(dat)
-# labs_mod <- tab_labels_wide(res$result) |> excelish()
-
+color_gt_labels <- function(gt_obj) {
+  gt_obj |>
+    gt::tab_style(
+      style = list(
+        gt::cell_fill(color = "#D4E6B4")
+      ),
+      locations = gt::cells_body(
+        rows = val == "varlab")
+    ) |> 
+    gt::tab_style(
+      style = list(
+        gt::cell_fill(color = "#D7E9E9")
+      ),
+      locations = gt::cells_body(rows = type == "labels" & val != "varlab")
+    ) |> 
+    gt::tab_style(
+      style = list(
+        gt::cell_text(color = "#999999")
+      ),
+      locations = gt::cells_body(rows = type == "labels")
+    ) |> 
+    gt::sub_missing(missing_text = "") |> 
+    gt::cols_label(val = "")
+}
 
 gts <- print_cmd_exe(dat)
 ```
 
 
 
-```{css}
-.parent {
-  display: flex;
-  height: 300px; /* Or whatever */
-}
-
-.child {
-  width: 100px;  /* Or whatever */
-  height: 100px; /* Or whatever */
-  margin: auto;  /* Magic! */
-}
-
-
-.flex-container {
-  /* We first create a flex layout context */
-  display: flex;
-  align-items: center;
-
-  /* Then we define the flow direction 
-     and if we allow the items to wrap 
-   * Remember this is the same as:
-   * flex-direction: row;
-   * flex-wrap: wrap;
-   */
-  flex-flow: row wrap;
-  column-gap: 20px;
-  row-gap: 10px;
-  /* Then we define how is distributed the remaining space */
-  /* justify-content: center; align-items: center
-}
+```{r}
+div(
+  class = "flex-container", 
+  div(style = "align-self: flex-start", gts$old_gt),
+  div(style = "font-size: 45px", "&"),
+  div(style = "flex-item", cmd_block),
+  div(style = "font-size: 45px", "=>"),
+  div(style = "align-self: flex-start", gts$new_gt),
+)
 ```
 
-
-
+<!-- This generates the following html: -->
+<!-- 
 <div class="flex-container">
   <div style="align-self: flex-start">`r gts$old_gt`</div>
-  <!-- <div class="flex-item">`r gts$old_gt`</div> -->
   <div style="font-size: 45px">&</div>
-  <!-- <div class="flex-item">&</div> -->
   <div class="flex-item">`r cmd_block`</div>
   <div style="font-size: 45px">=></div>
-  <!-- <div class="flex-item">==></div> -->
   <div style="align-self: flex-start">`r gts$new_gt`</div>
-  <!-- <div class="flex-item">`r gts$new_gt`</div> -->
 </div>
+-->
 
