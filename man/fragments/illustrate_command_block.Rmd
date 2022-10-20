@@ -2,7 +2,7 @@
 output: html_document
 ---
 
-```{r fun_defs}
+```{r fun_defs_illu}
 process_cdb_raw <- function(dat, cdb_args_raw) {
   cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
   class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))
@@ -118,13 +118,13 @@ color_gt_labels <- function(gt_obj) {
 illustrate_cmd_block <- function(dat, cdb_args_raw) {
   cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
   gts <- print_cmd_exe(dat, cdb_args_raw)
-  div(
+  htmltools::div(
     class = "flex-container", 
-    div(style = "align-self: flex-start", gts$old_gt),
-    div(style = "font-size: 45px", "&"),
-    div(style = "flex-item", cmd_block),
-    div(style = "font-size: 45px", "=>"),
-    div(style = "align-self: flex-start", gts$new_gt),
+    htmltools::div(style = "align-self: flex-start", gts$old_gt),
+    htmltools::div(style = "font-size: 45px", "&"),
+    htmltools::div(style = "flex-item", cmd_block),
+    htmltools::div(style = "font-size: 45px", "=>"),
+    htmltools::div(style = "align-self: flex-start", gts$new_gt),
   )
 }
 # This generates the following html:
@@ -135,6 +135,14 @@ illustrate_cmd_block <- function(dat, cdb_args_raw) {
 #   <div style="font-size: 45px">=></div>
 #   <div style="align-self: flex-start">`r gts$new_gt`</div>
 # </div>
+
+# if you want to see the result of this function interactively, pipe it in the following function:
+# view_html <- function(x){
+#   html <- paste(x, collapse = '\n')
+#   tf <- tempfile(fileext = ".html")
+#   writeLines(html, tf)
+#   rstudioapi::viewer(tf)
+# }
 
 ```
 

@@ -9,15 +9,12 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r knitr_setup, include = FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>"
+  comment = "#>",
+  echo = FALSE
 )
-```
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
 library(datenanpassr)
 library(dplyr)
 ```
@@ -50,7 +47,7 @@ library(dplyr)
 
 In this document, we will show how the different command blocks in datenanpassr work. 
 There are the following keywords that you can use to enter the command blocks in your Excel mapping file:
-```{r}
+```{r cdb_classes}
 command_block_classes %>% excelish()
 ```
 
@@ -83,6 +80,8 @@ column **B**.
 
 ## `#VALL`
 
+Assign **val**ue **l**abels
+
 ```{r vall}
 dat <- tibble(q1 = c(1, 1, 2))
 
@@ -102,6 +101,82 @@ label, if already existing) to the variable specified in the first row in column
 **B**. It also assigns the value labels in column **C** to 
 the values in column **B** in the following rows of the command.
 
+
+## `#AVALL`
+
+**A**dd **val**ue **l**abels
+
+```{r avall}
+dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1)))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3,
+  "#AVALL", "q1", NA_character_,
+   NA,  "2",     "b",
+   NA,  "3", "c"
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+`#AVALL` does the same as `#VALL`, except that it keeps the value values of the 
+original variable, if they are not overwritten.
+
+## `#RMVAL`
+
+**R**e**m**ove **val**ues and their labels
+
+```{r rmval}
+dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3, ~X4,
+  "#RMVAL", "q1", "q2", "def",
+   NA,  "2",     "", NA_character_,
+   NA,  "3", "", NA_character_,
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+Here, the `#RMVAL` command makes a copy of `q1`, named `q2`, and removes the 
+specified values.
+(In the first line of the command block, column **B** specifies the variable to be recoded, 
+and in column **C** the name of the recoded variable. Column **D** assigns the new 
+variable label.) In the following rows you specify the values and their labels 
+to be removed in column **B**.
+
+## `#COMP`
+
+### Example
+
+```{r comp1}
+dat <- tibble(q1 = 1:3)
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3,
+  "#COMP", "q2", "5",
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+This command **comp**utes a new variable (specified in column **B**) with the value 
+in column **C**.
+
+### Example
+
+You can also assign a variable to the values of the new variable. In this case,
+the labels of the original variable are also copied:
+```{r comp2}
+dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3,
+  "#COMP", "q2", "q1",
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
 
 ## `#IF`
 
@@ -158,3 +233,95 @@ cdb_args_raw <- tibble::tribble(
 
 illustrate_cmd_block(dat, cdb_args_raw)
 ```
+
+## #REC
+
+### Example
+
+```{r rec1}
+dat <- tibble(q1 = haven::labelled(c(1, 2, 3, 4, 5, 99), c(a = 1, b = 2, c = 3, d = 4, e = 5, "No answer" = 99), "abcde"))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3, ~X4, ~X5,
+  "#REC", "q1", "kq1", "fgh", NA_character_,
+  "", "1", "2", "1", "a & b",
+  "", "3", "",  "2", "c",
+  "", "4", "5", "3", "d & e",
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+The `#REC` command **rec**odes variables. In this example `q1` is recoded to `q2`.
+(In the first line of the command block, column **B** specifies the variable to be recoded, 
+and in column **C** the name of the recoded variable. Column **D** assigns the new 
+variable label.) In the following rows you specify the intervals to be recoded 
+in column **B** and **C**, column **D** specifies the new value and column **E**
+its label. So for instance, the second line specifies, that all values in `q1` 
+between 1 and 2 are recoded to 1 in `q2` with the value label `a & b`.
+
+### Example
+
+If you don't specify the variable label (column **D**, first row), the one of 
+the original variable is copied:
+
+```{r rec2}
+dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3, ~X4, ~X5,
+  "#REC", "q1", "kq1", NA_character_, NA_character_,
+  "", "1", "2", "1", "a & b",
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+### Example
+
+If the name of the recoded variable is the same as the original variable, the 
+values that are not recoded are kept:
+```{r rec3}
+dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3, ~X4, ~X5,
+  "#REC", "q1", "q1", NA_character_, NA_character_,
+  "", "1", "2", "0", "a & b",
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+## #KG
+
+### Example
+
+```{r kg1}
+dat <- tibble(
+  q1 = haven::labelled(
+    c(1, 2, 1, 2, 1, 2), 
+    c(good = 1, bad = 2),
+    "How are you?"
+  ),
+  q2 = haven::labelled(
+    c(1, 2, 3, 1, 2, 3), 
+    c(UK = 1, US = 2, FR = 3, DE = 4),
+    "Country"
+  ),
+)
+
+cdb_args_raw <- tibble::tribble(
+  ~X1, ~X2,            ~X3, 
+  "#KG", "q1", "q2", 
+  )
+
+illustrate_cmd_block(dat, cdb_args_raw)
+```
+
+The `#KG` command is useful to calculate cross-tabulations for subsets. It 
+computes new variables for all the value labels of the variable `q2` (in column **C**).
+The value labels are copied from `q1` (the variable in column **B**). The new variable 
+labels are a combination of the value labels of `q2` and the variable label of `q1`.
+The values are copied of `q1` if `q2` takes the value specified in the variable 
+label and are `NA` otherwise.
