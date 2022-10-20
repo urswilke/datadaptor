@@ -37,6 +37,7 @@
 #' \describe{
 #'   \item{keyword}{Excel mapping file keyword}
 #'   \item{command_block}{String denoting the name of the command_block subclass}
+#'   \item{sheet}{The sheet(s) in the Excel mapping file from where this command can be called}
 #' }
 #' @examples
 #' command_block_classes
