@@ -2,7 +2,7 @@
 output: html_document
 ---
 
-```{r}
+```{r fun_defs}
 process_cdb_raw <- function(dat, cdb_args_raw) {
   cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
   class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))

@@ -2,7 +2,7 @@
 output: html_document
 ---
 
-```{r}
+```{r fun_defs}
 excelish <- function(data) {
   gt::gt(data) %>% 
   gt::tab_options(table.align = "left") %>% 
