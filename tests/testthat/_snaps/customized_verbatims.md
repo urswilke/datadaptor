@@ -1,18 +1,18 @@
 # modified data print is reproduced
 
     # A tibble: 10 x 7
-          id        q2           q3_1           q3_2           q3_3     q3_4    q3_5
-       <int> <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl> <dbl+lb> <dbl+l>
-     1     1     4 [D] NA             NA              4 [rating: D] 4 [rati~ 0      
-     2     2     2 [B] NA              2 [rating: B] NA             0        0      
-     3     3     1 [A]  3 [rating: C] NA             NA             0        0      
-     4     4    NA     NA             NA             NA             0        0      
-     5     5     1 [A]  1 [rating: A] NA              1 [rating: A] 0        0      
-     6     6     1 [A]  3 [rating: C] NA              3 [rating: C] 0        0      
-     7     7     1 [A]  2 [rating: B]  2 [rating: B]  2 [rating: B] 0        0      
-     8     8     5 [E] NA             NA              2 [rating: B] 0        2 [rat~
-     9     9     1 [A]  4 [rating: D] NA              4 [rating: D] 0        0      
-    10    10     1 [A]  4 [rating: D] NA              4 [rating: D] 0        0      
+          id q2        q3_1           q3_2           q3_3           q3_4     q3_5   
+       <int> <dbl+lbl> <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lb> <dbl+l>
+     1     1  4 [D]    NA             NA              4 [rating: D] 4 [rati~ 0      
+     2     2  2 [B]    NA              2 [rating: B] NA             0        0      
+     3     3  1 [A]     3 [rating: C] NA             NA             0        0      
+     4     4 NA        NA             NA             NA             0        0      
+     5     5  1 [A]     1 [rating: A] NA              1 [rating: A] 0        0      
+     6     6  1 [A]     3 [rating: C] NA              3 [rating: C] 0        0      
+     7     7  1 [A]     2 [rating: B]  2 [rating: B]  2 [rating: B] 0        0      
+     8     8  5 [E]    NA             NA              2 [rating: B] 0        2 [rat~
+     9     9  1 [A]     4 [rating: D] NA              4 [rating: D] 0        0      
+    10    10  1 [A]     4 [rating: D] NA              4 [rating: D] 0        0      
 
 # variable labels are reproduced
 

@@ -434,7 +434,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[3]]$labs
       $Verbatims[[3]]$labs$q6mdg
@@ -469,7 +468,6 @@
       # ... with 2 more variables: `Zuord 9` <lgl>, `Zuord 10` <lgl>, and abbreviated
       #   variable names 1: orig_var, 2: `Zuord 1`, 3: `Zuord 2`, 4: `Zuord 3`,
       #   5: `Zuord 4`, 6: `Zuord 5`, 7: `Zuord 6`, 8: `Zuord 7`, 9: `Zuord 8`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[4]]$labs
       $Verbatims[[4]]$labs$q6mdg
@@ -602,7 +600,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[5]]$labs
       $Verbatims[[5]]$labs$q6mcg
@@ -735,7 +732,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[6]]$labs
       $Verbatims[[6]]$labs$q6mdg
@@ -869,7 +865,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[7]]$labs
       $Verbatims[[7]]$labs$q6mdg

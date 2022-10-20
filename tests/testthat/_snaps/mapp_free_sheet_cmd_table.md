@@ -14,7 +14,6 @@
      9 15             #VARL  n              <tibble [1 x 5]>
     10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
     # ... with 14 more rows
-    # i Use `print(n = ...)` to see more rows
 
 ---
 
