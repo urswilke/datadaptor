@@ -33,7 +33,7 @@ update_var_table <- function(dat,
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_varl %>%
-      dplyr::filter(if_any(c("new_label", "new_name", "op"), ~is.na(.x))) %>%
+      dplyr::filter(dplyr::if_any(c("new_label", "new_name", "op"), ~is.na(.x))) %>%
       dplyr::anti_join(df_varl_new, by = c("var", "varlab", "type"))
     stopifnot(nrow(df_commands_lost) == 0)
   }
@@ -93,7 +93,7 @@ update_label_table <- function(dat,
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_vall %>%
-      dplyr::filter(if_any(
+      dplyr::filter(dplyr::if_any(
         c("new_label", "sum_var_label", "sum_var_value", "sum_var_vallab"),
         ~is.na(.x)
       )) %>%

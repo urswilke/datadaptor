@@ -17,6 +17,8 @@ Description: An R package to make data adjustments ("Datenanpassungen" in German
 License: MIT + file LICENSE
 Suggests: 
     testthat,
+    gt,
+    gtExtras,
     knitr,
     htmltools,
     rmarkdown,

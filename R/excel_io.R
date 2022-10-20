@@ -383,7 +383,7 @@ delete_empty_X1_not_multiline <- function(df_free) {
                      !stringr::str_detect(.data$X1, "^#")
                    ) %>%
         is_true_vec(),
-      temp = not_multiline_cmd & !after_dot
+      temp = .data$not_multiline_cmd & !.data$after_dot
     ) %>%
     tidyr::fill(.data$temp) %>%
     dplyr::mutate(temp = .data$temp & is.na(.data$X1)) %>%

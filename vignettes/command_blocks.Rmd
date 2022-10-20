@@ -203,7 +203,7 @@ In this case `q2` didn't exist in the data before, and thus is initialized to
 
 ### Example
 
-If the variable existed before, the values where the condition evalueates to `FALSE`
+If the variable existed before, the values where the condition evaluates to `FALSE`
 are kept, as can be seen in the next example:
 
 ```{r if2}

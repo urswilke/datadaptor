@@ -1,3 +1,7 @@
+# from here: https://stackoverflow.com/a/64105860
+#' @import R6
+NULL
+
 #' Mapping class
 #'
 #'

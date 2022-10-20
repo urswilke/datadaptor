@@ -22,10 +22,10 @@ For instance:
 * [this](https://rstudio-education.github.io/hopr/) is nice, but also becomes
 challenging quite quickly.
 * [R for Data Science](https://r4ds.had.co.nz) is the most complete reference.
-* [here](https://paulvanderlaken.com/2017/10/18/learn-r/) is another ressource, 
+* [here](https://paulvanderlaken.com/2017/10/18/learn-r/) is another resource, 
 but already a bit outdated (2017 is a long time in the R world).
 * [swirl](https://swirlstats.com/students.html) is an interactive approach.
-* [in this reddit](https://www.reddit.com/r/rstats/comments/eh5e4q/what_is_the_best_way_to_learn_r_for_a_complete/) you might still find other ressources.
+* [in this reddit](https://www.reddit.com/r/rstats/comments/eh5e4q/what_is_the_best_way_to_learn_r_for_a_complete/) you might still find other resources.
 
 In the beginning, R can be very frustrating and it takes time.
 
@@ -68,7 +68,7 @@ We'll first define a small toy survey:
  
 ### Q3. Select all that applies {#Q3}
 * I'm curious
-* I'm cautios
+* I'm cautious
 * I'm lazy
 * I don't care
 
@@ -181,7 +181,7 @@ df <- tibble(id = 1:10, q1, q2, q3_1, q3_2, q3_3, q3_4, q4_1, q4_2, q4_3)
 df
 ```
 
-Each row of the dataset `df` corresponts to one respondent
+Each row of the dataset `df` corresponds to one respondent
 (specified by the first column `id`). Their answers to the 4 questions are 
 coded in the other columns. These columns are [labelled variables](#labvars) (of type `haven::labelled()`).
 
@@ -241,7 +241,7 @@ q4_1
 
 # Tabulation of frequency counts of survey data
 
-When analysing survey data it is of great interest to count how often the 
+When analyzing survey data it is of great interest to count how often the 
 responses occur. We'll have a look at some recurring tasks using the examples in
 our toy survey.
 
@@ -432,7 +432,7 @@ varlabs
 ```
 
 We just want to get rid of the questionnaire text and remove everything (`".*"`)
-before the hiphen surrounded by spaces (`" - "`) in these strings:
+before the hyphen surrounded by spaces (`" - "`) in these strings:
 ```{r}
 varlabs <- varlabs %>% mutate(varlab = str_remove(varlab, ".* - "))
 varlabs
