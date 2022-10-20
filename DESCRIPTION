@@ -18,6 +18,7 @@ License: MIT + file LICENSE
 Suggests: 
     testthat,
     knitr,
+    htmltools,
     rmarkdown,
     markdown,
     withr,
