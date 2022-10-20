@@ -188,7 +188,7 @@ extract_excel_params <- function(mapping_file) {
   # ℹ No data found on worksheet.
   suppressWarnings(
     configr <- named_regions %>%
-      dplyr::filter(., grepl("^R_*", .data$value)) %>%
+      dplyr::filter(grepl("^R_*", .data$value)) %>%
       dplyr::mutate(
         data = purrr::map(
           .x = .data$value,
