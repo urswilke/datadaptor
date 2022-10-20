@@ -3,12 +3,32 @@ output: html_document
 ---
 
 ```{r}
-res <- command_block_doc_helper(dat, cdb_args_raw)
-cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
-```
+process_cdb_raw <- function(dat, cdb_args_raw) {
+  cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
+  class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))
+  cdb_args <- cdb_args_raw %>% parse_command_args()
+  m0 <- Mapping$new()
+  m0$dat_mod <- dat
+  
+  arg_list <- list(
+    cdb = structure(
+      list(),
+      class = cdb_class
+    ),
+    mapping = m0
+  ) %>% append(
+    cdb_args
+  )
+  do.call(apply_command, arg_list)  
+  
+  list(
+    cdb_class = cdb_class,
+    cdb_args = cdb_args,
+    result = m0$dat_mod
+  )
+  
+}
 
-
-```{r}
 tab_labels_wide <- function(df) {
   varl_table <- df |>
     tablab::tab_varlabs() |> 
@@ -42,10 +62,9 @@ join_labs <- function(df) {
 }
 
 
-print_cmd_exe <- function(dat) {
-  res <- command_block_doc_helper(dat, cdb_args_raw)
+print_cmd_exe <- function(dat, cdb_args_raw) {
+  res <- process_cdb_raw(dat, cdb_args_raw)
   input_data <- dat %>% excelish()
-  cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
   
   old_table <- join_labs(dat)
   new_table <- join_labs(res$result)
@@ -96,30 +115,27 @@ color_gt_labels <- function(gt_obj) {
     gt::cols_label(val = "")
 }
 
-gts <- print_cmd_exe(dat)
+illustrate_cmd_block <- function(dat, cdb_args_raw) {
+  cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
+  gts <- print_cmd_exe(dat, cdb_args_raw)
+  htmltools::div(
+    class = "flex-container", 
+    htmltools::div(style = "align-self: flex-start", gts$old_gt),
+    htmltools::div(style = "font-size: 45px", "&"),
+    htmltools::div(style = "flex-item", cmd_block),
+    htmltools::div(style = "font-size: 45px", "=>"),
+    htmltools::div(style = "align-self: flex-start", gts$new_gt),
+  )
+}
+# This generates the following html:
+# <div class="flex-container">
+#   <div style="align-self: flex-start">`r gts$old_gt`</div>
+#   <div style="font-size: 45px">&</div>
+#   <div class="flex-item">`r cmd_block`</div>
+#   <div style="font-size: 45px">=></div>
+#   <div style="align-self: flex-start">`r gts$new_gt`</div>
+# </div>
+
 ```
 
-
-
-```{r}
-div(
-  class = "flex-container", 
-  div(style = "align-self: flex-start", gts$old_gt),
-  div(style = "font-size: 45px", "&"),
-  div(style = "flex-item", cmd_block),
-  div(style = "font-size: 45px", "=>"),
-  div(style = "align-self: flex-start", gts$new_gt),
-)
-```
-
-<!-- This generates the following html: -->
-<!-- 
-<div class="flex-container">
-  <div style="align-self: flex-start">`r gts$old_gt`</div>
-  <div style="font-size: 45px">&</div>
-  <div class="flex-item">`r cmd_block`</div>
-  <div style="font-size: 45px">=></div>
-  <div style="align-self: flex-start">`r gts$new_gt`</div>
-</div>
--->
 
