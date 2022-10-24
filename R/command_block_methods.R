@@ -229,6 +229,19 @@ apply_command.cmd_merge <- function(
 #' @describeIn apply_command
 #'
 #' @export
+apply_command.cmd_addfile <- function(
+  cdb, mapping, filepath, ...
+) {
+  df_newcases <- haven::read_sav(filepath)
+  mapping$dat_mod <- dplyr::bind_rows(
+    mapping$dat_mod,
+    df_newcases
+  )
+}
+
+#' @describeIn apply_command
+#'
+#' @export
 apply_command.cmd_rename <- function(cdb, mapping, xs, ys, ...) {
   mapping$dat_mod <- mapping$dat_mod %>%
     dplyr::rename(!!!purrr::set_names(ys, xs))

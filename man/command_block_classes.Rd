@@ -5,7 +5,7 @@
 \alias{command_block_classes}
 \title{\code{command_block} overview}
 \format{
-A data frame of 23 \code{keyword}s and their corresponding command_block
+A data frame of 24 \code{keyword}s and their corresponding command_block
 classes:
 \describe{
 \item{keyword}{Excel mapping file keyword}

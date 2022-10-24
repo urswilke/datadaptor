@@ -32,7 +32,7 @@
 #' mapping file to generate command_block objects.
 #'
 #'
-#' @format A data frame of 23 `keyword`s and their corresponding command_block
+#' @format A data frame of 24 `keyword`s and their corresponding command_block
 #' classes:
 #' \describe{
 #'   \item{keyword}{Excel mapping file keyword}

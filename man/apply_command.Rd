@@ -11,6 +11,7 @@
 \alias{apply_command.cmd_verbatim}
 \alias{apply_command.cmd_verbatim_custom}
 \alias{apply_command.cmd_merge}
+\alias{apply_command.cmd_addfile}
 \alias{apply_command.cmd_rename}
 \alias{apply_command.cmd_if}
 \alias{apply_command.cmd_comp}
@@ -71,6 +72,8 @@ apply_command(cdb, mapping, ...)
 )
 
 \method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id = mapping$params$id_var, ...)
+
+\method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
 
 \method{apply_command}{cmd_rename}(cdb, mapping, xs, ys, ...)
 
@@ -152,6 +155,8 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_verbatim_custom)}: 
 
 \item \code{apply_command(cmd_merge)}: 
+
+\item \code{apply_command(cmd_addfile)}: 
 
 \item \code{apply_command(cmd_rename)}: 
 
