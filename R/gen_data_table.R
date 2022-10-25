@@ -20,7 +20,7 @@ gen_data_table <- function(df) {
   label1 <- tablab::tab_vallabs(df) %>%
     dplyr::select(c("var","nv", "vallab"))
 
-
+  res1 <- merge(res1, var1, by="var", all=TRUE)
   merge(res1, label1, by=c("var", "nv"), all=TRUE)
 
 }
