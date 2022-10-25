@@ -376,7 +376,7 @@ delete_empty_X1_not_multiline <- function(df_free) {
     dplyr::mutate(
       not_multiline_cmd = stringr::str_detect(
         .data$X1,
-        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$",
+        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$|^#R$",
         negate = TRUE
       ),
       after_dot = (dplyr::lag(stringr::str_detect(.data$X1, "\\.")) &

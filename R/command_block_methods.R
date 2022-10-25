@@ -35,9 +35,10 @@ apply_command <- function(cdb, mapping, ...) {
 #' @param v,v0,vs,vs0,vs2 Numeric value(s)
 #' @param vallab,vallabs Value label(s)
 #' @param varlab Character string containing a variable label
-#' @param ex,ex_cond,ex_fun,ex_further_cond,ex_assign Character strings
+#' @param ex,exs,ex_cond,ex_fun,ex_further_cond,ex_assign Character strings
 #'   containing valid R expressions. They will be evaluated in
-#'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`).
+#'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`), except `exs`
+#'   which contains a list of expressions evaluated in the global environment.
 #' @param filepath Character string containing valid file path
 #' @param id Character string of the variable name of the id variable in
 #'   `mapping$dat`.
@@ -65,11 +66,10 @@ apply_command.cmd_recna_xcpt <- function(cdb, mapping, xs, v, vallab, ...) {
 
 #' @describeIn apply_command Execute R code
 #' @export
-apply_command.cmd_r <- function(cdb, mapping, ex, ...) {
-  new_df <- ex %>%
-    rlang::parse_expr() %>%
-    eval_in_data(mapping)
-  mapping$dat_mod <- dplyr::bind_cols(mapping$dat_mod, new_df)
+apply_command.cmd_r <- function(cdb, mapping, exs, ...) {
+  exs %>%
+    rlang::parse_exprs() %>%
+    purrr::map(eval)
 }
 
 #' @describeIn apply_command Execute the function named `ex_fun` and

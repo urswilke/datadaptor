@@ -1,6 +1,6 @@
 # command blocks print is reproduced
 
-    <command_block_rcrd[83]>
+    <command_block_rcrd[82]>
      [1] Config #RECNA xs: q1, q5, id; v: -2; vallab: FILTER                                                                                               
      [2] Label #NEWVA x: q2; vs: 1; vallbs: YES                                                                                                            
      [3] Label #SUMVA x: kq5; y: q5; varlab: test; vs0: 1, 2, 3, 4, 5; vs: 1, 1, 2, 3, 3; vallbs: aaa, NA, bbb,...                                         
@@ -80,14 +80,13 @@
     [77] Free1 #VARL x: a2; varlab: same variable...                                                                                                       
     [78] Free1 #DIC y: q3; x: q4_renamed                                                                                                                   
     [79] Free1 #COMPR x: r_expr_var; ex: haven::labell...                                                                                                  
-    [80] Free1 #R ex: data.frame(a=1)                                                                                                                      
-    [81] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl                     
-    [82] Free1 #RMVAL x: q1; y: q1; vs: 99; varlab: new_varlab                                                                                             
-    [83] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
+    [80] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl                     
+    [81] Free1 #RMVAL x: q1; y: q1; vs: 99; varlab: new_varlab                                                                                             
+    [82] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 67
+    # A tibble: 100 x 66
        q1              q2_renamed     q3             q4_renamed     q5             
        <dbl+lbl>       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
@@ -232,18 +231,18 @@
      8 NA                 1 [also with] 3         4          16                    6
      9 NA                 1 [also with] 3         4         792                   10
     10 NA                 1 [also with] 3         4         792                   16
-           a kkq1      free2_var
-       <dbl> <dbl+lbl>     <dbl>
-     1     1  2 [b]            3
-     2     1  2 [b]            3
-     3     1  1 [a]            3
-     4     1  2 [b]            3
-     5     1  2 [b]            3
-     6     1  2 [b]            3
-     7     1 NA                3
-     8     1  2 [b]            3
-     9     1 NA                3
-    10     1 NA                3
+       kkq1      free2_var
+       <dbl+lbl>     <dbl>
+     1  2 [b]            3
+     2  2 [b]            3
+     3  1 [a]            3
+     4  2 [b]            3
+     5  2 [b]            3
+     6  2 [b]            3
+     7 NA                3
+     8  2 [b]            3
+     9 NA                3
+    10 NA                3
     # ... with 90 more rows
 
 # value labels are reproduced
@@ -548,7 +547,7 @@
 
 # error string elements were added to cmd_tbl
 
-    # A tibble: 85 x 7
+    # A tibble: 84 x 7
        sheet     action   row                new_var   raw          command_~1 error
        <chr>     <chr>    <chr>              <chr>     <list>       <validatd> <chr>
      1 Config    #RECNA   <NA>               <NA>      <named list> <validatd> ""   
@@ -561,5 +560,5 @@
      8 Variables #NEWLAB  2                  q1        <tibble>     <validatd> ""   
      9 Variables #NEWLAB  3                  q2_renam~ <tibble>     <validatd> ""   
     10 Variables #NEWLAB  6                  q5        <tibble>     <validatd> ""   
-    # ... with 75 more rows, and abbreviated variable name 1: command_blocks
+    # ... with 74 more rows, and abbreviated variable name 1: command_blocks
 

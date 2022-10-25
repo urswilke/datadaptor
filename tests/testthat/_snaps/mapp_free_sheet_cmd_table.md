@@ -1,6 +1,6 @@
 # snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
-    # A tibble: 24 x 4
+    # A tibble: 23 x 4
        row            action new_var        data            
        <chr>          <chr>  <chr>          <list>          
      1 3              #COMP  x              <tibble [1 x 5]>
@@ -13,15 +13,15 @@
      8 14             #COMP  n              <tibble [1 x 5]>
      9 15             #VARL  n              <tibble [1 x 5]>
     10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
-    # ... with 14 more rows
+    # ... with 13 more rows
 
 ---
 
-    tibble [24 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:24] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:24] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:24] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 24
+    tibble [23 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:23] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:23] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:23] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 23
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -146,12 +146,6 @@
       .. ..$ X1: chr "#RFUN"
       .. ..$ X2: chr "example_R_function.R"
       .. ..$ X3: chr "calc_sum_of_k_vars"
-      .. ..$ X4: chr NA
-      .. ..$ X5: chr NA
-      ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
-      .. ..$ X1: chr "#R"
-      .. ..$ X2: chr "data.frame(a=1)"
-      .. ..$ X3: chr NA
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
       ..$ : tibble [6 x 5] (S3: tbl_df/tbl/data.frame)
