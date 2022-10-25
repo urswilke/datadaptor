@@ -32,10 +32,10 @@ prepare_newvar_table <- function(df, split_var, by_var) {
     # TODO: find cleaner way without defining a dummy id:
     dplyr::mutate(id = dplyr::row_number(), !!split_var) %>%
     tablab::tab_all() %>%
-    tidyr::drop_na(.data$nv) %>%
+    tidyr::drop_na("nv") %>%
     # tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") %>%
     dplyr::mutate(new_varlab = paste0(.data$vallab, ": ", var2lab)) %>%
-    dplyr::select(.data$nv, .data$new_varlab)
+    dplyr::select(dplyr::all_of(c("nv", "new_varlab")))
 
   new_varnames <- paste0(
     by_var,

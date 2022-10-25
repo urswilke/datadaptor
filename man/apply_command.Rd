@@ -11,6 +11,7 @@
 \alias{apply_command.cmd_verbatim}
 \alias{apply_command.cmd_verbatim_custom}
 \alias{apply_command.cmd_merge}
+\alias{apply_command.cmd_addfile}
 \alias{apply_command.cmd_rename}
 \alias{apply_command.cmd_if}
 \alias{apply_command.cmd_comp}
@@ -32,7 +33,7 @@ apply_command(cdb, mapping, ...)
 
 \method{apply_command}{cmd_recna_xcpt}(cdb, mapping, xs, v, vallab, ...)
 
-\method{apply_command}{cmd_r}(cdb, mapping, ex, ...)
+\method{apply_command}{cmd_r}(cdb, mapping, exs, ...)
 
 \method{apply_command}{cmd_rfun}(cdb, mapping, filepath, ex_fun, ...)
 
@@ -71,6 +72,8 @@ apply_command(cdb, mapping, ...)
 )
 
 \method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id = mapping$params$id_var, ...)
+
+\method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
 
 \method{apply_command}{cmd_rename}(cdb, mapping, xs, ys, ...)
 
@@ -113,10 +116,6 @@ apply_command(cdb, mapping, ...)
 
 \item{vallab, vallabs}{Value label(s)}
 
-\item{ex, ex_cond, ex_fun, ex_further_cond, ex_assign}{Character strings
-containing valid R expressions. They will be evaluated in
-\code{mapping$params$expr_eval_env} (see \code{gen_mapping_params()}).}
-
 \item{filepath}{Character string containing valid file path}
 
 \item{x, xs, y, ys}{character string (vector) of variable names in
@@ -128,6 +127,11 @@ containing valid R expressions. They will be evaluated in
 
 \item{id}{Character string of the variable name of the id variable in
 \code{mapping$dat}.}
+
+\item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign}{Character strings
+containing valid R expressions. They will be evaluated in
+\code{mapping$params$expr_eval_env} (see \code{gen_mapping_params()}), except \code{exs}
+which contains a list of expressions evaluated in the global environment.}
 }
 \description{
 Apply a command block to the mapping
@@ -152,6 +156,8 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_verbatim_custom)}: 
 
 \item \code{apply_command(cmd_merge)}: 
+
+\item \code{apply_command(cmd_addfile)}: 
 
 \item \code{apply_command(cmd_rename)}: 
 

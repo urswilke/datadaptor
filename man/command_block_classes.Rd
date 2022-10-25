@@ -5,11 +5,12 @@
 \alias{command_block_classes}
 \title{\code{command_block} overview}
 \format{
-A data frame of 23 \code{keyword}s and their corresponding command_block
+A data frame of 24 \code{keyword}s and their corresponding command_block
 classes:
 \describe{
 \item{keyword}{Excel mapping file keyword}
 \item{command_block}{String denoting the name of the command_block subclass}
+\item{sheet}{The sheet(s) in the Excel mapping file from where this command can be called}
 }
 }
 \usage{

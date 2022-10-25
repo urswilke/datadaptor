@@ -434,7 +434,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[3]]$labs
       $Verbatims[[3]]$labs$q6mdg
@@ -469,7 +468,6 @@
       # ... with 2 more variables: `Zuord 9` <lgl>, `Zuord 10` <lgl>, and abbreviated
       #   variable names 1: orig_var, 2: `Zuord 1`, 3: `Zuord 2`, 4: `Zuord 3`,
       #   5: `Zuord 4`, 6: `Zuord 5`, 7: `Zuord 6`, 8: `Zuord 7`, 9: `Zuord 8`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[4]]$labs
       $Verbatims[[4]]$labs$q6mdg
@@ -602,7 +600,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[5]]$labs
       $Verbatims[[5]]$labs$q6mcg
@@ -735,7 +732,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[6]]$labs
       $Verbatims[[6]]$labs$q6mdg
@@ -869,7 +865,6 @@
       # ... with 3 more variables: `Zuord 8` <lgl>, `Zuord 9` <lgl>,
       #   `Zuord 10` <lgl>, and abbreviated variable names 1: `Zuord 4`,
       #   2: `Zuord 5`, 3: `Zuord 6`, 4: `Zuord 7`
-      # i Use `colnames()` to see all variable names
       
       $Verbatims[[7]]$labs
       $Verbatims[[7]]$labs$q6mdg
@@ -887,7 +882,7 @@
       
       
       $Free1
-      # A tibble: 38 x 6
+      # A tibble: 37 x 6
          X1     X2                   X3                              X4    X5      row
          <chr>  <chr>                <chr>                           <chr> <chr> <int>
        1 #COMP  x                    "q1 == 2"                       <NA>   <NA>     3
@@ -919,15 +914,14 @@
       27 #COMPR r_expr_var           "haven::labelled(ifelse(q1 == ~ <NA>   <NA>    36
       28 #MERGE fake_survey.sav      "id"                            q1 q2  <NA>    38
       29 #RFUN  example_R_function.R "calc_sum_of_k_vars"            <NA>   <NA>    40
-      30 #R     data.frame(a=1)       <NA>                           <NA>   <NA>    42
-      31 #REC   q1                   "kkq1"                          vl     <NA>    45
-      32 <NA>   1                     <NA>                           1     "a"      46
-      33 <NA>   2                     <NA>                           2     "b"      47
-      34 <NA>   3                     <NA>                           2      <NA>    48
-      35 <NA>   4                     <NA>                           2      <NA>    49
-      36 <NA>   5                     <NA>                           2      <NA>    50
-      37 #RMVAL q1                   "q1"                            new_~  <NA>    53
-      38 <NA>   99                    <NA>                           <NA>   <NA>    54
+      30 #REC   q1                   "kkq1"                          vl     <NA>    48
+      31 <NA>   1                     <NA>                           1     "a"      49
+      32 <NA>   2                     <NA>                           2     "b"      50
+      33 <NA>   3                     <NA>                           2      <NA>    51
+      34 <NA>   4                     <NA>                           2      <NA>    52
+      35 <NA>   5                     <NA>                           2      <NA>    53
+      36 #RMVAL q1                   "q1"                            new_~  <NA>    56
+      37 <NA>   99                    <NA>                           <NA>   <NA>    57
       
       $Free2
       # A tibble: 1 x 6

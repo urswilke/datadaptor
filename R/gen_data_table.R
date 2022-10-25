@@ -15,10 +15,10 @@ gen_data_table <- function(df) {
   colnames(res1)[colnames(res1)=="Var1"] <- "nv"
 
   var1 <- gen_var_table(df) %>%
-    dplyr::select(c("var","type", "varlab"))
+    dplyr::select(dplyr::all_of(c("var","type", "varlab")))
 
   label1 <- tablab::tab_vallabs(df) %>%
-    dplyr::select(c("var","nv", "vallab"))
+    dplyr::select(dplyr::all_of(c("var","nv", "vallab")))
 
 
   merge(res1, label1, by=c("var", "nv"), all=TRUE)

@@ -1,6 +1,6 @@
 # command blocks print is reproduced
 
-    <command_block_rcrd[83]>
+    <command_block_rcrd[82]>
      [1] Config #RECNA xs: q1, q5, id; v: -2; vallab: FILTER                                                                                               
      [2] Label #NEWVA x: q2; vs: 1; vallbs: YES                                                                                                            
      [3] Label #SUMVA x: kq5; y: q5; varlab: test; vs0: 1, 2, 3, 4, 5; vs: 1, 1, 2, 3, 3; vallbs: aaa, NA, bbb,...                                         
@@ -80,16 +80,15 @@
     [77] Free1 #VARL x: a2; varlab: same variable...                                                                                                       
     [78] Free1 #DIC y: q3; x: q4_renamed                                                                                                                   
     [79] Free1 #COMPR x: r_expr_var; ex: haven::labell...                                                                                                  
-    [80] Free1 #R ex: data.frame(a=1)                                                                                                                      
-    [81] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl                     
-    [82] Free1 #RMVAL x: q1; y: q1; vs: 99; varlab: new_varlab                                                                                             
-    [83] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
+    [80] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl                     
+    [81] Free1 #RMVAL x: q1; y: q1; vs: 99; varlab: new_varlab                                                                                             
+    [82] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
 
 # s3 modified data print is reproduced
 
-    # A tibble: 100 x 67
-                    q1     q2_renamed             q3     q4_renamed              q5
-             <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>
+    # A tibble: 100 x 66
+       q1              q2_renamed     q3             q4_renamed     q5             
+       <dbl+lbl>       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
      2  3 [normal]      1 [YES]       5 [very much]  4 [much]        5 [very much] 
      3  1 [not at all]  1 [YES]       3 [normal]     2 [a bit]       5 [very much] 
@@ -100,20 +99,20 @@
      8  2 [a bit]       2 [no]        5 [very much]  2 [a bit]       1 [not at all]
      9 NA              99 [no answer] 1 [not at all] 1 [not at all]  2 [a bit]     
     10 NA               1 [YES]       1 [not at all] 1 [not at all]  4 [much]      
-          id                    q6 q7                         q8       kq5
-       <dbl>             <dbl+lbl> <chr>               <dbl+lbl> <dbl+lbl>
-     1     1 3 [bla bla bla love]  bla bla bla anger           2   1 [aaa]
-     2     2 4 [bla bla happiness] bla bla bla sadness         9   7      
-     3     3 8 [bla joy]           bla bla bla sadness         3   7      
-     4     4 5 [bla bla joy]       bla bla anger               3   3 [ccc]
-     5     5 7 [bla happiness]     bla fear                    9   2 [bbb]
-     6     6 5 [bla bla joy]       bla pain                    7   1 [aaa]
-     7     7 9 [bla love]          bla bla sadness            10  NA      
-     8     8 6 [bla bla love]      bla bla anger               1   1 [aaa]
-     9     9 6 [bla bla love]      bla bla sadness             2   1 [aaa]
-    10    10 3 [bla bla bla love]  bla bla anger               4   7      
-                   q2             q4   q97   q99            q6n         q7n
-            <dbl+lbl>      <dbl+lbl> <dbl> <dbl>      <dbl+lbl>   <dbl+lbl>
+          id q6                    q7                  q8        kq5      
+       <dbl> <dbl+lbl>             <chr>               <dbl+lbl> <dbl+lbl>
+     1     1 3 [bla bla bla love]  bla bla bla anger    2         1 [aaa] 
+     2     2 4 [bla bla happiness] bla bla bla sadness  9         7       
+     3     3 8 [bla joy]           bla bla bla sadness  3         7       
+     4     4 5 [bla bla joy]       bla bla anger        3         3 [ccc] 
+     5     5 7 [bla happiness]     bla fear             9         2 [bbb] 
+     6     6 5 [bla bla joy]       bla pain             7         1 [aaa] 
+     7     7 9 [bla love]          bla bla sadness     10        NA       
+     8     8 6 [bla bla love]      bla bla anger        1         1 [aaa] 
+     9     9 6 [bla bla love]      bla bla sadness      2         1 [aaa] 
+    10    10 3 [bla bla bla love]  bla bla anger        4         7       
+       q2             q4               q97   q99 q6n            q7n        
+       <dbl+lbl>      <dbl+lbl>      <dbl> <dbl> <dbl+lbl>      <dbl+lbl>  
      1  2 [no]        4 [much]          10    11  1 [love]      3 [anger]  
      2  1 [yes]       4 [much]          10    11  3 [happiness] 1 [sadness]
      3  1 [yes]       2 [a bit]         10    11  2 [joy]       1 [sadness]
@@ -124,8 +123,8 @@
      8  2 [no]        2 [a bit]         10    11 NA             3 [anger]  
      9 99 [no answer] 1 [not at all]    10    11  1 [love]      1 [sadness]
     10  1 [yes]       1 [not at all]    10    11  1 [love]      3 [anger]  
-                 q6_1           q6_2           q6_3           q6_4          q6_97
-            <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>
+       q6_1           q6_2           q6_3           q6_4           q6_97         
+       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>     
      1 1 [selected]   0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
      2 0 [unselected] 0 [unselected] 1 [selected]   0 [unselected] 0 [unselected]
      3 0 [unselected] 1 [selected]   0 [unselected] 0 [unselected] 0 [unselected]
@@ -136,8 +135,8 @@
      8 1 [selected]   0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
      9 1 [selected]   0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
     10 1 [selected]   0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
-                q6_99       q6test_1       q6test_2       q6test_3       q6test_4
-            <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>
+       q6_99          q6test_1       q6test_2       q6test_3       q6test_4      
+       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>     
      1 0 [unselected] 1 [selected]   0 [unselected] 0 [unselected] 0 [unselected]
      2 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
      3 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
@@ -148,8 +147,8 @@
      8 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
      9 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
     10 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected] 0 [unselected]
-            q6test_97      q6test_99          q6n1          q6n2        q6n3
-            <dbl+lbl>      <dbl+lbl>     <dbl+lbl>     <dbl+lbl>   <dbl+lbl>
+       q6test_97      q6test_99      q6n1          q6n2          q6n3       
+       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>     <dbl+lbl>     <dbl+lbl>  
      1 0 [unselected] 0 [unselected] 1 [love]      -2 [FILTER]   -2 [FILTER]
      2 0 [unselected] 0 [unselected] 3 [happiness] -2 [FILTER]   -2 [FILTER]
      3 0 [unselected] 0 [unselected] 2 [joy]       -2 [FILTER]   -2 [FILTER]
@@ -160,8 +159,8 @@
      8 0 [unselected] 0 [unselected] 1 [love]      -2 [FILTER]   -2 [FILTER]
      9 0 [unselected] 0 [unselected] 1 [love]      -2 [FILTER]   -2 [FILTER]
     10 0 [unselected] 0 [unselected] 1 [love]      -2 [FILTER]   -2 [FILTER]
-              q6n4        q6n5        q6n6        q6n7        q6n8        q6n9
-         <dbl+lbl>   <dbl+lbl>   <dbl+lbl>   <dbl+lbl>   <dbl+lbl>   <dbl+lbl>
+       q6n4        q6n5        q6n6        q6n7        q6n8        q6n9       
+       <dbl+lbl>   <dbl+lbl>   <dbl+lbl>   <dbl+lbl>   <dbl+lbl>   <dbl+lbl>  
      1 -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
      2 -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
      3 -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
@@ -172,8 +171,8 @@
      8 -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
      9 -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
     10 -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER] -2 [FILTER]
-             q6n10         q6mw_1         q6mw_2        q6mw_3         q6mw_4
-         <dbl+lbl>      <dbl+lbl>      <dbl+lbl>     <dbl+lbl>      <dbl+lbl>
+       q6n10       q6mw_1         q6mw_2         q6mw_3        q6mw_4        
+       <dbl+lbl>   <dbl+lbl>      <dbl+lbl>      <dbl+lbl>     <dbl+lbl>     
      1 -2 [FILTER]  3 [normal]    0              0              0            
      2 -2 [FILTER]  0             0              3 [normal]     0            
      3 -2 [FILTER]  0             1 [not at all] 0              0            
@@ -184,68 +183,67 @@
      8 -2 [FILTER]  2 [a bit]     0              0              0            
      9 -2 [FILTER] 99 [no answer] 0              0              0            
     10 -2 [FILTER] 99 [no answer] 0              0              0            
-         q6mw_97   q6mw_99 q6_assign_nn_1 q6_assign_nn_2 q6_assign_nn_3
-       <dbl+lbl> <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>
-     1         0         0  3 [normal]     0              0            
-     2         0         0  0              0              5 [very much]
-     3         0         0  0              1 [YES]        0            
-     4         0         0  0             99 [no answer]  0            
-     5         0         0  0              0              2 [a bit]    
-     6         0         0  0             -2 [FILTER]     0            
-     7         0         0 99 [no answer]  0              0            
-     8         0         0  2 [a bit]      0              0            
-     9         0         0 99 [no answer]  0              0            
-    10         0         0 99 [no answer]  0              0            
-       q6_assign_nn_4 q6_assign_nn_97 q6_assign_nn_99     x   abc   kq6       kq1
-            <dbl+lbl>       <dbl+lbl>       <dbl+lbl> <int> <dbl> <dbl> <dbl+lbl>
-     1       0                      0               0     0    NA    NA   2 [3]  
-     2       0                      0               0     0    NA    NA   2 [3]  
-     3       0                      0               0     0     7    NA   1 [1-2]
-     4       0                      0               0     0    NA    NA   2 [3]  
-     5       0                      0               0     0     7    NA   3 [4-5]
-     6       0                      0               0     0    NA    NA   3 [4-5]
-     7       4 [much]               0               0     0    NA    NA  NA      
-     8       0                      0               0     1    NA    NA   1 [1-2]
-     9       0                      0               0     0    NA     8  NA      
-    10       0                      0               0     0    NA     8  NA      
-             kq3 kq1xq2_renamedkminus20 kq1xq2_renamedk10 kq1xq2_renamedk20
-       <dbl+lbl>              <dbl+lbl>         <dbl+lbl>         <dbl+lbl>
-     1   2 [3]                 NA                NA                 2 [3]  
-     2   3 [4-5]               NA                 2 [3]            NA      
-     3   2 [3]                 NA                 1 [1-2]          NA      
-     4   3 [4-5]               NA                NA                NA      
-     5   1 [1-2]                3 [4-5]          NA                NA      
-     6   3 [4-5]                3 [4-5]          NA                NA      
-     7   2 [3]                 NA                NA                NA      
-     8   3 [4-5]               NA                NA                 1 [1-2]
-     9   1 [1-2]               NA                NA                NA      
-    10   1 [1-2]               NA                NA                NA      
-       kq1xq2_renamedk990             n        a1        a2 r_expr_var sum_of_k_vars
-                <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>  <dbl+lbl>         <dbl>
-     1             NA     1 [also with]         3         4         24             7
-     2             NA     1 [also with]         3         4         24            14
-     3             NA     1 [also with]         3         4          8            11
-     4              2 [3] 1 [also with]         3         4         24            10
-     5             NA     1 [also with]         3         4         20             9
-     6             NA     1 [also with]         3         4         40            10
-     7             NA     1 [also with]         3         4        792             2
-     8             NA     1 [also with]         3         4         16             6
-     9             NA     1 [also with]         3         4        792            10
-    10             NA     1 [also with]         3         4        792            16
-           a      kkq1 free2_var
-       <dbl> <dbl+lbl>     <dbl>
-     1     1     2 [b]         3
-     2     1     2 [b]         3
-     3     1     1 [a]         3
-     4     1     2 [b]         3
-     5     1     2 [b]         3
-     6     1     2 [b]         3
-     7     1    NA             3
-     8     1     2 [b]         3
-     9     1    NA             3
-    10     1    NA             3
+       q6mw_97   q6mw_99   q6_assign_nn_1 q6_assign_nn_2 q6_assign_nn_3
+       <dbl+lbl> <dbl+lbl> <dbl+lbl>      <dbl+lbl>      <dbl+lbl>     
+     1 0         0          3 [normal]     0             0             
+     2 0         0          0              0             5 [very much] 
+     3 0         0          0              1 [YES]       0             
+     4 0         0          0             99 [no answer] 0             
+     5 0         0          0              0             2 [a bit]     
+     6 0         0          0             -2 [FILTER]    0             
+     7 0         0         99 [no answer]  0             0             
+     8 0         0          2 [a bit]      0             0             
+     9 0         0         99 [no answer]  0             0             
+    10 0         0         99 [no answer]  0             0             
+       q6_assign_nn_4 q6_assign_nn_97 q6_assign_nn_99     x   abc   kq6 kq1      
+       <dbl+lbl>      <dbl+lbl>       <dbl+lbl>       <int> <dbl> <dbl> <dbl+lbl>
+     1 0              0               0                   0    NA    NA  2 [3]   
+     2 0              0               0                   0    NA    NA  2 [3]   
+     3 0              0               0                   0     7    NA  1 [1-2] 
+     4 0              0               0                   0    NA    NA  2 [3]   
+     5 0              0               0                   0     7    NA  3 [4-5] 
+     6 0              0               0                   0    NA    NA  3 [4-5] 
+     7 4 [much]       0               0                   0    NA    NA NA       
+     8 0              0               0                   1    NA    NA  1 [1-2] 
+     9 0              0               0                   0    NA     8 NA       
+    10 0              0               0                   0    NA     8 NA       
+       kq3       kq1xq2_renamedkminus20 kq1xq2_renamedk10 kq1xq2_renamedk20
+       <dbl+lbl> <dbl+lbl>              <dbl+lbl>         <dbl+lbl>        
+     1 2 [3]     NA                     NA                 2 [3]           
+     2 3 [4-5]   NA                      2 [3]            NA               
+     3 2 [3]     NA                      1 [1-2]          NA               
+     4 3 [4-5]   NA                     NA                NA               
+     5 1 [1-2]    3 [4-5]               NA                NA               
+     6 3 [4-5]    3 [4-5]               NA                NA               
+     7 2 [3]     NA                     NA                NA               
+     8 3 [4-5]   NA                     NA                 1 [1-2]         
+     9 1 [1-2]   NA                     NA                NA               
+    10 1 [1-2]   NA                     NA                NA               
+       kq1xq2_renamedk990 n             a1        a2        r_expr_var sum_of_k_vars
+       <dbl+lbl>          <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>          <dbl>
+     1 NA                 1 [also with] 3         4          24                    7
+     2 NA                 1 [also with] 3         4          24                   14
+     3 NA                 1 [also with] 3         4           8                   11
+     4  2 [3]             1 [also with] 3         4          24                   10
+     5 NA                 1 [also with] 3         4          20                    9
+     6 NA                 1 [also with] 3         4          40                   10
+     7 NA                 1 [also with] 3         4         792                    2
+     8 NA                 1 [also with] 3         4          16                    6
+     9 NA                 1 [also with] 3         4         792                   10
+    10 NA                 1 [also with] 3         4         792                   16
+       kkq1      free2_var
+       <dbl+lbl>     <dbl>
+     1  2 [b]            3
+     2  2 [b]            3
+     3  1 [a]            3
+     4  2 [b]            3
+     5  2 [b]            3
+     6  2 [b]            3
+     7 NA                3
+     8  2 [b]            3
+     9 NA                3
+    10 NA                3
     # ... with 90 more rows
-    # i Use `print(n = ...)` to see more rows
 
 # value labels are reproduced
 
@@ -549,7 +547,7 @@
 
 # error string elements were added to cmd_tbl
 
-    # A tibble: 85 x 7
+    # A tibble: 84 x 7
        sheet     action   row                new_var   raw          command_~1 error
        <chr>     <chr>    <chr>              <chr>     <list>       <validatd> <chr>
      1 Config    #RECNA   <NA>               <NA>      <named list> <validatd> ""   
@@ -562,6 +560,5 @@
      8 Variables #NEWLAB  2                  q1        <tibble>     <validatd> ""   
      9 Variables #NEWLAB  3                  q2_renam~ <tibble>     <validatd> ""   
     10 Variables #NEWLAB  6                  q5        <tibble>     <validatd> ""   
-    # ... with 75 more rows, and abbreviated variable name 1: command_blocks
-    # i Use `print(n = ...)` to see more rows
+    # ... with 74 more rows, and abbreviated variable name 1: command_blocks
 

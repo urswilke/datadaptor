@@ -136,6 +136,12 @@ parse_command_args.cmd_merge <- function(cdb_raw) {
   )
 }
 #' @export
+parse_command_args.cmd_addfile <- function(cdb_raw) {
+  list(
+    filepath = cdb_raw$X2
+  )
+}
+#' @export
 parse_command_args.cmd_rmval <- function(cdb_raw) {
   varlab <- cdb_raw$X4[1]
   x <- cdb_raw$X3[1]

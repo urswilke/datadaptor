@@ -321,20 +321,20 @@
 # s3 modified data print is reproduced
 
     # A tibble: 151 x 70
-       DC_ID        id screenout datum                          q1
-       <dbl> <dbl+lbl> <dbl+lbl> <date>                  <dbl+lbl>
-     1 10013     10013  2 [nein] 2021-01-23 2 [2 - 4 Beschäftigte]
-     2 10024     10024  2 [nein] 2020-11-22 2 [2 - 4 Beschäftigte]
-     3 10304     10304  2 [nein] 2021-01-24 3 [5 - 9 Beschäftigte]
-     4 10366     10366  2 [nein] 2020-11-18 3 [5 - 9 Beschäftigte]
-     5 10471     10471  2 [nein] 2021-02-14 3 [5 - 9 Beschäftigte]
-     6 10506     10506  2 [nein] 2020-11-15 3 [5 - 9 Beschäftigte]
-     7 10600     10600  2 [nein] 2020-11-20 2 [2 - 4 Beschäftigte]
-     8 10808     10808  2 [nein] 2020-11-20 3 [5 - 9 Beschäftigte]
-     9 10948     10948  2 [nein] 2021-02-14 2 [2 - 4 Beschäftigte]
-    10 11182     11182  2 [nein] 2020-11-15 3 [5 - 9 Beschäftigte]
-                     q2_00             q2_01             q2_02             q2_03
-                 <dbl+lbl>         <dbl+lbl>         <dbl+lbl>         <dbl+lbl>
+       DC_ID id        screenout datum      q1                    
+       <dbl> <dbl+lbl> <dbl+lbl> <date>     <dbl+lbl>             
+     1 10013 10013     2 [nein]  2021-01-23 2 [2 - 4 Beschäftigte]
+     2 10024 10024     2 [nein]  2020-11-22 2 [2 - 4 Beschäftigte]
+     3 10304 10304     2 [nein]  2021-01-24 3 [5 - 9 Beschäftigte]
+     4 10366 10366     2 [nein]  2020-11-18 3 [5 - 9 Beschäftigte]
+     5 10471 10471     2 [nein]  2021-02-14 3 [5 - 9 Beschäftigte]
+     6 10506 10506     2 [nein]  2020-11-15 3 [5 - 9 Beschäftigte]
+     7 10600 10600     2 [nein]  2020-11-20 2 [2 - 4 Beschäftigte]
+     8 10808 10808     2 [nein]  2020-11-20 3 [5 - 9 Beschäftigte]
+     9 10948 10948     2 [nein]  2021-02-14 2 [2 - 4 Beschäftigte]
+    10 11182 11182     2 [nein]  2020-11-15 3 [5 - 9 Beschäftigte]
+       q2_00               q2_01             q2_02             q2_03            
+       <dbl+lbl>           <dbl+lbl>         <dbl+lbl>         <dbl+lbl>        
      1 0 [Nicht gefiltert] 0 [Nicht genannt] 1 [Genannt]       0 [Nicht genannt]
      2 0 [Nicht gefiltert] 0 [Nicht genannt] 1 [Genannt]       0 [Nicht genannt]
      3 0 [Nicht gefiltert] 1 [Genannt]       0 [Nicht genannt] 0 [Nicht genannt]
@@ -345,8 +345,8 @@
      8 0 [Nicht gefiltert] 1 [Genannt]       0 [Nicht genannt] 0 [Nicht genannt]
      9 0 [Nicht gefiltert] 1 [Genannt]       0 [Nicht genannt] 0 [Nicht genannt]
     10 0 [Nicht gefiltert] 1 [Genannt]       1 [Genannt]       0 [Nicht genannt]
-                   q2_04             q2_05             q2_06             q2_07
-               <dbl+lbl>         <dbl+lbl>         <dbl+lbl>         <dbl+lbl>
+       q2_04             q2_05             q2_06             q2_07            
+       <dbl+lbl>         <dbl+lbl>         <dbl+lbl>         <dbl+lbl>        
      1 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt]
      2 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt]
      3 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt]
@@ -357,32 +357,32 @@
      8 0 [Nicht genannt] 0 [Nicht genannt] 1 [Genannt]       0 [Nicht genannt]
      9 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt]
     10 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt] 0 [Nicht genannt]
-                   q2_99       q3a       q3b       q3c       q3d       q3e       q3f
-               <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl>
-     1 0 [Nicht genannt]         0       100         0         0         0         0
-     2 0 [Nicht genannt]         0       100         0         0         0         0
-     3 0 [Nicht genannt]       100         0         0         0         0         0
-     4 0 [Nicht genannt]        50         0         0         0         0        50
-     5 0 [Nicht genannt]       100         0         0         0         0         0
-     6 0 [Nicht genannt]        10        25         0        65         0         0
-     7 0 [Nicht genannt]        80         0         0         0         0        20
-     8 0 [Nicht genannt]        90         0         0         0         0        10
-     9 0 [Nicht genannt]       100         0         0         0         0         0
-    10 0 [Nicht genannt]        50        50         0         0         0         0
-             q3g        q4                q6a                q6b               q6c
-       <dbl+lbl> <dbl+lbl>          <dbl+lbl>          <dbl+lbl>         <dbl+lbl>
-     1         0         2 -2 [FILTER]        -2 [FILTER]        -2 [FILTER]      
-     2         0         2  3 [teils / teils]  3 [teils / teils]  5 [sehr wichtig]
-     3         0         2  4 [wichtig]        3 [teils / teils]  5 [sehr wichtig]
-     4         0         5  5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
-     5         0         3  5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
-     6         0         7  5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
-     7         0         3  5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
-     8         0         5  5 [sehr wichtig]   5 [sehr wichtig]   5 [sehr wichtig]
-     9         0         2 -2 [FILTER]        -2 [FILTER]        -2 [FILTER]      
-    10         0        10  5 [sehr wichtig]   4 [wichtig]        5 [sehr wichtig]
-                      q6d                   q6e                q6f               q6g
-                <dbl+lbl>             <dbl+lbl>          <dbl+lbl>         <dbl+lbl>
+       q2_99             q3a       q3b       q3c       q3d       q3e       q3f      
+       <dbl+lbl>         <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl> <dbl+lbl>
+     1 0 [Nicht genannt]   0       100       0          0        0          0       
+     2 0 [Nicht genannt]   0       100       0          0        0          0       
+     3 0 [Nicht genannt] 100         0       0          0        0          0       
+     4 0 [Nicht genannt]  50         0       0          0        0         50       
+     5 0 [Nicht genannt] 100         0       0          0        0          0       
+     6 0 [Nicht genannt]  10        25       0         65        0          0       
+     7 0 [Nicht genannt]  80         0       0          0        0         20       
+     8 0 [Nicht genannt]  90         0       0          0        0         10       
+     9 0 [Nicht genannt] 100         0       0          0        0          0       
+    10 0 [Nicht genannt]  50        50       0          0        0          0       
+       q3g       q4        q6a                q6b                q6c              
+       <dbl+lbl> <dbl+lbl> <dbl+lbl>          <dbl+lbl>          <dbl+lbl>        
+     1 0          2        -2 [FILTER]        -2 [FILTER]        -2 [FILTER]      
+     2 0          2         3 [teils / teils]  3 [teils / teils]  5 [sehr wichtig]
+     3 0          2         4 [wichtig]        3 [teils / teils]  5 [sehr wichtig]
+     4 0          5         5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
+     5 0          3         5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
+     6 0          7         5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
+     7 0          3         5 [sehr wichtig]   3 [teils / teils]  5 [sehr wichtig]
+     8 0          5         5 [sehr wichtig]   5 [sehr wichtig]   5 [sehr wichtig]
+     9 0          2        -2 [FILTER]        -2 [FILTER]        -2 [FILTER]      
+    10 0         10         5 [sehr wichtig]   4 [wichtig]        5 [sehr wichtig]
+       q6d                q6e                   q6f                q6g              
+       <dbl+lbl>          <dbl+lbl>             <dbl+lbl>          <dbl+lbl>        
      1 -2 [FILTER]        -2 [FILTER]           -2 [FILTER]        -2 [FILTER]      
      2  5 [sehr wichtig]   5 [sehr wichtig]      5 [sehr wichtig]  99 [keine Angabe]
      3  4 [wichtig]        3 [teils / teils]     3 [teils / teils]  5 [sehr wichtig]
@@ -393,20 +393,20 @@
      8  5 [sehr wichtig]   5 [sehr wichtig]      5 [sehr wichtig]   5 [sehr wichtig]
      9 -2 [FILTER]        -2 [FILTER]           -2 [FILTER]        -2 [FILTER]      
     10  3 [teils / teils]  3 [teils / teils]     3 [teils / teils]  4 [wichtig]     
-                      q6h      sel1              q7a1              q7a2      q7b1
-                <dbl+lbl> <dbl+lbl>         <dbl+lbl>         <dbl+lbl> <dbl+lbl>
-     1 -2 [FILTER]           7 [NA]  4 [4]            -2 [FILTER]           8 [8]
-     2  5 [sehr wichtig]     6 [NA]  8 [8]             5 [5]                8 [8]
-     3  4 [wichtig]          7 [NA] 99 [keine Angabe] -2 [FILTER]           8 [8]
-     4  3 [teils / teils]    6 [NA]  8 [8]             8 [8]                7 [7]
-     5  5 [sehr wichtig]     2 [NA]  8 [8]             8 [8]                7 [7]
-     6  4 [wichtig]          2 [NA]  9 [9]            99 [keine Angabe]     8 [8]
-     7  5 [sehr wichtig]     6 [NA]  8 [8]             5 [5]                8 [8]
-     8  5 [sehr wichtig]     6 [NA] 99 [keine Angabe] 99 [keine Angabe]     8 [8]
-     9 -2 [FILTER]           7 [NA]  8 [8]            -2 [FILTER]           7 [7]
-    10  5 [sehr wichtig]     4 [NA]  3 [3]             8 [8]                3 [3]
-                    q7b2                                q7c1
-               <dbl+lbl>                           <dbl+lbl>
+       q6h                sel1      q7a1              q7a2              q7b1     
+       <dbl+lbl>          <dbl+lbl> <dbl+lbl>         <dbl+lbl>         <dbl+lbl>
+     1 -2 [FILTER]        7 [NA]     4 [4]            -2 [FILTER]       8 [8]    
+     2  5 [sehr wichtig]  6 [NA]     8 [8]             5 [5]            8 [8]    
+     3  4 [wichtig]       7 [NA]    99 [keine Angabe] -2 [FILTER]       8 [8]    
+     4  3 [teils / teils] 6 [NA]     8 [8]             8 [8]            7 [7]    
+     5  5 [sehr wichtig]  2 [NA]     8 [8]             8 [8]            7 [7]    
+     6  4 [wichtig]       2 [NA]     9 [9]            99 [keine Angabe] 8 [8]    
+     7  5 [sehr wichtig]  6 [NA]     8 [8]             5 [5]            8 [8]    
+     8  5 [sehr wichtig]  6 [NA]    99 [keine Angabe] 99 [keine Angabe] 8 [8]    
+     9 -2 [FILTER]        7 [NA]     8 [8]            -2 [FILTER]       7 [7]    
+    10  5 [sehr wichtig]  4 [NA]     3 [3]             8 [8]            3 [3]    
+       q7b2              q7c1                               
+       <dbl+lbl>         <dbl+lbl>                          
      1 -2 [FILTER]        7 [7]                             
      2  3 [3]            99 [keine Angabe]                  
      3 -2 [FILTER]       99 [keine Angabe]                  
@@ -417,8 +417,8 @@
      8  6 [6]             8 [8]                             
      9 -2 [FILTER]        8 [8]                             
     10  7 [7]             9 [9]                             
-                                      q7c2                                q7d1
-                                 <dbl+lbl>                           <dbl+lbl>
+       q7c2                                q7d1                               
+       <dbl+lbl>                           <dbl+lbl>                          
      1 -2 [FILTER]                          7 [7]                             
      2  1 [1 = überhaupt nicht zufrieden]  99 [keine Angabe]                  
      3 -2 [FILTER]                          9 [9]                             
@@ -429,8 +429,8 @@
      8  8 [8]                               8 [8]                             
      9 -2 [FILTER]                          7 [7]                             
     10 99 [keine Angabe]                    9 [9]                             
-                                      q7d2                                q7e1
-                                 <dbl+lbl>                           <dbl+lbl>
+       q7d2                                q7e1                               
+       <dbl+lbl>                           <dbl+lbl>                          
      1 -2 [FILTER]                          4 [4]                             
      2 10 [10 = außerordentlich zufrieden] 99 [keine Angabe]                  
      3 -2 [FILTER]                         99 [keine Angabe]                  
@@ -441,8 +441,8 @@
      8  3 [3]                              10 [10 = außerordentlich zufrieden]
      9 -2 [FILTER]                         99 [keine Angabe]                  
     10  9 [9]                              10 [10 = außerordentlich zufrieden]
-                                      q7e2              q7h1
-                                 <dbl+lbl>         <dbl+lbl>
+       q7e2                                q7h1             
+       <dbl+lbl>                           <dbl+lbl>        
      1 -2 [FILTER]                          2 [2]           
      2  1 [1 = überhaupt nicht zufrieden]  99 [keine Angabe]
      3 -2 [FILTER]                         99 [keine Angabe]
@@ -453,8 +453,8 @@
      8 10 [10 = außerordentlich zufrieden]  8 [8]           
      9 -2 [FILTER]                         99 [keine Angabe]
     10 10 [10 = außerordentlich zufrieden]  9 [9]           
-                                     q7h2                                q7f1
-                                <dbl+lbl>                           <dbl+lbl>
+       q7h2                               q7f1                               
+       <dbl+lbl>                          <dbl+lbl>                          
      1 -2 [FILTER]                         8 [8]                             
      2  1 [1 = überhaupt nicht zufrieden] 10 [10 = außerordentlich zufrieden]
      3 -2 [FILTER]                        99 [keine Angabe]                  
@@ -465,8 +465,8 @@
      8  5 [5]                              8 [8]                             
      9 -2 [FILTER]                         9 [9]                             
     10  9 [9]                             10 [10 = außerordentlich zufrieden]
-                                      q7f2              q7g1
-                                 <dbl+lbl>         <dbl+lbl>
+       q7f2                                q7g1             
+       <dbl+lbl>                           <dbl+lbl>        
      1 -2 [FILTER]                          8 [8]           
      2  5 [5]                              99 [keine Angabe]
      3 -2 [FILTER]                         99 [keine Angabe]
@@ -477,20 +477,20 @@
      8  6 [6]                               8 [8]           
      9 -2 [FILTER]                          7 [7]           
     10 10 [10 = außerordentlich zufrieden]  8 [8]           
-                                     q7g2       q81         q82
-                                <dbl+lbl> <dbl+lbl>   <dbl+lbl>
-     1 -2 [FILTER]                            8 [8] -2 [FILTER]
-     2  8 [8]                                 6 [6]  4 [4]     
-     3 -2 [FILTER]                            9 [9] -2 [FILTER]
-     4  8 [8]                                 9 [9]  9 [9]     
-     5  7 [7]                                 8 [8]  8 [8]     
-     6 99 [keine Angabe]                      9 [9]  8 [8]     
-     7  7 [7]                                 7 [7]  5 [5]     
-     8  1 [1 = überhaupt nicht zufrieden]     7 [7]  5 [5]     
-     9 -2 [FILTER]                            8 [8] -2 [FILTER]
-    10  8 [8]                                 9 [9]  9 [9]     
-                            q91                      q92               q10
-                      <dbl+lbl>                <dbl+lbl>         <dbl+lbl>
+       q7g2                               q81       q82        
+       <dbl+lbl>                          <dbl+lbl> <dbl+lbl>  
+     1 -2 [FILTER]                        8 [8]     -2 [FILTER]
+     2  8 [8]                             6 [6]      4 [4]     
+     3 -2 [FILTER]                        9 [9]     -2 [FILTER]
+     4  8 [8]                             9 [9]      9 [9]     
+     5  7 [7]                             8 [8]      8 [8]     
+     6 99 [keine Angabe]                  9 [9]      8 [8]     
+     7  7 [7]                             7 [7]      5 [5]     
+     8  1 [1 = überhaupt nicht zufrieden] 7 [7]      5 [5]     
+     9 -2 [FILTER]                        8 [8]     -2 [FILTER]
+    10  8 [8]                             9 [9]      9 [9]     
+       q91                      q92                      q10              
+       <dbl+lbl>                <dbl+lbl>                <dbl+lbl>        
      1  8 [8]                   -2 [FILTER]              51               
      2  7 [7]                    7 [7]                   51               
      3  9 [9]                   -2 [FILTER]              39               
@@ -501,68 +501,67 @@
      8  8 [8]                    8 [8]                   51               
      9 10 [10 - auf jeden Fall] -2 [FILTER]              61               
     10  9 [9]                    9 [9]                   49               
-                 regio      sel0        kq4              kq10 kq4xkq10k10
-             <dbl+lbl> <dbl+lbl>  <dbl+lbl>         <dbl+lbl>   <dbl+lbl>
-     1 2 [Europa]         1 [NA] 1 [1-2mal]  3 [50 und älter] NA         
-     2 2 [Europa]         1 [NA] 1 [1-2mal]  3 [50 und älter] NA         
-     3 3 [Nordamerika]    1 [NA] 1 [1-2mal]  1 [18 bis 39]     1 [1-2mal]
-     4 2 [Europa]         1 [NA] 2 [3-5mal]  3 [50 und älter] NA         
-     5 2 [Europa]         1 [NA] 2 [3-5mal] NA                NA         
-     6 3 [Nordamerika]    1 [NA] 3 [>5mal]   3 [50 und älter] NA         
-     7 3 [Nordamerika]    1 [NA] 2 [3-5mal]  3 [50 und älter] NA         
-     8 4 [Pazifik]        1 [NA] 2 [3-5mal]  3 [50 und älter] NA         
-     9 2 [Europa]         1 [NA] 1 [1-2mal]  3 [50 und älter] NA         
-    10 2 [Europa]         1 [NA] 3 [>5mal]   2 [40 bis 49]    NA         
+       regio           sel0      kq4        kq10              kq4xkq10k10
+       <dbl+lbl>       <dbl+lbl> <dbl+lbl>  <dbl+lbl>         <dbl+lbl>  
+     1 2 [Europa]      1 [NA]    1 [1-2mal]  3 [50 und älter] NA         
+     2 2 [Europa]      1 [NA]    1 [1-2mal]  3 [50 und älter] NA         
+     3 3 [Nordamerika] 1 [NA]    1 [1-2mal]  1 [18 bis 39]     1 [1-2mal]
+     4 2 [Europa]      1 [NA]    2 [3-5mal]  3 [50 und älter] NA         
+     5 2 [Europa]      1 [NA]    2 [3-5mal] NA                NA         
+     6 3 [Nordamerika] 1 [NA]    3 [>5mal]   3 [50 und älter] NA         
+     7 3 [Nordamerika] 1 [NA]    2 [3-5mal]  3 [50 und älter] NA         
+     8 4 [Pazifik]     1 [NA]    2 [3-5mal]  3 [50 und älter] NA         
+     9 2 [Europa]      1 [NA]    1 [1-2mal]  3 [50 und älter] NA         
+    10 2 [Europa]      1 [NA]    3 [>5mal]   2 [40 bis 49]    NA         
        kq4xkq10k20 kq4xkq10k30 kq4xregiok10 kq4xregiok20 kq4xregiok30 kq4xregiok40
-         <dbl+lbl>   <dbl+lbl>    <dbl+lbl>    <dbl+lbl>    <dbl+lbl>    <dbl+lbl>
-     1  NA          1 [1-2mal]           NA   1 [1-2mal]  NA           NA         
-     2  NA          1 [1-2mal]           NA   1 [1-2mal]  NA           NA         
-     3  NA         NA                    NA  NA            1 [1-2mal]  NA         
-     4  NA          2 [3-5mal]           NA   2 [3-5mal]  NA           NA         
-     5  NA         NA                    NA   2 [3-5mal]  NA           NA         
-     6  NA          3 [>5mal]            NA  NA            3 [>5mal]   NA         
-     7  NA          2 [3-5mal]           NA  NA            2 [3-5mal]  NA         
-     8  NA          2 [3-5mal]           NA  NA           NA            2 [3-5mal]
-     9  NA          1 [1-2mal]           NA   1 [1-2mal]  NA           NA         
-    10   3 [>5mal] NA                    NA   3 [>5mal]   NA           NA         
-       kq4xregiokminus20   gew                                           q5n1
-               <dbl+lbl> <dbl>                                      <dbl+lbl>
-     1                NA   0.5 99 [Keine Angabe]                             
-     2                NA   0.5  5 [einfache Weiterverarbeitung der Daten]    
-     3                NA   0.5 99 [Keine Angabe]                             
-     4                NA   0.5  4 [Darstellung der Daten]                    
-     5                NA   0.5  1 [Freundlichkeit des Tabellenbanderstellers]
-     6                NA   0.5  5 [einfache Weiterverarbeitung der Daten]    
-     7                NA   0.5  4 [Darstellung der Daten]                    
-     8                NA   0.5  5 [einfache Weiterverarbeitung der Daten]    
-     9                NA   0.5  2 [Kompetenz]                                
-    10                NA   0.5  5 [einfache Weiterverarbeitung der Daten]    
-                                                 q5n2           q5n3      q5n4
-                                            <dbl+lbl>      <dbl+lbl> <dbl+lbl>
-     1 -2                                             -2                    -2
-     2 -2                                             -2                    -2
-     3 -2                                             -2                    -2
-     4  2 [Kompetenz]                                 -2                    -2
-     5  3 [Schnelligkeit der Umsetzung]               -2                    -2
-     6  1 [Freundlichkeit des Tabellenbanderstellers]  2 [Kompetenz]        -2
-     7  2 [Kompetenz]                                 -2                    -2
-     8  2 [Kompetenz]                                 -2                    -2
-     9  4 [Darstellung der Daten]                     -2                    -2
-    10 -2                                             -2                    -2
-            q5n5
+       <dbl+lbl>   <dbl+lbl>   <dbl+lbl>    <dbl+lbl>    <dbl+lbl>    <dbl+lbl>   
+     1 NA           1 [1-2mal] NA            1 [1-2mal]  NA           NA          
+     2 NA           1 [1-2mal] NA            1 [1-2mal]  NA           NA          
+     3 NA          NA          NA           NA            1 [1-2mal]  NA          
+     4 NA           2 [3-5mal] NA            2 [3-5mal]  NA           NA          
+     5 NA          NA          NA            2 [3-5mal]  NA           NA          
+     6 NA           3 [>5mal]  NA           NA            3 [>5mal]   NA          
+     7 NA           2 [3-5mal] NA           NA            2 [3-5mal]  NA          
+     8 NA           2 [3-5mal] NA           NA           NA            2 [3-5mal] 
+     9 NA           1 [1-2mal] NA            1 [1-2mal]  NA           NA          
+    10  3 [>5mal]  NA          NA            3 [>5mal]   NA           NA          
+       kq4xregiokminus20   gew q5n1                                          
+       <dbl+lbl>         <dbl> <dbl+lbl>                                     
+     1 NA                  0.5 99 [Keine Angabe]                             
+     2 NA                  0.5  5 [einfache Weiterverarbeitung der Daten]    
+     3 NA                  0.5 99 [Keine Angabe]                             
+     4 NA                  0.5  4 [Darstellung der Daten]                    
+     5 NA                  0.5  1 [Freundlichkeit des Tabellenbanderstellers]
+     6 NA                  0.5  5 [einfache Weiterverarbeitung der Daten]    
+     7 NA                  0.5  4 [Darstellung der Daten]                    
+     8 NA                  0.5  5 [einfache Weiterverarbeitung der Daten]    
+     9 NA                  0.5  2 [Kompetenz]                                
+    10 NA                  0.5  5 [einfache Weiterverarbeitung der Daten]    
+       q5n2                                           q5n3           q5n4     
+       <dbl+lbl>                                      <dbl+lbl>      <dbl+lbl>
+     1 -2                                             -2             -2       
+     2 -2                                             -2             -2       
+     3 -2                                             -2             -2       
+     4  2 [Kompetenz]                                 -2             -2       
+     5  3 [Schnelligkeit der Umsetzung]               -2             -2       
+     6  1 [Freundlichkeit des Tabellenbanderstellers]  2 [Kompetenz] -2       
+     7  2 [Kompetenz]                                 -2             -2       
+     8  2 [Kompetenz]                                 -2             -2       
+     9  4 [Darstellung der Daten]                     -2             -2       
+    10 -2                                             -2             -2       
+       q5n5     
        <dbl+lbl>
-     1        -2
-     2        -2
-     3        -2
-     4        -2
-     5        -2
-     6        -2
-     7        -2
-     8        -2
-     9        -2
-    10        -2
+     1 -2       
+     2 -2       
+     3 -2       
+     4 -2       
+     5 -2       
+     6 -2       
+     7 -2       
+     8 -2       
+     9 -2       
+    10 -2       
     # ... with 141 more rows
-    # i Use `print(n = ...)` to see more rows
 
 # value labels are reproduced
 

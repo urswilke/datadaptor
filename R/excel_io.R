@@ -108,23 +108,23 @@ parse_varlab_cmd_table <- function(df_varl) {
 
 parse_newlab_cmd_blocks <- function(df_varl) {
   df_varl %>%
-    tidyr::drop_na(.data$new_label) %>%
+    tidyr::drop_na("new_label") %>%
     dplyr::mutate(var = dplyr::coalesce(.data$new_name, .data$var)) %>%
     dplyr::mutate(new_var = .data$var) %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#NEWLAB") %>%
-    dplyr::select(-.data$new_name, -.data$op) %>%
+    dplyr::select(-dplyr::all_of(c("new_name", "op"))) %>%
     dplyr::group_by(.data$sheet, .data$action, row, .data$new_var) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
 }
 parse_rename_cmd_block <- function(df_varl) {
   df_varl %>%
-    tidyr::drop_na(.data$new_name) %>%
+    tidyr::drop_na("new_name") %>%
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#RENAME") %>%
     dplyr::mutate(new_var = .data$new_name) %>%
-    dplyr::select(-.data$new_label, -.data$op, -.data$varlab) %>%
+    dplyr::select(-dplyr::all_of(c("new_label", "op", "varlab"))) %>%
     dplyr::group_by(.data$sheet, .data$action) %>%
     dplyr::summarise(
       row = paste(row, collapse = ", "),
@@ -143,7 +143,7 @@ parse_autorecode_cmd_block <- function(df_varl) {
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#AUTOREC") %>%
     dplyr::mutate(new_var = .data$var) %>%
-    dplyr::select(-.data$new_label, -.data$op, -.data$varlab, -.data$new_name) %>%
+    dplyr::select(-dplyr::all_of(c("new_label", "op", "varlab", "new_name"))) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
@@ -173,7 +173,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
     dplyr::mutate(sheet = "Variables") %>%
     dplyr::mutate(action = "#STR2NUM") %>%
     dplyr::mutate(new_var = .data$var) %>%
-    dplyr::select(-.data$new_label, -.data$op, -.data$varlab, -.data$new_name) %>%
+    dplyr::select(-dplyr::all_of(c("new_label", "op", "varlab", "new_name"))) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
@@ -235,39 +235,39 @@ read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
     ),
     col_types = "text"
   ) %>%
-    dplyr::select(-.data$not_needed1, -.data$not_needed2) %>%
+    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) %>%
     dplyr::mutate(
       nv = as.numeric(.data$nv),
       sum_var_value = as.numeric(.data$sum_var_value)
     ) %>%
-    tidyr::fill(.data$var)
+    tidyr::fill("var")
 }
 
 
 
 parse_sumvar_cmd_table <- function(df_vall) {
   df_vall %>%
-    tidyr::drop_na(.data$sum_var_value) %>%
-    dplyr::select(-.data$new_label) %>%
+    tidyr::drop_na("sum_var_value") %>%
+    dplyr::select(-"new_label") %>%
     dplyr::mutate(new_var = paste0("k", .data$var)) %>%
     dplyr::mutate(orig_var = .data$var) %>%
     dplyr::group_by(.data$new_var, .data$orig_var) %>%
     dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#SUMVAR") %>%
-    dplyr::relocate(.data$sheet, .data$action) %>%
+    dplyr::relocate(dplyr::all_of(c("sheet", "action"))) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
     tidyr::nest() %>%
     dplyr::ungroup()
 }
 parse_newvall_cmd_table <- function(df_vall) {
   df_vall %>%
-    tidyr::drop_na(.data$new_label) %>%
+    tidyr::drop_na("new_label") %>%
     dplyr::mutate(new_var = .data$var) %>%
     dplyr::mutate(orig_var = .data$var) %>%
     dplyr::mutate(sheet = "Label") %>%
     dplyr::mutate(action = "#NEWVALL") %>%
-    dplyr::relocate(.data$sheet, .data$action) %>%
+    dplyr::relocate(dplyr::all_of(c("sheet", "action"))) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$new_var) %>%
     dplyr::mutate(row = paste(.data$row, collapse = ", ")) %>%
     dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) %>%
@@ -339,7 +339,7 @@ process_raw_free_cmd_table <- function(df_free) {
     dplyr::group_by(.data$action, .data$row, .data$new_var, .data$raw_index) %>%
     tidyr::nest() %>%
     dplyr::ungroup() %>%
-    dplyr::select(-.data$raw_index)
+    dplyr::select(-"raw_index")
 }
 put_absolute_filepaths <- function(df_free, mapping_file) {
   df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
@@ -376,7 +376,7 @@ delete_empty_X1_not_multiline <- function(df_free) {
     dplyr::mutate(
       not_multiline_cmd = stringr::str_detect(
         .data$X1,
-        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$",
+        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$|^#R$",
         negate = TRUE
       ),
       after_dot = (dplyr::lag(stringr::str_detect(.data$X1, "\\.")) &
@@ -385,8 +385,8 @@ delete_empty_X1_not_multiline <- function(df_free) {
         is_true_vec(),
       temp = .data$not_multiline_cmd & !.data$after_dot
     ) %>%
-    tidyr::fill(.data$temp) %>%
+    tidyr::fill("temp") %>%
     dplyr::mutate(temp = .data$temp & is.na(.data$X1)) %>%
     dplyr::filter(!.data$temp) %>%
-    dplyr::select(-.data$temp, -.data$not_multiline_cmd, -.data$after_dot)
+    dplyr::select(-dplyr::all_of(c("temp", "not_multiline_cmd", "after_dot")))
 }
