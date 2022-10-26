@@ -168,3 +168,76 @@
     163 q8        NA      NA 9                        11 <NA>       character A num~
     164 q9        NA      NA <NA>                    100 <NA>       double    <NA>  
 
+# diff_data() works
+
+    # A tibble: 64 x 12
+       var   doubl~1 chara~2 valla~3 type_~4 varla~5 doubl~6 chara~7 valla~8 type_~9
+       <fct>   <dbl> <chr>   <chr>   <chr>   <chr>     <dbl> <chr>   <chr>   <chr>  
+     1 q1          1 <NA>    not at~ double  How mu~       1 <NA>    not at~ double 
+     2 q1          2 <NA>    a bit   double  How mu~       2 <NA>    a bit   double 
+     3 q1          3 <NA>    normal  double  How mu~       3 <NA>    normal  double 
+     4 q1          4 <NA>    much    double  How mu~       4 <NA>    much    double 
+     5 q1          5 <NA>    very m~ double  How mu~       5 <NA>    very m~ double 
+     6 q1         99 <NA>    no ans~ double  How mu~      NA <NA>    <NA>    double 
+     7 q1         NA <NA>    <NA>    double  How mu~      NA <NA>    <NA>    double 
+     8 q2          1 <NA>    yes     double  Do you~       1 <NA>    yes     double 
+     9 q2          2 <NA>    no      double  Do you~       2 <NA>    no      double 
+    10 q2         99 <NA>    no ans~ double  Do you~      99 <NA>    no ans~ double 
+    11 q2         NA <NA>    <NA>    double  Do you~      NA <NA>    <NA>    double 
+    12 q3          1 <NA>    not at~ double  How li~       1 <NA>    not at~ double 
+    13 q3          2 <NA>    a bit   double  How li~       2 <NA>    a bit   double 
+    14 q3          3 <NA>    normal  double  How li~       3 <NA>    normal  double 
+    15 q3          4 <NA>    much    double  How li~       4 <NA>    much    double 
+    16 q3          5 <NA>    very m~ double  How li~       5 <NA>    very m~ double 
+    17 q3         99 <NA>    no ans~ double  How li~      99 <NA>    no ans~ double 
+    18 q3         NA <NA>    <NA>    double  How li~      -2 <NA>    FILTER  double 
+    19 q4          1 <NA>    not at~ double  How mu~       1 <NA>    not at~ double 
+    20 q4          2 <NA>    a bit   double  How mu~       2 <NA>    a bit   double 
+    21 q4          3 <NA>    normal  double  How mu~       3 <NA>    normal  double 
+    22 q4          4 <NA>    much    double  How mu~       4 <NA>    much    double 
+    23 q4          5 <NA>    very m~ double  How mu~       5 <NA>    very m~ double 
+    24 q4         99 <NA>    no ans~ double  How mu~      99 <NA>    no ans~ double 
+    25 q4         NA <NA>    <NA>    double  How mu~      -2 <NA>    FILTER  double 
+    26 q5          1 <NA>    not at~ double  How mu~       1 <NA>    not at~ double 
+    27 q5          2 <NA>    a bit   double  How mu~       2 <NA>    a bit   double 
+    28 q5          3 <NA>    normal  double  How mu~       3 <NA>    normal  double 
+    29 q5          4 <NA>    much    double  How mu~       4 <NA>    much    double 
+    30 q5          5 <NA>    very m~ double  How mu~       5 <NA>    very m~ double 
+    31 q5         99 <NA>    no ans~ double  How mu~      99 <NA>    no ans~ double 
+    32 q5         NA <NA>    <NA>    double  How mu~      NA <NA>    <NA>    double 
+    33 q6         NA bla bl~ <NA>    charac~ Tell m~       1 <NA>    bla bl~ double 
+    34 q6         NA bla bl~ <NA>    charac~ Tell m~       2 <NA>    bla bl~ double 
+    35 q6         NA bla bl~ <NA>    charac~ Tell m~       3 <NA>    bla bl~ double 
+    36 q6         NA bla bl~ <NA>    charac~ Tell m~       4 <NA>    bla bl~ double 
+    37 q6         NA bla bl~ <NA>    charac~ Tell m~       5 <NA>    bla bl~ double 
+    38 q6         NA bla bl~ <NA>    charac~ Tell m~       6 <NA>    bla bl~ double 
+    39 q6         NA bla ha~ <NA>    charac~ Tell m~       7 <NA>    bla ha~ double 
+    40 q6         NA bla joy <NA>    charac~ Tell m~       8 <NA>    bla joy double 
+    41 q6         NA bla lo~ <NA>    charac~ Tell m~       9 <NA>    bla lo~ double 
+    42 q7         NA bla an~ <NA>    charac~ Tell m~      NA bla an~ <NA>    charac~
+    43 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    44 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    45 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    46 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    47 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    48 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    49 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    50 q7         NA bla bl~ <NA>    charac~ Tell m~      NA bla bl~ <NA>    charac~
+    51 q7         NA bla fe~ <NA>    charac~ Tell m~      NA bla fe~ <NA>    charac~
+    52 q7         NA bla pa~ <NA>    charac~ Tell m~      NA bla pa~ <NA>    charac~
+    53 q7         NA bla sa~ <NA>    charac~ Tell m~      NA bla sa~ <NA>    charac~
+    54 q8         NA 1       <NA>    charac~ A nume~       1 <NA>    <NA>    double 
+    55 q8         NA 10      <NA>    charac~ A nume~      10 <NA>    <NA>    double 
+    56 q8         NA 2       <NA>    charac~ A nume~       2 <NA>    <NA>    double 
+    57 q8         NA 3       <NA>    charac~ A nume~       3 <NA>    <NA>    double 
+    58 q8         NA 4       <NA>    charac~ A nume~       4 <NA>    <NA>    double 
+    59 q8         NA 5       <NA>    charac~ A nume~       5 <NA>    <NA>    double 
+    60 q8         NA 6       <NA>    charac~ A nume~       6 <NA>    <NA>    double 
+    61 q8         NA 7       <NA>    charac~ A nume~       7 <NA>    <NA>    double 
+    62 q8         NA 8       <NA>    charac~ A nume~       8 <NA>    <NA>    double 
+    63 q8         NA 9       <NA>    charac~ A nume~       9 <NA>    <NA>    double 
+    64 q9         NA <NA>    <NA>    double  <NA>         NA <NA>    <NA>    <NA>   
+    # ... with 2 more variables: varlab_new <chr>, n <int>, and abbreviated
+    #   variable names 1: double_old, 2: character_old, 3: vallab_old, 4: type_old,
+    #   5: varlab_old, 6: double_new, 7: character_new, 8: vallab_new, 9: type_new
+
