@@ -8,7 +8,7 @@
 #'
 #' @examples
 #' gen_data_table(fake_survey)
-gen_data_table <- function(df, values_drop_na = TRUE) {
+gen_data_table <- function(df, values_drop_na = FALSE) {
   counts <- lengthen(df, values_drop_na) |>
     dplyr::mutate(var = forcats::as_factor(var)) |>
     dplyr::group_by_all() |>
@@ -26,7 +26,7 @@ gen_data_table <- function(df, values_drop_na = TRUE) {
     dplyr::full_join(var, by=c("var"))
 }
 
-lengthen <- function(df, values_drop_na = TRUE) {
+lengthen <- function(df, values_drop_na = FALSE) {
   # add <variable type> + "_" as variable name prefix:
   coltypes <- df |> purrr::map_chr(typeof)
   names(df) <- paste0(coltypes, "_", names(df))
