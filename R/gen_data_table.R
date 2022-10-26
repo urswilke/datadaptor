@@ -9,27 +9,40 @@
 #' @examples
 #' gen_data_table(fake_survey)
 gen_data_table <- function(df, values_drop_na = TRUE) {
-  res1 <- df |>
-    tidyr::pivot_longer(
-      dplyr::everything(),
-      # in order to merge string & numeric variables into one column:
-      values_transform = as.character,
-      # in order to keep variable order:
-      names_transform = forcats::as_factor,
-      # remove missing values:
-      values_drop_na = values_drop_na,
-      names_to = "var",
-      values_to = "nv"
-    ) |>
-    dplyr::count(.data$var, .data$nv, name = "Freq")
+  counts <- lengthen(df, values_drop_na) |>
+    dplyr::mutate(var = forcats::as_factor(var)) |>
+    dplyr::group_by_all() |>
+    dplyr::tally(name = "Freq") |>
+    dplyr::ungroup()
 
-  var1 <- gen_var_table(df) %>%
+  var <- gen_var_table(df) %>%
     dplyr::select(c("var","type", "varlab"))
 
-  label1 <- tablab::tab_vallabs(df) %>%
+  label <- tablab::tab_vallabs(df) %>%
     dplyr::select(c("var","nv", "vallab"))
 
-  res1 <- merge(res1, label1, by=c("var", "nv"), all=TRUE)
-  merge(res1, var1, by="var")
+  counts |>
+    dplyr::full_join(label, by=c("var", "double" = "nv")) |>
+    dplyr::full_join(var, by=c("var"))
+}
+
+lengthen <- function(df, values_drop_na = TRUE) {
+  # add <variable type> + "_" as variable name prefix:
+  coltypes <- df |> purrr::map_chr(typeof)
+  names(df) <- paste0(coltypes, "_", names(df))
+
+
+  df |>
+    tidyr::pivot_longer(
+      cols = dplyr::everything(),
+      names_to = c(".value", "var"),
+      values_transform = tablab::strip_attributes,
+      # remove missing values:
+      values_drop_na = values_drop_na,
+      # lazy _ eager ...;
+      # splits back the variable type until the first occurrence of _:
+      names_pattern = "(.*?)_(.*)"
+    ) |>
+    dplyr::arrange(var = forcats::as_factor(var))
 
 }
