@@ -175,11 +175,11 @@ globalVariables(".")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #'
 #' extract_excel_params(mapping_file)
-extract_excel_params <- function(mapping_file) {
-  if (is.null(mapping_file)) {
+extract_excel_params <- function(mapping) {
+  if (is.null(mapping$mapping_file)) {
     return(NULL)
   }
-  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping_file))
+  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping$wb))
 
   if (nrow(named_regions) == 0) {
     stop('You need to define at least the named region "R_id_var" in the mapping file.')
@@ -193,7 +193,7 @@ extract_excel_params <- function(mapping_file) {
         data = purrr::map(
           .x = .data$value,
           ~ openxlsx::read.xlsx(
-            xlsxFile = mapping_file,
+            xlsxFile = mapping$wb,
             namedRegion = .x,
             colNames = FALSE
           )

@@ -1,0 +1,64 @@
+---
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(tidyverse)
+filepath <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
+# use_openxlsx <- function(filename = system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")) {
+#   # wb <- openxlsx::loadWorkbook(filename)
+#   # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
+#   openxlsx::readWorkbook(filename, "Free1", cols = 1:5, skipEmptyRows = FALSE)
+# }
+# 
+# use_readxl <- function(filename = system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")) {
+#   # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
+#   readxl::read_excel(filename, "Free1", range = cellranger::cell_cols(1:5))
+# }
+# bench::mark(
+#   use_openxlsx(),
+#   use_readxl(),
+#   check = FALSE
+# )
+
+
+
+
+# press -------------------------------------------------------------------
+wb <- openxlsx::loadWorkbook(filepath)
+use_openxlsx <- function(filename = filepath, sheet) {
+  # wb <- openxlsx::loadWorkbook(filename)
+  # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
+  openxlsx::readWorkbook(wb, sheet, cols = 1:5, skipEmptyRows = FALSE)
+}
+
+use_readxl <- function(filename = filepath, sheet) {
+  # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
+  readxl::read_excel(filename, sheet, range = cellranger::cell_cols(1:5))
+}
+
+bm <- bench::press(
+  sheet = readxl::excel_sheets(filepath),
+  bench::mark(
+    use_openxlsx(sheet = sheet),
+    use_readxl(sheet = sheet),
+    check = FALSE
+  )
+)
+bench::mark(wb <- openxlsx::loadWorkbook(filepath))
+bm |> group_by(expression) |> summarise(sum(median))
+bm |>
+  ggplot2::ggplot() +
+  aes(x = as_factor(expression |> as.character()), y = median, color = sheet, group = sheet) +
+  geom_point() +
+  geom_line() +
+  gghighlight::gghighlight(TRUE)
+
+```
+
+

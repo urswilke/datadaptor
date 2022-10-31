@@ -1,5 +1,8 @@
 # parameters (except those containing filepaths) were built correctly
 
+    $wb
+    NULL
+    
     $excel_params
     $excel_params$id_var
     [1] "id"

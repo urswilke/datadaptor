@@ -248,250 +248,250 @@
 # value labels are reproduced
 
     # A tibble: 242 x 4
-        var                       nv vallab                cv   
-        <chr>                  <dbl> <chr>                 <chr>
-      1 q1                         1 not at all            <NA> 
-      2 q1                         2 a bit                 <NA> 
-      3 q1                         3 normal                <NA> 
-      4 q1                         4 much                  <NA> 
-      5 q1                         5 very much             <NA> 
-      6 q2_renamed                -2 FILTER                <NA> 
-      7 q2_renamed                 1 YES                   <NA> 
-      8 q2_renamed                 2 no                    <NA> 
-      9 q2_renamed                99 no answer             <NA> 
-     10 q3                        -2 FILTER                <NA> 
-     11 q3                         1 not at all            <NA> 
-     12 q3                         2 a bit                 <NA> 
-     13 q3                         3 normal                <NA> 
-     14 q3                         4 much                  <NA> 
-     15 q3                         5 very much             <NA> 
-     16 q3                        99 no answer             <NA> 
-     17 q4_renamed                -2 FILTER                <NA> 
-     18 q4_renamed                 1 not at all            <NA> 
-     19 q4_renamed                 2 a bit                 <NA> 
-     20 q4_renamed                 3 normal                <NA> 
-     21 q4_renamed                 4 much                  <NA> 
-     22 q4_renamed                 5 very much             <NA> 
-     23 q4_renamed                99 no answer             <NA> 
-     24 q5                         1 not at all            <NA> 
-     25 q5                         2 a bit                 <NA> 
-     26 q5                         3 normal                <NA> 
-     27 q5                         4 much                  <NA> 
-     28 q5                         5 very much             <NA> 
-     29 q5                        99 no answer             <NA> 
-     30 q6                         1 bla bla bla happiness <NA> 
-     31 q6                         2 bla bla bla joy       <NA> 
-     32 q6                         3 bla bla bla love      <NA> 
-     33 q6                         4 bla bla happiness     <NA> 
-     34 q6                         5 bla bla joy           <NA> 
-     35 q6                         6 bla bla love          <NA> 
-     36 q6                         7 bla happiness         <NA> 
-     37 q6                         8 bla joy               <NA> 
-     38 q6                         9 bla love              <NA> 
-     39 kq5                        1 aaa                   <NA> 
-     40 kq5                        2 bbb                   <NA> 
-     41 kq5                        3 ccc                   <NA> 
-     42 q2                         1 yes                   <NA> 
-     43 q2                         2 no                    <NA> 
-     44 q2                        99 no answer             <NA> 
-     45 q4                        -2 FILTER                <NA> 
-     46 q4                         1 not at all            <NA> 
-     47 q4                         2 a bit                 <NA> 
-     48 q4                         3 normal                <NA> 
-     49 q4                         4 much                  <NA> 
-     50 q4                         5 very much             <NA> 
-     51 q4                        99 no answer             <NA> 
-     52 q6n                       -2 FILTER                <NA> 
-     53 q6n                        1 love                  <NA> 
-     54 q6n                        2 joy                   <NA> 
-     55 q6n                        3 happiness             <NA> 
-     56 q6n                       97 Others                <NA> 
-     57 q6n                       99 No answer             <NA> 
-     58 q7n                       -2 FILTER                <NA> 
-     59 q7n                        1 sadness               <NA> 
-     60 q7n                        2 fear                  <NA> 
-     61 q7n                        3 anger                 <NA> 
-     62 q7n                        4 pain                  <NA> 
-     63 q7n                       97 Others                <NA> 
-     64 q7n                       99 No answer             <NA> 
-     65 q6_1                       0 unselected            <NA> 
-     66 q6_1                       1 selected              <NA> 
-     67 q6_2                       0 unselected            <NA> 
-     68 q6_2                       1 selected              <NA> 
-     69 q6_3                       0 unselected            <NA> 
-     70 q6_3                       1 selected              <NA> 
-     71 q6_4                       0 unselected            <NA> 
-     72 q6_4                       1 selected              <NA> 
-     73 q6_97                      0 unselected            <NA> 
-     74 q6_97                      1 selected              <NA> 
-     75 q6_99                      0 unselected            <NA> 
-     76 q6_99                      1 selected              <NA> 
-     77 q6test_1                   0 unselected            <NA> 
-     78 q6test_1                   1 selected              <NA> 
-     79 q6test_2                   0 unselected            <NA> 
-     80 q6test_2                   1 selected              <NA> 
-     81 q6test_3                   0 unselected            <NA> 
-     82 q6test_3                   1 selected              <NA> 
-     83 q6test_4                   0 unselected            <NA> 
-     84 q6test_4                   1 selected              <NA> 
-     85 q6test_97                  0 unselected            <NA> 
-     86 q6test_97                  1 selected              <NA> 
-     87 q6test_99                  0 unselected            <NA> 
-     88 q6test_99                  1 selected              <NA> 
-     89 q6n1                      -2 FILTER                <NA> 
-     90 q6n1                       1 love                  <NA> 
-     91 q6n1                       2 joy                   <NA> 
-     92 q6n1                       3 happiness             <NA> 
-     93 q6n1                       4 noch wat              <NA> 
-     94 q6n1                      97 Others                <NA> 
-     95 q6n1                      99 No answer             <NA> 
-     96 q6n2                      -2 FILTER                <NA> 
-     97 q6n2                       1 love                  <NA> 
-     98 q6n2                       2 joy                   <NA> 
-     99 q6n2                       3 happiness             <NA> 
-    100 q6n2                       4 noch wat              <NA> 
-    101 q6n2                      97 Others                <NA> 
-    102 q6n2                      99 No answer             <NA> 
-    103 q6n3                      -2 FILTER                <NA> 
-    104 q6n3                       1 love                  <NA> 
-    105 q6n3                       2 joy                   <NA> 
-    106 q6n3                       3 happiness             <NA> 
-    107 q6n3                       4 noch wat              <NA> 
-    108 q6n3                      97 Others                <NA> 
-    109 q6n3                      99 No answer             <NA> 
-    110 q6n4                      -2 FILTER                <NA> 
-    111 q6n4                       1 love                  <NA> 
-    112 q6n4                       2 joy                   <NA> 
-    113 q6n4                       3 happiness             <NA> 
-    114 q6n4                       4 noch wat              <NA> 
-    115 q6n4                      97 Others                <NA> 
-    116 q6n4                      99 No answer             <NA> 
-    117 q6n5                      -2 FILTER                <NA> 
-    118 q6n5                       1 love                  <NA> 
-    119 q6n5                       2 joy                   <NA> 
-    120 q6n5                       3 happiness             <NA> 
-    121 q6n5                       4 noch wat              <NA> 
-    122 q6n5                      97 Others                <NA> 
-    123 q6n5                      99 No answer             <NA> 
-    124 q6n6                      -2 FILTER                <NA> 
-    125 q6n6                       1 love                  <NA> 
-    126 q6n6                       2 joy                   <NA> 
-    127 q6n6                       3 happiness             <NA> 
-    128 q6n6                       4 noch wat              <NA> 
-    129 q6n6                      97 Others                <NA> 
-    130 q6n6                      99 No answer             <NA> 
-    131 q6n7                      -2 FILTER                <NA> 
-    132 q6n7                       1 love                  <NA> 
-    133 q6n7                       2 joy                   <NA> 
-    134 q6n7                       3 happiness             <NA> 
-    135 q6n7                       4 noch wat              <NA> 
-    136 q6n7                      97 Others                <NA> 
-    137 q6n7                      99 No answer             <NA> 
-    138 q6n8                      -2 FILTER                <NA> 
-    139 q6n8                       1 love                  <NA> 
-    140 q6n8                       2 joy                   <NA> 
-    141 q6n8                       3 happiness             <NA> 
-    142 q6n8                       4 noch wat              <NA> 
-    143 q6n8                      97 Others                <NA> 
-    144 q6n8                      99 No answer             <NA> 
-    145 q6n9                      -2 FILTER                <NA> 
-    146 q6n9                       1 love                  <NA> 
-    147 q6n9                       2 joy                   <NA> 
-    148 q6n9                       3 happiness             <NA> 
-    149 q6n9                       4 noch wat              <NA> 
-    150 q6n9                      97 Others                <NA> 
-    151 q6n9                      99 No answer             <NA> 
-    152 q6n10                     -2 FILTER                <NA> 
-    153 q6n10                      1 love                  <NA> 
-    154 q6n10                      2 joy                   <NA> 
-    155 q6n10                      3 happiness             <NA> 
-    156 q6n10                      4 noch wat              <NA> 
-    157 q6n10                     97 Others                <NA> 
-    158 q6n10                     99 No answer             <NA> 
-    159 q6mw_1                     1 not at all            <NA> 
-    160 q6mw_1                     2 a bit                 <NA> 
-    161 q6mw_1                     3 normal                <NA> 
-    162 q6mw_1                     4 much                  <NA> 
-    163 q6mw_1                     5 very much             <NA> 
-    164 q6mw_1                    99 no answer             <NA> 
-    165 q6mw_2                     1 not at all            <NA> 
-    166 q6mw_2                     2 a bit                 <NA> 
-    167 q6mw_2                     3 normal                <NA> 
-    168 q6mw_2                     4 much                  <NA> 
-    169 q6mw_2                     5 very much             <NA> 
-    170 q6mw_2                    99 no answer             <NA> 
-    171 q6mw_3                     1 not at all            <NA> 
-    172 q6mw_3                     2 a bit                 <NA> 
-    173 q6mw_3                     3 normal                <NA> 
-    174 q6mw_3                     4 much                  <NA> 
-    175 q6mw_3                     5 very much             <NA> 
-    176 q6mw_3                    99 no answer             <NA> 
-    177 q6mw_4                     1 not at all            <NA> 
-    178 q6mw_4                     2 a bit                 <NA> 
-    179 q6mw_4                     3 normal                <NA> 
-    180 q6mw_4                     4 much                  <NA> 
-    181 q6mw_4                     5 very much             <NA> 
-    182 q6mw_4                    99 no answer             <NA> 
-    183 q6mw_97                    1 not at all            <NA> 
-    184 q6mw_97                    2 a bit                 <NA> 
-    185 q6mw_97                    3 normal                <NA> 
-    186 q6mw_97                    4 much                  <NA> 
-    187 q6mw_97                    5 very much             <NA> 
-    188 q6mw_97                   99 no answer             <NA> 
-    189 q6mw_99                    1 not at all            <NA> 
-    190 q6mw_99                    2 a bit                 <NA> 
-    191 q6mw_99                    3 normal                <NA> 
-    192 q6mw_99                    4 much                  <NA> 
-    193 q6mw_99                    5 very much             <NA> 
-    194 q6mw_99                   99 no answer             <NA> 
-    195 q6_assign_nn_1             1 not at all            <NA> 
-    196 q6_assign_nn_1             2 a bit                 <NA> 
-    197 q6_assign_nn_1             3 normal                <NA> 
-    198 q6_assign_nn_1             4 much                  <NA> 
-    199 q6_assign_nn_1             5 very much             <NA> 
-    200 q6_assign_nn_1            99 no answer             <NA> 
-    201 q6_assign_nn_2            -2 FILTER                <NA> 
-    202 q6_assign_nn_2             1 YES                   <NA> 
-    203 q6_assign_nn_2             2 no                    <NA> 
-    204 q6_assign_nn_2            99 no answer             <NA> 
-    205 q6_assign_nn_3            -2 FILTER                <NA> 
-    206 q6_assign_nn_3             1 not at all            <NA> 
-    207 q6_assign_nn_3             2 a bit                 <NA> 
-    208 q6_assign_nn_3             3 normal                <NA> 
-    209 q6_assign_nn_3             4 much                  <NA> 
-    210 q6_assign_nn_3             5 very much             <NA> 
-    211 q6_assign_nn_3            99 no answer             <NA> 
-    212 q6_assign_nn_4            -2 FILTER                <NA> 
-    213 q6_assign_nn_4             1 not at all            <NA> 
-    214 q6_assign_nn_4             2 a bit                 <NA> 
-    215 q6_assign_nn_4             3 normal                <NA> 
-    216 q6_assign_nn_4             4 much                  <NA> 
-    217 q6_assign_nn_4             5 very much             <NA> 
-    218 q6_assign_nn_4            99 no answer             <NA> 
-    219 kq1                        1 1-2                   <NA> 
-    220 kq1                        2 3                     <NA> 
-    221 kq1                        3 4-5                   <NA> 
-    222 kq3                        1 1-2                   <NA> 
-    223 kq3                        2 3                     <NA> 
-    224 kq3                        3 4-5                   <NA> 
-    225 kq1xq2_renamedkminus20     1 1-2                   <NA> 
-    226 kq1xq2_renamedkminus20     2 3                     <NA> 
-    227 kq1xq2_renamedkminus20     3 4-5                   <NA> 
-    228 kq1xq2_renamedk10          1 1-2                   <NA> 
-    229 kq1xq2_renamedk10          2 3                     <NA> 
-    230 kq1xq2_renamedk10          3 4-5                   <NA> 
-    231 kq1xq2_renamedk20          1 1-2                   <NA> 
-    232 kq1xq2_renamedk20          2 3                     <NA> 
-    233 kq1xq2_renamedk20          3 4-5                   <NA> 
-    234 kq1xq2_renamedk990         1 1-2                   <NA> 
-    235 kq1xq2_renamedk990         2 3                     <NA> 
-    236 kq1xq2_renamedk990         3 4-5                   <NA> 
-    237 n                          1 also with             <NA> 
-    238 n                          2 value labels          <NA> 
-    239 n                          3 now                   <NA> 
-    240 n                          4 added label           <NA> 
-    241 kkq1                       1 a                     <NA> 
-    242 kkq1                       2 b                     <NA> 
+        var                       nv vallab                  cv   
+        <chr>                  <dbl> <chr>                   <chr>
+      1 q1                         1 "not at all"            <NA> 
+      2 q1                         2 "a bit"                 <NA> 
+      3 q1                         3 "normal"                <NA> 
+      4 q1                         4 "much"                  <NA> 
+      5 q1                         5 "very much"             <NA> 
+      6 q2_renamed                -2 "FILTER"                <NA> 
+      7 q2_renamed                 1 "YES"                   <NA> 
+      8 q2_renamed                 2 "no"                    <NA> 
+      9 q2_renamed                99 "no answer"             <NA> 
+     10 q3                        -2 "FILTER"                <NA> 
+     11 q3                         1 "not at all"            <NA> 
+     12 q3                         2 "a bit"                 <NA> 
+     13 q3                         3 "normal"                <NA> 
+     14 q3                         4 "much"                  <NA> 
+     15 q3                         5 "very much"             <NA> 
+     16 q3                        99 "no answer"             <NA> 
+     17 q4_renamed                -2 "FILTER"                <NA> 
+     18 q4_renamed                 1 "not at all"            <NA> 
+     19 q4_renamed                 2 "a bit"                 <NA> 
+     20 q4_renamed                 3 "normal"                <NA> 
+     21 q4_renamed                 4 "much"                  <NA> 
+     22 q4_renamed                 5 "very much"             <NA> 
+     23 q4_renamed                99 "no answer"             <NA> 
+     24 q5                         1 "not at all"            <NA> 
+     25 q5                         2 "a bit"                 <NA> 
+     26 q5                         3 "normal"                <NA> 
+     27 q5                         4 "much"                  <NA> 
+     28 q5                         5 "very much"             <NA> 
+     29 q5                        99 "no answer"             <NA> 
+     30 q6                         1 "bla bla bla happiness" <NA> 
+     31 q6                         2 "bla bla bla joy"       <NA> 
+     32 q6                         3 "bla bla bla love"      <NA> 
+     33 q6                         4 "bla bla happiness"     <NA> 
+     34 q6                         5 "bla bla joy"           <NA> 
+     35 q6                         6 "bla bla love"          <NA> 
+     36 q6                         7 "bla happiness"         <NA> 
+     37 q6                         8 "bla joy"               <NA> 
+     38 q6                         9 "bla love"              <NA> 
+     39 kq5                        1 "aaa"                   <NA> 
+     40 kq5                        2 "bbb"                   <NA> 
+     41 kq5                        3 "ccc"                   <NA> 
+     42 q2                         1 "yes"                   <NA> 
+     43 q2                         2 "no"                    <NA> 
+     44 q2                        99 "no answer"             <NA> 
+     45 q4                        -2 "FILTER"                <NA> 
+     46 q4                         1 "not at all"            <NA> 
+     47 q4                         2 "a bit"                 <NA> 
+     48 q4                         3 "normal"                <NA> 
+     49 q4                         4 "much"                  <NA> 
+     50 q4                         5 "very much"             <NA> 
+     51 q4                        99 "no answer"             <NA> 
+     52 q6n                       -2 "FILTER"                <NA> 
+     53 q6n                        1 "love"                  <NA> 
+     54 q6n                        2 "joy"                   <NA> 
+     55 q6n                        3 "happiness"             <NA> 
+     56 q6n                       97 "Others"                <NA> 
+     57 q6n                       99 "No answer"             <NA> 
+     58 q7n                       -2 "FILTER"                <NA> 
+     59 q7n                        1 "sadness"               <NA> 
+     60 q7n                        2 "fear"                  <NA> 
+     61 q7n                        3 "anger"                 <NA> 
+     62 q7n                        4 "pain"                  <NA> 
+     63 q7n                       97 "Others"                <NA> 
+     64 q7n                       99 "No answer"             <NA> 
+     65 q6_1                       0 "unselected"            <NA> 
+     66 q6_1                       1 "selected"              <NA> 
+     67 q6_2                       0 "unselected"            <NA> 
+     68 q6_2                       1 "selected"              <NA> 
+     69 q6_3                       0 "unselected"            <NA> 
+     70 q6_3                       1 "selected"              <NA> 
+     71 q6_4                       0 "unselected"            <NA> 
+     72 q6_4                       1 "selected"              <NA> 
+     73 q6_97                      0 "unselected"            <NA> 
+     74 q6_97                      1 "selected"              <NA> 
+     75 q6_99                      0 "unselected"            <NA> 
+     76 q6_99                      1 "selected"              <NA> 
+     77 q6test_1                   0 "unselected"            <NA> 
+     78 q6test_1                   1 "selected"              <NA> 
+     79 q6test_2                   0 "unselected"            <NA> 
+     80 q6test_2                   1 "selected"              <NA> 
+     81 q6test_3                   0 "unselected"            <NA> 
+     82 q6test_3                   1 "selected"              <NA> 
+     83 q6test_4                   0 "unselected"            <NA> 
+     84 q6test_4                   1 "selected"              <NA> 
+     85 q6test_97                  0 "unselected"            <NA> 
+     86 q6test_97                  1 "selected"              <NA> 
+     87 q6test_99                  0 "unselected"            <NA> 
+     88 q6test_99                  1 "selected"              <NA> 
+     89 q6n1                      -2 "FILTER"                <NA> 
+     90 q6n1                       1 "love"                  <NA> 
+     91 q6n1                       2 "joy"                   <NA> 
+     92 q6n1                       3 "happiness"             <NA> 
+     93 q6n1                       4 "noch wat"              <NA> 
+     94 q6n1                      97 "Others"                <NA> 
+     95 q6n1                      99 "No answer"             <NA> 
+     96 q6n2                      -2 "FILTER"                <NA> 
+     97 q6n2                       1 "love"                  <NA> 
+     98 q6n2                       2 "joy"                   <NA> 
+     99 q6n2                       3 "happiness"             <NA> 
+    100 q6n2                       4 "noch wat"              <NA> 
+    101 q6n2                      97 "Others"                <NA> 
+    102 q6n2                      99 "No answer"             <NA> 
+    103 q6n3                      -2 "FILTER"                <NA> 
+    104 q6n3                       1 "love"                  <NA> 
+    105 q6n3                       2 "joy"                   <NA> 
+    106 q6n3                       3 "happiness"             <NA> 
+    107 q6n3                       4 "noch wat"              <NA> 
+    108 q6n3                      97 "Others"                <NA> 
+    109 q6n3                      99 "No answer"             <NA> 
+    110 q6n4                      -2 "FILTER"                <NA> 
+    111 q6n4                       1 "love"                  <NA> 
+    112 q6n4                       2 "joy"                   <NA> 
+    113 q6n4                       3 "happiness"             <NA> 
+    114 q6n4                       4 "noch wat"              <NA> 
+    115 q6n4                      97 "Others"                <NA> 
+    116 q6n4                      99 "No answer"             <NA> 
+    117 q6n5                      -2 "FILTER"                <NA> 
+    118 q6n5                       1 "love"                  <NA> 
+    119 q6n5                       2 "joy"                   <NA> 
+    120 q6n5                       3 "happiness"             <NA> 
+    121 q6n5                       4 "noch wat"              <NA> 
+    122 q6n5                      97 "Others"                <NA> 
+    123 q6n5                      99 "No answer"             <NA> 
+    124 q6n6                      -2 "FILTER"                <NA> 
+    125 q6n6                       1 "love"                  <NA> 
+    126 q6n6                       2 "joy"                   <NA> 
+    127 q6n6                       3 "happiness"             <NA> 
+    128 q6n6                       4 "noch wat"              <NA> 
+    129 q6n6                      97 "Others"                <NA> 
+    130 q6n6                      99 "No answer"             <NA> 
+    131 q6n7                      -2 "FILTER"                <NA> 
+    132 q6n7                       1 "love"                  <NA> 
+    133 q6n7                       2 "joy"                   <NA> 
+    134 q6n7                       3 "happiness"             <NA> 
+    135 q6n7                       4 "noch wat"              <NA> 
+    136 q6n7                      97 "Others"                <NA> 
+    137 q6n7                      99 "No answer"             <NA> 
+    138 q6n8                      -2 "FILTER"                <NA> 
+    139 q6n8                       1 "love"                  <NA> 
+    140 q6n8                       2 "joy"                   <NA> 
+    141 q6n8                       3 "happiness"             <NA> 
+    142 q6n8                       4 "noch wat"              <NA> 
+    143 q6n8                      97 "Others"                <NA> 
+    144 q6n8                      99 "No answer"             <NA> 
+    145 q6n9                      -2 "FILTER"                <NA> 
+    146 q6n9                       1 "love"                  <NA> 
+    147 q6n9                       2 "joy"                   <NA> 
+    148 q6n9                       3 "happiness"             <NA> 
+    149 q6n9                       4 "noch wat"              <NA> 
+    150 q6n9                      97 "Others"                <NA> 
+    151 q6n9                      99 "No answer"             <NA> 
+    152 q6n10                     -2 "FILTER"                <NA> 
+    153 q6n10                      1 "love"                  <NA> 
+    154 q6n10                      2 "joy"                   <NA> 
+    155 q6n10                      3 "happiness"             <NA> 
+    156 q6n10                      4 "noch wat"              <NA> 
+    157 q6n10                     97 "Others"                <NA> 
+    158 q6n10                     99 "No answer"             <NA> 
+    159 q6mw_1                     1 "not at all"            <NA> 
+    160 q6mw_1                     2 "a bit"                 <NA> 
+    161 q6mw_1                     3 "normal"                <NA> 
+    162 q6mw_1                     4 "much"                  <NA> 
+    163 q6mw_1                     5 "very much"             <NA> 
+    164 q6mw_1                    99 "no answer"             <NA> 
+    165 q6mw_2                     1 "not at all"            <NA> 
+    166 q6mw_2                     2 "a bit"                 <NA> 
+    167 q6mw_2                     3 "normal"                <NA> 
+    168 q6mw_2                     4 "much"                  <NA> 
+    169 q6mw_2                     5 "very much"             <NA> 
+    170 q6mw_2                    99 "no answer"             <NA> 
+    171 q6mw_3                     1 "not at all"            <NA> 
+    172 q6mw_3                     2 "a bit"                 <NA> 
+    173 q6mw_3                     3 "normal"                <NA> 
+    174 q6mw_3                     4 "much"                  <NA> 
+    175 q6mw_3                     5 "very much"             <NA> 
+    176 q6mw_3                    99 "no answer"             <NA> 
+    177 q6mw_4                     1 "not at all"            <NA> 
+    178 q6mw_4                     2 "a bit"                 <NA> 
+    179 q6mw_4                     3 "normal"                <NA> 
+    180 q6mw_4                     4 "much"                  <NA> 
+    181 q6mw_4                     5 "very much"             <NA> 
+    182 q6mw_4                    99 "no answer"             <NA> 
+    183 q6mw_97                    1 "not at all"            <NA> 
+    184 q6mw_97                    2 "a bit"                 <NA> 
+    185 q6mw_97                    3 "normal"                <NA> 
+    186 q6mw_97                    4 "much"                  <NA> 
+    187 q6mw_97                    5 "very much"             <NA> 
+    188 q6mw_97                   99 "no answer"             <NA> 
+    189 q6mw_99                    1 "not at all"            <NA> 
+    190 q6mw_99                    2 "a bit"                 <NA> 
+    191 q6mw_99                    3 "normal"                <NA> 
+    192 q6mw_99                    4 "much"                  <NA> 
+    193 q6mw_99                    5 "very much"             <NA> 
+    194 q6mw_99                   99 "no answer"             <NA> 
+    195 q6_assign_nn_1             1 "not at all"            <NA> 
+    196 q6_assign_nn_1             2 "a bit"                 <NA> 
+    197 q6_assign_nn_1             3 "normal"                <NA> 
+    198 q6_assign_nn_1             4 "much"                  <NA> 
+    199 q6_assign_nn_1             5 "very much"             <NA> 
+    200 q6_assign_nn_1            99 "no answer"             <NA> 
+    201 q6_assign_nn_2            -2 "FILTER"                <NA> 
+    202 q6_assign_nn_2             1 "YES"                   <NA> 
+    203 q6_assign_nn_2             2 "no"                    <NA> 
+    204 q6_assign_nn_2            99 "no answer"             <NA> 
+    205 q6_assign_nn_3            -2 "FILTER"                <NA> 
+    206 q6_assign_nn_3             1 "not at all"            <NA> 
+    207 q6_assign_nn_3             2 "a bit"                 <NA> 
+    208 q6_assign_nn_3             3 "normal"                <NA> 
+    209 q6_assign_nn_3             4 "much"                  <NA> 
+    210 q6_assign_nn_3             5 "very much"             <NA> 
+    211 q6_assign_nn_3            99 "no answer"             <NA> 
+    212 q6_assign_nn_4            -2 "FILTER"                <NA> 
+    213 q6_assign_nn_4             1 "not at all"            <NA> 
+    214 q6_assign_nn_4             2 "a bit"                 <NA> 
+    215 q6_assign_nn_4             3 "normal"                <NA> 
+    216 q6_assign_nn_4             4 "much"                  <NA> 
+    217 q6_assign_nn_4             5 "very much"             <NA> 
+    218 q6_assign_nn_4            99 "no answer"             <NA> 
+    219 kq1                        1 "1-2"                   <NA> 
+    220 kq1                        2 "3"                     <NA> 
+    221 kq1                        3 "4-5"                   <NA> 
+    222 kq3                        1 "1-2"                   <NA> 
+    223 kq3                        2 "3"                     <NA> 
+    224 kq3                        3 "4-5"                   <NA> 
+    225 kq1xq2_renamedkminus20     1 "1-2"                   <NA> 
+    226 kq1xq2_renamedkminus20     2 "3"                     <NA> 
+    227 kq1xq2_renamedkminus20     3 "4-5"                   <NA> 
+    228 kq1xq2_renamedk10          1 "1-2"                   <NA> 
+    229 kq1xq2_renamedk10          2 "3"                     <NA> 
+    230 kq1xq2_renamedk10          3 "4-5"                   <NA> 
+    231 kq1xq2_renamedk20          1 "1-2"                   <NA> 
+    232 kq1xq2_renamedk20          2 "3"                     <NA> 
+    233 kq1xq2_renamedk20          3 "4-5"                   <NA> 
+    234 kq1xq2_renamedk990         1 "1-2"                   <NA> 
+    235 kq1xq2_renamedk990         2 "3"                     <NA> 
+    236 kq1xq2_renamedk990         3 "4-5"                   <NA> 
+    237 n                          1 "also with"             <NA> 
+    238 n                          2 "value labels "         <NA> 
+    239 n                          3 "now"                   <NA> 
+    240 n                          4 "added label"           <NA> 
+    241 kkq1                       1 "a"                     <NA> 
+    242 kkq1                       2 "b"                     <NA> 
 
 # variable labels are reproduced
 
