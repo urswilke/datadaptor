@@ -1,0 +1,101 @@
+---
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(datenanpassr)
+filepath <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
+# use_openxlsx <- function(filename = filepath) {
+#   # wb <- openxlsx::loadWorkbook(filename)
+#   # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
+#   openxlsx::readWorkbook(filename, "Free1", cols = 1:5, skipEmptyRows = FALSE)
+# }
+# 
+# use_readxl <- function(filename = filepath) {
+#   # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
+#   readxl::read_excel(filename, "Free1", range = cellranger::cell_cols(1:5))
+# }
+# bench::mark(
+#   use_openxlsx(),
+#   use_readxl(),
+#   check = FALSE
+# )
+
+
+
+
+# press -------------------------------------------------------------------
+wb <- openxlsx::loadWorkbook(filepath)
+use_openxlsx <- function(filename = filepath, sheet) {
+  # wb <- openxlsx::loadWorkbook(filename)
+  # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
+  openxlsx::readWorkbook(wb, sheet, cols = 1:5, skipEmptyRows = FALSE)
+}
+
+use_readxl <- function(filename = filepath, sheet) {
+  # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
+  readxl::read_excel(filename, sheet, range = cellranger::cell_cols(1:5))
+}
+
+bm <- bench::press(
+  sheet = readxl::excel_sheets(filepath),
+  bench::mark(
+    use_openxlsx(sheet = sheet),
+    use_readxl(sheet = sheet),
+    check = FALSE
+  )
+)
+print(bm, n = 111)
+bench::mark(wb <- openxlsx::loadWorkbook(filepath))
+bm |> group_by(expression) |> summarise(sum(median))
+bm |>
+  ggplot2::ggplot() +
+  aes(x = as_factor(expression |> as.character()), y = median, color = sheet, group = sheet) +
+  geom_point() +
+  geom_line() +
+  gghighlight::gghighlight(TRUE)
+
+```
+
+
+# named regions
+
+```{r}
+# wb2 <- openxlsx2::wb_load(filepath)
+# use_openxlsx2 <- function(wb, sheet) {
+#   nrs <- openxlsx2::get_named_regions(wb) |>
+#     filter(name |> str_detect("^R_")) |>
+#     pull(name)
+#   map(nrs, ~openxlsx2::read_xlsx(wb, namedRegion = .x, colNames = FALSE))
+# }
+# # use_openxlsx2(wb2)
+
+
+
+wb <- openxlsx::loadWorkbook(filepath)
+use_openxlsx <- function(filename = filepath, sheet) {
+  nrs <- openxlsx::getNamedRegions(wb) |> str_subset("^R_")
+  nrs |> map(~openxlsx::read.xlsx(wb, namedRegion = .x, colNames = FALSE))
+}
+# use_openxlsx(wb)
+
+bench::mark(
+  use_openxlsx(wb),
+  # use_openxlsx2(wb2),
+  check = FALSE
+)
+
+```
+
+# init mapping 
+
+```{r}
+bench::mark(Mapping$new(mapping_file = filepath, translate_xlsm = TRUE))
+```
+
