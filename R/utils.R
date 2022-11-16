@@ -245,7 +245,7 @@ safe_f <- c(
   getGroupMembers("Logic"),
   "{", "(",
   "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na", "c", "list",
-  "as.numeric", "as.character", "as.logical", ":"
+  "as.numeric", "as.character", "as.logical", ":", "!"
 )
 
 #' Environment where expressions from the Excel mapping file are evaluated
