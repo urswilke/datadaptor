@@ -11,7 +11,16 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 library(tidyverse)
 library(datenanpassr)
 filepath <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
-# use_openxlsx <- function(filename = filepath) {
+```
+
+```{r}
+mapping_file <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+bench::mark(datenanpassr::Mapping$new(spss_file, mapping_file, translate_xlsm = TRUE), min_iterations = 7)
+```
+
+```{r}
+# use_openxlsx <- function(filename = system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")) {
 #   # wb <- openxlsx::loadWorkbook(filename)
 #   # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
 #   openxlsx::readWorkbook(filename, "Free1", cols = 1:5, skipEmptyRows = FALSE)
@@ -48,6 +57,7 @@ bm <- bench::press(
   bench::mark(
     use_openxlsx(sheet = sheet),
     use_readxl(sheet = sheet),
+    min_iterations = 7,
     check = FALSE
   )
 )
