@@ -68,52 +68,68 @@ curlychop <- function(df_free_raw) {
   dplyr::bind_rows(l_commands) %>%
     dplyr::select(-dplyr::all_of(c("is_curly_group", "n")))
 }
+
 curlychop_headers <- function(df) {
-  df %>%
-    dplyr::mutate(
-      X3 = .data$X3 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies),
-      X2 = .data$X2 %>% chop_out_curly_parts() %>% purrr::map(chop_if_between_curlies)
-    ) %>%
-    tidyr::unnest_wider("X2", names_sep = "_") %>%
-    tidyr::unnest_wider("X3", names_sep = "_") %>%
-    tidyr::unnest(dplyr::matches("X[23]")) %>%
-    tidyr::unite("X2", dplyr::matches("X2"), sep = "", na.rm = TRUE) %>%
-    tidyr::unite("X3", dplyr::matches("X3"), sep = "", na.rm = TRUE)
-
+  df |>
+    dplyr::mutate(dplyr::across(c(X2, X3), ~list(split_curly_parts(.x))))|>
+    tidyr::unnest(c(X2, X3))
 }
+split_curly_parts <- function(string,
+                              opener = "\\{",
+                              closer = "\\}") {
 
+  open_or_closer <- paste0("[", opener, closer, "]")
 
-chop_out_curly_parts <- function(x) {
-  # split string x into list of substrings at "{" and "}"
-  # Explanation:
-  # regex tries to cut out the separator.
-  # The positive look-aheads & -behinds, will match but keep the separator.
-  # split at curly bracket (keeping the brackets)"\\{" if not at the beginning, or
-  # split at curly bracket "\\}" if not at the end of the string.
-  # pseudo code:
-  # (not a beginning of x)(there is a curly "{"}) OR (not at the end)(there is a "}")
-  stringr::str_split(x, "(?<!^)(?=\\{)|(?<=\\})(?!$)")
-}
-
-# transform list of substrings:
-# space-separated elements surrounded by curly brackets get replaced by lists:
-chop_if_between_curlies <- function(x) {
-  is_between_curlies <- x %>%
-    stringr::str_detect("^\\{.*\\}$") %>%
-    is_true_vec()
-  x_without_curlies <- x %>%
-    stringr::str_remove_all("\\{|\\}")
-
-  purrr::map2(x_without_curlies, is_between_curlies, split_space_separated)
-}
-
-split_space_separated <- function(x_without_curlies, is_between_curlies) {
-  if (is_between_curlies) {
-    stringr::str_split(stringr::str_squish(x_without_curlies), " ")[[1]]
-  } else {
-    x_without_curlies
+  if (!isTRUE(str_detect(string, open_or_closer))) {
+    return(string)
   }
+  # split the string into different parts. either:
+  # - extract everything (.*) (lazily (?), if there are multiple parts,
+  #   each between
+  #   opener & cloder) between opener and closer, OR
+  # - extract the parts that are NOT
+  #   (implemented with negative look-arounds, see https://stackoverflow.com/a/2973495)
+  #   between opener & closer
+  split_pattern <- paste0(
+    # BETWEEN opener & closer:
+    opener,
+    ".*?",
+    closer,
+    # OR
+    "|",
+    # NOT BETWEEN opener & closer:
+    # negative look-behind:
+    "(?<!", opener, ")",
+    # all but opener/closer:
+    "[^", opener, closer, "]",
+    # occurring at least once (no empty strings):
+    "+",
+    # negative look-ahead:
+    "(?!", closer, ")"
+  )
+  split_string <- stringr::str_extract_all(string, split_pattern)[[1]]
+
+  is_curly_part <- stringr::str_detect(split_string, open_or_closer)
+  inside_curly_parts <- split_string[is_curly_part] |>
+    stringr::str_remove_all(open_or_closer) |>
+    stringr::str_squish() |>
+    stringr::str_split(" ")
+  curly_parts_lengthes_over1 <- inside_curly_parts |>
+    lengths() |>
+    unique() |>
+    dplyr::setdiff(1)
+  if (length(curly_parts_lengthes_over1) > 1) {
+    warning(
+      "There are different lengths > 1 in this expression for curlychop():\n",
+      string
+    )
+  }
+  parts_list <- as.list(split_string)
+  parts_list[is_curly_part] <- inside_curly_parts
+  do.call(paste0, parts_list)
 }
+
+
 
 # first argument are the severalized header lines of the command block,
 # the second is the original command block dataframe:
