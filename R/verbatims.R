@@ -143,7 +143,9 @@ parse_verbatim_data_raw <- function(
   for (i in seq_len(length(verbatim_sheets))) {
     l[[i]][["name"]] <- verbatim_sheets[i]
     l[[i]][["meta"]] <- mapping_verbatim_sheet |> dplyr::slice(i)
-    l[[i]][["assignments"]] <- l_assigns[[i]] |> dplyr::filter(.data$orig_var == l[[i]][["meta"]] |> dplyr::pull(.data$VariableOriginal))
+    # next line is equal to:
+    # l[[i]][["assignments"]] <- l_assigns[[i]] |> dplyr::filter(.data$orig_var == l[[i]][["meta"]] |> dplyr::pull(.data$VariableOriginal))
+    l[[i]][["assignments"]] <- l_assigns[[i]][l[[i]][["meta"]]$VariableOriginal == l_assigns[[i]]$orig_var,]
     l[[i]][["labs"]] <- l_codestufen[i]
   }
   l
