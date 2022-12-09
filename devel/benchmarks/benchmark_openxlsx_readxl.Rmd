@@ -9,6 +9,7 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ```{r}
 library(tidyverse)
+library(datenanpassr)
 filepath <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
 ```
 
@@ -25,7 +26,6 @@ bench::mark(datenanpassr::Mapping$new(spss_file, mapping_file, translate_xlsm = 
 #   openxlsx::readWorkbook(filename, "Free1", cols = 1:5, skipEmptyRows = FALSE)
 # }
 # 
-# use_readxl <- function(filename = system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")) {
 #   # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
 #   readxl::read_excel(filename, "Free1", range = cellranger::cell_cols(1:5))
 # }
@@ -60,6 +60,7 @@ bm <- bench::press(
     check = FALSE
   )
 )
+print(bm, n = 111)
 bench::mark(wb <- openxlsx::loadWorkbook(filepath))
 bm |> group_by(expression) |> summarise(sum(median))
 bm |>
@@ -71,4 +72,39 @@ bm |>
 
 ```
 
+
+# named regions
+
+```{r}
+# wb2 <- openxlsx2::wb_load(filepath)
+# use_openxlsx2 <- function(wb, sheet) {
+#   nrs <- openxlsx2::get_named_regions(wb) |>
+#     filter(name |> str_detect("^R_")) |>
+#     pull(name)
+#   map(nrs, ~openxlsx2::read_xlsx(wb, namedRegion = .x, colNames = FALSE))
+# }
+# # use_openxlsx2(wb2)
+
+
+
+wb <- openxlsx::loadWorkbook(filepath)
+use_openxlsx <- function(filename = filepath, sheet) {
+  nrs <- openxlsx::getNamedRegions(wb) |> str_subset("^R_")
+  nrs |> map(~openxlsx::read.xlsx(wb, namedRegion = .x, colNames = FALSE))
+}
+# use_openxlsx(wb)
+
+bench::mark(
+  use_openxlsx(wb),
+  # use_openxlsx2(wb2),
+  check = FALSE
+)
+
+```
+
+# init mapping 
+
+```{r}
+bench::mark(Mapping$new(mapping_file = filepath, translate_xlsm = TRUE))
+```
 

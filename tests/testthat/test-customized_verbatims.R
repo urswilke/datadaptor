@@ -52,7 +52,7 @@ make_cdb_raw <- function(name, meta, assignments, labs) {
 
 # It's important to execute mdg_custom before efa, because
 # efa will change the value of of q2 (serving for ex_further_cond of mdg_custom):
-cdbs_raw <- list(meta_mdg_custom, meta_efa) %>%
+cdbs_raw <- list(meta_mdg_custom, meta_efa) |>
   purrr::map(~make_cdb_raw(name = name, meta = .x, assignments = assignments, labs = labs))
 
 m <- Mapping$new(dat, na_to_filter = FALSE, id_var = "id")
@@ -73,12 +73,12 @@ test_that("modified data print is reproduced", {
 })
 test_that("variable labels are reproduced", {
   testthat::expect_snapshot_output(
-    m$dat_mod %>% tablab::tab_varlabs()
+    m$dat_mod |> tablab::tab_varlabs()
   )
 })
 test_that("value labels are reproduced", {
   testthat::expect_snapshot_output(
-    m$dat_mod %>% tablab::tab_vallabs() %>% print(n=111)
+    m$dat_mod |> tablab::tab_vallabs() |> print(n=111)
   )
 })
 

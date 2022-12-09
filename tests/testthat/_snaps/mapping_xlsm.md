@@ -1,322 +1,322 @@
 # command blocks print is reproduced
 
     <command_block_rcrd[316]>
-      [1] Config #RECNA xs: NA, DC_ID; v: -2; vallab: FILTER                                                                               
-      [2] Varbls #STR2N x: id                                                                                                              
-      [3] Varbls #RENAM xs: q7h1, q7h2, q...; ys: q7f1, q7f2, q...                                                                         
-      [4] Varbls #NEWLA x: q1; varlab: 1. Wie viele ...                                                                                    
-      [5] Varbls #NEWLA x: q2_00; varlab: 2. Welche Art...                                                                                 
-      [6] Varbls #NEWLA x: q2_02; varlab: Kundenzufried...                                                                                 
-      [7] Varbls #NEWLA x: q2_03; varlab: Marktvolumen                                                                                     
-      [8] Varbls #NEWLA x: q2_04; varlab: Onlineauftritte                                                                                  
-      [9] Varbls #NEWLA x: q2_05; varlab: Branchenbarom...                                                                                 
-     [10] Varbls #NEWLA x: q2_06; varlab: Strukturanalyse                                                                                  
-     [11] Varbls #NEWLA x: q2_07; varlab: Werbewirkungs...                                                                                 
-     [12] Varbls #NEWLA x: q2_99; varlab: Sonstige                                                                                         
-     [13] Varbls #NEWLA x: q3a; varlab: Kundenzufried...                                                                                   
-     [14] Varbls #NEWLA x: q3b; varlab: Marktvolumen                                                                                       
-     [15] Varbls #NEWLA x: q3c; varlab: Onlineauftritte                                                                                    
-     [16] Varbls #NEWLA x: q3d; varlab: Branchenbarom...                                                                                   
-     [17] Varbls #NEWLA x: q3e; varlab: Strukturanalyse                                                                                    
-     [18] Varbls #NEWLA x: q3f; varlab: Werbewirkungs...                                                                                   
-     [19] Varbls #NEWLA x: q3g; varlab: Sonstige                                                                                           
-     [20] Varbls #NEWLA x: q4; varlab: 4. Wie häufig...                                                                                    
-     [21] Varbls #NEWLA x: q6a; varlab: Schnelle Umse...                                                                                   
-     [22] Varbls #NEWLA x: q6b; varlab: Kurzfristige ...                                                                                   
-     [23] Varbls #NEWLA x: q6c; varlab: Korrektheit d...                                                                                   
-     [24] Varbls #NEWLA x: q6d; varlab: Freundlichkei...                                                                                   
-     [25] Varbls #NEWLA x: q6e; varlab: Langfristige ...                                                                                   
-     [26] Varbls #NEWLA x: q6f; varlab: Gute telefoni...                                                                                   
-     [27] Varbls #NEWLA x: q6g; varlab: Wochenenderre...                                                                                   
-     [28] Varbls #NEWLA x: q6h; varlab: Einhaltung vo...                                                                                   
-     [29] Varbls #NEWLA x: sel1; varlab: Abgefragte St...                                                                                  
-     [30] Varbls #NEWLA x: q7a1; varlab: Schnelle Umse...                                                                                  
-     [31] Varbls #NEWLA x: q7a2; varlab: Schnelle Umse...                                                                                  
-     [32] Varbls #NEWLA x: q7b1; varlab: Kurzfristige ...                                                                                  
-     [33] Varbls #NEWLA x: q7b2; varlab: Kurzfristige ...                                                                                  
-     [34] Varbls #NEWLA x: q7c1; varlab: Korrektheit d...                                                                                  
-     [35] Varbls #NEWLA x: q7c2; varlab: Korrektheit d...                                                                                  
-     [36] Varbls #NEWLA x: q7d1; varlab: Freundlichkei...                                                                                  
-     [37] Varbls #NEWLA x: q7d2; varlab: Freundlichkei...                                                                                  
-     [38] Varbls #NEWLA x: q7e1; varlab: Langfristige ...                                                                                  
-     [39] Varbls #NEWLA x: q7e2; varlab: Langfristige ...                                                                                  
-     [40] Varbls #NEWLA x: q7h1; varlab: Gute telefoni...                                                                                  
-     [41] Varbls #NEWLA x: q7h2; varlab: Gute telefoni...                                                                                  
-     [42] Varbls #NEWLA x: q7f1; varlab: Wochenenderre...                                                                                  
-     [43] Varbls #NEWLA x: q7f2; varlab: Wochenenderre...                                                                                  
-     [44] Varbls #NEWLA x: q7g1; varlab: Einhaltung vo...                                                                                  
-     [45] Varbls #NEWLA x: q7g2; varlab: Einhaltung vo...                                                                                  
-     [46] Label #NEWVA x: q6a; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [47] Label #NEWVA x: q6b; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [48] Label #NEWVA x: q6c; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [49] Label #NEWVA x: q6d; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [50] Label #NEWVA x: q6e; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [51] Label #NEWVA x: q6f; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [52] Label #NEWVA x: q6g; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [53] Label #NEWVA x: q6h; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                 
-     [54] Label #NEWVA x: q82; vs: 1, 10; vallbs: 1 - völlig un...                                                                         
-     [55] Label #NEWVA x: q91; vs: 0, 1, 10; vallbs: 0 - auf keine...                                                                      
-     [56] Label #NEWVA x: q92; vs: 0, 1, 10; vallbs: 0 - auf keine...                                                                      
-     [57] Free1 #COMP x: sel0; ex: 34                                                                                                      
-     [58] Free1 #DIC y: sel1; x: sel0                                                                                                      
-     [59] Free1 #REC y: q4; x: kq4; vs0: 1, 3, 6; vs2: 2, 5, 999999; vs: 1, 2, 3; vallbs: 1-2mal, 3-5ma...; varlab: Tabellenbände...       
-     [60] Free1 #REC y: q10; x: kq10; vs0: 18, 40, 50; vs2: 39, 49, 97; vs: 1, 2, 3; vallbs: 18 bis 39, 40...; varlab: Alter               
-     [61] Free1 #KG x: kq10; y: kq4                                                                                                        
-     [62] Free1 #KG x: regio; y: kq4                                                                                                       
-     [63] Free1 #REC y: sel0; x: ; vs0: 34, 14, 32, 7...; vs2: NA, NA, NA, 2...; vs: 1, 2, 3, 4, 5...; vallbs: NA, NA, NA, N...; varlab: NA
-     [64] Free1 #REC y: sel1; x: ; vs0: 34, 14, 32, 7...; vs2: NA, NA, NA, 2...; vs: 1, 2, 3, 4, 5...; vallbs: NA, NA, NA, N...; varlab: NA
-     [65] Free1 #COMP x: gew; ex: 1                                                                                                        
-     [66] Free1 #IF x: gew; ex: .5; ex_cnd: DC_ID <= 31190                                                                                 
-     [67] Free1 #IF x: gew; ex: 2; ex_cnd: DC_ID >= 44737                                                                                  
-     [68] Free2 #COMP x: q5n1; ex: -2                                                                                                      
-     [69] Free2 #COMP x: q5n2; ex: -2                                                                                                      
-     [70] Free2 #COMP x: q5n3; ex: -2                                                                                                      
-     [71] Free2 #COMP x: q5n4; ex: -2                                                                                                      
-     [72] Free2 #COMP x: q5n5; ex: -2                                                                                                      
-     [73] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 21503                                                                                 
-     [74] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 29779                                                                                 
-     [75] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 31190                                                                                
-     [76] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 27542                                                                                
-     [77] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 27145                                                                                 
-     [78] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 43307                                                                                 
-     [79] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 10014                                                                                 
-     [80] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 56856                                                                                 
-     [81] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 31956                                                                                 
-     [82] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 52542                                                                                 
-     [83] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 15545                                                                                 
-     [84] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 56032                                                                                 
-     [85] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 42484                                                                                 
-     [86] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 51850                                                                                 
-     [87] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 26142                                                                                 
-     [88] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 24897                                                                                 
-     [89] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 12175                                                                                 
-     [90] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 21112                                                                                 
-     [91] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 30155                                                                                 
-     [92] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 17792                                                                                 
-     [93] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 10366                                                                                 
-     [94] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 30554                                                                                 
-     [95] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 10600                                                                                 
-     [96] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 18521                                                                                 
-     [97] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 11223                                                                                 
-     [98] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 40496                                                                                 
-     [99] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 49353                                                                                 
-    [100] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 10808                                                                                 
-    [101] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 54255                                                                                 
-    [102] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 13271                                                                                 
-    [103] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 682                                                                                   
-    [104] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 10948                                                                                 
-    [105] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 36641                                                                                 
-    [106] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 49232                                                                                 
-    [107] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 17731                                                                                 
-    [108] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 24330                                                                                 
-    [109] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 49789                                                                                 
-    [110] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 28146                                                                                 
-    [111] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 34920                                                                                 
-    [112] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 20733                                                                                 
-    [113] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 36020                                                                                 
-    [114] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 51947                                                                                 
-    [115] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 53350                                                                                 
-    [116] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 24124                                                                                 
-    [117] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 579                                                                                   
-    [118] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 22330                                                                                 
-    [119] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 22710                                                                                 
-    [120] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 35015                                                                                 
-    [121] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 21739                                                                                 
-    [122] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 47712                                                                                 
-    [123] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 26654                                                                                 
-    [124] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 314                                                                                  
-    [125] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 26480                                                                                
-    [126] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 52604                                                                                 
-    [127] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 50897                                                                                
-    [128] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 23661                                                                                
-    [129] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 38317                                                                                 
-    [130] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 37468                                                                                 
-    [131] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 32461                                                                                 
-    [132] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 41143                                                                                 
-    [133] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 10506                                                                                 
-    [134] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 37632                                                                                 
-    [135] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 11518                                                                                 
-    [136] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 34771                                                                                 
-    [137] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 34491                                                                                 
-    [138] Free2 #IF x: q5n1; ex: 99; ex_cnd: DC_ID == 54485                                                                                
-    [139] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 43997                                                                                 
-    [140] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 30199                                                                                 
-    [141] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 44171                                                                                 
-    [142] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 12578                                                                                 
-    [143] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 39701                                                                                 
-    [144] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 37780                                                                                 
-    [145] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 52205                                                                                 
-    [146] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 12590                                                                                 
-    [147] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 55318                                                                                
-    [148] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 29392                                                                                 
-    [149] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 13430                                                                                 
-    [150] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 39497                                                                                
-    [151] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 12150                                                                                 
-    [152] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 36663                                                                                 
-    [153] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 15177                                                                                 
-    [154] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 18590                                                                                 
-    [155] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 50439                                                                                
-    [156] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 49397                                                                                 
-    [157] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 44231                                                                                 
-    [158] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 49236                                                                                 
-    [159] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 28337                                                                                 
-    [160] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 40892                                                                                 
-    [161] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 537                                                                                  
-    [162] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 43106                                                                                 
-    [163] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 33005                                                                                 
-    [164] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 29667                                                                                 
-    [165] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 25143                                                                                 
-    [166] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 22942                                                                                 
-    [167] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 181                                                                                   
-    [168] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 44737                                                                                 
-    [169] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 49713                                                                                 
-    [170] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 14488                                                                                 
-    [171] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 36434                                                                                 
-    [172] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 10471                                                                                 
-    [173] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 57213                                                                                 
-    [174] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 45104                                                                                 
-    [175] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 10024                                                                                 
-    [176] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 930                                                                                   
-    [177] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 10208                                                                                 
-    [178] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 30459                                                                                 
-    [179] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 12013                                                                                 
-    [180] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 45005                                                                                 
-    [181] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 50430                                                                                 
-    [182] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 44252                                                                                 
-    [183] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 43704                                                                                 
-    [184] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 30700                                                                                 
-    [185] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 24325                                                                                
-    [186] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 48249                                                                                
-    [187] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 13000                                                                                
-    [188] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 27147                                                                                 
-    [189] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 29772                                                                                 
-    [190] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 42753                                                                                 
-    [191] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 25971                                                                                 
-    [192] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 46434                                                                                 
-    [193] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 18617                                                                                 
-    [194] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 55254                                                                                 
-    [195] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 20953                                                                                 
-    [196] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 32540                                                                                 
-    [197] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 23510                                                                                
-    [198] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 22626                                                                                 
-    [199] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 11182                                                                                 
-    [200] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 55075                                                                                
-    [201] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 345                                                                                   
-    [202] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 43855                                                                                 
-    [203] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 10080                                                                                 
-    [204] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 57070                                                                                 
-    [205] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 31956                                                                                 
-    [206] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 15545                                                                                 
-    [207] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 56032                                                                                 
-    [208] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 42484                                                                                 
-    [209] Free2 #IF x: q5n2; ex: 6; ex_cnd: DC_ID == 51850                                                                                 
-    [210] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 26142                                                                                 
-    [211] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 24897                                                                                 
-    [212] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12175                                                                                 
-    [213] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 21112                                                                                 
-    [214] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 30155                                                                                 
-    [215] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 17792                                                                                 
-    [216] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10366                                                                                 
-    [217] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 30554                                                                                 
-    [218] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10600                                                                                 
-    [219] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 18521                                                                                 
-    [220] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 11223                                                                                 
-    [221] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 40496                                                                                 
-    [222] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 49353                                                                                 
-    [223] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10808                                                                                 
-    [224] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 54255                                                                                 
-    [225] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 13271                                                                                 
-    [226] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 682                                                                                   
-    [227] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 10948                                                                                 
-    [228] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 49232                                                                                 
-    [229] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 24330                                                                                 
-    [230] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 28146                                                                                 
-    [231] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 20733                                                                                 
-    [232] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 36020                                                                                 
-    [233] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 51947                                                                                 
-    [234] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 53350                                                                                 
-    [235] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 24124                                                                                 
-    [236] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 579                                                                                   
-    [237] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 22330                                                                                 
-    [238] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 22710                                                                                 
-    [239] Free2 #IF x: q5n2; ex: 7; ex_cnd: DC_ID == 314                                                                                   
-    [240] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 52604                                                                                 
-    [241] Free2 #IF x: q5n2; ex: 97; ex_cnd: DC_ID == 38317                                                                                
-    [242] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 32461                                                                                 
-    [243] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 41143                                                                                 
-    [244] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 10506                                                                                 
-    [245] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 37632                                                                                 
-    [246] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 11518                                                                                 
-    [247] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 34491                                                                                 
-    [248] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 43997                                                                                 
-    [249] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 30199                                                                                 
-    [250] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 44171                                                                                 
-    [251] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12578                                                                                 
-    [252] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12590                                                                                 
-    [253] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 55318                                                                                 
-    [254] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 29392                                                                                 
-    [255] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 13430                                                                                 
-    [256] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 39497                                                                                 
-    [257] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12150                                                                                 
-    [258] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 15177                                                                                 
-    [259] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 28337                                                                                 
-    [260] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 40892                                                                                 
-    [261] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 537                                                                                   
-    [262] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 43106                                                                                 
-    [263] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 33005                                                                                 
-    [264] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 29667                                                                                 
-    [265] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 25143                                                                                 
-    [266] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 181                                                                                   
-    [267] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 49713                                                                                 
-    [268] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 14488                                                                                 
-    [269] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 36434                                                                                 
-    [270] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 10471                                                                                 
-    [271] Free2 #IF x: q5n2; ex: 6; ex_cnd: DC_ID == 57213                                                                                 
-    [272] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 45104                                                                                 
-    [273] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10208                                                                                 
-    [274] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 45005                                                                                 
-    [275] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 43704                                                                                 
-    [276] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 30700                                                                                 
-    [277] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 24325                                                                                 
-    [278] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 48249                                                                                 
-    [279] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 13000                                                                                 
-    [280] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 27147                                                                                 
-    [281] Free2 #IF x: q5n2; ex: 6; ex_cnd: DC_ID == 29772                                                                                 
-    [282] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 42753                                                                                 
-    [283] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 20953                                                                                 
-    [284] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 43855                                                                                 
-    [285] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 10080                                                                                 
-    [286] Free2 #IF x: q5n3; ex: 6; ex_cnd: DC_ID == 56032                                                                                 
-    [287] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 26142                                                                                 
-    [288] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 12175                                                                                 
-    [289] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 21112                                                                                 
-    [290] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 30155                                                                                 
-    [291] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 11223                                                                                 
-    [292] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 54255                                                                                 
-    [293] Free2 #IF x: q5n3; ex: 6; ex_cnd: DC_ID == 579                                                                                   
-    [294] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 22330                                                                                 
-    [295] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 10506                                                                                 
-    [296] Free2 #IF x: q5n3; ex: 1; ex_cnd: DC_ID == 34491                                                                                 
-    [297] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 12578                                                                                 
-    [298] Free2 #IF x: q5n3; ex: 4; ex_cnd: DC_ID == 12150                                                                                 
-    [299] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 15177                                                                                 
-    [300] Free2 #IF x: q5n3; ex: 4; ex_cnd: DC_ID == 40892                                                                                 
-    [301] Free2 #IF x: q5n3; ex: 1; ex_cnd: DC_ID == 33005                                                                                 
-    [302] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 57213                                                                                 
-    [303] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 24325                                                                                 
-    [304] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 48249                                                                                 
-    [305] Free2 #IF x: q5n3; ex: 97; ex_cnd: DC_ID == 27147                                                                                
-    [306] Free2 #IF x: q5n1; ex: 99; ex_cnd: q5n1==-2                                                                                      
-    [307] Free2 #REC y: q5n1; x: ; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
-    [308] Free2 #REC y: q5n2; x: ; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
-    [309] Free2 #REC y: q5n3; x: ; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
-    [310] Free2 #REC y: q5n4; x: ; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
-    [311] Free2 #REC y: q5n5; x: ; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
-    [312] Free2 #VALL x: q5n1; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                    
-    [313] Free2 #VALL x: q5n2; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                    
-    [314] Free2 #VALL x: q5n3; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                    
-    [315] Free2 #VALL x: q5n4; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                    
-    [316] Free2 #VALL x: q5n5; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                    
+      [1] Config #RECNA xs: NA, DC_ID; v: -2; vallab: FILTER                                                                                 
+      [2] Varbls #STR2N x: id                                                                                                                
+      [3] Varbls #RENAM xs: q7h1, q7h2, q...; ys: q7f1, q7f2, q...                                                                           
+      [4] Varbls #NEWLA x: q1; varlab: 1. Wie viele ...                                                                                      
+      [5] Varbls #NEWLA x: q2_00; varlab: 2. Welche Art...                                                                                   
+      [6] Varbls #NEWLA x: q2_02; varlab: Kundenzufried...                                                                                   
+      [7] Varbls #NEWLA x: q2_03; varlab: Marktvolumen                                                                                       
+      [8] Varbls #NEWLA x: q2_04; varlab: Onlineauftritte                                                                                    
+      [9] Varbls #NEWLA x: q2_05; varlab: Branchenbarom...                                                                                   
+     [10] Varbls #NEWLA x: q2_06; varlab: Strukturanalyse                                                                                    
+     [11] Varbls #NEWLA x: q2_07; varlab: Werbewirkungs...                                                                                   
+     [12] Varbls #NEWLA x: q2_99; varlab: Sonstige                                                                                           
+     [13] Varbls #NEWLA x: q3a; varlab: Kundenzufried...                                                                                     
+     [14] Varbls #NEWLA x: q3b; varlab: Marktvolumen                                                                                         
+     [15] Varbls #NEWLA x: q3c; varlab: Onlineauftritte                                                                                      
+     [16] Varbls #NEWLA x: q3d; varlab: Branchenbarom...                                                                                     
+     [17] Varbls #NEWLA x: q3e; varlab: Strukturanalyse                                                                                      
+     [18] Varbls #NEWLA x: q3f; varlab: Werbewirkungs...                                                                                     
+     [19] Varbls #NEWLA x: q3g; varlab: Sonstige                                                                                             
+     [20] Varbls #NEWLA x: q4; varlab: 4. Wie häufig...                                                                                      
+     [21] Varbls #NEWLA x: q6a; varlab: Schnelle Umse...                                                                                     
+     [22] Varbls #NEWLA x: q6b; varlab: Kurzfristige ...                                                                                     
+     [23] Varbls #NEWLA x: q6c; varlab: Korrektheit d...                                                                                     
+     [24] Varbls #NEWLA x: q6d; varlab: Freundlichkei...                                                                                     
+     [25] Varbls #NEWLA x: q6e; varlab: Langfristige ...                                                                                     
+     [26] Varbls #NEWLA x: q6f; varlab: Gute telefoni...                                                                                     
+     [27] Varbls #NEWLA x: q6g; varlab: Wochenenderre...                                                                                     
+     [28] Varbls #NEWLA x: q6h; varlab: Einhaltung vo...                                                                                     
+     [29] Varbls #NEWLA x: sel1; varlab: Abgefragte St...                                                                                    
+     [30] Varbls #NEWLA x: q7a1; varlab: Schnelle Umse...                                                                                    
+     [31] Varbls #NEWLA x: q7a2; varlab: Schnelle Umse...                                                                                    
+     [32] Varbls #NEWLA x: q7b1; varlab: Kurzfristige ...                                                                                    
+     [33] Varbls #NEWLA x: q7b2; varlab: Kurzfristige ...                                                                                    
+     [34] Varbls #NEWLA x: q7c1; varlab: Korrektheit d...                                                                                    
+     [35] Varbls #NEWLA x: q7c2; varlab: Korrektheit d...                                                                                    
+     [36] Varbls #NEWLA x: q7d1; varlab: Freundlichkei...                                                                                    
+     [37] Varbls #NEWLA x: q7d2; varlab: Freundlichkei...                                                                                    
+     [38] Varbls #NEWLA x: q7e1; varlab: Langfristige ...                                                                                    
+     [39] Varbls #NEWLA x: q7e2; varlab: Langfristige ...                                                                                    
+     [40] Varbls #NEWLA x: q7h1; varlab: Gute telefoni...                                                                                    
+     [41] Varbls #NEWLA x: q7h2; varlab: Gute telefoni...                                                                                    
+     [42] Varbls #NEWLA x: q7f1; varlab: Wochenenderre...                                                                                    
+     [43] Varbls #NEWLA x: q7f2; varlab: Wochenenderre...                                                                                    
+     [44] Varbls #NEWLA x: q7g1; varlab: Einhaltung vo...                                                                                    
+     [45] Varbls #NEWLA x: q7g2; varlab: Einhaltung vo...                                                                                    
+     [46] Label #NEWVA x: q6a; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [47] Label #NEWVA x: q6b; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [48] Label #NEWVA x: q6c; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [49] Label #NEWVA x: q6d; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [50] Label #NEWVA x: q6e; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [51] Label #NEWVA x: q6f; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [52] Label #NEWVA x: q6g; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [53] Label #NEWVA x: q6h; vs: 1, 2, 3, 4, 5; vallbs: völlig unwich...                                                                   
+     [54] Label #NEWVA x: q82; vs: 1, 10; vallbs: 1 - völlig un...                                                                           
+     [55] Label #NEWVA x: q91; vs: 0, 1, 10; vallbs: 0 - auf keine...                                                                        
+     [56] Label #NEWVA x: q92; vs: 0, 1, 10; vallbs: 0 - auf keine...                                                                        
+     [57] Free1 #COMP x: sel0; ex: 34                                                                                                        
+     [58] Free1 #DIC y: sel1; x: sel0                                                                                                        
+     [59] Free1 #REC y: q4; x: kq4; vs0: 1, 3, 6; vs2: 2, 5, 999999; vs: 1, 2, 3; vallbs: 1-2mal, 3-5ma...; varlab: Tabellenbände...         
+     [60] Free1 #REC y: q10; x: kq10; vs0: 18, 40, 50; vs2: 39, 49, 97; vs: 1, 2, 3; vallbs: 18 bis 39, 40...; varlab: Alter                 
+     [61] Free1 #KG x: kq10; y: kq4                                                                                                          
+     [62] Free1 #KG x: regio; y: kq4                                                                                                         
+     [63] Free1 #REC y: sel0; x: NA; vs0: 34, 14, 32, 7...; vs2: NA, NA, NA, 2...; vs: 1, 2, 3, 4, 5...; vallbs: NA, NA, NA, N...; varlab: NA
+     [64] Free1 #REC y: sel1; x: NA; vs0: 34, 14, 32, 7...; vs2: NA, NA, NA, 2...; vs: 1, 2, 3, 4, 5...; vallbs: NA, NA, NA, N...; varlab: NA
+     [65] Free1 #COMP x: gew; ex: 1                                                                                                          
+     [66] Free1 #IF x: gew; ex: .5; ex_cnd: DC_ID <= 31190                                                                                   
+     [67] Free1 #IF x: gew; ex: 2; ex_cnd: DC_ID >= 44737                                                                                    
+     [68] Free2 #COMP x: q5n1; ex: -2                                                                                                        
+     [69] Free2 #COMP x: q5n2; ex: -2                                                                                                        
+     [70] Free2 #COMP x: q5n3; ex: -2                                                                                                        
+     [71] Free2 #COMP x: q5n4; ex: -2                                                                                                        
+     [72] Free2 #COMP x: q5n5; ex: -2                                                                                                        
+     [73] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 21503                                                                                   
+     [74] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 29779                                                                                   
+     [75] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 31190                                                                                  
+     [76] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 27542                                                                                  
+     [77] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 27145                                                                                   
+     [78] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 43307                                                                                   
+     [79] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 10014                                                                                   
+     [80] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 56856                                                                                   
+     [81] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 31956                                                                                   
+     [82] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 52542                                                                                   
+     [83] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 15545                                                                                   
+     [84] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 56032                                                                                   
+     [85] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 42484                                                                                   
+     [86] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 51850                                                                                   
+     [87] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 26142                                                                                   
+     [88] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 24897                                                                                   
+     [89] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 12175                                                                                   
+     [90] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 21112                                                                                   
+     [91] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 30155                                                                                   
+     [92] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 17792                                                                                   
+     [93] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 10366                                                                                   
+     [94] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 30554                                                                                   
+     [95] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 10600                                                                                   
+     [96] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 18521                                                                                   
+     [97] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 11223                                                                                   
+     [98] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 40496                                                                                   
+     [99] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 49353                                                                                   
+    [100] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 10808                                                                                   
+    [101] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 54255                                                                                   
+    [102] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 13271                                                                                   
+    [103] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 682                                                                                     
+    [104] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 10948                                                                                   
+    [105] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 36641                                                                                   
+    [106] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 49232                                                                                   
+    [107] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 17731                                                                                   
+    [108] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 24330                                                                                   
+    [109] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 49789                                                                                   
+    [110] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 28146                                                                                   
+    [111] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 34920                                                                                   
+    [112] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 20733                                                                                   
+    [113] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 36020                                                                                   
+    [114] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 51947                                                                                   
+    [115] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 53350                                                                                   
+    [116] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 24124                                                                                   
+    [117] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 579                                                                                     
+    [118] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 22330                                                                                   
+    [119] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 22710                                                                                   
+    [120] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 35015                                                                                   
+    [121] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 21739                                                                                   
+    [122] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 47712                                                                                   
+    [123] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 26654                                                                                   
+    [124] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 314                                                                                    
+    [125] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 26480                                                                                  
+    [126] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 52604                                                                                   
+    [127] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 50897                                                                                  
+    [128] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 23661                                                                                  
+    [129] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 38317                                                                                   
+    [130] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 37468                                                                                   
+    [131] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 32461                                                                                   
+    [132] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 41143                                                                                   
+    [133] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 10506                                                                                   
+    [134] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 37632                                                                                   
+    [135] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 11518                                                                                   
+    [136] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 34771                                                                                   
+    [137] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 34491                                                                                   
+    [138] Free2 #IF x: q5n1; ex: 99; ex_cnd: DC_ID == 54485                                                                                  
+    [139] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 43997                                                                                   
+    [140] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 30199                                                                                   
+    [141] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 44171                                                                                   
+    [142] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 12578                                                                                   
+    [143] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 39701                                                                                   
+    [144] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 37780                                                                                   
+    [145] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 52205                                                                                   
+    [146] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 12590                                                                                   
+    [147] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 55318                                                                                  
+    [148] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 29392                                                                                   
+    [149] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 13430                                                                                   
+    [150] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 39497                                                                                  
+    [151] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 12150                                                                                   
+    [152] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 36663                                                                                   
+    [153] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 15177                                                                                   
+    [154] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 18590                                                                                   
+    [155] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 50439                                                                                  
+    [156] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 49397                                                                                   
+    [157] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 44231                                                                                   
+    [158] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 49236                                                                                   
+    [159] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 28337                                                                                   
+    [160] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 40892                                                                                   
+    [161] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 537                                                                                    
+    [162] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 43106                                                                                   
+    [163] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 33005                                                                                   
+    [164] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 29667                                                                                   
+    [165] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 25143                                                                                   
+    [166] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 22942                                                                                   
+    [167] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 181                                                                                     
+    [168] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 44737                                                                                   
+    [169] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 49713                                                                                   
+    [170] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 14488                                                                                   
+    [171] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 36434                                                                                   
+    [172] Free2 #IF x: q5n1; ex: 1; ex_cnd: DC_ID == 10471                                                                                   
+    [173] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 57213                                                                                   
+    [174] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 45104                                                                                   
+    [175] Free2 #IF x: q5n1; ex: 7; ex_cnd: DC_ID == 10024                                                                                   
+    [176] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 930                                                                                     
+    [177] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 10208                                                                                   
+    [178] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 30459                                                                                   
+    [179] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 12013                                                                                   
+    [180] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 45005                                                                                   
+    [181] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 50430                                                                                   
+    [182] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 44252                                                                                   
+    [183] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 43704                                                                                   
+    [184] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 30700                                                                                   
+    [185] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 24325                                                                                  
+    [186] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 48249                                                                                  
+    [187] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 13000                                                                                  
+    [188] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 27147                                                                                   
+    [189] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 29772                                                                                   
+    [190] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 42753                                                                                   
+    [191] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 25971                                                                                   
+    [192] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 46434                                                                                   
+    [193] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 18617                                                                                   
+    [194] Free2 #IF x: q5n1; ex: 2; ex_cnd: DC_ID == 55254                                                                                   
+    [195] Free2 #IF x: q5n1; ex: 4; ex_cnd: DC_ID == 20953                                                                                   
+    [196] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 32540                                                                                   
+    [197] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 23510                                                                                  
+    [198] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 22626                                                                                   
+    [199] Free2 #IF x: q5n1; ex: 6; ex_cnd: DC_ID == 11182                                                                                   
+    [200] Free2 #IF x: q5n1; ex: 97; ex_cnd: DC_ID == 55075                                                                                  
+    [201] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 345                                                                                     
+    [202] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 43855                                                                                   
+    [203] Free2 #IF x: q5n1; ex: 3; ex_cnd: DC_ID == 10080                                                                                   
+    [204] Free2 #IF x: q5n1; ex: 5; ex_cnd: DC_ID == 57070                                                                                   
+    [205] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 31956                                                                                   
+    [206] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 15545                                                                                   
+    [207] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 56032                                                                                   
+    [208] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 42484                                                                                   
+    [209] Free2 #IF x: q5n2; ex: 6; ex_cnd: DC_ID == 51850                                                                                   
+    [210] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 26142                                                                                   
+    [211] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 24897                                                                                   
+    [212] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12175                                                                                   
+    [213] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 21112                                                                                   
+    [214] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 30155                                                                                   
+    [215] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 17792                                                                                   
+    [216] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10366                                                                                   
+    [217] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 30554                                                                                   
+    [218] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10600                                                                                   
+    [219] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 18521                                                                                   
+    [220] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 11223                                                                                   
+    [221] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 40496                                                                                   
+    [222] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 49353                                                                                   
+    [223] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10808                                                                                   
+    [224] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 54255                                                                                   
+    [225] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 13271                                                                                   
+    [226] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 682                                                                                     
+    [227] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 10948                                                                                   
+    [228] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 49232                                                                                   
+    [229] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 24330                                                                                   
+    [230] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 28146                                                                                   
+    [231] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 20733                                                                                   
+    [232] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 36020                                                                                   
+    [233] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 51947                                                                                   
+    [234] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 53350                                                                                   
+    [235] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 24124                                                                                   
+    [236] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 579                                                                                     
+    [237] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 22330                                                                                   
+    [238] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 22710                                                                                   
+    [239] Free2 #IF x: q5n2; ex: 7; ex_cnd: DC_ID == 314                                                                                     
+    [240] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 52604                                                                                   
+    [241] Free2 #IF x: q5n2; ex: 97; ex_cnd: DC_ID == 38317                                                                                  
+    [242] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 32461                                                                                   
+    [243] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 41143                                                                                   
+    [244] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 10506                                                                                   
+    [245] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 37632                                                                                   
+    [246] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 11518                                                                                   
+    [247] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 34491                                                                                   
+    [248] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 43997                                                                                   
+    [249] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 30199                                                                                   
+    [250] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 44171                                                                                   
+    [251] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12578                                                                                   
+    [252] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12590                                                                                   
+    [253] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 55318                                                                                   
+    [254] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 29392                                                                                   
+    [255] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 13430                                                                                   
+    [256] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 39497                                                                                   
+    [257] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 12150                                                                                   
+    [258] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 15177                                                                                   
+    [259] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 28337                                                                                   
+    [260] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 40892                                                                                   
+    [261] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 537                                                                                     
+    [262] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 43106                                                                                   
+    [263] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 33005                                                                                   
+    [264] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 29667                                                                                   
+    [265] Free2 #IF x: q5n2; ex: 5; ex_cnd: DC_ID == 25143                                                                                   
+    [266] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 181                                                                                     
+    [267] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 49713                                                                                   
+    [268] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 14488                                                                                   
+    [269] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 36434                                                                                   
+    [270] Free2 #IF x: q5n2; ex: 3; ex_cnd: DC_ID == 10471                                                                                   
+    [271] Free2 #IF x: q5n2; ex: 6; ex_cnd: DC_ID == 57213                                                                                   
+    [272] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 45104                                                                                   
+    [273] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 10208                                                                                   
+    [274] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 45005                                                                                   
+    [275] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 43704                                                                                   
+    [276] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 30700                                                                                   
+    [277] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 24325                                                                                   
+    [278] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 48249                                                                                   
+    [279] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 13000                                                                                   
+    [280] Free2 #IF x: q5n2; ex: 1; ex_cnd: DC_ID == 27147                                                                                   
+    [281] Free2 #IF x: q5n2; ex: 6; ex_cnd: DC_ID == 29772                                                                                   
+    [282] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 42753                                                                                   
+    [283] Free2 #IF x: q5n2; ex: 2; ex_cnd: DC_ID == 20953                                                                                   
+    [284] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 43855                                                                                   
+    [285] Free2 #IF x: q5n2; ex: 4; ex_cnd: DC_ID == 10080                                                                                   
+    [286] Free2 #IF x: q5n3; ex: 6; ex_cnd: DC_ID == 56032                                                                                   
+    [287] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 26142                                                                                   
+    [288] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 12175                                                                                   
+    [289] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 21112                                                                                   
+    [290] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 30155                                                                                   
+    [291] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 11223                                                                                   
+    [292] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 54255                                                                                   
+    [293] Free2 #IF x: q5n3; ex: 6; ex_cnd: DC_ID == 579                                                                                     
+    [294] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 22330                                                                                   
+    [295] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 10506                                                                                   
+    [296] Free2 #IF x: q5n3; ex: 1; ex_cnd: DC_ID == 34491                                                                                   
+    [297] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 12578                                                                                   
+    [298] Free2 #IF x: q5n3; ex: 4; ex_cnd: DC_ID == 12150                                                                                   
+    [299] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 15177                                                                                   
+    [300] Free2 #IF x: q5n3; ex: 4; ex_cnd: DC_ID == 40892                                                                                   
+    [301] Free2 #IF x: q5n3; ex: 1; ex_cnd: DC_ID == 33005                                                                                   
+    [302] Free2 #IF x: q5n3; ex: 2; ex_cnd: DC_ID == 57213                                                                                   
+    [303] Free2 #IF x: q5n3; ex: 3; ex_cnd: DC_ID == 24325                                                                                   
+    [304] Free2 #IF x: q5n3; ex: 5; ex_cnd: DC_ID == 48249                                                                                   
+    [305] Free2 #IF x: q5n3; ex: 97; ex_cnd: DC_ID == 27147                                                                                  
+    [306] Free2 #IF x: q5n1; ex: 99; ex_cnd: q5n1==-2                                                                                        
+    [307] Free2 #REC y: q5n1; x: NA; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
+    [308] Free2 #REC y: q5n2; x: NA; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
+    [309] Free2 #REC y: q5n3; x: NA; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
+    [310] Free2 #REC y: q5n4; x: NA; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
+    [311] Free2 #REC y: q5n5; x: NA; vs0: 5; vs2: 7; vs: 5; vallbs: NA; varlab: NA                                                           
+    [312] Free2 #VALL x: q5n1; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                      
+    [313] Free2 #VALL x: q5n2; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                      
+    [314] Free2 #VALL x: q5n3; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                      
+    [315] Free2 #VALL x: q5n4; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                      
+    [316] Free2 #VALL x: q5n5; varlab: ; vs: 1, 2, 3, 4, 5...; vallbs: Freundlichkei...                                                      
 
 # s3 modified data print is reproduced
 

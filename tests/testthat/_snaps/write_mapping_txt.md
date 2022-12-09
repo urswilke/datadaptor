@@ -544,12 +544,12 @@
       1 q6mdg          q6_test            3  q6test_{nn}            <NA>      <NA>
       
       $Verbatims[[4]]$assignments
-        orig_var      ID Zuord 1 Zuord 2 Zuord 3 Zuord 4 Zuord 5 Zuord 6 Zuord 7
-      1  q6_test       1       1       1      NA      NA      NA      NA      NA
-      2  q6_test 9999999      NA      NA      NA      NA      NA      NA      NA
-        Zuord 8 Zuord 9 Zuord 10
-      1      NA      NA       NA
-      2      NA      NA       NA
+          orig_var      ID Zuord 1 Zuord 2 Zuord 3 Zuord 4 Zuord 5 Zuord 6 Zuord 7
+      101  q6_test       1       1       1      NA      NA      NA      NA      NA
+      102  q6_test 9999999      NA      NA      NA      NA      NA      NA      NA
+          Zuord 8 Zuord 9 Zuord 10
+      101      NA      NA       NA
+      102      NA      NA       NA
       
       $Verbatims[[4]]$labs
       $Verbatims[[4]]$labs$q6mdg

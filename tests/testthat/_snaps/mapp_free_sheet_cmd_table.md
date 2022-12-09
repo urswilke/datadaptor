@@ -3,22 +3,22 @@
     # A tibble: 23 x 4
        row            action new_var        data            
        <chr>          <chr>  <chr>          <list>          
-     1 3              #COMP  x              <tibble [1 x 5]>
-     2 4              #IF    abc            <tibble [1 x 5]>
-     3 5_1            #IF    kq5            <tibble [1 x 5]>
-     4 5_2            #IF    kq6            <tibble [1 x 5]>
-     5 7, 8, 9, 10_1  #REC   kq1            <tibble [4 x 5]>
-     6 7, 8, 9, 10_2  #REC   kq3            <tibble [4 x 5]>
-     7 13             #KG    kq1_q2_renamed <tibble [1 x 5]>
-     8 14             #COMP  n              <tibble [1 x 5]>
-     9 15             #VARL  n              <tibble [1 x 5]>
-    10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
+     1 1              #COMP  x              <tibble [1 x 5]>
+     2 2              #IF    abc            <tibble [1 x 5]>
+     3 3_1            #IF    kq5            <tibble [1 x 5]>
+     4 3_2            #IF    kq6            <tibble [1 x 5]>
+     5 5, 6, 7, 8_1   #REC   kq1            <tibble [4 x 5]>
+     6 5, 6, 7, 8_2   #REC   kq3            <tibble [4 x 5]>
+     7 11             #KG    kq1_q2_renamed <tibble [1 x 5]>
+     8 12             #COMP  n              <tibble [1 x 5]>
+     9 13_1           #VARL  n              <tibble [1 x 5]>
+    10 15, 16, 17, 18 #VALL  n              <tibble [4 x 5]>
     # ... with 13 more rows
 
 ---
 
     tibble [23 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:23] "3" "4" "5_1" "5_2" ...
+     $ row    : chr [1:23] "1" "2" "3_1" "3_2" ...
      $ action : chr [1:23] "#COMP" "#IF" "#IF" "#IF" ...
      $ new_var: chr [1:23] "x" "abc" "kq5" "kq6" ...
      $ data   :List of 23
@@ -79,7 +79,7 @@
       ..$ : tibble [4 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr [1:4] "#VALL" NA NA "."
       .. ..$ X2: chr [1:4] "n" "1" "2" "3"
-      .. ..$ X3: chr [1:4] "overwrite new label" "also with" "value labels" "now"
+      .. ..$ X3: chr [1:4] "overwrite new label" "also with" "value labels " "now"
       .. ..$ X4: chr [1:4] NA NA NA NA
       .. ..$ X5: chr [1:4] NA NA NA NA
       ..$ : tibble [2 x 5] (S3: tbl_df/tbl/data.frame)
