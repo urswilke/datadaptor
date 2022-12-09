@@ -15,13 +15,13 @@ validate_command_block.command_block <- function(cdb) {
   new_validated_command_block(cdb)
 }
 new_validated_command_block <- function(cdb) {
-  argnames <- cdb$args %>% names()
+  argnames <- cdb$args |> names()
 
-  v_names      <- argnames %>% stringr::str_subset("^vs?\\d?$")
-  vallab_names <- argnames %>% stringr::str_subset("^vallabs?$")
-  ex_names     <- argnames %>% stringr::str_subset("^ex_")
-  var_names    <- argnames %>% stringr::str_subset("^[xy]s?$")
-  varlab_names <- argnames %>% stringr::str_subset("^varlab$")
+  v_names      <- argnames |> stringr::str_subset("^vs?\\d?$")
+  vallab_names <- argnames |> stringr::str_subset("^vallabs?$")
+  ex_names     <- argnames |> stringr::str_subset("^ex_")
+  var_names    <- argnames |> stringr::str_subset("^[xy]s?$")
+  varlab_names <- argnames |> stringr::str_subset("^varlab$")
   stopifnot(
     all(purrr::map_lgl(cdb$args[v_names], is.numeric))
   )
@@ -50,7 +50,7 @@ validate_command_block.cmd_if <- function(cdb) {
   ex <- cdb$args$ex
 
   stopifnot(all(!purrr::map_lgl(list(x, ex_cond, ex), is.na)))
-  lens <- lengths(list(x, ex_cond, ex)) %>% unique()
+  lens <- lengths(list(x, ex_cond, ex)) |> unique()
   stopifnot(lens == 1)
   NextMethod(cdb)
 }

@@ -8,16 +8,16 @@
 #' @examples
 #' gen_data_table(fake_survey)
 gen_data_table <- function(df) {
-  count1 <- df %>%
-    purrr::map(table) %>%
+  count1 <- df |>
+    purrr::map(table) |>
     purrr::map(as.data.frame)
   res1 <- dplyr::bind_rows(count1, .id="var")
   colnames(res1)[colnames(res1)=="Var1"] <- "nv"
 
-  var1 <- gen_var_table(df) %>%
+  var1 <- gen_var_table(df) |>
     dplyr::select(dplyr::all_of(c("var","type", "varlab")))
 
-  label1 <- tablab::tab_vallabs(df) %>%
+  label1 <- tablab::tab_vallabs(df) |>
     dplyr::select(dplyr::all_of(c("var","nv", "vallab")))
 
   res1 <- merge(res1, label1, by=c("var", "nv"), all=TRUE)

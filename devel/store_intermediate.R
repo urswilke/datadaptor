@@ -6,7 +6,7 @@ accumulate_command_blocks <- function(m) {
   # containing just one line of `m$cmd_tbl`:
   single_cdbs <- purrr::map(
     1:nrow(m0$cmd_tbl),
-    ~m0$cmd_tbl %>% dplyr::slice(.x) %>% dplyr::pull(command_blocks)
+    ~m0$cmd_tbl |> dplyr::slice(.x) |> dplyr::pull(command_blocks)
   )
 
   # apply each singe row command_blocks to the result of the previous mapping,

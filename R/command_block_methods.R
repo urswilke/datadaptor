@@ -10,10 +10,10 @@
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
 #' # Construct a command_block of the 10th line in m$cmd$df_cmd_raw:
-#' cb <- m$cmd$df_cmd_raw[10, ] %>%
+#' cb <- m$cmd$df_cmd_raw[10, ] |>
 #'   command_block()
 #' # Generate command_blocks object:
-#' cbs <- list(cb) %>%
+#' cbs <- list(cb) |>
 #'   datenanpassr:::new_command_blocks(subclass = "unsafe")
 #' # Apply it to the data:
 #' m$modify_data(command_blocks = cbs)
@@ -55,7 +55,7 @@ apply_command.cmd_recna_xcpt <- function(cdb, mapping, xs, v, vallab, ...) {
   # remove variable names not found in df:
   # TODO: think of cleaner way to do this:
   xs <- intersect(xs, names(mapping$dat_mod))
-  mapping$dat_mod <- mapping$dat_mod %>%
+  mapping$dat_mod <- mapping$dat_mod |>
     dplyr::mutate(
       dplyr::across(
         where(is.numeric) & !c(dplyr::one_of(xs)),
@@ -67,8 +67,8 @@ apply_command.cmd_recna_xcpt <- function(cdb, mapping, xs, v, vallab, ...) {
 #' @describeIn apply_command Execute R code
 #' @export
 apply_command.cmd_r <- function(cdb, mapping, exs, ...) {
-  exs %>%
-    rlang::parse_exprs() %>%
+  exs |>
+    rlang::parse_exprs() |>
     purrr::map(eval)
 }
 
@@ -89,16 +89,16 @@ apply_command.cmd_rfun <- function(cdb, mapping, filepath, ex_fun, ...) {
 apply_command.cmd_kg <- function(cdb, mapping, x, y, ...) {
   split_var <- mapping$dat_mod[[x]]
   by_var <- mapping$dat_mod[[y]]
-  df <- data.frame(split_var, by_var) %>% purrr::set_names(~ c(x, y))
+  df <- data.frame(split_var, by_var) |> purrr::set_names(~ c(x, y))
   # by_var <- rlang::as_string(rlang::expr(by_var))
   new_vars <- prepare_newvar_table(df, x, y)
-  mapping$dat_mod[new_vars$new_varnames] <- new_vars %>%
-    purrr::transpose() %>%
+  mapping$dat_mod[new_vars$new_varnames] <- new_vars |>
+    purrr::transpose() |>
     # these 2 lines would do the same
-    # rowwise() %>%
-    # group_split() %>%
+    # rowwise() |>
+    # group_split() |>
     # add the new variables one by one to the dataframe:
-    purrr::reduce(split_cat_by_cat, x, y, .init = df) %>%
+    purrr::reduce(split_cat_by_cat, x, y, .init = df) |>
     dplyr::select(-dplyr::all_of(c(x, y)))
 }
 
@@ -131,7 +131,7 @@ apply_command.cmd_verbatim <- function(
     further_ex_bool <- eval_in_data(
       rlang::parse_expr(ex_further_cond),
       mapping
-    ) %>%
+    ) |>
       is_true_vec()
   } else {
     further_ex_bool <- TRUE
@@ -165,7 +165,7 @@ apply_command.cmd_verbatim_custom <- function(
   }
 
   if (!is.na(ex_further_cond)) {
-    further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), mapping) %>%
+    further_ex_bool <- eval_in_data(rlang::parse_expr(ex_further_cond), mapping) |>
       is_true_vec()
   } else {
     further_ex_bool <- rep(TRUE, nrow(mapping$dat_mod))
@@ -216,11 +216,11 @@ apply_command.cmd_merge <- function(
   }
 
   # This kind of merging overwrites variables if existing:
-  df_merge_sort <- tibble::tibble(id_vec) %>%
-    dplyr::rename(!!id := id_vec) %>%
-    dplyr::full_join(df_merge, by = id) %>%
+  df_merge_sort <- tibble::tibble(id_vec) |>
+    dplyr::rename(!!id := id_vec) |>
+    dplyr::full_join(df_merge, by = id) |>
     dplyr::select(-!!id)
-  mapping$dat_mod <- mapping$dat_mod %>%
+  mapping$dat_mod <- mapping$dat_mod |>
     dplyr::mutate(
       df_merge_sort
     )
@@ -243,7 +243,7 @@ apply_command.cmd_addfile <- function(
 #'
 #' @export
 apply_command.cmd_rename <- function(cdb, mapping, xs, ys, ...) {
-  mapping$dat_mod <- mapping$dat_mod %>%
+  mapping$dat_mod <- mapping$dat_mod |>
     dplyr::rename(!!!purrr::set_names(ys, xs))
 }
 
@@ -429,23 +429,23 @@ apply_command.cmd_rec <- function(
   ub <- vs2
 
   recode_df <-
-    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), vs, vallabs) %>%
+    tibble::tibble(lb, ub = dplyr::coalesce(ub, lb), vs, vallabs) |>
     dplyr::mutate(
       expr_str = paste0("(", y, " >= ", lb, " & ", y, " <= ", ub, ")")
-    ) %>%
-    dplyr::group_by(vs) %>%
+    ) |>
+    dplyr::group_by(vs) |>
     dplyr::summarise(
       expr_str = paste(.data$expr_str, collapse = " | "),
       vallabs = vallabs[1]
     )
   cond_statements <-
-    recode_df %>%
-    dplyr::select(vs, "expr_str") %>%
+    recode_df |>
+    dplyr::select(vs, "expr_str") |>
     purrr::pmap(
       function(vs, expr_str) rlang::quo(!!rlang::parse_expr(expr_str) ~ !!vs)
     )
 
-  res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>%
+  res_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) |>
     eval_in_data(mapping)
   if (x == y) {
     res_num <- dplyr::coalesce(res_num, mapping$dat_mod[[y]])
@@ -469,8 +469,8 @@ apply_command.cmd_sumvar <- function(
     varlab <- attr(mapping$dat_mod[[y]], "label", exact = TRUE)
   }
 
-  sum_var_vals_n_labs <- tibble::tibble(vs0, vs, vallabs) %>%
-    dplyr::group_by(vs) %>%
+  sum_var_vals_n_labs <- tibble::tibble(vs0, vs, vallabs) |>
+    dplyr::group_by(vs) |>
     dplyr::summarise(
       val_lists = list(vs0),
       val_labs = dplyr::first(vallabs)
@@ -481,13 +481,13 @@ apply_command.cmd_sumvar <- function(
     ~ rlang::expr(!!rlang::sym(y) %in% !!.x ~ !!.y)
   )
 
-  vec_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) %>%
+  vec_num <- rlang::expr(dplyr::case_when(!!!cond_statements)) |>
     eval_in_data(mapping)
 
   mapping$dat_mod[[x]] <- haven::labelled(
     vec_num,
-    labels = sum_var_vals_n_labs[-2] %>%
-      dplyr::select(2, 1) %>%
+    labels = sum_var_vals_n_labs[-2] |>
+      dplyr::select(2, 1) |>
       tibble::deframe(),
     label = varlab
   )
@@ -534,7 +534,7 @@ apply_command.cmd_autorec <- function(cdb, mapping, x, ...) {
 apply_command.cmd_str_to_num <- function(cdb, mapping, x, ...) {
   var <- mapping$dat_mod[[x]]
   mapping$dat_mod[[x]] <- haven::labelled(
-    var %>% tablab::strip_attributes() %>% as.numeric(),
+    var |> tablab::strip_attributes() |> as.numeric(),
     label = attr(var, "label", exact = TRUE)
   )
 

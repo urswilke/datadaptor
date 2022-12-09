@@ -26,7 +26,7 @@
 #'
 #' # Extensive example:
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) %>%
+#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) |>
 #'   dplyr::filter(stringr::str_detect(X2, "\\{"))
 #' curlychop(df_free_raw)
 #' # For reference, open the "Free1" sheet in the Excel file via:
@@ -34,38 +34,38 @@
 #' utils::browseURL(mapping_file)
 #' }
 curlychop <- function(df_free_raw) {
-  df_prep <- df_free_raw %>%
-    dplyr::mutate(raw_index = cumsum(is_true_vec(stringr::str_detect(.data$X1, "^#")))) %>%
-    dplyr::group_by(.data$raw_index) %>%
+  df_prep <- df_free_raw |>
+    dplyr::mutate(raw_index = cumsum(is_true_vec(stringr::str_detect(.data$X1, "^#")))) |>
+    dplyr::group_by(.data$raw_index) |>
     dplyr::mutate(
       row = paste(row, collapse = ", "),
-      is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) %>% is_true_vec()
-    ) %>%
-    dplyr::add_count(.data$raw_index) %>%
+      is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) |> is_true_vec()
+    ) |>
+    dplyr::add_count(.data$raw_index) |>
     dplyr::group_by(.data$raw_index)
 
-  df_curly_headers <- df_prep %>%
+  df_curly_headers <- df_prep |>
     dplyr::filter(dplyr::if_any(c("X2", "X3"), ~ stringr::str_detect(.x, "\\{.*\\}")))
   if (nrow(df_curly_headers) == 0) {
-    return(df_prep %>%
+    return(df_prep |>
       dplyr::select(-dplyr::all_of(c("is_curly_group", "n"))))
   }
-  df_headers_curliplied <- df_curly_headers %>%
+  df_headers_curliplied <- df_curly_headers |>
     curlychop_headers()
 
-  l_commands <- df_prep %>%
+  l_commands <- df_prep |>
     dplyr::group_split()
-  command_has_curlies_lgl <- df_prep %>%
-    dplyr::summarise(lgl = .data$is_curly_group[1], .groups = "drop") %>%
+  command_has_curlies_lgl <- df_prep |>
+    dplyr::summarise(lgl = .data$is_curly_group[1], .groups = "drop") |>
     dplyr::pull(.data$lgl)
 
   l_commands[command_has_curlies_lgl] <- purrr::map2(
-    df_headers_curliplied %>% dplyr::group_by(.data$raw_index) %>% dplyr::group_split(),
+    df_headers_curliplied |> dplyr::group_by(.data$raw_index) |> dplyr::group_split(),
     l_commands[command_has_curlies_lgl],
     add_further_rows_to_multiline_curlies
   )
 
-  dplyr::bind_rows(l_commands) %>%
+  dplyr::bind_rows(l_commands) |>
     dplyr::select(-dplyr::all_of(c("is_curly_group", "n")))
 }
 
@@ -80,7 +80,7 @@ split_curly_parts <- function(string,
 
   open_or_closer <- paste0("[", opener, closer, "]")
 
-  if (!isTRUE(str_detect(string, open_or_closer))) {
+  if (!isTRUE(stringr::str_detect(string, open_or_closer))) {
     return(string)
   }
   # split the string into different parts. either:
@@ -136,16 +136,16 @@ split_curly_parts <- function(string,
 add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_original) {
   if (df_header_lines$n[1] == 1) {
     return(
-      df_header_lines %>%
+      df_header_lines |>
         dplyr::mutate(row = paste0(row, "_", dplyr::row_number()))
     )
   }
-  df_header_lines %>%
-    dplyr::rowwise() %>%
-    dplyr::group_split() %>%
+  df_header_lines |>
+    dplyr::rowwise() |>
+    dplyr::group_split() |>
     purrr::imap_dfr(
-      ~ .x %>%
-        dplyr::bind_rows(df_block_original[-1, ]) %>%
+      ~ .x |>
+        dplyr::bind_rows(df_block_original[-1, ]) |>
         dplyr::mutate(row = paste0(row, "_", .y))
     )
 }
@@ -157,7 +157,7 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
   purrr::set_names(
     all_vals[!replaced_vals],
     all_labels[!replaced_vals]
-  ) %>%
+  ) |>
     sort()
 }
 
@@ -203,8 +203,8 @@ extract_excel_params <- function(mapping_file) {
   # if there is a named region that's empty, it would throw the warning:
   # ℹ No data found on worksheet.
   suppressWarnings(
-    configr <- named_regions %>%
-      dplyr::filter(grepl("^R_*", .data$value)) %>%
+    configr <- named_regions |>
+      dplyr::filter(grepl("^R_*", .data$value)) |>
       dplyr::mutate(
         data = purrr::map(
           .x = .data$value,
@@ -213,7 +213,7 @@ extract_excel_params <- function(mapping_file) {
             namedRegion = .x,
             colNames = FALSE
           )
-        ) %>%
+        ) |>
           purrr::map_if(
             purrr::negate(is.null),
             dplyr::pull
@@ -239,7 +239,7 @@ extract_excel_params <- function(mapping_file) {
 # Function to replace windows backslashes to slashes and replace relative
 # filepaths by absolutes, based on the directory of the mapping file:
 adapt_filepath <- function(file_path, mapping_file) {
-  file_path <- file_path %>%
+  file_path <- file_path |>
     stringr::str_replace_all("\\\\", "/")
   if (is.na(file_path)) {
     return(file_path)
@@ -247,7 +247,7 @@ adapt_filepath <- function(file_path, mapping_file) {
   if (fs::is_absolute_path(file_path)) {
     return(file_path)
   } else {
-    mapping_dir <- mapping_file %>% fs::path_dir()
+    mapping_dir <- mapping_file |> fs::path_dir()
     return(paste0(mapping_dir, "/", file_path))
   }
 }
@@ -270,7 +270,7 @@ safe_f <- c(
 #'
 #' @export
 #' @examples
-#' safer_env %>% as.list() %>% names()
+#' safer_env |> as.list() |> names()
 safer_env <- new.env(parent = emptyenv())
 
 for (f in safe_f) {
