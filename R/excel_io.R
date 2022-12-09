@@ -98,6 +98,9 @@ format_df_varl <- function(df_varl) {
 
 parse_varlab_cmd_table <- function(df_varl) {
   dplyr::bind_rows(
+    # TODO:
+    # refactor these functions for better performance:
+    # group_by() |> nest() |> ungroup() is called in all of these functions...:
     parse_str_to_num_cmd_block(df_varl),
     parse_autorecode_cmd_block(df_varl),
     parse_drop_cmd_block(df_varl),
