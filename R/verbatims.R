@@ -55,11 +55,11 @@ generate_verbatim_sheet_table <- function(mapping, sheet) {
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping, sheet) {
-  verbatims_sheet <- openxlsx::read.xlsx(
+  verbatims_sheet <- suppressWarnings(openxlsx::read.xlsx(
     mapping$wb,
     sheet = sheet,
     cols = 2:4,
-  )
+  ))
   if (is.null(verbatims_sheet)) {
     return(NA_character_)
   }

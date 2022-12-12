@@ -71,7 +71,7 @@ Mapping <- R6::R6Class(
 
       self$mapping_file <- mapping_file
       if (!is.null(mapping_file)) {
-        self$wb <- openxlsx::loadWorkbook(mapping_file)
+        suppressWarnings(self$wb <- openxlsx::loadWorkbook(mapping_file))
       }
       self$params <- gen_mapping_params(self, dots_args = tibble::lst(...), ...)
       if (!is.null(mapping_file)) {
@@ -190,7 +190,6 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   raw <- tidyr::tibble(path, name, filetype, show)
   # add a sav file when there is an Rmd(that will import the sav):
   df <- dplyr::bind_rows(
-    raw,
     raw |>
       dplyr::filter(filetype == "Rmd") |>
       dplyr::mutate(

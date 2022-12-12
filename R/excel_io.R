@@ -345,6 +345,7 @@ mapp_free_sheet_cmd_table_raw <- function(mapping, sheet = "Free1") {
   #   col_types = "text"
   # ) %>%
     openxlsx::read.xlsx(mapping$wb, sheet, colNames = FALSE, cols = 1:5, skipEmptyRows = FALSE) |> dplyr::as_tibble() |>
+    suppressWarnings() |>
     dplyr::mutate(dplyr::across(.fns = as.character)) %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~ !is.na(.)))
