@@ -2,7 +2,7 @@ mapping_file <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpa
 spss_file <- system.file("extdata", "tablebook.sav", package = "datenanpassr")
 
 
-mapping_xlsm <- mapping <- Mapping$new(spss_file, mapping_file, translate_xlsm = T)
+mapping_xlsm <- Mapping$new(spss_file, mapping_file, translate_xlsm = T)
 
 mapping_xlsm$modify_data()
 

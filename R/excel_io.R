@@ -79,19 +79,21 @@ read_variables_sheet_raw <- function(mapping, sheet = "Variables", translate_xls
   df_varl |> dplyr::mutate(dplyr::across(.fns = as.character))
 }
 read_xlsm_variables_sheet_raw <- function(mapping, sheet) {
-  res <- openxlsx::read.xlsx(
+  x <- openxlsx::read.xlsx(
     mapping$wb,
     sheet,
     # startRow = 3,
     cols = 1:13,
     colNames = FALSE
-  ) |>
+  ) |> tibble::as_tibble()
+
+  N <- ncol(x)
+  x[paste0("X", c(1, (N-2):N))] |>
     dplyr::slice(-1:-2) |>
-    purrr::set_names(c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label")) |>
-    dplyr::mutate(dplyr::across(.fns = as.character)) |>
-    dplyr::select(-dplyr::matches("^nn[1-8]$"))
+    purrr::set_names(c("var", "op", "new_name", "new_label")) |>
+    # purrr::set_names(unname(matched_coltitles)) |>
+    dplyr::mutate(dplyr::across(.fns = as.character))
   # res["type"] <- NULL
-  res
   # readxl::read_xlsx(
   #   mapping_file,
   #   sheet = sheet,
@@ -141,7 +143,7 @@ parse_rename_cmd_block <- function(df_varl) {
     dplyr::mutate(sheet = "Variables") |>
     dplyr::mutate(action = "#RENAME") |>
     dplyr::mutate(new_var = .data$new_name) |>
-    dplyr::select(-dplyr::all_of(c("new_label", "op", "varlab"))) |>
+    dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab"))) |>
     dplyr::group_by(.data$sheet, .data$action) |>
     dplyr::summarise(
       row = paste(row, collapse = ", "),
@@ -160,7 +162,7 @@ parse_autorecode_cmd_block <- function(df_varl) {
     dplyr::mutate(sheet = "Variables") |>
     dplyr::mutate(action = "#AUTOREC") |>
     dplyr::mutate(new_var = .data$var) |>
-    dplyr::select(-dplyr::all_of(c("new_label", "op", "varlab", "new_name"))) |>
+    dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab", "new_name"))) |>
     dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) |>
     tidyr::nest() |>
     dplyr::ungroup()
@@ -190,7 +192,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
     dplyr::mutate(sheet = "Variables") |>
     dplyr::mutate(action = "#STR2NUM") |>
     dplyr::mutate(new_var = .data$var) |>
-    dplyr::select(-dplyr::all_of(c("new_label", "op", "varlab", "new_name"))) |>
+    dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab", "new_name"))) |>
     dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) |>
     tidyr::nest() |>
     dplyr::ungroup()
