@@ -11,7 +11,7 @@
      6 5, 6, 7, 8_2   #REC   kq3            <tibble [4 x 5]>
      7 11             #KG    kq1_q2_renamed <tibble [1 x 5]>
      8 12             #COMP  n              <tibble [1 x 5]>
-     9 13_1           #VARL  n              <tibble [1 x 5]>
+     9 13             #VARL  n              <tibble [1 x 5]>
     10 15, 16, 17, 18 #VALL  n              <tibble [4 x 5]>
     # ... with 13 more rows
 
@@ -79,7 +79,7 @@
       ..$ : tibble [4 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr [1:4] "#VALL" NA NA "."
       .. ..$ X2: chr [1:4] "n" "1" "2" "3"
-      .. ..$ X3: chr [1:4] "overwrite new label" "also with" "value labels " "now"
+      .. ..$ X3: chr [1:4] "overwrite new label" "also with" "value labels" "now"
       .. ..$ X4: chr [1:4] NA NA NA NA
       .. ..$ X5: chr [1:4] NA NA NA NA
       ..$ : tibble [2 x 5] (S3: tbl_df/tbl/data.frame)

@@ -51,7 +51,8 @@ generate_verbatim_sheet_table <- function(mapping, sheet) {
     dplyr::select("VariableOriginal":"Tabellen-blatt", "VariableZiel", dplyr::any_of(c("ex_further_cond", "ex_assign"))) %>%
     # HACK!!! TODO: replace with general regex
     dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal)) |>
-    dplyr::relocate(q_id = "Tabellen-blatt")
+    dplyr::relocate(q_id = "Tabellen-blatt") |>
+    tibble::as_tibble()
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping, sheet) {
@@ -78,7 +79,8 @@ generate_assignments_list <- function(mapping, verbatim_file, mapping_verbatim_s
       dplyr::select(orig_var = "Orig..Variable", "ID", dplyr::matches("^Zuord\\.\\d+$"))
     # Hack to get the same names as readxl before...:
     names(res)[-1:-2] <- names(res)[-1:-2] |> stringr::str_replace("\\.", " ")
-    res
+    res |>
+      tibble::as_tibble()
   }
 
 
@@ -97,7 +99,8 @@ generate_label_code_list <- function(mapping, verbatim_file) {
     dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) %>%
     dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) %>%
     dplyr::mutate(Code = dplyr::row_number()) %>%
-    dplyr::relocate("Code")
+    dplyr::relocate("Code") |>
+    tibble::as_tibble()
   2:length(df_codestufen) |>
     purrr::set_names(names(df_codestufen)[-1]) |>
     purrr::map(~ dplyr::select(df_codestufen, 1, lab = !!.x) |> tidyr::drop_na())

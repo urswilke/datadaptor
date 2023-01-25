@@ -235,7 +235,9 @@ read_label_sheet_raw <- function(mapping, sheet, translate_xlsm = FALSE) {
   if (translate_xlsm) {
     df_vall <- read_xlsm_label_sheet_raw(mapping, sheet)
   } else {
-    df_vall <- openxlsx::read.xlsx(mapping$wb, sheet) |> dplyr::as_tibble() |> dplyr::mutate(dplyr::across(.fns = as.character))
+    df_vall <- openxlsx::read.xlsx(mapping$wb, sheet) |>
+      dplyr::as_tibble() |>
+      dplyr::mutate(dplyr::across(.fns = ~ as.character(.x) |> stringr::str_trim()))
     #   readxl::read_xlsx(
     #   mapping_file,
     #   sheet = sheet
@@ -262,13 +264,14 @@ read_xlsm_label_sheet_raw <- function(mapping, sheet) {
   )
   openxlsx::read.xlsx(mapping$wb, sheet, startRow = 2, cols = 1:9) |>
     purrr::set_names(names_mod) |>
-    dplyr::mutate(dplyr::across(.fns = as.character)) |>
-    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) %>%
+    dplyr::mutate(dplyr::across(.fns = ~ as.character(.x) |> stringr::str_trim())) |>
+    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) |>
     # dplyr::mutate(
     #   nv = as.numeric(.data$nv),
     #   sum_var_value = as.numeric(.data$sum_var_value)
     # ) %>%
-    tidyr::fill("var")
+    tidyr::fill("var") |>
+    tibble::as_tibble()
 }
 
 
@@ -345,10 +348,17 @@ mapp_free_sheet_cmd_table_raw <- function(mapping, sheet = "Free1") {
   #   range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
   #   col_names = paste0("X", 1:5),
   #   col_types = "text"
-  # ) %>%
-    openxlsx::read.xlsx(mapping$wb, sheet, colNames = FALSE, cols = 1:5, skipEmptyRows = FALSE) |> dplyr::as_tibble() |>
+    # ) %>%
+    openxlsx::read.xlsx(
+      mapping$wb,
+      sheet,
+      colNames = FALSE,
+      cols = 1:5,
+      skipEmptyRows = FALSE
+    ) |>
+    dplyr::as_tibble() |>
     suppressWarnings() |>
-    dplyr::mutate(dplyr::across(.fns = as.character)) %>%
+    dplyr::mutate(dplyr::across(.fns = ~ as.character(.x) |> stringr::str_trim())) %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~ !is.na(.)))
   dplyr::bind_rows(
