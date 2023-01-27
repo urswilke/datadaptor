@@ -238,11 +238,11 @@ read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
     ),
     col_types = "text"
   ) |>
-    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) %>%
+    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) |>
     dplyr::mutate(
       nv = as.numeric(.data$nv),
       sum_var_value = as.numeric(.data$sum_var_value)
-    ) %>%
+    ) |>
     tidyr::fill("var")
 }
 
@@ -319,8 +319,8 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
     range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"
-  ) %>%
-    dplyr::mutate(row = dplyr::row_number()) %>%
+  ) |>
+    dplyr::mutate(row = dplyr::row_number()) |>
     dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~ !is.na(.)))
   df_free
 }
