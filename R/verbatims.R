@@ -46,9 +46,9 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
       sheet = sheet,
       col_names = TRUE,
       col_types = "text"
-    ) %>%
-    tidyr::drop_na("VariableOriginal") %>%
-    dplyr::select("VariableOriginal":"Tabellen-blatt", "VariableZiel", dplyr::any_of(c("ex_further_cond", "ex_assign"))) %>%
+    ) |>
+    tidyr::drop_na("VariableOriginal") |>
+    dplyr::select("VariableOriginal":"Tabellen-blatt", "VariableZiel", dplyr::any_of(c("ex_further_cond", "ex_assign"))) |>
     # HACK!!! TODO: replace with general regex
     dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal)) |>
     dplyr::relocate(q_id = "Tabellen-blatt") |>
@@ -67,25 +67,25 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
   if (nrow(verbatims_sheet) == 0) {
     return(NA_character_)
   }
-  file_path <- verbatims_sheet %>%
-    dplyr::filter(.data$B == "Filename input") %>%
+  file_path <- verbatims_sheet |>
+    dplyr::filter(.data$B == "Filename input") |>
     dplyr::pull(.data$D)
   adapt_filepath(file_path, mapping_file)
 }
 generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
   verbatim_file_sheets <-
-    verbatim_file %>%
+    verbatim_file |>
     readxl::excel_sheets()
 
   read_assigns <- function(sheet_name) {
-    readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
+    readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) |>
       dplyr::select(orig_var = "Orig. Variable", "ID", dplyr::matches("^Zuord "))
   }
 
 
   # except "Codestufen", the first sheet:
-  verbatim_file_sheets[-1] %>%
-    purrr::set_names() %>%
+  verbatim_file_sheets[-1] |>
+    purrr::set_names() |>
     purrr::map(~ read_assigns(.x))
 }
 generate_label_code_list <- function(verbatim_file) {
@@ -95,10 +95,10 @@ generate_label_code_list <- function(verbatim_file) {
       sheet = "Codestufen",
       col_names = TRUE,
       range = cellranger::cell_limits(ul = c(1, 2))
-    ) %>%
-    dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) %>%
-    dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) %>%
-    dplyr::mutate(Code = dplyr::row_number()) %>%
+    ) |>
+    dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) |>
+    dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) |>
+    dplyr::mutate(Code = dplyr::row_number()) |>
     dplyr::relocate("Code") |>
     tibble::as_tibble()
   2:length(df_codestufen) |>

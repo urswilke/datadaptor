@@ -1,7 +1,7 @@
 # mapping xlsx generation works
 
     Code
-      l %>% purrr::set_names(sheet_names)
+      purrr::set_names(l, sheet_names)
     Output
       $Variables
       # A tibble: 10 x 6

@@ -6,4 +6,4 @@ test_that("parameters (except those containing filepaths) were built correctly",
 
 cb_err <- mapping_s3$cmd$df_cmd_raw[10,]
 cb_err$action <- "uillu"
-testthat::expect_error(cbs_err <- cb_err %>% command_block() %>% parse_command_args() %>% list(.) %>% datenanpassr:::new_command_blocks(subclass = "unsafe"))
+testthat::expect_error(cbs_err <- cb_err |> command_block() |> parse_command_args() |> list(.) |> datenanpassr:::new_command_blocks(subclass = "unsafe"))
