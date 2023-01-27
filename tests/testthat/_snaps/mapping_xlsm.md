@@ -1014,64 +1014,64 @@
     # A tibble: 60 x 2
        var               varlab                                                     
        <chr>             <chr>                                                      
-     1 q1                "1. Wie viele Mitarbeiter beschäftigt Ihr Unternehmen?"    
-     2 q2_00             "2. Welche Art von Studien führen Sie mit dem Tabellenband~
-     3 q2_01             "Kundenzufriedenheit"                                      
-     4 q2_02             "Kundenzufriedenheit"                                      
-     5 q2_03             "Marktvolumen"                                             
-     6 q2_04             "Onlineauftritte"                                          
-     7 q2_05             "Branchenbarometer"                                        
-     8 q2_06             "Strukturanalyse"                                          
-     9 q2_07             "Werbewirkungsmessung"                                     
-    10 q2_99             "Sonstige"                                                 
-    11 q3a               "Kundenzufriedenheit"                                      
-    12 q3b               "Marktvolumen"                                             
-    13 q3c               "Onlineauftritte"                                          
-    14 q3d               "Branchenbarometer"                                        
-    15 q3e               "Strukturanalyse"                                          
-    16 q3f               "Werbewirkungsmessung"                                     
-    17 q3g               "Sonstige"                                                 
-    18 q4                "4. Wie häufig haben Sie einen Tabellenband in den letzten~
-    19 q6a               "Schnelle Umsetzung"                                       
-    20 q6b               "Kurzfristige Anpassungen"                                 
-    21 q6c               "Korrektheit der Daten"                                    
-    22 q6d               "Freundlichkeit der Tabellenbandersteller"                 
-    23 q6e               "Langfristige Zusammenarbeit"                              
-    24 q6f               "Gute telefonische Erreichbarkeit"                         
-    25 q6g               "Wochenenderreichbarkeit"                                  
-    26 q6h               "Einhaltung von Zusagen"                                   
-    27 sel1              "Abgefragte Studienarten"                                  
-    28 q7a1              "Schnelle Umsetzung"                                       
-    29 q7a2              "Schnelle Umsetzung"                                       
-    30 q7b1              "Kurzfristige Anpassungen"                                 
-    31 q7b2              "Kurzfristige Anpassungen"                                 
-    32 q7c1              "Korrektheit der Daten"                                    
-    33 q7c2              "Korrektheit der Daten"                                    
-    34 q7d1              "Freundlichkeit der Tabellenbandersteller"                 
-    35 q7d2              "Freundlichkeit der Tabellenbandersteller"                 
-    36 q7e1              "Langfristige Zusammenarbeit"                              
-    37 q7e2              "Langfristige Zusammenarbeit"                              
-    38 q7h1              "Gute telefonische Erreichbarkeit"                         
-    39 q7h2              "Gute telefonische Erreichbarkeit"                         
-    40 q7f1              "Wochenenderreichbarkeit"                                  
-    41 q7f2              "Wochenenderreichbarkeit"                                  
-    42 q7g1              "Einhaltung von Zusagen"                                   
-    43 q7g2              "Einhaltung von Zusagen"                                   
-    44 q81               "7. Wie zufrieden sind Sie mit dem Tabellenbandtool insges~
-    45 q82               "7. Wie zufrieden sind Sie mit dem Tabellenbandtool insges~
-    46 q91               "8. Würden Sie das Tabellenbandtool weiterempfehlen?"      
-    47 q92               "8. Würden Sie das Tabellenbandtool weiterempfehlen?"      
-    48 q10               "9. Dürfte ich Sie noch nach Ihrem Alter fragen?"          
-    49 regio             "Region"                                                   
-    50 sel0              "Abgefragte Studienarten"                                  
-    51 kq4               "Tabellenbände pro Jahr"                                   
-    52 kq10              "Alter"                                                    
-    53 kq4xkq10k10       "18 bis 39: Tabellenbände pro Jahr"                        
-    54 kq4xkq10k20       "40 bis 49: Tabellenbände pro Jahr"                        
-    55 kq4xkq10k30       "50 und älter: Tabellenbände pro Jahr"                     
-    56 kq4xregiok10      "Asien: Tabellenbände pro Jahr"                            
-    57 kq4xregiok20      "Europa: Tabellenbände pro Jahr"                           
-    58 kq4xregiok30      "Nordamerika: Tabellenbände pro Jahr"                      
-    59 kq4xregiok40      "Pazifik: Tabellenbände pro Jahr"                          
-    60 kq4xregiokminus20 "FILTER: Tabellenbände pro Jahr"                           
+     1 q1                1. Wie viele Mitarbeiter beschäftigt Ihr Unternehmen?      
+     2 q2_00             2. Welche Art von Studien führen Sie mit dem Tabellenbandt~
+     3 q2_01             Kundenzufriedenheit                                        
+     4 q2_02             Kundenzufriedenheit                                        
+     5 q2_03             Marktvolumen                                               
+     6 q2_04             Onlineauftritte                                            
+     7 q2_05             Branchenbarometer                                          
+     8 q2_06             Strukturanalyse                                            
+     9 q2_07             Werbewirkungsmessung                                       
+    10 q2_99             Sonstige                                                   
+    11 q3a               Kundenzufriedenheit                                        
+    12 q3b               Marktvolumen                                               
+    13 q3c               Onlineauftritte                                            
+    14 q3d               Branchenbarometer                                          
+    15 q3e               Strukturanalyse                                            
+    16 q3f               Werbewirkungsmessung                                       
+    17 q3g               Sonstige                                                   
+    18 q4                4. Wie häufig haben Sie einen Tabellenband in den letzten ~
+    19 q6a               Schnelle Umsetzung                                         
+    20 q6b               Kurzfristige Anpassungen                                   
+    21 q6c               Korrektheit der Daten                                      
+    22 q6d               Freundlichkeit der Tabellenbandersteller                   
+    23 q6e               Langfristige Zusammenarbeit                                
+    24 q6f               Gute telefonische Erreichbarkeit                           
+    25 q6g               Wochenenderreichbarkeit                                    
+    26 q6h               Einhaltung von Zusagen                                     
+    27 sel1              Abgefragte Studienarten                                    
+    28 q7a1              Schnelle Umsetzung                                         
+    29 q7a2              Schnelle Umsetzung                                         
+    30 q7b1              Kurzfristige Anpassungen                                   
+    31 q7b2              Kurzfristige Anpassungen                                   
+    32 q7c1              Korrektheit der Daten                                      
+    33 q7c2              Korrektheit der Daten                                      
+    34 q7d1              Freundlichkeit der Tabellenbandersteller                   
+    35 q7d2              Freundlichkeit der Tabellenbandersteller                   
+    36 q7e1              Langfristige Zusammenarbeit                                
+    37 q7e2              Langfristige Zusammenarbeit                                
+    38 q7h1              Gute telefonische Erreichbarkeit                           
+    39 q7h2              Gute telefonische Erreichbarkeit                           
+    40 q7f1              Wochenenderreichbarkeit                                    
+    41 q7f2              Wochenenderreichbarkeit                                    
+    42 q7g1              Einhaltung von Zusagen                                     
+    43 q7g2              Einhaltung von Zusagen                                     
+    44 q81               7. Wie zufrieden sind Sie mit dem Tabellenbandtool insgesa~
+    45 q82               7. Wie zufrieden sind Sie mit dem Tabellenbandtool insgesa~
+    46 q91               8. Würden Sie das Tabellenbandtool weiterempfehlen?        
+    47 q92               8. Würden Sie das Tabellenbandtool weiterempfehlen?        
+    48 q10               9. Dürfte ich Sie noch nach Ihrem Alter fragen?            
+    49 regio             Region                                                     
+    50 sel0              Abgefragte Studienarten                                    
+    51 kq4               Tabellenbände pro Jahr                                     
+    52 kq10              Alter                                                      
+    53 kq4xkq10k10       18 bis 39: Tabellenbände pro Jahr                          
+    54 kq4xkq10k20       40 bis 49: Tabellenbände pro Jahr                          
+    55 kq4xkq10k30       50 und älter: Tabellenbände pro Jahr                       
+    56 kq4xregiok10      Asien: Tabellenbände pro Jahr                              
+    57 kq4xregiok20      Europa: Tabellenbände pro Jahr                             
+    58 kq4xregiok30      Nordamerika: Tabellenbände pro Jahr                        
+    59 kq4xregiok40      Pazifik: Tabellenbände pro Jahr                            
+    60 kq4xregiokminus20 FILTER: Tabellenbände pro Jahr                             
 
