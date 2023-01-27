@@ -129,8 +129,16 @@ Mapping <- R6::R6Class(
         self$dat_mod <- self$dat
       }
 
+      if (self$params$lowercase_varnames) {
+        attr(self$dat_mod, "original_varnames") <- names(self$dat)
+        self$dat_mod <- self$dat_mod |> rename_with(tolower)
+      }
+
       apply_command_blocks(command_blocks, self)
 
+      if (self$params$lowercase_varnames) {
+        self$dat_mod <- rename_vars_to_original_case(self$dat_mod)
+      }
       invisible(self)
     },
     #' @description Save the modified data to a file
@@ -145,6 +153,21 @@ Mapping <- R6::R6Class(
     }
   )
 )
+
+
+rename_vars_to_original_case <- function(df) {
+  orig_names <- attr(df, "original_varnames")
+  rename_vec <- tibble::tibble(orig_names) |>
+    dplyr::mutate(lowercase_names = tolower(orig_names)) |>
+    dplyr::inner_join(
+      tibble(
+        lowercase_names = names(df)
+      ),
+      by = "lowercase_names"
+    ) |>
+    tibble::deframe()
+  df |> rename(!!rename_vec)
+}
 #' Save the modified data of a mapping to a file
 #'
 #' The data can be exported to the file formats of Stata & SPSS. The Excel
@@ -384,6 +407,7 @@ gen_mapping_params <- function(
   miss_rec_val = -2,
   not_miss_to_filter_vars = NA_character_,
   refresh = FALSE,
+  lowercase_varnames = FALSE,
   # Needed for developing...:
   # These only need to interest you if you want to override params that
   # already were defined in the Excel file (see arg `override_excel`):
@@ -419,6 +443,7 @@ gen_mapping_params <- function(
     miss_rec_val,
     not_miss_to_filter_vars,
     refresh,
+    lowercase_varnames,
     ...
   )
   if (debug) {

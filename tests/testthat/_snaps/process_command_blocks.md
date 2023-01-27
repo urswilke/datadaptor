@@ -59,4 +59,7 @@
     $refresh
     [1] FALSE
     
+    $lowercase_varnames
+    [1] FALSE
+    
 
