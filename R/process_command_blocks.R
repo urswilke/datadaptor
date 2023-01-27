@@ -16,7 +16,7 @@ process_command_blocks <- function(self) {
   }
 }
 refresh_mapping <- function(self) {
-  all_sheets <- self$wb$sheet_names
+  all_sheets <- readxl::excel_sheets(self$mapping_file)
   active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) |> openxlsx::activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]
   sheet_data_raw_index <- which(self$cmd$sheet_cats$sheet == active_sheet_name)
@@ -62,7 +62,7 @@ gen_command_table_raw <- function(self) {
 }
 
 gen_sheet_cats <- function(self) {
-  sheets <- self$wb$sheet_names
+  sheets <- readxl::excel_sheets(self$mapping_file)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
