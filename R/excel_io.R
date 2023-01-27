@@ -125,7 +125,7 @@ parse_rename_cmd_block <- function(df_varl) {
   df_varl |>
     tidyr::drop_na("new_name") |>
     dplyr::mutate(sheet = "Variables") |>
-    dplyr::mutate(action = "#RENAME") |>
+    dplyr::mutate(action = "#RENAME_varsheet") |>
     dplyr::mutate(new_var = .data$new_name) |>
     dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab"))) |>
     dplyr::group_by(.data$sheet, .data$action) |>

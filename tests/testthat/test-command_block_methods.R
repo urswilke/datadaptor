@@ -52,10 +52,10 @@ res_df <- m1$modify_data(command_blocks = cdb)$dat_mod
 
 testthat::expect_equal(names(res_df), "q1")
 
-# #RENAME:
+# #RENAME_varsheet:
 m1 <- m$clone(deep = TRUE)
 m1$dat <- data.frame(q2 = 1, q4 = 2)
-cdb <- cmd_tbl |> filter(action == "#RENAME") |> pull(command_blocks)
+cdb <- cmd_tbl |> filter(action == "#RENAME_varsheet") |> pull(command_blocks)
 res_df <- m1$modify_data(command_blocks = cdb)$dat_mod
 
 testthat::expect_equal(names(res_df), c("q2_renamed", "q4_renamed"))

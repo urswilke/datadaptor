@@ -242,7 +242,7 @@ apply_command.cmd_addfile <- function(
 #' @describeIn apply_command
 #'
 #' @export
-apply_command.cmd_rename <- function(cdb, mapping, xs, ys, ...) {
+apply_command.cmd_rename_varsheet <- function(cdb, mapping, xs, ys, ...) {
   mapping$dat_mod <- mapping$dat_mod |>
     dplyr::rename(!!!purrr::set_names(ys, xs))
 }

@@ -160,7 +160,7 @@ parse_command_args.cmd_rmval <- function(cdb_raw) {
   )
 }
 #' @export
-parse_command_args.cmd_rename <- function(cdb_raw) {
+parse_command_args.cmd_rename_varsheet <- function(cdb_raw) {
   list(
     xs = cdb_raw$new_names[[1]],
     ys = cdb_raw$vars[[1]]
