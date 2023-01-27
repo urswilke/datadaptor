@@ -1,13 +1,13 @@
 # command blocks print is reproduced
 
-    <command_block_rcrd[82]>
+    <command_block_rcrd[83]>
      [1] Config #RECNA xs: q1, q5, id; v: -2; vallab: FILTER                                                                                               
      [2] Label #NEWVA x: q2; vs: 1; vallbs: YES                                                                                                            
      [3] Label #SUMVA x: kq5; y: q5; varlab: test; vs0: 1, 2, 3, 4, 5; vs: 1, 1, 2, 3, 3; vallbs: aaa, NA, bbb,...                                         
      [4] Varbls #STR2N x: q8                                                                                                                               
      [5] Varbls #AUTOR x: q6                                                                                                                               
      [6] Varbls #DROP xs: q9                                                                                                                               
-     [7] Varbls #RENAM xs: q2_renamed, q...; ys: q2, q4                                                                                                    
+     [7] Varbls #RENAME_ xs: q2_renamed, q...; ys: q2, q4                                                                                                  
      [8] Varbls #NEWLA x: q1; varlab: Like Product                                                                                                         
      [9] Varbls #NEWLA x: q2_renamed; varlab: recommend pro...                                                                                             
     [10] Varbls #NEWLA x: q5; varlab: Like best friend                                                                                                     
@@ -82,12 +82,13 @@
     [79] Free1 #COMPR x: r_expr_var; ex: haven::labell...                                                                                                  
     [80] Free1 #REC y: q1; x: kkq1; vs0: 1, 2, 3, 4, 5; vs2: NA, NA, NA, N...; vs: 1, 2, 2, 2, 2; vallbs: a, b, NA, NA, NA; varlab: vl                     
     [81] Free1 #RMVAL x: q1; y: q1; vs: 99; varlab: new_varlab                                                                                             
-    [82] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
+    [82] Free1 #RENAME xs: q2new, q4new; ys: q2_renamed, q...                                                                                              
+    [83] Free2 #COMP x: free2_var; ex: 3                                                                                                                   
 
 # s3 modified data print is reproduced
 
     # A tibble: 100 x 66
-       q1              q2_renamed     q3             q4_renamed     q5             
+       q1              q2new          q3             q4new          q5             
        <dbl+lbl>       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      
      1  3 [normal]      2 [no]        3 [normal]     4 [much]        2 [a bit]     
      2  3 [normal]      1 [YES]       5 [very much]  4 [much]        5 [very much] 
@@ -255,10 +256,10 @@
       3 q1                         3 normal                <NA> 
       4 q1                         4 much                  <NA> 
       5 q1                         5 very much             <NA> 
-      6 q2_renamed                -2 FILTER                <NA> 
-      7 q2_renamed                 1 YES                   <NA> 
-      8 q2_renamed                 2 no                    <NA> 
-      9 q2_renamed                99 no answer             <NA> 
+      6 q2new                     -2 FILTER                <NA> 
+      7 q2new                      1 YES                   <NA> 
+      8 q2new                      2 no                    <NA> 
+      9 q2new                     99 no answer             <NA> 
      10 q3                        -2 FILTER                <NA> 
      11 q3                         1 not at all            <NA> 
      12 q3                         2 a bit                 <NA> 
@@ -266,13 +267,13 @@
      14 q3                         4 much                  <NA> 
      15 q3                         5 very much             <NA> 
      16 q3                        99 no answer             <NA> 
-     17 q4_renamed                -2 FILTER                <NA> 
-     18 q4_renamed                 1 not at all            <NA> 
-     19 q4_renamed                 2 a bit                 <NA> 
-     20 q4_renamed                 3 normal                <NA> 
-     21 q4_renamed                 4 much                  <NA> 
-     22 q4_renamed                 5 very much             <NA> 
-     23 q4_renamed                99 no answer             <NA> 
+     17 q4new                     -2 FILTER                <NA> 
+     18 q4new                      1 not at all            <NA> 
+     19 q4new                      2 a bit                 <NA> 
+     20 q4new                      3 normal                <NA> 
+     21 q4new                      4 much                  <NA> 
+     22 q4new                      5 very much             <NA> 
+     23 q4new                     99 no answer             <NA> 
      24 q5                         1 not at all            <NA> 
      25 q5                         2 a bit                 <NA> 
      26 q5                         3 normal                <NA> 
@@ -499,9 +500,9 @@
        var                    varlab                                  
        <chr>                  <chr>                                   
      1 q1                     new_varlab                              
-     2 q2_renamed             recommend product                       
+     2 q2new                  recommend product                       
      3 q3                     Almost same variable label for q3 and q5
-     4 q4_renamed             Almost same variable label for q3 and q5
+     4 q4new                  Almost same variable label for q3 and q5
      5 q5                     Almost same variable label for q5 and q3
      6 q6                     Tell me something positive.             
      7 q7                     Tell me something negative.             
@@ -547,7 +548,7 @@
 
 # error string elements were added to cmd_tbl
 
-    # A tibble: 84 x 7
+    # A tibble: 85 x 7
        sheet     action           row          new_var raw          command_~1 error
        <chr>     <chr>            <chr>        <chr>   <list>       <validatd> <chr>
      1 Config    #RECNA           <NA>         <NA>    <named list> <validatd> ""   
@@ -560,5 +561,5 @@
      8 Variables #NEWLAB          2            q1      <tibble>     <validatd> ""   
      9 Variables #NEWLAB          3            q2_ren~ <tibble>     <validatd> ""   
     10 Variables #NEWLAB          6            q5      <tibble>     <validatd> ""   
-    # ... with 74 more rows, and abbreviated variable name 1: command_blocks
+    # ... with 75 more rows, and abbreviated variable name 1: command_blocks
 

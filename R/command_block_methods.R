@@ -250,6 +250,11 @@ apply_command.cmd_rename_varsheet <- function(cdb, mapping, xs, ys, ...) {
 #' @describeIn apply_command
 #'
 #' @export
+apply_command.cmd_rename <- apply_command.cmd_rename_varsheet
+
+#' @describeIn apply_command
+#'
+#' @export
 apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
   cond <- rlang::parse_expr(ex_cond)
   val <- rlang::parse_expr(ex)

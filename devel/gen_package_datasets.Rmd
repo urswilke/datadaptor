@@ -33,6 +33,7 @@ command_block_classes <- tribble(
               "#AUTOREC",         "cmd_autorec", "Variables",
               "#STR2NUM",      "cmd_str_to_num", "Variables",
       "#RENAME_varsheet", "cmd_rename_varsheet", "Variables",
+               "#RENAME",          "cmd_rename",      "Free",
                 "#MERGE",           "cmd_merge",      "Free",
               "#NEWVALL",         "cmd_newvall",     "Label",
              "#verbatim",        "cmd_verbatim", "Verbatims",

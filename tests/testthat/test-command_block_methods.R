@@ -60,6 +60,14 @@ res_df <- m1$modify_data(command_blocks = cdb)$dat_mod
 
 testthat::expect_equal(names(res_df), c("q2_renamed", "q4_renamed"))
 
+# #RENAME:
+m1 <- m$clone(deep = TRUE)
+m1$dat <- data.frame(q2_renamed = 1, q4_renamed = 2)
+cdb <- cmd_tbl |> filter(action == "#RENAME") |> pull(command_blocks)
+res_df <- m1$modify_data(command_blocks = cdb)$dat_mod
+
+testthat::expect_equal(names(res_df), c("q2new", "q4new"))
+
 
 # #NEWLAB:
 m1 <- m$clone(deep = TRUE)

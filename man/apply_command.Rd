@@ -13,6 +13,7 @@
 \alias{apply_command.cmd_merge}
 \alias{apply_command.cmd_addfile}
 \alias{apply_command.cmd_rename_varsheet}
+\alias{apply_command.cmd_rename}
 \alias{apply_command.cmd_if}
 \alias{apply_command.cmd_comp}
 \alias{apply_command.cmd_compr}
@@ -76,6 +77,8 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
 
 \method{apply_command}{cmd_rename_varsheet}(cdb, mapping, xs, ys, ...)
+
+\method{apply_command}{cmd_rename}(cdb, mapping, xs, ys, ...)
 
 \method{apply_command}{cmd_if}(cdb, mapping, x, ex_cond, ex, ...)
 
@@ -160,6 +163,8 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_addfile)}: 
 
 \item \code{apply_command(cmd_rename_varsheet)}: 
+
+\item \code{apply_command(cmd_rename)}: 
 
 \item \code{apply_command(cmd_if)}: 
 

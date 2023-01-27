@@ -167,6 +167,13 @@ parse_command_args.cmd_rename_varsheet <- function(cdb_raw) {
   )
 }
 #' @export
+parse_command_args.cmd_rename <- function(cdb_raw) {
+  list(
+    xs = cdb_raw$X3,
+    ys = cdb_raw$X2
+  )
+}
+#' @export
 parse_command_args.cmd_if <- function(cdb_raw) {
   assignment <- cdb_raw$X3 |>
     stringr::str_split("=") |>
