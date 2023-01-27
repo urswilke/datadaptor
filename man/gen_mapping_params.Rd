@@ -112,7 +112,7 @@ named list, having their "R_" prefix removed.
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
 gen_mapping_params(mapping_file)
-gen_mapping_params() \%>\% update_mapping_params(refresh = TRUE)
+gen_mapping_params() |> update_mapping_params(refresh = TRUE)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
 extract_excel_params(mapping_file)

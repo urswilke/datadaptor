@@ -2,7 +2,7 @@
 #'
 #' See \code{magrittr::\link[magrittr:pipe]{\%>\%}} for details.
 #'
-#' @name |>
+#' @name %>%
 #' @rdname pipe
 #' @keywords internal
 #' @export

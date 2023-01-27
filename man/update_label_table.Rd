@@ -30,8 +30,8 @@ Update the "Label" sheet table with new dataset
 \examples{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-dat_mod <- spss_file \%>\%
-  haven::read_sav() \%>\%
+dat_mod <- spss_file |>
+  haven::read_sav() |>
   # add a new variable in the first column of the dataframe:
   dplyr::mutate(
     new_var = haven::labelled(

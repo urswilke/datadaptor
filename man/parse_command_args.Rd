@@ -41,25 +41,25 @@ cdbs <- m$cmd_tbl
 args_tbl <- tibble::tibble(
   cmd = unique_cmd_tbl$action,
   example = args_overview
-) \%>\%
-  tidyr::unnest_longer(example, indices_to = "arg") \%>\%
+) |>
+  tidyr::unnest_longer(example, indices_to = "arg") |>
   .[c(1, 3, 2)]
 
 print(args_tbl, n = 1000)
 
-args_tbl \%>\%
+args_tbl |>
   dplyr::group_by(
-    arg_class = arg \%>\%
-      stringr::str_remove("\\\\d$") \%>\%
+    arg_class = arg |>
+      stringr::str_remove("\\\\d$") |>
       stringr::str_remove("s$")
-  ) \%>\%
-  dplyr::group_by(cmd) \%>\%
-  dplyr::mutate(arg = paste(arg, collapse = " ")) \%>\%
-  dplyr::mutate(example = unname(example)) \%>\%
+  ) |>
+  dplyr::group_by(cmd) |>
+  dplyr::mutate(arg = paste(arg, collapse = " ")) |>
+  dplyr::mutate(example = unname(example)) |>
   tidyr::pivot_wider(
     names_from = arg_class,
     values_from = example,
     values_fn = list
-  ) \%>\%
+  ) |>
   print(n = 100)
 }
