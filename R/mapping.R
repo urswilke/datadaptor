@@ -184,21 +184,21 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   }
   raw <- tidyr::tibble(path, name, filetype, show)
   # add a sav file when there is an Rmd(that will import the sav):
-  df <- raw %>%
-    dplyr::bind_rows(raw %>%
-      dplyr::filter(filetype == "Rmd") %>%
+  df <- dplyr::bind_rows(
+    raw |>
+      dplyr::filter(filetype == "Rmd") |>
       dplyr::mutate(
         path = stringr::str_replace(path, "\\.Rmd$", ".sav"),
         filetype = "sav"
       ),
-    .
-    ) %>%
-    dplyr::distinct() %>%
+    raw
+    ) |>
+    dplyr::distinct() |>
     # For Rmd the result is a html:
     dplyr::mutate(res_path = stringr::str_replace(path, "\\.Rmd$", ".html"))
   purrr::walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
 
-  df$res_path[df$show] %>% purrr::walk(utils::browseURL)
+  df$res_path[df$show] |> purrr::walk(utils::browseURL)
 }
 
 
@@ -212,11 +212,11 @@ save_type <- function(df, path, filetype) {
   )
 }
 save_xlsx <- function(df, path) {
-  df %>%
+  df |>
     dplyr::mutate(dplyr::across(
       dplyr::everything(),
       tablab::strip_attributes
-    )) %>%
+    )) |>
     writexl::write_xlsx(path)
 }
 render_python_rmd <- function(path) {
@@ -244,7 +244,7 @@ apply_command_blocks.unsafe <- function(command_blocks, self) {
   purrr::walk(command_blocks, apply_command_block_unsafe, self)
 }
 apply_command_block_unsafe <- function(cdb, self) {
-  args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+  args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
   do.call(apply_command, args)
   invisible(self)
 }
@@ -268,14 +268,14 @@ apply_command_block_safe <- function(cdb, self) {
   tryCatch(
     {
       err_msg <- NA_character_
-      args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+      args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
       do.call(apply_command, args)
     },
     error = function(e) {
       if (self$params$debug) {
         browser()
         debugonce(apply_command)
-        args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
         do.call(apply_command, args)
       }
 
@@ -444,7 +444,7 @@ gen_mapping_params <- function(
 #' @export
 #'
 #' @examples
-#' gen_mapping_params() %>% update_mapping_params(refresh = TRUE)
+#' gen_mapping_params() |> update_mapping_params(refresh = TRUE)
 #' @rdname gen_mapping_params
 update_mapping_params <- function(mapping_params, ...) {
   utils::modifyList(

@@ -17,7 +17,7 @@ process_command_blocks <- function(self) {
 }
 refresh_mapping <- function(self) {
   all_sheets <- readxl::excel_sheets(self$mapping_file)
-  active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) %>% openxlsx::activeSheet()
+  active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) |> openxlsx::activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]
   sheet_data_raw_index <- which(self$cmd$sheet_cats$sheet == active_sheet_name)
   active_sheet_type <- self$cmd$sheet_cats$sheet_type[sheet_data_raw_index]
@@ -29,7 +29,7 @@ refresh_mapping <- function(self) {
 }
 
 gen_command_table <- function(self) {
-  self$cmd$df_cmd_raw %>%
+  self$cmd$df_cmd_raw |>
     dplyr::mutate(
       command_blocks = self$cmd$command_blocks
     )
@@ -40,7 +40,7 @@ gen_sheet_command_tables_raw <- function(self) {
 
 
   sheet_command_tables_raw <- purrr::map2(
-    sheet_cats$sheet %>%
+    sheet_cats$sheet |>
       purrr::set_names(),
     sheet_cats$sheet_type,
     ~ generate_sheet_cmd_table(self, .y, .x)
@@ -62,7 +62,7 @@ gen_command_table_raw <- function(self) {
 }
 
 gen_sheet_cats <- function(self) {
-  sheets <- self$mapping_file %>% readxl::excel_sheets()
+  sheets <- readxl::excel_sheets(self$mapping_file)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -77,7 +77,7 @@ gen_sheet_cats <- function(self) {
 gen_sheet_data_raw_list <- function(self) {
   sheet_cats <- self$cmd$sheet_cats
   purrr::map2(
-    sheet_cats$sheet %>%
+    sheet_cats$sheet |>
       purrr::set_names(),
     sheet_cats$sheet_type,
     ~ gen_sheet_data_raw(self, .y, .x),
@@ -88,8 +88,8 @@ gen_sheet_data_raw_list <- function(self) {
 generate_rec_na_cmd_table <- function(self) {
   params <- self$params
   vars_to_exclude_na_to_filter <- c(
-    params$not_miss_to_filter_vars %>%
-      stringr::str_split("[, ;]+") %>%
+    params$not_miss_to_filter_vars |>
+      stringr::str_split("[, ;]+") |>
       unlist(),
     self$params$id_var
   )
@@ -118,7 +118,7 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
   if (is.null(res)) {
     return(NULL)
   }
-  res %>%
+  res |>
     dplyr::rename(raw = "data")
 }
 
@@ -146,17 +146,17 @@ tab_sheet_types <- function(sheets) {
   sheet_cats <- purrr::map(
     sheets,
     ~ stringr::str_detect(.x, sheet_types)
-  ) %>%
+  ) |>
     purrr::map(
-      ~ sheet_types[.x] %>%
+      ~ sheet_types[.x] |>
         stringr::str_remove("\\^")
-    ) %>%
+    ) |>
     purrr::set_names(sheets)
   # remove sheets not in sheet types list:
   sheets <- sheets[purrr::map_int(sheet_cats, length) > 0]
   sheet_cats <- sheet_cats[purrr::map_int(sheet_cats, length) > 0]
-  sheet_cats %>%
-    purrr::map_chr(~.x) %>%
+  sheet_cats |>
+    purrr::map_chr(~.x) |>
     tibble::enframe("sheet", "sheet_type")
 }
 
@@ -169,9 +169,9 @@ tab_sheet_types <- function(sheets) {
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' m$cmd$df_cmd_raw[10, ] %>% command_block()
+#' m$cmd$df_cmd_raw[10, ] |> command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
-#' m$cmd$df_cmd_raw[10, ] %>% new_command_block(subclass = "cmd_newlab")
+#' m$cmd$df_cmd_raw[10, ] |> new_command_block(subclass = "cmd_newlab")
 command_block <- function(cdb, validate = TRUE) {
   subclass <- match_command_block_class(cdb$action)
 
@@ -245,11 +245,11 @@ new_command_block <- function(cdb, validate = TRUE, ..., subclass = character())
 #' # m$cmd$command_blocks
 #' class(m$cmd$command_blocks)
 command_blocks <- function(self) {
-  cdbs <- self$cmd$df_cmd_raw %>%
-    dplyr::rowwise() %>%
+  cdbs <- self$cmd$df_cmd_raw |>
+    dplyr::rowwise() |>
     dplyr::transmute(cmd = list(
       command_block(dplyr::cur_data(), validate = self$params$validate)
-    )) %>%
+    )) |>
     dplyr::pull()
 
   subclass <- self$params$error_out
