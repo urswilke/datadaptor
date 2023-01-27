@@ -53,8 +53,6 @@ Mapping <- R6::R6Class(
   public = list(
     dat = NULL,
     mapping_file = NULL,
-    wb = NULL,
-    verbatim_wbs = list(),
     cmd_tbl = data.frame(),
     cmd = list(),
     dat_mod = NULL,
@@ -70,10 +68,7 @@ Mapping <- R6::R6Class(
       self$dat <- initialize_dat(self, dat)
 
       self$mapping_file <- mapping_file
-      if (!is.null(mapping_file)) {
-        suppressWarnings(self$wb <- openxlsx::loadWorkbook(mapping_file))
-      }
-      self$params <- gen_mapping_params(self, dots_args = tibble::lst(...), ...)
+      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
@@ -371,10 +366,8 @@ initialize_dat <- function(self, dat) {
 #'
 #' gen_mapping_params(mapping_file)
 gen_mapping_params <- function(
-  mapping = NULL,
   mapping_file = NULL,
-  wb = NULL,
-  excel_params = extract_excel_params(mapping),
+  excel_params = extract_excel_params(mapping_file),
   id_var = NULL,
   na_to_filter = TRUE,
   error_out = "unsafe",
@@ -409,7 +402,6 @@ gen_mapping_params <- function(
 
   p <- tibble::lst(
     mapping_file,
-    wb,
     excel_params,
     id_var,
     na_to_filter,

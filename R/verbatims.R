@@ -39,13 +39,13 @@ mapp_verbatim_sheet_cmd_tbl <- function(
     dplyr::select(-"ex_assign_temp")
 }
 
-generate_verbatim_sheet_table <- function(mapping, sheet) {
+generate_verbatim_sheet_table <- function(mapping_file, sheet) {
   mapping_verbatim_sheet <-
-    openxlsx::read.xlsx(
-      mapping$wb,
-      startRow = 17,
+    readxl::read_excel(mapping_file,
+      skip = 16,
       sheet = sheet,
-      colNames = TRUE,
+      col_names = TRUE,
+      col_types = "text"
     ) %>%
     tidyr::drop_na("VariableOriginal") %>%
     dplyr::select("VariableOriginal":"Tabellen-blatt", "VariableZiel", dplyr::any_of(c("ex_further_cond", "ex_assign"))) %>%
@@ -55,46 +55,46 @@ generate_verbatim_sheet_table <- function(mapping, sheet) {
     tibble::as_tibble()
   mapping_verbatim_sheet
 }
-extract_verbatim_file_name <- function(mapping, sheet) {
-  verbatims_sheet <- suppressWarnings(openxlsx::read.xlsx(
-    mapping$wb,
+extract_verbatim_file_name <- function(mapping_file, sheet) {
+  verbatims_sheet <- readxl::read_xlsx(
+    mapping_file,
     sheet = sheet,
-    cols = 2:4,
-  ))
-  if (is.null(verbatims_sheet)) {
+    range = cellranger::cell_cols(c("B:D")),
+    skip = 0,
+    col_types = c("text", "text", "text"),
+    col_names = LETTERS[2:4]
+  )
+  if (nrow(verbatims_sheet) == 0) {
     return(NA_character_)
   }
-  file_path <- verbatims_sheet |>
-    purrr::set_names(LETTERS[2:4]) |>
-    dplyr::filter(.data$B == "Filename input") |>
+  file_path <- verbatims_sheet %>%
+    dplyr::filter(.data$B == "Filename input") %>%
     dplyr::pull(.data$D)
-  adapt_filepath(file_path, mapping$mapping_file)
+  adapt_filepath(file_path, mapping_file)
 }
-generate_assignments_list <- function(mapping, verbatim_file, mapping_verbatim_sheet) {
+generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
   verbatim_file_sheets <-
-    mapping$verbatim_wbs[[verbatim_file]]$sheet_names[-1]
+    verbatim_file %>%
+    readxl::excel_sheets()
 
   read_assigns <- function(sheet_name) {
-    res <- openxlsx::read.xlsx(mapping$verbatim_wbs[[verbatim_file]], sheet = sheet_name, colNames = TRUE, startRow = 32) |>
-      dplyr::select(orig_var = "Orig..Variable", "ID", dplyr::matches("^Zuord\\.\\d+$"))
-    # Hack to get the same names as readxl before...:
-    names(res)[-1:-2] <- names(res)[-1:-2] |> stringr::str_replace("\\.", " ")
-    res |>
-      tibble::as_tibble()
+    readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) %>%
+      dplyr::select(orig_var = "Orig. Variable", "ID", dplyr::matches("^Zuord "))
   }
 
 
   # except "Codestufen", the first sheet:
-  verbatim_file_sheets %>%
+  verbatim_file_sheets[-1] %>%
     purrr::set_names() %>%
     purrr::map(~ read_assigns(.x))
 }
-generate_label_code_list <- function(mapping, verbatim_file) {
+generate_label_code_list <- function(verbatim_file) {
   df_codestufen <-
-    openxlsx::read.xlsx(
-      mapping$verbatim_wbs[[verbatim_file]],
+    readxl::read_excel(
+      verbatim_file,
       sheet = "Codestufen",
-      colNames = TRUE,
+      col_names = TRUE,
+      range = cellranger::cell_limits(ul = c(1, 2))
     ) %>%
     dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) %>%
     dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) %>%
@@ -127,7 +127,7 @@ un_OT_ize <- function(x, orig_var) {
 
 
 parse_verbatim_data_raw <- function(
-  mapping,
+  mapping_file,
   verbatim_file,
   sheet,
   translate_xlsm = FALSE
@@ -135,12 +135,11 @@ parse_verbatim_data_raw <- function(
   if (is.na(verbatim_file)) {
     return(NULL)
   }
-  mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping, sheet = sheet)
+  mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping_file, sheet = sheet)
   verbatim_sheets <- mapping_verbatim_sheet$q_id
-  mapping$verbatim_wbs[[verbatim_file]] <- openxlsx::loadWorkbook(verbatim_file)
-  l_codestufen <- generate_label_code_list(mapping, verbatim_file)
+  l_codestufen <- generate_label_code_list(verbatim_file)
   l_codestufen <- l_codestufen[verbatim_sheets]
-  l_assigns <- generate_assignments_list(mapping, verbatim_file, mapping_verbatim_sheet)
+  l_assigns <- generate_assignments_list(verbatim_file, mapping_verbatim_sheet)
   l_assigns <- l_assigns[verbatim_sheets]
   l <- vector("list", length(verbatim_sheets))
   for (i in seq_len(length(verbatim_sheets))) {

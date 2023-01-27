@@ -65,43 +65,27 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
     format_df_varl()
 }
 
-read_variables_sheet_raw <- function(mapping, sheet = "Variables", translate_xlsm = FALSE) {
+read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
   if (translate_xlsm) {
-    df_varl <- read_xlsm_variables_sheet_raw(mapping, sheet)
+    df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
   } else {
-    df_varl <- openxlsx::read.xlsx(mapping$wb, sheet)
-      # readxl::read_xlsx(
-      # mapping_file,
-      # sheet = sheet,
-      # col_types = "text"
-    # )
+    df_varl <- readxl::read_xlsx(
+      mapping_file,
+      sheet = sheet,
+      col_types = "text"
+    )
   }
-  df_varl |> dplyr::mutate(dplyr::across(.fns = as.character))
+  df_varl
 }
-read_xlsm_variables_sheet_raw <- function(mapping, sheet) {
-  x <- openxlsx::read.xlsx(
-    mapping$wb,
-    sheet,
-    # startRow = 3,
-    cols = 1:13,
-    colNames = FALSE
-  ) |> tibble::as_tibble()
-
-  N <- ncol(x)
-  x[paste0("X", c(1, (N-2):N))] |>
-    dplyr::slice(-1:-2) |>
-    purrr::set_names(c("var", "op", "new_name", "new_label")) |>
-    # purrr::set_names(unname(matched_coltitles)) |>
-    dplyr::mutate(dplyr::across(.fns = as.character))
-  # res["type"] <- NULL
-  # readxl::read_xlsx(
-  #   mapping_file,
-  #   sheet = sheet,
-  #   range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
-  #   col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
-  #   col_types = "text"
-  # ) %>%
-  #   dplyr::select(-dplyr::matches("^nn[1-8]$"))
+read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
+    col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
+    col_types = "text"
+  ) %>%
+    dplyr::select(-dplyr::matches("^nn[1-8]$"))
 }
 
 format_df_varl <- function(df_varl) {
@@ -231,47 +215,35 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   )
 }
 
-read_label_sheet_raw <- function(mapping, sheet, translate_xlsm = FALSE) {
+read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
   if (translate_xlsm) {
-    df_vall <- read_xlsm_label_sheet_raw(mapping, sheet)
+    df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
   } else {
-    df_vall <- openxlsx::read.xlsx(mapping$wb, sheet) |>
-      dplyr::as_tibble() |>
-      dplyr::mutate(dplyr::across(.fns = ~ as.character(.x) |> stringr::str_trim()))
-    #   readxl::read_xlsx(
-    #   mapping_file,
-    #   sheet = sheet
-    # )
+    df_vall <- readxl::read_xlsx(
+      mapping_file,
+      sheet = sheet
+    )
   }
   df_vall
 }
-read_xlsm_label_sheet_raw <- function(mapping, sheet) {
-  # readxl::read_xlsx(
-  #   mapping_file,
-  #   sheet = sheet,
-  #   range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
-  #   col_names = c(
-  #     "var", "nv", "vallab", "new_label", "not_needed1",
-  #     "not_needed2", "sum_var_label", "sum_var_value",
-  #     "sum_var_vallab"
-  #   ),
-  #   col_types = "text"
-  # ) %>%
-  names_mod <- c(
-    "var", "nv", "vallab", "new_label", "not_needed1",
-    "not_needed2", "sum_var_label", "sum_var_value",
-    "sum_var_vallab"
-  )
-  openxlsx::read.xlsx(mapping$wb, sheet, startRow = 2, cols = 1:9) |>
-    purrr::set_names(names_mod) |>
-    dplyr::mutate(dplyr::across(.fns = ~ as.character(.x) |> stringr::str_trim())) |>
-    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) |>
-    # dplyr::mutate(
-    #   nv = as.numeric(.data$nv),
-    #   sum_var_value = as.numeric(.data$sum_var_value)
-    # ) %>%
-    tidyr::fill("var") |>
-    tibble::as_tibble()
+read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
+  readxl::read_xlsx(
+    mapping_file,
+    sheet = sheet,
+    range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
+    col_names = c(
+      "var", "nv", "vallab", "new_label", "not_needed1",
+      "not_needed2", "sum_var_label", "sum_var_value",
+      "sum_var_vallab"
+    ),
+    col_types = "text"
+  ) %>%
+    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) %>%
+    dplyr::mutate(
+      nv = as.numeric(.data$nv),
+      sum_var_value = as.numeric(.data$sum_var_value)
+    ) %>%
+    tidyr::fill("var")
 }
 
 
@@ -341,36 +313,16 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     put_absolute_filepaths(self$mapping_file) |>
     process_raw_free_cmd_table()
 }
-mapp_free_sheet_cmd_table_raw <- function(mapping, sheet = "Free1") {
-  df_free <-
-  #   readxl::read_xlsx(
-  #   mapping_file,
-  #   range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
-  #   col_names = paste0("X", 1:5),
-  #   col_types = "text"
-    # ) %>%
-    openxlsx::read.xlsx(
-      mapping$wb,
-      sheet,
-      colNames = FALSE,
-      cols = 1:5,
-      skipEmptyRows = FALSE
-    ) |>
-    dplyr::as_tibble() |>
-    suppressWarnings() |>
-    dplyr::mutate(dplyr::across(.fns = ~ as.character(.x) |> stringr::str_trim())) %>%
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
+  df_free <- readxl::read_xlsx(
+    mapping_file,
+    range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+    col_names = paste0("X", 1:5),
+    col_types = "text"
+  ) %>%
     dplyr::mutate(row = dplyr::row_number()) %>%
     dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~ !is.na(.)))
-  dplyr::bind_rows(
-    dplyr::tibble(
-      X1 = character(),
-      X2 = character(),
-      X3 = character(),
-      X4 = character(),
-      X5 = character(),
-    ),
-    df_free
-  )
+  df_free
 }
 
 
