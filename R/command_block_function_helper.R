@@ -27,14 +27,14 @@ set_na_to_filter <- function(x, replace_val = -2, replace_label = "FILTER") {
 prepare_newvar_table <- function(df, split_var, by_var) {
   var2lab <- attr(df[[by_var]], "label", exact = TRUE)
   new_varlabs <-
-    df %>%
-    dplyr::select(!!split_var) %>%
+    df |>
+    dplyr::select(!!split_var) |>
     # TODO: find cleaner way without defining a dummy id:
-    dplyr::mutate(id = dplyr::row_number(), !!split_var) %>%
-    tablab::tab_all() %>%
-    tidyr::drop_na("nv") %>%
-    # tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") %>%
-    dplyr::mutate(new_varlab = paste0(.data$vallab, ": ", var2lab)) %>%
+    dplyr::mutate(id = dplyr::row_number(), !!split_var) |>
+    tablab::tab_all() |>
+    tidyr::drop_na("nv") |>
+    # tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") |>
+    dplyr::mutate(new_varlab = paste0(.data$vallab, ": ", var2lab)) |>
     dplyr::select(dplyr::all_of(c("nv", "new_varlab")))
 
   new_varnames <- paste0(
@@ -44,8 +44,8 @@ prepare_newvar_table <- function(df, split_var, by_var) {
     "k",
     new_varlabs$nv,
     "0"
-  ) %>% stringr::str_replace("-", "minus")
-  new_vars <- new_varlabs %>% dplyr::mutate(new_varnames)
+  ) |> stringr::str_replace("-", "minus")
+  new_vars <- new_varlabs |> dplyr::mutate(new_varnames)
   new_vars
 }
 split_cat_by_cat <- function(df, new_vars, split_var, by_var) {

@@ -8,7 +8,7 @@ test_that("mapping xlsx generation works", {
       suppressMessages(l <- purrr::map(sheet_names, ~ readxl::read_excel(path, sheet = .x)))
 
       testthat::expect_snapshot(
-        l %>%
+        l |>
           purrr::set_names(sheet_names)
       )
     })

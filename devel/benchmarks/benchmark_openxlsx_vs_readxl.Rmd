@@ -1,0 +1,97 @@
+---
+output: html_document
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+```
+
+```{r}
+library(tidyverse)
+library(datenanpassr)
+mapping_file <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
+```
+
+```{r}
+needed_sheets <- "^Variables|^Label|Free|^Verbatims"
+mapping_file <- "K:/Projects/DW Henkel Adhesives/Syntax/Mapping Henkel Adhesives.xlsm"
+# spss_file <- "K:/Projects/DW Henkel Adhesives  2022/Daten/10_MergeFiles.sav"
+
+# use_readxl <- function(mapping_file) {
+#   sheets <- readxl::excel_sheets(mapping_file) |> str_subset(needed_sheets)
+#   map(sheets, ~readxl::read_excel(mapping_file, .x))
+# }
+# 
+# use_openxlsx <- function(mapping_file) {
+#   wb <- openxlsx::loadWorkbook(mapping_file)
+#   sheets <- names(wb) |> str_subset(needed_sheets)
+#   map(sheets, ~openxlsx::read.xlsx(wb, .x))
+# }
+# 
+# # use_openxlsx2 <- function(mapping_file) {
+# #   wb <- openxlsx2::wb_load(mapping_file)
+# #   sheets <- names(wb) |> str_subset(needed_sheets)
+# #   map(sheets, ~openxlsx::read.xlsx(wb, .x))
+# # }
+# 
+# bm <- bench::mark(
+#   load_wb = openxlsx::loadWorkbook(mapping_file),
+#   openxlsx_used = use_openxlsx(mapping_file),
+#   readxl_used = use_readxl(mapping_file),
+#   check = FALSE,
+#   iterations = 1
+# )
+# bm
+openxlsx_sheet <- function(workbook = wb, sheet) {
+  # wb <- openxlsx::loadWorkbook(filename)
+  # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
+  openxlsx::read.xlsx(wb, sheet)
+}
+
+readxl_sheet <- function(filename = mapping_file, sheet) {
+  # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
+  readxl::read_excel(filename, sheet)
+}
+n_iter <- 10
+wb <- openxlsx::loadWorkbook(mapping_file)
+bm_load_wb <- bench::mark(
+  openxlsx_load_wb = openxlsx::loadWorkbook(mapping_file),
+  iterations = n_iter
+) |> mutate(sheet = "openxlsx_load_wb", .after = 1)
+
+bp <- bench::press(
+  sheet = readxl::excel_sheets(mapping_file) |> str_subset(needed_sheets),
+  bench::mark(
+    openxlsx_sheet(workbook = wn, sheet = sheet),
+    readxl_sheet(filename = mapping_file, sheet = sheet),
+    iterations = n_iter,
+    check = FALSE
+  )
+)
+
+df <- full_join(
+  bm_load_wb[c("median", "sheet", "expression")],
+  bp[c("median", "sheet", "expression")]
+) |> 
+  mutate(
+    sheet = as_factor(sheet),
+    time = median |> lubridate::as.duration(),
+    ex = as_factor(expression |> as.character()),
+    package = case_when(
+      str_detect(ex, "readxl") ~ "readxl",
+      str_detect(ex, "openxlsx") ~ "openxlsx",
+    )
+  )
+df |> print(n=111)
+df %>%
+  slice(nrow(.):1) |> 
+  ggplot() + 
+  aes(x = package, y = time, fill = sheet, group = package) +
+  geom_bar(position="stack", stat="identity") +
+  labs("")
+
+
+```
+
+

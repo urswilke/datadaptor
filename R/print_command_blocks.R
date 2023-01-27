@@ -10,13 +10,13 @@
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' rcrd <- m$cmd_tbl$command_blocks %>% command_block_rcrd()
+#' rcrd <- m$cmd_tbl$command_blocks |> command_block_rcrd()
 #' rcrd
 #' # This results in the same print:
 #' m$cmd_tbl$command_blocks
 command_block_rcrd <- function(command_blocks) {
-  command_blocks %>%
-    purrr::transpose() %>%
+  command_blocks |>
+    purrr::transpose() |>
     vctrs::new_rcrd(class = "command_block_rcrd")
 }
 
@@ -29,11 +29,11 @@ command_block_rcrd <- function(command_blocks) {
 format.command_block_rcrd <- function(x, ...) {
   x_valid <- which(!is.na(x))
 
-  sheet <- vctrs::field(x, "sheet") %>% abbreviate(6)
-  action <- vctrs::field(x, "action") %>% abbreviate(6)
+  sheet <- vctrs::field(x, "sheet") |> abbreviate(6)
+  action <- vctrs::field(x, "action") |> abbreviate(6)
   new_var <- vctrs::field(x, "new_var")
-  max_var_len <- purrr::map_int(new_var, nchar) %>% max()
-  new_var <- new_var %>% stringr::str_pad(max_var_len, side = "right")
+  max_var_len <- purrr::map_int(new_var, nchar) |> max()
+  new_var <- new_var |> stringr::str_pad(max_var_len, side = "right")
   args <- vctrs::field(x, "args")
 
   ret <- cmd_block_args_formatter(sheet, action, args)
@@ -42,33 +42,40 @@ format.command_block_rcrd <- function(x, ...) {
 
 
 cmd_block_args_formatter <- function(sheet, action, args) {
-  df_long <- dplyr::tibble(sheet, action, args) %>%
-    dplyr::mutate(row = dplyr::row_number()) %>%
-    tidyr::unnest(args) %>%
+  df_long <- dplyr::tibble(sheet, action, args) |>
+    dplyr::mutate(row = dplyr::row_number()) |>
+    tidyr::unnest(args) |>
     dplyr::mutate(tibble::enframe(args))
 
-  ret <- df_long %>%
-    dplyr::rowwise() %>%
-    dplyr::mutate(value = paste(.data$value, collapse = ", ")) %>%
-    dplyr::group_by(row) %>%
+  ret0 <- df_long |>
+    dplyr::rowwise() |>
+    dplyr::mutate(value = paste(.data$value, collapse = ", ")) |>
+    dplyr::group_by(row) |>
     dplyr::summarise(
       paste0(
         # cli::col_grey(abbreviate(sheet[1], 6)),
         # cli::col_grey(abbreviate(action[1], 6)),
         # cli::col_grey(abbreviate(name, 6)),
         # cli::col_grey(": "),
-        # value %>% str_trunc(16),
+        # value |> str_trunc(16),
         # collapse = cli::col_grey("; ")
         abbreviate(.data$name, 6),
         ": ",
-        .data$value %>% stringr::str_trunc(16),
+        .data$value |> stringr::str_trunc(16),
         collapse = "; "
       )
-    ) %>%
-    dplyr::pull() %>%
-    paste(abbreviate(sheet, 6), abbreviate(action, 6), .) %>%
-    stringr::str_pad(max(nchar(.)), side = "right")
-  format(ret, justify = "right")
+    ) |>
+    dplyr::pull()
+  ret1 <- paste(abbreviate(sheet, 6), abbreviate(action, 6), ret0)
+
+  format(
+    stringr::str_pad(
+      ret1,
+      max(nchar(ret1)),
+      side = "right"
+    ),
+    justify = "right"
+  )
 }
 
 #' @rdname command_block_rcrd

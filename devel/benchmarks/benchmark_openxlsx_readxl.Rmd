@@ -26,7 +26,6 @@ bench::mark(datenanpassr::Mapping$new(spss_file, mapping_file, translate_xlsm = 
 #   openxlsx::readWorkbook(filename, "Free1", cols = 1:5, skipEmptyRows = FALSE)
 # }
 # 
-# use_readxl <- function(filename = filepath) {
 #   # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
 #   readxl::read_excel(filename, "Free1", range = cellranger::cell_cols(1:5))
 # }
