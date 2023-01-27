@@ -51,8 +51,7 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
     dplyr::select("VariableOriginal":"Tabellen-blatt", "VariableZiel", dplyr::any_of(c("ex_further_cond", "ex_assign"))) |>
     # HACK!!! TODO: replace with general regex
     dplyr::mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal)) |>
-    dplyr::relocate(q_id = "Tabellen-blatt") |>
-    tibble::as_tibble()
+    dplyr::relocate(q_id = "Tabellen-blatt")
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping_file, sheet) {
@@ -99,8 +98,7 @@ generate_label_code_list <- function(verbatim_file) {
     dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) |>
     dplyr::mutate(dplyr::across(.fns = stringr::str_trim)) |>
     dplyr::mutate(Code = dplyr::row_number()) |>
-    dplyr::relocate("Code") |>
-    tibble::as_tibble()
+    dplyr::relocate("Code")
   2:length(df_codestufen) |>
     purrr::set_names(names(df_codestufen)[-1]) |>
     purrr::map(~ dplyr::select(df_codestufen, 1, lab = !!.x) |> tidyr::drop_na())
