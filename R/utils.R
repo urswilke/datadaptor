@@ -195,31 +195,32 @@ extract_excel_params <- function(mapping_file) {
   if (is.null(mapping_file)) {
     return(NULL)
   }
-  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(mapping_file))
+  wb <- openxlsx::loadWorkbook(mapping_file) |> suppressWarnings()
+  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(wb))
 
   if (nrow(named_regions) == 0) {
     stop('You need to define at least the named region "R_id_var" in the mapping file.')
   }
   # if there is a named region that's empty, it would throw the warning:
   # ℹ No data found on worksheet.
-  suppressWarnings(
-    configr <- named_regions |>
-      dplyr::filter(grepl("^R_*", .data$value)) |>
-      dplyr::mutate(
-        data = purrr::map(
-          .x = .data$value,
-          ~ openxlsx::read.xlsx(
-            xlsxFile = mapping_file,
-            namedRegion = .x,
-            colNames = FALSE
-          )
-        ) |>
-          purrr::map_if(
-            purrr::negate(is.null),
-            dplyr::pull
-          )
-      )
-  )
+
+  configr <- named_regions |>
+    dplyr::filter(grepl("^R_*", .data$value)) |>
+    dplyr::mutate(
+      data = purrr::map(
+        .x = .data$value,
+        ~ openxlsx::read.xlsx(
+          xlsxFile = wb,
+          namedRegion = .x,
+          colNames = FALSE
+        )
+      ) |>
+        purrr::map_if(
+          purrr::negate(is.null),
+          dplyr::pull
+        )
+    )
+
 
   l_configr_excel <- configr$data
   names(l_configr_excel) <- stringr::str_sub(configr$value, 3)
