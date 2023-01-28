@@ -71,8 +71,8 @@ curlychop <- function(df_free_raw) {
 
 curlychop_headers <- function(df) {
   df |>
-    dplyr::mutate(dplyr::across(c(X2, X3), ~list(split_curly_parts(.x))))|>
-    tidyr::unnest(c(X2, X3))
+    dplyr::mutate(dplyr::across(c("X2", "X3"), ~list(split_curly_parts(.x)))) |>
+    tidyr::unnest(c("X2", "X3"))
 }
 split_curly_parts <- function(string,
                               opener = "\\{",

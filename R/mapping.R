@@ -160,13 +160,13 @@ rename_vars_to_original_case <- function(df) {
   rename_vec <- tibble::tibble(orig_names) |>
     dplyr::mutate(lowercase_names = tolower(orig_names)) |>
     dplyr::inner_join(
-      tibble(
+      tibble::tibble(
         lowercase_names = names(df)
       ),
       by = "lowercase_names"
     ) |>
     tibble::deframe()
-  df |> rename(!!rename_vec)
+  df |> dplyr::rename(!!rename_vec)
 }
 #' Save the modified data of a mapping to a file
 #'

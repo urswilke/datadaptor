@@ -42,8 +42,7 @@ args_tbl <- tibble::tibble(
   cmd = unique_cmd_tbl$action,
   example = args_overview
 ) |>
-  tidyr::unnest_longer(example, indices_to = "arg") |>
-  .[c(1, 3, 2)]
+  tidyr::unnest_longer(example, indices_to = "arg")
 
 print(args_tbl, n = 1000)
 
