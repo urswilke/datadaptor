@@ -91,6 +91,12 @@ parse_command_args.cmd_drop <- function(cdb_raw) {
   )
 }
 #' @export
+parse_command_args.cmd_select <- function(cdb_raw) {
+  list(
+    exs = cdb_raw$X2
+  )
+}
+#' @export
 parse_command_args.cmd_verbatim <- function(cdb_raw) {
   vallabs_named <- cdb_raw$vallab[[1]]
 

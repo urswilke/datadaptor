@@ -8,6 +8,7 @@
 \alias{apply_command.cmd_rfun}
 \alias{apply_command.cmd_kg}
 \alias{apply_command.cmd_drop}
+\alias{apply_command.cmd_select}
 \alias{apply_command.cmd_verbatim}
 \alias{apply_command.cmd_verbatim_custom}
 \alias{apply_command.cmd_merge}
@@ -41,6 +42,8 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_kg}(cdb, mapping, x, y, ...)
 
 \method{apply_command}{cmd_drop}(cdb, mapping, xs, ...)
+
+\method{apply_command}{cmd_select}(cdb, mapping, exs, ...)
 
 \method{apply_command}{cmd_verbatim}(
   cdb,
@@ -153,6 +156,8 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_kg)}: Split variable
 
 \item \code{apply_command(cmd_drop)}: 
+
+\item \code{apply_command(cmd_select)}: 
 
 \item \code{apply_command(cmd_verbatim)}: 
 

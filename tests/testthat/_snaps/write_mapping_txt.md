@@ -882,7 +882,7 @@
       
       
       $Free1
-      # A tibble: 39 x 6
+      # A tibble: 42 x 6
          X1      X2                   X3                             X4    X5      row
          <chr>   <chr>                <chr>                          <chr> <chr> <int>
        1 #COMP   x                    "q1 == 2"                      <NA>   <NA>     3
@@ -924,6 +924,9 @@
       37 <NA>    99                    <NA>                          <NA>   <NA>    57
       38 #RENAME q2_renamed           "q2new"                        <NA>   <NA>    59
       39 <NA>    q4_renamed           "q4new"                        <NA>   <NA>    60
+      40 #SELECT q2new:q3              <NA>                          <NA>   <NA>    62
+      41 <NA>    everything()          <NA>                          <NA>   <NA>    63
+      42 <NA>    -q4new                <NA>                          <NA>   <NA>    64
       
       $Free2
       # A tibble: 1 x 6
