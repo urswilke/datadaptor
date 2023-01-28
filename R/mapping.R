@@ -378,6 +378,9 @@ initialize_dat <- function(self, dat) {
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
 #' @param refresh Whether to only refresh the generation of the current active
 #'   sheet in the Excel mapping file.
+#' @param lowercase_varnames Whether to transform all variable names to
+#'   lowercase during data modification, and rename them back to their original
+#'   case (if still existing) in the end.
 #' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
