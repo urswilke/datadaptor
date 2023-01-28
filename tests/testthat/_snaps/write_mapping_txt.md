@@ -882,7 +882,7 @@
       
       
       $Free1
-      # A tibble: 42 x 6
+      # A tibble: 44 x 6
          X1      X2                   X3                             X4    X5      row
          <chr>   <chr>                <chr>                          <chr> <chr> <int>
        1 #COMP   x                    "q1 == 2"                      <NA>   <NA>     3
@@ -927,6 +927,8 @@
       40 #SELECT q2new:q3              <NA>                          <NA>   <NA>    62
       41 <NA>    everything()          <NA>                          <NA>   <NA>    63
       42 <NA>    -q4new                <NA>                          <NA>   <NA>    64
+      43 #FILTER !id %in% 21:100       <NA>                          <NA>   <NA>    66
+      44 <NA>    !id %in% 10:19        <NA>                          <NA>   <NA>    67
       
       $Free2
       # A tibble: 1 x 6

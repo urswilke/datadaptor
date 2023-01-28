@@ -47,6 +47,7 @@ command_block_classes <- tribble(
                 "#RMVAL",           "cmd_rmval",      "Free",
               "#ADDFILE",         "cmd_addfile",      "Free",
                "#SELECT",          "cmd_select",      "Free",
+               "#FILTER",          "cmd_filter",      "Free",
 )
 
 usethis::use_data(command_block_classes, overwrite = TRUE)

@@ -118,6 +118,13 @@ apply_command.cmd_select <- function(cdb, mapping, exs, ...) {
 #' @describeIn apply_command
 #'
 #' @export
+apply_command.cmd_filter <- function(cdb, mapping, exs, ...) {
+  exs_ex <- rlang::parse_exprs(exs)
+  mapping$dat_mod <- mapping$dat_mod |> dplyr::filter(!!!exs_ex)
+}
+#' @describeIn apply_command
+#'
+#' @export
 apply_command.cmd_verbatim <- function(
   cdb, mapping, x, v, varlab, vs,
   vallabs, id_list, v0, ex_further_cond,
