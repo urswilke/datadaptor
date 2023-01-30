@@ -73,7 +73,21 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #' mapping <- Mapping$new(fake_survey, mapping_file)
 #' mapping$modify_data()
 #' diff_data(mapping$dat, mapping$dat_mod, "id")
-diff_data <- function(df1, df2, id_var = "DC_ID") {
+diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
+  if (!dplyr::setequal(df1[[id_var]], df2[[id_var]])) {
+    if (warn) {
+      warning(
+        "`diff_data()` doesn't work well if both datasets don't contain the same ids.\n",
+        "Did you #ADDFILE or #FILTER or ?\n",
+        "Only the cases occurring in both data sets will be compared.\n",
+        "Remove this warning by setting `warn = FALSE`."
+      )
+    }
+    shared_ids <- intersect(df1[[id_var]], df2[[id_var]])
+    df1 <- df1[df1[[id_var]] %in% shared_ids,]
+    df2 <- df2[df2[[id_var]] %in% shared_ids,]
+  }
+
   long1 <- long_labelled_data(df1, id_var = id_var)
   long2 <- long_labelled_data(df2, id_var = id_var)
   allvars <- unique(c(long1$var, long2$var))
