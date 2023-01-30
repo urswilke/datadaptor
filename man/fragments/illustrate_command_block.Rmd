@@ -31,12 +31,12 @@ process_cdb_raw <- function(dat, cdb_args_raw) {
 
 tab_labels_wide <- function(df) {
   varl_table <- df |>
-    tablab::tab_varlabs() |> 
+    gen_var_table() |> 
     tidyr::pivot_wider(names_from = var, values_from = varlab) |> 
     dplyr::mutate(val = "varlab", .before = 1)
   vall_table <- df |>
-    tablab::tab_vallabs() |>
-    dplyr::select(-cv, val = nv) |> 
+    gen_label_table() |>
+    dplyr::rename(val = nv) |> 
     tidyr::pivot_wider(names_from = var, values_from = vallab) |> 
     dplyr::mutate(val = as.character(val))
   dplyr::bind_rows(varl_table, vall_table)

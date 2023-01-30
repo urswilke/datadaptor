@@ -49,7 +49,7 @@ gen_var_table_raw <- function(dat) {
   df_types |>
     dplyr::full_join(
       dat |>
-        tablab::tab_varlabs(),
+        tab_varlabs(),
       by = "var"
     )
 }
@@ -97,17 +97,17 @@ update_label_table <- function(dat,
         c("new_label", "sum_var_label", "sum_var_value", "sum_var_vallab"),
         ~is.na(.x)
       )) |>
-      dplyr::anti_join(df_vall_new, by = c("var", "nv", "cv", "vallab"))
+      dplyr::anti_join(df_vall_new, by = c("var", "nv", "vallab"))
     stopifnot(nrow(df_commands_lost) == 0)
   }
 
   df_vall_new |>
-    dplyr::left_join(df_vall, by = c("var", "nv", "cv", "vallab"))
+    dplyr::left_join(df_vall, by = c("var", "nv", "vallab"))
 
 }
 
 gen_label_table_raw <- function(dat) {
-  tablab::tab_vallabs(dat)
+  tab_vallabs(dat)
 }
 
 #' Generate the "Variables" sheet table
@@ -152,3 +152,40 @@ gen_label_table <- function(dat) {
       sum_var_vallab = ""
     )
 }
+
+
+
+
+tab_1var_vallabs <- function(x) {
+  vallab_vec <- attr(x, "labels")
+  if (is.null(vallab_vec)) {
+    return(tibble::tibble(
+      nv = double(),
+      vallab = character()
+    ))
+  }
+  if (is.character(vallab_vec)) {
+    stop("Value label tabulation not yet implemented for string variables!")
+  }
+  tibble::tibble(
+    nv = unname(vallab_vec),
+    vallab = names(vallab_vec)
+  )
+}
+tab_vallabs <- function(df) {
+  df |> purrr::map_dfr(tab_1var_vallabs, .id = "var")
+}
+
+tab_1var_varlab <- function(x) {
+  varlab <- attr(x, "label", exact = TRUE)
+  if (is.null(varlab)) {
+    return(NA_character_)
+  }
+  varlab
+}
+tab_varlabs <- function(df) {
+  df |>
+    purrr::map_chr(\(x) tab_1var_varlab(x)) |>
+    tibble::enframe("var", "varlab")
+}
+

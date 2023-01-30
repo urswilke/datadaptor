@@ -73,12 +73,12 @@ test_that("modified data print is reproduced", {
 })
 test_that("variable labels are reproduced", {
   testthat::expect_snapshot_output(
-    m$dat_mod |> tablab::tab_varlabs()
+    m$dat_mod |> tab_varlabs()
   )
 })
 test_that("value labels are reproduced", {
   testthat::expect_snapshot_output(
-    m$dat_mod |> tablab::tab_vallabs() |> print(n=111)
+    m$dat_mod |> tab_vallabs() |> print(n=111)
   )
 })
 

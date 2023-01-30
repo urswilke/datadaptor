@@ -17,7 +17,7 @@ gen_data_table <- function(df) {
   var1 <- gen_var_table(df) |>
     dplyr::select(dplyr::all_of(c("var","type", "varlab")))
 
-  label1 <- tablab::tab_vallabs(df) |>
+  label1 <- tab_vallabs(df) |>
     dplyr::select(dplyr::all_of(c("var","nv", "vallab")))
 
   res1 <- merge(res1, label1, by=c("var", "nv"), all=TRUE)

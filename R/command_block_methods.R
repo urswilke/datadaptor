@@ -221,8 +221,8 @@ apply_command.cmd_merge <- function(
   }
   id_vec <- mapping$dat_mod[[id]]
   if (!identical(
-    sort(tablab::strip_attributes(df_merge[[id]])),
-    sort(tablab::strip_attributes(id_vec))
+    sort(strip_attributes(df_merge[[id]])),
+    sort(strip_attributes(id_vec))
   )
   ) {
     warning("The merged dataframe doesn't contain the same id values")
@@ -553,7 +553,7 @@ apply_command.cmd_autorec <- function(cdb, mapping, x, ...) {
 apply_command.cmd_str_to_num <- function(cdb, mapping, x, ...) {
   var <- mapping$dat_mod[[x]]
   mapping$dat_mod[[x]] <- haven::labelled(
-    var |> tablab::strip_attributes() |> as.numeric(),
+    var |> strip_attributes() |> as.numeric(),
     label = attr(var, "label", exact = TRUE)
   )
 

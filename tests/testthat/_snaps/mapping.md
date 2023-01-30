@@ -490,54 +490,74 @@
 
 # variable labels are reproduced
 
-    # A tibble: 45 x 2
+    # A tibble: 65 x 2
        var                    varlab                                  
        <chr>                  <chr>                                   
      1 q2new                  recommend product                       
      2 q3                     Almost same variable label for q3 and q5
      3 q1                     new_varlab                              
      4 q5                     Almost same variable label for q5 and q3
-     5 q6                     Tell me something positive.             
-     6 q7                     Tell me something negative.             
-     7 q8                     Now the variable is in numeric format.  
-     8 kq5                    test                                    
-     9 q2                     Do you want to recommend the product?   
-    10 q4                     How much do you like your friends?      
-    11 q6_1                   love                                    
-    12 q6_2                   joy                                     
-    13 q6_3                   happiness                               
-    14 q6_4                   noch wat                                
-    15 q6_97                  Others                                  
-    16 q6_99                  No answer                               
-    17 q6test_1               love                                    
-    18 q6test_2               joy                                     
-    19 q6test_3               happiness                               
-    20 q6test_4               noch wat                                
-    21 q6test_97              Others                                  
-    22 q6test_99              No answer                               
-    23 q6mw_1                 love                                    
-    24 q6mw_2                 joy                                     
-    25 q6mw_3                 happiness                               
-    26 q6mw_4                 noch wat                                
-    27 q6mw_97                Others                                  
-    28 q6mw_99                No answer                               
-    29 q6_assign_nn_1         love                                    
-    30 q6_assign_nn_2         joy                                     
-    31 q6_assign_nn_3         happiness                               
-    32 q6_assign_nn_4         noch wat                                
-    33 q6_assign_nn_97        Others                                  
-    34 q6_assign_nn_99        No answer                               
-    35 kq1                    summarized variable                     
-    36 kq3                    summarized variable                     
-    37 kq1xq2_renamedkminus20 FILTER: summarized variable             
-    38 kq1xq2_renamedk10      YES: summarized variable                
-    39 kq1xq2_renamedk20      no: summarized variable                 
-    40 kq1xq2_renamedk990     no answer: summarized variable          
-    41 n                      overwrite new label                     
-    42 a1                     same variable label for a1 & a2         
-    43 a2                     same variable label for a1 & a2         
-    44 r_expr_var             varlab                                  
-    45 kkq1                   vl                                      
+     5 id                     <NA>                                    
+     6 q6                     Tell me something positive.             
+     7 q7                     Tell me something negative.             
+     8 q8                     Now the variable is in numeric format.  
+     9 kq5                    test                                    
+    10 q2                     Do you want to recommend the product?   
+    11 q4                     How much do you like your friends?      
+    12 q97                    <NA>                                    
+    13 q99                    <NA>                                    
+    14 q6n                    <NA>                                    
+    15 q7n                    <NA>                                    
+    16 q6_1                   love                                    
+    17 q6_2                   joy                                     
+    18 q6_3                   happiness                               
+    19 q6_4                   noch wat                                
+    20 q6_97                  Others                                  
+    21 q6_99                  No answer                               
+    22 q6test_1               love                                    
+    23 q6test_2               joy                                     
+    24 q6test_3               happiness                               
+    25 q6test_4               noch wat                                
+    26 q6test_97              Others                                  
+    27 q6test_99              No answer                               
+    28 q6n1                   <NA>                                    
+    29 q6n2                   <NA>                                    
+    30 q6n3                   <NA>                                    
+    31 q6n4                   <NA>                                    
+    32 q6n5                   <NA>                                    
+    33 q6n6                   <NA>                                    
+    34 q6n7                   <NA>                                    
+    35 q6n8                   <NA>                                    
+    36 q6n9                   <NA>                                    
+    37 q6n10                  <NA>                                    
+    38 q6mw_1                 love                                    
+    39 q6mw_2                 joy                                     
+    40 q6mw_3                 happiness                               
+    41 q6mw_4                 noch wat                                
+    42 q6mw_97                Others                                  
+    43 q6mw_99                No answer                               
+    44 q6_assign_nn_1         love                                    
+    45 q6_assign_nn_2         joy                                     
+    46 q6_assign_nn_3         happiness                               
+    47 q6_assign_nn_4         noch wat                                
+    48 q6_assign_nn_97        Others                                  
+    49 q6_assign_nn_99        No answer                               
+    50 x                      <NA>                                    
+    51 abc                    <NA>                                    
+    52 kq6                    <NA>                                    
+    53 kq1                    summarized variable                     
+    54 kq3                    summarized variable                     
+    55 kq1xq2_renamedkminus20 FILTER: summarized variable             
+    56 kq1xq2_renamedk10      YES: summarized variable                
+    57 kq1xq2_renamedk20      no: summarized variable                 
+    58 kq1xq2_renamedk990     no answer: summarized variable          
+    59 n                      overwrite new label                     
+    60 a1                     same variable label for a1 & a2         
+    61 a2                     same variable label for a1 & a2         
+    62 r_expr_var             varlab                                  
+    63 sum_of_k_vars          <NA>                                    
+    64 kkq1                   vl                                      
+    65 free2_var              <NA>                                    
 
 # error string elements were added to cmd_tbl
 
