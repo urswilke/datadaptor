@@ -32,7 +32,7 @@ test_that("value labels are reproduced", {
 })
 test_that("variable labels are reproduced", {
   testthat::expect_snapshot_output({
-    mapping_xlsm$dat_mod |> tab_varlabs() |> print(n = 10000)
+    mapping_xlsm$dat_mod |> tab_varlabs(remove_empty = TRUE) |> print(n = 10000)
   })
 })
 

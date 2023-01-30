@@ -9,21 +9,25 @@
 #' @examples
 #' gen_data_table(fake_survey)
 gen_data_table <- function(df, values_drop_na = FALSE) {
-  counts <- lengthen(df, values_drop_na) |>
-    dplyr::mutate(var = forcats::as_factor(var)) |>
-    dplyr::group_by_all() |>
-    dplyr::tally(name = "Freq") |>
-    dplyr::ungroup()
+  counts <- tab_counts(df, values_drop_na)
 
-  var <- gen_var_table(df) %>%
+  var <- gen_var_table(df) |>
     dplyr::select(c("var","type", "varlab"))
 
-  label <- tablab::tab_vallabs(df) %>%
-    dplyr::select(c("var","nv", "vallab"))
+  label <- tab_vallabs(df)
 
   counts |>
     dplyr::full_join(label, by=c("var", "double" = "nv")) |>
     dplyr::full_join(var, by=c("var"))
+}
+
+
+tab_counts <- function(df, values_drop_na = FALSE) {
+  lengthen(df, values_drop_na) |>
+    dplyr::mutate(var = forcats::as_factor(var)) |>
+    dplyr::group_by_all() |>
+    dplyr::tally(name = "Freq") |>
+    dplyr::ungroup()
 }
 
 lengthen <- function(df, values_drop_na = FALSE) {
@@ -36,7 +40,7 @@ lengthen <- function(df, values_drop_na = FALSE) {
     tidyr::pivot_longer(
       cols = dplyr::everything(),
       names_to = c(".value", "var"),
-      values_transform = tablab::strip_attributes,
+      values_transform = strip_attributes,
       # remove missing values:
       values_drop_na = values_drop_na,
       # lazy _ eager ...;
@@ -98,7 +102,7 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
     tidyr::pivot_longer(
       cols = -all_of(id_var),
       names_to = c(".value", "var"),
-      values_transform = tablab::strip_attributes,
+      values_transform = strip_attributes,
       # lazy _ eager ...;
       # splits back the variable type until the first occurrence of _:
       names_pattern = "(.*?)_(.*)"
@@ -114,8 +118,7 @@ long_labelled_data <- function(df, id_var = "DC_ID") {
     gen_var_table() |>
     dplyr::select(c("var","type", "varlab"))
 
-  label <- tablab::tab_vallabs(df) %>%
-    dplyr::select(c("var","nv", "vallab"))
+  label <- tab_vallabs(df)
 
   counts |>
     dplyr::full_join(label, by=c("var", "double" = "nv")) |>

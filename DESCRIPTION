@@ -35,7 +35,6 @@ Depends:
     R (>= 4.1.0)
 Imports: 
     openxlsx,
-    tablab (>= 0.0.0.9000),
     dplyr (>= 1.0.8),
     haven,
     magrittr,
@@ -53,7 +52,5 @@ Imports:
     pillar,
     data.table,
     writexl
-Remotes: 
-    urswilke/tablab
 VignetteBuilder: knitr
 Language: en-US

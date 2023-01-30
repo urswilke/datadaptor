@@ -20,20 +20,20 @@
       # ... with abbreviated variable names 1: new_label, 2: new_name
       
       $Label
-      # A tibble: 27 x 8
-         var      nv vallab     cv    new_label sum_var_label sum_var_value sum_var_~1
-         <chr> <dbl> <chr>      <lgl> <lgl>     <lgl>         <lgl>         <lgl>     
-       1 q1        1 not at all NA    NA        NA            NA            NA        
-       2 q1        2 a bit      NA    NA        NA            NA            NA        
-       3 q1        3 normal     NA    NA        NA            NA            NA        
-       4 q1        4 much       NA    NA        NA            NA            NA        
-       5 q1        5 very much  NA    NA        NA            NA            NA        
-       6 q1       99 no answer  NA    NA        NA            NA            NA        
-       7 q2        1 yes        NA    NA        NA            NA            NA        
-       8 q2        2 no         NA    NA        NA            NA            NA        
-       9 q2       99 no answer  NA    NA        NA            NA            NA        
-      10 q3        1 not at all NA    NA        NA            NA            NA        
-      # ... with 17 more rows, and abbreviated variable name 1: sum_var_vallab
+      # A tibble: 27 x 7
+         var      nv vallab     new_label sum_var_label sum_var_value sum_var_vallab
+         <chr> <dbl> <chr>      <lgl>     <lgl>         <lgl>         <lgl>         
+       1 q1        1 not at all NA        NA            NA            NA            
+       2 q1        2 a bit      NA        NA            NA            NA            
+       3 q1        3 normal     NA        NA            NA            NA            
+       4 q1        4 much       NA        NA            NA            NA            
+       5 q1        5 very much  NA        NA            NA            NA            
+       6 q1       99 no answer  NA        NA            NA            NA            
+       7 q2        1 yes        NA        NA            NA            NA            
+       8 q2        2 no         NA        NA            NA            NA            
+       9 q2       99 no answer  NA        NA            NA            NA            
+      10 q3        1 not at all NA        NA            NA            NA            
+      # ... with 17 more rows
       
       $Verbatims
       # A tibble: 0 x 1

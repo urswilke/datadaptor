@@ -172,8 +172,12 @@ tab_1var_vallabs <- function(x) {
     vallab = names(vallab_vec)
   )
 }
-tab_vallabs <- function(df) {
-  df |> purrr::map_dfr(tab_1var_vallabs, .id = "var")
+tab_vallabs <- function(df, remove_empty = TRUE) {
+  res <- df |> purrr::map_dfr(tab_1var_vallabs, .id = "var")
+  if (remove_empty) {
+    res <- res |> tidyr::drop_na("nv")
+  }
+  res
 }
 
 tab_1var_varlab <- function(x) {
@@ -183,9 +187,13 @@ tab_1var_varlab <- function(x) {
   }
   varlab
 }
-tab_varlabs <- function(df) {
-  df |>
+tab_varlabs <- function(df, remove_empty = TRUE) {
+  res <- df |>
     purrr::map_chr(\(x) tab_1var_varlab(x)) |>
     tibble::enframe("var", "varlab")
+  if (remove_empty) {
+    res <- res |> tidyr::drop_na("varlab")
+  }
+  res
 }
 
