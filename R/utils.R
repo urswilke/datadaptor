@@ -39,7 +39,11 @@ curlychop <- function(df_free_raw) {
     dplyr::group_by(.data$raw_index) |>
     dplyr::mutate(
       row = paste(row, collapse = ", "),
-      is_curly_group = dplyr::if_any(.fns = ~ stringr::str_detect(.x[1], "\\{")) |> is_true_vec()
+      is_curly_group = dplyr::if_any(
+        .cols = everything(),
+        .fns = ~ stringr::str_detect(.x[1], "\\{")
+      ) |>
+        is_true_vec()
     ) |>
     dplyr::add_count(.data$raw_index) |>
     dplyr::group_by(.data$raw_index)
