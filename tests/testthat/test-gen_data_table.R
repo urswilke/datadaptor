@@ -5,6 +5,7 @@ test_that("gen_data_table() works", {
 })
 
 mapping_dd <- mapping$clone(deep = TRUE)
+mapping_dd$cmd_tbl <- mapping_dd$cmd_tbl |> filter(action != "#FILTER")
 mapping_dd$modify_data()
 test_that("diff_data() works", {
   testthat::expect_snapshot_output({
