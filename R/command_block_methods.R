@@ -328,7 +328,7 @@ apply_command.cmd_comp <- function(cdb, mapping, x, ex, ...) {
   varlab <- labelled::var_label(vec) %||% labelled::var_label(mapping$dat_mod[[x]])
   vallabs <- labelled::val_labels(vec) %||% labelled::val_labels(mapping$dat_mod[[x]])
   if (is.logical(vec)) {
-    vec <- as.integer(vec)
+    vec <- as.numeric(vec)
   }
   # attributes(vec) <- attributes(mapping$dat_mod[[x]])
   if (!is.null(varlab) | !is.null(vallabs)) {

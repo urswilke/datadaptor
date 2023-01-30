@@ -199,7 +199,7 @@
      9 0         99 [no answer]  0             0              0             
     10 0          0              2 [no]        0              0             
        q6_assign_nn_97 q6_assign_nn_99     x   abc   kq6 kq1       kq3      
-       <dbl+lbl>       <dbl+lbl>       <int> <dbl> <dbl> <dbl+lbl> <dbl+lbl>
+       <dbl+lbl>       <dbl+lbl>       <dbl> <dbl> <dbl> <dbl+lbl> <dbl+lbl>
      1 0               0                   0    NA    NA  2 [3]    2 [3]    
      2 0               0                   0    NA    NA  2 [3]    3 [4-5]  
      3 0               0                   0     7    NA  1 [1-2]  2 [3]    
