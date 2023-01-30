@@ -30,19 +30,19 @@ test_that("command blocks print is reproduced", {
 
 test_that("s3 modified data print is reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$dat_mod %>% print(width = 10000)
+    mapping_s3$dat_mod |> print(width = 10000)
   }
 
   )
 })
 test_that("value labels are reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$dat_mod %>% tablab::tab_vallabs() %>% print(n = 10000)
+    mapping_s3$dat_mod |> tab_vallabs() |> print(n = 10000)
   })
 })
 test_that("variable labels are reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$dat_mod %>% tablab::tab_varlabs() %>% print(n = 10000)
+    mapping_s3$dat_mod |> tab_varlabs() |> print(n = 10000)
   })
 })
 
@@ -71,3 +71,15 @@ test_that("error string elements were added to cmd_tbl", {
   })
 })
 
+mapping_uppercase <- mapping$clone(deep = TRUE)
+mapping_uppercase$dat <- mapping_uppercase$dat[paste0("q", 1:4)] |> rename_with(toupper)
+mapping_uppercase$cmd_tbl <- mapping_uppercase$cmd_tbl |>
+  filter(action == "#RENAME_varsheet")
+
+mapping_uppercase$params$lowercase_varnames <- TRUE
+mapping_uppercase$modify_data()
+mapping_uppercase$dat_mod
+testthat::expect_equal(
+  c("Q1", "q2_renamed", "Q3", "q4_renamed"),
+  mapping_uppercase$dat_mod |> names()
+)

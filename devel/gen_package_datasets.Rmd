@@ -3,8 +3,7 @@ title: "Generate fake survey data"
 author: "Urs Wilke"
 date: "12/1/2020"
 output: 
-  html_document:
-    keep_md: true
+  html_document
 ---
 
 ```{r setup, include=FALSE}
@@ -33,7 +32,8 @@ command_block_classes <- tribble(
                   "#DIC",             "cmd_dic",      "Free",
               "#AUTOREC",         "cmd_autorec", "Variables",
               "#STR2NUM",      "cmd_str_to_num", "Variables",
-               "#RENAME",          "cmd_rename", "Variables",
+      "#RENAME_varsheet", "cmd_rename_varsheet", "Variables",
+               "#RENAME",          "cmd_rename",      "Free",
                 "#MERGE",           "cmd_merge",      "Free",
               "#NEWVALL",         "cmd_newvall",     "Label",
              "#verbatim",        "cmd_verbatim", "Verbatims",
@@ -46,6 +46,8 @@ command_block_classes <- tribble(
                 "#COMPR",            "cmd_comp",      "Free",
                 "#RMVAL",           "cmd_rmval",      "Free",
               "#ADDFILE",         "cmd_addfile",      "Free",
+               "#SELECT",          "cmd_select",      "Free",
+               "#FILTER",          "cmd_filter",      "Free",
 )
 
 usethis::use_data(command_block_classes, overwrite = TRUE)

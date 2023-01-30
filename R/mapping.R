@@ -129,8 +129,16 @@ Mapping <- R6::R6Class(
         self$dat_mod <- self$dat
       }
 
+      if (self$params$lowercase_varnames) {
+        attr(self$dat_mod, "original_varnames") <- names(self$dat)
+        self$dat_mod <- self$dat_mod |> rename_with(tolower)
+      }
+
       apply_command_blocks(command_blocks, self)
 
+      if (self$params$lowercase_varnames) {
+        self$dat_mod <- rename_vars_to_original_case(self$dat_mod)
+      }
       invisible(self)
     },
     #' @description Save the modified data to a file
@@ -145,6 +153,21 @@ Mapping <- R6::R6Class(
     }
   )
 )
+
+
+rename_vars_to_original_case <- function(df) {
+  orig_names <- attr(df, "original_varnames")
+  rename_vec <- tibble::tibble(orig_names) |>
+    dplyr::mutate(lowercase_names = tolower(orig_names)) |>
+    dplyr::inner_join(
+      tibble::tibble(
+        lowercase_names = names(df)
+      ),
+      by = "lowercase_names"
+    ) |>
+    tibble::deframe()
+  df |> dplyr::rename(!!rename_vec)
+}
 #' Save the modified data of a mapping to a file
 #'
 #' The data can be exported to the file formats of Stata & SPSS. The Excel
@@ -184,21 +207,21 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   }
   raw <- tidyr::tibble(path, name, filetype, show)
   # add a sav file when there is an Rmd(that will import the sav):
-  df <- raw %>%
-    dplyr::bind_rows(raw %>%
-      dplyr::filter(filetype == "Rmd") %>%
+  df <- dplyr::bind_rows(
+    raw |>
+      dplyr::filter(filetype == "Rmd") |>
       dplyr::mutate(
         path = stringr::str_replace(path, "\\.Rmd$", ".sav"),
         filetype = "sav"
       ),
-    .
-    ) %>%
-    dplyr::distinct() %>%
+    raw
+    ) |>
+    dplyr::distinct() |>
     # For Rmd the result is a html:
     dplyr::mutate(res_path = stringr::str_replace(path, "\\.Rmd$", ".html"))
   purrr::walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
 
-  df$res_path[df$show] %>% purrr::walk(utils::browseURL)
+  df$res_path[df$show] |> purrr::walk(utils::browseURL)
 }
 
 
@@ -212,11 +235,11 @@ save_type <- function(df, path, filetype) {
   )
 }
 save_xlsx <- function(df, path) {
-  df %>%
+  df |>
     dplyr::mutate(dplyr::across(
       dplyr::everything(),
-      tablab::strip_attributes
-    )) %>%
+      strip_attributes
+    )) |>
     writexl::write_xlsx(path)
 }
 render_python_rmd <- function(path) {
@@ -244,7 +267,7 @@ apply_command_blocks.unsafe <- function(command_blocks, self) {
   purrr::walk(command_blocks, apply_command_block_unsafe, self)
 }
 apply_command_block_unsafe <- function(cdb, self) {
-  args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+  args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
   do.call(apply_command, args)
   invisible(self)
 }
@@ -268,14 +291,14 @@ apply_command_block_safe <- function(cdb, self) {
   tryCatch(
     {
       err_msg <- NA_character_
-      args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+      args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
       do.call(apply_command, args)
     },
     error = function(e) {
       if (self$params$debug) {
         browser()
         debugonce(apply_command)
-        args <- list(cdb = cdb, mapping = self) %>% append(cdb$args)
+        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
         do.call(apply_command, args)
       }
 
@@ -355,6 +378,9 @@ initialize_dat <- function(self, dat) {
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
 #' @param refresh Whether to only refresh the generation of the current active
 #'   sheet in the Excel mapping file.
+#' @param lowercase_varnames Whether to transform all variable names to
+#'   lowercase during data modification, and rename them back to their original
+#'   case (if still existing) in the end.
 #' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
@@ -384,6 +410,7 @@ gen_mapping_params <- function(
   miss_rec_val = -2,
   not_miss_to_filter_vars = NA_character_,
   refresh = FALSE,
+  lowercase_varnames = FALSE,
   # Needed for developing...:
   # These only need to interest you if you want to override params that
   # already were defined in the Excel file (see arg `override_excel`):
@@ -419,6 +446,7 @@ gen_mapping_params <- function(
     miss_rec_val,
     not_miss_to_filter_vars,
     refresh,
+    lowercase_varnames,
     ...
   )
   if (debug) {
@@ -444,7 +472,7 @@ gen_mapping_params <- function(
 #' @export
 #'
 #' @examples
-#' gen_mapping_params() %>% update_mapping_params(refresh = TRUE)
+#' gen_mapping_params() |> update_mapping_params(refresh = TRUE)
 #' @rdname gen_mapping_params
 update_mapping_params <- function(mapping_params, ...) {
   utils::modifyList(

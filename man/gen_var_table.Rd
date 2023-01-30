@@ -17,7 +17,7 @@ Generate the "Variables" sheet table
 }
 \examples{
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-dat <- spss_file \%>\%
+dat <- spss_file |>
   haven::read_sav()
 gen_var_table(dat)
 }

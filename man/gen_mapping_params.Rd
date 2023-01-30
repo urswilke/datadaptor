@@ -25,6 +25,7 @@ gen_mapping_params(
   miss_rec_val = -2,
   not_miss_to_filter_vars = NA_character_,
   refresh = FALSE,
+  lowercase_varnames = FALSE,
   dots_args,
   ...
 )
@@ -85,6 +86,10 @@ names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 \item{refresh}{Whether to only refresh the generation of the current active
 sheet in the Excel mapping file.}
 
+\item{lowercase_varnames}{Whether to transform all variable names to
+lowercase during data modification, and rename them back to their original
+case (if still existing) in the end.}
+
 \item{dots_args}{for internal use.}
 
 \item{...}{Named params to overwrite result of \code{gen_mapping_params()}.}
@@ -112,7 +117,7 @@ named list, having their "R_" prefix removed.
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
 gen_mapping_params(mapping_file)
-gen_mapping_params() \%>\% update_mapping_params(refresh = TRUE)
+gen_mapping_params() |> update_mapping_params(refresh = TRUE)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
 extract_excel_params(mapping_file)

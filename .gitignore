@@ -7,4 +7,5 @@ doc
 Meta
 playground
 devel/*/*_cache/*
+devel/*/*Rprofvis
 docs

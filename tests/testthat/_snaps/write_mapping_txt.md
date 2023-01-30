@@ -882,46 +882,53 @@
       
       
       $Free1
-      # A tibble: 37 x 6
-         X1     X2                   X3                              X4    X5      row
-         <chr>  <chr>                <chr>                           <chr> <chr> <int>
-       1 #COMP  x                    "q1 == 2"                       <NA>   <NA>     3
-       2 #IF    q1 == 1 | q3 == 2    "abc = 7"                       <NA>   <NA>     4
-       3 #IF    q{2_renamed 3} == 1  "kq{5 6} = {7 8}"               <NA>   <NA>     5
-       4 #REC   q{1 3}               "kq{1 3}"                       summ~  <NA>     7
-       5 <NA>   1                    "2"                             1     "1-2"     8
-       6 <NA>   3                    "3"                             2     "3"       9
-       7 .      4                    "5"                             3     "4-5"    10
-       8 <NA>   1                    "2"                             3     "lin~    11
-       9 <NA>   1                    "2"                             3     "lin~    12
-      10 #KG    kq1                  "q2_renamed"                    <NA>   <NA>    13
-      11 #COMP  n                    "1"                             <NA>   <NA>    14
-      12 #VARL  n                    "my new label"                  <NA>   <NA>    15
-      13 #VALL  n                    "overwrite new label"           <NA>   <NA>    17
-      14 <NA>   1                    "also with"                     <NA>   <NA>    18
-      15 <NA>   2                    "value labels"                  <NA>   <NA>    19
-      16 .      3                    "now"                           <NA>   <NA>    20
-      17 #AVALL n                     <NA>                           <NA>   <NA>    22
-      18 .      4                    "added label"                   <NA>   <NA>    23
-      19 #VARL  q{ 3 5}              "Almost same variable label fo~ <NA>   <NA>    27
-      20 <NA>   should be ignored     <NA>                           <NA>   <NA>    28
-      21 <NA>   <NA>                 "should be ignored"             <NA>   <NA>    29
-      22 #COMP  a{1 2}               "{3 4}"                         <NA>   <NA>    30
-      23 #VARL  a1 a2                "same variable label for a1 & ~ <NA>   <NA>    31
-      24 #DIC   q3                   "q4_renamed"                    <NA>   <NA>    33
-      25 <NA>   <NA>                 "!!! Standard auto-correction ~ <NA>   <NA>    34
-      26 <NA>   <NA>                 "see here: https://superuser.c~ <NA>   <NA>    35
-      27 #COMPR r_expr_var           "haven::labelled(ifelse(q1 == ~ <NA>   <NA>    36
-      28 #MERGE fake_survey.sav      "id"                            q1 q2  <NA>    38
-      29 #RFUN  example_R_function.R "calc_sum_of_k_vars"            <NA>   <NA>    40
-      30 #REC   q1                   "kkq1"                          vl     <NA>    48
-      31 <NA>   1                     <NA>                           1     "a"      49
-      32 <NA>   2                     <NA>                           2     "b"      50
-      33 <NA>   3                     <NA>                           2      <NA>    51
-      34 <NA>   4                     <NA>                           2      <NA>    52
-      35 <NA>   5                     <NA>                           2      <NA>    53
-      36 #RMVAL q1                   "q1"                            new_~  <NA>    56
-      37 <NA>   99                    <NA>                           <NA>   <NA>    57
+      # A tibble: 44 x 6
+         X1      X2                   X3                             X4    X5      row
+         <chr>   <chr>                <chr>                          <chr> <chr> <int>
+       1 #COMP   x                    "q1 == 2"                      <NA>   <NA>     3
+       2 #IF     q1 == 1 | q3 == 2    "abc = 7"                      <NA>   <NA>     4
+       3 #IF     q{2_renamed 3} == 1  "kq{5 6} = {7 8}"              <NA>   <NA>     5
+       4 #REC    q{1 3}               "kq{1 3}"                      summ~  <NA>     7
+       5 <NA>    1                    "2"                            1     "1-2"     8
+       6 <NA>    3                    "3"                            2     "3"       9
+       7 .       4                    "5"                            3     "4-5"    10
+       8 <NA>    1                    "2"                            3     "lin~    11
+       9 <NA>    1                    "2"                            3     "lin~    12
+      10 #KG     kq1                  "q2_renamed"                   <NA>   <NA>    13
+      11 #COMP   n                    "1"                            <NA>   <NA>    14
+      12 #VARL   n                    "my new label"                 <NA>   <NA>    15
+      13 #VALL   n                    "overwrite new label"          <NA>   <NA>    17
+      14 <NA>    1                    "also with"                    <NA>   <NA>    18
+      15 <NA>    2                    "value labels"                 <NA>   <NA>    19
+      16 .       3                    "now"                          <NA>   <NA>    20
+      17 #AVALL  n                     <NA>                          <NA>   <NA>    22
+      18 .       4                    "added label"                  <NA>   <NA>    23
+      19 #VARL   q{ 3 5}              "Almost same variable label f~ <NA>   <NA>    27
+      20 <NA>    should be ignored     <NA>                          <NA>   <NA>    28
+      21 <NA>    <NA>                 "should be ignored"            <NA>   <NA>    29
+      22 #COMP   a{1 2}               "{3 4}"                        <NA>   <NA>    30
+      23 #VARL   a1 a2                "same variable label for a1 &~ <NA>   <NA>    31
+      24 #DIC    q3                   "q4_renamed"                   <NA>   <NA>    33
+      25 <NA>    <NA>                 "!!! Standard auto-correction~ <NA>   <NA>    34
+      26 <NA>    <NA>                 "see here: https://superuser.~ <NA>   <NA>    35
+      27 #COMPR  r_expr_var           "haven::labelled(ifelse(q1 ==~ <NA>   <NA>    36
+      28 #MERGE  fake_survey.sav      "id"                           q1 q2  <NA>    38
+      29 #RFUN   example_R_function.R "calc_sum_of_k_vars"           <NA>   <NA>    40
+      30 #REC    q1                   "kkq1"                         vl     <NA>    48
+      31 <NA>    1                     <NA>                          1     "a"      49
+      32 <NA>    2                     <NA>                          2     "b"      50
+      33 <NA>    3                     <NA>                          2      <NA>    51
+      34 <NA>    4                     <NA>                          2      <NA>    52
+      35 <NA>    5                     <NA>                          2      <NA>    53
+      36 #RMVAL  q1                   "q1"                           new_~  <NA>    56
+      37 <NA>    99                    <NA>                          <NA>   <NA>    57
+      38 #RENAME q2_renamed           "q2new"                        <NA>   <NA>    59
+      39 <NA>    q4_renamed           "q4new"                        <NA>   <NA>    60
+      40 #SELECT q2new:q3              <NA>                          <NA>   <NA>    62
+      41 <NA>    everything()          <NA>                          <NA>   <NA>    63
+      42 <NA>    -q4new                <NA>                          <NA>   <NA>    64
+      43 #FILTER !id %in% 21:100       <NA>                          <NA>   <NA>    66
+      44 <NA>    !id %in% 10:19        <NA>                          <NA>   <NA>    67
       
       $Free2
       # A tibble: 1 x 6

@@ -12,8 +12,8 @@
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' dat_mod <- spss_file %>%
-#'   haven::read_sav() %>%
+#' dat_mod <- spss_file |>
+#'   haven::read_sav() |>
 #'   # add a new variable in the first column of the dataframe:
 #'   dplyr::mutate(
 #'     new_var = haven::labelled(1, label = "variable label of new_var"),
@@ -32,24 +32,24 @@ update_var_table <- function(dat,
   df_varl_new <- gen_var_table_raw(dat)
 
   if (abort_if_commands_lost) {
-    df_commands_lost <- df_varl %>%
-      dplyr::filter(dplyr::if_any(c("new_label", "new_name", "op"), ~is.na(.x))) %>%
+    df_commands_lost <- df_varl |>
+      dplyr::filter(dplyr::if_any(c("new_label", "new_name", "op"), ~is.na(.x))) |>
       dplyr::anti_join(df_varl_new, by = c("var", "varlab", "type"))
     stopifnot(nrow(df_commands_lost) == 0)
   }
 
-  df_varl_new %>%
+  df_varl_new |>
     dplyr::left_join(df_varl, by = c("var", "varlab", "type"))
 }
 
 gen_var_table_raw <- function(dat) {
-  df_types <- dat %>%
-    purrr::map_chr(typeof) %>%
+  df_types <- dat |>
+    purrr::map_chr(typeof) |>
     tibble::enframe("var", "type")
-  df_types %>%
+  df_types |>
     dplyr::full_join(
-      dat %>%
-        tablab::tab_varlabs(),
+      dat |>
+        tab_varlabs(),
       by = "var"
     )
 }
@@ -68,8 +68,8 @@ gen_var_table_raw <- function(dat) {
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' dat_mod <- spss_file %>%
-#'   haven::read_sav() %>%
+#' dat_mod <- spss_file |>
+#'   haven::read_sav() |>
 #'   # add a new variable in the first column of the dataframe:
 #'   dplyr::mutate(
 #'     new_var = haven::labelled(
@@ -87,27 +87,27 @@ update_label_table <- function(dat,
     mapping_file,
     sheet = sheet,
     col_types = "text"
-  ) %>%
+  ) |>
     dplyr::mutate(nv = as.numeric(.data$nv))
   df_vall_new <- gen_label_table_raw(dat)
 
   if (abort_if_commands_lost) {
-    df_commands_lost <- df_vall %>%
+    df_commands_lost <- df_vall |>
       dplyr::filter(dplyr::if_any(
         c("new_label", "sum_var_label", "sum_var_value", "sum_var_vallab"),
         ~is.na(.x)
-      )) %>%
-      dplyr::anti_join(df_vall_new, by = c("var", "nv", "cv", "vallab"))
+      )) |>
+      dplyr::anti_join(df_vall_new, by = c("var", "nv", "vallab"))
     stopifnot(nrow(df_commands_lost) == 0)
   }
 
-  df_vall_new %>%
-    dplyr::left_join(df_vall, by = c("var", "nv", "cv", "vallab"))
+  df_vall_new |>
+    dplyr::left_join(df_vall, by = c("var", "nv", "vallab"))
 
 }
 
 gen_label_table_raw <- function(dat) {
-  tablab::tab_vallabs(dat)
+  tab_vallabs(dat)
 }
 
 #' Generate the "Variables" sheet table
@@ -119,11 +119,11 @@ gen_label_table_raw <- function(dat) {
 #'
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' dat <- spss_file %>%
+#' dat <- spss_file |>
 #'   haven::read_sav()
 #' gen_var_table(dat)
 gen_var_table <- function(dat) {
-  gen_var_table_raw(dat) %>%
+  gen_var_table_raw(dat) |>
     dplyr::mutate(
       new_label = "",
       new_name = "",
@@ -140,11 +140,11 @@ gen_var_table <- function(dat) {
 #'
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' dat <- spss_file %>%
+#' dat <- spss_file |>
 #'   haven::read_sav()
 #' gen_label_table(dat)
 gen_label_table <- function(dat) {
-  gen_label_table_raw(dat) %>%
+  gen_label_table_raw(dat) |>
     dplyr::mutate(
       new_label      = "",
       sum_var_label  = "",
@@ -152,3 +152,40 @@ gen_label_table <- function(dat) {
       sum_var_vallab = ""
     )
 }
+
+
+
+
+tab_1var_vallabs <- function(x) {
+  vallab_vec <- attr(x, "labels")
+  if (is.null(vallab_vec)) {
+    return(tibble::tibble(
+      nv = double(),
+      vallab = character()
+    ))
+  }
+  if (is.character(vallab_vec)) {
+    stop("Value label tabulation not yet implemented for string variables!")
+  }
+  tibble::tibble(
+    nv = unname(vallab_vec),
+    vallab = names(vallab_vec)
+  )
+}
+tab_vallabs <- function(df) {
+  df |> purrr::map_dfr(tab_1var_vallabs, .id = "var")
+}
+
+tab_1var_varlab <- function(x) {
+  varlab <- attr(x, "label", exact = TRUE)
+  if (is.null(varlab)) {
+    return(NA_character_)
+  }
+  varlab
+}
+tab_varlabs <- function(df) {
+  df |>
+    purrr::map_chr(\(x) tab_1var_varlab(x)) |>
+    tibble::enframe("var", "varlab")
+}
+

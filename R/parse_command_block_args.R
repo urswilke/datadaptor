@@ -33,26 +33,25 @@
 #' args_tbl <- tibble::tibble(
 #'   cmd = unique_cmd_tbl$action,
 #'   example = args_overview
-#' ) %>%
-#'   tidyr::unnest_longer(example, indices_to = "arg") %>%
-#'   .[c(1, 3, 2)]
+#' ) |>
+#'   tidyr::unnest_longer(example, indices_to = "arg")
 #'
 #' print(args_tbl, n = 1000)
 #'
-#' args_tbl %>%
+#' args_tbl |>
 #'   dplyr::group_by(
-#'     arg_class = arg %>%
-#'       stringr::str_remove("\\d$") %>%
+#'     arg_class = arg |>
+#'       stringr::str_remove("\\d$") |>
 #'       stringr::str_remove("s$")
-#'   ) %>%
-#'   dplyr::group_by(cmd) %>%
-#'   dplyr::mutate(arg = paste(arg, collapse = " ")) %>%
-#'   dplyr::mutate(example = unname(example)) %>%
+#'   ) |>
+#'   dplyr::group_by(cmd) |>
+#'   dplyr::mutate(arg = paste(arg, collapse = " ")) |>
+#'   dplyr::mutate(example = unname(example)) |>
 #'   tidyr::pivot_wider(
 #'     names_from = arg_class,
 #'     values_from = example,
 #'     values_fn = list
-#'   ) %>%
+#'   ) |>
 #'   print(n = 100)
 parse_command_args <- function(cdb_raw) {
   UseMethod("parse_command_args")
@@ -92,6 +91,18 @@ parse_command_args.cmd_drop <- function(cdb_raw) {
   )
 }
 #' @export
+parse_command_args.cmd_select <- function(cdb_raw) {
+  list(
+    exs = cdb_raw$X2
+  )
+}
+#' @export
+parse_command_args.cmd_filter <- function(cdb_raw) {
+  list(
+    exs = cdb_raw$X2
+  )
+}
+#' @export
 parse_command_args.cmd_verbatim <- function(cdb_raw) {
   vallabs_named <- cdb_raw$vallab[[1]]
 
@@ -124,9 +135,9 @@ parse_command_args.cmd_verbatim_custom <- function(cdb_raw) {
 }
 #' @export
 parse_command_args.cmd_merge <- function(cdb_raw) {
-  varnames_vec <- cdb_raw$X4[1] %>%
-    stringr::str_trim() %>%
-    stringr::str_split(" ", simplify = TRUE) %>%
+  varnames_vec <- cdb_raw$X4[1] |>
+    stringr::str_trim() |>
+    stringr::str_split(" ", simplify = TRUE) |>
     as.vector()
 
   list(
@@ -160,17 +171,24 @@ parse_command_args.cmd_rmval <- function(cdb_raw) {
   )
 }
 #' @export
-parse_command_args.cmd_rename <- function(cdb_raw) {
+parse_command_args.cmd_rename_varsheet <- function(cdb_raw) {
   list(
     xs = cdb_raw$new_names[[1]],
     ys = cdb_raw$vars[[1]]
   )
 }
 #' @export
+parse_command_args.cmd_rename <- function(cdb_raw) {
+  list(
+    xs = cdb_raw$X3,
+    ys = cdb_raw$X2
+  )
+}
+#' @export
 parse_command_args.cmd_if <- function(cdb_raw) {
-  assignment <- cdb_raw$X3 %>%
-    stringr::str_split("=") %>%
-    unlist() %>%
+  assignment <- cdb_raw$X3 |>
+    stringr::str_split("=") |>
+    unlist() |>
     stringr::str_squish()
 
   list(
@@ -214,7 +232,7 @@ parse_command_args.cmd_set_labs <- function(cdb_raw) {
   list(
     x = cdb_raw$X2[1],
     varlab = varlab,
-    vs = cdb_raw$X2[-1] %>% as.numeric(),
+    vs = cdb_raw$X2[-1] |> as.numeric(),
     vallabs = cdb_raw$X3[-1]
   )
 }
@@ -227,7 +245,7 @@ parse_command_args.cmd_add_labs <- function(cdb_raw) {
   list(
     x = cdb_raw$X2[1],
     varlab = varlab,
-    vs = cdb_raw$X2[-1] %>% as.numeric(),
+    vs = cdb_raw$X2[-1] |> as.numeric(),
     vallabs = cdb_raw$X3[-1]
   )
 }
@@ -235,7 +253,7 @@ parse_command_args.cmd_add_labs <- function(cdb_raw) {
 parse_command_args.cmd_newvall <- function(cdb_raw) {
   list(
     x = cdb_raw$var[1],
-    vs = cdb_raw$nv %>% as.numeric(),
+    vs = cdb_raw$nv |> as.numeric(),
     vallabs = cdb_raw$new_label
   )
 }
@@ -244,9 +262,9 @@ parse_command_args.cmd_rec <- function(cdb_raw) {
   list(
     y = cdb_raw$X2[1],
     x = cdb_raw$X3[1],
-    vs0 = cdb_raw$X2[-1] %>% as.numeric(),
-    vs2 = cdb_raw$X3[-1] %>% as.numeric(),
-    vs = cdb_raw$X4[-1] %>% as.numeric(),
+    vs0 = cdb_raw$X2[-1] |> as.numeric(),
+    vs2 = cdb_raw$X3[-1] |> as.numeric(),
+    vs = cdb_raw$X4[-1] |> as.numeric(),
     vallabs = cdb_raw$X5[-1],
     varlab = cdb_raw$X4[1]
   )
@@ -258,8 +276,8 @@ parse_command_args.cmd_sumvar <- function(cdb_raw) {
     x = paste0("k", cdb_raw$var[1]),
     y = cdb_raw$var[1],
     varlab = cdb_raw$sum_var_label[1],
-    vs0 = cdb_raw$nv %>% as.numeric(),
-    vs = cdb_raw$sum_var_value %>% as.numeric(),
+    vs0 = cdb_raw$nv |> as.numeric(),
+    vs = cdb_raw$sum_var_value |> as.numeric(),
     vallabs = cdb_raw$sum_var_vallab
   )
 }

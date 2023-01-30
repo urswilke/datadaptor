@@ -427,7 +427,7 @@ df_q3_counts
 However, we want to show the variable labels in this frequency table. We can 
 obtain the variable labels from the dataset:
 ```{r}
-varlabs <- df_q3 %>% tablab::tab_varlabs()
+varlabs <- df_q3 %>% gen_var_table()
 varlabs
 ```
 
@@ -489,7 +489,7 @@ We'll also add the modified variable labels to the our summary of means table, a
 the multiple choice question [Q3](#Q3)
 
 ```{r}
-varlabs <- df_q4 %>% tablab::tab_varlabs()
+varlabs <- df_q4 %>% gen_var_table()
 varlabs <- varlabs %>% mutate(varlab = str_remove(varlab, ".* - "))
 varlabs
 ```

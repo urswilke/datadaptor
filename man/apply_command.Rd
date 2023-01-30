@@ -8,10 +8,13 @@
 \alias{apply_command.cmd_rfun}
 \alias{apply_command.cmd_kg}
 \alias{apply_command.cmd_drop}
+\alias{apply_command.cmd_select}
+\alias{apply_command.cmd_filter}
 \alias{apply_command.cmd_verbatim}
 \alias{apply_command.cmd_verbatim_custom}
 \alias{apply_command.cmd_merge}
 \alias{apply_command.cmd_addfile}
+\alias{apply_command.cmd_rename_varsheet}
 \alias{apply_command.cmd_rename}
 \alias{apply_command.cmd_if}
 \alias{apply_command.cmd_comp}
@@ -40,6 +43,10 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_kg}(cdb, mapping, x, y, ...)
 
 \method{apply_command}{cmd_drop}(cdb, mapping, xs, ...)
+
+\method{apply_command}{cmd_select}(cdb, mapping, exs, ...)
+
+\method{apply_command}{cmd_filter}(cdb, mapping, exs, ...)
 
 \method{apply_command}{cmd_verbatim}(
   cdb,
@@ -74,6 +81,8 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id = mapping$params$id_var, ...)
 
 \method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
+
+\method{apply_command}{cmd_rename_varsheet}(cdb, mapping, xs, ys, ...)
 
 \method{apply_command}{cmd_rename}(cdb, mapping, xs, ys, ...)
 
@@ -151,6 +160,10 @@ defined in the R script named \code{filepath}.
 
 \item \code{apply_command(cmd_drop)}: 
 
+\item \code{apply_command(cmd_select)}: 
+
+\item \code{apply_command(cmd_filter)}: 
+
 \item \code{apply_command(cmd_verbatim)}: 
 
 \item \code{apply_command(cmd_verbatim_custom)}: 
@@ -158,6 +171,8 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_merge)}: 
 
 \item \code{apply_command(cmd_addfile)}: 
+
+\item \code{apply_command(cmd_rename_varsheet)}: 
 
 \item \code{apply_command(cmd_rename)}: 
 
@@ -195,10 +210,10 @@ mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 m <- Mapping$new(spss_file, mapping_file)
 # Construct a command_block of the 10th line in m$cmd$df_cmd_raw:
-cb <- m$cmd$df_cmd_raw[10, ] \%>\%
+cb <- m$cmd$df_cmd_raw[10, ] |>
   command_block()
 # Generate command_blocks object:
-cbs <- list(cb) \%>\%
+cbs <- list(cb) |>
   datenanpassr:::new_command_blocks(subclass = "unsafe")
 # Apply it to the data:
 m$modify_data(command_blocks = cbs)

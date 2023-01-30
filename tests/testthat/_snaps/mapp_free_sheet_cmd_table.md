@@ -1,6 +1,6 @@
 # snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
-    # A tibble: 23 x 4
+    # A tibble: 26 x 4
        row            action new_var        data            
        <chr>          <chr>  <chr>          <list>          
      1 3              #COMP  x              <tibble [1 x 5]>
@@ -13,15 +13,15 @@
      8 14             #COMP  n              <tibble [1 x 5]>
      9 15             #VARL  n              <tibble [1 x 5]>
     10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
-    # ... with 13 more rows
+    # ... with 16 more rows
 
 ---
 
-    tibble [23 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:23] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:23] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:23] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 23
+    tibble [26 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:26] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:26] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:26] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 26
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -159,5 +159,23 @@
       .. ..$ X2: chr [1:2] "q1" "99"
       .. ..$ X3: chr [1:2] "q1" NA
       .. ..$ X4: chr [1:2] "new_varlab" NA
+      .. ..$ X5: chr [1:2] NA NA
+      ..$ : tibble [2 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr [1:2] "#RENAME" NA
+      .. ..$ X2: chr [1:2] "q2_renamed" "q4_renamed"
+      .. ..$ X3: chr [1:2] "q2new" "q4new"
+      .. ..$ X4: chr [1:2] NA NA
+      .. ..$ X5: chr [1:2] NA NA
+      ..$ : tibble [3 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr [1:3] "#SELECT" NA NA
+      .. ..$ X2: chr [1:3] "q2new:q3" "everything()" "-q4new"
+      .. ..$ X3: chr [1:3] NA NA NA
+      .. ..$ X4: chr [1:3] NA NA NA
+      .. ..$ X5: chr [1:3] NA NA NA
+      ..$ : tibble [2 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr [1:2] "#FILTER" NA
+      .. ..$ X2: chr [1:2] "!id %in% 21:100" "!id %in% 10:19"
+      .. ..$ X3: chr [1:2] NA NA
+      .. ..$ X4: chr [1:2] NA NA
       .. ..$ X5: chr [1:2] NA NA
 

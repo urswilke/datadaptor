@@ -5,7 +5,7 @@
 \alias{safer_env}
 \title{Environment where expressions from the Excel mapping file are evaluated}
 \format{
-An object of class \code{environment} of length 65.
+An object of class \code{environment} of length 66.
 }
 \usage{
 safer_env
@@ -14,6 +14,6 @@ safer_env
 See \code{?Mapping}
 }
 \examples{
-safer_env \%>\% as.list() \%>\% names()
+safer_env |> as.list() |> names()
 }
 \keyword{datasets}

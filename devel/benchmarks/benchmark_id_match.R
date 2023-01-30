@@ -27,15 +27,15 @@ bench_match <- function(n_obs) {
   a
 
 }
-b <- 10^(1:6) %>% set_names() %>% map(bench_match)
+b <- 10^(1:6) |> set_names() |> map(bench_match)
 # all.equal(df, df2)
 
-b %>%
-  map(as_tibble) %>%
-  bind_rows(.id = "n") %>%
-  group_by(expr, n) %>%
-  summarise(t = mean(time)) %>%
-  ungroup() %>%
+b |>
+  map(as_tibble) |>
+  bind_rows(.id = "n") |>
+  group_by(expr, n) |>
+  summarise(t = mean(time)) |>
+  ungroup() |>
   ggplot(aes(n, t, color = expr, group = expr)) +
   geom_line() +
   scale_y_log10()
