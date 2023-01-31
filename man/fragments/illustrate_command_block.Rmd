@@ -50,6 +50,7 @@ join_labs <- function(df) {
   df |>
     dplyr::mutate(
       dplyr::across(
+        .cols = everything(),
         .fns = as.character
       ),
       val = NA_character_,
