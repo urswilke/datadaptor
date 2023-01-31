@@ -58,30 +58,25 @@ then applies it on the data* (with `apply_command()`).
 # Command block examples
 
 ```{r fun_defs_illu, echo=FALSE}
-process_cdb_raw <- function(dat, cdb_args_raw) {
-  cdb_class <- command_block_classes[command_block_classes$keyword == cdb_args_raw$X1[1], ][["command_block"]]
-  class(cdb_args_raw) <- c(cdb_class, class(cdb_args_raw))
-  cdb_args <- cdb_args_raw %>% parse_command_args()
-  m0 <- Mapping$new()
-  m0$dat_mod <- dat
-  
-  arg_list <- list(
-    cdb = structure(
-      list(),
-      class = cdb_class
-    ),
-    mapping = m0
-  ) %>% append(
-    cdb_args
-  )
-  do.call(apply_command, arg_list)  
-  
-  list(
-    cdb_class = cdb_class,
-    cdb_args = cdb_args,
-    result = m0$dat_mod
-  )
-  
+process_cdb_raw <- function(dat, cdb_args_raw, sheet_cat, ...) {
+  mapping_file <- adapt_mapping_format(cdb_args_raw, sheet_cat)
+  Mapping$new(dat, mapping_file, ...)$modify_data()$dat_mod
+}
+adapt_mapping_format <- function(cdb_args_raw, sheet_cat) {
+  if (sheet_cat == "Free") {
+    cdb_args_raw <- bind_rows(
+      tibble(
+        X1 = character(),
+        X2 = character(),
+        X3 = character(),
+        X4 = character(),
+        X5 = character(),
+      ),
+      cdb_args_raw |> mutate(row = row_number())
+    )
+    mapping_file <- tibble::lst(!!sheet_cat := cdb_args_raw)
+    return(mapping_file)
+  }
 }
 
 tab_labels_wide <- function(df) {
@@ -118,12 +113,11 @@ join_labs <- function(df) {
 }
 
 
-print_cmd_exe <- function(dat, cdb_args_raw) {
-  res <- process_cdb_raw(dat, cdb_args_raw)
-  input_data <- dat %>% excelish()
+print_cmd_exe <- function(dat, cdb_args_raw, sheet_cat, ...) {
+  dat_mod <- process_cdb_raw(dat, cdb_args_raw, sheet_cat, ...)
   
   old_table <- join_labs(dat)
-  new_table <- join_labs(res$result)
+  new_table <- join_labs(dat_mod)
   
   join_cols <- dplyr::union(names(old_table), names(new_table))
   
@@ -171,9 +165,10 @@ color_gt_labels <- function(gt_obj) {
     gt::cols_label(val = "")
 }
 
-illustrate_cmd_block <- function(dat, cdb_args_raw) {
+illustrate_cmd_block <- function(dat, cdb_args_raw, sheet_cat, ...) {
   cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
-  gts <- print_cmd_exe(dat, cdb_args_raw)
+  
+  gts <- print_cmd_exe(dat, cdb_args_raw, sheet_cat, ...)
   htmltools::div(
     class = "flex-container", 
     htmltools::div(style = "align-self: flex-start", gts$old_gt),
@@ -202,6 +197,10 @@ illustrate_cmd_block <- function(dat, cdb_args_raw) {
 
 ```
 
+```{r, echo=FALSE}
+sheet_cat <- "Free"
+```
+
 
 ## `#VARL`
 
@@ -210,7 +209,7 @@ dat <- tibble(q1 = 4:6)
 
 cdb_args_raw <- tibble(X1 = "#VARL", X2 = "q1", X3 = "assigned variable label")
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 
@@ -234,7 +233,7 @@ cdb_args_raw <- tibble::tribble(
    NA,  "2", "No"
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 This command also does not change the values. Just like `#VARL`, it assigns the variable label
@@ -258,7 +257,7 @@ cdb_args_raw <- tibble::tribble(
    NA,  "3", "c"
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 `#AVALL` does the same as `#VALL`, except that it keeps the value values of the 
@@ -278,7 +277,7 @@ cdb_args_raw <- tibble::tribble(
    NA,  "3", "", NA_character_,
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 Here, the `#RMVAL` command makes a copy of `q1`, named `q2`, and removes the 
@@ -300,7 +299,7 @@ cdb_args_raw <- tibble::tribble(
   "#COMP", "q2", "5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 This command **comp**utes a new variable (specified in column **B**) with the value 
 in column **C**.
@@ -317,7 +316,7 @@ cdb_args_raw <- tibble::tribble(
   "#COMP", "q2", "q1",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 ## `#IF`
@@ -332,7 +331,7 @@ cdb_args_raw <- tibble::tribble(
   "#IF", "q1 >= 2", "q2 = 5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 This command takes a condition (more precisely a logical vector of length of the 
 variables in the data) in column **B** and an assignment in column **C** (of the form 
@@ -356,7 +355,7 @@ cdb_args_raw <- tibble::tribble(
   "#IF", "q1 >= 2", "q2 = 5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 Here the value of 7 in the first row is kept from the original data.
@@ -373,7 +372,7 @@ cdb_args_raw <- tibble::tribble(
   "#IF", "q1 >= 2", "q1 = 5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 ## #REC
@@ -391,7 +390,7 @@ cdb_args_raw <- tibble::tribble(
   "", "4", "5", "3", "d & e",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 The `#REC` command **rec**odes variables. In this example `q1` is recoded to `q2`.
@@ -416,7 +415,7 @@ cdb_args_raw <- tibble::tribble(
   "", "1", "2", "1", "a & b",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 ### Example
@@ -432,7 +431,7 @@ cdb_args_raw <- tibble::tribble(
   "", "1", "2", "0", "a & b",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 ## #KG
@@ -454,11 +453,11 @@ dat <- tibble(
 )
 
 cdb_args_raw <- tibble::tribble(
-  ~X1, ~X2,            ~X3, 
+  ~X1, ~X2, ~X3, 
   "#KG", "q1", "q2", 
   )
 
-illustrate_cmd_block(dat, cdb_args_raw)
+illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```
 
 The `#KG` command is useful to calculate cross-tabulations for subsets. It 
