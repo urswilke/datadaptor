@@ -1,6 +1,4 @@
 process_command_blocks <- function(self) {
-
-
   if (self$params$refresh_sheet) {
     refresh_mapping_sheet(self)
   } else {
@@ -78,6 +76,10 @@ gen_sheet_cats <- function(self) {
   sheet_cats
 }
 gen_sheet_data_raw_list <- function(self) {
+  if (is.list(self$mapping_file)) {
+    return(self$mapping_file)
+  }
+
   sheet_cats <- gen_sheet_cats(self)
   purrr::map2(
     sheet_cats$sheet |>
