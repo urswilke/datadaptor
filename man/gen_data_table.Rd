@@ -4,10 +4,12 @@
 \alias{gen_data_table}
 \title{Generate data counts table}
 \usage{
-gen_data_table(df)
+gen_data_table(df, values_drop_na = FALSE)
 }
 \arguments{
 \item{df}{dataframe}
+
+\item{values_drop_na}{remove missing values? (passed to \code{tidyr::pivot_longer()}.)}
 }
 \value{
 Counts and labels data frame

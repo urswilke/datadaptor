@@ -20,8 +20,8 @@ test_that("Mapping$save() seems to work", {
     )
     expect_equal(
       unique(c(
-        tablab::strip_attributes(stata_output_vec),
-        tablab::strip_attributes(spss_output_vec),
+        strip_attributes(stata_output_vec),
+        strip_attributes(spss_output_vec),
         excel_output_vec
       )),
       c(1:3, -2)

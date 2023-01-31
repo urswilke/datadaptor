@@ -565,449 +565,449 @@
 
 # value labels are reproduced
 
-    # A tibble: 440 x 4
-        var                  nv vallab                                    cv   
-        <chr>             <dbl> <chr>                                     <chr>
-      1 screenout            -2 FILTER                                    <NA> 
-      2 screenout             1 ja                                        <NA> 
-      3 screenout             2 nein                                      <NA> 
-      4 q1                   -2 FILTER                                    <NA> 
-      5 q1                    1 1 Beschäftigter                           <NA> 
-      6 q1                    2 2 - 4 Beschäftigte                        <NA> 
-      7 q1                    3 5 - 9 Beschäftigte                        <NA> 
-      8 q1                    4 10 - 19 Beschäftigte                      <NA> 
-      9 q1                    5 20 Beschäftigte und mehr                  <NA> 
-     10 q1                   99 keine Angabe                              <NA> 
-     11 q2_00                -2 FILTER                                    <NA> 
-     12 q2_00                 0 Nicht gefiltert                           <NA> 
-     13 q2_00                 1 Gefiltert                                 <NA> 
-     14 q2_01                -2 FILTER                                    <NA> 
-     15 q2_01                 0 Nicht genannt                             <NA> 
-     16 q2_01                 1 Genannt                                   <NA> 
-     17 q2_02                -2 FILTER                                    <NA> 
-     18 q2_02                 0 Nicht genannt                             <NA> 
-     19 q2_02                 1 Genannt                                   <NA> 
-     20 q2_03                -2 FILTER                                    <NA> 
-     21 q2_03                 0 Nicht genannt                             <NA> 
-     22 q2_03                 1 Genannt                                   <NA> 
-     23 q2_04                -2 FILTER                                    <NA> 
-     24 q2_04                 0 Nicht genannt                             <NA> 
-     25 q2_04                 1 Genannt                                   <NA> 
-     26 q2_05                -2 FILTER                                    <NA> 
-     27 q2_05                 0 Nicht genannt                             <NA> 
-     28 q2_05                 1 Genannt                                   <NA> 
-     29 q2_06                -2 FILTER                                    <NA> 
-     30 q2_06                 0 Nicht genannt                             <NA> 
-     31 q2_06                 1 Genannt                                   <NA> 
-     32 q2_07                -2 FILTER                                    <NA> 
-     33 q2_07                 0 Nicht genannt                             <NA> 
-     34 q2_07                 1 Genannt                                   <NA> 
-     35 q2_99                -2 FILTER                                    <NA> 
-     36 q2_99                 0 Nicht genannt                             <NA> 
-     37 q2_99                 1 Genannt                                   <NA> 
-     38 q3a                  -2 FILTER                                    <NA> 
-     39 q3b                  -2 FILTER                                    <NA> 
-     40 q3c                  -2 FILTER                                    <NA> 
-     41 q3d                  -2 FILTER                                    <NA> 
-     42 q3e                  -2 FILTER                                    <NA> 
-     43 q3f                  -2 FILTER                                    <NA> 
-     44 q3g                  -2 FILTER                                    <NA> 
-     45 q4                   -3 weiß nicht                                <NA> 
-     46 q4                   -2 FILTER                                    <NA> 
-     47 q4                   -1 keine Angabe                              <NA> 
-     48 q6a                  -2 FILTER                                    <NA> 
-     49 q6a                   1 völlig unwichtig                          <NA> 
-     50 q6a                   2 unwichtig                                 <NA> 
-     51 q6a                   3 teils / teils                             <NA> 
-     52 q6a                   4 wichtig                                   <NA> 
-     53 q6a                   5 sehr wichtig                              <NA> 
-     54 q6a                  98 weiß nicht                                <NA> 
-     55 q6a                  99 keine Angabe                              <NA> 
-     56 q6b                  -2 FILTER                                    <NA> 
-     57 q6b                   1 völlig unwichtig                          <NA> 
-     58 q6b                   2 unwichtig                                 <NA> 
-     59 q6b                   3 teils / teils                             <NA> 
-     60 q6b                   4 wichtig                                   <NA> 
-     61 q6b                   5 sehr wichtig                              <NA> 
-     62 q6b                  98 weiß nicht                                <NA> 
-     63 q6b                  99 keine Angabe                              <NA> 
-     64 q6c                  -2 FILTER                                    <NA> 
-     65 q6c                   1 völlig unwichtig                          <NA> 
-     66 q6c                   2 unwichtig                                 <NA> 
-     67 q6c                   3 teils / teils                             <NA> 
-     68 q6c                   4 wichtig                                   <NA> 
-     69 q6c                   5 sehr wichtig                              <NA> 
-     70 q6c                  98 weiß nicht                                <NA> 
-     71 q6c                  99 keine Angabe                              <NA> 
-     72 q6d                  -2 FILTER                                    <NA> 
-     73 q6d                   1 völlig unwichtig                          <NA> 
-     74 q6d                   2 unwichtig                                 <NA> 
-     75 q6d                   3 teils / teils                             <NA> 
-     76 q6d                   4 wichtig                                   <NA> 
-     77 q6d                   5 sehr wichtig                              <NA> 
-     78 q6d                  98 weiß nicht                                <NA> 
-     79 q6d                  99 keine Angabe                              <NA> 
-     80 q6e                  -2 FILTER                                    <NA> 
-     81 q6e                   1 völlig unwichtig                          <NA> 
-     82 q6e                   2 unwichtig                                 <NA> 
-     83 q6e                   3 teils / teils                             <NA> 
-     84 q6e                   4 wichtig                                   <NA> 
-     85 q6e                   5 sehr wichtig                              <NA> 
-     86 q6e                  98 weiß nicht                                <NA> 
-     87 q6e                  99 keine Angabe                              <NA> 
-     88 q6f                  -2 FILTER                                    <NA> 
-     89 q6f                   1 völlig unwichtig                          <NA> 
-     90 q6f                   2 unwichtig                                 <NA> 
-     91 q6f                   3 teils / teils                             <NA> 
-     92 q6f                   4 wichtig                                   <NA> 
-     93 q6f                   5 sehr wichtig                              <NA> 
-     94 q6f                  98 weiß nicht                                <NA> 
-     95 q6f                  99 keine Angabe                              <NA> 
-     96 q6g                  -2 FILTER                                    <NA> 
-     97 q6g                   1 völlig unwichtig                          <NA> 
-     98 q6g                   2 unwichtig                                 <NA> 
-     99 q6g                   3 teils / teils                             <NA> 
-    100 q6g                   4 wichtig                                   <NA> 
-    101 q6g                   5 sehr wichtig                              <NA> 
-    102 q6g                  98 weiß nicht                                <NA> 
-    103 q6g                  99 keine Angabe                              <NA> 
-    104 q6h                  -2 FILTER                                    <NA> 
-    105 q6h                   1 völlig unwichtig                          <NA> 
-    106 q6h                   2 unwichtig                                 <NA> 
-    107 q6h                   3 teils / teils                             <NA> 
-    108 q6h                   4 wichtig                                   <NA> 
-    109 q6h                   5 sehr wichtig                              <NA> 
-    110 q6h                  98 weiß nicht                                <NA> 
-    111 q6h                  99 keine Angabe                              <NA> 
-    112 sel1                  1 <NA>                                      <NA> 
-    113 sel1                  2 <NA>                                      <NA> 
-    114 sel1                  3 <NA>                                      <NA> 
-    115 sel1                  4 <NA>                                      <NA> 
-    116 sel1                  5 <NA>                                      <NA> 
-    117 sel1                  6 <NA>                                      <NA> 
-    118 sel1                  7 <NA>                                      <NA> 
-    119 q7a1                 -2 FILTER                                    <NA> 
-    120 q7a1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    121 q7a1                  2 2                                         <NA> 
-    122 q7a1                  3 3                                         <NA> 
-    123 q7a1                  4 4                                         <NA> 
-    124 q7a1                  5 5                                         <NA> 
-    125 q7a1                  6 6                                         <NA> 
-    126 q7a1                  7 7                                         <NA> 
-    127 q7a1                  8 8                                         <NA> 
-    128 q7a1                  9 9                                         <NA> 
-    129 q7a1                 10 10 = außerordentlich zufrieden            <NA> 
-    130 q7a1                 99 keine Angabe                              <NA> 
-    131 q7a2                 -2 FILTER                                    <NA> 
-    132 q7a2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    133 q7a2                  2 2                                         <NA> 
-    134 q7a2                  3 3                                         <NA> 
-    135 q7a2                  4 4                                         <NA> 
-    136 q7a2                  5 5                                         <NA> 
-    137 q7a2                  6 6                                         <NA> 
-    138 q7a2                  7 7                                         <NA> 
-    139 q7a2                  8 8                                         <NA> 
-    140 q7a2                  9 9                                         <NA> 
-    141 q7a2                 10 10 = außerordentlich zufrieden            <NA> 
-    142 q7a2                 99 keine Angabe                              <NA> 
-    143 q7b1                 -2 FILTER                                    <NA> 
-    144 q7b1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    145 q7b1                  2 2                                         <NA> 
-    146 q7b1                  3 3                                         <NA> 
-    147 q7b1                  4 4                                         <NA> 
-    148 q7b1                  5 5                                         <NA> 
-    149 q7b1                  6 6                                         <NA> 
-    150 q7b1                  7 7                                         <NA> 
-    151 q7b1                  8 8                                         <NA> 
-    152 q7b1                  9 9                                         <NA> 
-    153 q7b1                 10 10 = außerordentlich zufrieden            <NA> 
-    154 q7b1                 99 keine Angabe                              <NA> 
-    155 q7b2                 -2 FILTER                                    <NA> 
-    156 q7b2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    157 q7b2                  2 2                                         <NA> 
-    158 q7b2                  3 3                                         <NA> 
-    159 q7b2                  4 4                                         <NA> 
-    160 q7b2                  5 5                                         <NA> 
-    161 q7b2                  6 6                                         <NA> 
-    162 q7b2                  7 7                                         <NA> 
-    163 q7b2                  8 8                                         <NA> 
-    164 q7b2                  9 9                                         <NA> 
-    165 q7b2                 10 10 = außerordentlich zufrieden            <NA> 
-    166 q7b2                 99 keine Angabe                              <NA> 
-    167 q7c1                 -2 FILTER                                    <NA> 
-    168 q7c1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    169 q7c1                  2 2                                         <NA> 
-    170 q7c1                  3 3                                         <NA> 
-    171 q7c1                  4 4                                         <NA> 
-    172 q7c1                  5 5                                         <NA> 
-    173 q7c1                  6 6                                         <NA> 
-    174 q7c1                  7 7                                         <NA> 
-    175 q7c1                  8 8                                         <NA> 
-    176 q7c1                  9 9                                         <NA> 
-    177 q7c1                 10 10 = außerordentlich zufrieden            <NA> 
-    178 q7c1                 99 keine Angabe                              <NA> 
-    179 q7c2                 -2 FILTER                                    <NA> 
-    180 q7c2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    181 q7c2                  2 2                                         <NA> 
-    182 q7c2                  3 3                                         <NA> 
-    183 q7c2                  4 4                                         <NA> 
-    184 q7c2                  5 5                                         <NA> 
-    185 q7c2                  6 6                                         <NA> 
-    186 q7c2                  7 7                                         <NA> 
-    187 q7c2                  8 8                                         <NA> 
-    188 q7c2                  9 9                                         <NA> 
-    189 q7c2                 10 10 = außerordentlich zufrieden            <NA> 
-    190 q7c2                 99 keine Angabe                              <NA> 
-    191 q7d1                 -2 FILTER                                    <NA> 
-    192 q7d1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    193 q7d1                  2 2                                         <NA> 
-    194 q7d1                  3 3                                         <NA> 
-    195 q7d1                  4 4                                         <NA> 
-    196 q7d1                  5 5                                         <NA> 
-    197 q7d1                  6 6                                         <NA> 
-    198 q7d1                  7 7                                         <NA> 
-    199 q7d1                  8 8                                         <NA> 
-    200 q7d1                  9 9                                         <NA> 
-    201 q7d1                 10 10 = außerordentlich zufrieden            <NA> 
-    202 q7d1                 99 keine Angabe                              <NA> 
-    203 q7d2                 -2 FILTER                                    <NA> 
-    204 q7d2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    205 q7d2                  2 2                                         <NA> 
-    206 q7d2                  3 3                                         <NA> 
-    207 q7d2                  4 4                                         <NA> 
-    208 q7d2                  5 5                                         <NA> 
-    209 q7d2                  6 6                                         <NA> 
-    210 q7d2                  7 7                                         <NA> 
-    211 q7d2                  8 8                                         <NA> 
-    212 q7d2                  9 9                                         <NA> 
-    213 q7d2                 10 10 = außerordentlich zufrieden            <NA> 
-    214 q7d2                 99 keine Angabe                              <NA> 
-    215 q7e1                 -2 FILTER                                    <NA> 
-    216 q7e1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    217 q7e1                  2 2                                         <NA> 
-    218 q7e1                  3 3                                         <NA> 
-    219 q7e1                  4 4                                         <NA> 
-    220 q7e1                  5 5                                         <NA> 
-    221 q7e1                  6 6                                         <NA> 
-    222 q7e1                  7 7                                         <NA> 
-    223 q7e1                  8 8                                         <NA> 
-    224 q7e1                  9 9                                         <NA> 
-    225 q7e1                 10 10 = außerordentlich zufrieden            <NA> 
-    226 q7e1                 99 keine Angabe                              <NA> 
-    227 q7e2                 -2 FILTER                                    <NA> 
-    228 q7e2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    229 q7e2                  2 2                                         <NA> 
-    230 q7e2                  3 3                                         <NA> 
-    231 q7e2                  4 4                                         <NA> 
-    232 q7e2                  5 5                                         <NA> 
-    233 q7e2                  6 6                                         <NA> 
-    234 q7e2                  7 7                                         <NA> 
-    235 q7e2                  8 8                                         <NA> 
-    236 q7e2                  9 9                                         <NA> 
-    237 q7e2                 10 10 = außerordentlich zufrieden            <NA> 
-    238 q7e2                 99 keine Angabe                              <NA> 
-    239 q7h1                 -2 FILTER                                    <NA> 
-    240 q7h1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    241 q7h1                  2 2                                         <NA> 
-    242 q7h1                  3 3                                         <NA> 
-    243 q7h1                  4 4                                         <NA> 
-    244 q7h1                  5 5                                         <NA> 
-    245 q7h1                  6 6                                         <NA> 
-    246 q7h1                  7 7                                         <NA> 
-    247 q7h1                  8 8                                         <NA> 
-    248 q7h1                  9 9                                         <NA> 
-    249 q7h1                 10 10 = außerordentlich zufrieden            <NA> 
-    250 q7h1                 99 keine Angabe                              <NA> 
-    251 q7h2                 -2 FILTER                                    <NA> 
-    252 q7h2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    253 q7h2                  2 2                                         <NA> 
-    254 q7h2                  3 3                                         <NA> 
-    255 q7h2                  4 4                                         <NA> 
-    256 q7h2                  5 5                                         <NA> 
-    257 q7h2                  6 6                                         <NA> 
-    258 q7h2                  7 7                                         <NA> 
-    259 q7h2                  8 8                                         <NA> 
-    260 q7h2                  9 9                                         <NA> 
-    261 q7h2                 10 10 = außerordentlich zufrieden            <NA> 
-    262 q7h2                 99 keine Angabe                              <NA> 
-    263 q7f1                 -2 FILTER                                    <NA> 
-    264 q7f1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    265 q7f1                  2 2                                         <NA> 
-    266 q7f1                  3 3                                         <NA> 
-    267 q7f1                  4 4                                         <NA> 
-    268 q7f1                  5 5                                         <NA> 
-    269 q7f1                  6 6                                         <NA> 
-    270 q7f1                  7 7                                         <NA> 
-    271 q7f1                  8 8                                         <NA> 
-    272 q7f1                  9 9                                         <NA> 
-    273 q7f1                 10 10 = außerordentlich zufrieden            <NA> 
-    274 q7f1                 99 keine Angabe                              <NA> 
-    275 q7f2                 -2 FILTER                                    <NA> 
-    276 q7f2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    277 q7f2                  2 2                                         <NA> 
-    278 q7f2                  3 3                                         <NA> 
-    279 q7f2                  4 4                                         <NA> 
-    280 q7f2                  5 5                                         <NA> 
-    281 q7f2                  6 6                                         <NA> 
-    282 q7f2                  7 7                                         <NA> 
-    283 q7f2                  8 8                                         <NA> 
-    284 q7f2                  9 9                                         <NA> 
-    285 q7f2                 10 10 = außerordentlich zufrieden            <NA> 
-    286 q7f2                 99 keine Angabe                              <NA> 
-    287 q7g1                 -2 FILTER                                    <NA> 
-    288 q7g1                  1 1 = überhaupt nicht zufrieden             <NA> 
-    289 q7g1                  2 2                                         <NA> 
-    290 q7g1                  3 3                                         <NA> 
-    291 q7g1                  4 4                                         <NA> 
-    292 q7g1                  5 5                                         <NA> 
-    293 q7g1                  6 6                                         <NA> 
-    294 q7g1                  7 7                                         <NA> 
-    295 q7g1                  8 8                                         <NA> 
-    296 q7g1                  9 9                                         <NA> 
-    297 q7g1                 10 10 = außerordentlich zufrieden            <NA> 
-    298 q7g1                 99 keine Angabe                              <NA> 
-    299 q7g2                 -2 FILTER                                    <NA> 
-    300 q7g2                  1 1 = überhaupt nicht zufrieden             <NA> 
-    301 q7g2                  2 2                                         <NA> 
-    302 q7g2                  3 3                                         <NA> 
-    303 q7g2                  4 4                                         <NA> 
-    304 q7g2                  5 5                                         <NA> 
-    305 q7g2                  6 6                                         <NA> 
-    306 q7g2                  7 7                                         <NA> 
-    307 q7g2                  8 8                                         <NA> 
-    308 q7g2                  9 9                                         <NA> 
-    309 q7g2                 10 10 = außerordentlich zufrieden            <NA> 
-    310 q7g2                 99 keine Angabe                              <NA> 
-    311 q81                  -2 FILTER                                    <NA> 
-    312 q81                   1 1 = überhaupt nicht zufrieden             <NA> 
-    313 q81                   2 2                                         <NA> 
-    314 q81                   3 3                                         <NA> 
-    315 q81                   4 4                                         <NA> 
-    316 q81                   5 5                                         <NA> 
-    317 q81                   6 6                                         <NA> 
-    318 q81                   7 7                                         <NA> 
-    319 q81                   8 8                                         <NA> 
-    320 q81                   9 9                                         <NA> 
-    321 q81                  10 10 = außerordentlich zufrieden            <NA> 
-    322 q81                  99 keine Angabe                              <NA> 
-    323 q82                  -2 FILTER                                    <NA> 
-    324 q82                   1 1 - völlig unzufrieden                    <NA> 
-    325 q82                   2 2                                         <NA> 
-    326 q82                   3 3                                         <NA> 
-    327 q82                   4 4                                         <NA> 
-    328 q82                   5 5                                         <NA> 
-    329 q82                   6 6                                         <NA> 
-    330 q82                   7 7                                         <NA> 
-    331 q82                   8 8                                         <NA> 
-    332 q82                   9 9                                         <NA> 
-    333 q82                  10 10 - absolut zufrieden                    <NA> 
-    334 q82                  99 keine Angabe                              <NA> 
-    335 q91                  -2 FILTER                                    <NA> 
-    336 q91                   0 0 - auf keinen Fall                       <NA> 
-    337 q91                   1 1                                         <NA> 
-    338 q91                   2 2                                         <NA> 
-    339 q91                   3 3                                         <NA> 
-    340 q91                   4 4                                         <NA> 
-    341 q91                   5 5                                         <NA> 
-    342 q91                   6 6                                         <NA> 
-    343 q91                   7 7                                         <NA> 
-    344 q91                   8 8                                         <NA> 
-    345 q91                   9 9                                         <NA> 
-    346 q91                  10 10 - auf jeden Fall                       <NA> 
-    347 q91                  99 keine Angabe                              <NA> 
-    348 q92                  -2 FILTER                                    <NA> 
-    349 q92                   0 0 - auf keinen Fall                       <NA> 
-    350 q92                   1 1                                         <NA> 
-    351 q92                   2 2                                         <NA> 
-    352 q92                   3 3                                         <NA> 
-    353 q92                   4 4                                         <NA> 
-    354 q92                   5 5                                         <NA> 
-    355 q92                   6 6                                         <NA> 
-    356 q92                   7 7                                         <NA> 
-    357 q92                   8 8                                         <NA> 
-    358 q92                   9 9                                         <NA> 
-    359 q92                  10 10 - auf jeden Fall                       <NA> 
-    360 q92                  99 keine Angabe                              <NA> 
-    361 q10                  -3 weiß nicht                                <NA> 
-    362 q10                  -2 FILTER                                    <NA> 
-    363 q10                  -1 keine Angabe                              <NA> 
-    364 regio                -2 FILTER                                    <NA> 
-    365 regio                 1 Asien                                     <NA> 
-    366 regio                 2 Europa                                    <NA> 
-    367 regio                 3 Nordamerika                               <NA> 
-    368 regio                 4 Pazifik                                   <NA> 
-    369 sel0                  1 <NA>                                      <NA> 
-    370 sel0                  2 <NA>                                      <NA> 
-    371 sel0                  3 <NA>                                      <NA> 
-    372 sel0                  4 <NA>                                      <NA> 
-    373 sel0                  5 <NA>                                      <NA> 
-    374 sel0                  6 <NA>                                      <NA> 
-    375 sel0                  7 <NA>                                      <NA> 
-    376 kq4                   1 1-2mal                                    <NA> 
-    377 kq4                   2 3-5mal                                    <NA> 
-    378 kq4                   3 >5mal                                     <NA> 
-    379 kq10                  1 18 bis 39                                 <NA> 
-    380 kq10                  2 40 bis 49                                 <NA> 
-    381 kq10                  3 50 und älter                              <NA> 
-    382 kq4xkq10k10           1 1-2mal                                    <NA> 
-    383 kq4xkq10k10           2 3-5mal                                    <NA> 
-    384 kq4xkq10k10           3 >5mal                                     <NA> 
-    385 kq4xkq10k20           1 1-2mal                                    <NA> 
-    386 kq4xkq10k20           2 3-5mal                                    <NA> 
-    387 kq4xkq10k20           3 >5mal                                     <NA> 
-    388 kq4xkq10k30           1 1-2mal                                    <NA> 
-    389 kq4xkq10k30           2 3-5mal                                    <NA> 
-    390 kq4xkq10k30           3 >5mal                                     <NA> 
-    391 kq4xregiok10          1 1-2mal                                    <NA> 
-    392 kq4xregiok10          2 3-5mal                                    <NA> 
-    393 kq4xregiok10          3 >5mal                                     <NA> 
-    394 kq4xregiok20          1 1-2mal                                    <NA> 
-    395 kq4xregiok20          2 3-5mal                                    <NA> 
-    396 kq4xregiok20          3 >5mal                                     <NA> 
-    397 kq4xregiok30          1 1-2mal                                    <NA> 
-    398 kq4xregiok30          2 3-5mal                                    <NA> 
-    399 kq4xregiok30          3 >5mal                                     <NA> 
-    400 kq4xregiok40          1 1-2mal                                    <NA> 
-    401 kq4xregiok40          2 3-5mal                                    <NA> 
-    402 kq4xregiok40          3 >5mal                                     <NA> 
-    403 kq4xregiokminus20     1 1-2mal                                    <NA> 
-    404 kq4xregiokminus20     2 3-5mal                                    <NA> 
-    405 kq4xregiokminus20     3 >5mal                                     <NA> 
-    406 q5n1                  1 Freundlichkeit des Tabellenbanderstellers <NA> 
-    407 q5n1                  2 Kompetenz                                 <NA> 
-    408 q5n1                  3 Schnelligkeit der Umsetzung               <NA> 
-    409 q5n1                  4 Darstellung der Daten                     <NA> 
-    410 q5n1                  5 einfache Weiterverarbeitung der Daten     <NA> 
-    411 q5n1                 97 Sonstiges                                 <NA> 
-    412 q5n1                 99 Keine Angabe                              <NA> 
-    413 q5n2                  1 Freundlichkeit des Tabellenbanderstellers <NA> 
-    414 q5n2                  2 Kompetenz                                 <NA> 
-    415 q5n2                  3 Schnelligkeit der Umsetzung               <NA> 
-    416 q5n2                  4 Darstellung der Daten                     <NA> 
-    417 q5n2                  5 einfache Weiterverarbeitung der Daten     <NA> 
-    418 q5n2                 97 Sonstiges                                 <NA> 
-    419 q5n2                 99 Keine Angabe                              <NA> 
-    420 q5n3                  1 Freundlichkeit des Tabellenbanderstellers <NA> 
-    421 q5n3                  2 Kompetenz                                 <NA> 
-    422 q5n3                  3 Schnelligkeit der Umsetzung               <NA> 
-    423 q5n3                  4 Darstellung der Daten                     <NA> 
-    424 q5n3                  5 einfache Weiterverarbeitung der Daten     <NA> 
-    425 q5n3                 97 Sonstiges                                 <NA> 
-    426 q5n3                 99 Keine Angabe                              <NA> 
-    427 q5n4                  1 Freundlichkeit des Tabellenbanderstellers <NA> 
-    428 q5n4                  2 Kompetenz                                 <NA> 
-    429 q5n4                  3 Schnelligkeit der Umsetzung               <NA> 
-    430 q5n4                  4 Darstellung der Daten                     <NA> 
-    431 q5n4                  5 einfache Weiterverarbeitung der Daten     <NA> 
-    432 q5n4                 97 Sonstiges                                 <NA> 
-    433 q5n4                 99 Keine Angabe                              <NA> 
-    434 q5n5                  1 Freundlichkeit des Tabellenbanderstellers <NA> 
-    435 q5n5                  2 Kompetenz                                 <NA> 
-    436 q5n5                  3 Schnelligkeit der Umsetzung               <NA> 
-    437 q5n5                  4 Darstellung der Daten                     <NA> 
-    438 q5n5                  5 einfache Weiterverarbeitung der Daten     <NA> 
-    439 q5n5                 97 Sonstiges                                 <NA> 
-    440 q5n5                 99 Keine Angabe                              <NA> 
+    # A tibble: 440 x 3
+        var                  nv vallab                                   
+        <chr>             <dbl> <chr>                                    
+      1 screenout            -2 FILTER                                   
+      2 screenout             1 ja                                       
+      3 screenout             2 nein                                     
+      4 q1                   -2 FILTER                                   
+      5 q1                    1 1 Beschäftigter                          
+      6 q1                    2 2 - 4 Beschäftigte                       
+      7 q1                    3 5 - 9 Beschäftigte                       
+      8 q1                    4 10 - 19 Beschäftigte                     
+      9 q1                    5 20 Beschäftigte und mehr                 
+     10 q1                   99 keine Angabe                             
+     11 q2_00                -2 FILTER                                   
+     12 q2_00                 0 Nicht gefiltert                          
+     13 q2_00                 1 Gefiltert                                
+     14 q2_01                -2 FILTER                                   
+     15 q2_01                 0 Nicht genannt                            
+     16 q2_01                 1 Genannt                                  
+     17 q2_02                -2 FILTER                                   
+     18 q2_02                 0 Nicht genannt                            
+     19 q2_02                 1 Genannt                                  
+     20 q2_03                -2 FILTER                                   
+     21 q2_03                 0 Nicht genannt                            
+     22 q2_03                 1 Genannt                                  
+     23 q2_04                -2 FILTER                                   
+     24 q2_04                 0 Nicht genannt                            
+     25 q2_04                 1 Genannt                                  
+     26 q2_05                -2 FILTER                                   
+     27 q2_05                 0 Nicht genannt                            
+     28 q2_05                 1 Genannt                                  
+     29 q2_06                -2 FILTER                                   
+     30 q2_06                 0 Nicht genannt                            
+     31 q2_06                 1 Genannt                                  
+     32 q2_07                -2 FILTER                                   
+     33 q2_07                 0 Nicht genannt                            
+     34 q2_07                 1 Genannt                                  
+     35 q2_99                -2 FILTER                                   
+     36 q2_99                 0 Nicht genannt                            
+     37 q2_99                 1 Genannt                                  
+     38 q3a                  -2 FILTER                                   
+     39 q3b                  -2 FILTER                                   
+     40 q3c                  -2 FILTER                                   
+     41 q3d                  -2 FILTER                                   
+     42 q3e                  -2 FILTER                                   
+     43 q3f                  -2 FILTER                                   
+     44 q3g                  -2 FILTER                                   
+     45 q4                   -3 weiß nicht                               
+     46 q4                   -2 FILTER                                   
+     47 q4                   -1 keine Angabe                             
+     48 q6a                  -2 FILTER                                   
+     49 q6a                   1 völlig unwichtig                         
+     50 q6a                   2 unwichtig                                
+     51 q6a                   3 teils / teils                            
+     52 q6a                   4 wichtig                                  
+     53 q6a                   5 sehr wichtig                             
+     54 q6a                  98 weiß nicht                               
+     55 q6a                  99 keine Angabe                             
+     56 q6b                  -2 FILTER                                   
+     57 q6b                   1 völlig unwichtig                         
+     58 q6b                   2 unwichtig                                
+     59 q6b                   3 teils / teils                            
+     60 q6b                   4 wichtig                                  
+     61 q6b                   5 sehr wichtig                             
+     62 q6b                  98 weiß nicht                               
+     63 q6b                  99 keine Angabe                             
+     64 q6c                  -2 FILTER                                   
+     65 q6c                   1 völlig unwichtig                         
+     66 q6c                   2 unwichtig                                
+     67 q6c                   3 teils / teils                            
+     68 q6c                   4 wichtig                                  
+     69 q6c                   5 sehr wichtig                             
+     70 q6c                  98 weiß nicht                               
+     71 q6c                  99 keine Angabe                             
+     72 q6d                  -2 FILTER                                   
+     73 q6d                   1 völlig unwichtig                         
+     74 q6d                   2 unwichtig                                
+     75 q6d                   3 teils / teils                            
+     76 q6d                   4 wichtig                                  
+     77 q6d                   5 sehr wichtig                             
+     78 q6d                  98 weiß nicht                               
+     79 q6d                  99 keine Angabe                             
+     80 q6e                  -2 FILTER                                   
+     81 q6e                   1 völlig unwichtig                         
+     82 q6e                   2 unwichtig                                
+     83 q6e                   3 teils / teils                            
+     84 q6e                   4 wichtig                                  
+     85 q6e                   5 sehr wichtig                             
+     86 q6e                  98 weiß nicht                               
+     87 q6e                  99 keine Angabe                             
+     88 q6f                  -2 FILTER                                   
+     89 q6f                   1 völlig unwichtig                         
+     90 q6f                   2 unwichtig                                
+     91 q6f                   3 teils / teils                            
+     92 q6f                   4 wichtig                                  
+     93 q6f                   5 sehr wichtig                             
+     94 q6f                  98 weiß nicht                               
+     95 q6f                  99 keine Angabe                             
+     96 q6g                  -2 FILTER                                   
+     97 q6g                   1 völlig unwichtig                         
+     98 q6g                   2 unwichtig                                
+     99 q6g                   3 teils / teils                            
+    100 q6g                   4 wichtig                                  
+    101 q6g                   5 sehr wichtig                             
+    102 q6g                  98 weiß nicht                               
+    103 q6g                  99 keine Angabe                             
+    104 q6h                  -2 FILTER                                   
+    105 q6h                   1 völlig unwichtig                         
+    106 q6h                   2 unwichtig                                
+    107 q6h                   3 teils / teils                            
+    108 q6h                   4 wichtig                                  
+    109 q6h                   5 sehr wichtig                             
+    110 q6h                  98 weiß nicht                               
+    111 q6h                  99 keine Angabe                             
+    112 sel1                  1 <NA>                                     
+    113 sel1                  2 <NA>                                     
+    114 sel1                  3 <NA>                                     
+    115 sel1                  4 <NA>                                     
+    116 sel1                  5 <NA>                                     
+    117 sel1                  6 <NA>                                     
+    118 sel1                  7 <NA>                                     
+    119 q7a1                 -2 FILTER                                   
+    120 q7a1                  1 1 = überhaupt nicht zufrieden            
+    121 q7a1                  2 2                                        
+    122 q7a1                  3 3                                        
+    123 q7a1                  4 4                                        
+    124 q7a1                  5 5                                        
+    125 q7a1                  6 6                                        
+    126 q7a1                  7 7                                        
+    127 q7a1                  8 8                                        
+    128 q7a1                  9 9                                        
+    129 q7a1                 10 10 = außerordentlich zufrieden           
+    130 q7a1                 99 keine Angabe                             
+    131 q7a2                 -2 FILTER                                   
+    132 q7a2                  1 1 = überhaupt nicht zufrieden            
+    133 q7a2                  2 2                                        
+    134 q7a2                  3 3                                        
+    135 q7a2                  4 4                                        
+    136 q7a2                  5 5                                        
+    137 q7a2                  6 6                                        
+    138 q7a2                  7 7                                        
+    139 q7a2                  8 8                                        
+    140 q7a2                  9 9                                        
+    141 q7a2                 10 10 = außerordentlich zufrieden           
+    142 q7a2                 99 keine Angabe                             
+    143 q7b1                 -2 FILTER                                   
+    144 q7b1                  1 1 = überhaupt nicht zufrieden            
+    145 q7b1                  2 2                                        
+    146 q7b1                  3 3                                        
+    147 q7b1                  4 4                                        
+    148 q7b1                  5 5                                        
+    149 q7b1                  6 6                                        
+    150 q7b1                  7 7                                        
+    151 q7b1                  8 8                                        
+    152 q7b1                  9 9                                        
+    153 q7b1                 10 10 = außerordentlich zufrieden           
+    154 q7b1                 99 keine Angabe                             
+    155 q7b2                 -2 FILTER                                   
+    156 q7b2                  1 1 = überhaupt nicht zufrieden            
+    157 q7b2                  2 2                                        
+    158 q7b2                  3 3                                        
+    159 q7b2                  4 4                                        
+    160 q7b2                  5 5                                        
+    161 q7b2                  6 6                                        
+    162 q7b2                  7 7                                        
+    163 q7b2                  8 8                                        
+    164 q7b2                  9 9                                        
+    165 q7b2                 10 10 = außerordentlich zufrieden           
+    166 q7b2                 99 keine Angabe                             
+    167 q7c1                 -2 FILTER                                   
+    168 q7c1                  1 1 = überhaupt nicht zufrieden            
+    169 q7c1                  2 2                                        
+    170 q7c1                  3 3                                        
+    171 q7c1                  4 4                                        
+    172 q7c1                  5 5                                        
+    173 q7c1                  6 6                                        
+    174 q7c1                  7 7                                        
+    175 q7c1                  8 8                                        
+    176 q7c1                  9 9                                        
+    177 q7c1                 10 10 = außerordentlich zufrieden           
+    178 q7c1                 99 keine Angabe                             
+    179 q7c2                 -2 FILTER                                   
+    180 q7c2                  1 1 = überhaupt nicht zufrieden            
+    181 q7c2                  2 2                                        
+    182 q7c2                  3 3                                        
+    183 q7c2                  4 4                                        
+    184 q7c2                  5 5                                        
+    185 q7c2                  6 6                                        
+    186 q7c2                  7 7                                        
+    187 q7c2                  8 8                                        
+    188 q7c2                  9 9                                        
+    189 q7c2                 10 10 = außerordentlich zufrieden           
+    190 q7c2                 99 keine Angabe                             
+    191 q7d1                 -2 FILTER                                   
+    192 q7d1                  1 1 = überhaupt nicht zufrieden            
+    193 q7d1                  2 2                                        
+    194 q7d1                  3 3                                        
+    195 q7d1                  4 4                                        
+    196 q7d1                  5 5                                        
+    197 q7d1                  6 6                                        
+    198 q7d1                  7 7                                        
+    199 q7d1                  8 8                                        
+    200 q7d1                  9 9                                        
+    201 q7d1                 10 10 = außerordentlich zufrieden           
+    202 q7d1                 99 keine Angabe                             
+    203 q7d2                 -2 FILTER                                   
+    204 q7d2                  1 1 = überhaupt nicht zufrieden            
+    205 q7d2                  2 2                                        
+    206 q7d2                  3 3                                        
+    207 q7d2                  4 4                                        
+    208 q7d2                  5 5                                        
+    209 q7d2                  6 6                                        
+    210 q7d2                  7 7                                        
+    211 q7d2                  8 8                                        
+    212 q7d2                  9 9                                        
+    213 q7d2                 10 10 = außerordentlich zufrieden           
+    214 q7d2                 99 keine Angabe                             
+    215 q7e1                 -2 FILTER                                   
+    216 q7e1                  1 1 = überhaupt nicht zufrieden            
+    217 q7e1                  2 2                                        
+    218 q7e1                  3 3                                        
+    219 q7e1                  4 4                                        
+    220 q7e1                  5 5                                        
+    221 q7e1                  6 6                                        
+    222 q7e1                  7 7                                        
+    223 q7e1                  8 8                                        
+    224 q7e1                  9 9                                        
+    225 q7e1                 10 10 = außerordentlich zufrieden           
+    226 q7e1                 99 keine Angabe                             
+    227 q7e2                 -2 FILTER                                   
+    228 q7e2                  1 1 = überhaupt nicht zufrieden            
+    229 q7e2                  2 2                                        
+    230 q7e2                  3 3                                        
+    231 q7e2                  4 4                                        
+    232 q7e2                  5 5                                        
+    233 q7e2                  6 6                                        
+    234 q7e2                  7 7                                        
+    235 q7e2                  8 8                                        
+    236 q7e2                  9 9                                        
+    237 q7e2                 10 10 = außerordentlich zufrieden           
+    238 q7e2                 99 keine Angabe                             
+    239 q7h1                 -2 FILTER                                   
+    240 q7h1                  1 1 = überhaupt nicht zufrieden            
+    241 q7h1                  2 2                                        
+    242 q7h1                  3 3                                        
+    243 q7h1                  4 4                                        
+    244 q7h1                  5 5                                        
+    245 q7h1                  6 6                                        
+    246 q7h1                  7 7                                        
+    247 q7h1                  8 8                                        
+    248 q7h1                  9 9                                        
+    249 q7h1                 10 10 = außerordentlich zufrieden           
+    250 q7h1                 99 keine Angabe                             
+    251 q7h2                 -2 FILTER                                   
+    252 q7h2                  1 1 = überhaupt nicht zufrieden            
+    253 q7h2                  2 2                                        
+    254 q7h2                  3 3                                        
+    255 q7h2                  4 4                                        
+    256 q7h2                  5 5                                        
+    257 q7h2                  6 6                                        
+    258 q7h2                  7 7                                        
+    259 q7h2                  8 8                                        
+    260 q7h2                  9 9                                        
+    261 q7h2                 10 10 = außerordentlich zufrieden           
+    262 q7h2                 99 keine Angabe                             
+    263 q7f1                 -2 FILTER                                   
+    264 q7f1                  1 1 = überhaupt nicht zufrieden            
+    265 q7f1                  2 2                                        
+    266 q7f1                  3 3                                        
+    267 q7f1                  4 4                                        
+    268 q7f1                  5 5                                        
+    269 q7f1                  6 6                                        
+    270 q7f1                  7 7                                        
+    271 q7f1                  8 8                                        
+    272 q7f1                  9 9                                        
+    273 q7f1                 10 10 = außerordentlich zufrieden           
+    274 q7f1                 99 keine Angabe                             
+    275 q7f2                 -2 FILTER                                   
+    276 q7f2                  1 1 = überhaupt nicht zufrieden            
+    277 q7f2                  2 2                                        
+    278 q7f2                  3 3                                        
+    279 q7f2                  4 4                                        
+    280 q7f2                  5 5                                        
+    281 q7f2                  6 6                                        
+    282 q7f2                  7 7                                        
+    283 q7f2                  8 8                                        
+    284 q7f2                  9 9                                        
+    285 q7f2                 10 10 = außerordentlich zufrieden           
+    286 q7f2                 99 keine Angabe                             
+    287 q7g1                 -2 FILTER                                   
+    288 q7g1                  1 1 = überhaupt nicht zufrieden            
+    289 q7g1                  2 2                                        
+    290 q7g1                  3 3                                        
+    291 q7g1                  4 4                                        
+    292 q7g1                  5 5                                        
+    293 q7g1                  6 6                                        
+    294 q7g1                  7 7                                        
+    295 q7g1                  8 8                                        
+    296 q7g1                  9 9                                        
+    297 q7g1                 10 10 = außerordentlich zufrieden           
+    298 q7g1                 99 keine Angabe                             
+    299 q7g2                 -2 FILTER                                   
+    300 q7g2                  1 1 = überhaupt nicht zufrieden            
+    301 q7g2                  2 2                                        
+    302 q7g2                  3 3                                        
+    303 q7g2                  4 4                                        
+    304 q7g2                  5 5                                        
+    305 q7g2                  6 6                                        
+    306 q7g2                  7 7                                        
+    307 q7g2                  8 8                                        
+    308 q7g2                  9 9                                        
+    309 q7g2                 10 10 = außerordentlich zufrieden           
+    310 q7g2                 99 keine Angabe                             
+    311 q81                  -2 FILTER                                   
+    312 q81                   1 1 = überhaupt nicht zufrieden            
+    313 q81                   2 2                                        
+    314 q81                   3 3                                        
+    315 q81                   4 4                                        
+    316 q81                   5 5                                        
+    317 q81                   6 6                                        
+    318 q81                   7 7                                        
+    319 q81                   8 8                                        
+    320 q81                   9 9                                        
+    321 q81                  10 10 = außerordentlich zufrieden           
+    322 q81                  99 keine Angabe                             
+    323 q82                  -2 FILTER                                   
+    324 q82                   1 1 - völlig unzufrieden                   
+    325 q82                   2 2                                        
+    326 q82                   3 3                                        
+    327 q82                   4 4                                        
+    328 q82                   5 5                                        
+    329 q82                   6 6                                        
+    330 q82                   7 7                                        
+    331 q82                   8 8                                        
+    332 q82                   9 9                                        
+    333 q82                  10 10 - absolut zufrieden                   
+    334 q82                  99 keine Angabe                             
+    335 q91                  -2 FILTER                                   
+    336 q91                   0 0 - auf keinen Fall                      
+    337 q91                   1 1                                        
+    338 q91                   2 2                                        
+    339 q91                   3 3                                        
+    340 q91                   4 4                                        
+    341 q91                   5 5                                        
+    342 q91                   6 6                                        
+    343 q91                   7 7                                        
+    344 q91                   8 8                                        
+    345 q91                   9 9                                        
+    346 q91                  10 10 - auf jeden Fall                      
+    347 q91                  99 keine Angabe                             
+    348 q92                  -2 FILTER                                   
+    349 q92                   0 0 - auf keinen Fall                      
+    350 q92                   1 1                                        
+    351 q92                   2 2                                        
+    352 q92                   3 3                                        
+    353 q92                   4 4                                        
+    354 q92                   5 5                                        
+    355 q92                   6 6                                        
+    356 q92                   7 7                                        
+    357 q92                   8 8                                        
+    358 q92                   9 9                                        
+    359 q92                  10 10 - auf jeden Fall                      
+    360 q92                  99 keine Angabe                             
+    361 q10                  -3 weiß nicht                               
+    362 q10                  -2 FILTER                                   
+    363 q10                  -1 keine Angabe                             
+    364 regio                -2 FILTER                                   
+    365 regio                 1 Asien                                    
+    366 regio                 2 Europa                                   
+    367 regio                 3 Nordamerika                              
+    368 regio                 4 Pazifik                                  
+    369 sel0                  1 <NA>                                     
+    370 sel0                  2 <NA>                                     
+    371 sel0                  3 <NA>                                     
+    372 sel0                  4 <NA>                                     
+    373 sel0                  5 <NA>                                     
+    374 sel0                  6 <NA>                                     
+    375 sel0                  7 <NA>                                     
+    376 kq4                   1 1-2mal                                   
+    377 kq4                   2 3-5mal                                   
+    378 kq4                   3 >5mal                                    
+    379 kq10                  1 18 bis 39                                
+    380 kq10                  2 40 bis 49                                
+    381 kq10                  3 50 und älter                             
+    382 kq4xkq10k10           1 1-2mal                                   
+    383 kq4xkq10k10           2 3-5mal                                   
+    384 kq4xkq10k10           3 >5mal                                    
+    385 kq4xkq10k20           1 1-2mal                                   
+    386 kq4xkq10k20           2 3-5mal                                   
+    387 kq4xkq10k20           3 >5mal                                    
+    388 kq4xkq10k30           1 1-2mal                                   
+    389 kq4xkq10k30           2 3-5mal                                   
+    390 kq4xkq10k30           3 >5mal                                    
+    391 kq4xregiok10          1 1-2mal                                   
+    392 kq4xregiok10          2 3-5mal                                   
+    393 kq4xregiok10          3 >5mal                                    
+    394 kq4xregiok20          1 1-2mal                                   
+    395 kq4xregiok20          2 3-5mal                                   
+    396 kq4xregiok20          3 >5mal                                    
+    397 kq4xregiok30          1 1-2mal                                   
+    398 kq4xregiok30          2 3-5mal                                   
+    399 kq4xregiok30          3 >5mal                                    
+    400 kq4xregiok40          1 1-2mal                                   
+    401 kq4xregiok40          2 3-5mal                                   
+    402 kq4xregiok40          3 >5mal                                    
+    403 kq4xregiokminus20     1 1-2mal                                   
+    404 kq4xregiokminus20     2 3-5mal                                   
+    405 kq4xregiokminus20     3 >5mal                                    
+    406 q5n1                  1 Freundlichkeit des Tabellenbanderstellers
+    407 q5n1                  2 Kompetenz                                
+    408 q5n1                  3 Schnelligkeit der Umsetzung              
+    409 q5n1                  4 Darstellung der Daten                    
+    410 q5n1                  5 einfache Weiterverarbeitung der Daten    
+    411 q5n1                 97 Sonstiges                                
+    412 q5n1                 99 Keine Angabe                             
+    413 q5n2                  1 Freundlichkeit des Tabellenbanderstellers
+    414 q5n2                  2 Kompetenz                                
+    415 q5n2                  3 Schnelligkeit der Umsetzung              
+    416 q5n2                  4 Darstellung der Daten                    
+    417 q5n2                  5 einfache Weiterverarbeitung der Daten    
+    418 q5n2                 97 Sonstiges                                
+    419 q5n2                 99 Keine Angabe                             
+    420 q5n3                  1 Freundlichkeit des Tabellenbanderstellers
+    421 q5n3                  2 Kompetenz                                
+    422 q5n3                  3 Schnelligkeit der Umsetzung              
+    423 q5n3                  4 Darstellung der Daten                    
+    424 q5n3                  5 einfache Weiterverarbeitung der Daten    
+    425 q5n3                 97 Sonstiges                                
+    426 q5n3                 99 Keine Angabe                             
+    427 q5n4                  1 Freundlichkeit des Tabellenbanderstellers
+    428 q5n4                  2 Kompetenz                                
+    429 q5n4                  3 Schnelligkeit der Umsetzung              
+    430 q5n4                  4 Darstellung der Daten                    
+    431 q5n4                  5 einfache Weiterverarbeitung der Daten    
+    432 q5n4                 97 Sonstiges                                
+    433 q5n4                 99 Keine Angabe                             
+    434 q5n5                  1 Freundlichkeit des Tabellenbanderstellers
+    435 q5n5                  2 Kompetenz                                
+    436 q5n5                  3 Schnelligkeit der Umsetzung              
+    437 q5n5                  4 Darstellung der Daten                    
+    438 q5n5                  5 einfache Weiterverarbeitung der Daten    
+    439 q5n5                 97 Sonstiges                                
+    440 q5n5                 99 Keine Angabe                             
 
 # variable labels are reproduced
 

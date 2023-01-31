@@ -26,16 +26,18 @@ set_na_to_filter <- function(x, replace_val = -2, replace_label = "FILTER") {
 
 prepare_newvar_table <- function(df, split_var, by_var) {
   var2lab <- attr(df[[by_var]], "label", exact = TRUE)
-  new_varlabs <-
-    df |>
+
+  df_counts <- df |>
     dplyr::select(!!split_var) |>
-    # TODO: find cleaner way without defining a dummy id:
-    dplyr::mutate(id = dplyr::row_number(), !!split_var) |>
-    tablab::tab_all() |>
-    tidyr::drop_na("nv") |>
-    # tidyr::unite("new_varlab", .data$varlab, .data$vallab, sep = " - ") |>
+    tab_counts(values_drop_na = TRUE)
+  df_vallabs <- df |>
+    dplyr::select(!!split_var) |>
+    tab_vallabs()
+  new_varlabs <-
+    df_counts |>
+    dplyr::full_join(df_vallabs, by = c("var", "double" = "nv")) |>
     dplyr::mutate(new_varlab = paste0(.data$vallab, ": ", var2lab)) |>
-    dplyr::select(dplyr::all_of(c("nv", "new_varlab")))
+    dplyr::select(c("nv" = "double", "new_varlab"))
 
   new_varnames <- paste0(
     by_var,

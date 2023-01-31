@@ -10,7 +10,7 @@ res_vec <- m1$modify_data(command_blocks = cdb_recna)$dat_mod$q2
 
 vallabs <- attr(res_vec, "labels")
 num_res <- unique(c(
-  tablab::strip_attributes(res_vec),
+  strip_attributes(res_vec),
   vallabs,
   m1$params$miss_rec_val
 ))
@@ -38,7 +38,7 @@ vallabs <- attr(res_vec, "labels")
 
 testthat::expect_equal(names(vallabs), c("aaa", "bbb", "ccc"))
 testthat::expect_equal(unname(vallabs), 1:3)
-testthat::expect_equal(tablab::strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
+testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 # check that varlab is preserved if not defined:
 cdb[[1]]$args$varlab <- NA_character_
 res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$kq5
@@ -91,7 +91,7 @@ testthat::expect_equal(
 )
 testthat::expect_equal(unname(vallabs), c(-2, 1, 2, 3, 97, 99))
 testthat::expect_equal(
-  tablab::strip_attributes(res_vec),
+  strip_attributes(res_vec),
   c(NA, 3, NA, 2, NA, 2, NA, 1, NA, 1)
 )
 testthat::expect_null(attr(res_vec, "label", exact = TRUE))
@@ -113,7 +113,7 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(names(vallabs), "xyz")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "xyz")
 testthat::expect_equal(unname(vallabs), 1)
-testthat::expect_equal(tablab::strip_attributes(res_vec), c(0, 0, 1))
+testthat::expect_equal(strip_attributes(res_vec), c(0, 0, 1))
 
 
 # #IF:
@@ -131,7 +131,7 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(names(vallabs), "a")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
 testthat::expect_equal(unname(vallabs), 1)
-testthat::expect_equal(tablab::strip_attributes(res_vec), c(7, 7, NA))
+testthat::expect_equal(strip_attributes(res_vec), c(7, 7, NA))
 
 # #REC:
 m1 <- m$clone(deep = TRUE)
@@ -144,7 +144,7 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "summarized variable")
 testthat::expect_equal(names(vallabs), c("1-2", "3", "4-5"))
 testthat::expect_equal(unname(vallabs), 1:3)
-testthat::expect_equal(tablab::strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
+testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 
 # check that partial overwriting of existing variable works:
 cdb[[1]]$args$x <- NA_character_
@@ -155,7 +155,7 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "summarized variable")
 testthat::expect_equal(names(vallabs), c("1-2", "3", "4-5"))
 testthat::expect_equal(unname(vallabs), 1:3)
-testthat::expect_equal(tablab::strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
+testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 
 # check that varlab is preserved if not defined:
 cdb <- cmd_tbl |> filter(action == "#REC", new_var == "kq1") |> pull(command_blocks)
@@ -179,8 +179,8 @@ vallabs2 <- attr(res_df$kq1xq2_renamedk20, "labels")
 
 testthat::expect_equal(vallabs1, vallabs2)
 testthat::expect_equal(attr(res_df$kq1xq2_renamedk10, "label", exact = TRUE), "a: b")
-testthat::expect_equal(tablab::strip_attributes(res_df$kq1xq2_renamedk10), c(1, 2, NA))
-testthat::expect_equal(tablab::strip_attributes(res_df$kq1xq2_renamedk20), c(NA, NA, 3))
+testthat::expect_equal(strip_attributes(res_df$kq1xq2_renamedk10), c(1, 2, NA))
+testthat::expect_equal(strip_attributes(res_df$kq1xq2_renamedk20), c(NA, NA, 3))
 
 # #VARL:
 m1 <- m$clone(deep = TRUE)
@@ -201,7 +201,7 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "overwrite new label")
 testthat::expect_equal(names(vallabs), c("also with", "value labels", "now"))
 testthat::expect_equal(unname(vallabs), 1:3)
-testthat::expect_equal(tablab::strip_attributes(res_vec), 1)
+testthat::expect_equal(strip_attributes(res_vec), 1)
 
 #check that varlab is preserved if not defined:
 m1$dat <- data.frame(n = haven::labelled(1, label = "aaa"))
@@ -222,7 +222,7 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
 testthat::expect_equal(names(vallabs), c("a", "added label"))
 testthat::expect_equal(unname(vallabs), c(1, 4))
-testthat::expect_equal(tablab::strip_attributes(res_vec), 1:3)
+testthat::expect_equal(strip_attributes(res_vec), 1:3)
 
 
 # #DIC:
@@ -239,12 +239,12 @@ vallabs <- attr(res_vec, "labels")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
 testthat::expect_equal(names(vallabs), "a")
 testthat::expect_equal(unname(vallabs), 1)
-testthat::expect_equal(tablab::strip_attributes(res_vec), 1:3)
+testthat::expect_equal(strip_attributes(res_vec), 1:3)
 
 # check that variable is initialized if not already present:
 cdb[[1]]$args$x <- "newvar"
 res_vec <- m1$modify_data(command_blocks = cdb)$dat_mod$newvar
-testthat::expect_equal(tablab::strip_attributes(res_vec), rep(NA_real_, 3))
+testthat::expect_equal(strip_attributes(res_vec), rep(NA_real_, 3))
 
 
 

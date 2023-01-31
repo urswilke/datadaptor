@@ -40,7 +40,7 @@ curlychop <- function(df_free_raw) {
     dplyr::mutate(
       row = paste(row, collapse = ", "),
       is_curly_group = dplyr::if_any(
-        .cols = everything(),
+        .cols = dplyr::everything(),
         .fns = ~ stringr::str_detect(.x[1], "\\{")
       ) |>
         is_true_vec()
@@ -282,3 +282,18 @@ for (f in safe_f) {
   safer_env[[f]] <- get(f, "package:base")
 }
 safer_env[["case_when"]] <- dplyr::case_when
+
+#' Remove attributes from a vector
+#'
+#' @param x vector
+#'
+#' @return x with attributes removed
+#' @export
+#'
+#' @examples
+#' x <- haven::labelled(1:3, label = "variable_label")
+#' strip_attributes(x)
+strip_attributes <- function(x) {
+  attributes(x) <- NULL
+  x
+}

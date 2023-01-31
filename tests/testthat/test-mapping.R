@@ -37,12 +37,12 @@ test_that("s3 modified data print is reproduced", {
 })
 test_that("value labels are reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$dat_mod |> tablab::tab_vallabs() |> print(n = 10000)
+    mapping_s3$dat_mod |> tab_vallabs() |> print(n = 10000)
   })
 })
 test_that("variable labels are reproduced", {
   testthat::expect_snapshot_output({
-    mapping_s3$dat_mod |> tablab::tab_varlabs() |> print(n = 10000)
+    mapping_s3$dat_mod |> tab_varlabs() |> print(n = 10000)
   })
 })
 

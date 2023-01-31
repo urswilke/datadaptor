@@ -27,33 +27,33 @@
 
 # value labels are reproduced
 
-    # A tibble: 26 x 4
-       var      nv vallab    cv   
-       <chr> <dbl> <chr>     <chr>
-     1 q2       -2 FILTER    <NA> 
-     2 q2        1 A         <NA> 
-     3 q2        2 B         <NA> 
-     4 q2        3 C         <NA> 
-     5 q2        4 D         <NA> 
-     6 q2        5 E         <NA> 
-     7 q3_1      1 rating: A <NA> 
-     8 q3_1      2 rating: B <NA> 
-     9 q3_1      3 rating: C <NA> 
-    10 q3_1      4 rating: D <NA> 
-    11 q3_2      1 rating: A <NA> 
-    12 q3_2      2 rating: B <NA> 
-    13 q3_2      3 rating: C <NA> 
-    14 q3_2      4 rating: D <NA> 
-    15 q3_3      1 rating: A <NA> 
-    16 q3_3      2 rating: B <NA> 
-    17 q3_3      3 rating: C <NA> 
-    18 q3_3      4 rating: D <NA> 
-    19 q3_4      1 rating: A <NA> 
-    20 q3_4      2 rating: B <NA> 
-    21 q3_4      3 rating: C <NA> 
-    22 q3_4      4 rating: D <NA> 
-    23 q3_5      1 rating: A <NA> 
-    24 q3_5      2 rating: B <NA> 
-    25 q3_5      3 rating: C <NA> 
-    26 q3_5      4 rating: D <NA> 
+    # A tibble: 26 x 3
+       var      nv vallab   
+       <chr> <dbl> <chr>    
+     1 q2       -2 FILTER   
+     2 q2        1 A        
+     3 q2        2 B        
+     4 q2        3 C        
+     5 q2        4 D        
+     6 q2        5 E        
+     7 q3_1      1 rating: A
+     8 q3_1      2 rating: B
+     9 q3_1      3 rating: C
+    10 q3_1      4 rating: D
+    11 q3_2      1 rating: A
+    12 q3_2      2 rating: B
+    13 q3_2      3 rating: C
+    14 q3_2      4 rating: D
+    15 q3_3      1 rating: A
+    16 q3_3      2 rating: B
+    17 q3_3      3 rating: C
+    18 q3_3      4 rating: D
+    19 q3_4      1 rating: A
+    20 q3_4      2 rating: B
+    21 q3_4      3 rating: C
+    22 q3_4      4 rating: D
+    23 q3_5      1 rating: A
+    24 q3_5      2 rating: B
+    25 q3_5      3 rating: C
+    26 q3_5      4 rating: D
 

@@ -238,7 +238,7 @@ save_xlsx <- function(df, path) {
   df |>
     dplyr::mutate(dplyr::across(
       dplyr::everything(),
-      tablab::strip_attributes
+      strip_attributes
     )) |>
     writexl::write_xlsx(path)
 }
