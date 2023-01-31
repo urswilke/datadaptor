@@ -153,8 +153,7 @@ tab_sheet_types <- function(sheets) {
     ) |>
     purrr::set_names(sheets)
   # remove sheets not in sheet types list:
-  sheets <- sheets[purrr::map_int(sheet_cats, length) > 0]
-  sheet_cats <- sheet_cats[purrr::map_int(sheet_cats, length) > 0]
+  sheet_cats <- sheet_cats[lengths(sheet_cats) > 0]
   sheet_cats |>
     purrr::map_chr(~.x) |>
     tibble::enframe("sheet", "sheet_type")
