@@ -1,8 +1,8 @@
 process_command_blocks <- function(self) {
   self$cmd$sheet_cats <- gen_sheet_cats(self)
 
-  if (self$params$refresh) {
-    refresh_mapping(self)
+  if (self$params$refresh_sheet) {
+    refresh_mapping_sheet(self)
   } else {
     self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
     self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
@@ -15,7 +15,7 @@ process_command_blocks <- function(self) {
     write_mapping_txt(self)
   }
 }
-refresh_mapping <- function(self) {
+refresh_mapping_sheet <- function(self) {
   all_sheets <- readxl::excel_sheets(self$mapping_file)
   active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) |> openxlsx::activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]

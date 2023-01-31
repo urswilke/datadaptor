@@ -5,7 +5,7 @@ m_unrefreshed <- Mapping$new(dat = "spss/q1_1.sav", mapping_file = "excel/mappin
 # pretend as if the file was modified, by changing the mapping_file in the
 # Mapping object:
 m_unrefreshed$mapping_file <- "excel/mapping_refresh.xlsx"
-m_unrefreshed$params$refresh <- TRUE
+m_unrefreshed$params$refresh_sheet <- TRUE
 m_unrefreshed$modify_data()
 
 testthat::expect_equal(m_unrefreshed$dat_mod$b, 3)
