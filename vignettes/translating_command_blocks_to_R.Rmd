@@ -31,17 +31,18 @@ results.
 
 ## Excel sheets parsed
 
-First is just a small data.frame containing the `sheet` name and its
-`sheet_type`:
+When the `mapping_file` is passed to construct a `Mapping` object `m`, the
+commands of all sheets whose names start with one of the following strings will be
+parsed:
 
 ```{r}
-m$cmd$sheet_cats
+command_block_classes$sheet |> na.omit() |> unique()
 ```
 
-## Parse the sheets to R list objects
+## Parse the sheets to an R list object
 
-The sheets are parsed to a named list with R list objects in `m$cmd$sheet_data_raw`.
-This is what the latter looks like for the  `"Free1"` sheet of the Excel file:
+The sheets are parsed to a named list `m$cmd$sheet_data_raw` with dataframes.
+This is what it looks like for the  `"Free1"` sheet of the Excel file:
 
 ```{r}
 m$cmd$sheet_data_raw$Free1
