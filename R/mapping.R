@@ -345,7 +345,11 @@ initialize_dat <- function(self, dat) {
 #' and then overwritten by the Excel file. If `override_excel = FALSE` the Excel
 #' parameters will prevail, and otherwise overwritten by the dots.
 #'
-#' @param mapping_file Path of the Excel mapping file
+#' @param mapping_file Path of the Excel mapping file. Alternatively, you can
+#'   pass an R list object containing named dataframes that is in the shape of
+#'   the `Mapping$cmd$sheet_data_raw` field (see section
+#'   "Parse the sheets to R list objects" in
+#'   `vignette("translating_command_blocks_to_R")`).
 #' @param excel_params Params parameters read from Excel file; see
 #'   `extract_excel_params()`.
 #' @param id_var character string of the id variable name in the dataset.

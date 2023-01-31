@@ -35,7 +35,11 @@ update_mapping_params(mapping_params, ...)
 extract_excel_params(mapping_file)
 }
 \arguments{
-\item{mapping_file}{Path of the Excel mapping file}
+\item{mapping_file}{Path of the Excel mapping file. Alternatively, you can
+pass an R list object containing named dataframes that is in the shape of
+the \code{Mapping$cmd$sheet_data_raw} field (see section
+"Parse the sheets to R list objects" in
+\code{vignette("translating_command_blocks_to_R")}).}
 
 \item{excel_params}{Params parameters read from Excel file; see
 \code{extract_excel_params()}.}

@@ -199,6 +199,9 @@ extract_excel_params <- function(mapping_file) {
   if (is.null(mapping_file)) {
     return(NULL)
   }
+  if (is.list(mapping_file)) {
+    return(NULL)
+  }
   wb <- openxlsx::loadWorkbook(mapping_file) |> suppressWarnings()
   named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(wb))
 
