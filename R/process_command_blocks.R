@@ -1,8 +1,8 @@
 process_command_blocks <- function(self) {
-  self$cmd$sheet_cats <- gen_sheet_cats(self)
 
-  if (self$params$refresh) {
-    refresh_mapping(self)
+
+  if (self$params$refresh_sheet) {
+    refresh_mapping_sheet(self)
   } else {
     self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
     self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
@@ -15,13 +15,15 @@ process_command_blocks <- function(self) {
     write_mapping_txt(self)
   }
 }
-refresh_mapping <- function(self) {
+refresh_mapping_sheet <- function(self) {
+  sheet_cats <- names(self$cmd$sheet_data_raw) |>
+    tab_sheet_types()
   all_sheets <- readxl::excel_sheets(self$mapping_file)
   active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) |> openxlsx::activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]
-  sheet_data_raw_index <- which(self$cmd$sheet_cats$sheet == active_sheet_name)
-  active_sheet_type <- self$cmd$sheet_cats$sheet_type[sheet_data_raw_index]
-  self$cmd$sheet_data_raw[[active_sheet_name]] <- gen_sheet_data_raw(self, self$cmd$sheet_cats$sheet_type[sheet_data_raw_index], self$cmd$sheet_cats$sheet[sheet_data_raw_index])
+  sheet_data_raw_index <- which(sheet_cats$sheet == active_sheet_name)
+  active_sheet_type <- sheet_cats$sheet_type[sheet_data_raw_index]
+  self$cmd$sheet_data_raw[[active_sheet_name]] <- gen_sheet_data_raw(self, sheet_cats$sheet_type[sheet_data_raw_index], sheet_cats$sheet[sheet_data_raw_index])
   self$cmd$sheet_command_tables_raw[[active_sheet_name]] <- generate_sheet_cmd_table(self, active_sheet_type, active_sheet_name)
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
@@ -36,7 +38,8 @@ gen_command_table <- function(self) {
 }
 
 gen_sheet_command_tables_raw <- function(self) {
-  sheet_cats <- self$cmd$sheet_cats
+  sheet_cats <- names(self$cmd$sheet_data_raw) |>
+    tab_sheet_types()
 
 
   sheet_command_tables_raw <- purrr::map2(
@@ -75,7 +78,7 @@ gen_sheet_cats <- function(self) {
   sheet_cats
 }
 gen_sheet_data_raw_list <- function(self) {
-  sheet_cats <- self$cmd$sheet_cats
+  sheet_cats <- gen_sheet_cats(self)
   purrr::map2(
     sheet_cats$sheet |>
       purrr::set_names(),
