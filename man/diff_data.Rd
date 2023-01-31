@@ -4,7 +4,7 @@
 \alias{diff_data}
 \title{Diff to labelled data frames}
 \usage{
-diff_data(df1, df2, id_var = "DC_ID")
+diff_data(df1, df2, id_var = "DC_ID", warn = TRUE)
 }
 \arguments{
 \item{df1}{data frame 1}
@@ -12,6 +12,9 @@ diff_data(df1, df2, id_var = "DC_ID")
 \item{df2}{data frame 2}
 
 \item{id_var}{name of the id variable (string)}
+
+\item{warn}{whether to emit a warning if \code{df1} and \code{df2} don't contain the
+same ids.}
 }
 \value{
 data frame of diff results:

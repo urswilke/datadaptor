@@ -11,20 +11,20 @@
 gen_data_table <- function(df, values_drop_na = FALSE) {
   counts <- tab_counts(df, values_drop_na)
 
-  var <- gen_var_table(df) |>
+  df_var <- gen_var_table(df) |>
     dplyr::select(c("var","type", "varlab"))
 
   label <- tab_vallabs(df)
 
   counts |>
     dplyr::full_join(label, by=c("var", "double" = "nv")) |>
-    dplyr::full_join(var, by=c("var"))
+    dplyr::full_join(df_var, by=c("var"))
 }
 
 
 tab_counts <- function(df, values_drop_na = FALSE) {
   lengthen(df, values_drop_na) |>
-    dplyr::mutate(var = forcats::as_factor(var)) |>
+    dplyr::mutate(var = forcats::as_factor(.data$var)) |>
     dplyr::group_by_all() |>
     dplyr::tally(name = "Freq") |>
     dplyr::ungroup()
@@ -47,7 +47,7 @@ lengthen <- function(df, values_drop_na = FALSE) {
       # splits back the variable type until the first occurrence of _:
       names_pattern = "(.*?)_(.*)"
     ) |>
-    dplyr::arrange(var = forcats::as_factor(var))
+    dplyr::arrange(var = forcats::as_factor(.data$var))
 
 }
 
@@ -59,6 +59,8 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #' @param df1 data frame 1
 #' @param df2 data frame 2
 #' @param id_var name of the id variable (string)
+#' @param warn whether to emit a warning if `df1` and `df2` don't contain the
+#'   same ids.
 #'
 #' @return data frame of diff results:
 #'   For every variable `var`in the data.frames, the counts `n` are shown for
@@ -83,7 +85,7 @@ diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
         "Remove this warning by setting `warn = FALSE`."
       )
     }
-    shared_ids <- intersect(df1[[id_var]], df2[[id_var]])
+    shared_ids <- dplyr::intersect(df1[[id_var]], df2[[id_var]])
     df1 <- df1[df1[[id_var]] %in% shared_ids,]
     df2 <- df2[df2[[id_var]] %in% shared_ids,]
   }
@@ -91,17 +93,17 @@ diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
   long1 <- long_labelled_data(df1, id_var = id_var)
   long2 <- long_labelled_data(df2, id_var = id_var)
   allvars <- unique(c(long1$var, long2$var))
-  full_join(
+  dplyr::full_join(
     long1,
     long2,
     suffix = c("_old", "_new"),
     by = c(id_var, "var")
   ) |>
-    select(-all_of(id_var)) |>
-    mutate(var = factor(var, levels = allvars)) |>
-    group_by_all() |>
-    tally() |>
-    ungroup()
+    dplyr::select(-dplyr::all_of(c(id_var))) |>
+    dplyr::mutate(var = factor(.data$var, levels = allvars)) |>
+    dplyr::group_by_all() |>
+    dplyr::tally() |>
+    dplyr::ungroup()
 }
 
 
@@ -114,21 +116,21 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
 
   df |>
     tidyr::pivot_longer(
-      cols = -all_of(id_var),
+      cols = -dplyr::all_of(id_var),
       names_to = c(".value", "var"),
       values_transform = strip_attributes,
       # lazy _ eager ...;
       # splits back the variable type until the first occurrence of _:
       names_pattern = "(.*?)_(.*)"
     ) |>
-    dplyr::arrange(var = forcats::as_factor(var))
+    dplyr::arrange(var = forcats::as_factor(.data$var))
 
 }
 
 long_labelled_data <- function(df, id_var = "DC_ID") {
   counts <- lengthen_by_id(df, id_var)
-  var <- df |>
-    select(-all_of(id_var))|>
+  df_var <- df |>
+    dplyr::select(-dplyr::all_of(c(id_var))) |>
     gen_var_table() |>
     dplyr::select(c("var","type", "varlab"))
 
@@ -136,5 +138,5 @@ long_labelled_data <- function(df, id_var = "DC_ID") {
 
   counts |>
     dplyr::full_join(label, by=c("var", "double" = "nv")) |>
-    dplyr::full_join(var, by=c("var"))
+    dplyr::full_join(df_var, by=c("var"))
 }

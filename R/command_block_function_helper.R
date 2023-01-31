@@ -35,7 +35,7 @@ prepare_newvar_table <- function(df, split_var, by_var) {
     tab_vallabs()
   new_varlabs <-
     df_counts |>
-    full_join(df_vallabs, by = c("var", "double" = "nv")) |>
+    dplyr::full_join(df_vallabs, by = c("var", "double" = "nv")) |>
     dplyr::mutate(new_varlab = paste0(.data$vallab, ": ", var2lab)) |>
     dplyr::select(c("nv" = "double", "new_varlab"))
 

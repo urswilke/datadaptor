@@ -51,6 +51,7 @@ Imports:
     vctrs,
     pillar,
     data.table,
-    writexl
+    writexl,
+    forcats
 VignetteBuilder: knitr
 Language: en-US
