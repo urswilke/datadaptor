@@ -59,10 +59,10 @@ then applies it on the data* (with `apply_command()`).
 
 ```{r fun_defs_illu, echo=FALSE}
 process_cdb_raw <- function(dat, cdb_args_raw, sheet_cat, ...) {
-  mapping_file <- adapt_mapping_format(cdb_args_raw, sheet_cat)
+  mapping_file <- gen_mapping_obj(cdb_args_raw, sheet_cat)
   Mapping$new(dat, mapping_file, ...)$modify_data()$dat_mod
 }
-adapt_mapping_format <- function(cdb_args_raw, sheet_cat) {
+gen_mapping_obj <- function(cdb_args_raw, sheet_cat) {
   if (sheet_cat == "Free") {
     cdb_args_raw <- bind_rows(
       tibble(
