@@ -205,6 +205,11 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
 
 ```
 
+# `Free` sheets
+
+Here we'll look at examples how various commands in the `Free` sheets can look
+like.
+
 ```{r, echo=FALSE}
 sheet_cat <- "Free"
 ```
