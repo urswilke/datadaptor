@@ -284,10 +284,6 @@ parse_command_args.cmd_sumvar <- function(cdb_raw) {
 
 #' @export
 parse_command_args.cmd_dic <- function(cdb_raw) {
-  varlab <- cdb_raw$X3[1]
-  if (is.na(varlab)) {
-    varlab <- NULL
-  }
   list(
     y = cdb_raw$X2[1],
     x = cdb_raw$X3[1]
