@@ -166,6 +166,7 @@ format_my_gt <- function(gt_obj) {
   gt_obj |>
     gt::tab_style(
       style = list(
+        gt::cell_borders(color = "#CCCCCC"),
         gt::cell_fill(color = "#D4E6B4")
       ),
       locations = gt::cells_body(
