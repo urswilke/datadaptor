@@ -74,9 +74,19 @@ gen_mapping_obj <- function(cmd_block_tibble, sheet_cat) {
       ),
       cmd_block_tibble |> mutate(row = row_number())
     )
-    mapping_file <- tibble::lst(!!sheet_cat := cmd_block_tibble)
-    return(mapping_file)
   }
+  if (sheet_cat == "Variables") {
+    cmd_block_tibble <- bind_rows(
+      tibble(
+        var = character(),
+        op = character(),
+        new_name = character(),
+        new_label = character(),
+      ),
+      cmd_block_tibble |> mutate(row = row_number())
+    )
+  } 
+  tibble::lst(!!sheet_cat := cmd_block_tibble)
 }
 
 tab_labels_wide <- function(df) {
@@ -566,8 +576,128 @@ dat <- tibble(
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#RENAME", 'a2', "new_name_for_a1",
-  "#RENAME", 'b2', "b2_was_my_old_name"
+  "", 'b2', "b2_was_my_old_name"
   )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
+
+# `Variables` sheets
+
+To enter commands here, you don't need to specify the commands, as in the `Free` 
+sheets. Instead you need to put the information in one of the columns `op`, 
+`new_name` or `new_label`:
+
+```{r, echo=FALSE}
+sheet_cat <- "Variables"
+```
+
+## #RENAME_varsheet
+
+### Example
+
+This command renames the variables specified in the `var` column (column **A**)
+to the names in the `new_name` column. It does the same as the `#RENAME` command.
+
+```{r rename_varsheet}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(3, 4),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~new_name,
+  "a1", 'c1', 
+  "b1", 'd1', 
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+## #NEWLAB
+
+### Example
+
+This command assings new variable labels (specified in the `new_label` column)
+to the variables specified in the `var` column (column **A**). It does the same
+as the `#VARL` command.
+
+```{r newlab}
+dat <- tibble(
+  a1 = haven::labelled(c(1, 2), label = "original variable label"),
+  b1 = haven::labelled(c(1, 2), label = "original variable label of b1"),
+  c1 = c(3, 4),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~new_label,
+  "a1", "I'm new", 
+  "b1", NA, 
+  "c1", NA, 
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+## #DROP
+
+### Example
+
+This command removes the variables marked with `d` (for "drop") in the `op` column:
+
+```{r drop}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(3, 4),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~op,
+  "a1", 'd', 
+  "b1", '', 
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+## #STR2NUM
+
+### Example
+
+This command turns string variables into numeric ones by putting an `n` (for "numeric") in the `op` column:
+
+```{r str2num}
+dat <- tibble(
+  a1 = c("1", "0033"),
+  b1 = c(3, 4),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~op,
+  "a1", 'n', 
+  "b1", '', 
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+## #AUTORECODE
+
+### Example
+
+This command autorecodes string variables by putting `a` (for "autorecode") in
+the `op` column. It assigns labelled values (1, 2, 3, ...), ordered by first occurrence:
+
+```{r autorecode}
+dat <- tibble(
+  a1 = c("auto", "recode", "auto", "hello"),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~op,
+  "a1", 'a', 
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
