@@ -114,7 +114,7 @@ join_labs <- function(df) {
 }
 
 
-print_cmd_exe <- function(dat, cdb_args_raw, sheet_cat, ...) {
+gen_data_gt_tables <- function(dat, cdb_args_raw, sheet_cat, ...) {
   dat_mod <- process_cdb_raw(dat, cdb_args_raw, sheet_cat, ...)
   
   old_table <- join_labs(dat)
@@ -169,7 +169,7 @@ color_gt_labels <- function(gt_obj) {
 illustrate_cmd_block <- function(dat, cdb_args_raw, sheet_cat, ...) {
   cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
   
-  gts <- print_cmd_exe(dat, cdb_args_raw, sheet_cat, ...)
+  gts <- gen_data_gt_tables(dat, cdb_args_raw, sheet_cat, ...)
   htmltools::div(
     class = "flex-container", 
     htmltools::div(style = "align-self: flex-start", gts$old_gt),
