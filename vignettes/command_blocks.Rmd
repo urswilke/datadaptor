@@ -485,7 +485,7 @@ variables in the dataset.
 
 This removes the variable `a2`:
 
-```{r kg1}
+```{r select1}
 dat <- tibble(
   a1 = c(1, 2),
   b1 = c(1, 2),
@@ -506,7 +506,7 @@ illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 This only selects the variables matching the regular expression in the quotes
 (variables containing the letter a followed by a digit):
 
-```{r kg1}
+```{r select2}
 dat <- tibble(
   a1 = c(1, 2),
   b1 = c(1, 2),
@@ -526,7 +526,7 @@ illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 In order to keep all variables, and only reorder those named before, you can 
 pass `everything()` in the end:
 
-```{r kg1}
+```{r select3}
 dat <- tibble(
   a1 = c(1, 2),
   b1 = c(1, 2),
