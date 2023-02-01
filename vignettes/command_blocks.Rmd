@@ -58,13 +58,13 @@ then applies it on the data* (with `apply_command()`).
 # Command block examples
 
 ```{r fun_defs_illu, echo=FALSE}
-process_cdb_raw <- function(dat, cdb_args_raw, sheet_cat, ...) {
-  mapping_file <- gen_mapping_obj(cdb_args_raw, sheet_cat)
+process_cdb_raw <- function(dat, cmd_block_tibble, sheet_cat, ...) {
+  mapping_file <- gen_mapping_obj(cmd_block_tibble, sheet_cat)
   Mapping$new(dat, mapping_file, ...)$modify_data()$dat_mod
 }
-gen_mapping_obj <- function(cdb_args_raw, sheet_cat) {
+gen_mapping_obj <- function(cmd_block_tibble, sheet_cat) {
   if (sheet_cat == "Free") {
-    cdb_args_raw <- bind_rows(
+    cmd_block_tibble <- bind_rows(
       tibble(
         X1 = character(),
         X2 = character(),
@@ -72,9 +72,9 @@ gen_mapping_obj <- function(cdb_args_raw, sheet_cat) {
         X4 = character(),
         X5 = character(),
       ),
-      cdb_args_raw |> mutate(row = row_number())
+      cmd_block_tibble |> mutate(row = row_number())
     )
-    mapping_file <- tibble::lst(!!sheet_cat := cdb_args_raw)
+    mapping_file <- tibble::lst(!!sheet_cat := cmd_block_tibble)
     return(mapping_file)
   }
 }
@@ -114,8 +114,8 @@ join_labs <- function(df) {
 }
 
 
-gen_data_gt_tables <- function(dat, cdb_args_raw, sheet_cat, ...) {
-  dat_mod <- process_cdb_raw(dat, cdb_args_raw, sheet_cat, ...)
+gen_data_gt_tables <- function(dat, cmd_block_tibble, sheet_cat, ...) {
+  dat_mod <- process_cdb_raw(dat, cmd_block_tibble, sheet_cat, ...)
   
   old_table <- join_labs(dat)
   new_table <- join_labs(dat_mod)
@@ -166,10 +166,10 @@ color_gt_labels <- function(gt_obj) {
     gt::cols_label(val = "")
 }
 
-illustrate_cmd_block <- function(dat, cdb_args_raw, sheet_cat, ...) {
-  cmd_block <- cdb_args_raw %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
+illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
+  cmd_block <- cmd_block_tibble %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) %>% excelish()
   
-  gts <- gen_data_gt_tables(dat, cdb_args_raw, sheet_cat, ...)
+  gts <- gen_data_gt_tables(dat, cmd_block_tibble, sheet_cat, ...)
   htmltools::div(
     class = "flex-container", 
     htmltools::div(style = "align-self: flex-start", gts$old_gt),
@@ -208,9 +208,9 @@ sheet_cat <- "Free"
 ```{r varl}
 dat <- tibble(q1 = 4:6)
 
-cdb_args_raw <- tibble(X1 = "#VARL", X2 = "q1", X3 = "assigned variable label")
+cmd_block_tibble <- tibble(X1 = "#VARL", X2 = "q1", X3 = "assigned variable label")
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 
@@ -227,14 +227,14 @@ Assign **val**ue **l**abels
 ```{r vall}
 dat <- tibble(q1 = c(1, 1, 2))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#VALL", "q1", "yes/no question",
    NA,  "1",     "Yes",
    NA,  "2", "No"
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 This command also does not change the values. Just like `#VARL`, it assigns the variable label
@@ -251,14 +251,14 @@ the values in column **B** in the following rows of the command.
 ```{r avall}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1)))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#AVALL", "q1", NA_character_,
    NA,  "2",     "b",
    NA,  "3", "c"
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 `#AVALL` does the same as `#VALL`, except that it keeps the value values of the 
@@ -271,14 +271,14 @@ original variable, if they are not overwritten.
 ```{r rmval}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3, ~X4,
   "#RMVAL", "q1", "q2", "def",
    NA,  "2",     "", NA_character_,
    NA,  "3", "", NA_character_,
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 Here, the `#RMVAL` command makes a copy of `q1`, named `q2`, and removes the 
@@ -295,12 +295,12 @@ to be removed in column **B**.
 ```{r comp1}
 dat <- tibble(q1 = 1:3)
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#COMP", "q2", "5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 This command **comp**utes a new variable (specified in column **B**) with the value 
 in column **C**.
@@ -312,12 +312,12 @@ the labels of the original variable are also copied:
 ```{r comp2}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#COMP", "q2", "q1",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 ## `#IF`
@@ -327,12 +327,12 @@ illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```{r if1}
 dat <- tibble(q1 = 1:3)
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#IF", "q1 >= 2", "q2 = 5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 This command takes a condition (more precisely a logical vector of length of the 
 variables in the data) in column **B** and an assignment in column **C** (of the form 
@@ -351,12 +351,12 @@ are kept, as can be seen in the next example:
 ```{r if2}
 dat <- tibble(q1 = 1:3, q2 = c(7, 8, 9))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#IF", "q1 >= 2", "q2 = 5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 Here the value of 7 in the first row is kept from the original data.
@@ -368,12 +368,12 @@ The `#IF` command preserves labels, if an already existing variable is modified:
 ```{r if3}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3,
   "#IF", "q1 >= 2", "q1 = 5",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 ## #REC
@@ -383,7 +383,7 @@ illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
 ```{r rec1}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3, 4, 5, 99), c(a = 1, b = 2, c = 3, d = 4, e = 5, "No answer" = 99), "abcde"))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3, ~X4, ~X5,
   "#REC", "q1", "kq1", "fgh", NA_character_,
   "", "1", "2", "1", "a & b",
@@ -391,7 +391,7 @@ cdb_args_raw <- tibble::tribble(
   "", "4", "5", "3", "d & e",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 The `#REC` command **rec**odes variables. In this example `q1` is recoded to `q2`.
@@ -410,13 +410,13 @@ the original variable is copied:
 ```{r rec2}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3, ~X4, ~X5,
   "#REC", "q1", "kq1", NA_character_, NA_character_,
   "", "1", "2", "1", "a & b",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 ### Example
@@ -426,13 +426,13 @@ values that are not recoded are kept:
 ```{r rec3}
 dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2,            ~X3, ~X4, ~X5,
   "#REC", "q1", "q1", NA_character_, NA_character_,
   "", "1", "2", "0", "a & b",
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 ## #KG
@@ -453,12 +453,12 @@ dat <- tibble(
   ),
 )
 
-cdb_args_raw <- tibble::tribble(
+cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3, 
   "#KG", "q1", "q2", 
   )
 
-illustrate_cmd_block(dat, cdb_args_raw, sheet_cat, na_to_filter = FALSE)
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 The `#KG` command is useful to calculate cross-tabulations for subsets. It 
