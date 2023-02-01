@@ -167,7 +167,7 @@ color_gt_labels <- function(gt_obj) {
 }
 
 illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
-  cmd_block <- cmd_block_tibble |> purrr::set_names(LETTERS[seq_len(ncol(.))]) |> excelish()
+  cmd_block <- cmd_block_tibble %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) |> excelish()
   
   gts <- gen_data_gt_tables(dat, cmd_block_tibble, sheet_cat, ...)
   htmltools::div(
