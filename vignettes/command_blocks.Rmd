@@ -178,23 +178,23 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
     htmltools::div(style = "font-size: 45px", "=>"),
     htmltools::div(style = "align-self: flex-start", gts$new_gt),
   )
+  # This generates the following html:
+  # <div class="flex-container">
+  #   <div style="align-self: flex-start">`r gts$old_gt`</div>
+  #   <div style="font-size: 45px">&</div>
+  #   <div class="flex-item">`r cmd_block`</div>
+  #   <div style="font-size: 45px">=></div>
+  #   <div style="align-self: flex-start">`r gts$new_gt`</div>
+  # </div>
+  
+  # if you want to see the result of this function interactively, pipe it in the following function:
+  # view_html <- function(x){
+  #   html <- paste(x, collapse = '\n')
+  #   tf <- tempfile(fileext = ".html")
+  #   writeLines(html, tf)
+  #   rstudioapi::viewer(tf)
+  # }
 }
-# This generates the following html:
-# <div class="flex-container">
-#   <div style="align-self: flex-start">`r gts$old_gt`</div>
-#   <div style="font-size: 45px">&</div>
-#   <div class="flex-item">`r cmd_block`</div>
-#   <div style="font-size: 45px">=></div>
-#   <div style="align-self: flex-start">`r gts$new_gt`</div>
-# </div>
-
-# if you want to see the result of this function interactively, pipe it in the following function:
-# view_html <- function(x){
-#   html <- paste(x, collapse = '\n')
-#   tf <- tempfile(fileext = ".html")
-#   writeLines(html, tf)
-#   rstudioapi::viewer(tf)
-# }
 
 ```
 
