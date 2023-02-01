@@ -86,6 +86,19 @@ gen_mapping_obj <- function(cmd_block_tibble, sheet_cat) {
       cmd_block_tibble |> mutate(row = row_number())
     )
   } 
+  if (sheet_cat == "Label") {
+    cmd_block_tibble <- bind_rows(
+      tibble(
+        var = character(),
+        nv = character(),
+        new_label = character(),
+        sum_var_label = character(),
+        sum_var_value = character(),
+        sum_var_vallab = character(),
+      ),
+      cmd_block_tibble |> mutate(row = row_number())
+    )
+  } 
   tibble::lst(!!sheet_cat := cmd_block_tibble)
 }
 
@@ -696,6 +709,70 @@ dat <- tibble(
 cmd_block_tibble <- tibble::tribble(
   ~var, ~op,
   "a1", 'a', 
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+# `Label` sheets
+
+Here, you can modify value labels or create new variable
+
+```{r, echo=FALSE}
+sheet_cat <- "Label"
+```
+
+## #SUMVAR
+
+### Example
+
+This command recodes variables specified in the `var` column (column **A**)
+to new variables, by attaching a "k" prefix. It is very similar to the `#REC` command.
+
+```{r sumvar}
+dat <- tibble(
+  a1 = haven::labelled(c(1, 2, 3, 4, 5), label = "original variable label", labels = purrr::set_names(1:5, LETTERS[1:5])),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~nv, ~sum_var_label, ~sum_var_value,	~sum_var_vallab,
+
+  "a1", "1", 'new varlab', "1", "a & b", 
+  "a1", "2", NA, "1", "" ,
+  "a1", "3", NA, "2", "c" ,
+  "a1", "4", NA, "3", "d & e",
+  "a1", "5", NA, "3", "" ,
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+All values of `a1` (specified by `nv`) that are assigned to the same value
+under `sum_var_value` are mapped onto that value (labelled by the string in the 
+first row where this `sum_var_value` occurs). The assigned variable label of the 
+summary variable is specified in the first row of `sum_var_label` (if empty the 
+variable label of the original variable is copied).
+
+
+## #NEWVALL
+
+### Example
+
+This command replaces value labels like `#AVALL`:
+
+```{r newvall}
+dat <- tibble(
+  a1 = haven::labelled(c(1, 2, 3, 4, 5), label = "original variable label", labels = purrr::set_names(1:5, LETTERS[1:5])),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~var, ~nv, ~new_label,
+
+  "a1", "1", 'new value label of value 1', 
+  "a1", "2", NA, 
+  "a1", "3", NA, 
+  "a1", "4", NA, 
+  "a1", "5", NA, 
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
