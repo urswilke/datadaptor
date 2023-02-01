@@ -285,10 +285,13 @@ apply_command_block_safe <- function(cdb, self) {
     },
     error = function(e) {
       if (self$params$debug) {
+        # probably this can't be tested:
+        # nocov start
         browser()
         debugonce(apply_command)
         args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
         do.call(apply_command, args)
+        # nocov end
       }
 
       err_msg <- geterrmessage()[1]
