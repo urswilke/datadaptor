@@ -591,7 +591,7 @@ dat <- tibble(
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#RENAME", 'a2', "new_name_for_a1",
-  "", 'b2', "b2_was_my_old_name"
+  "", 'b2', "new_name_for_b2"
   )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -674,6 +674,8 @@ cmd_block_tibble <- tibble::tribble(
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
+
+The result is the same as specifying `#SELECT -a1` on a `Free` sheet.
 
 ## #STR2NUM
 
