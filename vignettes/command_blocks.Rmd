@@ -544,3 +544,25 @@ illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
 
+## #RENAME
+
+### Example
+
+This command renames variables in column **B** to the names in column **C**:
+
+```{r rename1}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(1, 2),
+  b2 = c(1, 2),
+  a2 = c(1, 2),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3,
+  "#RENAME", 'a2', "new_name_for_a1",
+  "#RENAME", 'b2', "b2_was_my_old_name"
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
