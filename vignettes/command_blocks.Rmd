@@ -474,3 +474,73 @@ The value labels are copied from `q1` (the variable in column **B**). The new va
 labels are a combination of the value labels of `q2` and the variable label of `q1`.
 The values are copied of `q1` if `q2` takes the value specified in the variable 
 label and are `NA` otherwise.
+
+## #SELECT
+
+This command block passes the arguments in column **B** to `dplyr::select()`. However, renaming 
+doesn't work (see `#RENAME` to do this). It can be used to remove and reorder 
+variables in the dataset.
+
+### Example
+
+This removes the variable `a2`:
+
+```{r kg1}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(1, 2),
+  b2 = c(1, 2),
+  a2 = c(1, 2),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2,  
+  "#SELECT", "-a2"
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+### Example
+
+This only selects the variables matching the regular expression in the quotes
+(variables containing the letter a followed by a digit):
+
+```{r kg1}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(1, 2),
+  b2 = c(1, 2),
+  a2 = c(1, 2),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2,  
+  "#SELECT", 'matches("a\\\\d")'
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+### Example
+In order to keep all variables, and only reorder those named before, you can 
+pass `everything()` in the end:
+
+```{r kg1}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(1, 2),
+  b2 = c(1, 2),
+  a2 = c(1, 2),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2,  
+  "#SELECT", 'matches("a\\\\d")',
+  "", 'everything()',
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+
