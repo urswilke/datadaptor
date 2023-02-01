@@ -488,9 +488,9 @@ This removes the variable `a2`:
 ```{r select1}
 dat <- tibble(
   a1 = c(1, 2),
-  b1 = c(1, 2),
+  b1 = c(3, 4),
   b2 = c(1, 2),
-  a2 = c(1, 2),
+  a2 = c(5, 6),
 )
 
 cmd_block_tibble <- tibble::tribble(
@@ -509,9 +509,9 @@ This only selects the variables matching the regular expression in the quotes
 ```{r select2}
 dat <- tibble(
   a1 = c(1, 2),
-  b1 = c(1, 2),
+  b1 = c(3, 4),
   b2 = c(1, 2),
-  a2 = c(1, 2),
+  a2 = c(5, 6),
 )
 
 cmd_block_tibble <- tibble::tribble(
@@ -529,9 +529,9 @@ pass `everything()` in the end:
 ```{r select3}
 dat <- tibble(
   a1 = c(1, 2),
-  b1 = c(1, 2),
+  b1 = c(3, 4),
   b2 = c(1, 2),
-  a2 = c(1, 2),
+  a2 = c(5, 6),
 )
 
 cmd_block_tibble <- tibble::tribble(
@@ -553,9 +553,9 @@ This command renames variables in column **B** to the names in column **C**:
 ```{r rename1}
 dat <- tibble(
   a1 = c(1, 2),
-  b1 = c(1, 2),
+  b1 = c(3, 4),
   b2 = c(1, 2),
-  a2 = c(1, 2),
+  a2 = c(5, 6),
 )
 
 cmd_block_tibble <- tibble::tribble(
