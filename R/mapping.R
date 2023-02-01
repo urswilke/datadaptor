@@ -230,7 +230,6 @@ save_type <- function(df, path, filetype) {
     "sav"  = haven::write_sav(df, path),
     "dta"  = haven::write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
-    "Rmd"  = render_python_rmd(path),
     stop("unknown filetype")
   )
 }
@@ -241,16 +240,6 @@ save_xlsx <- function(df, path) {
       strip_attributes
     )) |>
     writexl::write_xlsx(path)
-}
-render_python_rmd <- function(path) {
-  params_for_py <- list(sav_file = stringr::str_replace(path, "\\.Rmd", ".sav"))
-  template_file <- system.file(
-    "rmarkdown", "templates", "python-debbuging",
-    "skeleton", "debug_skeleton.Rmd",
-    package = "datenanpassr"
-  )
-  fs::file_copy(template_file, path, overwrite = TRUE)
-  rmarkdown::render(path, params = params_for_py, quiet = TRUE)
 }
 
 
