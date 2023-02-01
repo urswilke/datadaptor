@@ -1,4 +1,6 @@
 testthat::expect_equal(class(Mapping$new()), c( "Mapping", "R6"))
+# testthat::expect_warning(Mapping$new(mapping_file = "tests/testthat/excel/mapping_with_non_defined_param.xlsx"))
+testthat::expect_warning(Mapping$new(mapping_file = "excel/mapping_with_non_defined_param.xlsx"))
 
 
 # testthat::expect_error(Mapping$new(luifaliufli = 1))
