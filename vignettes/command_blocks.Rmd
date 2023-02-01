@@ -167,14 +167,14 @@ color_gt_labels <- function(gt_obj) {
 }
 
 illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
-  cmd_block <- cmd_block_tibble %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) |> excelish()
+  cmd_block_gt <- cmd_block_tibble %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) |> excelish()
   
   gts <- gen_data_gt_tables(dat, cmd_block_tibble, sheet_cat, ...)
   htmltools::div(
     class = "flex-container", 
     htmltools::div(style = "align-self: flex-start", gts$old_gt),
     htmltools::div(style = "font-size: 45px", "&"),
-    htmltools::div(style = "flex-item", cmd_block),
+    htmltools::div(style = "flex-item", cmd_block_gt),
     htmltools::div(style = "font-size: 45px", "=>"),
     htmltools::div(style = "align-self: flex-start", gts$new_gt),
   )
@@ -182,7 +182,7 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   # <div class="flex-container">
   #   <div style="align-self: flex-start">`r gts$old_gt`</div>
   #   <div style="font-size: 45px">&</div>
-  #   <div class="flex-item">`r cmd_block`</div>
+  #   <div class="flex-item">`r cmd_block_gt`</div>
   #   <div style="font-size: 45px">=></div>
   #   <div style="align-self: flex-start">`r gts$new_gt`</div>
   # </div>
