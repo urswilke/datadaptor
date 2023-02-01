@@ -699,7 +699,7 @@ illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ### Example
 
 This command autorecodes string variables by putting `a` (for "autorecode") in
-the `op` column. It assigns labelled values (1, 2, 3, ...), ordered by first occurrence:
+the `op` column. It assigns labelled values (1, 2, 3, ...), ordered alphabetically:
 
 ```{r autorecode}
 dat <- tibble(
