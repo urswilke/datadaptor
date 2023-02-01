@@ -117,27 +117,25 @@ join_labs <- function(df) {
 gen_data_gt_tables <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   dat_mod <- process_cdb_raw(dat, cmd_block_tibble, sheet_cat, ...)
   
-  old_table <- join_labs(dat)
-  new_table <- join_labs(dat_mod)
+  dat_table <- join_labs(dat)
+  dat_mod_table <- join_labs(dat_mod)
   
-  join_cols <- dplyr::union(names(old_table), names(new_table))
-  
-  old_gt <- old_table |>
+  dat_gt <- dat_table |>
     gt::gt(
       groupname_col = "type"
     ) |> 
     gt::sub_missing(missing_text = "") |> 
     gt::cols_label(val = "") |> 
     color_gt_labels()
-  new_gt <- new_table |>
+  dat_mod_gt <- dat_mod_table |>
     gt::gt(
       groupname_col = "type"
     ) |> 
     color_gt_labels()
   
   tibble::lst(
-    old_gt,
-    new_gt
+    dat_gt,
+    dat_mod_gt
   )
 
 }
@@ -166,25 +164,34 @@ color_gt_labels <- function(gt_obj) {
     gt::cols_label(val = "")
 }
 
+rename_cols_for_vignette <- function(df, sheet_cat) {
+  if (sheet_cat == "Free") {
+    df <- purrr::set_names(df, LETTERS[seq_len(ncol(df))]) 
+  }
+  df
+}
+
 illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
-  cmd_block_gt <- cmd_block_tibble %>% purrr::set_names(LETTERS[seq_len(ncol(.))]) |> excelish()
+  cmd_block_gt <- cmd_block_tibble |>
+    rename_cols_for_vignette(sheet_cat) |>
+    excelish()
   
   gts <- gen_data_gt_tables(dat, cmd_block_tibble, sheet_cat, ...)
   htmltools::div(
     class = "flex-container", 
-    htmltools::div(style = "align-self: flex-start", gts$old_gt),
+    htmltools::div(style = "align-self: flex-start", gts$dat_gt),
     htmltools::div(style = "font-size: 45px", "&"),
     htmltools::div(style = "flex-item", cmd_block_gt),
     htmltools::div(style = "font-size: 45px", "=>"),
-    htmltools::div(style = "align-self: flex-start", gts$new_gt),
+    htmltools::div(style = "align-self: flex-start", gts$dat_mod_gt),
   )
   # This generates the following html:
   # <div class="flex-container">
-  #   <div style="align-self: flex-start">`r gts$old_gt`</div>
+  #   <div style="align-self: flex-start">`r gts$dat_gt`</div>
   #   <div style="font-size: 45px">&</div>
   #   <div class="flex-item">`r cmd_block_gt`</div>
   #   <div style="font-size: 45px">=></div>
-  #   <div style="align-self: flex-start">`r gts$new_gt`</div>
+  #   <div style="align-self: flex-start">`r gts$dat_mod_gt`</div>
   # </div>
   
   # if you want to see the result of this function interactively, pipe it in the following function:
