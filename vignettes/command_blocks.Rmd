@@ -89,14 +89,15 @@ tab_labels_wide <- function(df) {
     dplyr::rename(val = nv) |> 
     tidyr::pivot_wider(names_from = var, values_from = vallab) |> 
     dplyr::mutate(val = as.character(val))
-  dplyr::bind_rows(varl_table, vall_table)
+  labs <- dplyr::bind_rows(varl_table, vall_table)
+  if (nrow(labs) == 0) {
+    labs <- labs |> dplyr::bind_rows(dplyr::tibble(val = NA_character_))
+  }
+  labs
 }
 
 join_labs <- function(df) {
   labs <- tab_labels_wide(df)
-  if (nrow(labs) == 0) {
-    labs <- labs |> dplyr::bind_rows(dplyr::tibble(val = NA_character_))
-  }
   df |>
     dplyr::mutate(
       dplyr::across(
