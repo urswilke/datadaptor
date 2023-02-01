@@ -1,3 +1,6 @@
+testthat::expect_equal(class(Mapping$new()), c( "Mapping", "R6"))
+
+
 # testthat::expect_error(Mapping$new(luifaliufli = 1))
 
 
