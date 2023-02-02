@@ -936,6 +936,11 @@ variables in the dataset to
 `FILTER` (cf. parameter `miss_rec_lab` in `gen_mapping_params()`) in these 
 variables
 
+Under the hood, this will call the function `set_na_to_filter()` on all the
+numeric variables. You can make exceptions for the variable names
+(space-separated & defined in the parameter string `not_miss_to_filter_vars`;
+also see `gen_mapping_params()`).
+
 ```{r recna}
 sheet_cat <- "Free"
 dat <- tibble(
