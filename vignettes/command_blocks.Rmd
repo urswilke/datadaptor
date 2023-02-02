@@ -225,6 +225,30 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
 
 ```
 
+# Illustration of labelled datasets
+
+In this article we'll talk about labelled datasets. Therefore, we'll first explain 
+how we'll illustrate these datasets:
+
+```{r}
+dat <- tibble(
+  q1 = haven::labelled(c(1, 2, NA), labels = c(a = 1, b = 2), label = "hello"),
+  q2 = haven::labelled(c(NA, 2, 3), labels = c(c = 2, d = 3), label = "how are you?"),
+  q3 = c(NA, "I'm a string", "variable"))
+dat |> join_labs() |> format_my_gt()
+```
+
+The table shows a dataset containing the variables `q1`, `q2`& `q3`, each containing 3
+observations. In the `values` section, the data is shown. `q1` & `q2` are numeric
+and `q3` is a string variable. Below  follows the section containing the `labels`
+in the data. The `varlab` row in green shows the variable labels. `q1` is labelled 
+with "hello", and `q2` is labelled with "how are you?". Below, the labelled values
+are shown. In `q1` value 1 is labelled by "a" and 2 is labelled by "b". In `q2` value 2 is 
+labelled by "c" and 3 is labelled by "d". The variable `q3` is not labelled.
+
+In the following sections we'll explain, how an initial dataset is then modified
+by command blocks from an Excel mapping file resulting in the modified dataset.
+
 # `Free` sheets
 
 Here we'll look at examples how various commands in the `Free` sheets can look
