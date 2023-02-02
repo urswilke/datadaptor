@@ -11,6 +11,7 @@
 #'
 #' @examples
 #' x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
+#' x
 #' set_na_to_filter(x)
 set_na_to_filter <- function(x, miss_rec_val = -2, miss_rec_lab = "FILTER") {
   old_vallab_vec <- attr(x, "labels")
