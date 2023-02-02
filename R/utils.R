@@ -1,6 +1,6 @@
-#' Turn code blocks into multiple by replacing the curly braces by each of the parts inside
+#' Multiply repetitive parts of command blocks using curly braces
 #'
-#' This function turns the first line of code blocks of the "Free" sheets into
+#' This function turns the first line of command blocks of the "Free" sheets into
 #' multiple by replacing the curly braces
 #' by each of the parts inside (separated by spaces). This can help to save yourself
 #' from repetitive writing without diving into something like regular expressions.
@@ -22,6 +22,7 @@
 #'   X4 = NA_character_,
 #'   row = "1"
 #' )
+#' df_curly
 #' curlychop(df_curly)
 #'
 #' # Extensive example:

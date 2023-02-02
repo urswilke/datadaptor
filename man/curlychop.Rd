@@ -2,7 +2,7 @@
 % Please edit documentation in R/utils.R
 \name{curlychop}
 \alias{curlychop}
-\title{Turn code blocks into multiple by replacing the curly braces by each of the parts inside}
+\title{Multiply repetitive parts of command blocks using curly braces}
 \usage{
 curlychop(df_free_raw)
 }
@@ -16,7 +16,7 @@ The part embraced by the curly braces of the
 initial code block is replaced by each of the space separated parts.
 }
 \description{
-This function turns the first line of code blocks of the "Free" sheets into
+This function turns the first line of command blocks of the "Free" sheets into
 multiple by replacing the curly braces
 by each of the parts inside (separated by spaces). This can help to save yourself
 from repetitive writing without diving into something like regular expressions.
@@ -30,6 +30,7 @@ df_curly <- data.frame(
   X4 = NA_character_,
   row = "1"
 )
+df_curly
 curlychop(df_curly)
 
 # Extensive example:
