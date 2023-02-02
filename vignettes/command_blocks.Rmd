@@ -154,8 +154,8 @@ gen_data_gt_tables <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   )
 
 }
-format_my_gt <- function(gt_obj) {
-  gt_obj |>
+format_my_gt <- function(df) {
+  df |>
     gt::gt(
       groupname_col = "type"
     ) |>
