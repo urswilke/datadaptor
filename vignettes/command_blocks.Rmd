@@ -143,17 +143,9 @@ gen_data_gt_tables <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   dat_table <- join_labs(dat)
   dat_mod_table <- join_labs(dat_mod)
   
-  dat_gt <- dat_table |>
-    gt::gt(
-      groupname_col = "type"
-    ) |> 
-    gt::sub_missing(missing_text = "") |> 
-    gt::cols_label(val = "") |> 
+  dat_gt <- dat_table |> 
     format_my_gt()
   dat_mod_gt <- dat_mod_table |>
-    gt::gt(
-      groupname_col = "type"
-    ) |> 
     format_my_gt()
   
   tibble::lst(
@@ -164,6 +156,9 @@ gen_data_gt_tables <- function(dat, cmd_block_tibble, sheet_cat, ...) {
 }
 format_my_gt <- function(gt_obj) {
   gt_obj |>
+    gt::gt(
+      groupname_col = "type"
+    ) |>
     gt::tab_style(
       style = list(
         gt::cell_fill(color = "#D4E6B4")
