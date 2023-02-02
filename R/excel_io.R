@@ -355,17 +355,17 @@ get_new_var_name_free <- function(df_free_nested) {
   # and then slightly modified (because this was very time-consuming)
   # so it got even more horrible, and still contains bugs....
   # e.g.:
-  # - for #REC commands you can omit the name for the variable to be calculated
-  #   meaning you modify the variable which is recoded...
   # - for #RECNA you would want to know all the variables to be modified (or
   #   or those omitted with a minus sign?)
+  # - #RENAME: old name with minus, new names added...?
   # perhaps best to be calculated from:
   # mapping$cmd_tbl$command_blocks |> map("args") |> map("xs") |> map_chr(~.x |> na.omit() |> paste0(collapse = ", "))
   # &
   # mapping$cmd_tbl$command_blocks |> map("args") |> map("x")
   # (?)
   col2_names <- c("#VALL", "#AVALL", "#COMP", "#VARL")
-  col3_names <- c("#REC", "#DIC", "#RMVAL", "#RENAME")
+  col3_names <- c("#DIC", "#RENAME")
+  col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
     dplyr::mutate(data = purrr::map(data, ~dplyr::slice(.x, 1))) |>
     dplyr::bind_rows() |>
@@ -373,6 +373,7 @@ get_new_var_name_free <- function(df_free_nested) {
     dplyr::mutate(new_var = dplyr::case_when(
       action %in% col3_names ~ .data$X3,
       action %in% col2_names ~ .data$X2,
+      action %in% col3or2_names ~ dplyr::coalesce(.data$X3, .data$X2),
       action == "#IF" ~ stringr::str_remove(.data$X3, "=.*") |> stringr::str_squish(),
       action == "#KG" ~ paste(.data$X2, .data$X3, sep = "_"),
       action == "#MERGE" ~ paste(.data$X4, collapse = ", ")
