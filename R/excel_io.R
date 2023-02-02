@@ -365,7 +365,7 @@ get_new_var_name_free <- function(df_free_nested) {
   # mapping$cmd_tbl$command_blocks |> map("args") |> map("x")
   # (?)
   col2_names <- c("#VALL", "#AVALL", "#COMP", "#VARL")
-  col3_names <- c("#REC", "#DIC", "#RMVAL")
+  col3_names <- c("#REC", "#DIC", "#RMVAL", "#RENAME")
   temp <- df_free_nested |>
     dplyr::mutate(data = purrr::map(data, ~dplyr::slice(.x, 1))) |>
     dplyr::bind_rows() |>
