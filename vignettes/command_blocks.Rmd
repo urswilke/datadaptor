@@ -166,22 +166,6 @@ format_my_gt <- function(gt_obj) {
   gt_obj |>
     gt::tab_style(
       style = list(
-        gt::cell_borders(sides = c("top", "bottom"), color = "#FFFFFF")
-      ),
-      locations = gt::cells_body(
-        columns = val
-      )
-    ) |> 
-    gt::tab_style(
-      style = list(
-        gt::cell_borders(color = "#CCCCCC")
-      ),
-      locations = gt::cells_body(
-        columns = -val
-      )
-    ) |> 
-    gt::tab_style(
-      style = list(
         gt::cell_fill(color = "#D4E6B4")
       ),
       locations = gt::cells_body(
@@ -200,7 +184,8 @@ format_my_gt <- function(gt_obj) {
       locations = gt::cells_body(rows = type == "labels")
     ) |> 
     gt::sub_missing(missing_text = "") |> 
-    gt::cols_label(val = "") 
+    gt::cols_label(val = "") |> 
+    gt::opt_table_lines()
 }
 
 rename_cols_for_vignette <- function(df, sheet_cat) {
