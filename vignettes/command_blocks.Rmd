@@ -652,7 +652,7 @@ cmd_block_tibble <- tibble::tribble(
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
-The function `curlychop()` lets you write these commands in a more succint form:
+The function `curlychop()` lets you write these commands in a more succinct form:
 
 
 ```{r curlychop1_2}
@@ -769,7 +769,7 @@ illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 
 ### Example
 
-This command assings new variable labels (specified in the `new_label` column)
+This command assigns new variable labels (specified in the `new_label` column)
 to the variables specified in the `var` column (column **A**). It does the same
 as the `#VARL` command.
 

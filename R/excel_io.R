@@ -367,9 +367,9 @@ get_new_var_name_free <- function(df_free_nested) {
   col3_names <- c("#DIC", "#RENAME")
   col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
-    dplyr::mutate(data = purrr::map(data, ~dplyr::slice(.x, 1))) |>
+    dplyr::mutate(data = purrr::map(.data$data, ~dplyr::slice(.x, 1))) |>
     dplyr::bind_rows() |>
-    tidyr::unnest(data) |>
+    tidyr::unnest(.data$data) |>
     dplyr::mutate(new_var = dplyr::case_when(
       action %in% col3_names ~ .data$X3,
       action %in% col2_names ~ .data$X2,

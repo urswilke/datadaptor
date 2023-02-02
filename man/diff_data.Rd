@@ -22,7 +22,7 @@ For every variable \code{var}in the data.frames, the counts \code{n} are shown f
 all the values (one column per value type), variable and value labels, well
 as their type (column prefixes). The column suffixes \code{"_old"} and \code{"new"}
 indicate \code{df} and \code{df2}, respectively. If the type column is empty, the
-variable doesn't exist in the resepctive data.frame.
+variable doesn't exist in the respective data.frame.
 }
 \description{
 Diff to labelled data frames

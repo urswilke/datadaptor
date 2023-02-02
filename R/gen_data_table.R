@@ -67,7 +67,7 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #'   all the values (one column per value type), variable and value labels, well
 #'   as their type (column prefixes). The column suffixes `"_old"` and `"new"`
 #'   indicate `df` and `df2`, respectively. If the type column is empty, the
-#'   variable doesn't exist in the resepctive data.frame.
+#'   variable doesn't exist in the respective data.frame.
 #' @export
 #'
 #' @examples
