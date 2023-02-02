@@ -597,6 +597,117 @@ cmd_block_tibble <- tibble::tribble(
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
+# `curlychop()`
+
+My brother originally called this function `severalize()`. As I was having a 
+hard time getting to used to this work back then, I decided that I wanted to 
+give it another name that at least sounds more interesting. I ended up with `curlychop()`. 
+
+The idea is to prevent you from writing redundant code by turning one line into
+several commands. Let's have a first look 
+at it with the help of an example.
+
+### Example
+
+Let's assume you want to make copies of several variables, all ending with the
+same suffix "1". You can do this by using several `#COMP` commands:
+
+```{r curlychop1}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(3, 4),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3,
+  "#COMP", "ka1", "a1",
+  "#COMP", "kb1", "b1",
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+The function `curlychop()` lets you write these commands in a more succint form:
+
+
+```{r curlychop1_2}
+tibble::tribble(
+  ~X1, ~X2, ~X3,
+  "#COMP", "k{a b}1", "{a b}1",
+) |> excelish()
+```
+
+It replaces the curly braces by each of the parts inside (separated by spaces).
+You can put as many parts inside the curly braces as you want, but in the examples
+we'll only write 2 parts to save the eye.
+
+### Example
+
+You can also write multiple parts with curly braces inside one cell
+
+```{r curlychop2}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c(3, 4),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3,
+  "#IF", "{a b}1 == {1 4}", "k{a b}1 = {5 6}",
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+The above command block is equivalent to these 2 `#IF` commands:
+
+```{r curlychop_illustrator, echo=FALSE}
+curlychop_illustrator <- function(df) {
+  df |> 
+    mutate(row = row_number()) |> 
+    curlychop() |> 
+    select(-row, -raw_index) |> 
+    purrr::set_names(LETTERS[seq_len(ncol(df))]) |> 
+    excelish()
+}
+```
+
+
+```{r curlychop2_2}
+cmd_block_tibble |> curlychop_illustrator()
+```
+
+
+### Example
+
+For commands spanning multiple rows, you can also use `curlychop()` in the first 
+row:
+
+```{r curlychop3}
+dat <- tibble(
+  q_1 = haven::labelled(c(1, 2, 3), label = "varlab q1"),
+  q_2 = haven::labelled(c(2, 3, 4), label = "varlab q2"),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#REC", "q_{1 2}", "kq{_1 _2}",  NA_character_, NA_character_,
+  NA, "1", "2", "1", "value label of 1",
+  NA, "3", "4", "2", "value label of 2",
+)
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+The above command block is equivalent to these 2 `#REC` commands:
+
+```{r curlychop3_2}
+cmd_block_tibble |> curlychop_illustrator()
+```
+
+
+
+
 # `Variables` sheets
 
 To enter commands here, you don't need to specify the commands, as in the `Free` 
