@@ -43,7 +43,6 @@ command_block_classes <- tribble(
                    "#KG",              "cmd_kg",      "Free",
                  "#RFUN",            "cmd_rfun",      "Free",
                     "#R",               "cmd_r",      "Free",
-                "#COMPR",            "cmd_comp",      "Free",
                 "#RMVAL",           "cmd_rmval",      "Free",
               "#ADDFILE",         "cmd_addfile",      "Free",
                "#SELECT",          "cmd_select",      "Free",

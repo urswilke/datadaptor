@@ -341,10 +341,6 @@ apply_command.cmd_comp <- function(cdb, mapping, x, ex, ...) {
 
   mapping$dat_mod[[x]] <- vec
 }
-#' @describeIn apply_command
-#'
-#' @export
-apply_command.cmd_compr <- apply_command.cmd_comp
 
 #' @describeIn apply_command
 #'

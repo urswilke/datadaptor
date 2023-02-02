@@ -204,8 +204,6 @@ parse_command_args.cmd_comp <- function(cdb_raw) {
     ex = cdb_raw$X3[1]
   )
 }
-#' @export
-parse_command_args.cmd_compr <- parse_command_args.cmd_comp
 
 #' @export
 parse_command_args.cmd_set_lab <- function(cdb_raw) {

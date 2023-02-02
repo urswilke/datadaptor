@@ -18,7 +18,6 @@
 \alias{apply_command.cmd_rename}
 \alias{apply_command.cmd_if}
 \alias{apply_command.cmd_comp}
-\alias{apply_command.cmd_compr}
 \alias{apply_command.cmd_set_lab}
 \alias{apply_command.cmd_newlab}
 \alias{apply_command.cmd_rmval}
@@ -89,8 +88,6 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_if}(cdb, mapping, x, ex_cond, ex, ...)
 
 \method{apply_command}{cmd_comp}(cdb, mapping, x, ex, ...)
-
-\method{apply_command}{cmd_compr}(cdb, mapping, x, ex, ...)
 
 \method{apply_command}{cmd_set_lab}(cdb, mapping, x, varlab, ...)
 
@@ -179,8 +176,6 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_if)}: 
 
 \item \code{apply_command(cmd_comp)}: 
-
-\item \code{apply_command(cmd_compr)}: 
 
 \item \code{apply_command(cmd_set_lab)}: 
 

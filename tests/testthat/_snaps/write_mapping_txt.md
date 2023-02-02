@@ -911,7 +911,7 @@
       24 #DIC    q3                   "q4_renamed"                   <NA>   <NA>    33
       25 <NA>    <NA>                 "!!! Standard auto-correction~ <NA>   <NA>    34
       26 <NA>    <NA>                 "see here: https://superuser.~ <NA>   <NA>    35
-      27 #COMPR  r_expr_var           "haven::labelled(ifelse(q1 ==~ <NA>   <NA>    36
+      27 #COMP   r_expr_var           "haven::labelled(ifelse(q1 ==~ <NA>   <NA>    36
       28 #MERGE  fake_survey.sav      "id"                           q1 q2  <NA>    38
       29 #RFUN   example_R_function.R "calc_sum_of_k_vars"           <NA>   <NA>    40
       30 #REC    q1                   "kkq1"                         vl     <NA>    48
