@@ -1,22 +1,22 @@
-#' Replace NA values by `replace_val` labelled by `replace_label`
+#' Replace NA values by `miss_rec_val` labelled by `miss_rec_lab`
 #'
 #' @param x numeric variable
-#' @param replace_val numeric value, NAs are replaced by; defaults to -2
-#' @param replace_label character value, value label `replace_val` will be
+#' @param miss_rec_val numeric value, NAs are replaced by; defaults to -2
+#' @param miss_rec_lab character value, value label `miss_rec_val` will be
 #' labelled by; defaults to "FILTER"
 #'
-#' @return `x` where NAs are replaced by `replace_val` with added label
-#'   `replace_label`
+#' @return `x` where NAs are replaced by `miss_rec_val` with added label
+#'   `miss_rec_lab`
 #' @export
 #'
 #' @examples
 #' x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
 #' set_na_to_filter(x)
-set_na_to_filter <- function(x, replace_val = -2, replace_label = "FILTER") {
+set_na_to_filter <- function(x, miss_rec_val = -2, miss_rec_lab = "FILTER") {
   old_vallab_vec <- attr(x, "labels")
-  added_vallab_vec <- purrr::set_names(replace_val, replace_label)
+  added_vallab_vec <- purrr::set_names(miss_rec_val, miss_rec_lab)
   new_vallab_vec <- merge_vallabs(old_vallab_vec, added_vallab_vec)
-  x[is.na(x)] <- replace_val
+  x[is.na(x)] <- miss_rec_val
   haven::labelled(
     x,
     labels = new_vallab_vec,

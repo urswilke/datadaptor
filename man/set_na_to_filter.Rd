@@ -2,24 +2,24 @@
 % Please edit documentation in R/command_block_function_helper.R
 \name{set_na_to_filter}
 \alias{set_na_to_filter}
-\title{Replace NA values by \code{replace_val} labelled by \code{replace_label}}
+\title{Replace NA values by \code{miss_rec_val} labelled by \code{miss_rec_lab}}
 \usage{
-set_na_to_filter(x, replace_val = -2, replace_label = "FILTER")
+set_na_to_filter(x, miss_rec_val = -2, miss_rec_lab = "FILTER")
 }
 \arguments{
 \item{x}{numeric variable}
 
-\item{replace_val}{numeric value, NAs are replaced by; defaults to -2}
+\item{miss_rec_val}{numeric value, NAs are replaced by; defaults to -2}
 
-\item{replace_label}{character value, value label \code{replace_val} will be
+\item{miss_rec_lab}{character value, value label \code{miss_rec_val} will be
 labelled by; defaults to "FILTER"}
 }
 \value{
-\code{x} where NAs are replaced by \code{replace_val} with added label
-\code{replace_label}
+\code{x} where NAs are replaced by \code{miss_rec_val} with added label
+\code{miss_rec_lab}
 }
 \description{
-Replace NA values by \code{replace_val} labelled by \code{replace_label}
+Replace NA values by \code{miss_rec_val} labelled by \code{miss_rec_lab}
 }
 \examples{
 x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
