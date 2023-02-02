@@ -180,7 +180,8 @@ format_my_gt <- function(gt_obj) {
     ) |> 
     gt::sub_missing(missing_text = "") |> 
     gt::cols_label(val = "") |> 
-    gt::opt_table_lines()
+    gt::opt_table_lines() |> 
+    gtExtras::gt_add_divider(columns = "val", style = "dashed")
 }
 
 rename_cols_for_vignette <- function(df, sheet_cat) {
