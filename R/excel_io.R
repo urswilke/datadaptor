@@ -337,11 +337,10 @@ process_raw_free_cmd_table <- function(df_free) {
     curlychop() |>
     dplyr::group_by(.data$row) |>
     dplyr::mutate(action = .data$X1[1]) |>
-    dplyr::group_by(.data$action, .data$row) |>
-    get_new_var_name_free() |>
-    dplyr::group_by(.data$action, .data$row, .data$new_var, .data$raw_index) |>
+    dplyr::group_by(.data$action, .data$row, .data$raw_index) |>
     tidyr::nest() |>
     dplyr::ungroup() |>
+    get_new_var_name_free() |>
     dplyr::select(-"raw_index")
 }
 put_absolute_filepaths <- function(df_free, mapping_file) {
@@ -351,17 +350,34 @@ put_absolute_filepaths <- function(df_free, mapping_file) {
   df_free
 }
 
-get_new_var_name_free <- function(df_free) {
+get_new_var_name_free <- function(df_free_nested) {
+  # This function is old legacy code. Before, it was run on a grouped dataframe,
+  # and then slightly modified (because this was very time-consuming)
+  # so it got even more horrible, and still contains bugs....
+  # e.g.:
+  # - for #REC commands you can omit the name for the variable to be calculated
+  #   meaning you modify the variable which is recoded...
+  # - for #RECNA you would want to know all the variables to be modified (or
+  #   or those omitted with a minus sign?)
+  # perhaps best to be calculated from:
+  # mapping$cmd_tbl$command_blocks |> map("args") |> map("xs") |> map_chr(~.x |> na.omit() |> paste0(collapse = ", "))
+  # &
+  # mapping$cmd_tbl$command_blocks |> map("args") |> map("x")
+  # (?)
   col2_names <- c("#VALL", "#AVALL", "#COMP", "#VARL")
   col3_names <- c("#REC", "#DIC", "#RMVAL")
-  df_free |>
+  temp <- df_free_nested |>
+    dplyr::mutate(data = purrr::map(data, ~dplyr::slice(.x, 1))) |>
+    dplyr::bind_rows() |>
+    tidyr::unnest(data) |>
     dplyr::mutate(new_var = dplyr::case_when(
-      action %in% col3_names ~ .data$X3[1],
-      action %in% col2_names ~ .data$X2[1],
+      action %in% col3_names ~ .data$X3,
+      action %in% col2_names ~ .data$X2,
       action == "#IF" ~ stringr::str_remove(.data$X3, "=.*") |> stringr::str_squish(),
       action == "#KG" ~ paste(.data$X2, .data$X3, sep = "_"),
       action == "#MERGE" ~ paste(.data$X4, collapse = ", ")
     ))
+  df_free_nested |> dplyr::mutate(new_var = temp$new_var, .after = "action")
 }
 
 add_curlies_to_cell_with_spaces <- function(df_free) {
