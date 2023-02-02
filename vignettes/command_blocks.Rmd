@@ -166,7 +166,22 @@ format_my_gt <- function(gt_obj) {
   gt_obj |>
     gt::tab_style(
       style = list(
-        gt::cell_borders(color = "#CCCCCC"),
+        gt::cell_borders(sides = c("top", "bottom"), color = "#FFFFFF")
+      ),
+      locations = gt::cells_body(
+        columns = val
+      )
+    ) |> 
+    gt::tab_style(
+      style = list(
+        gt::cell_borders(color = "#CCCCCC")
+      ),
+      locations = gt::cells_body(
+        columns = -val
+      )
+    ) |> 
+    gt::tab_style(
+      style = list(
         gt::cell_fill(color = "#D4E6B4")
       ),
       locations = gt::cells_body(
@@ -174,7 +189,6 @@ format_my_gt <- function(gt_obj) {
     ) |> 
     gt::tab_style(
       style = list(
-        gt::cell_borders(color = "#CCCCCC"),
         gt::cell_fill(color = "#D7E9E9")
       ),
       locations = gt::cells_body(rows = type == "labels" & val != "varlab")
