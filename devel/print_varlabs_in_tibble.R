@@ -8,9 +8,9 @@ ctl_new_pillar.labelled_tbl <- function(controller, x, ..., title = NULL) {
     width <- 1
   }
   vallabs_widths <- out[["data"]][[1]][["lbl"]][["wid_full"]]
-  if (!is.null(vallabs_widths) && max(vallabs_widths) > 0) {
-    width <- width + max(vallabs_widths)
-  }
+  vallabs_width <- ifelse(is.null(vallabs_widths[1]), 0, max(vallabs_widths))
+  type_width <- attr(out[["type"]], "width")
+  width <- max(width + vallabs_width, type_width)
   if (is.null(varlab)) {
     varlab <- rep("-", width) |> paste(collapse = "")
   }
