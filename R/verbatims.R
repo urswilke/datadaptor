@@ -4,7 +4,7 @@
 #' @param sheet name of the sheet in the Excel mapping file
 #'
 #' @return Command block table of the "Verbatims" sheet of the Excel mapping file.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
