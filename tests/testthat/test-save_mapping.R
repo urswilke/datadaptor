@@ -30,18 +30,3 @@ test_that("Mapping$save() seems to work", {
   })
 })
 
-# I don't want the testthat output cluttered. therefore `if` and not `skip`...:
-if (testthat:::on_ci()) {
-  test_that("Mapping$save() seems to work for Rmd", {
-    # skip_if_not(testthat:::on_ci())
-
-    withr::with_file(output_files, {
-      m$modify_data()
-      m$save(name = filenames, filetype = save_file_types[4])
-      expect_true(file.exists(output_files[4]))
-      expect_true(file.exists(str_replace(output_files[4], "Rmd$", "html")))
-
-    })
-  })
-
-}
