@@ -89,7 +89,7 @@ update_label_table <- function(dat,
     col_types = "text"
   ) |>
     dplyr::mutate(nv = as.numeric(.data$nv))
-  df_vall_new <- gen_label_table_raw(dat)
+  df_vall_new <- tab_vallabs(dat)
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_vall |>
@@ -106,9 +106,6 @@ update_label_table <- function(dat,
 
 }
 
-gen_label_table_raw <- function(dat) {
-  tab_vallabs(dat)
-}
 
 #' Generate the "Variables" sheet table
 #'
@@ -144,7 +141,7 @@ gen_var_table <- function(dat) {
 #'   haven::read_sav()
 #' gen_label_table(dat)
 gen_label_table <- function(dat) {
-  gen_label_table_raw(dat) |>
+  tab_vallabs(dat) |>
     dplyr::mutate(
       new_label      = "",
       sum_var_label  = "",
