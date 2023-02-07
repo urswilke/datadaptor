@@ -25,8 +25,9 @@ mapping$dat
 # It contains the processed information in a list structure that has
 # its own print method.
 # You can access it with
+\dontrun{
 mapping$cmd_tbl$command_blocks
-
+}
 # Apply the command blocks to the dataset:
 mapping$modify_data()
 
