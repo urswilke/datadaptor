@@ -173,6 +173,7 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 #' @param x Logical vector
 #'
 #' @return Logical vector that's TRUE if \code{x = TRUE} and \code{FALSE} if \code{x = FALSE or NA}.
+#' @keywords internal
 #' @export
 #'
 #' @examples
