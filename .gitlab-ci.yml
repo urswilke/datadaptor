@@ -1,7 +1,7 @@
 variables:
   _R_CHECK_CRAN_INCOMING_: "true"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  APT_PKGS: "libcurl4-openssl-dev libssh2-1-dev libssl-dev libxml2-dev zlib1g-dev git" # libgsl0-dev"
+  APT_PKGS: "libcurl4-openssl-dev libssh2-1-dev libssl-dev libxml2-dev zlib1g-dev git"
 
 stages:
   - test
@@ -39,14 +39,17 @@ devtools-check-prod:
     - prod
 
 
-pages:
-  stage: deploy
-  script:
-    - R -e 'devtools::document(); pkgdown::build_site();'
-    - mkdir public/img
-  artifacts:
-    paths:
-      - public
-    expire_in: 1 day
-  rules:
-    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
+# pkgdown seems to work... will try again when package goes public by
+# uncommenting the following:
+
+# pages:
+#   stage: deploy
+#   script:
+#     - R -e 'devtools::document(); pkgdown::build_site();'
+#     - mkdir public/img
+#   artifacts:
+#     paths:
+#       - public
+#     expire_in: 1 day
+#   rules:
+#     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
