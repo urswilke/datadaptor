@@ -292,7 +292,7 @@ safer_env[["case_when"]] <- dplyr::case_when
 #' @param x vector
 #'
 #' @return x with attributes removed
-#' @export
+#' @noRd
 #'
 #' @examples
 #' x <- haven::labelled(1:3, label = "variable_label")
