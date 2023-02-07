@@ -11,8 +11,7 @@
 gen_data_table <- function(df, values_drop_na = FALSE) {
   counts <- tab_counts(df, values_drop_na)
 
-  df_var <- gen_var_table(df) |>
-    dplyr::select(c("var","type", "varlab"))
+  df_var <- gen_var_table_raw(df)
 
   label <- tab_vallabs(df)
 
@@ -131,8 +130,7 @@ long_labelled_data <- function(df, id_var = "DC_ID") {
   counts <- lengthen_by_id(df, id_var)
   df_var <- df |>
     dplyr::select(-dplyr::all_of(c(id_var))) |>
-    gen_var_table() |>
-    dplyr::select(c("var","type", "varlab"))
+    gen_var_table_raw()
 
   label <- tab_vallabs(df)
 
