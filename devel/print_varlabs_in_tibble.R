@@ -17,9 +17,24 @@ ctl_new_pillar.labelled_tbl <- function(controller, x, ..., title = NULL) {
     data = out$data
   ))
 }
-
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-df <- haven::read_sav(spss_file)
-df$chr_var <- haven::labelled(sample(LETTERS, 100, TRUE), labels = setNames(LETTERS, sample(LETTERS, 26)))
+N <- 10
+# Create an example tibble:
+df <- tibble::tibble(
+  id = 1:N,
+  a = haven::labelled(
+    sample(c(1:2, 99, NA), N, TRUE),
+    label = "Do you feel good?",
+    labels = c(
+      `YESSS` = 1,
+      `No` = 2,
+      `No answer` = 99
+    )
+  ),
+  b = haven::labelled(
+    sample(LETTERS[1:N], N, TRUE),
+    label = "LETTERS",
+    labels = setNames(LETTERS, sample(LETTERS[1:N], N))
+  )
+)
 class(df) <- c("labelled_tbl", class(df))
 df
