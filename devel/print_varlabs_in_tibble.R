@@ -38,3 +38,32 @@ df <- tibble::tibble(
 )
 class(df) <- c("labelled_tbl", class(df))
 df
+
+df2 <- df
+attr(df2$a, "label") <- "new label"
+diffobj::diffPrint(
+  df,
+  df2,
+  mode = "sidebyside", interactive = FALSE
+)
+df3 <- df2
+attr(df3$a, "labels") <- c(
+  `Yes` = 1,
+  `No` = 2,
+  `No answer` = 99
+)
+diffobj::diffPrint(
+  df,
+  df3,
+  mode = "sidebyside", interactive = FALSE
+)
+diffobj::diffPrint(
+  df,
+  df3[2:9,],
+  mode = "sidebyside", interactive = FALSE
+)
+diffobj::diffPrint(
+  df,
+  df3[2:9,] |> dplyr::mutate(d = NA),
+  mode = "sidebyside", interactive = FALSE
+)
