@@ -4,13 +4,11 @@
 #'
 #' @param cdb `"command_block"` object
 #'
-#' @export
+#' @noRd
 validate_command_block <- function(cdb) {
   UseMethod("validate_command_block")
 }
 
-#' @rdname command_block
-#' @export
 validate_command_block.command_block <- function(cdb) {
   new_validated_command_block(cdb)
 }
@@ -43,7 +41,6 @@ new_validated_command_block <- function(cdb) {
   cdb
 }
 
-#' @export
 validate_command_block.cmd_if <- function(cdb) {
   x <- cdb$args$x
   ex_cond <- cdb$args$ex_cond

@@ -168,7 +168,7 @@ tab_sheet_types <- function(sheets) {
 #'
 #' @param cdb row of command table
 #'
-#' @export
+#' @noRd
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
@@ -198,12 +198,11 @@ match_command_block_class <- function(keyword) {
 }
 
 
-#' @export
+#' @noRd
 #' @param ... further arguments passed to constructor
 #' @param validate Whether to validate the arguments passed to generate the
 #'   command block. Defaults to TRUE.
 #' @param subclass character vector containing the subclass of the object to construct
-#' @rdname command_block
 new_command_block <- function(cdb, validate = TRUE, ..., subclass = character()) {
   cdb <- structure(
     cdb,
@@ -237,7 +236,7 @@ new_command_block <- function(cdb, validate = TRUE, ..., subclass = character())
 #'   elements, that are applied to the mapping with `Mapping$modify_data()`
 #'   using the `apply_command()` method of their subclass.
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
@@ -270,7 +269,7 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
 }
 
 
-#' @export
+#' @noRd
 `[.command_blocks` <- function(x, i) {
   res <- new_command_blocks(NextMethod(x))
   class(res) <- class(x)

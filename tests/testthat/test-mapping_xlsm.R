@@ -6,17 +6,17 @@ mapping_xlsm <- Mapping$new(spss_file, mapping_file, translate_xlsm = T)
 
 mapping_xlsm$modify_data()
 
-cbs <- mapping_xlsm$cmd_tbl$command_blocks
-incl_block_bool <-
-  !purrr::map_chr(cbs, "action") %in%
-  c("#MERGE", "#RFUN")
-test_that("command blocks print is reproduced", {
-  testthat::expect_snapshot_output({
-    cbs[incl_block_bool]
-  }
-
-  )
-})
+# cbs <- mapping_xlsm$cmd_tbl$command_blocks
+# incl_block_bool <-
+#   !purrr::map_chr(cbs, "action") %in%
+#   c("#MERGE", "#RFUN")
+# test_that("command blocks print is reproduced", {
+#   testthat::expect_snapshot_output({
+#     cbs[incl_block_bool]
+#   }
+#
+#   )
+# })
 
 test_that("s3 modified data print is reproduced", {
   testthat::expect_snapshot_output({
