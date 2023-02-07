@@ -172,11 +172,9 @@ rename_vars_to_original_case <- function(df) {
 #' Save the modified data of a mapping to a file
 #'
 #' The data can be exported to the file formats of Stata & SPSS. The Excel
-#' export removes variable & value labels. Rmarkdown filetypes ("Rmd") can
-#' be used to setup a python session with the data. Also see
-#' `vignette("debugging")`.
+#' export removes variable & value labels. Rmarkdown filetypes ("Rmd").
 #'
-#' @param mapping `Mappjng` object
+#' @param mapping `Mapping` object
 #' @param path `character()` vector or `NULL`. If `NULL` (the default) it
 #'   will write the file to the path in `self$params$save_path` with
 #'   the file `name`(s) & `filetype`(s) specified.
@@ -188,7 +186,7 @@ rename_vars_to_original_case <- function(df) {
 #' @param filetype `character()` vector containing all the filetypes to be
 #'   written. Is overwritten, by `path` if not `NULL`.
 #' @param ... used to pass arguments from `Mapping$save(...)`
-#' @export
+#' @noRd
 #' @examples
 #' \dontrun{
 #' # Create a Mapping object from the files provided by the package:
@@ -206,23 +204,10 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   } else {
     filetype <- stringr::str_remove(path, ".*\\.")
   }
-  raw <- tidyr::tibble(path, name, filetype, show)
-  # add a sav file when there is an Rmd(that will import the sav):
-  df <- dplyr::bind_rows(
-    raw |>
-      dplyr::filter(filetype == "Rmd") |>
-      dplyr::mutate(
-        path = stringr::str_replace(path, "\\.Rmd$", ".sav"),
-        filetype = "sav"
-      ),
-    raw
-    ) |>
-    dplyr::distinct() |>
-    # For Rmd the result is a html:
-    dplyr::mutate(res_path = stringr::str_replace(path, "\\.Rmd$", ".html"))
+  df <- tidyr::tibble(path, name, filetype, show)
   purrr::walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
 
-  df$res_path[df$show] |> purrr::walk(utils::browseURL)
+  df$path[df$show] |> purrr::walk(utils::browseURL)
 }
 
 
