@@ -173,6 +173,7 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 #' @param x Logical vector
 #'
 #' @return Logical vector that's TRUE if \code{x = TRUE} and \code{FALSE} if \code{x = FALSE or NA}.
+#' @keywords internal
 #' @export
 #'
 #' @examples
@@ -272,10 +273,12 @@ safe_f <- c(
   "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na", "c", "list",
   "as.numeric", "as.character", "as.logical", ":", "!"
 )
-
-#' Environment where expressions from the Excel mapping file are evaluated
+#' Execution environment
 #'
-#' See `?Mapping`
+#' This is the default environment where expressions from the Excel mapping file are evaluated.
+#' See argument `expr_eval_env` of `?gen_mapping_params()`. See examples below
+#' for the list of included functions. If you need more, you can also use
+#' `baseenv()`.
 #'
 #' @export
 #' @examples
@@ -292,7 +295,7 @@ safer_env[["case_when"]] <- dplyr::case_when
 #' @param x vector
 #'
 #' @return x with attributes removed
-#' @export
+#' @noRd
 #'
 #' @examples
 #' x <- haven::labelled(1:3, label = "variable_label")

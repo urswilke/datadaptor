@@ -29,7 +29,7 @@
 \alias{apply_command.cmd_dic}
 \alias{apply_command.cmd_autorec}
 \alias{apply_command.cmd_str_to_num}
-\title{Apply a command block to the mapping}
+\title{Apply a command block to the data}
 \usage{
 apply_command(cdb, mapping, ...)
 
@@ -140,7 +140,7 @@ containing valid R expressions. They will be evaluated in
 which contains a list of expressions evaluated in the global environment.}
 }
 \description{
-Apply a command block to the mapping
+see \code{vignette("command_blocks")}
 }
 \section{Methods (by class)}{
 \itemize{
@@ -201,19 +201,5 @@ defined in the R script named \code{filepath}.
 
 }}
 \examples{
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-m <- Mapping$new(spss_file, mapping_file)
-# Construct a command_block of the 10th line in m$cmd$df_cmd_raw:
-cb <- m$cmd$df_cmd_raw[10, ] |>
-  command_block()
-# Generate command_blocks object:
-cbs <- list(cb) |>
-  datenanpassr:::new_command_blocks(subclass = "unsafe")
-# Apply it to the data:
-m$modify_data(command_blocks = cbs)
-
-# The label of the variable in m$dat_mod was modified:
-m$dat$q5
-m$dat_mod$q5
+# see vignette("command_blocks")
 }

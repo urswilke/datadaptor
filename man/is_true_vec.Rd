@@ -18,3 +18,4 @@ Vectorized \code{isTRUE()}
 \examples{
 is_true_vec(c(NA, TRUE, FALSE))
 }
+\keyword{internal}

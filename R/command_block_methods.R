@@ -1,4 +1,6 @@
-#' Apply a command block to the mapping
+#' Apply a command block to the data
+#'
+#' see `vignette("command_blocks")`
 #'
 #' @param cdb `command_block` object
 #' @param mapping mapping object
@@ -6,21 +8,7 @@
 #'
 #' @export
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' m <- Mapping$new(spss_file, mapping_file)
-#' # Construct a command_block of the 10th line in m$cmd$df_cmd_raw:
-#' cb <- m$cmd$df_cmd_raw[10, ] |>
-#'   command_block()
-#' # Generate command_blocks object:
-#' cbs <- list(cb) |>
-#'   datenanpassr:::new_command_blocks(subclass = "unsafe")
-#' # Apply it to the data:
-#' m$modify_data(command_blocks = cbs)
-#'
-#' # The label of the variable in m$dat_mod was modified:
-#' m$dat$q5
-#' m$dat_mod$q5
+#' # see vignette("command_blocks")
 apply_command <- function(cdb, mapping, ...) {
   UseMethod("apply_command")
 }

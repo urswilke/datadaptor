@@ -4,7 +4,7 @@
 #'
 #' @param command_blocks command_blocks object
 #'
-#' @export
+#' @noRd
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
@@ -24,8 +24,7 @@ command_block_rcrd <- function(command_blocks) {
 
 #' @param x command_block_rcrd object
 #' @param ... not needed for now
-#' @export
-#' @rdname command_block_rcrd
+#' @noRd
 format.command_block_rcrd <- function(x, ...) {
   x_valid <- which(!is.na(x))
 
@@ -78,24 +77,21 @@ cmd_block_args_formatter <- function(sheet, action, args) {
   )
 }
 
-#' @rdname command_block_rcrd
-#' @export
+#' @noRd
 vec_ptype_abbr.command_block_rcrd <- function(x) {
   "cmdblk"
 }
 
-#' @rdname command_block_rcrd
 #' @importFrom pillar pillar_shaft
-#' @export
+#' @noRd
 pillar_shaft.command_block_rcrd <- function(x, ...) {
   out <- format(x)
   pillar::new_pillar_shaft_simple(out, align = "right", min_width = 24)
 }
 
-#' @rdname command_blocks
 #' @param x command_block object
 #' @param ... not needed for now
-#' @export
+#' @noRd
 print.command_blocks <- function(x, ...) {
   print(command_block_rcrd(x), ...)
 }

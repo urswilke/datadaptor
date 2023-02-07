@@ -20,19 +20,27 @@ knitr::opts_chunk$set(
 In order to debug the command blocks of a mapping you can set the option
 `debug = TRUE`.
 
+When the execution of a code block runs into an error, this then jumps into the code.
+We'll sneak an error in this `#IF` `command_block` (In X2 you have to write a
+string containing a valid logical expression):
+
 ```{r}
 library(datenanpassr)
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-m <- Mapping$new(fake_survey, mapping_file, debug = TRUE)
+Free_commands <- tibble::tribble(
+  ~X1, ~X2, ~X3, ~X4, ~X5, ~row,
+  "#IF", "q1 ===#$%#!@ 18", "q2 = 2", "", "", 6
+)
+Free_commands
 ```
 
-When the execution of a code block runs into an error, this then jumps into the code.
-We'll sneak an error in one of the `"command_block"`s:
+When we construct our `Mapping` object:
+
 ```{r}
-m$cmd_tbl$command_blocks[[52]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
+m <- Mapping$new(tibble::tibble(q1 = 18), list(Free = Free_commands), debug = TRUE)
+
 ```
 
-Now, when we execute the modifications, the debugger stops at the `browser()`.
+end then execute the modifications, the debugger stops at the `browser()`.
 ```{r}
 m$modify_data()
 ```
@@ -41,4 +49,5 @@ and you will see the command prompt of the debugger:
 
 `Browse[1]> `
 
-There, you can move into the function that produces the error by pressing `Shift` + `F5`.
+There, you can move into the function that produces the error by continuing 
+(pressing `Shift` + `F5` in RStudio).

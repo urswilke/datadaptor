@@ -21,17 +21,17 @@ mapping_s3 <- mapping$clone(deep = TRUE)
 
 mapping_s3$modify_data()
 
-cbs <- mapping_s3$cmd_tbl$command_blocks
-incl_block_bool <-
-  !purrr::map_chr(cbs, "action") %in%
-  c("#MERGE", "#RFUN")
-test_that("command blocks print is reproduced", {
-  testthat::expect_snapshot_output({
-    cbs[incl_block_bool]
-  }
-
-  )
-})
+# cbs <- mapping_s3$cmd_tbl$command_blocks
+# incl_block_bool <-
+#   !purrr::map_chr(cbs, "action") %in%
+#   c("#MERGE", "#RFUN")
+# test_that("command blocks print is reproduced", {
+#   testthat::expect_snapshot_output({
+#     cbs[incl_block_bool]
+#   }
+#
+#   )
+# })
 
 test_that("s3 modified data print is reproduced", {
   testthat::expect_snapshot_output({

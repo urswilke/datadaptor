@@ -48,7 +48,7 @@ mapp_create <- function(df_raw, mapping_file) {
 #'
 #' @return Command block table of the "Variables" sheet of the Excel mapping
 #'   file.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
@@ -192,7 +192,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return Command block table of the "Label" sheet of the Excel mapping file.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
@@ -287,7 +287,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' @param  sheet name of the sheet in the Excel mapping file
 #'
 #' @return Command block table of the "Free" sheet of the Excel mapping file.
-#' @export
+#' @noRd
 #'
 #' @examples
 #' # create empty template from labelled dataset `fake_survey` via:
