@@ -272,10 +272,12 @@ safe_f <- c(
   "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na", "c", "list",
   "as.numeric", "as.character", "as.logical", ":", "!"
 )
-
-#' Environment where expressions from the Excel mapping file are evaluated
+#' Execution environment
 #'
-#' See `?Mapping`
+#' This is the default environment where expressions from the Excel mapping file are evaluated.
+#' See argument `expr_eval_env` of `?gen_mapping_params()`. See examples below
+#' for the list of included functions. If you need more, you can also use
+#' `baseenv()`.
 #'
 #' @export
 #' @examples

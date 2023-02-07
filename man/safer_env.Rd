@@ -3,7 +3,7 @@
 \docType{data}
 \name{safer_env}
 \alias{safer_env}
-\title{Environment where expressions from the Excel mapping file are evaluated}
+\title{Execution environment}
 \format{
 An object of class \code{environment} of length 66.
 }
@@ -11,7 +11,10 @@ An object of class \code{environment} of length 66.
 safer_env
 }
 \description{
-See \code{?Mapping}
+This is the default environment where expressions from the Excel mapping file are evaluated.
+See argument \code{expr_eval_env} of \code{?gen_mapping_params()}. See examples below
+for the list of included functions. If you need more, you can also use
+\code{baseenv()}.
 }
 \examples{
 safer_env |> as.list() |> names()

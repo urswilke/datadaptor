@@ -330,7 +330,10 @@ initialize_dat <- function(self, dat) {
 
 #' Mapping parameters
 #'
-#' Generate list of named elements with mapping parameters. The argument values
+#' Helper function to generate the parameters in the `params` field when a
+#' Mapping object is constructed with `Mapping$new()`.
+#'
+#' Generates a list of named elements with mapping parameters. The argument values
 #' are the below default values, then overwritten if passed by the `...` dots,
 #' and then overwritten by the Excel file. If `override_excel = FALSE` the Excel
 #' parameters will prevail, and otherwise overwritten by the dots.
