@@ -14,7 +14,7 @@ before_script:
   - apt-get update
   - apt-get install -y --no-install-recommends ${APT_PKGS}
   - apt-get install -y --no-install-recommends qpdf pandoc pandoc-citeproc
-  - R -e 'install.packages(c("testthat", "gt", "gtExtras", "knitr", "htmltools", "rmarkdown",  "markdown", "withr", "here", "spelling", "openxlsx", "dplyr",  "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr", "cellranger",  "rlang", "stringr", "fs", "labelled", "R6", "vctrs", "pillar",  "data.table", "writexl", "forcats"));'
+  - R -e 'install.packages(c("testthat", "gt", "gtExtras", "knitr", "htmltools", "rmarkdown",  "markdown", "withr", "here", "spelling", "openxlsx", "dplyr",  "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr", "cellranger",  "rlang", "stringr", "fs", "labelled", "R6", "pillar",  "data.table", "writexl", "forcats"));'
 
 devtools-check-dev:
   stage: test

@@ -48,7 +48,6 @@ Imports:
     fs,
     labelled,
     R6,
-    vctrs,
     pillar,
     data.table,
     writexl,
