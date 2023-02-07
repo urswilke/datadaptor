@@ -1,0 +1,52 @@
+variables:
+  _R_CHECK_CRAN_INCOMING_: "true"
+  _R_CHECK_FORCE_SUGGESTS_: "true"
+  APT_PKGS: "libcurl4-openssl-dev libssh2-1-dev libssl-dev libxml2-dev zlib1g-dev git" # libgsl0-dev"
+
+stages:
+  - test
+  - build
+  - deploy
+
+image: rocker/tidyverse
+
+before_script:
+  - apt-get update
+  - apt-get install -y --no-install-recommends ${APT_PKGS}
+  - apt-get install -y --no-install-recommends qpdf pandoc pandoc-citeproc
+  - R -e 'install.packages(c("testthat", "gt", "gtExtras", "knitr", "htmltools", "rmarkdown",  "markdown", "withr", "here", "spelling", "R", "openxlsx", "dplyr",  "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr", "cellranger",  "rlang", "stringr", "fs", "labelled", "R6", "vctrs", "pillar",  "data.table", "writexl", "forcats"));'
+
+devtools-check-dev:
+  stage: test
+  script:
+    - R -e 'devtools::check()'
+  only:
+    - dev
+
+devtools-check-topic-branches:
+  stage: test
+  script:
+    - R -e 'devtools::check()'
+  except:
+    - dev
+    - prod
+
+devtools-check-prod:
+  stage: test
+  script:
+    - R -e 'devtools::check()'
+  only:
+    - prod
+
+
+pages:
+  stage: deploy
+  script:
+    - R -e 'devtools::document(); pkgdown::build_site();'
+    - mkdir public/img
+  artifacts:
+    paths:
+      - public
+    expire_in: 1 day
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
