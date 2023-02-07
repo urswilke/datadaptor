@@ -112,7 +112,7 @@ and then overwritten by the Excel file. If \code{override_excel = FALSE} the Exc
 parameters will prevail, and otherwise overwritten by the dots.
 
 \code{update_mapping_params()} is a wrapper function of:
-\code{modifyList(mapping_params, list(...))}.
+\code{utils::modifyList(mapping_params, list(...))}.
 
 The named region starting with "R_" in the Excel mapping file are read into a
 named list, having their "R_" prefix removed.
