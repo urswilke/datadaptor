@@ -42,7 +42,6 @@ Imports:
     tidyr,
     tibble,
     purrr,
-    cellranger,
     rlang,
     stringr,
     fs,

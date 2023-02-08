@@ -27,7 +27,7 @@ bench::mark(datenanpassr::Mapping$new(spss_file, mapping_file, translate_xlsm = 
 # }
 # 
 #   # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
-#   readxl::read_excel(filename, "Free1", range = cellranger::cell_cols(1:5))
+#   readxl::read_excel(filename, "Free1", range = readxl::cell_cols(1:5))
 # }
 # bench::mark(
 #   use_openxlsx(),
@@ -48,7 +48,7 @@ use_openxlsx <- function(filename = filepath, sheet) {
 
 use_readxl <- function(filename = filepath, sheet) {
   # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
-  readxl::read_excel(filename, sheet, range = cellranger::cell_cols(1:5))
+  readxl::read_excel(filename, sheet, range = readxl::cell_cols(1:5))
 }
 
 bm <- bench::press(

@@ -58,7 +58,7 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
   verbatims_sheet <- readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = cellranger::cell_cols(c("B:D")),
+    range = readxl::cell_cols(c("B:D")),
     skip = 0,
     col_types = c("text", "text", "text"),
     col_names = LETTERS[2:4]
@@ -77,7 +77,7 @@ generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
     readxl::excel_sheets()
 
   read_assigns <- function(sheet_name) {
-    readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cellranger::cell_limits(ul = c(32, 4))) |>
+    readxl::read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = readxl::cell_limits(ul = c(32, 4))) |>
       dplyr::select(orig_var = "Orig. Variable", "ID", dplyr::matches("^Zuord "))
   }
 
@@ -93,7 +93,7 @@ generate_label_code_list <- function(verbatim_file) {
       verbatim_file,
       sheet = "Codestufen",
       col_names = TRUE,
-      range = cellranger::cell_limits(ul = c(1, 2))
+      range = readxl::cell_limits(ul = c(1, 2))
     ) |>
     dplyr::mutate_all(~ ifelse(. == "<reserved>", NA, .)) |>
     dplyr::mutate(dplyr::across(.cols = dplyr::everything(), .fns = stringr::str_trim)) |>

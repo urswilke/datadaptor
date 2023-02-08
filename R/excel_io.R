@@ -81,7 +81,7 @@ read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
   readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = cellranger::cell_limits(c(3, 1), c(NA, 13)),
+    range = readxl::cell_limits(c(3, 1), c(NA, 13)),
     col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
     col_types = "text"
   ) |>
@@ -230,7 +230,7 @@ read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
   readxl::read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = cellranger::cell_limits(c(3, 1), c(NA, 9)),
+    range = readxl::cell_limits(c(3, 1), c(NA, 9)),
     col_names = c(
       "var", "nv", "vallab", "new_label", "not_needed1",
       "not_needed2", "sum_var_label", "sum_var_value",
@@ -316,7 +316,7 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
   df_free <- readxl::read_xlsx(
     mapping_file,
-    range = cellranger::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+    range = readxl::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"
   ) |>
