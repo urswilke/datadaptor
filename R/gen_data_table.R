@@ -23,7 +23,7 @@ gen_data_table <- function(df, values_drop_na = FALSE) {
 
 tab_counts <- function(df, values_drop_na = FALSE) {
   lengthen(df, values_drop_na) |>
-    dplyr::mutate(var = forcats::as_factor(.data$var)) |>
+    dplyr::mutate(var = factor(.data$var, unique(.data$var))) |>
     dplyr::group_by_all() |>
     dplyr::tally(name = "Freq") |>
     dplyr::ungroup()
@@ -46,7 +46,7 @@ lengthen <- function(df, values_drop_na = FALSE) {
       # splits back the variable type until the first occurrence of _:
       names_pattern = "(.*?)_(.*)"
     ) |>
-    dplyr::arrange(var = forcats::as_factor(.data$var))
+    dplyr::arrange(var = factor(.data$var, unique(.data$var)))
 
 }
 
@@ -122,7 +122,7 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
       # splits back the variable type until the first occurrence of _:
       names_pattern = "(.*?)_(.*)"
     ) |>
-    dplyr::arrange(var = forcats::as_factor(.data$var))
+    dplyr::arrange(var = factor(.data$var, unique(.data$var)))
 
 }
 

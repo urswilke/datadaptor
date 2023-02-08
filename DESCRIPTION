@@ -49,7 +49,6 @@ Imports:
     labelled,
     R6,
     data.table,
-    writexl,
-    forcats
+    writexl
 VignetteBuilder: knitr
 Language: en-US
