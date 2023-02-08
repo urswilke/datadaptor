@@ -7,7 +7,7 @@
 #'   sheet are lost when updating; defaults to `TRUE`.
 #'
 #' @return Dataframe containing the table of the updated "Variables" sheet
-#' @export
+#' @noRd
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
@@ -63,7 +63,7 @@ gen_var_table_raw <- function(dat) {
 #'   sheet are lost when updating; defaults to `TRUE`.
 #'
 #' @return Dataframe containing the table of the updated "Label" sheet
-#' @export
+#' @noRd
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
