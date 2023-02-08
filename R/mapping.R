@@ -331,9 +331,6 @@ initialize_dat <- function(self, dat) {
 #' @param excel_params Params parameters read from Excel file; see
 #'   `extract_excel_params()`.
 #' @param id_var character string of the id variable name in the dataset.
-#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are
-#'   transformed with. `apply_command.cmd_recna_xcpt()` in the first command
-#'   block.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
@@ -347,7 +344,8 @@ initialize_dat <- function(self, dat) {
 #' @param save_path filepath where to save files.
 #' @param write_mapping_to_txt Whether to write the `Mapping`'s data to text
 #'   files (for instance, in order to allow for git version control during the
-#'   course of a project that evolves). Defaults to FALSE.
+#'   course of a project that evolves). Defaults to FALSE. Will probably be
+#'   deprecated in the future.
 #' @param override_excel should arguments passed with the `...` dots when
 #'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
 #' @param expr_eval_env The environment where expressions are evaluated. See
@@ -356,6 +354,9 @@ initialize_dat <- function(self, dat) {
 #'   "Variables" sheet. Defaults to `TRUE`.
 #' @param miss_rec_lab Label given if `na_to_filter = TRUE`.
 #' @param miss_rec_val Replace value if `na_to_filter = TRUE`.
+#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are
+#'   transformed with. `apply_command.cmd_recna_xcpt()` in the first command
+#'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
 #' @param refresh_sheet Whether to only refresh_sheet the generation of the current active
@@ -377,7 +378,6 @@ gen_mapping_params <- function(
   mapping_file = NULL,
   excel_params = extract_excel_params(mapping_file),
   id_var = NULL,
-  na_to_filter = TRUE,
   error_out = "unsafe",
   translate_xlsm = FALSE,
   validate = TRUE,
@@ -390,6 +390,7 @@ gen_mapping_params <- function(
   lab_before_var_sheet = "yes",
   miss_rec_lab = "FILTER",
   miss_rec_val = -2,
+  na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   refresh_sheet = FALSE,
   lowercase_varnames = FALSE,

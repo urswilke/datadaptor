@@ -10,7 +10,6 @@ gen_mapping_params(
   mapping_file = NULL,
   excel_params = extract_excel_params(mapping_file),
   id_var = NULL,
-  na_to_filter = TRUE,
   error_out = "unsafe",
   translate_xlsm = FALSE,
   validate = TRUE,
@@ -23,6 +22,7 @@ gen_mapping_params(
   lab_before_var_sheet = "yes",
   miss_rec_lab = "FILTER",
   miss_rec_val = -2,
+  na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   refresh_sheet = FALSE,
   lowercase_varnames = FALSE,
@@ -46,10 +46,6 @@ the \code{Mapping$cmd$sheet_data_raw} field (see section
 
 \item{id_var}{character string of the id variable name in the dataset.}
 
-\item{na_to_filter}{if TRUE (the default), NA values ("missing" in SPSS) are
-transformed with. \code{apply_command.cmd_recna_xcpt()} in the first command
-block.}
-
 \item{error_out}{character string. Either "safe" or "unsafe" (the default).
 Whether to continue executing when a command block fails, or to error out.
 Adds a column "error" to the mapping's command table \code{mapping$cmd_tbl}.}
@@ -69,7 +65,8 @@ Automatically sets \code{error_out = "safe"}.}
 
 \item{write_mapping_to_txt}{Whether to write the \code{Mapping}'s data to text
 files (for instance, in order to allow for git version control during the
-course of a project that evolves). Defaults to FALSE.}
+course of a project that evolves). Defaults to FALSE. Will probably be
+deprecated in the future.}
 
 \item{override_excel}{should arguments passed with the \code{...} dots when
 initializing overwrite those from the Excel file? Defaults to \code{FALSE}.}
@@ -83,6 +80,10 @@ initializing overwrite those from the Excel file? Defaults to \code{FALSE}.}
 \item{miss_rec_lab}{Label given if \code{na_to_filter = TRUE}.}
 
 \item{miss_rec_val}{Replace value if \code{na_to_filter = TRUE}.}
+
+\item{na_to_filter}{if TRUE (the default), NA values ("missing" in SPSS) are
+transformed with. \code{apply_command.cmd_recna_xcpt()} in the first command
+block.}
 
 \item{not_miss_to_filter_vars}{Space separated character string of variable
 names spared out for \code{apply_command.cmd_recna_xcpt()}.}

@@ -32,7 +32,7 @@
 #' mapping file to generate command_block objects.
 #'
 #'
-#' @format A data frame of 25 `keyword`s and their corresponding command_block
+#' @format A data frame of 26 `keyword`s and their corresponding command_block
 #' classes:
 #' \describe{
 #'   \item{keyword}{Excel mapping file keyword}
@@ -40,5 +40,6 @@
 #'   \item{sheet}{The sheet(s) in the Excel mapping file from where this command can be called}
 #' }
 #' @examples
-#' command_block_classes
+#' # print all rows of tibble:
+#' print(command_block_classes, n = 111)
 "command_block_classes"

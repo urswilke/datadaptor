@@ -5,7 +5,7 @@
 \alias{command_block_classes}
 \title{\code{command_block} overview}
 \format{
-A data frame of 25 \code{keyword}s and their corresponding command_block
+A data frame of 26 \code{keyword}s and their corresponding command_block
 classes:
 \describe{
 \item{keyword}{Excel mapping file keyword}
@@ -21,6 +21,7 @@ A dataset containing the list of \code{keyword}s that can be used in the Excel
 mapping file to generate command_block objects.
 }
 \examples{
-command_block_classes
+# print all rows of tibble:
+print(command_block_classes, n = 111)
 }
 \keyword{datasets}
