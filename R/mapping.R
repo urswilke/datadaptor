@@ -315,13 +315,13 @@ initialize_dat <- function(self, dat) {
 
 #' Mapping parameters
 #'
-#' Helper function to generate the parameters in the `params` field when a
-#' Mapping object is constructed with `Mapping$new()`.
-#'
-#' Generates a list of named elements with mapping parameters. The argument values
-#' are the below default values, then overwritten if passed by the `...` dots,
-#' and then overwritten by the Excel file. If `override_excel = FALSE` the Excel
-#' parameters will prevail, and otherwise overwritten by the dots.
+#' @description `gen_mapping_params()` is a helper function to generate the
+#'   parameters in the `params` field when a Mapping object is constructed with
+#'   `Mapping$new()`. It generates a list of named elements with mapping
+#'   parameters. The argument values are the below default values, then
+#'   overwritten if passed by the `...` dots, and then overwritten by the Excel
+#'   file. If `override_excel = FALSE` the Excel parameters will prevail, and
+#'   otherwise overwritten by the dots.
 #'
 #' @param mapping_file Path of the Excel mapping file. Alternatively, you can
 #'   pass an R list object containing named dataframes that is in the shape of

@@ -184,10 +184,9 @@ is_true_vec <- function(x) Vectorize(isTRUE)(x)
 globalVariables(".")
 
 
-#' Extract named regions from mapping file
-#'
-#' The named region starting with "R_" in the Excel mapping file are read into a
-#' named list, having their "R_" prefix removed.
+#' @description `extract_excel_params()` extracts the named regions from the
+#'   mapping file. Those starting with "R_" are read into a named list, having
+#'   their "R_" prefix removed.
 #'
 #' @return named list
 #' @export

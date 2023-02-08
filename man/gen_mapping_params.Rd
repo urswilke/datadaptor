@@ -107,20 +107,20 @@ list object (see examples)
 named list
 }
 \description{
-Helper function to generate the parameters in the \code{params} field when a
-Mapping object is constructed with \code{Mapping$new()}.
+\code{gen_mapping_params()} is a helper function to generate the
+parameters in the \code{params} field when a Mapping object is constructed with
+\code{Mapping$new()}. It generates a list of named elements with mapping
+parameters. The argument values are the below default values, then
+overwritten if passed by the \code{...} dots, and then overwritten by the Excel
+file. If \code{override_excel = FALSE} the Excel parameters will prevail, and
+otherwise overwritten by the dots.
 
 \code{update_mapping_params()} is a wrapper function of:
 \code{utils::modifyList(mapping_params, list(...))}.
 
-The named region starting with "R_" in the Excel mapping file are read into a
-named list, having their "R_" prefix removed.
-}
-\details{
-Generates a list of named elements with mapping parameters. The argument values
-are the below default values, then overwritten if passed by the \code{...} dots,
-and then overwritten by the Excel file. If \code{override_excel = FALSE} the Excel
-parameters will prevail, and otherwise overwritten by the dots.
+\code{extract_excel_params()} extracts the named regions from the
+mapping file. Those starting with "R_" are read into a named list, having
+their "R_" prefix removed.
 }
 \examples{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
