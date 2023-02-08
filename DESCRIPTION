@@ -18,6 +18,7 @@ License: GPL (>= 3) + file LICENSE
 Suggests: 
     testthat,
     gt,
+    pillar,
     gtExtras,
     knitr,
     htmltools,
@@ -47,7 +48,6 @@ Imports:
     fs,
     labelled,
     R6,
-    pillar,
     data.table,
     writexl,
     forcats
