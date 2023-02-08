@@ -8,8 +8,10 @@ The class \code{Mapping} can be used to apply the changes
 specified in the command blocks of an Excel mapping file to a (labelled)
 dataframe.
 
-The information of the Excel mapping file is processed in the list elements
-of the cmd field of the mapping object.
+The information of the Excel mapping file results in the \code{cmd_tbl}
+dataframe field of the mapping object. This dataframe has a column
+\code{command_blocks} which is applied to the data in the \code{dat} field by the
+method \code{modify_data()} and then results in the \code{dat_mod} field.
 }
 \examples{
 # Create a Mapping object from the files provided by the package:
@@ -38,20 +40,6 @@ mapping$dat_mod
 # mapping$save("path/to/your/file.sav")
 # or with haven (used under the hood by `save()`):
 # haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
-
-## ------------------------------------------------
-## Method `Mapping$modify_data`
-## ------------------------------------------------
-
-# Create a Mapping object from the files provided by the package:
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-m <- Mapping$new(spss_file, mapping_file)
-
-# The method applies the modifications specified in a command_blocks
-# object:
-m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
-m$dat_mod
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -64,7 +52,7 @@ labelled dataframe to apply the mapping on.}
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block
-information of the Excel mapping file.}
+information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
 
 \item{\code{dat_mod}}{modified dataframe}
 
@@ -98,7 +86,8 @@ Initialize a Mapping object
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
 
-\item{\code{...}}{Arguments passed to gen_mapping_params()}
+\item{\code{...}}{Arguments passed to gen_mapping_params() which will populate
+the \code{params} field of the object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -126,20 +115,11 @@ blocks of the Excel mapping file are translated to the \code{command_blocks()} f
 \if{html}{\out{<a id="method-Mapping-modify_data"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-modify_data}{}}}
 \subsection{Method \code{modify_data()}}{
-Run all command blocks of the mapping file. The command
-blocks of the Excel mapping file are translated to the
-\code{command_blocks()} field \code{self$cmd_tbl$command_blocks} field of
-the \code{Mapping} object.
-
-The internally called \code{apply_command_blocks()} method depends on the
-value of \code{self$params$error_out} subclass. This subclass decides
-whether to interrupt code execution in case of an error in one of the
-command blocks (for \code{"unsafe"}), or not (for the subclass \code{"safe"}).
-
-\code{apply_command_blocks()} then walks through the list of
-\code{"command_block"} objects in \code{"command_blocks"} and applies each of
-them to the data in the field \code{"dat_mod"} according to their subclass
-methods of \code{apply_command()}.
+Run all command blocks of the mapping file. The commands in
+the argument \code{command_blocks} (defaults to the Mapping's
+\code{cmd_tbl$command_blocks} field) successively are applied to the data in
+the field \code{"dat_mod"} according to their subclass methods of
+\code{apply_command()}.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(
   reset = TRUE,
@@ -162,22 +142,6 @@ processing of the Excel mapping file.}
 }
 \if{html}{\out{</div>}}
 }
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{# Create a Mapping object from the files provided by the package:
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-m <- Mapping$new(spss_file, mapping_file)
-
-# The method applies the modifications specified in a command_blocks
-# object:
-m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
-m$dat_mod
-}
-\if{html}{\out{</div>}}
-
-}
-
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-save"></a>}}
