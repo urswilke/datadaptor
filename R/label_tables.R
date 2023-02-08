@@ -107,18 +107,26 @@ update_label_table <- function(dat,
 }
 
 
-#' Generate the "Variables" sheet table
-#'
-#' @param dat The dataset containing variables of type `haven::labelled `.
-#'
-#' @return Dataframe containing the table of the "Variables" sheet
-#' @export
-#'
+#' Generate tables with the variables' labels
+#' @name label_tables
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
 #' dat <- spss_file |>
 #'   haven::read_sav()
 #' gen_var_table(dat)
+#' gen_label_table(dat)
+NULL
+
+#' @rdname label_tables
+#'
+#' @description `gen_var_table()` generates the "Variables" sheet table with the
+#'   variable labels in the data.
+#'
+#' @param dat The dataset containing variables of type `haven::labelled `.
+#'
+#' @return For `gen_var_table()` a dataframe containing the table of the
+#'   "Variables" sheet.
+#' @export
 gen_var_table <- function(dat) {
   gen_var_table_raw(dat) |>
     dplyr::mutate(
@@ -128,18 +136,16 @@ gen_var_table <- function(dat) {
     )
 }
 
-#' Generate the "Label" sheet table
+#' @rdname label_tables
+#'
+#' @description `gen_label_table()` generates the "Label" sheet table with the
+#'   value labels in the data.
 #'
 #' @param dat The dataset containing variables of type `haven::labelled `.
 #'
-#' @return Dataframe containing the table of the "Label" sheet
+#' @return For `gen_label_table()` a dataframe containing the table for the
+#'   "Label" sheet.
 #' @export
-#'
-#' @examples
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-#' dat <- spss_file |>
-#'   haven::read_sav()
-#' gen_label_table(dat)
 gen_label_table <- function(dat) {
   tab_vallabs(dat) |>
     dplyr::mutate(
