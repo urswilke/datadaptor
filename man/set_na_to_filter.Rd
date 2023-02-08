@@ -26,3 +26,4 @@ x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
 x
 set_na_to_filter(x)
 }
+\keyword{internal}

@@ -8,6 +8,7 @@
 #' @return `x` where NAs are replaced by `miss_rec_val` with added label
 #'   `miss_rec_lab`
 #' @export
+#' @keywords internal
 #'
 #' @examples
 #' x <- haven::labelled(c(1, NA), labels = c("value label of 1" = 1))
