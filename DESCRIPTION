@@ -49,6 +49,7 @@ Imports:
     labelled,
     R6,
     data.table,
-    writexl
+    writexl,
+    lifecycle
 VignetteBuilder: knitr
 Language: en-US
