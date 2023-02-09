@@ -24,7 +24,7 @@ update_var_table <- function(dat,
                              mapping_file,
                              sheet = "Variables",
                              abort_if_commands_lost = TRUE) {
-  df_varl <- readxl::read_xlsx(
+  df_varl <- read_xlsx(
     mapping_file,
     sheet = sheet,
     col_types = "text"
@@ -33,21 +33,21 @@ update_var_table <- function(dat,
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_varl |>
-      dplyr::filter(dplyr::if_any(c("new_label", "new_name", "op"), ~is.na(.x))) |>
-      dplyr::anti_join(df_varl_new, by = c("var", "varlab", "type"))
+      filter(if_any(c("new_label", "new_name", "op"), ~is.na(.x))) |>
+      anti_join(df_varl_new, by = c("var", "varlab", "type"))
     stopifnot(nrow(df_commands_lost) == 0)
   }
 
   df_varl_new |>
-    dplyr::left_join(df_varl, by = c("var", "varlab", "type"))
+    left_join(df_varl, by = c("var", "varlab", "type"))
 }
 
 gen_var_table_raw <- function(dat) {
   df_types <- dat |>
-    purrr::map_chr(typeof) |>
-    tibble::enframe("var", "type")
+    map_chr(typeof) |>
+    enframe("var", "type")
   df_types |>
-    dplyr::full_join(
+    full_join(
       dat |>
         tab_varlabs(),
       by = "var"
@@ -83,26 +83,26 @@ update_label_table <- function(dat,
                                mapping_file,
                                sheet = "Label",
                                abort_if_commands_lost = TRUE) {
-  df_vall <- readxl::read_xlsx(
+  df_vall <- read_xlsx(
     mapping_file,
     sheet = sheet,
     col_types = "text"
   ) |>
-    dplyr::mutate(nv = as.numeric(.data$nv))
+    mutate(nv = as.numeric(.data$nv))
   df_vall_new <- tab_vallabs(dat)
 
   if (abort_if_commands_lost) {
     df_commands_lost <- df_vall |>
-      dplyr::filter(dplyr::if_any(
+      filter(if_any(
         c("new_label", "sum_var_label", "sum_var_value", "sum_var_vallab"),
         ~is.na(.x)
       )) |>
-      dplyr::anti_join(df_vall_new, by = c("var", "nv", "vallab"))
+      anti_join(df_vall_new, by = c("var", "nv", "vallab"))
     stopifnot(nrow(df_commands_lost) == 0)
   }
 
   df_vall_new |>
-    dplyr::left_join(df_vall, by = c("var", "nv", "vallab"))
+    left_join(df_vall, by = c("var", "nv", "vallab"))
 
 }
 
@@ -129,7 +129,7 @@ NULL
 #' @export
 gen_var_table <- function(dat) {
   gen_var_table_raw(dat) |>
-    dplyr::mutate(
+    mutate(
       new_label = "",
       new_name = "",
       op = ""
@@ -148,7 +148,7 @@ gen_var_table <- function(dat) {
 #' @export
 gen_label_table <- function(dat) {
   tab_vallabs(dat) |>
-    dplyr::mutate(
+    mutate(
       new_label      = "",
       sum_var_label  = "",
       sum_var_value  = "",
@@ -162,7 +162,7 @@ gen_label_table <- function(dat) {
 tab_1var_vallabs <- function(x) {
   vallab_vec <- attr(x, "labels")
   if (is.null(vallab_vec)) {
-    return(tibble::tibble(
+    return(tibble(
       nv = double(),
       vallab = character()
     ))
@@ -170,15 +170,15 @@ tab_1var_vallabs <- function(x) {
   if (is.character(vallab_vec)) {
     stop("Value label tabulation not yet implemented for string variables!")
   }
-  tibble::tibble(
+  tibble(
     nv = unname(vallab_vec),
     vallab = names(vallab_vec)
   )
 }
 tab_vallabs <- function(df, remove_empty = TRUE) {
-  res <- df |> purrr::map_dfr(tab_1var_vallabs, .id = "var")
+  res <- df |> map_dfr(tab_1var_vallabs, .id = "var")
   if (remove_empty) {
-    res <- res |> tidyr::drop_na("nv")
+    res <- res |> drop_na("nv")
   }
   res
 }
@@ -192,10 +192,10 @@ tab_1var_varlab <- function(x) {
 }
 tab_varlabs <- function(df, remove_empty = TRUE) {
   res <- df |>
-    purrr::map_chr(\(x) tab_1var_varlab(x)) |>
-    tibble::enframe("var", "varlab")
+    map_chr(\(x) tab_1var_varlab(x)) |>
+    enframe("var", "varlab")
   if (remove_empty) {
-    res <- res |> tidyr::drop_na("varlab")
+    res <- res |> drop_na("varlab")
   }
   res
 }

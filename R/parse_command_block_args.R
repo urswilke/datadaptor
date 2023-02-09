@@ -136,8 +136,8 @@ parse_command_args.cmd_verbatim_custom <- function(cdb_raw) {
 
 parse_command_args.cmd_merge <- function(cdb_raw) {
   varnames_vec <- cdb_raw$X4[1] |>
-    stringr::str_trim() |>
-    stringr::str_split(" ", simplify = TRUE) |>
+    str_trim() |>
+    str_split(" ", simplify = TRUE) |>
     as.vector()
 
   list(
@@ -187,9 +187,9 @@ parse_command_args.cmd_rename <- function(cdb_raw) {
 
 parse_command_args.cmd_if <- function(cdb_raw) {
   assignment <- cdb_raw$X3 |>
-    stringr::str_split("=") |>
+    str_split("=") |>
     unlist() |>
-    stringr::str_squish()
+    str_squish()
 
   list(
     x = assignment[1],

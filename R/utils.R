@@ -36,48 +36,48 @@
 #' }
 curlychop <- function(df_free_raw) {
   df_prep <- df_free_raw |>
-    dplyr::mutate(raw_index = cumsum(is_true_vec(stringr::str_detect(.data$X1, "^#")))) |>
-    dplyr::group_by(.data$raw_index) |>
-    dplyr::mutate(
+    mutate(raw_index = cumsum(is_true_vec(str_detect(.data$X1, "^#")))) |>
+    group_by(.data$raw_index) |>
+    mutate(
       row = paste(row, collapse = ", "),
-      is_curly_group = dplyr::if_any(
-        .cols = dplyr::everything(),
-        .fns = ~ stringr::str_detect(.x[1], "\\{")
+      is_curly_group = if_any(
+        .cols = everything(),
+        .fns = ~ str_detect(.x[1], "\\{")
       ) |>
         is_true_vec()
     ) |>
-    dplyr::add_count(.data$raw_index) |>
-    dplyr::group_by(.data$raw_index)
+    add_count(.data$raw_index) |>
+    group_by(.data$raw_index)
 
   df_curly_headers <- df_prep |>
-    dplyr::filter(dplyr::if_any(c("X2", "X3"), ~ stringr::str_detect(.x, "\\{.*\\}")))
+    filter(if_any(c("X2", "X3"), ~ str_detect(.x, "\\{.*\\}")))
   if (nrow(df_curly_headers) == 0) {
     return(df_prep |>
-      dplyr::select(-dplyr::all_of(c("is_curly_group", "n"))))
+      select(-all_of(c("is_curly_group", "n"))))
   }
   df_headers_curliplied <- df_curly_headers |>
     curlychop_headers()
 
   l_commands <- df_prep |>
-    dplyr::group_split()
+    group_split()
   command_has_curlies_lgl <- df_prep |>
-    dplyr::summarise(lgl = .data$is_curly_group[1], .groups = "drop") |>
-    dplyr::pull(.data$lgl)
+    summarise(lgl = .data$is_curly_group[1], .groups = "drop") |>
+    pull(.data$lgl)
 
-  l_commands[command_has_curlies_lgl] <- purrr::map2(
-    df_headers_curliplied |> dplyr::group_by(.data$raw_index) |> dplyr::group_split(),
+  l_commands[command_has_curlies_lgl] <- map2(
+    df_headers_curliplied |> group_by(.data$raw_index) |> group_split(),
     l_commands[command_has_curlies_lgl],
     add_further_rows_to_multiline_curlies
   )
 
-  dplyr::bind_rows(l_commands) |>
-    dplyr::select(-dplyr::all_of(c("is_curly_group", "n")))
+  bind_rows(l_commands) |>
+    select(-all_of(c("is_curly_group", "n")))
 }
 
 curlychop_headers <- function(df) {
   df |>
-    dplyr::mutate(dplyr::across(c("X2", "X3"), ~list(split_curly_parts(.x)))) |>
-    tidyr::unnest(c("X2", "X3"))
+    mutate(across(c("X2", "X3"), ~list(split_curly_parts(.x)))) |>
+    unnest(c("X2", "X3"))
 }
 split_curly_parts <- function(string,
                               opener = "\\{",
@@ -85,7 +85,7 @@ split_curly_parts <- function(string,
 
   open_or_closer <- paste0("[", opener, closer, "]")
 
-  if (!isTRUE(stringr::str_detect(string, open_or_closer))) {
+  if (!isTRUE(str_detect(string, open_or_closer))) {
     return(string)
   }
   # split the string into different parts. either:
@@ -112,17 +112,17 @@ split_curly_parts <- function(string,
     # negative look-ahead:
     "(?!", closer, ")"
   )
-  split_string <- stringr::str_extract_all(string, split_pattern)[[1]]
+  split_string <- str_extract_all(string, split_pattern)[[1]]
 
-  is_curly_part <- stringr::str_detect(split_string, open_or_closer)
+  is_curly_part <- str_detect(split_string, open_or_closer)
   inside_curly_parts <- split_string[is_curly_part] |>
-    stringr::str_remove_all(open_or_closer) |>
-    stringr::str_squish() |>
-    stringr::str_split(" ")
+    str_remove_all(open_or_closer) |>
+    str_squish() |>
+    str_split(" ")
   curly_parts_lengthes_over1 <- inside_curly_parts |>
     lengths() |>
     unique() |>
-    dplyr::setdiff(1)
+    setdiff(1)
   if (length(curly_parts_lengthes_over1) > 1) {
     warning(
       "There are different lengths > 1 in this expression for curlychop():\n",
@@ -142,16 +142,16 @@ add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_orig
   if (df_header_lines$n[1] == 1) {
     return(
       df_header_lines |>
-        dplyr::mutate(row = paste0(row, "_", dplyr::row_number()))
+        mutate(row = paste0(row, "_", row_number()))
     )
   }
   df_header_lines |>
-    dplyr::rowwise() |>
-    dplyr::group_split() |>
-    purrr::imap_dfr(
+    rowwise() |>
+    group_split() |>
+    imap_dfr(
       ~ .x |>
-        dplyr::bind_rows(df_block_original[-1, ]) |>
-        dplyr::mutate(row = paste0(row, "_", .y))
+        bind_rows(df_block_original[-1, ]) |>
+        mutate(row = paste0(row, "_", .y))
     )
 }
 
@@ -159,7 +159,7 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
   all_vals <- c(old_vallab_vec, added_vallab_vec)
   all_labels <- c(names(old_vallab_vec), names(added_vallab_vec))
   replaced_vals <- duplicated(all_vals, fromLast = TRUE)
-  purrr::set_names(
+  set_names(
     all_vals[!replaced_vals],
     all_labels[!replaced_vals]
   ) |>
@@ -203,8 +203,8 @@ extract_excel_params <- function(mapping_file) {
   if (is.list(mapping_file)) {
     return(NULL)
   }
-  wb <- openxlsx::loadWorkbook(mapping_file) |> suppressWarnings()
-  named_regions <- tibble::as_tibble(openxlsx::getNamedRegions(wb))
+  wb <- loadWorkbook(mapping_file) |> suppressWarnings()
+  named_regions <- as_tibble(getNamedRegions(wb))
 
   if (nrow(named_regions) == 0) {
     stop('You need to define at least the named region "R_id_var" in the mapping file.')
@@ -213,25 +213,25 @@ extract_excel_params <- function(mapping_file) {
   # ℹ No data found on worksheet.
 
   configr <- named_regions |>
-    dplyr::filter(grepl("^R_*", .data$value)) |>
-    dplyr::mutate(
-      data = purrr::map(
+    filter(grepl("^R_*", .data$value)) |>
+    mutate(
+      data = map(
         .x = .data$value,
-        ~ openxlsx::read.xlsx(
+        ~ read.xlsx(
           xlsxFile = wb,
           namedRegion = .x,
           colNames = FALSE
         )
       ) |>
-        purrr::map_if(
-          purrr::negate(is.null),
-          dplyr::pull
+        map_if(
+          negate(is.null),
+          pull
         )
     )
 
 
   l_configr_excel <- configr$data
-  names(l_configr_excel) <- stringr::str_sub(configr$value, 3)
+  names(l_configr_excel) <- str_sub(configr$value, 3)
 
   is_correct_idx <- names(l_configr_excel) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
@@ -249,14 +249,14 @@ extract_excel_params <- function(mapping_file) {
 # filepaths by absolutes, based on the directory of the mapping file:
 adapt_filepath <- function(file_path, mapping_file) {
   file_path <- file_path |>
-    stringr::str_replace_all("\\\\", "/")
+    str_replace_all("\\\\", "/")
   if (is.na(file_path)) {
     return(file_path)
   }
-  if (fs::is_absolute_path(file_path)) {
+  if (is_absolute_path(file_path)) {
     return(file_path)
   } else {
-    mapping_dir <- mapping_file |> fs::path_dir()
+    mapping_dir <- mapping_file |> path_dir()
     return(paste0(mapping_dir, "/", file_path))
   }
 }
@@ -287,7 +287,7 @@ safer_env <- new.env(parent = emptyenv())
 for (f in safe_f) {
   safer_env[[f]] <- get(f, "package:base")
 }
-safer_env[["case_when"]] <- dplyr::case_when
+safer_env[["case_when"]] <- case_when
 
 #' Remove attributes from a vector
 #'

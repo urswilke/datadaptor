@@ -51,7 +51,7 @@ NULL
 #' # mapping$save("path/to/your/file.sav")
 #' # or with haven (used under the hood by `save()`):
 #' # haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
-Mapping <- R6::R6Class(
+Mapping <- R6Class(
   "Mapping",
   public = list(
     dat = NULL,
@@ -72,7 +72,7 @@ Mapping <- R6::R6Class(
       self$dat <- initialize_dat(self, dat)
 
       self$mapping_file <- mapping_file
-      self$params <- gen_mapping_params(self$mapping_file, dots_args = tibble::lst(...), ...)
+      self$params <- gen_mapping_params(self$mapping_file, dots_args = lst(...), ...)
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
@@ -141,16 +141,16 @@ Mapping <- R6::R6Class(
 
 rename_vars_to_original_case <- function(df) {
   orig_names <- attr(df, "original_varnames")
-  rename_vec <- tibble::tibble(orig_names) |>
-    dplyr::mutate(lowercase_names = tolower(orig_names)) |>
-    dplyr::inner_join(
-      tibble::tibble(
+  rename_vec <- tibble(orig_names) |>
+    mutate(lowercase_names = tolower(orig_names)) |>
+    inner_join(
+      tibble(
         lowercase_names = names(df)
       ),
       by = "lowercase_names"
     ) |>
-    tibble::deframe()
-  df |> dplyr::rename(!!rename_vec)
+    deframe()
+  df |> rename(!!rename_vec)
 }
 #' Save the modified data of a mapping to a file
 #'
@@ -185,30 +185,30 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
   if (is.null(path)) {
     path <- paste0(mapping$params$save_path, "/", name, ".", filetype)
   } else {
-    filetype <- stringr::str_remove(path, ".*\\.")
+    filetype <- str_remove(path, ".*\\.")
   }
-  df <- tidyr::tibble(path, name, filetype, show)
-  purrr::walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+  df <- tibble(path, name, filetype, show)
+  walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
 
-  df$path[df$show] |> purrr::walk(utils::browseURL)
+  df$path[df$show] |> walk(browseURL)
 }
 
 
 save_type <- function(df, path, filetype) {
   switch (filetype,
-    "sav"  = haven::write_sav(df, path),
-    "dta"  = haven::write_dta(df, path),
+    "sav"  = write_sav(df, path),
+    "dta"  = write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
     stop("unknown filetype")
   )
 }
 save_xlsx <- function(df, path) {
   df |>
-    dplyr::mutate(dplyr::across(
-      dplyr::everything(),
+    mutate(across(
+      everything(),
       strip_attributes
     )) |>
-    writexl::write_xlsx(path)
+    write_xlsx(path)
 }
 
 
@@ -220,7 +220,7 @@ apply_command_blocks <- function(command_blocks, self) {
 
 #' @noRd
 apply_command_blocks.unsafe <- function(command_blocks, self) {
-  purrr::walk(command_blocks, apply_command_block_unsafe, self)
+  walk(command_blocks, apply_command_block_unsafe, self)
 }
 apply_command_block_unsafe <- function(cdb, self) {
   args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
@@ -236,7 +236,7 @@ apply_command_blocks.safe <- function(command_blocks, self) {
     length(self$cmd_tbl$command_blocks)
   )
 
-  purrr::walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
+  walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
 
   add_error_list_to_command_blocks(self)
 }
@@ -289,7 +289,7 @@ initialize_dat <- function(self, dat) {
     return(NULL)
   }
   if (is.character(dat)) {
-    dat <- haven::read_sav(dat)
+    dat <- read_sav(dat)
   }
   dat
 }
@@ -393,7 +393,7 @@ gen_mapping_params <- function(
   #     'in the Excel mapping file.')
   # }
 
-  p <- tibble::lst(
+  p <- lst(
     mapping_file,
     excel_params,
     id_var,
@@ -441,7 +441,7 @@ gen_mapping_params <- function(
 #' gen_mapping_params() |> update_mapping_params(refresh_sheet = TRUE)
 #' @rdname gen_mapping_params
 update_mapping_params <- function(mapping_params, ...) {
-  utils::modifyList(
+  modifyList(
     mapping_params,
     list(...)
   )
