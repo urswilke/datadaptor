@@ -47,7 +47,7 @@ library(datenanpassr)
 Suppose you have an SPSS data file 
 
 ```{r}
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 df <- haven::read_sav(spss_file)
 df
 ```
@@ -102,7 +102,7 @@ You can  then access the modified data with:
 Let's also have a closer look at one of the new variables:
 
 ```{r}
-df_mod$q6n
+df_mod$am2
 ```
 
 
@@ -111,6 +111,6 @@ The manipulations defined in the Excel files are applied on the dataframe that w
 You can save the dataframe back to an SPSS file by again using the [haven package](https://haven.tidyverse.org/):
 
 ```{r, eval=FALSE}
-haven::write_sav(df_mod, "fake_survey_mod.sav")
+haven::write_sav(df_mod, "mtcars_labelled_mod.sav")
 ```
 

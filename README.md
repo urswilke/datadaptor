@@ -40,24 +40,23 @@ library(datenanpassr)
 Suppose you have an SPSS data file
 
 ``` r
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 df <- haven::read_sav(spss_file)
 df
-#> # A tibble: 100 × 10
-#>               q1       q2      q3      q4       q5    id q6    q7    q8       q9
-#>        <dbl+lbl> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl> <chr> <chr> <chr> <dbl>
-#>  1  3 [normal]    2 [no]  3 [nor… 4 [muc…  2 [a b…     1 bla … bla … 2        NA
-#>  2  3 [normal]    1 [yes] 5 [ver… 4 [muc…  5 [ver…     2 bla … bla … 9        NA
-#>  3  1 [not at a…  1 [yes] 3 [nor… 2 [a b…  5 [ver…     3 bla … bla … 3        NA
-#>  4  3 [normal]   99 [no … 4 [muc… 4 [muc…  4 [muc…     4 bla … bla … 3        NA
-#>  5  5 [very muc… NA       2 [a b… 3 [nor…  3 [nor…     5 bla … bla … 9        NA
-#>  6  5 [very muc… NA       4 [muc… 3 [nor…  2 [a b…     6 bla … bla … 7        NA
-#>  7 99 [no answe…  2 [no]  3 [nor… 4 [muc… NA           7 bla … bla … 10       NA
-#>  8  2 [a bit]     2 [no]  5 [ver… 2 [a b…  1 [not…     8 bla … bla … 1        NA
-#>  9 99 [no answe… 99 [no … 1 [not… 1 [not…  2 [a b…     9 bla … bla … 2        NA
-#> 10 99 [no answe…  1 [yes] 1 [not… 1 [not…  4 [muc…    10 bla … bla … 4        NA
-#> # … with 90 more rows
-#> # ℹ Use `print(n = ...)` to see more rows
+#> # A tibble: 32 × 13
+#>       id model         mpg cyl      disp    hp  drat    wt  qsec vs      am     
+#>    <dbl> <chr>       <dbl> <dbl+l> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl+l> <dbl+l>
+#>  1     1 Mazda RX4    21   6 [6 c…  160    110  3.9   2.62  16.5 0 [V-s… 1 [man…
+#>  2     2 Mazda RX4 …  21   6 [6 c…  160    110  3.9   2.88  17.0 0 [V-s… 1 [man…
+#>  3     3 Datsun 710   22.8 4 [4 c…  108     93  3.85  2.32  18.6 1 [str… 1 [man…
+#>  4     4 Hornet 4 D…  21.4 6 [6 c…  258    110  3.08  3.22  19.4 1 [str… 0 [aut…
+#>  5     5 Hornet Spo…  18.7 8 [8 c…  360    175  3.15  3.44  17.0 0 [V-s… 0 [aut…
+#>  6     6 Valiant      18.1 6 [6 c…  225    105  2.76  3.46  20.2 1 [str… 0 [aut…
+#>  7     7 Duster 360   14.3 8 [8 c…  360    245  3.21  3.57  15.8 0 [V-s… 0 [aut…
+#>  8     8 Merc 240D    24.4 4 [4 c…  147.    62  3.69  3.19  20   1 [str… 0 [aut…
+#>  9     9 Merc 230     22.8 4 [4 c…  141.    95  3.92  3.15  22.9 1 [str… 0 [aut…
+#> 10    10 Merc 280     19.2 6 [6 c…  168.   123  3.92  3.44  18.3 1 [str… 0 [aut…
+#> # … with 22 more rows, and 2 more variables: gear <dbl+lbl>, carb <dbl+lbl>
 ```
 
 and want to modify some of the content.
@@ -106,47 +105,36 @@ You can then access the modified data with:
 
 ``` r
 (df_mod <- mapping$dat_mod)
-#> # A tibble: 100 × 67
-#>          q1 q2_ren…¹      q3 q4_re…²       q5    id      q6 q7       q8      kq5
-#>    <dbl+lb> <dbl+lb> <dbl+l> <dbl+l> <dbl+lb> <dbl> <dbl+l> <chr> <dbl> <dbl+lb>
-#>  1  3 [nor…  2 [no]  3 [nor… 4 [muc…  2 [a b…     1 3 [bla… bla …     2  1 [aaa]
-#>  2  3 [nor…  1 [YES] 5 [ver… 4 [muc…  5 [ver…     2 4 [bla… bla …     9  7      
-#>  3  1 [not…  1 [YES] 3 [nor… 2 [a b…  5 [ver…     3 8 [bla… bla …     3  7      
-#>  4  3 [nor… 99 [no … 4 [muc… 4 [muc…  4 [muc…     4 5 [bla… bla …     3  3 [ccc]
-#>  5  5 [ver… -2 [FIL… 2 [a b… 3 [nor…  3 [nor…     5 7 [bla… bla …     9  2 [bbb]
-#>  6  5 [ver… -2 [FIL… 4 [muc… 3 [nor…  2 [a b…     6 5 [bla… bla …     7  1 [aaa]
-#>  7 99 [no …  2 [no]  3 [nor… 4 [muc… NA           7 9 [bla… bla …    10 NA      
-#>  8  2 [a b…  2 [no]  5 [ver… 2 [a b…  1 [not…     8 6 [bla… bla …     1  1 [aaa]
-#>  9 99 [no … 99 [no … 1 [not… 1 [not…  2 [a b…     9 6 [bla… bla …     2  1 [aaa]
-#> 10 99 [no …  1 [YES] 1 [not… 1 [not…  4 [muc…    10 3 [bla… bla …     4  7      
-#> # … with 90 more rows, 57 more variables: q2 <dbl+lbl>, q4 <dbl+lbl>,
-#> #   q97 <dbl>, q99 <dbl>, q6n <dbl+lbl>, q7n <dbl+lbl>, q6_1 <dbl+lbl>,
-#> #   q6_2 <dbl+lbl>, q6_3 <dbl+lbl>, q6_4 <dbl+lbl>, q6_97 <dbl+lbl>,
-#> #   q6_99 <dbl+lbl>, q6test_1 <dbl+lbl>, q6test_2 <dbl+lbl>,
-#> #   q6test_3 <dbl+lbl>, q6test_4 <dbl+lbl>, q6test_97 <dbl+lbl>,
-#> #   q6test_99 <dbl+lbl>, q6n1 <dbl+lbl>, q6n2 <dbl+lbl>, q6n3 <dbl+lbl>,
-#> #   q6n4 <dbl+lbl>, q6n5 <dbl+lbl>, q6n6 <dbl+lbl>, q6n7 <dbl+lbl>, …
-#> # ℹ Use `print(n = ...)` to see more rows, and `colnames()` to see all variable names
+#> # A tibble: 32 × 16
+#>    id        car_n…¹ mpg   cyl     disp  hp    drat  wt    qsec  vs      am     
+#>    <dbl+lbl> <chr>   <dbl> <dbl+l> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl+l> <dbl+l>
+#>  1  1        Mazda … 21    6 [6 c… 160   110   3.9   2.62  16.5  0 [V-s… 1 [man…
+#>  2  2        Mazda … 21    6 [6 c… 160   110   3.9   2.88  17.0  0 [V-s… 1 [man…
+#>  3  3        Datsun… 22.8  4 [4 c… 108    93   3.85  2.32  18.6  1 [str… 1 [man…
+#>  4  4        Hornet… 21.4  6 [6 c… 258   110   3.08  3.22  19.4  1 [str… 0 [aut…
+#>  5  5        Hornet… 18.7  8 [8 c… 360   175   3.15  3.44  17.0  0 [V-s… 0 [aut…
+#>  6  6        Valiant 18.1  6 [6 c… 225   105   2.76  3.46  20.2  1 [str… 0 [aut…
+#>  7  7        Duster… 14.3  8 [8 c… 360   245   3.21  3.57  15.8  0 [V-s… 0 [aut…
+#>  8  8        Merc 2… 24.4  4 [4 c… 147.   62   3.69  3.19  20    1 [str… 0 [aut…
+#>  9  9        Merc 2… 22.8  4 [4 c… 141.   95   3.92  3.15  22.9  1 [str… 0 [aut…
+#> 10 10        Merc 2… 19.2  6 [6 c… 168.  123   3.92  3.44  18.3  1 [str… 0 [aut…
+#> # … with 22 more rows, 5 more variables: gear <dbl+lbl>, carb <dbl+lbl>,
+#> #   kcarb <dbl+lbl>, vs2 <dbl+lbl>, am2 <dbl+lbl>, and abbreviated variable
+#> #   name ¹​car_name
 ```
 
 Let’s also have a closer look at one of the new variables:
 
 ``` r
-df_mod$q6n
-#> <labelled<double>[100]>
-#>   [1]  1  3  2  2  3  2 NA NA  1  1  2  3 NA  3  3  1 NA  3  2  2  3  2 NA  1  2
-#>  [26]  2  3  2  2  1  3  1  1  2  2  1  3 NA  3  3  1  1  3  2 NA  2  2  3  3  2
-#>  [51]  1  2  1  2  2 NA NA  1  3  3  1  3  3 NA  1  2 NA NA  3  1  2  2  1  1  1
-#>  [76]  3  2  2 NA NA NA  1  2  2  2  1  2 NA  2  2 NA NA  1  2 NA NA  2 NA NA  1
+df_mod$am2
+#> <labelled<double>[32]>: New variable label for am2
+#>  [1]  2  2  2 NA NA NA NA NA NA NA NA NA NA NA NA NA NA  2  2  2 NA NA NA NA NA
+#> [26]  2  2  2  2  2  2  2
 #> 
 #> Labels:
-#>  value     label
-#>     -2    FILTER
-#>      1      love
-#>      2       joy
-#>      3 happiness
-#>     97    Others
-#>     99 No answer
+#>  value                        label
+#>      1 Super duper code for value 1
+#>      2 Super duper code for value 2
 ```
 
 The manipulations defined in the Excel files are applied on the
@@ -156,5 +144,5 @@ You can save the dataframe back to an SPSS file by again using the
 [haven package](https://haven.tidyverse.org/):
 
 ``` r
-haven::write_sav(df_mod, "fake_survey_mod.sav")
+haven::write_sav(df_mod, "mtcars_labelled_mod.sav")
 ```
