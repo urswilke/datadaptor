@@ -10,7 +10,7 @@
 #' @noRd
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
 #' (cdb <- command_block(m$cmd$df_cmd_raw[10, ]))
 #' # Under the hood the command_block() generator calls

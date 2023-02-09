@@ -16,7 +16,7 @@ method \code{modify_data()} and then results in the \code{dat_mod} field.
 \examples{
 # Create a Mapping object from the files provided by the package:
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 mapping <- Mapping$new(spss_file, mapping_file)
 
 # The spss_file path was read into a dataframe in the "dat" field of the

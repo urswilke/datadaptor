@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
@@ -50,8 +50,8 @@ mapp_create <- function(df_raw, mapping_file) {
 #' @noRd
 #'
 #' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
+#' # create empty template from labelled dataset `mtcars_labelled` via:
+#' # mapp_create(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -194,8 +194,8 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' @noRd
 #'
 #' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
+#' # create empty template from labelled dataset `mtcars_labelled` via:
+#' # mapp_create(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -289,8 +289,8 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' @noRd
 #'
 #' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
+#' # create empty template from labelled dataset `mtcars_labelled` via:
+#' # mapp_create(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:

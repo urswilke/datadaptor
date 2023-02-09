@@ -11,7 +11,7 @@
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' dat_mod <- spss_file |>
 #'   haven::read_sav() |>
 #'   # add a new variable in the first column of the dataframe:
@@ -67,7 +67,7 @@ gen_var_table_raw <- function(dat) {
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' dat_mod <- spss_file |>
 #'   haven::read_sav() |>
 #'   # add a new variable in the first column of the dataframe:
@@ -110,7 +110,7 @@ update_label_table <- function(dat,
 #' Generate tables with the variables' labels
 #' @name label_tables
 #' @examples
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' dat <- spss_file |>
 #'   haven::read_sav()
 #' gen_var_table(dat)

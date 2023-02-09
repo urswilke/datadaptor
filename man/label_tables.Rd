@@ -28,7 +28,7 @@ variable labels in the data.
 value labels in the data.
 }
 \examples{
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 dat <- spss_file |>
   haven::read_sav()
 gen_var_table(dat)

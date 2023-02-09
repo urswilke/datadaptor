@@ -1,30 +1,33 @@
-#' Fake survey data
+#' Labelled mtcars version
 #'
-#' A dataset containing made-up answers to a survey.
+#' A labelled version of the `mtcars` dataset (see `?mtcars`).
 #' The data is stored in variables of the type haven::labelled.
 #' The same data is also included in the package in SPSS format.
 #' See in the examples section how to load the SPSS version to R.
 #'
 #'
-#' @format A data frame of 100 respondents to the following questions (variables):
+#' @format A data frame with 32 observations on 13 variables:
 #' \describe{
-#'   \item{id}{respondent id}
-#'   \item{q1}{How much do you like the product?}
-#'   \item{q2}{Do you want to recommend the product?}
-#'   \item{q3}{How likely will you go dancing this weekend?}
-#'   \item{q4}{How much do you like your friends?}
-#'   \item{q5}{How much do you like your best friend}
-#'   \item{q6}{Tell me something positive.}
-#'   \item{q7}{Tell me something negative.}
-#'   \item{q8}{A numeric variable in string format.}
-#'   \item{q9}{An empty variable.}
+#'   \item{id}{car id}
+#'   \item{model}{Name of the car - this information is stored in rownames in `mtcars`.}
+#'   \item{mpg}{see `?mtcars`}
+#'   \item{cyl}{see `?mtcars`}
+#'   \item{disp}{see `?mtcars`}
+#'   \item{hp}{see `?mtcars`}
+#'   \item{drat}{see `?mtcars`}
+#'   \item{wt}{see `?mtcars`}
+#'   \item{qsec}{see `?mtcars`}
+#'   \item{vs}{see `?mtcars`}
+#'   \item{am}{see `?mtcars`}
+#'   \item{gear}{see `?mtcars`}
+#'   \item{carb}{see `?mtcars`}
 #' }
 #' @examples
-#' datenanpassr::fake_survey
-#' path <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' datenanpassr::mtcars_labelled
+#' path <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' df <- haven::read_sav(path)
 #' df
-"fake_survey"
+"mtcars_labelled"
 
 #' `command_block` overview
 #'

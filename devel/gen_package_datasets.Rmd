@@ -55,9 +55,61 @@ usethis::use_data(command_block_classes, overwrite = TRUE)
 
 
 
-### `fake_survey` dataset
+### `mtcars_labelled` dataset
 
-* prepare fake survey data
+* prepare `mtcars_labelled` data
+
+```{r}
+mtcar_labels <- tibble::tribble(
+    ~var,                   ~varlab, ~vallabs,
+   "mpg",       "Miles/(US) gallon", c(),
+   "cyl",     "Number of cylinders", c(`4 cylinders` = 4, `6 cylinders` = 6, `8 cylinders` = 8),
+  "disp",   "Displacement (cu.in.)", c(),
+    "hp",        "Gross horsepower", c(),
+  "drat",         "Rear axle ratio", c(),
+    "wt",       "Weight (1000 lbs)", c(),
+  "qsec",           "1/4 mile time", c(),
+    "vs",                  "Engine", c(`V-shaped` = 0, straight = 1),
+    "am",            "Transmission", c(automatic = 0, manual = 1),
+  "gear", "Number of forward gears", c(`3 gears` = 3, `4 gears` = 4, `5 gears` = 5),
+  "carb",   "Number of carburetors", c(
+    `1 carburetor`  = 1,
+    `2 carburetors` = 2,
+    `3 carburetors` = 3,
+    `4 carburetors` = 4,
+    `5 carburetors` = 5,
+    `6 carburetors` = 6,
+    `7 carburetors` = 7,
+    `8 carburetors` = 8
+  ),
+)
+
+
+f <- function(var, varlab, vallabs) {
+  haven::labelled(mtcars[[var]], label = varlab, labels = vallabs)
+}
+
+mtcars_labelled <- mtcar_labels |> 
+  pmap_dfc(f) |>
+  suppressMessages() |>
+  set_names(names(mtcars)) |>
+  mutate(
+    id = as.character(1:nrow(mtcars)),
+    model = rownames(mtcars), .before = 1)
+```
+
+* use as package dataset and spss file
+
+```{r}
+haven::write_sav(mtcars_labelled, "inst/extdata/mtcars_labelled.sav")
+
+usethis::use_data(mtcars_labelled, overwrite = TRUE)
+
+```
+
+
+
+## old file
 
 ```{r}
 set.seed(42)
@@ -139,9 +191,9 @@ fake_survey
 * use as internal dataset and spss file
 
 ```{r}
-haven::write_sav(fake_survey, "../inst/extdata/fake_survey.sav")
+haven::write_sav(fake_survey, "tests/testthat/spss/fake_survey.sav")
 
-usethis::use_data(fake_survey, overwrite = TRUE)
+# usethis::use_data(fake_survey, overwrite = TRUE, internal = TRUE)
 
 ```
 
