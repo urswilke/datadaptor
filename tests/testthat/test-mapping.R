@@ -6,8 +6,8 @@ testthat::expect_warning(Mapping$new(mapping_file = "excel/mapping_with_non_defi
 # testthat::expect_error(Mapping$new(luifaliufli = 1))
 
 
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+mapping_file <- "excel/mapping_old.xlsx"
+spss_file <- "spss/fake_survey.sav"
 
 
 mapping_s3 <- mapping$clone(deep = TRUE)

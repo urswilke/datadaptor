@@ -1,5 +1,5 @@
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+mapping_file <- "excel/mapping_old.xlsx"
+spss_file <- "spss/fake_survey.sav"
 dat_mod <- dat |>
   # add a new variable in the first column of the dataframe:
   dplyr::mutate(
