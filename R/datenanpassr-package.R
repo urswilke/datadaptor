@@ -53,6 +53,7 @@
 #' @importFrom labelled to_labelled
 #' @importFrom labelled val_labels
 #' @importFrom labelled var_label
+#' @importFrom labelled var_label<-
 #' @importFrom lifecycle deprecated
 #' @importFrom openxlsx activeSheet
 #' @importFrom openxlsx addWorksheet
