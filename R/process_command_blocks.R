@@ -16,8 +16,8 @@ process_command_blocks <- function(self) {
 refresh_mapping_sheet <- function(self) {
   sheet_cats <- names(self$cmd$sheet_data_raw) |>
     tab_sheet_types()
-  all_sheets <- readxl::excel_sheets(self$mapping_file)
-  active_sheet_index <- openxlsx::loadWorkbook(self$mapping_file) |> openxlsx::activeSheet()
+  all_sheets <- excel_sheets(self$mapping_file)
+  active_sheet_index <- loadWorkbook(self$mapping_file) |> activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]
   sheet_data_raw_index <- which(sheet_cats$sheet == active_sheet_name)
   active_sheet_type <- sheet_cats$sheet_type[sheet_data_raw_index]
@@ -30,7 +30,7 @@ refresh_mapping_sheet <- function(self) {
 
 gen_command_table <- function(self) {
   self$cmd$df_cmd_raw |>
-    dplyr::mutate(
+    mutate(
       command_blocks = self$cmd$command_blocks
     )
 }
@@ -40,9 +40,9 @@ gen_sheet_command_tables_raw <- function(self) {
     tab_sheet_types()
 
 
-  sheet_command_tables_raw <- purrr::map2(
+  sheet_command_tables_raw <- map2(
     sheet_cats$sheet |>
-      purrr::set_names(),
+      set_names(),
     sheet_cats$sheet_type,
     ~ generate_sheet_cmd_table(self, .y, .x)
   )
@@ -56,14 +56,14 @@ gen_sheet_command_tables_raw <- function(self) {
   sheet_command_tables_raw
 }
 gen_command_table_raw <- function(self) {
-  dplyr::bind_rows(
+  bind_rows(
     self$cmd$sheet_command_tables_raw,
     .id = "sheet"
   )
 }
 
 gen_sheet_cats <- function(self) {
-  sheets <- readxl::excel_sheets(self$mapping_file)
+  sheets <- excel_sheets(self$mapping_file)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -81,9 +81,9 @@ gen_sheet_data_raw_list <- function(self) {
   }
 
   sheet_cats <- gen_sheet_cats(self)
-  purrr::map2(
+  map2(
     sheet_cats$sheet |>
-      purrr::set_names(),
+      set_names(),
     sheet_cats$sheet_type,
     ~ gen_sheet_data_raw(self, .y, .x),
     .id = "sheet"
@@ -94,11 +94,11 @@ generate_rec_na_cmd_table <- function(self) {
   params <- self$params
   vars_to_exclude_na_to_filter <- c(
     params$not_miss_to_filter_vars |>
-      stringr::str_split("[, ;]+") |>
+      str_split("[, ;]+") |>
       unlist(),
     self$params$id_var
   )
-  tibble::tibble(
+  tibble(
     sheet = "Config",
     action = "#RECNA",
     row = NA_character_,
@@ -124,7 +124,7 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
     return(NULL)
   }
   res |>
-    dplyr::rename(raw = "data")
+    rename(raw = "data")
 }
 
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
@@ -148,20 +148,20 @@ tab_sheet_types <- function(sheets) {
   sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
 
   # vector of sheets with names defined by types:
-  sheet_cats <- purrr::map(
+  sheet_cats <- map(
     sheets,
-    ~ stringr::str_detect(.x, sheet_types)
+    ~ str_detect(.x, sheet_types)
   ) |>
-    purrr::map(
+    map(
       ~ sheet_types[.x] |>
-        stringr::str_remove("\\^")
+        str_remove("\\^")
     ) |>
-    purrr::set_names(sheets)
+    set_names(sheets)
   # remove sheets not in sheet types list:
   sheet_cats <- sheet_cats[lengths(sheet_cats) > 0]
   sheet_cats |>
-    purrr::map_chr(~.x) |>
-    tibble::enframe("sheet", "sheet_type")
+    map_chr(~.x) |>
+    enframe("sheet", "sheet_type")
 }
 
 #' Generate an object inheriting from `"command_block"`
@@ -187,14 +187,14 @@ command_block <- function(cdb, validate = TRUE) {
 }
 
 match_command_block_class <- function(keyword) {
-  command_block_row <- datenanpassr::command_block_classes$keyword == keyword
+  command_block_row <- command_block_classes$keyword == keyword
   if (sum(command_block_row) == 0) {
     stop(
       "command block keyword doesn't exist.",
       "See the package dataset `command_block_classes` for allowed ones."
     )
   }
-  datenanpassr::command_block_classes[["command_block"]][command_block_row]
+  command_block_classes[["command_block"]][command_block_row]
 }
 
 
@@ -249,11 +249,11 @@ new_command_block <- function(cdb, validate = TRUE, ..., subclass = character())
 #' class(m$cmd$command_blocks)
 command_blocks <- function(self) {
   cdbs <- self$cmd$df_cmd_raw |>
-    dplyr::rowwise() |>
-    dplyr::transmute(cmd = list(
-      command_block(dplyr::cur_data(), validate = self$params$validate)
+    rowwise() |>
+    transmute(cmd = list(
+      command_block(cur_data(), validate = self$params$validate)
     )) |>
-    dplyr::pull()
+    pull()
 
   subclass <- self$params$error_out
   if (self$params$validate) {

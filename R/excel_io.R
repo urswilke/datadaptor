@@ -13,7 +13,6 @@
 #' @param mapping_file name of the Excel file to be created
 #'
 #' @export
-#' @importFrom rlang := .data
 #'
 #' @examples
 #' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
@@ -25,21 +24,21 @@ mapp_create <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
   df_vallabs <- gen_label_table(df_raw)
 
-  wb <- openxlsx::createWorkbook()
+  wb <- createWorkbook()
 
-  openxlsx::addWorksheet(wb, "Variables")
-  openxlsx::addWorksheet(wb, "Label")
-  openxlsx::addWorksheet(wb, "Verbatims")
-  openxlsx::addWorksheet(wb, "Free1")
+  addWorksheet(wb, "Variables")
+  addWorksheet(wb, "Label")
+  addWorksheet(wb, "Verbatims")
+  addWorksheet(wb, "Free1")
 
   # Write the data to the sheets
-  openxlsx::writeData(wb, sheet = "Variables", x = df_varlab)
-  openxlsx::writeData(wb, sheet = "Label", x = df_vallabs)
-  openxlsx::writeData(wb, sheet = "Verbatims", x = "")
-  openxlsx::writeData(wb, sheet = "Free1", x = "")
+  writeData(wb, sheet = "Variables", x = df_varlab)
+  writeData(wb, sheet = "Label", x = df_vallabs)
+  writeData(wb, sheet = "Verbatims", x = "")
+  writeData(wb, sheet = "Free1", x = "")
 
   # Export the file
-  openxlsx::saveWorkbook(wb, mapping_file)
+  saveWorkbook(wb, mapping_file)
 }
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
@@ -69,7 +68,7 @@ read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translat
   if (translate_xlsm) {
     df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
   } else {
-    df_varl <- readxl::read_xlsx(
+    df_varl <- read_xlsx(
       mapping_file,
       sheet = sheet,
       col_types = "text"
@@ -78,26 +77,26 @@ read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translat
   df_varl
 }
 read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
+  read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = readxl::cell_limits(c(3, 1), c(NA, 13)),
+    range = cell_limits(c(3, 1), c(NA, 13)),
     col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
     col_types = "text"
   ) |>
-    dplyr::select(-dplyr::matches("^nn[1-8]$"))
+    select(-matches("^nn[1-8]$"))
 }
 
 format_df_varl <- function(df_varl) {
   df_varl |>
-    dplyr::mutate(row = (dplyr::row_number() + 1) |> as.character()) |>
+    mutate(row = (row_number() + 1) |> as.character()) |>
     parse_varlab_cmd_table()
 }
 
 
 
 parse_varlab_cmd_table <- function(df_varl) {
-  dplyr::bind_rows(
+  bind_rows(
     # TODO:
     # refactor these functions for better performance:
     # group_by() |> nest() |> ungroup() is called in all of these functions...:
@@ -111,75 +110,75 @@ parse_varlab_cmd_table <- function(df_varl) {
 
 parse_newlab_cmd_blocks <- function(df_varl) {
   df_varl |>
-    tidyr::drop_na("new_label") |>
-    dplyr::mutate(var = dplyr::coalesce(.data$new_name, .data$var)) |>
-    dplyr::mutate(new_var = .data$var) |>
-    dplyr::mutate(sheet = "Variables") |>
-    dplyr::mutate(action = "#NEWLAB") |>
-    dplyr::select(-dplyr::all_of(c("new_name", "op"))) |>
-    dplyr::group_by(.data$sheet, .data$action, row, .data$new_var) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    drop_na("new_label") |>
+    mutate(var = coalesce(.data$new_name, .data$var)) |>
+    mutate(new_var = .data$var) |>
+    mutate(sheet = "Variables") |>
+    mutate(action = "#NEWLAB") |>
+    select(-all_of(c("new_name", "op"))) |>
+    group_by(.data$sheet, .data$action, row, .data$new_var) |>
+    nest() |>
+    ungroup()
 }
 parse_rename_cmd_block <- function(df_varl) {
   df_varl |>
-    tidyr::drop_na("new_name") |>
-    dplyr::mutate(sheet = "Variables") |>
-    dplyr::mutate(action = "#RENAME_varsheet") |>
-    dplyr::mutate(new_var = .data$new_name) |>
-    dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab"))) |>
-    dplyr::group_by(.data$sheet, .data$action) |>
-    dplyr::summarise(
+    drop_na("new_name") |>
+    mutate(sheet = "Variables") |>
+    mutate(action = "#RENAME_varsheet") |>
+    mutate(new_var = .data$new_name) |>
+    select(-any_of(c("new_label", "op", "varlab"))) |>
+    group_by(.data$sheet, .data$action) |>
+    summarise(
       row = paste(row, collapse = ", "),
       new_names = list(.data$new_var),
       new_var = paste(.data$new_var, collapse = ", "),
       vars = list(.data$var)
     ) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$new_var, row) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    group_by(.data$sheet, .data$action, .data$new_var, row) |>
+    nest() |>
+    ungroup()
 }
 
 parse_autorecode_cmd_block <- function(df_varl) {
   df_varl |>
-    dplyr::filter(.data$op == "a") |>
-    dplyr::mutate(sheet = "Variables") |>
-    dplyr::mutate(action = "#AUTOREC") |>
-    dplyr::mutate(new_var = .data$var) |>
-    dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab", "new_name"))) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    filter(.data$op == "a") |>
+    mutate(sheet = "Variables") |>
+    mutate(action = "#AUTOREC") |>
+    mutate(new_var = .data$var) |>
+    select(-any_of(c("new_label", "op", "varlab", "new_name"))) |>
+    group_by(.data$sheet, .data$action, .data$new_var, .data$row) |>
+    nest() |>
+    ungroup()
 }
 
 
 parse_drop_cmd_block <- function(df_varl) {
   df_varl |>
-    dplyr::filter(.data$op == "d") |>
-    dplyr::mutate(sheet = "Variables") |>
-    dplyr::mutate(action = "#DROP") |>
-    dplyr::group_by(.data$sheet, .data$action) |>
-    dplyr::summarise(
+    filter(.data$op == "d") |>
+    mutate(sheet = "Variables") |>
+    mutate(action = "#DROP") |>
+    group_by(.data$sheet, .data$action) |>
+    summarise(
       row = paste(row, collapse = ", "),
       new_var = NA_character_,
       vars = list(.data$var)
     ) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$new_var, row) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    group_by(.data$sheet, .data$action, .data$new_var, row) |>
+    nest() |>
+    ungroup()
 }
 
 
 parse_str_to_num_cmd_block <- function(df_varl) {
   df_varl |>
-    dplyr::filter(.data$op == "n") |>
-    dplyr::mutate(sheet = "Variables") |>
-    dplyr::mutate(action = "#STR2NUM") |>
-    dplyr::mutate(new_var = .data$var) |>
-    dplyr::select(-dplyr::any_of(c("new_label", "op", "varlab", "new_name"))) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$new_var, .data$row) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    filter(.data$op == "n") |>
+    mutate(sheet = "Variables") |>
+    mutate(action = "#STR2NUM") |>
+    mutate(new_var = .data$var) |>
+    select(-any_of(c("new_label", "op", "varlab", "new_name"))) |>
+    group_by(.data$sheet, .data$action, .data$new_var, .data$row) |>
+    nest() |>
+    ungroup()
 }
 
 
@@ -208,8 +207,8 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   df_vall <- self$cmd$sheet_data_raw[[sheet]]
 
   df_vall <- df_vall |>
-    dplyr::mutate(row = dplyr::row_number() + 1)
-  dplyr::bind_rows(
+    mutate(row = row_number() + 1)
+  bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
   )
@@ -219,7 +218,7 @@ read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
   if (translate_xlsm) {
     df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
   } else {
-    df_vall <- readxl::read_xlsx(
+    df_vall <- read_xlsx(
       mapping_file,
       sheet = sheet
     )
@@ -227,10 +226,10 @@ read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
   df_vall
 }
 read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
-  readxl::read_xlsx(
+  read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = readxl::cell_limits(c(3, 1), c(NA, 9)),
+    range = cell_limits(c(3, 1), c(NA, 9)),
     col_names = c(
       "var", "nv", "vallab", "new_label", "not_needed1",
       "not_needed2", "sum_var_label", "sum_var_value",
@@ -238,44 +237,44 @@ read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
     ),
     col_types = "text"
   ) |>
-    dplyr::select(-dplyr::all_of(c("not_needed1", "not_needed2"))) |>
-    dplyr::mutate(
+    select(-all_of(c("not_needed1", "not_needed2"))) |>
+    mutate(
       nv = as.numeric(.data$nv),
       sum_var_value = as.numeric(.data$sum_var_value)
     ) |>
-    tidyr::fill("var")
+    fill("var")
 }
 
 
 
 parse_sumvar_cmd_table <- function(df_vall) {
   df_vall |>
-    tidyr::drop_na("sum_var_value") |>
-    dplyr::select(-"new_label") |>
-    dplyr::mutate(new_var = paste0("k", .data$var)) |>
-    dplyr::mutate(orig_var = .data$var) |>
-    dplyr::group_by(.data$new_var, .data$orig_var) |>
-    dplyr::mutate(row = paste(.data$row, collapse = ", ")) |>
-    dplyr::mutate(sheet = "Label") |>
-    dplyr::mutate(action = "#SUMVAR") |>
-    dplyr::relocate(dplyr::all_of(c("sheet", "action"))) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    drop_na("sum_var_value") |>
+    select(-"new_label") |>
+    mutate(new_var = paste0("k", .data$var)) |>
+    mutate(orig_var = .data$var) |>
+    group_by(.data$new_var, .data$orig_var) |>
+    mutate(row = paste(.data$row, collapse = ", ")) |>
+    mutate(sheet = "Label") |>
+    mutate(action = "#SUMVAR") |>
+    relocate(all_of(c("sheet", "action"))) |>
+    group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
+    nest() |>
+    ungroup()
 }
 parse_newvall_cmd_table <- function(df_vall) {
   df_vall |>
-    tidyr::drop_na("new_label") |>
-    dplyr::mutate(new_var = .data$var) |>
-    dplyr::mutate(orig_var = .data$var) |>
-    dplyr::mutate(sheet = "Label") |>
-    dplyr::mutate(action = "#NEWVALL") |>
-    dplyr::relocate(dplyr::all_of(c("sheet", "action"))) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$new_var) |>
-    dplyr::mutate(row = paste(.data$row, collapse = ", ")) |>
-    dplyr::group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
-    tidyr::nest() |>
-    dplyr::ungroup()
+    drop_na("new_label") |>
+    mutate(new_var = .data$var) |>
+    mutate(orig_var = .data$var) |>
+    mutate(sheet = "Label") |>
+    mutate(action = "#NEWVALL") |>
+    relocate(all_of(c("sheet", "action"))) |>
+    group_by(.data$sheet, .data$action, .data$new_var) |>
+    mutate(row = paste(.data$row, collapse = ", ")) |>
+    group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
+    nest() |>
+    ungroup()
 }
 
 
@@ -305,23 +304,23 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     df_free <- df_free[1:6]
   } else {
     df_free <-
-      purrr::map_dfc(1:5, ~ character()) |>
-      purrr::set_names(paste0("X", 1:5)) |>
-      dplyr::mutate(row = NA_character_)
+      map_dfc(1:5, ~ character()) |>
+      set_names(paste0("X", 1:5)) |>
+      mutate(row = NA_character_)
   }
   df_free |>
     put_absolute_filepaths(self$mapping_file) |>
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
-  df_free <- readxl::read_xlsx(
+  df_free <- read_xlsx(
     mapping_file,
-    range = readxl::cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+    range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
     col_names = paste0("X", 1:5),
     col_types = "text"
   ) |>
-    dplyr::mutate(row = dplyr::row_number()) |>
-    dplyr::filter(dplyr::if_any(dplyr::starts_with("X"), ~ !is.na(.)))
+    mutate(row = row_number()) |>
+    filter(if_any(starts_with("X"), ~ !is.na(.)))
   df_free
 }
 
@@ -335,18 +334,18 @@ process_raw_free_cmd_table <- function(df_free) {
     delete_empty_X1_not_multiline() |>
     add_curlies_to_cell_with_spaces() |>
     curlychop() |>
-    dplyr::group_by(.data$row) |>
-    dplyr::mutate(action = .data$X1[1]) |>
-    dplyr::group_by(.data$action, .data$row, .data$raw_index) |>
-    tidyr::nest() |>
-    dplyr::ungroup() |>
+    group_by(.data$row) |>
+    mutate(action = .data$X1[1]) |>
+    group_by(.data$action, .data$row, .data$raw_index) |>
+    nest() |>
+    ungroup() |>
     get_new_var_name_free() |>
-    dplyr::select(-"raw_index")
+    select(-"raw_index")
 }
 put_absolute_filepaths <- function(df_free, mapping_file) {
   df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
     df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] |>
-    purrr::map_chr(~ adapt_filepath(.x, mapping_file))
+    map_chr(~ adapt_filepath(.x, mapping_file))
   df_free
 }
 
@@ -367,46 +366,46 @@ get_new_var_name_free <- function(df_free_nested) {
   col3_names <- c("#DIC", "#RENAME")
   col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
-    dplyr::mutate(data = purrr::map(.data$data, ~dplyr::slice(.x, 1))) |>
-    dplyr::bind_rows() |>
-    tidyr::unnest(.data$data) |>
-    dplyr::mutate(new_var = dplyr::case_when(
+    mutate(data = map(.data$data, ~slice(.x, 1))) |>
+    bind_rows() |>
+    unnest(.data$data) |>
+    mutate(new_var = case_when(
       action %in% col3_names ~ .data$X3,
       action %in% col2_names ~ .data$X2,
-      action %in% col3or2_names ~ dplyr::coalesce(.data$X3, .data$X2),
-      action == "#IF" ~ stringr::str_remove(.data$X3, "=.*") |> stringr::str_squish(),
+      action %in% col3or2_names ~ coalesce(.data$X3, .data$X2),
+      action == "#IF" ~ str_remove(.data$X3, "=.*") |> str_squish(),
       action == "#KG" ~ paste(.data$X2, .data$X3, sep = "_"),
       action == "#MERGE" ~ paste(.data$X4, collapse = ", ")
     ))
-  df_free_nested |> dplyr::mutate(new_var = temp$new_var, .after = "action")
+  df_free_nested |> mutate(new_var = temp$new_var, .after = "action")
 }
 
 add_curlies_to_cell_with_spaces <- function(df_free) {
   # transform X2 containing spaces to curlychop()able (surrounded by curly
   # braces):
   df_free |>
-    dplyr::mutate(X2 = ifelse(
-      grepl("(#VARL|#REC|#VALL|#AVALL|#RMVAL)", .data$X1) == TRUE & stringr::str_detect(.data$X2, " ") & stringr::str_detect(.data$X2, "\\{", negate = TRUE),
+    mutate(X2 = ifelse(
+      grepl("(#VARL|#REC|#VALL|#AVALL|#RMVAL)", .data$X1) == TRUE & str_detect(.data$X2, " ") & str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
     ))
 }
 delete_empty_X1_not_multiline <- function(df_free) {
   df_free |>
-    dplyr::mutate(
-      not_multiline_cmd = stringr::str_detect(
+    mutate(
+      not_multiline_cmd = str_detect(
         .data$X1,
         "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$|^#R$|^#RENAME$|^#SELECT$|^#FILTER$",
         negate = TRUE
       ),
-      after_dot = (dplyr::lag(stringr::str_detect(.data$X1, "\\.")) &
-                     !stringr::str_detect(.data$X1, "^#")
+      after_dot = (lag(str_detect(.data$X1, "\\.")) &
+                     !str_detect(.data$X1, "^#")
                    ) |>
         is_true_vec(),
       temp = .data$not_multiline_cmd & !.data$after_dot
     ) |>
-    tidyr::fill("temp") |>
-    dplyr::mutate(temp = .data$temp & is.na(.data$X1)) |>
-    dplyr::filter(!.data$temp) |>
-    dplyr::select(-dplyr::all_of(c("temp", "not_multiline_cmd", "after_dot")))
+    fill("temp") |>
+    mutate(temp = .data$temp & is.na(.data$X1)) |>
+    filter(!.data$temp) |>
+    select(-all_of(c("temp", "not_multiline_cmd", "after_dot")))
 }

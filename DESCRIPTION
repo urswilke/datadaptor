@@ -24,7 +24,6 @@ Suggests:
     htmltools,
     rmarkdown,
     markdown,
-    withr,
     here,
     spelling
 Config/testthat/edition: 3
@@ -50,6 +49,8 @@ Imports:
     R6,
     data.table,
     writexl,
-    lifecycle
+    lifecycle,
+    utils,
+    withr
 VignetteBuilder: knitr
 Language: en-US
