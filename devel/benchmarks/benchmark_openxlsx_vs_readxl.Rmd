@@ -15,8 +15,7 @@ mapping_file <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpa
 
 ```{r}
 needed_sheets <- "^Variables|^Label|Free|^Verbatims"
-mapping_file <- "K:/Projects/DW Henkel Adhesives/Syntax/Mapping Henkel Adhesives.xlsm"
-# spss_file <- "K:/Projects/DW Henkel Adhesives  2022/Daten/10_MergeFiles.sav"
+mapping_file <- "K:/Tools/TableBook/202206/Template folder/Syntax/Mapping in Entwicklung.xlsm"
 
 # use_readxl <- function(mapping_file) {
 #   sheets <- readxl::excel_sheets(mapping_file) |> str_subset(needed_sheets)
