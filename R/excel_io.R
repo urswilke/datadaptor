@@ -304,9 +304,15 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     df_free <- df_free[1:6]
   } else {
     df_free <-
-      map_dfc(1:5, ~ character()) |>
-      set_names(paste0("X", 1:5)) |>
-      mutate(row = NA_character_)
+      tibble(
+        X1 = character(),
+        X2 = character(),
+        X3 = character(),
+        X4 = character(),
+        X5 = character(),
+        row = character(),
+      )
+
   }
   df_free |>
     put_absolute_filepaths(self$mapping_file) |>
