@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' gen_data_table(fake_survey)
+#' gen_data_table(mtcars_labelled)
 gen_data_table <- function(df, values_drop_na = FALSE) {
   counts <- tab_counts(df, values_drop_na)
 
@@ -71,7 +71,7 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' mapping <- Mapping$new(fake_survey, mapping_file)
+#' mapping <- Mapping$new(mtcars_labelled, mapping_file)
 #' mapping$modify_data()
 #' diff_data(mapping$dat, mapping$dat_mod, "id")
 diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {

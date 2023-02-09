@@ -171,7 +171,7 @@ tab_sheet_types <- function(sheets) {
 #' @noRd
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
 #' m$cmd$df_cmd_raw[10, ] |> command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
@@ -240,7 +240,7 @@ new_command_block <- function(cdb, validate = TRUE, ..., subclass = character())
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
 #' command_blocks(m)
 #' # This object was automatically generated when m was created.

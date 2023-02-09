@@ -204,13 +204,12 @@ extract_excel_params <- function(mapping_file) {
     return(NULL)
   }
   wb <- loadWorkbook(mapping_file) |> suppressWarnings()
-  named_regions <- as_tibble(getNamedRegions(wb))
-
-  if (nrow(named_regions) == 0) {
-    stop('You need to define at least the named region "R_id_var" in the mapping file.')
+  named_regions_raw <- getNamedRegions(wb)
+  if (is.null(named_regions_raw)) {
+    return(NULL)
   }
-  # if there is a named region that's empty, it would throw the warning:
-  # ℹ No data found on worksheet.
+  named_regions <- as_tibble(named_regions_raw)
+
 
   configr <- named_regions |>
     filter(grepl("^R_*", .data$value)) |>

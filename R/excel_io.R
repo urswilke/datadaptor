@@ -15,7 +15,7 @@
 #' @export
 #'
 #' @examples
-#' spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
@@ -50,8 +50,8 @@ mapp_create <- function(df_raw, mapping_file) {
 #' @noRd
 #'
 #' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
+#' # create empty template from labelled dataset `mtcars_labelled` via:
+#' # mapp_create(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -194,8 +194,8 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' @noRd
 #'
 #' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
+#' # create empty template from labelled dataset `mtcars_labelled` via:
+#' # mapp_create(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -289,8 +289,8 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' @noRd
 #'
 #' @examples
-#' # create empty template from labelled dataset `fake_survey` via:
-#' # mapp_create(fake_survey, "mapping.xlsx")
+#' # create empty template from labelled dataset `mtcars_labelled` via:
+#' # mapp_create(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -304,9 +304,15 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     df_free <- df_free[1:6]
   } else {
     df_free <-
-      map_dfc(1:5, ~ character()) |>
-      set_names(paste0("X", 1:5)) |>
-      mutate(row = NA_character_)
+      tibble(
+        X1 = character(),
+        X2 = character(),
+        X3 = character(),
+        X4 = character(),
+        X5 = character(),
+        row = character(),
+      )
+
   }
   df_free |>
     put_absolute_filepaths(self$mapping_file) |>

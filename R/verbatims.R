@@ -8,11 +8,11 @@
 #'
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' verbatim_file <- system.file("extdata", "Verbatims_fake_survey.xlsx", package = "datenanpassr")
+#' # verbatim_file <- system.file("extdata", "Verbatims_mtcars_labelled.xlsx", package = "datenanpassr")
 #' # open these Excel files (that come with the package) via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
-#' utils::browseURL(verbatim_file)
+#' # utils::browseURL(verbatim_file)
 #' }
 #' m <- Mapping$new(NULL, mapping_file)
 #' mapp_verbatim_sheet_cmd_tbl(m)

@@ -18,5 +18,5 @@ Counts and labels data frame
 Generate data counts table
 }
 \examples{
-gen_data_table(fake_survey)
+gen_data_table(mtcars_labelled)
 }
