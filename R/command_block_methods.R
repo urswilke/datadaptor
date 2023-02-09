@@ -302,7 +302,6 @@ eval_in_data <- function(ex, mapping) {
 #' @describeIn apply_command
 #'
 #' @export
-#' @importFrom rlang `%||%`
 apply_command.cmd_comp <- function(cdb, mapping, x, ex, ...) {
   val <- parse_expr(ex)
 

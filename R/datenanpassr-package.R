@@ -85,6 +85,8 @@
 #' @importFrom readxl excel_sheets
 #' @importFrom readxl read_excel
 #' @importFrom readxl read_xlsx
+#' @importFrom rlang := .data
+#' @importFrom rlang `%||%`
 #' @importFrom rlang eval_tidy
 #' @importFrom rlang expr
 #' @importFrom rlang parse_expr
