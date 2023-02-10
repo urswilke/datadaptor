@@ -133,5 +133,5 @@ gen_mapping_params(mapping_file)
 gen_mapping_params() |> update_mapping_params(refresh_sheet = TRUE)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
-extract_named_region_params(mapping_file)
+extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
 }

@@ -185,7 +185,7 @@ globalVariables(".")
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #'
-#' extract_named_region_params(mapping_file)
+#' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
 extract_named_region_params <- function(mapping_file,
                                         type = attr(mapping_file, "type")) {
   if (is.null(mapping_file)) {
