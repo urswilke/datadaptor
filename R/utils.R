@@ -207,6 +207,9 @@ extract_named_region_params <- function(mapping_file,
   if (type == "excel") {
     named_params_list <- extract_named_region_params_excel(mapping_file)
   }
+  if (type == "google") {
+    named_params_list <- extract_named_region_params_google(mapping_file)
+  }
   named_params_list
 }
 extract_named_region_params_excel <- function(mapping_file) {
@@ -238,6 +241,44 @@ extract_named_region_params_excel <- function(mapping_file) {
 
   named_params_list <- configr$data
   names(named_params_list) <- str_sub(configr$value, 3)
+
+  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
+  if (any(is_correct_idx == FALSE)) {
+    warning(
+      "The following parameters are unknown:\n",
+      paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
+      "\nsee ?gen_mapping_params for all used parameters."
+    )
+  }
+  named_params_list
+}
+
+extract_named_region_params_google <- function(mapping_file) {
+  gs <- gs4_get(mapping_file)
+  named_regions <- gs$named_ranges
+  if (is.null(named_regions)) {
+    return(NULL)
+  }
+
+  configr <- named_regions |>
+    filter(grepl("^R_*", .data$name)) |>
+    mutate(
+      data = map(
+        .data$A1_range,
+        ~ read_sheet(
+          gs,
+          range = .x,
+          col_names = "data"
+        ) |>
+          suppressMessages()
+      )
+    ) |>
+    filter(!map_lgl(configr$data, is_empty)) |>
+    unnest(data)
+
+
+  named_params_list <- configr$data
+  names(named_params_list) <- str_sub(configr$name, 3)
 
   is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
