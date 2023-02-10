@@ -3,13 +3,13 @@
 \name{gen_mapping_params}
 \alias{gen_mapping_params}
 \alias{update_mapping_params}
-\alias{extract_excel_params}
+\alias{extract_named_region_params}
 \title{Mapping parameters}
 \usage{
 gen_mapping_params(
   mapping_file = NULL,
   mapping_type = "excel",
-  excel_params = extract_excel_params(mapping_file),
+  excel_params = extract_named_region_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
   translate_xlsm = FALSE,
@@ -33,7 +33,7 @@ gen_mapping_params(
 
 update_mapping_params(mapping_params, ...)
 
-extract_excel_params(mapping_file)
+extract_named_region_params(mapping_file)
 }
 \arguments{
 \item{mapping_file}{Path of the Excel mapping file. Alternatively, you can
@@ -46,7 +46,7 @@ the \code{Mapping$cmd$sheet_data_raw} field (see section
 (for googlesheets). Defaults to "excel".}
 
 \item{excel_params}{Params parameters read from Excel file; see
-\code{extract_excel_params()}.}
+\code{extract_named_region_params()}.}
 
 \item{id_var}{character string of the id variable name in the dataset.}
 
@@ -122,7 +122,7 @@ otherwise overwritten by the dots.
 \code{update_mapping_params()} is a wrapper function of:
 \code{utils::modifyList(mapping_params, list(...))}.
 
-\code{extract_excel_params()} extracts the named regions from the
+\code{extract_named_region_params()} extracts the named regions from the
 mapping file. Those starting with "R_" are read into a named list, having
 their "R_" prefix removed.
 }
@@ -133,5 +133,5 @@ gen_mapping_params(mapping_file)
 gen_mapping_params() |> update_mapping_params(refresh_sheet = TRUE)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 
-extract_excel_params(mapping_file)
+extract_named_region_params(mapping_file)
 }
