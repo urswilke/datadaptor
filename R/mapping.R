@@ -392,6 +392,9 @@ gen_mapping_params <- function(
   #     'or you can define this string with a named region "R_id_var"',
   #     'in the Excel mapping file.')
   # }
+  if (!is.null(mapping_file)) {
+    attr(mapping_file, "translate_xlsm") <- translate_xlsm
+  }
 
   p <- lst(
     mapping_file,
@@ -399,7 +402,6 @@ gen_mapping_params <- function(
     id_var,
     na_to_filter,
     error_out,
-    translate_xlsm,
     validate,
     dyn_validate,
     debug,
