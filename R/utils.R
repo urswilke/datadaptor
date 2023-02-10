@@ -229,18 +229,18 @@ extract_named_region_params <- function(mapping_file) {
     )
 
 
-  l_configr_excel <- configr$data
-  names(l_configr_excel) <- str_sub(configr$value, 3)
+  named_params_list <- configr$data
+  names(named_params_list) <- str_sub(configr$value, 3)
 
-  is_correct_idx <- names(l_configr_excel) %in% names(formals(gen_mapping_params))
+  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
     warning(
       "The following parameters are unknown:\n",
-      paste(names(l_configr_excel[!is_correct_idx]), collapse = ", "),
+      paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
       "\nsee ?gen_mapping_params for all used parameters."
     )
   }
-  l_configr_excel
+  named_params_list
 }
 
 
