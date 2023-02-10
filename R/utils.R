@@ -24,16 +24,6 @@
 #' )
 #' df_curly
 #' curlychop(df_curly)
-#'
-#' # Extensive example:
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' df_free_raw <- datenanpassr:::mapp_free_sheet_cmd_table_raw(mapping_file) |>
-#'   dplyr::filter(stringr::str_detect(X2, "\\{"))
-#' curlychop(df_free_raw)
-#' # For reference, open the "Free1" sheet in the Excel file via:
-#' \dontrun{
-#' utils::browseURL(mapping_file)
-#' }
 curlychop <- function(df_free_raw) {
   df_prep <- df_free_raw |>
     mutate(raw_index = cumsum(is_true_vec(str_detect(.data$X1, "^#")))) |>
@@ -184,7 +174,7 @@ is_true_vec <- function(x) Vectorize(isTRUE)(x)
 globalVariables(".")
 
 
-#' @description `extract_excel_params()` extracts the named regions from the
+#' @description `extract_named_region_params()` extracts the named regions from the
 #'   mapping file. Those starting with "R_" are read into a named list, having
 #'   their "R_" prefix removed.
 #'
@@ -195,14 +185,24 @@ globalVariables(".")
 #' @examples
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #'
-#' extract_excel_params(mapping_file)
-extract_excel_params <- function(mapping_file) {
+#' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
+extract_named_region_params <- function(mapping_file,
+                                        mapping_type = attr(mapping_file, "mapping_type")) {
   if (is.null(mapping_file)) {
     return(NULL)
   }
   if (is.list(mapping_file)) {
     return(NULL)
   }
+  if (mapping_type == "excel") {
+    named_params_list <- extract_named_region_params_excel(mapping_file)
+  }
+  if (mapping_type == "google") {
+    named_params_list <- extract_named_region_params_google(mapping_file)
+  }
+  named_params_list
+}
+extract_named_region_params_excel <- function(mapping_file) {
   wb <- loadWorkbook(mapping_file) |> suppressWarnings()
   named_regions_raw <- getNamedRegions(wb)
   if (is.null(named_regions_raw)) {
@@ -229,18 +229,56 @@ extract_excel_params <- function(mapping_file) {
     )
 
 
-  l_configr_excel <- configr$data
-  names(l_configr_excel) <- str_sub(configr$value, 3)
+  named_params_list <- configr$data
+  names(named_params_list) <- str_sub(configr$value, 3)
 
-  is_correct_idx <- names(l_configr_excel) %in% names(formals(gen_mapping_params))
+  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
     warning(
       "The following parameters are unknown:\n",
-      paste(names(l_configr_excel[!is_correct_idx]), collapse = ", "),
+      paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
       "\nsee ?gen_mapping_params for all used parameters."
     )
   }
-  l_configr_excel
+  named_params_list
+}
+
+extract_named_region_params_google <- function(mapping_file) {
+  gs <- gs4_get(mapping_file)
+  named_regions <- gs$named_ranges
+  if (is.null(named_regions)) {
+    return(NULL)
+  }
+
+  configr <- named_regions |>
+    filter(grepl("^R_*", .data$name)) |>
+    mutate(
+      data = map(
+        .data$A1_range,
+        ~ read_sheet(
+          gs,
+          range = .x,
+          col_names = "data"
+        ) |>
+          suppressMessages()
+      )
+    ) |>
+    filter(!map_lgl(configr$data, is_empty)) |>
+    unnest(.data$data)
+
+
+  named_params_list <- configr$data
+  names(named_params_list) <- str_sub(configr$name, 3)
+
+  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
+  if (any(is_correct_idx == FALSE)) {
+    warning(
+      "The following parameters are unknown:\n",
+      paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
+      "\nsee ?gen_mapping_params for all used parameters."
+    )
+  }
+  named_params_list
 }
 
 

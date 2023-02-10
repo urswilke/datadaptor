@@ -19,7 +19,7 @@ mapping_file <- "K:/Tools/TableBook/202206/Template folder/Syntax/Mapping in Ent
 
 # use_readxl <- function(mapping_file) {
 #   sheets <- readxl::excel_sheets(mapping_file) |> str_subset(needed_sheets)
-#   map(sheets, ~readxl::read_excel(mapping_file, .x))
+#   map(sheets, ~readxl::read_xlsx(mapping_file, .x))
 # }
 # 
 # use_openxlsx <- function(mapping_file) {
@@ -49,8 +49,8 @@ openxlsx_sheet <- function(workbook = wb, sheet) {
 }
 
 readxl_sheet <- function(filename = mapping_file, sheet) {
-  # readxl::excel_sheets(filename) |> map(~ readxl::read_excel(filename, .x))
-  readxl::read_excel(filename, sheet)
+  # readxl::excel_sheets(filename) |> map(~ readxl::read_xlsx(filename, .x))
+  readxl::read_xlsx(filename, sheet)
 }
 n_iter <- 10
 wb <- openxlsx::loadWorkbook(mapping_file)

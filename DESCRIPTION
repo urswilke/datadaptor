@@ -51,6 +51,7 @@ Imports:
     writexl,
     lifecycle,
     utils,
-    withr
+    withr,
+    googlesheets4
 VignetteBuilder: knitr
 Language: en-US

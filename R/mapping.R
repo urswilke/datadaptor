@@ -71,8 +71,8 @@ Mapping <- R6Class(
                           ...) {
       self$dat <- initialize_dat(self, dat)
 
-      self$mapping_file <- mapping_file
-      self$params <- gen_mapping_params(self$mapping_file, dots_args = lst(...), ...)
+      self$params <- gen_mapping_params(mapping_file, dots_args = lst(...), ...)
+      self$mapping_file <- self$params$mapping_file
       if (!is.null(mapping_file)) {
         self$prep_cmd_tbl()
       }
@@ -312,7 +312,9 @@ initialize_dat <- function(self, dat) {
 #'   "Parse the sheets to R list objects" in
 #'   `vignette("translating_command_blocks_to_R")`).
 #' @param excel_params Params parameters read from Excel file; see
-#'   `extract_excel_params()`.
+#'   `extract_named_region_params()`.
+#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
+#'   (for googlesheets). Defaults to "excel".
 #' @param id_var character string of the id variable name in the dataset.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
@@ -359,7 +361,8 @@ initialize_dat <- function(self, dat) {
 #' gen_mapping_params(mapping_file)
 gen_mapping_params <- function(
   mapping_file = NULL,
-  excel_params = extract_excel_params(mapping_file),
+  mapping_type = "excel",
+  excel_params = extract_named_region_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
   translate_xlsm = FALSE,
@@ -392,6 +395,11 @@ gen_mapping_params <- function(
   #     'or you can define this string with a named region "R_id_var"',
   #     'in the Excel mapping file.')
   # }
+  mapping_file <- as_mapping_file_string(
+    mapping_file,
+    translate_xlsm,
+    mapping_type
+  )
 
   p <- lst(
     mapping_file,
@@ -399,7 +407,6 @@ gen_mapping_params <- function(
     id_var,
     na_to_filter,
     error_out,
-    translate_xlsm,
     validate,
     dyn_validate,
     debug,
@@ -427,6 +434,18 @@ gen_mapping_params <- function(
   }
   p
 }
+
+as_mapping_file_string <- function(mapping_file,
+                                   translate_xlsm = FALSE,
+                                   mapping_type = "excel") {
+  if (is.null(mapping_file)) {
+    return(NULL)
+  }
+  attr(mapping_file, "translate_xlsm") <- translate_xlsm
+  attr(mapping_file, "mapping_type") <- mapping_type
+  mapping_file
+}
+
 
 #' @description `update_mapping_params()` is a wrapper function of:
 #'   \code{utils::modifyList(mapping_params, list(...))}.

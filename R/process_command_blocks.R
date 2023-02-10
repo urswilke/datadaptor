@@ -16,7 +16,7 @@ process_command_blocks <- function(self) {
 refresh_mapping_sheet <- function(self) {
   sheet_cats <- names(self$cmd$sheet_data_raw) |>
     tab_sheet_types()
-  all_sheets <- excel_sheets(self$mapping_file)
+  all_sheets <- get_sheets(self$mapping_file)
   active_sheet_index <- loadWorkbook(self$mapping_file) |> activeSheet()
   active_sheet_name <- all_sheets[active_sheet_index]
   sheet_data_raw_index <- which(sheet_cats$sheet == active_sheet_name)
@@ -26,6 +26,16 @@ refresh_mapping_sheet <- function(self) {
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
+}
+
+get_sheets <- function(mapping_file) {
+  if (attr(mapping_file, "mapping_type") == "excel") {
+    return(excel_sheets(mapping_file))
+  }
+  if (attr(mapping_file, "mapping_type") == "google") {
+    gs <- googlesheets4::gs4_get(mapping_file)
+    return(gs$sheets$name)
+  }
 }
 
 gen_command_table <- function(self) {
@@ -63,7 +73,7 @@ gen_command_table_raw <- function(self) {
 }
 
 gen_sheet_cats <- function(self) {
-  sheets <- excel_sheets(self$mapping_file)
+  sheets <- get_sheets(self$mapping_file)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -129,10 +139,10 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
 
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
   switch(sheet_cat,
-    "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = self$params$translate_xlsm),
-    "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = self$params$translate_xlsm),
+    "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = attr(self$mapping_file, "translate_xlsm")),
+    "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name, translate_xlsm = attr(self$mapping_file, "translate_xlsm")),
     "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
-    "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name), translate_xlsm = self$params$translate_xlsm)
+    "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name), translate_xlsm = attr(self$mapping_file, "translate_xlsm"))
   )
 }
 

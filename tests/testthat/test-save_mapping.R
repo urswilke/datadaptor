@@ -1,5 +1,5 @@
 mapping_file <- "excel/test_save.xlsx"
-expect_message(expect_message(m <- Mapping$new(dat = tibble(a = c(1:3, NA)), mapping_file = mapping_file)))
+suppressMessages(m <- Mapping$new(dat = tibble(a = c(1:3, NA)), mapping_file = mapping_file))
 path <- m$params$save_path
 save_file_types <- c("sav", "dta", "xlsx")
 filenames <- "myfilename"
@@ -12,7 +12,7 @@ test_that("Mapping$save() seems to work", {
     m$save(name = filenames, filetype = save_file_types[1:3])
     spss_output_vec  <- haven::read_sav(output_files[1])$a
     stata_output_vec <- haven::read_dta(output_files[2])$a
-    excel_output_vec <- readxl::read_excel(output_files[3])$a
+    excel_output_vec <- readxl::read_xlsx(output_files[3])$a
     vallabs_sav <- attr(spss_output_vec, "labels")
     vallabs_dta <- attr(stata_output_vec, "labels")
     expect_true(

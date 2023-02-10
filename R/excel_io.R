@@ -11,6 +11,8 @@
 #' @param df_raw dataframe with labelled variables, e.g. resulting from
 #'   haven::read_sav
 #' @param mapping_file name of the Excel file to be created
+#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
+#'   (for googlesheets). Defaults to "excel".
 #'
 #' @export
 #'
@@ -19,8 +21,17 @@
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
+#' mapp_create(df, "mapping_googlesheets", mapping_type = "google")
 #' }
-mapp_create <- function(df_raw, mapping_file) {
+mapp_create <- function(df_raw, mapping_file, mapping_type = "excel") {
+  if (mapping_type == "excel") {
+    mapp_create_xlsx(df_raw, mapping_file)
+  }
+  if (mapping_type == "google") {
+    mapp_create_google(df_raw, mapping_file)
+  }
+}
+mapp_create_xlsx <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
   df_vallabs <- gen_label_table(df_raw)
 
@@ -39,6 +50,18 @@ mapp_create <- function(df_raw, mapping_file) {
 
   # Export the file
   saveWorkbook(wb, mapping_file)
+  message("Excel mapping file written to '", mapping_file, "'")
+}
+mapp_create_google <- function(df_raw, mapping_file) {
+  df_varlab <- gen_var_table(df_raw)
+  df_vallabs <- gen_label_table(df_raw)
+
+  gs <- gs4_create(mapping_file, sheets = c("Variables", "Label", "verbatims", "Free1"))
+
+  sheet_write(df_varlab, ss = gs, sheet = "Variables")
+  sheet_write(df_vallabs, ss = gs, sheet = "Label")
+
+  gs4_get(gs)
 }
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
@@ -65,6 +88,12 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
 }
 
 read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
+  if (attr(mapping_file, "mapping_type") == "google") {
+    return(read_sheet(
+      mapping_file,
+      sheet = sheet
+    ))
+  }
   if (translate_xlsm) {
     df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
   } else {
@@ -215,6 +244,12 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
+  if (attr(mapping_file, "mapping_type") == "google") {
+    return(read_sheet(
+      mapping_file,
+      sheet = sheet
+    ))
+  }
   if (translate_xlsm) {
     df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
   } else {
@@ -319,15 +354,26 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
-  df_free <- read_xlsx(
-    mapping_file,
-    range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
-    col_names = paste0("X", 1:5),
-    col_types = "text"
-  ) |>
+  if (attr(mapping_file, "mapping_type") == "google") {
+    df_free <- read_sheet(
+      mapping_file,
+      sheet = sheet,
+      range = "A:E",
+      col_types = "c",
+      col_names = paste0("X", 1:5)
+    )
+  }
+  if (attr(mapping_file, "mapping_type") == "excel") {
+    df_free <- read_xlsx(
+      mapping_file,
+      range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+      col_names = paste0("X", 1:5),
+      col_types = "text"
+    )
+  }
+  df_free |>
     mutate(row = row_number()) |>
     filter(if_any(starts_with("X"), ~ !is.na(.)))
-  df_free
 }
 
 
