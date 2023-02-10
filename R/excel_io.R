@@ -50,6 +50,7 @@ mapp_create_xlsx <- function(df_raw, mapping_file) {
 
   # Export the file
   saveWorkbook(wb, mapping_file)
+  message("Excel mapping file written to '", mapping_file, "'")
 }
 mapp_create_google <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
