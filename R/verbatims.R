@@ -41,7 +41,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
 
 generate_verbatim_sheet_table <- function(mapping_file, sheet) {
   mapping_verbatim_sheet <-
-    read_excel(mapping_file,
+    read_xlsx(mapping_file,
       skip = 16,
       sheet = sheet,
       col_names = TRUE,
@@ -77,7 +77,7 @@ generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
     excel_sheets()
 
   read_assigns <- function(sheet_name) {
-    read_excel(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cell_limits(ul = c(32, 4))) |>
+    read_xlsx(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cell_limits(ul = c(32, 4))) |>
       select(orig_var = "Orig. Variable", "ID", matches("^Zuord "))
   }
 
@@ -89,7 +89,7 @@ generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
 }
 generate_label_code_list <- function(verbatim_file) {
   df_codestufen <-
-    read_excel(
+    read_xlsx(
       verbatim_file,
       sheet = "Codestufen",
       col_names = TRUE,

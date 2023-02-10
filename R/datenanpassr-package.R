@@ -83,7 +83,6 @@
 #' @importFrom readxl cell_cols
 #' @importFrom readxl cell_limits
 #' @importFrom readxl excel_sheets
-#' @importFrom readxl read_excel
 #' @importFrom readxl read_xlsx
 #' @importFrom rlang := .data
 #' @importFrom rlang `%||%`
