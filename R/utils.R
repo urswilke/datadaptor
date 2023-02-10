@@ -196,13 +196,20 @@ globalVariables(".")
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #'
 #' extract_named_region_params(mapping_file)
-extract_named_region_params <- function(mapping_file) {
+extract_named_region_params <- function(mapping_file,
+                                        type = attr(mapping_file, "type")) {
   if (is.null(mapping_file)) {
     return(NULL)
   }
   if (is.list(mapping_file)) {
     return(NULL)
   }
+  if (type == "excel") {
+    named_params_list <- extract_named_region_params_excel(mapping_file)
+  }
+  named_params_list
+}
+extract_named_region_params_excel <- function(mapping_file) {
   wb <- loadWorkbook(mapping_file) |> suppressWarnings()
   named_regions_raw <- getNamedRegions(wb)
   if (is.null(named_regions_raw)) {
