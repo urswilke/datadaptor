@@ -4,7 +4,8 @@ m_unrefreshed <- Mapping$new(dat = "spss/q1_1.sav", mapping_file = "excel/mappin
 # m_unrefreshed$mapping_file <- "tests/testthat/excel/mapping_refresh.xlsx"
 # pretend as if the file was modified, by changing the mapping_file in the
 # Mapping object:
-m_unrefreshed$mapping_file <- "excel/mapping_refresh.xlsx"
+m_unrefreshed$mapping_file <- "excel/mapping_refresh.xlsx" |>
+  as_mapping_file_string()
 m_unrefreshed$params$refresh_sheet <- TRUE
 m_unrefreshed$modify_data()
 
