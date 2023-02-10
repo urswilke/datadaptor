@@ -88,6 +88,12 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
 }
 
 read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
+  if (attr(mapping_file, "type") == "google") {
+    return(read_sheet(
+      mapping_file,
+      sheet = sheet
+    ))
+  }
   if (translate_xlsm) {
     df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
   } else {
@@ -238,6 +244,12 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
+  if (attr(mapping_file, "type") == "google") {
+    return(read_sheet(
+      mapping_file,
+      sheet = sheet
+    ))
+  }
   if (translate_xlsm) {
     df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
   } else {
@@ -342,15 +354,26 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
-  df_free <- read_xlsx(
-    mapping_file,
-    range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
-    col_names = paste0("X", 1:5),
-    col_types = "text"
-  ) |>
+  if (attr(mapping_file, "type") == "google") {
+    df_free <- read_sheet(
+      mapping_file,
+      sheet = sheet,
+      range = "A:E",
+      col_types = "c",
+      col_names = paste0("X", 1:5)
+    )
+  }
+  if (attr(mapping_file, "type") == "excel") {
+    df_free <- read_xlsx(
+      mapping_file,
+      range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+      col_names = paste0("X", 1:5),
+      col_types = "text"
+    )
+  }
+  df_free |>
     mutate(row = row_number()) |>
     filter(if_any(starts_with("X"), ~ !is.na(.)))
-  df_free
 }
 
 
