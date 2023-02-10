@@ -1,5 +1,5 @@
 mapping_file <- "excel/test_save.xlsx"
-expect_message(expect_message(m <- Mapping$new(dat = tibble(a = c(1:3, NA)), mapping_file = mapping_file)))
+suppressMessages(m <- Mapping$new(dat = tibble(a = c(1:3, NA)), mapping_file = mapping_file))
 path <- m$params$save_path
 save_file_types <- c("sav", "dta", "xlsx")
 filenames <- "myfilename"
