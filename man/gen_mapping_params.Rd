@@ -33,7 +33,7 @@ gen_mapping_params(
 
 update_mapping_params(mapping_params, ...)
 
-extract_named_region_params(mapping_file)
+extract_named_region_params(mapping_file, type = attr(mapping_file, "type"))
 }
 \arguments{
 \item{mapping_file}{Path of the Excel mapping file. Alternatively, you can
