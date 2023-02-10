@@ -4,13 +4,16 @@
 \alias{mapp_create}
 \title{Create an Excel mapping file based on a labelled dataframe}
 \usage{
-mapp_create(df_raw, mapping_file)
+mapp_create(df_raw, mapping_file, type = "excel")
 }
 \arguments{
 \item{df_raw}{dataframe with labelled variables, e.g. resulting from
 haven::read_sav}
 
 \item{mapping_file}{name of the Excel file to be created}
+
+\item{type}{String specifying the mapping type. Either "excel" or "google"
+(for googlesheets). Defaults to "excel".}
 }
 \description{
 The mapping file consists of the sheets "Variables", "Label", "Verbatims" &
@@ -26,5 +29,6 @@ spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpas
 df <- haven::read_sav(spss_file)
 \dontrun{
 mapp_create(df, "mapping.xlsx")
+mapp_create(df, "mapping_googlesheets", type = "google")
 }
 }

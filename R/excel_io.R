@@ -11,6 +11,8 @@
 #' @param df_raw dataframe with labelled variables, e.g. resulting from
 #'   haven::read_sav
 #' @param mapping_file name of the Excel file to be created
+#' @param type String specifying the mapping type. Either "excel" or "google"
+#'   (for googlesheets). Defaults to "excel".
 #'
 #' @export
 #'
@@ -19,8 +21,17 @@
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
+#' mapp_create(df, "mapping_googlesheets", type = "google")
 #' }
-mapp_create <- function(df_raw, mapping_file) {
+mapp_create <- function(df_raw, mapping_file, type = "excel") {
+  if (type == "excel") {
+    mapp_create_xlsx(df_raw, mapping_file)
+  }
+  if (type == "google") {
+    mapp_create_google(df_raw, mapping_file)
+  }
+}
+mapp_create_xlsx <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
   df_vallabs <- gen_label_table(df_raw)
 
@@ -39,6 +50,17 @@ mapp_create <- function(df_raw, mapping_file) {
 
   # Export the file
   saveWorkbook(wb, mapping_file)
+}
+mapp_create_google <- function(df_raw, mapping_file) {
+  df_varlab <- gen_var_table(df_raw)
+  df_vallabs <- gen_label_table(df_raw)
+
+  gs <- gs4_create(mapping_file, sheets = c("Variables", "Label", "verbatims", "Free1"))
+
+  sheet_write(df_varlab, ss = gs, sheet = "Variables")
+  sheet_write(df_vallabs, ss = gs, sheet = "Label")
+
+  gs4_get(gs)
 }
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
