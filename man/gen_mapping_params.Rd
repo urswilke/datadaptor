@@ -8,6 +8,7 @@
 \usage{
 gen_mapping_params(
   mapping_file = NULL,
+  mapping_type = "excel",
   excel_params = extract_excel_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
@@ -40,6 +41,9 @@ pass an R list object containing named dataframes that is in the shape of
 the \code{Mapping$cmd$sheet_data_raw} field (see section
 "Parse the sheets to R list objects" in
 \code{vignette("translating_command_blocks_to_R")}).}
+
+\item{mapping_type}{String specifying the mapping type. Either "excel" or "google"
+(for googlesheets). Defaults to "excel".}
 
 \item{excel_params}{Params parameters read from Excel file; see
 \code{extract_excel_params()}.}

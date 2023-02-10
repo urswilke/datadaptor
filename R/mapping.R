@@ -313,6 +313,8 @@ initialize_dat <- function(self, dat) {
 #'   `vignette("translating_command_blocks_to_R")`).
 #' @param excel_params Params parameters read from Excel file; see
 #'   `extract_excel_params()`.
+#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
+#'   (for googlesheets). Defaults to "excel".
 #' @param id_var character string of the id variable name in the dataset.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
@@ -359,6 +361,7 @@ initialize_dat <- function(self, dat) {
 #' gen_mapping_params(mapping_file)
 gen_mapping_params <- function(
   mapping_file = NULL,
+  mapping_type = "excel",
   excel_params = extract_excel_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
@@ -394,6 +397,7 @@ gen_mapping_params <- function(
   # }
   if (!is.null(mapping_file)) {
     attr(mapping_file, "translate_xlsm") <- translate_xlsm
+    attr(mapping_file, "type") <- mapping_type
   }
 
   p <- lst(
