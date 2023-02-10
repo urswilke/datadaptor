@@ -29,10 +29,10 @@ refresh_mapping_sheet <- function(self) {
 }
 
 get_sheets <- function(mapping_file) {
-  if (attr(mapping_file, "type") == "excel") {
+  if (attr(mapping_file, "mapping_type") == "excel") {
     return(excel_sheets(mapping_file))
   }
-  if (attr(mapping_file, "type") == "google") {
+  if (attr(mapping_file, "mapping_type") == "google") {
     gs <- googlesheets4::gs4_get(mapping_file)
     return(gs$sheets$name)
   }

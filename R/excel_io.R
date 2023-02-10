@@ -11,7 +11,7 @@
 #' @param df_raw dataframe with labelled variables, e.g. resulting from
 #'   haven::read_sav
 #' @param mapping_file name of the Excel file to be created
-#' @param type String specifying the mapping type. Either "excel" or "google"
+#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
 #'   (for googlesheets). Defaults to "excel".
 #'
 #' @export
@@ -21,13 +21,13 @@
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
-#' mapp_create(df, "mapping_googlesheets", type = "google")
+#' mapp_create(df, "mapping_googlesheets", mapping_type = "google")
 #' }
-mapp_create <- function(df_raw, mapping_file, type = "excel") {
-  if (type == "excel") {
+mapp_create <- function(df_raw, mapping_file, mapping_type = "excel") {
+  if (mapping_type == "excel") {
     mapp_create_xlsx(df_raw, mapping_file)
   }
-  if (type == "google") {
+  if (mapping_type == "google") {
     mapp_create_google(df_raw, mapping_file)
   }
 }
@@ -88,7 +88,7 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
 }
 
 read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
-  if (attr(mapping_file, "type") == "google") {
+  if (attr(mapping_file, "mapping_type") == "google") {
     return(read_sheet(
       mapping_file,
       sheet = sheet
@@ -244,7 +244,7 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
-  if (attr(mapping_file, "type") == "google") {
+  if (attr(mapping_file, "mapping_type") == "google") {
     return(read_sheet(
       mapping_file,
       sheet = sheet
@@ -354,7 +354,7 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     process_raw_free_cmd_table()
 }
 mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
-  if (attr(mapping_file, "type") == "google") {
+  if (attr(mapping_file, "mapping_type") == "google") {
     df_free <- read_sheet(
       mapping_file,
       sheet = sheet,
@@ -363,7 +363,7 @@ mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
       col_names = paste0("X", 1:5)
     )
   }
-  if (attr(mapping_file, "type") == "excel") {
+  if (attr(mapping_file, "mapping_type") == "excel") {
     df_free <- read_xlsx(
       mapping_file,
       range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),

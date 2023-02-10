@@ -187,17 +187,17 @@ globalVariables(".")
 #'
 #' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
 extract_named_region_params <- function(mapping_file,
-                                        type = attr(mapping_file, "type")) {
+                                        mapping_type = attr(mapping_file, "mapping_type")) {
   if (is.null(mapping_file)) {
     return(NULL)
   }
   if (is.list(mapping_file)) {
     return(NULL)
   }
-  if (type == "excel") {
+  if (mapping_type == "excel") {
     named_params_list <- extract_named_region_params_excel(mapping_file)
   }
-  if (type == "google") {
+  if (mapping_type == "google") {
     named_params_list <- extract_named_region_params_google(mapping_file)
   }
   named_params_list

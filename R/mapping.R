@@ -442,7 +442,7 @@ as_mapping_file_string <- function(mapping_file,
     return(NULL)
   }
   attr(mapping_file, "translate_xlsm") <- translate_xlsm
-  attr(mapping_file, "type") <- mapping_type
+  attr(mapping_file, "mapping_type") <- mapping_type
   mapping_file
 }
 
