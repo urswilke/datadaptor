@@ -260,7 +260,7 @@ extract_named_region_params_google <- function(mapping_file) {
           suppressMessages()
       )
     ) |>
-    filter(!map_lgl(params_df$data, is_empty)) |>
+    filter(!map_lgl(.data$data, is_empty)) |>
     unnest(.data$data)
 
 
