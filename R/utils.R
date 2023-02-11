@@ -208,7 +208,7 @@ extract_named_region_params_excel <- function(mapping_file) {
   named_regions <- as_tibble(named_regions_raw)
 
 
-  configr <- named_regions |>
+  params_df <- named_regions |>
     filter(grepl("^R_*", .data$value)) |>
     mutate(
       data = map(
@@ -226,8 +226,8 @@ extract_named_region_params_excel <- function(mapping_file) {
     )
 
 
-  named_params_list <- configr$data
-  names(named_params_list) <- str_sub(configr$value, 3)
+  named_params_list <- params_df$data
+  names(named_params_list) <- str_sub(params_df$value, 3)
 
   is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
@@ -247,7 +247,7 @@ extract_named_region_params_google <- function(mapping_file) {
     return(NULL)
   }
 
-  configr <- named_regions |>
+  params_df <- named_regions |>
     filter(grepl("^R_*", .data$name)) |>
     mutate(
       data = map(
@@ -260,12 +260,12 @@ extract_named_region_params_google <- function(mapping_file) {
           suppressMessages()
       )
     ) |>
-    filter(!map_lgl(configr$data, is_empty)) |>
+    filter(!map_lgl(params_df$data, is_empty)) |>
     unnest(.data$data)
 
 
-  named_params_list <- configr$data
-  names(named_params_list) <- str_sub(configr$name, 3)
+  named_params_list <- params_df$data
+  names(named_params_list) <- str_sub(params_df$name, 3)
 
   is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
