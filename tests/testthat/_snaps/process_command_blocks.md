@@ -38,9 +38,6 @@
     $write_mapping_to_txt
     [1] FALSE
     
-    $override_excel
-    [1] FALSE
-    
     $lab_before_var_sheet
     [1] "yes"
     

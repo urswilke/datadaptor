@@ -17,7 +17,6 @@ gen_mapping_params(
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
-  override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
   miss_rec_lab = "FILTER",
@@ -25,7 +24,6 @@ gen_mapping_params(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
-  dots_args,
   ...
 )
 
@@ -71,9 +69,6 @@ files (for instance, in order to allow for git version control during the
 course of a project that evolves). Defaults to FALSE. Will probably be
 deprecated in the future.}
 
-\item{override_excel}{should arguments passed with the \code{...} dots when
-initializing overwrite those from the Excel file? Defaults to \code{FALSE}.}
-
 \item{expr_eval_env}{The environment where expressions are evaluated. See
 \code{?safer_env}.}
 
@@ -95,8 +90,6 @@ names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 lowercase during data modification, and rename them back to their original
 case (if still existing) in the end.}
 
-\item{dots_args}{for internal use.}
-
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
 }
 \value{
@@ -110,8 +103,7 @@ parameters in the \code{params} field when a Mapping object is constructed with
 \code{Mapping$new()}. It generates a list of named elements with mapping
 parameters. The argument values are the below default values, then
 overwritten if passed by the \code{...} dots, and then overwritten by the Excel
-file. If \code{override_excel = FALSE} the Excel parameters will prevail, and
-otherwise overwritten by the dots.
+file.
 
 \code{extract_named_region_params()} extracts the named regions from the
 mapping file. Those starting with "R_" are read into a named list, having

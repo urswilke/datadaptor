@@ -71,7 +71,7 @@ Mapping <- R6Class(
                           ...) {
       self$dat <- initialize_dat(self, dat)
 
-      self$params <- gen_mapping_params(mapping_file, dots_args = lst(...), ...)
+      self$params <- gen_mapping_params(mapping_file, ...)
       self$mapping_file <- self$params$mapping_file
       if (!is.null(mapping_file)) {
         process_command_blocks(self)
@@ -284,8 +284,7 @@ initialize_dat <- function(self, dat) {
 #'   `Mapping$new()`. It generates a list of named elements with mapping
 #'   parameters. The argument values are the below default values, then
 #'   overwritten if passed by the `...` dots, and then overwritten by the Excel
-#'   file. If `override_excel = FALSE` the Excel parameters will prevail, and
-#'   otherwise overwritten by the dots.
+#'   file.
 #'
 #' @param mapping_file Path of the Excel mapping file. Alternatively, you can
 #'   pass an R list object containing named dataframes that is in the shape of
@@ -312,8 +311,6 @@ initialize_dat <- function(self, dat) {
 #'   files (for instance, in order to allow for git version control during the
 #'   course of a project that evolves). Defaults to FALSE. Will probably be
 #'   deprecated in the future.
-#' @param override_excel should arguments passed with the `...` dots when
-#'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
 #' @param expr_eval_env The environment where expressions are evaluated. See
 #'   `?safer_env`.
 #' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
@@ -328,7 +325,6 @@ initialize_dat <- function(self, dat) {
 #' @param lowercase_varnames Whether to transform all variable names to
 #'   lowercase during data modification, and rename them back to their original
 #'   case (if still existing) in the end.
-#' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
@@ -350,7 +346,6 @@ gen_mapping_params <- function(
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
-  override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
   miss_rec_lab = "FILTER",
@@ -358,10 +353,6 @@ gen_mapping_params <- function(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
-  # Needed for developing...:
-  # These only need to interest you if you want to override params that
-  # already were defined in the Excel file (see arg `override_excel`):
-  dots_args,
   ...
 
 ) {
@@ -390,7 +381,6 @@ gen_mapping_params <- function(
     debug,
     write_mapping_to_txt,
     save_path,
-    override_excel,
     expr_eval_env,
     lab_before_var_sheet,
     miss_rec_lab,
@@ -405,9 +395,6 @@ gen_mapping_params <- function(
 
   if (!is.null(p$excel_params)) {
     p[names(p$excel_params)] <- p$excel_params
-  }
-  if (override_excel) {
-    p[names(dots_args)] <- dots_args
   }
   p
 }
