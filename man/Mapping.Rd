@@ -100,16 +100,9 @@ Process all command blocks of the Excel mapping file to R. The command
 blocks of the Excel mapping file are translated to the \code{command_blocks()} field
 \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$prep_cmd_tbl(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$prep_cmd_tbl()}\if{html}{\out{</div>}}
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Arguments passed to \code{update_mapping_params()}}
-}
-\if{html}{\out{</div>}}
-}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-modify_data"></a>}}
@@ -121,11 +114,7 @@ the argument \code{command_blocks} (defaults to the Mapping's
 the field \code{"dat_mod"} according to their subclass methods of
 \code{apply_command()}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(
-  reset = TRUE,
-  command_blocks = self$cmd_tbl$command_blocks,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -137,8 +126,6 @@ when applying \code{modify_data()} multiple times).}
 
 \item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
 processing of the Excel mapping file.}
-
-\item{\code{...}}{Arguments passed to \code{update_mapping_params()}}
 }
 \if{html}{\out{</div>}}
 }
