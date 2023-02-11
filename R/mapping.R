@@ -74,17 +74,8 @@ Mapping <- R6Class(
       self$params <- gen_mapping_params(mapping_file, dots_args = lst(...), ...)
       self$mapping_file <- self$params$mapping_file
       if (!is.null(mapping_file)) {
-        self$prep_cmd_tbl()
+        process_command_blocks(self)
       }
-    },
-    #' @description Process all command blocks of the Excel mapping file to R. The command
-    #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
-    #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
-    #'
-    prep_cmd_tbl = function() {
-      process_command_blocks(self)
-
-      invisible(self)
     },
     #' @description Run all command blocks of the mapping file. The commands in
     #'   the argument `command_blocks` (defaults to the Mapping's
