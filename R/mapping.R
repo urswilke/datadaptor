@@ -354,14 +354,6 @@ gen_mapping_params <- function(
   ...
 
 ) {
-  # if (is.null(id_var) & is.null(excel_params)) {
-  #   stop(
-  #     "You need to pass a valid id variable name character string in your dataset\n",
-  #     "for instance, ",
-  #     'id_var = "ID_VARIABLE_NAME"\n',
-  #     'or you can define this string with a named region "R_id_var"',
-  #     'in the Excel mapping file.')
-  # }
   mapping_file <- as_mapping_file_string(
     mapping_file,
     translate_xlsm,

@@ -3,7 +3,6 @@ testthat::expect_equal(class(mapping), c( "Mapping", "R6"))
 testthat::expect_warning(Mapping$new(mapping_file = "excel/mapping_with_non_defined_param.xlsx"))
 
 
-# testthat::expect_error(Mapping$new(luifaliufli = 1))
 
 
 mapping_file <- "excel/mapping_old.xlsx"
@@ -11,27 +10,9 @@ spss_file <- "spss/fake_survey.sav"
 
 
 mapping_s3 <- mapping$clone(deep = TRUE)
-# tests doesnt work on other machines:
-# test_that("class object print is reproduced", {
-#   testthat::expect_snapshot_output(
-#     mapping_s3
-#   )
-# })
-# testthat::expect_message(testthat::expect_message(mapping_s3$gen_command_table_raw()))
 
 mapping_s3$modify_data()
 
-# cbs <- mapping_s3$cmd_tbl$command_blocks
-# incl_block_bool <-
-#   !purrr::map_chr(cbs, "action") %in%
-#   c("#MERGE", "#RFUN")
-# test_that("command blocks print is reproduced", {
-#   testthat::expect_snapshot_output({
-#     cbs[incl_block_bool]
-#   }
-#
-#   )
-# })
 
 test_that("s3 modified data print is reproduced", {
   testthat::expect_snapshot_output({
@@ -58,8 +39,6 @@ mapping_trycatch <- mapping$clone(deep = TRUE)
 mapping_trycatch$params$error_out  <-  "safe"
 class(mapping_trycatch$cmd_tbl$command_blocks) <- c("validated", "safe", "command_blocks", "list")
 mapping_trycatch$cmd_tbl$command_blocks[[62]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
-# mapping_trycatch$cmd_tbl$command_blocks[[62]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
-# mapping_trycatch$cmd_tbl$command_blocks[[63]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 
 testthat::expect_message(mapping_trycatch$modify_data())
 error_list <- mapping_trycatch$params$error_list
