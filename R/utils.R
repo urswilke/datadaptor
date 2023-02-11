@@ -188,9 +188,6 @@ globalVariables(".")
 #' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
 extract_named_region_params <- function(mapping_file,
                                         mapping_type = attr(mapping_file, "mapping_type")) {
-  if (is.null(mapping_file)) {
-    return(NULL)
-  }
   if (is.list(mapping_file)) {
     return(NULL)
   }

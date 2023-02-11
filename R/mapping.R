@@ -73,9 +73,7 @@ Mapping <- R6Class(
 
       self$params <- gen_mapping_params(mapping_file, ...)
       self$mapping_file <- self$params$mapping_file
-      if (!is.null(mapping_file)) {
-        process_command_blocks(self)
-      }
+      process_command_blocks(self)
     },
     #' @description Run all command blocks of the mapping file. The commands in
     #'   the argument `command_blocks` (defaults to the Mapping's
@@ -402,9 +400,6 @@ gen_mapping_params <- function(
 as_mapping_file_string <- function(mapping_file,
                                    translate_xlsm = FALSE,
                                    mapping_type = "excel") {
-  if (is.null(mapping_file)) {
-    return(NULL)
-  }
   attr(mapping_file, "translate_xlsm") <- translate_xlsm
   attr(mapping_file, "mapping_type") <- mapping_type
   mapping_file
