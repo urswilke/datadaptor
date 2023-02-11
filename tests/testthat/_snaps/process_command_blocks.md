@@ -53,9 +53,6 @@
     $not_miss_to_filter_vars
     [1] "q1 q5"
     
-    $refresh_sheet
-    [1] FALSE
-    
     $lowercase_varnames
     [1] FALSE
     

@@ -1,31 +1,13 @@
 process_command_blocks <- function(self) {
-  if (self$params$refresh_sheet) {
-    refresh_mapping_sheet(self)
-  } else {
-    self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
-    self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
-    self$cmd$df_cmd_raw <- gen_command_table_raw(self)
-    self$cmd$command_blocks <- command_blocks(self)
-    self$cmd_tbl <- gen_command_table(self)
-  }
+  self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self)
+  self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
+  self$cmd$df_cmd_raw <- gen_command_table_raw(self)
+  self$cmd$command_blocks <- command_blocks(self)
+  self$cmd_tbl <- gen_command_table(self)
 
   if (self$params$write_mapping_to_txt) {
     write_mapping_txt(self)
   }
-}
-refresh_mapping_sheet <- function(self) {
-  sheet_cats <- names(self$cmd$sheet_data_raw) |>
-    tab_sheet_types()
-  all_sheets <- get_sheets(self$mapping_file)
-  active_sheet_index <- loadWorkbook(self$mapping_file) |> activeSheet()
-  active_sheet_name <- all_sheets[active_sheet_index]
-  sheet_data_raw_index <- which(sheet_cats$sheet == active_sheet_name)
-  active_sheet_type <- sheet_cats$sheet_type[sheet_data_raw_index]
-  self$cmd$sheet_data_raw[[active_sheet_name]] <- gen_sheet_data_raw(self, sheet_cats$sheet_type[sheet_data_raw_index], sheet_cats$sheet[sheet_data_raw_index])
-  self$cmd$sheet_command_tables_raw[[active_sheet_name]] <- generate_sheet_cmd_table(self, active_sheet_type, active_sheet_name)
-  self$cmd$df_cmd_raw <- gen_command_table_raw(self)
-  self$cmd$command_blocks <- command_blocks(self)
-  self$cmd_tbl <- gen_command_table(self)
 }
 
 get_sheets <- function(mapping_file) {

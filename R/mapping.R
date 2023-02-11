@@ -105,10 +105,6 @@ Mapping <- R6Class(
                            ...) {
       update_params = list(...)
 
-      # recalculate if Mapping$params$refresh_sheet is TRUE and passed arg refresh_sheet is in ... and is not FALSE:
-      if (self$params$refresh_sheet & !(!is.null(update_params$refresh_sheet) && update_params$refresh_sheet))  {
-        self$prep_cmd_tbl(update_params)
-      }
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }
@@ -344,8 +340,6 @@ initialize_dat <- function(self, dat) {
 #'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param refresh_sheet Whether to only refresh_sheet the generation of the current active
-#'   sheet in the Excel mapping file.
 #' @param lowercase_varnames Whether to transform all variable names to
 #'   lowercase during data modification, and rename them back to their original
 #'   case (if still existing) in the end.
@@ -378,7 +372,6 @@ gen_mapping_params <- function(
   miss_rec_val = -2,
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
-  refresh_sheet = FALSE,
   lowercase_varnames = FALSE,
   # Needed for developing...:
   # These only need to interest you if you want to override params that
@@ -418,7 +411,6 @@ gen_mapping_params <- function(
     miss_rec_lab,
     miss_rec_val,
     not_miss_to_filter_vars,
-    refresh_sheet,
     lowercase_varnames,
     ...
   )
