@@ -384,7 +384,7 @@ gen_mapping_params <- function(
   }
 
   if (!is.null(p$excel_params)) {
-    p <- modifyList(p, p$excel_params)
+    p[names(p$excel_params)] <- p$excel_params
   }
   p
 }
