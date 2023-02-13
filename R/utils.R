@@ -174,18 +174,6 @@ is_true_vec <- function(x) Vectorize(isTRUE)(x)
 globalVariables(".")
 
 
-#' @description `extract_named_region_params()` extracts the named regions from the
-#'   mapping file. Those starting with "R_" are read into a named list, having
-#'   their "R_" prefix removed.
-#'
-#' @return named list
-#' @export
-#' @rdname gen_mapping_params
-#'
-#' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#'
-#' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
 extract_named_region_params <- function(mapping_file) {
   UseMethod("extract_named_region_params", mapping_file)
 }

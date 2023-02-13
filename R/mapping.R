@@ -75,6 +75,8 @@ Mapping <- R6Class(
     #'
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
+    #' @param mapping_type String specifying the mapping type. Either "excel", "google"
+    #'   (for googlesheets), or "list".
     #' @param ... Arguments passed to gen_mapping_params() which will populate
     #'   the `params` field of the object.
     initialize = function(dat = NULL,
@@ -374,7 +376,10 @@ initialize_dat <- function(self, dat) {
 #' @export
 #'
 #' @examples
+#' # Only for documentation purposes:
+#' # (`gen_mapping_params()` isn't supposed to be be called directly).
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' class(mapping_file) <- "excel"
 #'
 #' gen_mapping_params(mapping_file)
 gen_mapping_params <- function(

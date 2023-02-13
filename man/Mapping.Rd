@@ -47,7 +47,8 @@ mapping$dat_mod
 \item{\code{dat}}{(filepath to pass to \code{haven::read_sav()} to read in the)
 labelled dataframe to apply the mapping on.}
 
-\item{\code{mapping_file}}{filepath of the Excel mapping file}
+\item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
+this string will be set to "mapping_type".}
 
 \item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
 (for googlesheets), or "list". If not specified, when initializing it is
@@ -85,7 +86,7 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \subsection{Method \code{new()}}{
 Initialize a Mapping object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL, mapping_type = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -94,6 +95,9 @@ Initialize a Mapping object
 \item{\code{dat}}{Dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
+
+\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
+(for googlesheets), or "list".}
 
 \item{\code{...}}{Arguments passed to gen_mapping_params() which will populate
 the \code{params} field of the object.}
