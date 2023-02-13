@@ -10,7 +10,6 @@ gen_mapping_params(
   excel_params = extract_named_region_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
-  translate_xlsm = FALSE,
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
@@ -42,8 +41,6 @@ the \code{Mapping$cmd$sheet_data_raw} field (see section
 \item{error_out}{character string. Either "safe" or "unsafe" (the default).
 Whether to continue executing when a command block fails, or to error out.
 Adds a column "error" to the mapping's command table \code{mapping$cmd_tbl}.}
-
-\item{translate_xlsm}{for internal use}
 
 \item{debug}{whether to enter in debug mode when an error occurs.
 Automatically sets \code{error_out = "safe"}.}

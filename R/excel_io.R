@@ -96,27 +96,11 @@ read_variables_sheet_raw.google <- function(mapping_file, sheet) {
   )
 }
 read_variables_sheet_raw.excel <- function(mapping_file, sheet) {
-  if (attr(mapping_file, "translate_xlsm")) {
-    df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
-  } else {
-    df_varl <- read_xlsx(
-      mapping_file,
-      sheet = sheet,
-      col_types = "text"
-    )
-  }
-  df_varl
-}
-
-read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
   read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = cell_limits(c(3, 1), c(NA, 13)),
-    col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
     col_types = "text"
-  ) |>
-    select(-matches("^nn[1-8]$"))
+  )
 }
 
 format_df_varl <- function(df_varl) {
@@ -256,38 +240,11 @@ read_label_sheet_raw.google <- function(mapping_file, sheet) {
   )
 }
 read_label_sheet_raw.excel <- function(mapping_file, sheet) {
-  if (attr(mapping_file, "translate_xlsm")) {
-    df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
-  } else {
-    df_vall <- read_xlsx(
-      mapping_file,
-      sheet = sheet
-    )
-  }
-  df_vall
-}
-
-read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
   read_xlsx(
     mapping_file,
-    sheet = sheet,
-    range = cell_limits(c(3, 1), c(NA, 9)),
-    col_names = c(
-      "var", "nv", "vallab", "new_label", "not_needed1",
-      "not_needed2", "sum_var_label", "sum_var_value",
-      "sum_var_vallab"
-    ),
-    col_types = "text"
-  ) |>
-    select(-all_of(c("not_needed1", "not_needed2"))) |>
-    mutate(
-      nv = as.numeric(.data$nv),
-      sum_var_value = as.numeric(.data$sum_var_value)
-    ) |>
-    fill("var")
+    sheet = sheet
+  )
 }
-
-
 
 parse_sumvar_cmd_table <- function(df_vall) {
   df_vall |>
