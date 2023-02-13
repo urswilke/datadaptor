@@ -2,7 +2,7 @@ process_command_blocks <- function(self) {
   self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
   self$cmd$sheet_command_tables_raw <- gen_sheet_cmd_tbls(self)
   self$cmd$df_cmd_raw <- gen_df_cmd_raw(self)
-  self$cmd$command_blocks <- command_blocks(self)
+  self$cmd$command_blocks <- gen_command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
 
   if (self$params$write_mapping_to_txt) {
@@ -215,13 +215,13 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 }
 
 
-# command_blocks() --------------------------------------------------------
+# gen_command_blocks() --------------------------------------------------------
 
-#' Command_blocks objects
+#' gen_command_blocks objects
 #'
 #' @param self `Mapping` object
 #' @details
-#'   `command_blocks()` generates an object of class `command_blocks` and of subclass
+#'   `gen_command_blocks()` generates an object of class `command_blocks` and of subclass
 #' `self$params$error_out`.
 #'
 #'   `apply_command_blocks()` applies `"command_blocks"` object to a mapping object.
@@ -236,12 +236,12 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
 #' m <- Mapping$new(spss_file, mapping_file)
-#' command_blocks(m)
+#' gen_command_blocks(m)
 #' # This object was automatically generated when m was created.
 #' # you can access it with:
 #' # m$cmd$command_blocks
 #' class(m$cmd$command_blocks)
-command_blocks <- function(self) {
+gen_command_blocks <- function(self) {
   cdbs <- self$cmd$df_cmd_raw |>
     rowwise() |>
     transmute(cmd = list(
