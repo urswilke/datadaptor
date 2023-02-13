@@ -1,7 +1,7 @@
 process_command_blocks <- function(self) {
   self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
   self$cmd$sheet_command_tables_raw <- gen_sheet_cmd_tbls(self)
-  self$cmd$df_cmd_raw <- gen_command_table_raw(self)
+  self$cmd$df_cmd_raw <- gen_df_cmd_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
   self$cmd_tbl <- gen_command_table(self)
 
@@ -147,9 +147,9 @@ generate_rec_na_cmd_table <- function(self) {
 
 
 
-# gen_command_table_raw() -------------------------------------------------
+# gen_df_cmd_raw() -------------------------------------------------
 
-gen_command_table_raw <- function(self) {
+gen_df_cmd_raw <- function(self) {
   bind_rows(
     self$cmd$sheet_command_tables_raw,
     .id = "sheet"
