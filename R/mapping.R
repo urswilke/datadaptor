@@ -5,7 +5,7 @@ NULL
 #' Mapping class
 #'
 #'
-#' @description The class \code{Mapping} can be used to apply the changes
+#' @description The `R6::R6Class()` \code{Mapping} can be used to apply the changes
 #'   specified in the command blocks of an Excel mapping file to a (labelled)
 #'   dataframe.
 #'
