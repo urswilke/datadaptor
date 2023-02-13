@@ -1,5 +1,5 @@
 process_command_blocks <- function(self) {
-  self$cmd$sheet_data_raw <- gen_sheet_data_raw_list(self$mapping_file, self)
+  self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
   self$cmd$sheet_command_tables_raw <- gen_sheet_command_tables_raw(self)
   self$cmd$df_cmd_raw <- gen_command_table_raw(self)
   self$cmd$command_blocks <- command_blocks(self)
@@ -11,15 +11,15 @@ process_command_blocks <- function(self) {
 }
 
 
-# gen_sheet_data_raw_list() -----------------------------------------------
+# read_sheets() -----------------------------------------------
 
-gen_sheet_data_raw_list <- function(mapping_file, self) {
-  UseMethod("gen_sheet_data_raw_list")
+read_sheets <- function(mapping_file, self) {
+  UseMethod("read_sheets")
 }
-gen_sheet_data_raw_list.list <- function(mapping_file, self) {
+read_sheets.list <- function(mapping_file, self) {
   mapping_file
 }
-gen_sheet_data_raw_list.default <- function(mapping_file, self) {
+read_sheets.default <- function(mapping_file, self) {
   sheet_cats <- gen_sheet_cats(mapping_file, self)
   map2(
     sheet_cats$sheet |>
