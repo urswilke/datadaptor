@@ -49,6 +49,16 @@ labelled dataframe to apply the mapping on.}
 
 \item{\code{mapping_file}}{filepath of the Excel mapping file}
 
+\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
+(for googlesheets), or "list". If not specified, when initializing it is
+auto-determined:
+\itemize{
+\item{"list": }{If \code{mapping_file} is a list object.}
+\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
+\item{"google": }{If \code{mapping_file} is another string, it is assumed that
+it is a valid \code{googlesheets4::as_sheets_id()}.}
+}}
+
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block

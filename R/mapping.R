@@ -16,7 +16,17 @@ NULL
 #'
 #' @field dat (filepath to pass to \code{haven::read_sav()} to read in the)
 #'   labelled dataframe to apply the mapping on.
-#' @field mapping_file filepath of the Excel mapping file
+#' @field mapping_file Mapping file document (see `mapping_type`). The class of
+#'   this string will be set to "mapping_type".
+#' @field mapping_type String specifying the mapping type. Either "excel", "google"
+#'   (for googlesheets), or "list". If not specified, when initializing it is
+#'   auto-determined:
+#'   \itemize{
+#'     \item{"list": }{If `mapping_file` is a list object.}
+#'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
+#'     \item{"google": }{If `mapping_file` is another string, it is assumed that
+#'       it is a valid `googlesheets4::as_sheets_id()`.}
+#'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
@@ -56,6 +66,7 @@ Mapping <- R6Class(
   public = list(
     dat = NULL,
     mapping_file = NULL,
+    mapping_type = NULL,
     cmd_tbl = data.frame(),
     cmd = list(),
     dat_mod = NULL,
@@ -68,11 +79,22 @@ Mapping <- R6Class(
     #'   the `params` field of the object.
     initialize = function(dat = NULL,
                           mapping_file = NULL,
+                          mapping_type = NULL,
                           ...) {
+      self$mapping_file <- mapping_file
+      self$mapping_type <- mapping_type
+
+      set_mapping_type(self)
+
       self$dat <- initialize_dat(self, dat)
 
-      self$params <- gen_mapping_params(mapping_file, ...)
-      self$mapping_file <- self$params$mapping_file
+      self$params <- gen_mapping_params(self$mapping_file, ...)
+      # !!!remove
+      self$mapping_file <- as_mapping_file_string(
+        self$mapping_file,
+        self$params$translate_xlsm,
+        self$mapping_type
+      )
       process_command_blocks(self)
     },
     #' @description Run all command blocks of the mapping file. The commands in
@@ -117,7 +139,27 @@ Mapping <- R6Class(
   )
 )
 
-
+determine_mapping_type <- function(self) {
+  if (!is.null(self$mapping_type)) {
+    return(self$mapping_type)
+  }
+  if (is.list(self$mapping_file)) {
+    return("list")
+  }
+  file_ending <- self$mapping_file |>
+    str_extract("(?<=\\.)([[:alnum:]]+)$")
+  if (str_detect(file_ending, "^xls[xm]$")) {
+    return("excel")
+  }
+  if (is.character(self$mapping_file)) {
+    return("google")
+  }
+  stop("`mapping_type` couldn't be determined.")
+}
+set_mapping_type <- function(self) {
+  self$mapping_type <- determine_mapping_type(self)
+  class(self$mapping_file) <- self$mapping_type
+}
 rename_vars_to_original_case <- function(df) {
   orig_names <- attr(df, "original_varnames")
   rename_vec <- tibble(orig_names) |>
@@ -354,11 +396,6 @@ gen_mapping_params <- function(
   ...
 
 ) {
-  mapping_file <- as_mapping_file_string(
-    mapping_file,
-    translate_xlsm,
-    mapping_type
-  )
 
   p <- lst(
     mapping_file,
@@ -366,6 +403,8 @@ gen_mapping_params <- function(
     id_var,
     na_to_filter,
     error_out,
+    # remove!!!
+    translate_xlsm,
     validate,
     dyn_validate,
     debug,
@@ -389,6 +428,7 @@ gen_mapping_params <- function(
   p
 }
 
+# !!!remove
 as_mapping_file_string <- function(mapping_file,
                                    translate_xlsm = FALSE,
                                    mapping_type = "excel") {
