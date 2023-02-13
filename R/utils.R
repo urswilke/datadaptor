@@ -174,32 +174,14 @@ is_true_vec <- function(x) Vectorize(isTRUE)(x)
 globalVariables(".")
 
 
-#' @description `extract_named_region_params()` extracts the named regions from the
-#'   mapping file. Those starting with "R_" are read into a named list, having
-#'   their "R_" prefix removed.
-#'
-#' @return named list
-#' @export
-#' @rdname gen_mapping_params
-#'
-#' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#'
-#' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
-extract_named_region_params <- function(mapping_file,
-                                        mapping_type = attr(mapping_file, "mapping_type")) {
-  if (is.list(mapping_file)) {
-    return(NULL)
-  }
-  if (mapping_type == "excel") {
-    named_params_list <- extract_named_region_params_excel(mapping_file)
-  }
-  if (mapping_type == "google") {
-    named_params_list <- extract_named_region_params_google(mapping_file)
-  }
-  named_params_list
+extract_named_region_params <- function(mapping_file) {
+  UseMethod("extract_named_region_params", mapping_file)
 }
-extract_named_region_params_excel <- function(mapping_file) {
+extract_named_region_params.list <- function(variables) {
+  NULL
+}
+
+extract_named_region_params.excel <- function(mapping_file) {
   wb <- loadWorkbook(mapping_file) |> suppressWarnings()
   named_regions_raw <- getNamedRegions(wb)
   if (is.null(named_regions_raw)) {
@@ -240,8 +222,8 @@ extract_named_region_params_excel <- function(mapping_file) {
   named_params_list
 }
 
-extract_named_region_params_google <- function(mapping_file) {
-  gs <- gs4_get(mapping_file)
+extract_named_region_params.google <- function(mapping_file) {
+  gs <- gs4_get(mapping_file |> as.character())
   named_regions <- gs$named_ranges
   if (is.null(named_regions)) {
     return(NULL)
