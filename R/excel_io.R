@@ -104,7 +104,15 @@ read_variables_sheet_raw.excel <- function(mapping_file, sheet) {
 }
 
 format_df_varl <- function(df_varl) {
-  df_varl |>
+  bind_rows(
+    tibble(
+      var       = character(),
+      op        = character(),
+      new_name  = character(),
+      new_label = character()
+    ),
+    df_varl
+  ) |>
     mutate(row = (row_number() + 1) |> as.character()) |>
     parse_varlab_cmd_table()
 }
@@ -222,7 +230,17 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   df_vall <- self$cmd$sheet_data_raw[[sheet]]
 
-  df_vall <- df_vall |>
+  df_vall <- bind_rows(
+    tibble(
+      var            = character(),
+      nv             = numeric(),
+      new_label      = character(),
+      sum_var_label  = character(),
+      sum_var_value  = numeric(),
+      sum_var_vallab = character(),
+    ),
+    df_vall
+  ) |>
     mutate(row = row_number() + 1)
   bind_rows(
     parse_newvall_cmd_table(df_vall),
@@ -299,21 +317,17 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' mapp_free_sheet_cmd_table(m)
 mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   df_free <- self$cmd$sheet_data_raw[[sheet]]
-  if (nrow(df_free) > 0) {
-    df_free <- df_free[1:6]
-  } else {
-    df_free <-
-      tibble(
-        X1 = character(),
-        X2 = character(),
-        X3 = character(),
-        X4 = character(),
-        X5 = character(),
-        row = character(),
-      )
-
-  }
-  df_free |>
+  bind_rows(
+    tibble(
+      X1 = character(),
+      X2 = character(),
+      X3 = character(),
+      X4 = character(),
+      X5 = character(),
+      row = numeric(),
+    ),
+    df_free
+  ) |>
     put_absolute_filepaths(self$mapping_file) |>
     process_raw_free_cmd_table()
 }

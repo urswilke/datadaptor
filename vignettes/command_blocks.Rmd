@@ -68,42 +68,6 @@ process_cdb_raw <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   Mapping$new(dat, mapping_file, ...)$modify_data()$dat_mod
 }
 gen_mapping_obj <- function(cmd_block_tibble, sheet_cat) {
-  if (sheet_cat == "Free") {
-    cmd_block_tibble <- bind_rows(
-      tibble(
-        X1 = character(),
-        X2 = character(),
-        X3 = character(),
-        X4 = character(),
-        X5 = character(),
-      ),
-      cmd_block_tibble |> mutate(row = row_number())
-    )
-  }
-  if (sheet_cat == "Variables") {
-    cmd_block_tibble <- bind_rows(
-      tibble(
-        var = character(),
-        op = character(),
-        new_name = character(),
-        new_label = character(),
-      ),
-      cmd_block_tibble |> mutate(row = row_number())
-    )
-  } 
-  if (sheet_cat == "Label") {
-    cmd_block_tibble <- bind_rows(
-      tibble(
-        var = character(),
-        nv = character(),
-        new_label = character(),
-        sum_var_label = character(),
-        sum_var_value = character(),
-        sum_var_vallab = character(),
-      ),
-      cmd_block_tibble |> mutate(row = row_number())
-    )
-  } 
   tibble::lst(!!sheet_cat := cmd_block_tibble)
 }
 
@@ -877,11 +841,11 @@ dat <- tibble(
 cmd_block_tibble <- tibble::tribble(
   ~var, ~nv, ~sum_var_label, ~sum_var_value,	~sum_var_vallab,
 
-  "a1", "1", 'new varlab', "1", "a & b", 
-  "a1", "2", NA, "1", "" ,
-  "a1", "3", NA, "2", "c" ,
-  "a1", "4", NA, "3", "d & e",
-  "a1", "5", NA, "3", "" ,
+  "a1", 1, 'new varlab', 1, "a & b", 
+  "a1", 2, NA, 1, "" ,
+  "a1", 3, NA, 2, "c" ,
+  "a1", 4, NA, 3, "d & e",
+  "a1", 5, NA, 3, "" ,
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -908,11 +872,11 @@ dat <- tibble(
 cmd_block_tibble <- tibble::tribble(
   ~var, ~nv, ~new_label,
 
-  "a1", "1", 'new value label of value 1', 
-  "a1", "2", NA, 
-  "a1", "3", NA, 
-  "a1", "4", NA, 
-  "a1", "5", NA, 
+  "a1", 1, 'new value label of value 1', 
+  "a1", 2, NA, 
+  "a1", 3, NA, 
+  "a1", 4, NA, 
+  "a1", 5, NA, 
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
