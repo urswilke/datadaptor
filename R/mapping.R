@@ -154,7 +154,10 @@ determine_mapping_type <- function(self) {
   if (is.character(self$mapping_file)) {
     return("google")
   }
-  stop("`mapping_type` couldn't be determined.")
+  stop(
+    "`mapping_type` couldn't be determined from `mapping_file` string.\n",
+    "You can directly specify it when calling `Mapping$new(mapping_type = <SPECIFY-HERE>)`"
+  )
 }
 set_mapping_type <- function(self) {
   self$mapping_type <- determine_mapping_type(self)
