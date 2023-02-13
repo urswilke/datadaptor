@@ -9,6 +9,39 @@ process_command_blocks <- function(self) {
     write_mapping_txt(self)
   }
 }
+
+
+# gen_sheet_data_raw_list() -----------------------------------------------
+
+gen_sheet_data_raw_list <- function(mapping_file, self) {
+  UseMethod("gen_sheet_data_raw_list")
+}
+gen_sheet_data_raw_list.list <- function(mapping_file, self) {
+  mapping_file
+}
+gen_sheet_data_raw_list.default <- function(mapping_file, self) {
+  sheet_cats <- gen_sheet_cats(mapping_file, self)
+  map2(
+    sheet_cats$sheet |>
+      set_names(),
+    sheet_cats$sheet_type,
+    ~ gen_sheet_data_raw(self, .y, .x),
+    .id = "sheet"
+  )
+}
+gen_sheet_cats <- function(mapping_file, self) {
+  sheets <- get_sheets(mapping_file)
+
+  # exchange positions of "Variables" & "Label" sheets (because otherwise,
+  # renaming a variable in the "Variables" sheet will not work when creating a
+  # summary variable out of it):
+  if (self$params$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+    sheets <- switch_sheets_vars_label(sheets)
+  }
+
+  sheet_cats <- tab_sheet_types(sheets)
+  sheet_cats
+}
 get_sheets <- function(mapping_file) {
   UseMethod("get_sheets")
 }
@@ -19,18 +52,47 @@ get_sheets.google <- function(mapping_file) {
   gs <- googlesheets4::gs4_get(mapping_file |> as.character())
   gs$sheets$name
 }
-
-gen_command_table <- function(self) {
-  self$cmd$df_cmd_raw |>
-    mutate(
-      command_blocks = self$cmd$command_blocks
-    )
+switch_sheets_vars_label <- function(sheets) {
+  var_index <- which(sheets == "Variables")
+  lab_index <- which(sheets == "Label")
+  sheets[var_index] <- "Label"
+  sheets[lab_index] <- "Variables"
+  sheets
 }
+tab_sheet_types <- function(sheets) {
+  sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
+
+  # vector of sheets with names defined by types:
+  sheet_cats <- map(
+    sheets,
+    ~ str_detect(.x, sheet_types)
+  ) |>
+    map(
+      ~ sheet_types[.x] |>
+        str_remove("\\^")
+    ) |>
+    set_names(sheets)
+  # remove sheets not in sheet types list:
+  sheet_cats <- sheet_cats[lengths(sheet_cats) > 0]
+  sheet_cats |>
+    map_chr(~.x) |>
+    enframe("sheet", "sheet_type")
+}
+gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
+  switch(sheet_cat,
+         "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name),
+         "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name),
+         "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
+         "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name))
+  )
+}
+
+
+# gen_sheet_command_tables_raw() ------------------------------------------
 
 gen_sheet_command_tables_raw <- function(self) {
   sheet_cats <- names(self$cmd$sheet_data_raw) |>
     tab_sheet_types()
-
 
   sheet_command_tables_raw <- map2(
     sheet_cats$sheet |>
@@ -47,44 +109,19 @@ gen_sheet_command_tables_raw <- function(self) {
   }
   sheet_command_tables_raw
 }
-gen_command_table_raw <- function(self) {
-  bind_rows(
-    self$cmd$sheet_command_tables_raw,
-    .id = "sheet"
+generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
+  res <- switch(sheet_cat,
+                "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
+                "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
+                "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
+                "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
   )
-}
-
-gen_sheet_cats <- function(mapping_file, self) {
-  sheets <- get_sheets(mapping_file)
-
-  # exchange positions of "Variables" & "Label" sheets (because otherwise,
-  # renaming a variable in the "Variables" sheet will not work when creating a
-  # summary variable out of it):
-  if (self$params$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
-    sheets <- switch_sheets_vars_label(sheets)
+  if (is.null(res)) {
+    return(NULL)
   }
-
-  sheet_cats <- tab_sheet_types(sheets)
-  sheet_cats
+  res |>
+    rename(raw = "data")
 }
-gen_sheet_data_raw_list <- function(mapping_file, self) {
-  UseMethod("gen_sheet_data_raw_list")
-}
-gen_sheet_data_raw_list.list <- function(mapping_file, self) {
-  mapping_file
-}
-gen_sheet_data_raw_list.default <- function(mapping_file, self) {
-
-  sheet_cats <- gen_sheet_cats(mapping_file, self)
-  map2(
-    sheet_cats$sheet |>
-      set_names(),
-    sheet_cats$sheet_type,
-    ~ gen_sheet_data_raw(self, .y, .x),
-    .id = "sheet"
-  )
-}
-
 generate_rec_na_cmd_table <- function(self) {
   params <- self$params
   vars_to_exclude_na_to_filter <- c(
@@ -108,56 +145,20 @@ generate_rec_na_cmd_table <- function(self) {
   )
 }
 
-generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
-  res <- switch(sheet_cat,
-    "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
-    "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
-    "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
-    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
-  )
-  if (is.null(res)) {
-    return(NULL)
-  }
-  res |>
-    rename(raw = "data")
-}
 
-gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
-  switch(sheet_cat,
-    "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name),
-    "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name),
-    "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
-    "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name))
+
+# gen_command_table_raw() -------------------------------------------------
+
+gen_command_table_raw <- function(self) {
+  bind_rows(
+    self$cmd$sheet_command_tables_raw,
+    .id = "sheet"
   )
 }
 
-switch_sheets_vars_label <- function(sheets) {
-  var_index <- which(sheets == "Variables")
-  lab_index <- which(sheets == "Label")
-  sheets[var_index] <- "Label"
-  sheets[lab_index] <- "Variables"
-  sheets
-}
 
-tab_sheet_types <- function(sheets) {
-  sheet_types <- c("^Variables", "^Label", "^Verbatims", "^Free")
 
-  # vector of sheets with names defined by types:
-  sheet_cats <- map(
-    sheets,
-    ~ str_detect(.x, sheet_types)
-  ) |>
-    map(
-      ~ sheet_types[.x] |>
-        str_remove("\\^")
-    ) |>
-    set_names(sheets)
-  # remove sheets not in sheet types list:
-  sheet_cats <- sheet_cats[lengths(sheet_cats) > 0]
-  sheet_cats |>
-    map_chr(~.x) |>
-    enframe("sheet", "sheet_type")
-}
+
 
 #' Generate an object inheriting from `"command_block"`
 #'
@@ -213,6 +214,9 @@ new_command_block <- function(cdb, ..., subclass = character()) {
   cdb
 }
 
+
+# command_blocks() --------------------------------------------------------
+
 #' Command_blocks objects
 #'
 #' @param self `Mapping` object
@@ -254,3 +258,14 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
 
   command_blocks
 }
+
+
+# gen_command_table() -----------------------------------------------------
+
+gen_command_table <- function(self) {
+  self$cmd$df_cmd_raw |>
+    mutate(
+      command_blocks = self$cmd$command_blocks
+    )
+}
+
