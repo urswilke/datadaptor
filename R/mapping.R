@@ -91,12 +91,6 @@ Mapping <- R6Class(
       self$dat <- initialize_dat(self, dat)
 
       self$params <- gen_mapping_params(self$mapping_file, ...)
-      # !!!remove
-      self$mapping_file <- as_mapping_file_string(
-        self$mapping_file,
-        self$params$translate_xlsm,
-        self$mapping_type
-      )
       process_command_blocks(self)
     },
     #' @description Run all command blocks of the mapping file. The commands in
@@ -344,7 +338,6 @@ initialize_dat <- function(self, dat) {
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
-#' @param translate_xlsm for internal use
 #' @param debug whether to enter in debug mode when an error occurs.
 #'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
@@ -384,7 +377,6 @@ gen_mapping_params <- function(
   excel_params = extract_named_region_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
-  translate_xlsm = FALSE,
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
@@ -405,8 +397,6 @@ gen_mapping_params <- function(
     id_var,
     na_to_filter,
     error_out,
-    # remove!!!
-    translate_xlsm,
     debug,
     write_mapping_to_txt,
     save_path,
@@ -427,13 +417,3 @@ gen_mapping_params <- function(
   }
   p
 }
-
-# !!!remove
-as_mapping_file_string <- function(mapping_file,
-                                   translate_xlsm = FALSE,
-                                   mapping_type = "excel") {
-  attr(mapping_file, "translate_xlsm") <- translate_xlsm
-  attr(mapping_file, "mapping_type") <- mapping_type
-  mapping_file
-}
-

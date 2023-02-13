@@ -127,7 +127,7 @@ gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
     "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name),
     "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name),
     "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
-    "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name), translate_xlsm = attr(self$mapping_file, "translate_xlsm"))
+    "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name))
   )
 }
 

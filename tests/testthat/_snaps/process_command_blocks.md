@@ -26,9 +26,6 @@
     $error_out
     [1] "unsafe"
     
-    $translate_xlsm
-    [1] FALSE
-    
     $debug
     [1] FALSE
     
