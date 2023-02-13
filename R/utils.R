@@ -243,7 +243,7 @@ extract_named_region_params.google <- function(mapping_file) {
       )
     ) |>
     filter(!map_lgl(.data$data, is_empty)) |>
-    unnest(.data$data)
+    unnest("data")
 
 
   named_params_list <- params_df$data

@@ -29,12 +29,6 @@
     $translate_xlsm
     [1] FALSE
     
-    $validate
-    [1] TRUE
-    
-    $dyn_validate
-    [1] TRUE
-    
     $debug
     [1] FALSE
     

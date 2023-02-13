@@ -345,10 +345,6 @@ initialize_dat <- function(self, dat) {
 #'   Whether to continue executing when a command block fails, or to error out.
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
 #' @param translate_xlsm for internal use
-#' @param validate whether to validate the parsed arguments of the command
-#'   blocks from the Excel file.
-#' @param dyn_validate whether to validate expressions when running (highly
-#'   experimental).
 #' @param debug whether to enter in debug mode when an error occurs.
 #'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
@@ -389,8 +385,6 @@ gen_mapping_params <- function(
   id_var = NULL,
   error_out = "unsafe",
   translate_xlsm = FALSE,
-  validate = TRUE,
-  dyn_validate = TRUE,
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
@@ -413,8 +407,6 @@ gen_mapping_params <- function(
     error_out,
     # remove!!!
     translate_xlsm,
-    validate,
-    dyn_validate,
     debug,
     write_mapping_to_txt,
     save_path,

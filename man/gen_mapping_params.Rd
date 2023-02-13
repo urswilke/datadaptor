@@ -11,8 +11,6 @@ gen_mapping_params(
   id_var = NULL,
   error_out = "unsafe",
   translate_xlsm = FALSE,
-  validate = TRUE,
-  dyn_validate = TRUE,
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
@@ -46,12 +44,6 @@ Whether to continue executing when a command block fails, or to error out.
 Adds a column "error" to the mapping's command table \code{mapping$cmd_tbl}.}
 
 \item{translate_xlsm}{for internal use}
-
-\item{validate}{whether to validate the parsed arguments of the command
-blocks from the Excel file.}
-
-\item{dyn_validate}{whether to validate expressions when running (highly
-experimental).}
 
 \item{debug}{whether to enter in debug mode when an error occurs.
 Automatically sets \code{error_out = "safe"}.}

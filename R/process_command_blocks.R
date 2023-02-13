@@ -171,14 +171,14 @@ tab_sheet_types <- function(sheets) {
 #' m$cmd$df_cmd_raw[10, ] |> command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
 #' m$cmd$df_cmd_raw[10, ] |> new_command_block(subclass = "cmd_newlab")
-command_block <- function(cdb, validate = TRUE) {
+command_block <- function(cdb) {
   subclass <- match_command_block_class(cdb$action)
 
   # hopefully preliminary method to use new apply_command.cmd_verbatim_custom():
   if (subclass == "cmd_verbatim" && cdb$raw[[1]]$EFA1MCG2MDG3 == "mdg_custom") {
     subclass <- c("cmd_verbatim_custom", subclass)
   }
-  new_command_block(cdb, validate = validate, subclass = subclass)
+  new_command_block(cdb, subclass = subclass)
 }
 
 match_command_block_class <- function(keyword) {
@@ -195,10 +195,8 @@ match_command_block_class <- function(keyword) {
 
 #' @noRd
 #' @param ... further arguments passed to constructor
-#' @param validate Whether to validate the arguments passed to generate the
-#'   command block. Defaults to TRUE.
 #' @param subclass character vector containing the subclass of the object to construct
-new_command_block <- function(cdb, validate = TRUE, ..., subclass = character()) {
+new_command_block <- function(cdb, ..., subclass = character()) {
   cdb <- structure(
     cdb,
     ...,
@@ -212,9 +210,6 @@ new_command_block <- function(cdb, validate = TRUE, ..., subclass = character())
     class = subclass
   )
   cdb$args <- parse_command_args(raw_data)
-  if (validate) {
-    cdb <- validate_command_block(cdb)
-  }
   cdb
 }
 
@@ -246,14 +241,11 @@ command_blocks <- function(self) {
   cdbs <- self$cmd$df_cmd_raw |>
     rowwise() |>
     transmute(cmd = list(
-      command_block(cur_data(), validate = self$params$validate)
+      command_block(cur_data())
     )) |>
     pull()
 
   subclass <- self$params$error_out
-  if (self$params$validate) {
-    subclass <- c("validated", subclass)
-  }
   new_command_blocks(cdbs, subclass = subclass)
 }
 

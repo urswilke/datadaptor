@@ -270,10 +270,6 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
   test <- eval_in_data(expr(datenanpassr::is_true_vec(!!cond)), mapping)
   yes <- eval_in_data(expr(!!val), mapping)
 
-  if (mapping$params$dyn_validate) {
-    dyn_validate_cmd_if(test, yes, x, mapping)
-  }
-
   no <- mapping$dat_mod[[x]]
   attributes(yes) <- attributes(no)
 
@@ -283,13 +279,6 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
       yes,
       no
     )
-}
-dyn_validate_cmd_if <- function(test, yes, x, mapping) {
-  stopifnot(x %in% names(mapping$dat_mod))
-  vec <- mapping$dat_mod[[x]]
-  stopifnot(is.logical(test))
-  stopifnot(typeof(yes) == typeof(vec))
-  stopifnot(typeof(yes) %in% c("double", "character"))
 }
 
 eval_in_data <- function(ex, mapping) {

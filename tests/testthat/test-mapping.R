@@ -37,7 +37,7 @@ test_that("variable labels are reproduced", {
 # mapping_trycatch <- Mapping$new(spss_file, mapping_file, error_out = "safe")
 mapping_trycatch <- mapping$clone(deep = TRUE)
 mapping_trycatch$params$error_out  <-  "safe"
-class(mapping_trycatch$cmd_tbl$command_blocks) <- c("validated", "safe", "command_blocks", "list")
+class(mapping_trycatch$cmd_tbl$command_blocks) <- c("safe", "command_blocks", "list")
 mapping_trycatch$cmd_tbl$command_blocks[[62]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 
 testthat::expect_message(mapping_trycatch$modify_data())
