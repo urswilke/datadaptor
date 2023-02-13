@@ -254,11 +254,3 @@ new_command_blocks <- function(command_blocks, ..., subclass = character()) {
 
   command_blocks
 }
-
-
-#' @noRd
-`[.command_blocks` <- function(x, i) {
-  res <- new_command_blocks(NextMethod(x))
-  class(res) <- class(x)
-  res
-}
