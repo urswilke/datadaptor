@@ -235,7 +235,7 @@ extract_named_region_params.excel <- function(mapping_file) {
 }
 
 extract_named_region_params.google <- function(mapping_file) {
-  gs <- gs4_get(mapping_file)
+  gs <- gs4_get(mapping_file |> as.character())
   named_regions <- gs$named_ranges
   if (is.null(named_regions)) {
     return(NULL)
