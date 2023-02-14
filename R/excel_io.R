@@ -399,7 +399,6 @@ get_new_var_name_free <- function(df_free_nested) {
   col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
     mutate(data = map(.data$data, ~slice(.x, 1))) |>
-    bind_rows() |>
     unnest("data") |>
     mutate(new_var = case_when(
       action %in% col3_names ~ .data$X3,
