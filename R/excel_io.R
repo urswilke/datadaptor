@@ -242,10 +242,12 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
     df_vall
   ) |>
     mutate(row = row_number() + 1)
-  bind_rows(
+  res <- bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
   )
+  res$sheet <- "Label"
+  res[c("sheet", "action", "new_var", "row", "data")]
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet) {
@@ -266,26 +268,24 @@ read_label_sheet_raw.excel <- function(mapping_file, sheet) {
 
 parse_sumvar_cmd_table <- function(df_vall) {
   res <- df_vall[!is.na(df_vall$sum_var_value), ]
-  res$sheet <- "Label"
   res$action <- "#SUMVAR"
   res$new_label <- NULL
   res$new_var <- paste0("k", res$var)
   res$orig_var <- res$var
   res <- res |>
     mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
-    nest(data = -c("sheet", "action", "new_var", "row"))
-  res[c("sheet", "action", "new_var", "row", "data")]
+    nest(data = -c("action", "new_var", "row"))
+  res[c("action", "new_var", "row", "data")]
 }
 parse_newvall_cmd_table <- function(df_vall) {
   res <- df_vall[!is.na(df_vall$new_label), ]
-  res$sheet <- "Label"
   res$action <- "#NEWVALL"
   res$new_var <- res$var
   res$orig_var <- res$var
   res <- res |>
     mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
-    nest(data = -c("sheet", "action", "new_var", "row"))
-  res[c("sheet", "action", "new_var", "row", "data")]
+    nest(data = -c("action", "new_var", "row"))
+  res[c("action", "new_var", "row", "data")]
   # df_vall |>
   #   mutate(sheet = "Label", action = "#NEWVALL", new_var = .data$var, orig_var = .data$var, .before = 1) |>
   #   mutate(row = paste(.data$row, collapse = ", "), .by = c(.data$new_var)) |>
