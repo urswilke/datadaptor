@@ -324,7 +324,7 @@ safer_env <- new.env(parent = emptyenv())
 for (f in safe_f) {
   safer_env[[f]] <- get(f, "package:base")
 }
-safer_env[["case_when"]] <- case_when
+safer_env[["case_when"]] <- dplyr::case_when
 
 #' Remove attributes from a vector
 #'

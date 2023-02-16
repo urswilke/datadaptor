@@ -447,7 +447,7 @@ apply_command.cmd_rec <- function(
       function(vs, expr_str) quo(!!parse_expr(expr_str) ~ !!vs)
     )
 
-  res_num <- expr(case_when(!!!cond_statements)) |>
+  res_num <- expr(dplyr::case_when(!!!cond_statements)) |>
     eval_in_data(mapping)
   if (x == y) {
     res_num <- coalesce(res_num, mapping$dat_mod[[y]])
@@ -483,7 +483,7 @@ apply_command.cmd_sumvar <- function(
     ~ expr(!!sym(y) %in% !!.x ~ !!.y)
   )
 
-  vec_num <- expr(case_when(!!!cond_statements)) |>
+  vec_num <- expr(dplyr::case_when(!!!cond_statements)) |>
     eval_in_data(mapping)
 
   mapping$dat_mod[[x]] <- labelled(
