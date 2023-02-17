@@ -420,7 +420,7 @@ get_new_var_name_free <- function(df_free_nested) {
   temp <- df_free_nested |>
     mutate(data = map(.data$data, ~slice(.x, 1))) |>
     bind_rows() |>
-    unnest(.data$data) |>
+    unnest("data") |>
     mutate(new_var = case_when(
       action %in% col3_names ~ .data$X3,
       action %in% col2_names ~ .data$X2,
