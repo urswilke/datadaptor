@@ -262,7 +262,7 @@ extract_named_region_params.google <- function(mapping_file) {
 
 
 # Function to replace windows backslashes to slashes and replace relative
-# filepaths by absolutes, based on the directory of the mapping file:
+# filepaths relatively to the location of the mapping file:
 adapt_filepath <- function(file_path, mapping_file) {
   file_path <- file_path |>
     str_replace_all("\\\\", "/")
