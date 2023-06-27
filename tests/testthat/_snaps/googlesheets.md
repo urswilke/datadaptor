@@ -124,5 +124,5 @@
      8 2 [2 carburetors] 2 [gfd]       1
      9 2 [2 carburetors] 2 [gfd]       1
     10 4 [4 carburetors] 2 [gfd]       1
-    # ... with 22 more rows
+    # i 22 more rows
 

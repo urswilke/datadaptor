@@ -241,7 +241,7 @@
      8 -2       
      9 -2       
     10 -2       
-    # ... with 141 more rows
+    # i 141 more rows
 
 # value labels are reproduced
 
