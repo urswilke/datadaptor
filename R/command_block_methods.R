@@ -202,10 +202,14 @@ apply_command.cmd_merge <- function(
   cdb, mapping, xs, filepath, id = mapping$params$id_var, ...
 ) {
   # If `xs` isn't specified in Excel sheet, merge all variables in the file:
-  if (length(xs) == 1 & is.na(xs[1])) {
-    df_merge <- read_sav(filepath)
-  } else {
-    df_merge <- read_sav(filepath, col_select = !!c(id, xs))
+  switch(sub("^(.*\\.|[^.]+)(?=[^.]*)", "", filepath, perl = TRUE),
+         xlsx = {df_merge <- read_xlsx(filepath)},
+         xls = {df_merge <- read_xls(filepath)},
+         sav = {df_merge <- read_sav(filepath)},
+         dta = {df_merge <- read_dta(filepath)},
+  )
+  if (!is.na(xs[1])) {
+    df_merge <- df_merge |> select(c(id, xs))
   }
   id_vec <- mapping$dat_mod[[id]]
   if (!identical(
