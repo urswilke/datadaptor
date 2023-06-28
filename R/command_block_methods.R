@@ -204,9 +204,11 @@ apply_command.cmd_merge <- function(
   # If `xs` isn't specified in Excel sheet, merge all variables in the file:
   switch(sub("^(.*\\.|[^.]+)(?=[^.]*)", "", filepath, perl = TRUE),
          xlsx = {df_merge <- read_xlsx(filepath) |>
-            dplyr::mutate_if(is.logical, as.double)}, # empty columns as double
-         xls = {df_merge <- read_xls(filepath)  |>
-           dpylr::mutate_if(is.logical, as.double)},  # empty columns as double
+           # empty columns as double
+           dplyr::mutate(across(where(is.logical), as.double))},
+         xls = {df_merge <- read_xls(filepath) |>
+           # empty columns as double
+           dplyr::mutate(across(where(is.logical), as.double))},
          sav = {df_merge <- read_sav(filepath)},
          dta = {df_merge <- read_dta(filepath)},
   )

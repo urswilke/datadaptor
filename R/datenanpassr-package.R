@@ -51,6 +51,7 @@
 #' @importFrom googlesheets4 sheet_write
 #' @importFrom haven is.labelled
 #' @importFrom haven labelled
+#' @importFrom haven read_dta
 #' @importFrom haven read_sav
 #' @importFrom haven write_dta
 #' @importFrom haven write_sav
@@ -87,6 +88,7 @@
 #' @importFrom readxl cell_cols
 #' @importFrom readxl cell_limits
 #' @importFrom readxl excel_sheets
+#' @importFrom readxl read_xls
 #' @importFrom readxl read_xlsx
 #' @importFrom rlang := .data
 #' @importFrom rlang `%||%`
