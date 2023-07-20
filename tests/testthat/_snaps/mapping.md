@@ -16,8 +16,8 @@
        q6                    q7                  q8        kq5       q2            
        <dbl+lbl>             <chr>               <dbl+lbl> <dbl+lbl> <dbl+lbl>     
      1 3 [bla bla bla love]  bla bla bla anger    2         1 [aaa]   2 [no]       
-     2 4 [bla bla happiness] bla bla bla sadness  9         7         1 [yes]      
-     3 8 [bla joy]           bla bla bla sadness  3         7         1 [yes]      
+     2 4 [bla bla happiness] bla bla bla sadness  9         7         1 [YES]      
+     3 8 [bla joy]           bla bla bla sadness  3         7         1 [YES]      
      4 5 [bla bla joy]       bla bla anger        3         3 [ccc]  99 [no answer]
      5 7 [bla happiness]     bla fear             9         2 [bbb]  -2 [FILTER]   
      6 5 [bla bla joy]       bla pain             7         1 [aaa]  -2 [FILTER]   
@@ -197,10 +197,10 @@
      32 kq5                        1 aaa                  
      33 kq5                        2 bbb                  
      34 kq5                        3 ccc                  
-     35 q2                         1 yes                  
-     36 q2                         2 no                   
-     37 q2                        99 no answer            
-     38 q2                        -2 FILTER               
+     35 q2                        -2 FILTER               
+     36 q2                         1 YES                  
+     37 q2                         2 no                   
+     38 q2                        99 no answer            
      39 q4                        -2 FILTER               
      40 q4                         1 not at all           
      41 q4                         2 a bit                
@@ -413,7 +413,7 @@
      6 q7                     Tell me something negative.             
      7 q8                     Now the variable is in numeric format.  
      8 kq5                    test                                    
-     9 q2                     Do you want to recommend the product?   
+     9 q2                     recommend product                       
     10 q4                     How much do you like your friends?      
     11 q6_1                   love                                    
     12 q6_2                   joy                                     
