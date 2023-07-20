@@ -242,10 +242,12 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
     df_vall
   ) |>
     mutate(row = row_number() + 1)
-  bind_rows(
+  res <- bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
   )
+  res$sheet <- "Label"
+  res[c("sheet", "action", "new_var", "row", "data")]
 }
 
 read_label_sheet_raw <- function(mapping_file, sheet) {
@@ -265,33 +267,29 @@ read_label_sheet_raw.excel <- function(mapping_file, sheet) {
 }
 
 parse_sumvar_cmd_table <- function(df_vall) {
-  df_vall |>
-    drop_na("sum_var_value") |>
-    select(-"new_label") |>
-    mutate(new_var = paste0("k", .data$var)) |>
-    mutate(orig_var = .data$var) |>
-    group_by(.data$new_var, .data$orig_var) |>
-    mutate(row = paste(.data$row, collapse = ", ")) |>
-    mutate(sheet = "Label") |>
-    mutate(action = "#SUMVAR") |>
-    relocate(all_of(c("sheet", "action"))) |>
-    group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
-    nest() |>
-    ungroup()
+  res <- df_vall[!is.na(df_vall$sum_var_value), ]
+  res$action <- "#SUMVAR"
+  res$new_label <- NULL
+  res$new_var <- paste0("k", res$var)
+  res$orig_var <- res$var
+  res <- res |>
+    mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
+    nest(data = -c("action", "new_var", "row"))
+  res[c("action", "new_var", "row", "data")]
 }
 parse_newvall_cmd_table <- function(df_vall) {
-  df_vall |>
-    drop_na("new_label") |>
-    mutate(new_var = .data$var) |>
-    mutate(orig_var = .data$var) |>
-    mutate(sheet = "Label") |>
-    mutate(action = "#NEWVALL") |>
-    relocate(all_of(c("sheet", "action"))) |>
-    group_by(.data$sheet, .data$action, .data$new_var) |>
-    mutate(row = paste(.data$row, collapse = ", ")) |>
-    group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
-    nest() |>
-    ungroup()
+  res <- df_vall[!is.na(df_vall$new_label), ]
+  res$action <- "#NEWVALL"
+  res$new_var <- res$var
+  res$orig_var <- res$var
+  res <- res |>
+    mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
+    nest(data = -c("action", "new_var", "row"))
+  res[c("action", "new_var", "row", "data")]
+  # df_vall |>
+  #   mutate(sheet = "Label", action = "#NEWVALL", new_var = .data$var, orig_var = .data$var, .before = 1) |>
+  #   mutate(row = paste(.data$row, collapse = ", "), .by = c(.data$new_var)) |>
+  #   nest(data = -c(.data$sheet, .data$action, .data$new_var, .data$row))
 }
 
 
@@ -401,7 +399,6 @@ get_new_var_name_free <- function(df_free_nested) {
   col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
     mutate(data = map(.data$data, ~slice(.x, 1))) |>
-    bind_rows() |>
     unnest("data") |>
     mutate(new_var = case_when(
       action %in% col3_names ~ .data$X3,
