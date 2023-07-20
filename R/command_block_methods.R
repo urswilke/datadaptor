@@ -280,9 +280,11 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
 }
 
 eval_in_data <- function(ex, mapping) {
+  e <- list2env(mapping$dat_mod, envir = mapping$params$expr_eval_env)
+  e[["dat_mod"]] <- mapping$dat_mod
   eval_tidy(
     ex,
-    env = list2env(mapping$dat_mod, parent = mapping$params$expr_eval_env)
+    env = e
   )
 }
 
