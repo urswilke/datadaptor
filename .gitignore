@@ -8,4 +8,5 @@ Meta
 playground
 devel/*/*_cache/*
 devel/*/*Rprofvis
+devel/experiments
 docs
