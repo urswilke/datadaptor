@@ -52,6 +52,7 @@ Imports:
     lifecycle,
     utils,
     withr,
-    googlesheets4
+    googlesheets4,
+    powerjoin
 VignetteBuilder: knitr
 Language: en-US

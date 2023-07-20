@@ -5,7 +5,7 @@
 \alias{safer_env}
 \title{Execution environment}
 \format{
-An object of class \code{environment} of length 66.
+An object of class \code{environment} of length 67.
 }
 \usage{
 safer_env

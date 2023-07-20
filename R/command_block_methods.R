@@ -216,25 +216,14 @@ apply_command.cmd_merge <- function(
   if (!is.na(xs[1])) {
     df_merge <- df_merge[c(id, xs)]
   }
-  id_vec <- mapping$dat_mod[[id]]
-  if (!identical(
-    sort(strip_attributes(df_merge[[id]])),
-    sort(strip_attributes(id_vec))
-  )
-  ) {
-    warning("The merged dataframe doesn't contain the same id values")
-    df_merge <- df_merge[df_merge[[id]] %in% id_vec, ]
-  }
 
-  # This kind of merging overwrites variables if existing:
-  df_merge_sort <- tibble(id_vec) |>
-    rename(!!id := id_vec) |>
-    full_join(df_merge, by = id) |>
-    select(-!!id)
-  mapping$dat_mod <- mapping$dat_mod |>
-    mutate(
-      df_merge_sort
-    )
+  mapping$dat_mod <- power_full_join(
+    mapping$dat_mod,
+    df_merge,
+    by = id,
+    conflict = coalesce_yx
+  ) |>
+    relocate(all_of(names(mapping$dat_mod)))
 }
 
 #' @describeIn apply_command
@@ -291,9 +280,11 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
 }
 
 eval_in_data <- function(ex, mapping) {
+  e <- list2env(mapping$dat_mod, envir = mapping$params$expr_eval_env)
+  e[["dat_mod"]] <- mapping$dat_mod
   eval_tidy(
     ex,
-    env = list2env(mapping$dat_mod, parent = mapping$params$expr_eval_env)
+    env = e
   )
 }
 

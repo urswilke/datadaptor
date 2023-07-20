@@ -904,7 +904,7 @@
       25 <NA>    <NA>                    "!!! Standard auto-correct~ <NA>   <NA>    34
       26 <NA>    <NA>                    "see here: https://superus~ <NA>   <NA>    35
       27 #COMP   r_expr_var              "haven::labelled(ifelse(q1~ <NA>   <NA>    36
-      28 #MERGE  ../spss/fake_survey.sav "id"                        q1 q2  <NA>    38
+      28 #MERGE  ../spss/fake_survey.sav "id"                        q1     <NA>    38
       29 #RFUN   example_R_function.R    "calc_sum_of_k_vars"        <NA>   <NA>    40
       30 #REC    q1                      "kkq1"                      vl     <NA>    48
       31 <NA>    1                        <NA>                       1     "a"      49

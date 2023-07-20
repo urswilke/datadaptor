@@ -140,7 +140,7 @@
       .. ..$ X1: chr "#MERGE"
       .. ..$ X2: chr "fake_survey.sav"
       .. ..$ X3: chr "id"
-      .. ..$ X4: chr "q1 q2"
+      .. ..$ X4: chr "q1"
       .. ..$ X5: chr NA
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#RFUN"
