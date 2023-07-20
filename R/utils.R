@@ -242,7 +242,7 @@ extract_named_region_params.google <- function(mapping_file) {
           suppressMessages()
       )
     ) |>
-    filter(!map_lgl(.data$data, is_empty)) |>
+    filter(!map_lgl("data", is_empty)) |>
     unnest("data")
 
 

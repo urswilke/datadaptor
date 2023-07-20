@@ -13,7 +13,7 @@
      8 14             #COMP  n              <tibble [1 x 5]>
      9 15             #VARL  n              <tibble [1 x 5]>
     10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
-    # ... with 16 more rows
+    # i 16 more rows
 
 ---
 
