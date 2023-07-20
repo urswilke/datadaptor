@@ -183,7 +183,7 @@
      8 q2             1 <NA>               yes        double   Do you wa~          1
      9 q2             2 <NA>               no         double   Do you wa~          2
     10 q2            99 <NA>               no answer  double   Do you wa~         99
-    11 q2            NA <NA>               <NA>       double   Do you wa~         NA
+    11 q2            NA <NA>               <NA>       double   Do you wa~         -2
     12 q3             1 <NA>               not at all double   How likel~          1
     13 q3             2 <NA>               a bit      double   How likel~          2
     14 q3             3 <NA>               normal     double   How likel~          3
