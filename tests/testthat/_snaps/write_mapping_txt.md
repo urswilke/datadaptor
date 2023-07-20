@@ -874,7 +874,7 @@
       
       
       $Free1
-      # A tibble: 44 x 6
+      # A tibble: 45 x 6
          X1      X2                      X3                          X4    X5      row
          <chr>   <chr>                   <chr>                       <chr> <chr> <int>
        1 #COMP   x                       "q1 == 2"                   <NA>   <NA>     3
@@ -921,6 +921,7 @@
       42 <NA>    -q4new                   <NA>                       <NA>   <NA>    64
       43 #FILTER !id %in% 21:100          <NA>                       <NA>   <NA>    66
       44 <NA>    !id %in% 10:19           <NA>                       <NA>   <NA>    67
+      45 #COMP   qsum                    "rowSums(dat_mod |> dplyr:~ <NA>   <NA>    71
       
       $Free2
       # A tibble: 1 x 6

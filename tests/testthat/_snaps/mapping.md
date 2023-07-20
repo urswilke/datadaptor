@@ -1,6 +1,6 @@
 # s3 modified data print is reproduced
 
-    # A tibble: 10 x 65
+    # A tibble: 10 x 66
        q2new          q3             q1              q5                 id
        <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>       <dbl>
      1  2 [no]        3 [normal]      3 [normal]      2 [a bit]          1
@@ -133,18 +133,18 @@
      8 NA                     NA                 1 [1-2]          NA                
      9 NA                     NA                NA                NA                
     10 NA                     NA                 3 [4-5]          NA                
-       n             a1        a2        r_expr_var sum_of_k_vars kkq1     
-       <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>          <dbl> <dbl+lbl>
-     1 1 [also with] 3         4          24                    7  2 [b]   
-     2 1 [also with] 3         4          24                   14  2 [b]   
-     3 1 [also with] 3         4           8                   11  1 [a]   
-     4 1 [also with] 3         4          24                   10  2 [b]   
-     5 1 [also with] 3         4          20                    9  2 [b]   
-     6 1 [also with] 3         4          40                   10  2 [b]   
-     7 1 [also with] 3         4         792                    2 NA       
-     8 1 [also with] 3         4          16                    6  2 [b]   
-     9 1 [also with] 3         4         792                   10 NA       
-    10 1 [also with] 3         4          30                    9  2 [b]   
+       n             a1        a2        r_expr_var sum_of_k_vars kkq1       qsum
+       <dbl+lbl>     <dbl+lbl> <dbl+lbl> <dbl+lbl>          <dbl> <dbl+lbl> <dbl>
+     1 1 [also with] 3         4          24                    7  2 [b]       19
+     2 1 [also with] 3         4          24                   14  2 [b]       31
+     3 1 [also with] 3         4           8                   11  1 [a]       23
+     4 1 [also with] 3         4          24                   10  2 [b]      122
+     5 1 [also with] 3         4          20                    9  2 [b]       27
+     6 1 [also with] 3         4          40                   10  2 [b]       24
+     7 1 [also with] 3         4         792                    2 NA           NA
+     8 1 [also with] 3         4          16                    6  2 [b]       19
+     9 1 [also with] 3         4         792                   10 NA           NA
+    10 1 [also with] 3         4          30                    9  2 [b]       22
        free2_var
            <dbl>
      1         3
@@ -453,7 +453,7 @@
 
 # error string elements were added to cmd_tbl
 
-    # A tibble: 87 x 7
+    # A tibble: 88 x 7
        sheet     action           row      new_var raw          command_blocks error
        <chr>     <chr>            <chr>    <chr>   <list>       <safe>         <chr>
      1 Config    #RECNA           <NA>     <NA>    <named list> <cmd_rcn_>     ""   
@@ -466,5 +466,5 @@
      8 Variables #NEWLAB          2        q1      <tibble>     <cmd_nwlb>     ""   
      9 Variables #NEWLAB          3        q2_ren~ <tibble>     <cmd_nwlb>     ""   
     10 Variables #NEWLAB          6        q5      <tibble>     <cmd_nwlb>     ""   
-    # i 77 more rows
+    # i 78 more rows
 

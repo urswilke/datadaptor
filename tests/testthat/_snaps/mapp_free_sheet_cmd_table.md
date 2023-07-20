@@ -1,6 +1,6 @@
 # snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
-    # A tibble: 26 x 4
+    # A tibble: 27 x 4
        row            action new_var        data            
        <chr>          <chr>  <chr>          <list>          
      1 3              #COMP  x              <tibble [1 x 5]>
@@ -13,15 +13,15 @@
      8 14             #COMP  n              <tibble [1 x 5]>
      9 15             #VARL  n              <tibble [1 x 5]>
     10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
-    # i 16 more rows
+    # i 17 more rows
 
 ---
 
-    tibble [26 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:26] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:26] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:26] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 26
+    tibble [27 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:27] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:27] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:27] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 27
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -178,4 +178,10 @@
       .. ..$ X3: chr [1:2] NA NA
       .. ..$ X4: chr [1:2] NA NA
       .. ..$ X5: chr [1:2] NA NA
+      ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr "#COMP"
+      .. ..$ X2: chr "qsum"
+      .. ..$ X3: chr "rowSums(dat_mod |> dplyr::select(dplyr::matches(\"^q\\\\d$\"), -q7))"
+      .. ..$ X4: chr NA
+      .. ..$ X5: chr NA
 
