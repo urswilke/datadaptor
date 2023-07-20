@@ -100,6 +100,7 @@
 #' @importFrom rlang quo
 #' @importFrom rlang sym
 #' @importFrom stringr str_detect
+#' @importFrom stringr str_extract
 #' @importFrom stringr str_extract_all
 #' @importFrom stringr str_match
 #' @importFrom stringr str_remove

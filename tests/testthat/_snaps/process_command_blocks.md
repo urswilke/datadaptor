@@ -26,19 +26,10 @@
     $error_out
     [1] "unsafe"
     
-    $validate
-    [1] TRUE
-    
-    $dyn_validate
-    [1] TRUE
-    
     $debug
     [1] FALSE
     
     $write_mapping_to_txt
-    [1] FALSE
-    
-    $override_excel
     [1] FALSE
     
     $lab_before_var_sheet
@@ -52,9 +43,6 @@
     
     $not_miss_to_filter_vars
     [1] "q1 q5"
-    
-    $refresh_sheet
-    [1] FALSE
     
     $lowercase_varnames
     [1] FALSE

@@ -5,7 +5,7 @@ NULL
 #' Mapping class
 #'
 #'
-#' @description The class \code{Mapping} can be used to apply the changes
+#' @description The `R6::R6Class()` \code{Mapping} can be used to apply the changes
 #'   specified in the command blocks of an Excel mapping file to a (labelled)
 #'   dataframe.
 #'
@@ -16,7 +16,17 @@ NULL
 #'
 #' @field dat (filepath to pass to \code{haven::read_sav()} to read in the)
 #'   labelled dataframe to apply the mapping on.
-#' @field mapping_file filepath of the Excel mapping file
+#' @field mapping_file Mapping file document (see `mapping_type`). The class of
+#'   this string will be set to "mapping_type".
+#' @field mapping_type String specifying the mapping type. Either "excel", "google"
+#'   (for googlesheets), or "list". If not specified, when initializing it is
+#'   auto-determined:
+#'   \itemize{
+#'     \item{"list": }{If `mapping_file` is a list object.}
+#'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
+#'     \item{"google": }{If `mapping_file` is another string, it is assumed that
+#'       it is a valid `googlesheets4::as_sheets_id()`.}
+#'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
@@ -56,6 +66,7 @@ Mapping <- R6Class(
   public = list(
     dat = NULL,
     mapping_file = NULL,
+    mapping_type = NULL,
     cmd_tbl = data.frame(),
     cmd = list(),
     dat_mod = NULL,
@@ -64,30 +75,23 @@ Mapping <- R6Class(
     #'
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
+    #' @param mapping_type String specifying the mapping type. Either "excel", "google"
+    #'   (for googlesheets), or "list".
     #' @param ... Arguments passed to gen_mapping_params() which will populate
     #'   the `params` field of the object.
     initialize = function(dat = NULL,
                           mapping_file = NULL,
+                          mapping_type = NULL,
                           ...) {
+      self$mapping_file <- mapping_file
+      self$mapping_type <- mapping_type
+
+      set_mapping_type(self)
+
       self$dat <- initialize_dat(self, dat)
 
-      self$params <- gen_mapping_params(mapping_file, dots_args = lst(...), ...)
-      self$mapping_file <- self$params$mapping_file
-      if (!is.null(mapping_file)) {
-        self$prep_cmd_tbl()
-      }
-    },
-    #' @description Process all command blocks of the Excel mapping file to R. The command
-    #'   blocks of the Excel mapping file are translated to the `command_blocks()` field
-    #'   \code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
-    #'
-    #' @param ... Arguments passed to `update_mapping_params()`
-    prep_cmd_tbl = function(
-      ...) {
-      self$params <- update_mapping_params(self$params, ...)
+      self$params <- gen_mapping_params(self$mapping_file, ...)
       process_command_blocks(self)
-
-      invisible(self)
     },
     #' @description Run all command blocks of the mapping file. The commands in
     #'   the argument `command_blocks` (defaults to the Mapping's
@@ -99,16 +103,9 @@ Mapping <- R6Class(
     #'   when applying \code{modify_data()} multiple times).
     #' @param command_blocks The \code{"command_blocks"} object results of the
     #'   processing of the Excel mapping file.
-    #' @param ... Arguments passed to `update_mapping_params()`
     modify_data = function(reset = TRUE,
-                           command_blocks = self$cmd_tbl$command_blocks,
-                           ...) {
-      update_params = list(...)
+                           command_blocks = self$cmd_tbl$command_blocks) {
 
-      # recalculate if Mapping$params$refresh_sheet is TRUE and passed arg refresh_sheet is in ... and is not FALSE:
-      if (self$params$refresh_sheet & !(!is.null(update_params$refresh_sheet) && update_params$refresh_sheet))  {
-        self$prep_cmd_tbl(update_params)
-      }
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }
@@ -138,7 +135,30 @@ Mapping <- R6Class(
   )
 )
 
-
+determine_mapping_type <- function(self) {
+  if (!is.null(self$mapping_type)) {
+    return(self$mapping_type)
+  }
+  if (is.list(self$mapping_file)) {
+    return("list")
+  }
+  file_ending <- self$mapping_file |>
+    str_extract("(?<=\\.)([[:alnum:]]+)$")
+  if (str_detect(file_ending, "^xls[xm]$")) {
+    return("excel")
+  }
+  if (is.character(self$mapping_file)) {
+    return("google")
+  }
+  stop(
+    "`mapping_type` couldn't be determined from `mapping_file` string.\n",
+    "You can directly specify it when calling `Mapping$new(mapping_type = <SPECIFY-HERE>)`"
+  )
+}
+set_mapping_type <- function(self) {
+  self$mapping_type <- determine_mapping_type(self)
+  class(self$mapping_file) <- self$mapping_type
+}
 rename_vars_to_original_case <- function(df) {
   orig_names <- attr(df, "original_varnames")
   rename_vec <- tibble(orig_names) |>
@@ -303,8 +323,7 @@ initialize_dat <- function(self, dat) {
 #'   `Mapping$new()`. It generates a list of named elements with mapping
 #'   parameters. The argument values are the below default values, then
 #'   overwritten if passed by the `...` dots, and then overwritten by the Excel
-#'   file. If `override_excel = FALSE` the Excel parameters will prevail, and
-#'   otherwise overwritten by the dots.
+#'   file.
 #'
 #' @param mapping_file Path of the Excel mapping file. Alternatively, you can
 #'   pass an R list object containing named dataframes that is in the shape of
@@ -319,11 +338,6 @@ initialize_dat <- function(self, dat) {
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
-#' @param translate_xlsm for internal use
-#' @param validate whether to validate the parsed arguments of the command
-#'   blocks from the Excel file.
-#' @param dyn_validate whether to validate expressions when running (highly
-#'   experimental).
 #' @param debug whether to enter in debug mode when an error occurs.
 #'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
@@ -331,8 +345,6 @@ initialize_dat <- function(self, dat) {
 #'   files (for instance, in order to allow for git version control during the
 #'   course of a project that evolves). Defaults to FALSE. Will probably be
 #'   deprecated in the future.
-#' @param override_excel should arguments passed with the `...` dots when
-#'   initializing overwrite those from the Excel file? Defaults to `FALSE`.
 #' @param expr_eval_env The environment where expressions are evaluated. See
 #'   `?safer_env`.
 #' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
@@ -344,19 +356,19 @@ initialize_dat <- function(self, dat) {
 #'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param refresh_sheet Whether to only refresh_sheet the generation of the current active
-#'   sheet in the Excel mapping file.
 #' @param lowercase_varnames Whether to transform all variable names to
 #'   lowercase during data modification, and rename them back to their original
 #'   case (if still existing) in the end.
-#' @param dots_args for internal use.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
 #' @export
 #'
 #' @examples
+#' # Only for documentation purposes:
+#' # (`gen_mapping_params()` isn't supposed to be be called directly).
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' class(mapping_file) <- "excel"
 #'
 #' gen_mapping_params(mapping_file)
 gen_mapping_params <- function(
@@ -365,41 +377,19 @@ gen_mapping_params <- function(
   excel_params = extract_named_region_params(mapping_file),
   id_var = NULL,
   error_out = "unsafe",
-  translate_xlsm = FALSE,
-  validate = TRUE,
-  dyn_validate = TRUE,
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
-  override_excel = FALSE,
   expr_eval_env = safer_env,
   lab_before_var_sheet = "yes",
   miss_rec_lab = "FILTER",
   miss_rec_val = -2,
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
-  refresh_sheet = FALSE,
   lowercase_varnames = FALSE,
-  # Needed for developing...:
-  # These only need to interest you if you want to override params that
-  # already were defined in the Excel file (see arg `override_excel`):
-  dots_args,
   ...
 
 ) {
-  # if (is.null(id_var) & is.null(excel_params)) {
-  #   stop(
-  #     "You need to pass a valid id variable name character string in your dataset\n",
-  #     "for instance, ",
-  #     'id_var = "ID_VARIABLE_NAME"\n',
-  #     'or you can define this string with a named region "R_id_var"',
-  #     'in the Excel mapping file.')
-  # }
-  mapping_file <- as_mapping_file_string(
-    mapping_file,
-    translate_xlsm,
-    mapping_type
-  )
 
   p <- lst(
     mapping_file,
@@ -407,18 +397,14 @@ gen_mapping_params <- function(
     id_var,
     na_to_filter,
     error_out,
-    validate,
-    dyn_validate,
     debug,
     write_mapping_to_txt,
     save_path,
-    override_excel,
     expr_eval_env,
     lab_before_var_sheet,
     miss_rec_lab,
     miss_rec_val,
     not_miss_to_filter_vars,
-    refresh_sheet,
     lowercase_varnames,
     ...
   )
@@ -429,39 +415,5 @@ gen_mapping_params <- function(
   if (!is.null(p$excel_params)) {
     p[names(p$excel_params)] <- p$excel_params
   }
-  if (override_excel) {
-    p[names(dots_args)] <- dots_args
-  }
   p
-}
-
-as_mapping_file_string <- function(mapping_file,
-                                   translate_xlsm = FALSE,
-                                   mapping_type = "excel") {
-  if (is.null(mapping_file)) {
-    return(NULL)
-  }
-  attr(mapping_file, "translate_xlsm") <- translate_xlsm
-  attr(mapping_file, "mapping_type") <- mapping_type
-  mapping_file
-}
-
-
-#' @description `update_mapping_params()` is a wrapper function of:
-#'   \code{utils::modifyList(mapping_params, list(...))}.
-
-#'
-#' @param mapping_params List element generated by `gen_mapping_params()`.
-#' @param ... Named params to overwrite result of `gen_mapping_params()`.
-#'
-#' @export
-#'
-#' @examples
-#' gen_mapping_params() |> update_mapping_params(refresh_sheet = TRUE)
-#' @rdname gen_mapping_params
-update_mapping_params <- function(mapping_params, ...) {
-  modifyList(
-    mapping_params,
-    list(...)
-  )
 }

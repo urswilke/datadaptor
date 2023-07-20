@@ -454,16 +454,16 @@
 
     # A tibble: 87 x 7
        sheet     action           row      new_var raw          command_blocks error
-       <chr>     <chr>            <chr>    <chr>   <list>       <validatd>     <chr>
-     1 Config    #RECNA           <NA>     <NA>    <named list> <validatd>     ""   
-     2 Label     #NEWVALL         8        q2      <tibble>     <validatd>     ""   
-     3 Label     #SUMVAR          23, 24,~ kq5     <tibble>     <validatd>     ""   
-     4 Variables #STR2NUM         8        q8      <tibble>     <validatd>     ""   
-     5 Variables #AUTOREC         7        q6      <tibble>     <validatd>     ""   
-     6 Variables #DROP            9        <NA>    <tibble>     <validatd>     ""   
-     7 Variables #RENAME_varsheet 3, 5     q2_ren~ <tibble>     <validatd>     ""   
-     8 Variables #NEWLAB          2        q1      <tibble>     <validatd>     ""   
-     9 Variables #NEWLAB          3        q2_ren~ <tibble>     <validatd>     ""   
-    10 Variables #NEWLAB          6        q5      <tibble>     <validatd>     ""   
+       <chr>     <chr>            <chr>    <chr>   <list>       <safe>         <chr>
+     1 Config    #RECNA           <NA>     <NA>    <named list> <cmd_rcn_>     ""   
+     2 Label     #NEWVALL         8        q2      <tibble>     <cmd_nwvl>     ""   
+     3 Label     #SUMVAR          23, 24,~ kq5     <tibble>     <cmd_smvr>     ""   
+     4 Variables #STR2NUM         8        q8      <tibble>     <cmd_st__>     ""   
+     5 Variables #AUTOREC         7        q6      <tibble>     <cmd_atrc>     ""   
+     6 Variables #DROP            9        <NA>    <tibble>     <cmd_drop>     ""   
+     7 Variables #RENAME_varsheet 3, 5     q2_ren~ <tibble>     <cmd_rnm_>     ""   
+     8 Variables #NEWLAB          2        q1      <tibble>     <cmd_nwlb>     ""   
+     9 Variables #NEWLAB          3        q2_ren~ <tibble>     <cmd_nwlb>     ""   
+    10 Variables #NEWLAB          6        q5      <tibble>     <cmd_nwlb>     ""   
     # i 77 more rows
 

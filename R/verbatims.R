@@ -127,8 +127,7 @@ un_OT_ize <- function(x, orig_var) {
 parse_verbatim_data_raw <- function(
   mapping_file,
   verbatim_file,
-  sheet,
-  translate_xlsm = FALSE
+  sheet
 ) {
   if (is.na(verbatim_file)) {
     return(NULL)

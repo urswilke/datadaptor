@@ -174,35 +174,14 @@ is_true_vec <- function(x) Vectorize(isTRUE)(x)
 globalVariables(".")
 
 
-#' @description `extract_named_region_params()` extracts the named regions from the
-#'   mapping file. Those starting with "R_" are read into a named list, having
-#'   their "R_" prefix removed.
-#'
-#' @return named list
-#' @export
-#' @rdname gen_mapping_params
-#'
-#' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#'
-#' extract_named_region_params(datenanpassr:::as_mapping_file_string(mapping_file))
-extract_named_region_params <- function(mapping_file,
-                                        mapping_type = attr(mapping_file, "mapping_type")) {
-  if (is.null(mapping_file)) {
-    return(NULL)
-  }
-  if (is.list(mapping_file)) {
-    return(NULL)
-  }
-  if (mapping_type == "excel") {
-    named_params_list <- extract_named_region_params_excel(mapping_file)
-  }
-  if (mapping_type == "google") {
-    named_params_list <- extract_named_region_params_google(mapping_file)
-  }
-  named_params_list
+extract_named_region_params <- function(mapping_file) {
+  UseMethod("extract_named_region_params", mapping_file)
 }
-extract_named_region_params_excel <- function(mapping_file) {
+extract_named_region_params.list <- function(variables) {
+  NULL
+}
+
+extract_named_region_params.excel <- function(mapping_file) {
   wb <- loadWorkbook(mapping_file) |> suppressWarnings()
   named_regions_raw <- getNamedRegions(wb)
   if (is.null(named_regions_raw)) {
@@ -211,7 +190,7 @@ extract_named_region_params_excel <- function(mapping_file) {
   named_regions <- as_tibble(named_regions_raw)
 
 
-  configr <- named_regions |>
+  params_df <- named_regions |>
     filter(grepl("^R_*", .data$value)) |>
     mutate(
       data = map(
@@ -229,8 +208,8 @@ extract_named_region_params_excel <- function(mapping_file) {
     )
 
 
-  named_params_list <- configr$data
-  names(named_params_list) <- str_sub(configr$value, 3)
+  named_params_list <- params_df$data
+  names(named_params_list) <- str_sub(params_df$value, 3)
 
   is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
@@ -243,14 +222,14 @@ extract_named_region_params_excel <- function(mapping_file) {
   named_params_list
 }
 
-extract_named_region_params_google <- function(mapping_file) {
-  gs <- gs4_get(mapping_file)
+extract_named_region_params.google <- function(mapping_file) {
+  gs <- gs4_get(mapping_file |> as.character())
   named_regions <- gs$named_ranges
   if (is.null(named_regions)) {
     return(NULL)
   }
 
-  configr <- named_regions |>
+  params_df <- named_regions |>
     filter(grepl("^R_*", .data$name)) |>
     mutate(
       data = map(
@@ -267,8 +246,8 @@ extract_named_region_params_google <- function(mapping_file) {
     unnest("data")
 
 
-  named_params_list <- configr$data
-  names(named_params_list) <- str_sub(configr$name, 3)
+  named_params_list <- params_df$data
+  names(named_params_list) <- str_sub(params_df$name, 3)
 
   is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
@@ -283,7 +262,7 @@ extract_named_region_params_google <- function(mapping_file) {
 
 
 # Function to replace windows backslashes to slashes and replace relative
-# filepaths by absolutes, based on the directory of the mapping file:
+# filepaths relatively to the location of the mapping file:
 adapt_filepath <- function(file_path, mapping_file) {
   file_path <- file_path |>
     str_replace_all("\\\\", "/")

@@ -4,7 +4,7 @@
 \alias{Mapping}
 \title{Mapping class}
 \description{
-The class \code{Mapping} can be used to apply the changes
+The \code{R6::R6Class()} \code{Mapping} can be used to apply the changes
 specified in the command blocks of an Excel mapping file to a (labelled)
 dataframe.
 
@@ -47,7 +47,18 @@ mapping$dat_mod
 \item{\code{dat}}{(filepath to pass to \code{haven::read_sav()} to read in the)
 labelled dataframe to apply the mapping on.}
 
-\item{\code{mapping_file}}{filepath of the Excel mapping file}
+\item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
+this string will be set to "mapping_type".}
+
+\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
+(for googlesheets), or "list". If not specified, when initializing it is
+auto-determined:
+\itemize{
+\item{"list": }{If \code{mapping_file} is a list object.}
+\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
+\item{"google": }{If \code{mapping_file} is another string, it is assumed that
+it is a valid \code{googlesheets4::as_sheets_id()}.}
+}}
 
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
@@ -64,7 +75,6 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Mapping-new}{\code{Mapping$new()}}
-\item \href{#method-Mapping-prep_cmd_tbl}{\code{Mapping$prep_cmd_tbl()}}
 \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-Mapping-save}{\code{Mapping$save()}}
 \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
@@ -76,7 +86,7 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \subsection{Method \code{new()}}{
 Initialize a Mapping object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL, mapping_type = NULL, ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -86,27 +96,11 @@ Initialize a Mapping object
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
 
+\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
+(for googlesheets), or "list".}
+
 \item{\code{...}}{Arguments passed to gen_mapping_params() which will populate
 the \code{params} field of the object.}
-}
-\if{html}{\out{</div>}}
-}
-}
-\if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Mapping-prep_cmd_tbl"></a>}}
-\if{latex}{\out{\hypertarget{method-Mapping-prep_cmd_tbl}{}}}
-\subsection{Method \code{prep_cmd_tbl()}}{
-Process all command blocks of the Excel mapping file to R. The command
-blocks of the Excel mapping file are translated to the \code{command_blocks()} field
-\code{self$cmd_tbl$command_blocks} field of the \code{Mapping} object.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$prep_cmd_tbl(...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{Arguments passed to \code{update_mapping_params()}}
 }
 \if{html}{\out{</div>}}
 }
@@ -121,11 +115,7 @@ the argument \code{command_blocks} (defaults to the Mapping's
 the field \code{"dat_mod"} according to their subclass methods of
 \code{apply_command()}.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(
-  reset = TRUE,
-  command_blocks = self$cmd_tbl$command_blocks,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -137,8 +127,6 @@ when applying \code{modify_data()} multiple times).}
 
 \item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
 processing of the Excel mapping file.}
-
-\item{\code{...}}{Arguments passed to \code{update_mapping_params()}}
 }
 \if{html}{\out{</div>}}
 }

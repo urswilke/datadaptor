@@ -55,15 +55,7 @@ make_cdb_raw <- function(name, meta, assignments, labs) {
 cdbs_raw <- list(meta_mdg_custom, meta_efa) |>
   purrr::map(~make_cdb_raw(name = name, meta = .x, assignments = assignments, labs = labs))
 
-m <- Mapping$new(dat, na_to_filter = FALSE, id_var = "id")
-m$cmd$sheet_data_raw$Verbatims <- cdbs_raw
-m$cmd$sheet_cats <- tibble::tibble(sheet = "Verbatims", sheet_type = "Verbatims")
-
-m$cmd$sheet_command_tables_raw <- datenanpassr:::gen_sheet_command_tables_raw(m)
-m$cmd$df_cmd_raw <- datenanpassr:::gen_command_table_raw(m)
-
-m$cmd$command_blocks <- datenanpassr:::command_blocks(m)
-m$cmd_tbl <- datenanpassr:::gen_command_table(m)
+m <- Mapping$new(dat, list(Verbatims = cdbs_raw), na_to_filter = FALSE, id_var = "id")
 
 m$modify_data()
 test_that("modified data print is reproduced", {

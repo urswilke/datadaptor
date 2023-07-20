@@ -86,38 +86,33 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
   self$cmd$sheet_data_raw[[sheet]] |>
     format_df_varl()
 }
-
-read_variables_sheet_raw <- function(mapping_file, sheet = "Variables", translate_xlsm = FALSE) {
-  if (attr(mapping_file, "mapping_type") == "google") {
-    return(read_sheet(
-      mapping_file,
-      sheet = sheet
-    ))
-  }
-  if (translate_xlsm) {
-    df_varl <- read_xlsm_variables_sheet_raw(mapping_file, sheet)
-  } else {
-    df_varl <- read_xlsx(
-      mapping_file,
-      sheet = sheet,
-      col_types = "text"
-    )
-  }
-  df_varl
+read_variables_sheet_raw <- function(mapping_file, sheet) {
+  UseMethod("read_variables_sheet_raw")
 }
-read_xlsm_variables_sheet_raw <- function(mapping_file, sheet) {
+read_variables_sheet_raw.google <- function(mapping_file, sheet) {
+  read_sheet(
+    mapping_file |> as.character(),
+    sheet = sheet
+  )
+}
+read_variables_sheet_raw.excel <- function(mapping_file, sheet) {
   read_xlsx(
     mapping_file,
     sheet = sheet,
-    range = cell_limits(c(3, 1), c(NA, 13)),
-    col_names = c("var", "nn1", "varlab", "nn2", "nn3", "nn4", "nn5", "nn6", "nn7", "nn8", "op", "new_name", "new_label"),
     col_types = "text"
-  ) |>
-    select(-matches("^nn[1-8]$"))
+  )
 }
 
 format_df_varl <- function(df_varl) {
-  df_varl |>
+  bind_rows(
+    tibble(
+      var       = character(),
+      op        = character(),
+      new_name  = character(),
+      new_label = character()
+    ),
+    df_varl
+  ) |>
     mutate(row = (row_number() + 1) |> as.character()) |>
     parse_varlab_cmd_table()
 }
@@ -235,81 +230,66 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   df_vall <- self$cmd$sheet_data_raw[[sheet]]
 
-  df_vall <- df_vall |>
+  df_vall <- bind_rows(
+    tibble(
+      var            = character(),
+      nv             = numeric(),
+      new_label      = character(),
+      sum_var_label  = character(),
+      sum_var_value  = numeric(),
+      sum_var_vallab = character(),
+    ),
+    df_vall
+  ) |>
     mutate(row = row_number() + 1)
-  bind_rows(
+  res <- bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
   )
+  res$sheet <- "Label"
+  res[c("sheet", "action", "new_var", "row", "data")]
 }
 
-read_label_sheet_raw <- function(mapping_file, sheet, translate_xlsm = FALSE) {
-  if (attr(mapping_file, "mapping_type") == "google") {
-    return(read_sheet(
-      mapping_file,
-      sheet = sheet
-    ))
-  }
-  if (translate_xlsm) {
-    df_vall <- read_xlsm_label_sheet_raw(mapping_file, sheet)
-  } else {
-    df_vall <- read_xlsx(
-      mapping_file,
-      sheet = sheet
-    )
-  }
-  df_vall
+read_label_sheet_raw <- function(mapping_file, sheet) {
+  UseMethod("read_label_sheet_raw")
 }
-read_xlsm_label_sheet_raw <- function(mapping_file, sheet) {
+read_label_sheet_raw.google <- function(mapping_file, sheet) {
+  read_sheet(
+    mapping_file |> as.character(),
+    sheet = sheet
+  )
+}
+read_label_sheet_raw.excel <- function(mapping_file, sheet) {
   read_xlsx(
     mapping_file,
-    sheet = sheet,
-    range = cell_limits(c(3, 1), c(NA, 9)),
-    col_names = c(
-      "var", "nv", "vallab", "new_label", "not_needed1",
-      "not_needed2", "sum_var_label", "sum_var_value",
-      "sum_var_vallab"
-    ),
-    col_types = "text"
-  ) |>
-    select(-all_of(c("not_needed1", "not_needed2"))) |>
-    mutate(
-      nv = as.numeric(.data$nv),
-      sum_var_value = as.numeric(.data$sum_var_value)
-    ) |>
-    fill("var")
+    sheet = sheet
+  )
 }
-
-
 
 parse_sumvar_cmd_table <- function(df_vall) {
-  df_vall |>
-    drop_na("sum_var_value") |>
-    select(-"new_label") |>
-    mutate(new_var = paste0("k", .data$var)) |>
-    mutate(orig_var = .data$var) |>
-    group_by(.data$new_var, .data$orig_var) |>
-    mutate(row = paste(.data$row, collapse = ", ")) |>
-    mutate(sheet = "Label") |>
-    mutate(action = "#SUMVAR") |>
-    relocate(all_of(c("sheet", "action"))) |>
-    group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
-    nest() |>
-    ungroup()
+  res <- df_vall[!is.na(df_vall$sum_var_value), ]
+  res$action <- "#SUMVAR"
+  res$new_label <- NULL
+  res$new_var <- paste0("k", res$var)
+  res$orig_var <- res$var
+  res <- res |>
+    mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
+    nest(data = -c("action", "new_var", "row"))
+  res[c("action", "new_var", "row", "data")]
 }
 parse_newvall_cmd_table <- function(df_vall) {
-  df_vall |>
-    drop_na("new_label") |>
-    mutate(new_var = .data$var) |>
-    mutate(orig_var = .data$var) |>
-    mutate(sheet = "Label") |>
-    mutate(action = "#NEWVALL") |>
-    relocate(all_of(c("sheet", "action"))) |>
-    group_by(.data$sheet, .data$action, .data$new_var) |>
-    mutate(row = paste(.data$row, collapse = ", ")) |>
-    group_by(.data$sheet, .data$action, .data$row, .data$new_var) |>
-    nest() |>
-    ungroup()
+  res <- df_vall[!is.na(df_vall$new_label), ]
+  res$action <- "#NEWVALL"
+  res$new_var <- res$var
+  res$orig_var <- res$var
+  res <- res |>
+    mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
+    nest(data = -c("action", "new_var", "row"))
+  res[c("action", "new_var", "row", "data")]
+  # df_vall |>
+  #   mutate(sheet = "Label", action = "#NEWVALL", new_var = .data$var, orig_var = .data$var, .before = 1) |>
+  #   mutate(row = paste(.data$row, collapse = ", "), .by = c(.data$new_var)) |>
+  #   nest(data = -c(.data$sheet, .data$action, .data$new_var, .data$row))
 }
 
 
@@ -335,45 +315,45 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' mapp_free_sheet_cmd_table(m)
 mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
   df_free <- self$cmd$sheet_data_raw[[sheet]]
-  if (nrow(df_free) > 0) {
-    df_free <- df_free[1:6]
-  } else {
-    df_free <-
-      tibble(
-        X1 = character(),
-        X2 = character(),
-        X3 = character(),
-        X4 = character(),
-        X5 = character(),
-        row = character(),
-      )
-
-  }
-  df_free |>
+  bind_rows(
+    tibble(
+      X1 = character(),
+      X2 = character(),
+      X3 = character(),
+      X4 = character(),
+      X5 = character(),
+      row = numeric(),
+    ),
+    df_free
+  ) |>
     put_absolute_filepaths(self$mapping_file) |>
     process_raw_free_cmd_table()
 }
-mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet = "Free1") {
-  if (attr(mapping_file, "mapping_type") == "google") {
-    df_free <- read_sheet(
-      mapping_file,
-      sheet = sheet,
-      range = "A:E",
-      col_types = "c",
-      col_names = paste0("X", 1:5)
-    )
-  }
-  if (attr(mapping_file, "mapping_type") == "excel") {
-    df_free <- read_xlsx(
-      mapping_file,
-      range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
-      col_names = paste0("X", 1:5),
-      col_types = "text"
-    )
-  }
-  df_free |>
+
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet) {
+  mapp_free_sheet_cmd_table_raw_raw(mapping_file, sheet) |>
     mutate(row = row_number()) |>
     filter(if_any(starts_with("X"), ~ !is.na(.)))
+}
+mapp_free_sheet_cmd_table_raw_raw <- function(mapping_file, sheet) {
+  UseMethod("mapp_free_sheet_cmd_table_raw_raw")
+}
+mapp_free_sheet_cmd_table_raw_raw.google <- function(mapping_file, sheet) {
+  read_sheet(
+    mapping_file |> as.character(),
+    sheet = sheet,
+    range = "A:E",
+    col_types = "c",
+    col_names = paste0("X", 1:5)
+  )
+}
+mapp_free_sheet_cmd_table_raw_raw.excel <- function(mapping_file, sheet) {
+  read_xlsx(
+    mapping_file,
+    range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
+    col_names = paste0("X", 1:5),
+    col_types = "text"
+  )
 }
 
 
@@ -419,7 +399,6 @@ get_new_var_name_free <- function(df_free_nested) {
   col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
     mutate(data = map(.data$data, ~slice(.x, 1))) |>
-    bind_rows() |>
     unnest("data") |>
     mutate(new_var = case_when(
       action %in% col3_names ~ .data$X3,
