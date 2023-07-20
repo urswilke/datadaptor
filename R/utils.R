@@ -304,6 +304,7 @@ for (f in safe_f) {
   safer_env[[f]] <- get(f, "package:base")
 }
 safer_env[["case_when"]] <- dplyr::case_when
+safer_env[["%>%"]] <- magrittr::`%>%`
 
 #' Remove attributes from a vector
 #'
