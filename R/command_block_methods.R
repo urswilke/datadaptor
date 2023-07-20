@@ -214,7 +214,7 @@ apply_command.cmd_merge <- function(
   )
   # If `xs` is specified in Excel sheet, keep only variables in `xs`:
   if (!is.na(xs[1])) {
-    df_merge <- df_merge |> select(c(id, xs))
+    df_merge <- df_merge[c(id, xs)]
   }
   id_vec <- mapping$dat_mod[[id]]
   if (!identical(
