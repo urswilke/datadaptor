@@ -170,73 +170,53 @@
 
 # diff_data() works
 
-    # A tibble: 64 x 12
-       var   double_old character_old      vallab_old type_old varlab_old double_new
-       <fct>      <dbl> <chr>              <chr>      <chr>    <chr>           <dbl>
-     1 q1             1 <NA>               not at all double   How much ~          1
-     2 q1             2 <NA>               a bit      double   How much ~          2
-     3 q1             3 <NA>               normal     double   How much ~          3
-     4 q1             4 <NA>               much       double   How much ~          4
-     5 q1             5 <NA>               very much  double   How much ~          5
-     6 q1            99 <NA>               no answer  double   How much ~         NA
-     7 q1            NA <NA>               <NA>       double   How much ~         NA
-     8 q2             1 <NA>               yes        double   Do you wa~          1
-     9 q2             2 <NA>               no         double   Do you wa~          2
-    10 q2            99 <NA>               no answer  double   Do you wa~         99
-    11 q2            NA <NA>               <NA>       double   Do you wa~         -2
-    12 q3             1 <NA>               not at all double   How likel~          1
-    13 q3             2 <NA>               a bit      double   How likel~          2
-    14 q3             3 <NA>               normal     double   How likel~          3
-    15 q3             4 <NA>               much       double   How likel~          4
-    16 q3             5 <NA>               very much  double   How likel~          5
-    17 q3            99 <NA>               no answer  double   How likel~         99
-    18 q3            NA <NA>               <NA>       double   How likel~         -2
-    19 q4             1 <NA>               not at all double   How much ~          1
-    20 q4             2 <NA>               a bit      double   How much ~          2
-    21 q4             3 <NA>               normal     double   How much ~          3
-    22 q4             4 <NA>               much       double   How much ~          4
-    23 q4             5 <NA>               very much  double   How much ~          5
-    24 q4            99 <NA>               no answer  double   How much ~         99
-    25 q4            NA <NA>               <NA>       double   How much ~         -2
-    26 q5             1 <NA>               not at all double   How much ~          1
-    27 q5             2 <NA>               a bit      double   How much ~          2
-    28 q5             3 <NA>               normal     double   How much ~          3
-    29 q5             4 <NA>               much       double   How much ~          4
-    30 q5             5 <NA>               very much  double   How much ~          5
-    31 q5            99 <NA>               no answer  double   How much ~         99
-    32 q5            NA <NA>               <NA>       double   How much ~         NA
-    33 q6            NA bla bla bla happi~ <NA>       charact~ Tell me s~          1
-    34 q6            NA bla bla bla joy    <NA>       charact~ Tell me s~          2
-    35 q6            NA bla bla bla love   <NA>       charact~ Tell me s~          3
-    36 q6            NA bla bla happiness  <NA>       charact~ Tell me s~          4
-    37 q6            NA bla bla joy        <NA>       charact~ Tell me s~          5
-    38 q6            NA bla bla love       <NA>       charact~ Tell me s~          6
-    39 q6            NA bla happiness      <NA>       charact~ Tell me s~          7
-    40 q6            NA bla joy            <NA>       charact~ Tell me s~          8
-    41 q6            NA bla love           <NA>       charact~ Tell me s~          9
-    42 q7            NA bla anger          <NA>       charact~ Tell me s~         NA
-    43 q7            NA bla bla anger      <NA>       charact~ Tell me s~         NA
-    44 q7            NA bla bla bla anger  <NA>       charact~ Tell me s~         NA
-    45 q7            NA bla bla bla fear   <NA>       charact~ Tell me s~         NA
-    46 q7            NA bla bla bla pain   <NA>       charact~ Tell me s~         NA
-    47 q7            NA bla bla bla sadne~ <NA>       charact~ Tell me s~         NA
-    48 q7            NA bla bla fear       <NA>       charact~ Tell me s~         NA
-    49 q7            NA bla bla pain       <NA>       charact~ Tell me s~         NA
-    50 q7            NA bla bla sadness    <NA>       charact~ Tell me s~         NA
-    51 q7            NA bla fear           <NA>       charact~ Tell me s~         NA
-    52 q7            NA bla pain           <NA>       charact~ Tell me s~         NA
-    53 q7            NA bla sadness        <NA>       charact~ Tell me s~         NA
-    54 q8            NA 1                  <NA>       charact~ A numeric~          1
-    55 q8            NA 10                 <NA>       charact~ A numeric~         10
-    56 q8            NA 2                  <NA>       charact~ A numeric~          2
-    57 q8            NA 3                  <NA>       charact~ A numeric~          3
-    58 q8            NA 4                  <NA>       charact~ A numeric~          4
-    59 q8            NA 5                  <NA>       charact~ A numeric~          5
-    60 q8            NA 6                  <NA>       charact~ A numeric~          6
-    61 q8            NA 7                  <NA>       charact~ A numeric~          7
-    62 q8            NA 8                  <NA>       charact~ A numeric~          8
-    63 q8            NA 9                  <NA>       charact~ A numeric~          9
-    64 q9            NA <NA>               <NA>       double   <NA>               NA
-    # i 5 more variables: character_new <chr>, vallab_new <chr>, type_new <chr>,
-    #   varlab_new <chr>, n <int>
+    # A tibble: 22 x 12
+       var   double_old character_old vallab_old type_old varlab_old double_new
+       <fct>      <dbl> <chr>         <chr>      <chr>    <chr>           <dbl>
+     1 q1             1 <NA>          "not a"    doubl    "How m"             1
+     2 q1             2 <NA>          "a bit"    doubl    "How m"             2
+     3 q1             3 <NA>          "norma"    doubl    "How m"             3
+     4 q1             4 <NA>          "much"     doubl    "How m"             4
+     5 q1             5 <NA>          "very "    doubl    "How m"             5
+     6 q1            99 <NA>          "no an"    doubl    "How m"            NA
+     7 q4             1 <NA>          "not a"    doubl    "How m"             1
+     8 q4             2 <NA>          "a bit"    doubl    "How m"             2
+     9 q4             3 <NA>          "norma"    doubl    "How m"             3
+    10 q4             4 <NA>          "much"     doubl    "How m"             4
+    11 q4             5 <NA>          "very "    doubl    "How m"             5
+    12 q4            99 <NA>          "no an"    doubl    "How m"            99
+    13 q4            NA <NA>           <NA>      doubl    "How m"            -2
+    14 q6            NA bla b          <NA>      chara    "Tell "             2
+    15 q6            NA bla b          <NA>      chara    "Tell "             3
+    16 q6            NA bla b          <NA>      chara    "Tell "             4
+    17 q6            NA bla b          <NA>      chara    "Tell "             5
+    18 q6            NA bla b          <NA>      chara    "Tell "             6
+    19 q6            NA bla h          <NA>      chara    "Tell "             7
+    20 q6            NA bla j          <NA>      chara    "Tell "             8
+    21 q6            NA bla l          <NA>      chara    "Tell "             9
+    22 q6            NA <NA>           <NA>      <NA>      <NA>               1
+       character_new vallab_new type_new varlab_new     n
+       <chr>         <chr>      <chr>    <chr>      <int>
+     1 <NA>          "not a"    doubl    "new_v"        1
+     2 <NA>          "a bit"    doubl    "new_v"        1
+     3 <NA>          "norma"    doubl    "new_v"        3
+     4 <NA>          "much"     doubl    "new_v"        0
+     5 <NA>          "very "    doubl    "new_v"        3
+     6 <NA>           <NA>      doubl    "new_v"        2
+     7 <NA>          "not a"    doubl    "How m"        1
+     8 <NA>          "a bit"    doubl    "How m"        2
+     9 <NA>          "norma"    doubl    "How m"        2
+    10 <NA>          "much"     doubl    "How m"        4
+    11 <NA>          "very "    doubl    "How m"        0
+    12 <NA>          "no an"    doubl    "How m"        0
+    13 <NA>          "FILTE"    doubl    "How m"        1
+    14 <NA>          "bla b"    doubl    "Tell "        1
+    15 <NA>          "bla b"    doubl    "Tell "        1
+    16 <NA>          "bla b"    doubl    "Tell "        1
+    17 <NA>          "bla b"    doubl    "Tell "        2
+    18 <NA>          "bla b"    doubl    "Tell "        2
+    19 <NA>          "bla h"    doubl    "Tell "        1
+    20 <NA>          "bla j"    doubl    "Tell "        1
+    21 <NA>          "bla l"    doubl    "Tell "        1
+    22 <NA>          "bla b"    doubl    "Tell "        0
 
