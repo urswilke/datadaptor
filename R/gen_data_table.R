@@ -106,7 +106,7 @@ diff_data <- function(df1,
   ) |>
     mutate(var = factor(.data$var, levels = allvars)) |>
     group_by(across(-c("long_id", "in_data_old", "in_data_new"))) |>
-    summarize(n = sum(in_data_old %in% 1 | in_data_new %in% 1)) |>
+    summarise(n = sum(.data$in_data_old %in% 1 | .data$in_data_new %in% 1)) |>
     ungroup() |>
     filter(n() <= n_max, .by = "var")
 }
