@@ -121,9 +121,7 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
       # lazy _ eager ...;
       # splits back the variable type until the first occurrence of _:
       names_pattern = "(.*?)_(.*)"
-    ) |>
-    arrange(var = factor(.data$var, unique(.data$var)))
-
+    )
 }
 
 long_labelled_data <- function(df, id_var = "DC_ID") {
