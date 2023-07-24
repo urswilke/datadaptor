@@ -96,9 +96,9 @@ diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
     long1,
     long2,
     suffix = c("_old", "_new"),
-    by = c(id_var, "var")
+    by = c("long_id", "var")
   ) |>
-    select(-all_of(c(id_var))) |>
+    select(-all_of(c("long_id"))) |>
     mutate(var = factor(.data$var, levels = allvars)) |>
     group_by_all() |>
     tally() |>
@@ -111,11 +111,11 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
   id_pos <- which(names(df) == id_var)
   coltypes <- df[-id_pos] |> map_chr(typeof)
   names(df)[-id_pos] <- paste0(coltypes, "_", names(df[-id_pos]))
-
+  names(df)[id_pos] <- "long_id"
 
   df |>
     pivot_longer(
-      cols = -all_of(id_var),
+      cols = -"long_id",
       names_to = c(".value", "var"),
       values_transform = strip_attributes,
       # lazy _ eager ...;
@@ -127,7 +127,7 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
 long_labelled_data <- function(df, id_var = "DC_ID") {
   counts <- lengthen_by_id(df, id_var)
   df_var <- df |>
-    select(-all_of(c(id_var))) |>
+    select(-all_of(id_var)) |>
     gen_var_table_raw()
 
   label <- tab_vallabs(df)
