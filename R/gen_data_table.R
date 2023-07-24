@@ -58,6 +58,8 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #' @param df1 data frame 1
 #' @param df2 data frame 2
 #' @param id_var name of the id variable (string)
+#' @param n_max Maximum number of values/value labels in variables. Variables
+#'   containing more than `n_max` won't be printed.
 #' @param warn whether to emit a warning if `df1` and `df2` don't contain the
 #'   same ids.
 #'
@@ -74,7 +76,11 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #' mapping <- Mapping$new(mtcars_labelled, mapping_file)
 #' mapping$modify_data()
 #' diff_data(mapping$dat, mapping$dat_mod, "id")
-diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
+diff_data <- function(df1,
+                      df2,
+                      id_var = "DC_ID",
+                      n_max = 20,
+                      warn = TRUE) {
   if (!setequal(df1[[id_var]], df2[[id_var]])) {
     if (warn) {
       warning(
@@ -101,7 +107,8 @@ diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
     mutate(var = factor(.data$var, levels = allvars)) |>
     group_by(across(-c("long_id", "in_data_old", "in_data_new"))) |>
     summarize(n = sum(in_data_old %in% 1 | in_data_new %in% 1)) |>
-    ungroup()
+    ungroup() |>
+    filter(n() <= n_max, .by = "var")
 }
 
 

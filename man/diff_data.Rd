@@ -4,7 +4,7 @@
 \alias{diff_data}
 \title{Diff to labelled data frames}
 \usage{
-diff_data(df1, df2, id_var = "DC_ID", warn = TRUE)
+diff_data(df1, df2, id_var = "DC_ID", n_max = 20, warn = TRUE)
 }
 \arguments{
 \item{df1}{data frame 1}
@@ -12,6 +12,9 @@ diff_data(df1, df2, id_var = "DC_ID", warn = TRUE)
 \item{df2}{data frame 2}
 
 \item{id_var}{name of the id variable (string)}
+
+\item{n_max}{Maximum number of values/value labels in variables. Variables
+containing more than \code{n_max} won't be printed.}
 
 \item{warn}{whether to emit a warning if \code{df1} and \code{df2} don't contain the
 same ids.}
