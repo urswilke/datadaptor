@@ -98,10 +98,9 @@ diff_data <- function(df1, df2, id_var = "DC_ID", warn = TRUE) {
     suffix = c("_old", "_new"),
     by = c("long_id", "var")
   ) |>
-    select(-all_of(c("long_id"))) |>
     mutate(var = factor(.data$var, levels = allvars)) |>
-    group_by_all() |>
-    tally() |>
+    group_by(across(-c("long_id", "in_data_old", "in_data_new"))) |>
+    summarize(n = sum(in_data_old %in% 1 | in_data_new %in% 1)) |>
     ungroup()
 }
 
@@ -126,13 +125,22 @@ lengthen_by_id <- function(df, id_var = "DC_ID") {
 
 long_labelled_data <- function(df, id_var = "DC_ID") {
   counts <- lengthen_by_id(df, id_var)
+  counts["in_data"] <- 1
   df_var <- df |>
     select(-all_of(id_var)) |>
     gen_var_table_raw()
 
   label <- tab_vallabs(df)
 
-  counts |>
+  res <- counts |>
     full_join(label, by=c("var", "double" = "nv")) |>
     full_join(df_var, by=c("var"))
+  res[["long_id"]] <- coalesce(
+    res[["long_id"]] |> as.character(),
+    paste0("empty_value_", coalesce(
+      res[["character"]],
+      res[["double"]] |> as.character()
+    ))
+  )
+  res
 }
