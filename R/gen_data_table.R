@@ -142,5 +142,12 @@ long_labelled_data <- function(df, id_var = "DC_ID") {
       res[["double"]] |> as.character()
     ))
   )
-  res
+  # hack to add columns if not in data:
+  if (!"character" %in% names(res)) {
+    res[["character"]] <- NA_character_
+  }
+  if (!"double" %in% names(res)) {
+    res[["double"]] <- NA_real_
+  }
+  res[c("long_id", "var", "double", "character", "in_data", "vallab", "type", "varlab")]
 }
