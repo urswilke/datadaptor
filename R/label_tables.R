@@ -3,8 +3,6 @@
 #' @param dat The new dataset
 #' @param mapping_file Path the Excel mapping file
 #' @param sheet Name of the variables sheet in the mapping file
-#' @param abort_if_commands_lost logical whether to abort if commands in the
-#'   sheet are lost when updating; defaults to `TRUE`.
 #'
 #' @return Dataframe containing the table of the updated "Variables" sheet
 #' @noRd
@@ -22,8 +20,7 @@
 #' update_var_table(dat_mod, mapping_file)
 update_var_table <- function(dat,
                              mapping_file,
-                             sheet = "Variables",
-                             abort_if_commands_lost = TRUE) {
+                             sheet = "Variables") {
   df_varl <- read_xlsx(
     mapping_file,
     sheet = sheet,
@@ -31,15 +28,14 @@ update_var_table <- function(dat,
   )
   df_varl_new <- gen_var_table_raw(dat)
 
-  if (abort_if_commands_lost) {
-    df_commands_lost <- df_varl |>
-      filter(if_any(c("new_label", "new_name", "op"), ~is.na(.x))) |>
-      anti_join(df_varl_new, by = c("var", "varlab", "type"))
-    stopifnot(nrow(df_commands_lost) == 0)
-  }
 
   df_varl_new |>
-    left_join(df_varl, by = c("var", "varlab", "type"))
+    power_full_join(
+      df_varl,
+      by = c("var"),
+      conflict = coalesce_yx
+    ) |>
+    relocate(c("type", "varlab"), .after = 1)
 }
 
 gen_var_table_raw <- function(dat) {
@@ -59,9 +55,6 @@ gen_var_table_raw <- function(dat) {
 #' @param dat The new dataset
 #' @param mapping_file Path the Excel mapping file
 #' @param sheet Name of the "Label" sheet in the mapping file
-#' @param abort_if_commands_lost logical whether to abort if commands in the
-#'   sheet are lost when updating; defaults to `TRUE`.
-#'
 #' @return Dataframe containing the table of the updated "Label" sheet
 #' @noRd
 #'
@@ -81,8 +74,7 @@ gen_var_table_raw <- function(dat) {
 #' update_label_table(dat_mod, mapping_file)
 update_label_table <- function(dat,
                                mapping_file,
-                               sheet = "Label",
-                               abort_if_commands_lost = TRUE) {
+                               sheet = "Label") {
   df_vall <- read_xlsx(
     mapping_file,
     sheet = sheet,
@@ -91,19 +83,9 @@ update_label_table <- function(dat,
     mutate(nv = as.numeric(.data$nv))
   df_vall_new <- tab_vallabs(dat)
 
-  if (abort_if_commands_lost) {
-    df_commands_lost <- df_vall |>
-      filter(if_any(
-        c("new_label", "sum_var_label", "sum_var_value", "sum_var_vallab"),
-        ~is.na(.x)
-      )) |>
-      anti_join(df_vall_new, by = c("var", "nv", "vallab"))
-    stopifnot(nrow(df_commands_lost) == 0)
-  }
-
   df_vall_new |>
-    left_join(df_vall, by = c("var", "nv", "vallab"))
-
+    powerjoin::power_full_join(df_vall, by = c("var", "nv"), conflict = coalesce_yx) |>
+    relocate(c("vallab"), .after = 2)
 }
 
 

@@ -1,3 +1,20 @@
+# update_var_table() print is reproduced
+
+    # A tibble: 11 x 6
+     var     type      varlab                               new_label op    new_name
+     <chr>   <chr>     <chr>                                <chr>     <chr> <chr>   
+     new_var double    "variable label of new_var"          <NA>      <NA>  <NA>    
+     q1      double    "How much do you like the product?"  Like Pro~ <NA>  <NA>    
+     q2      double    "Do you want to recommend the produ~ recommen~ <NA>  q2_rena~
+     q3      double    "How likely will you go dancing thi~ <NA>      <NA>  <NA>    
+     q4      double    "How much do you like your friends?" <NA>      <NA>  q4_rena~
+     q5      double    "How much do you like your best fri~ Like bes~ <NA>  <NA>    
+     id      double    ""                                   <NA>      <NA>  <NA>    
+     q6      character "Tell me something positive."        <NA>      a     <NA>    
+     q7      character "Tell me something negative."        <NA>      <NA>  <NA>    
+     q8      character "A numeric variable in string forma~ Now the ~ n     <NA>    
+     q9      double    ""                                   <NA>      d     <NA>    
+
 # update_label_table() print is reproduced
 
     # A tibble: 28 x 8
