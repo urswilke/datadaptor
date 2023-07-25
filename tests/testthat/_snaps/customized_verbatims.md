@@ -16,14 +16,16 @@
 
 # variable labels are reproduced
 
-    # A tibble: 5 x 2
+    # A tibble: 7 x 2
       var   varlab
       <chr> <chr> 
-    1 q3_1  A     
-    2 q3_2  B     
-    3 q3_3  C     
-    4 q3_4  D     
-    5 q3_5  E     
+    1 id    ""    
+    2 q2    ""    
+    3 q3_1  "A"   
+    4 q3_2  "B"   
+    5 q3_3  "C"   
+    6 q3_4  "D"   
+    7 q3_5  "E"   
 
 # value labels are reproduced
 

@@ -1,20 +1,3 @@
-# update_var_table() print is reproduced
-
-    # A tibble: 11 x 6
-       var     type      varlab                             new_label op    new_name
-       <chr>   <chr>     <chr>                              <chr>     <chr> <chr>   
-     1 new_var double    variable label of new_var          <NA>      <NA>  <NA>    
-     2 q1      double    How much do you like the product?  Like Pro~ <NA>  <NA>    
-     3 q2      double    Do you want to recommend the prod~ recommen~ <NA>  q2_rena~
-     4 q3      double    How likely will you go dancing th~ <NA>      <NA>  <NA>    
-     5 q4      double    How much do you like your friends? <NA>      <NA>  q4_rena~
-     6 q5      double    How much do you like your best fr~ Like bes~ <NA>  <NA>    
-     7 id      double    <NA>                               <NA>      <NA>  <NA>    
-     8 q6      character Tell me something positive.        <NA>      a     <NA>    
-     9 q7      character Tell me something negative.        <NA>      <NA>  <NA>    
-    10 q8      character A numeric variable in string form~ Now the ~ n     <NA>    
-    11 q9      double    <NA>                               <NA>      d     <NA>    
-
 # update_label_table() print is reproduced
 
     # A tibble: 28 x 8
@@ -56,17 +39,17 @@
                          q3    double Almost same variable label for q3 and q5
                          q1    double                               new_varlab
                          q5    double Almost same variable label for q5 and q3
-                         id    double                                     <NA>
+                         id    double                                         
                          q6    double              Tell me something positive.
                          q7 character              Tell me something negative.
                          q8    double   Now the variable is in numeric format.
                         kq5    double                                     test
                          q2    double                        recommend product
                          q4    double       How much do you like your friends?
-                        q97    double                                     <NA>
-                        q99    double                                     <NA>
-                        q6n    double                                     <NA>
-                        q7n    double                                     <NA>
+                        q97    double                                         
+                        q99    double                                         
+                        q6n    double                                         
+                        q7n    double                                         
                        q6_1    double                                     love
                        q6_2    double                                      joy
                        q6_3    double                                happiness
@@ -79,16 +62,16 @@
                    q6test_4    double                                 noch wat
                   q6test_97    double                                   Others
                   q6test_99    double                                No answer
-                       q6n1    double                                     <NA>
-                       q6n2    double                                     <NA>
-                       q6n3    double                                     <NA>
-                       q6n4    double                                     <NA>
-                       q6n5    double                                     <NA>
-                       q6n6    double                                     <NA>
-                       q6n7    double                                     <NA>
-                       q6n8    double                                     <NA>
-                       q6n9    double                                     <NA>
-                      q6n10    double                                     <NA>
+                       q6n1    double                                         
+                       q6n2    double                                         
+                       q6n3    double                                         
+                       q6n4    double                                         
+                       q6n5    double                                         
+                       q6n6    double                                         
+                       q6n7    double                                         
+                       q6n8    double                                         
+                       q6n9    double                                         
+                      q6n10    double                                         
                      q6mw_1    double                                     love
                      q6mw_2    double                                      joy
                      q6mw_3    double                                happiness
@@ -101,9 +84,9 @@
              q6_assign_nn_4    double                                 noch wat
             q6_assign_nn_97    double                                   Others
             q6_assign_nn_99    double                                No answer
-                          x    double                                     <NA>
-                        abc    double                                     <NA>
-                        kq6    double                                     <NA>
+                          x    double                                         
+                        abc    double                                         
+                        kq6    double                                         
                         kq1    double                      summarized variable
                         kq3    double                      summarized variable
      kq1xq2_renamedkminus20    double              FILTER: summarized variable
@@ -114,10 +97,10 @@
                          a1    double          same variable label for a1 & a2
                          a2    double          same variable label for a1 & a2
                  r_expr_var    double                                   varlab
-              sum_of_k_vars    double                                     <NA>
+              sum_of_k_vars    double                                         
                        kkq1    double                                       vl
-                       qsum    double                                     <NA>
-                  free2_var    double                                     <NA>
+                       qsum    double                                         
+                  free2_var    double                                         
 
 # gen_label_table_raw() print is reproduced
 

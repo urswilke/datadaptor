@@ -132,7 +132,8 @@ gen_var_table <- function(dat) {
     mutate(
       new_label = "",
       new_name = "",
-      op = ""
+      op = "",
+      hash = dat |> sapply(digest)
     )
 }
 
@@ -184,11 +185,7 @@ tab_vallabs <- function(df, remove_empty = TRUE) {
 }
 
 tab_1var_varlab <- function(x) {
-  varlab <- attr(x, "label", exact = TRUE)
-  if (is.null(varlab)) {
-    return(NA_character_)
-  }
-  varlab
+  attr(x, "label", exact = TRUE) %||% ""
 }
 tab_varlabs <- function(df, remove_empty = TRUE) {
   res <- df |>

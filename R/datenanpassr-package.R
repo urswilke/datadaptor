@@ -3,6 +3,7 @@
 
 ## usethis namespace: start
 #' @importFrom data.table fifelse
+#' @importFrom digest digest
 #' @importFrom dplyr across
 #' @importFrom dplyr add_count
 #' @importFrom dplyr all_of

@@ -53,6 +53,7 @@ Imports:
     utils,
     withr,
     googlesheets4,
-    powerjoin
+    powerjoin,
+    digest
 VignetteBuilder: knitr
 Language: en-US
