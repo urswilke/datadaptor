@@ -1,222 +1,222 @@
 # gen_data_table() works
 
     # A tibble: 164 x 7
-        var   double character              Freq vallab     type      varlab        
-        <chr>  <dbl> <chr>                 <int> <chr>      <chr>     <chr>         
-      1 q1         1 <NA>                     13 not at all double    How much do y~
-      2 q1         2 <NA>                     16 a bit      double    How much do y~
-      3 q1         3 <NA>                     18 normal     double    How much do y~
-      4 q1         4 <NA>                     16 much       double    How much do y~
-      5 q1         5 <NA>                     14 very much  double    How much do y~
-      6 q1        99 <NA>                     18 no answer  double    How much do y~
-      7 q1        NA <NA>                      5 <NA>       double    How much do y~
-      8 q2         1 <NA>                     28 yes        double    Do you want t~
-      9 q2         2 <NA>                     37 no         double    Do you want t~
-     10 q2        99 <NA>                     31 no answer  double    Do you want t~
-     11 q2        NA <NA>                      4 <NA>       double    Do you want t~
-     12 q3         1 <NA>                     17 not at all double    How likely wi~
-     13 q3         2 <NA>                     22 a bit      double    How likely wi~
-     14 q3         3 <NA>                     15 normal     double    How likely wi~
-     15 q3         4 <NA>                     19 much       double    How likely wi~
-     16 q3         5 <NA>                     18 very much  double    How likely wi~
-     17 q3        99 <NA>                      7 no answer  double    How likely wi~
-     18 q3        NA <NA>                      2 <NA>       double    How likely wi~
-     19 q4         1 <NA>                     15 not at all double    How much do y~
-     20 q4         2 <NA>                     18 a bit      double    How much do y~
-     21 q4         3 <NA>                     19 normal     double    How much do y~
-     22 q4         4 <NA>                     18 much       double    How much do y~
-     23 q4         5 <NA>                     14 very much  double    How much do y~
-     24 q4        99 <NA>                     13 no answer  double    How much do y~
-     25 q4        NA <NA>                      3 <NA>       double    How much do y~
-     26 q5         1 <NA>                     15 not at all double    How much do y~
-     27 q5         2 <NA>                     22 a bit      double    How much do y~
-     28 q5         3 <NA>                     17 normal     double    How much do y~
-     29 q5         4 <NA>                     20 much       double    How much do y~
-     30 q5         5 <NA>                     13 very much  double    How much do y~
-     31 q5        99 <NA>                     10 no answer  double    How much do y~
-     32 q5        NA <NA>                      3 <NA>       double    How much do y~
-     33 id         1 <NA>                      1 <NA>       double    <NA>          
-     34 id         2 <NA>                      1 <NA>       double    <NA>          
-     35 id         3 <NA>                      1 <NA>       double    <NA>          
-     36 id         4 <NA>                      1 <NA>       double    <NA>          
-     37 id         5 <NA>                      1 <NA>       double    <NA>          
-     38 id         6 <NA>                      1 <NA>       double    <NA>          
-     39 id         7 <NA>                      1 <NA>       double    <NA>          
-     40 id         8 <NA>                      1 <NA>       double    <NA>          
-     41 id         9 <NA>                      1 <NA>       double    <NA>          
-     42 id        10 <NA>                      1 <NA>       double    <NA>          
-     43 id        11 <NA>                      1 <NA>       double    <NA>          
-     44 id        12 <NA>                      1 <NA>       double    <NA>          
-     45 id        13 <NA>                      1 <NA>       double    <NA>          
-     46 id        14 <NA>                      1 <NA>       double    <NA>          
-     47 id        15 <NA>                      1 <NA>       double    <NA>          
-     48 id        16 <NA>                      1 <NA>       double    <NA>          
-     49 id        17 <NA>                      1 <NA>       double    <NA>          
-     50 id        18 <NA>                      1 <NA>       double    <NA>          
-     51 id        19 <NA>                      1 <NA>       double    <NA>          
-     52 id        20 <NA>                      1 <NA>       double    <NA>          
-     53 id        21 <NA>                      1 <NA>       double    <NA>          
-     54 id        22 <NA>                      1 <NA>       double    <NA>          
-     55 id        23 <NA>                      1 <NA>       double    <NA>          
-     56 id        24 <NA>                      1 <NA>       double    <NA>          
-     57 id        25 <NA>                      1 <NA>       double    <NA>          
-     58 id        26 <NA>                      1 <NA>       double    <NA>          
-     59 id        27 <NA>                      1 <NA>       double    <NA>          
-     60 id        28 <NA>                      1 <NA>       double    <NA>          
-     61 id        29 <NA>                      1 <NA>       double    <NA>          
-     62 id        30 <NA>                      1 <NA>       double    <NA>          
-     63 id        31 <NA>                      1 <NA>       double    <NA>          
-     64 id        32 <NA>                      1 <NA>       double    <NA>          
-     65 id        33 <NA>                      1 <NA>       double    <NA>          
-     66 id        34 <NA>                      1 <NA>       double    <NA>          
-     67 id        35 <NA>                      1 <NA>       double    <NA>          
-     68 id        36 <NA>                      1 <NA>       double    <NA>          
-     69 id        37 <NA>                      1 <NA>       double    <NA>          
-     70 id        38 <NA>                      1 <NA>       double    <NA>          
-     71 id        39 <NA>                      1 <NA>       double    <NA>          
-     72 id        40 <NA>                      1 <NA>       double    <NA>          
-     73 id        41 <NA>                      1 <NA>       double    <NA>          
-     74 id        42 <NA>                      1 <NA>       double    <NA>          
-     75 id        43 <NA>                      1 <NA>       double    <NA>          
-     76 id        44 <NA>                      1 <NA>       double    <NA>          
-     77 id        45 <NA>                      1 <NA>       double    <NA>          
-     78 id        46 <NA>                      1 <NA>       double    <NA>          
-     79 id        47 <NA>                      1 <NA>       double    <NA>          
-     80 id        48 <NA>                      1 <NA>       double    <NA>          
-     81 id        49 <NA>                      1 <NA>       double    <NA>          
-     82 id        50 <NA>                      1 <NA>       double    <NA>          
-     83 id        51 <NA>                      1 <NA>       double    <NA>          
-     84 id        52 <NA>                      1 <NA>       double    <NA>          
-     85 id        53 <NA>                      1 <NA>       double    <NA>          
-     86 id        54 <NA>                      1 <NA>       double    <NA>          
-     87 id        55 <NA>                      1 <NA>       double    <NA>          
-     88 id        56 <NA>                      1 <NA>       double    <NA>          
-     89 id        57 <NA>                      1 <NA>       double    <NA>          
-     90 id        58 <NA>                      1 <NA>       double    <NA>          
-     91 id        59 <NA>                      1 <NA>       double    <NA>          
-     92 id        60 <NA>                      1 <NA>       double    <NA>          
-     93 id        61 <NA>                      1 <NA>       double    <NA>          
-     94 id        62 <NA>                      1 <NA>       double    <NA>          
-     95 id        63 <NA>                      1 <NA>       double    <NA>          
-     96 id        64 <NA>                      1 <NA>       double    <NA>          
-     97 id        65 <NA>                      1 <NA>       double    <NA>          
-     98 id        66 <NA>                      1 <NA>       double    <NA>          
-     99 id        67 <NA>                      1 <NA>       double    <NA>          
-    100 id        68 <NA>                      1 <NA>       double    <NA>          
-    101 id        69 <NA>                      1 <NA>       double    <NA>          
-    102 id        70 <NA>                      1 <NA>       double    <NA>          
-    103 id        71 <NA>                      1 <NA>       double    <NA>          
-    104 id        72 <NA>                      1 <NA>       double    <NA>          
-    105 id        73 <NA>                      1 <NA>       double    <NA>          
-    106 id        74 <NA>                      1 <NA>       double    <NA>          
-    107 id        75 <NA>                      1 <NA>       double    <NA>          
-    108 id        76 <NA>                      1 <NA>       double    <NA>          
-    109 id        77 <NA>                      1 <NA>       double    <NA>          
-    110 id        78 <NA>                      1 <NA>       double    <NA>          
-    111 id        79 <NA>                      1 <NA>       double    <NA>          
-    112 id        80 <NA>                      1 <NA>       double    <NA>          
-    113 id        81 <NA>                      1 <NA>       double    <NA>          
-    114 id        82 <NA>                      1 <NA>       double    <NA>          
-    115 id        83 <NA>                      1 <NA>       double    <NA>          
-    116 id        84 <NA>                      1 <NA>       double    <NA>          
-    117 id        85 <NA>                      1 <NA>       double    <NA>          
-    118 id        86 <NA>                      1 <NA>       double    <NA>          
-    119 id        87 <NA>                      1 <NA>       double    <NA>          
-    120 id        88 <NA>                      1 <NA>       double    <NA>          
-    121 id        89 <NA>                      1 <NA>       double    <NA>          
-    122 id        90 <NA>                      1 <NA>       double    <NA>          
-    123 id        91 <NA>                      1 <NA>       double    <NA>          
-    124 id        92 <NA>                      1 <NA>       double    <NA>          
-    125 id        93 <NA>                      1 <NA>       double    <NA>          
-    126 id        94 <NA>                      1 <NA>       double    <NA>          
-    127 id        95 <NA>                      1 <NA>       double    <NA>          
-    128 id        96 <NA>                      1 <NA>       double    <NA>          
-    129 id        97 <NA>                      1 <NA>       double    <NA>          
-    130 id        98 <NA>                      1 <NA>       double    <NA>          
-    131 id        99 <NA>                      1 <NA>       double    <NA>          
-    132 id       100 <NA>                      1 <NA>       double    <NA>          
-    133 q6        NA bla bla bla happiness    10 <NA>       character Tell me somet~
-    134 q6        NA bla bla bla joy           8 <NA>       character Tell me somet~
-    135 q6        NA bla bla bla love         11 <NA>       character Tell me somet~
-    136 q6        NA bla bla happiness        10 <NA>       character Tell me somet~
-    137 q6        NA bla bla joy              19 <NA>       character Tell me somet~
-    138 q6        NA bla bla love              9 <NA>       character Tell me somet~
-    139 q6        NA bla happiness             8 <NA>       character Tell me somet~
-    140 q6        NA bla joy                  14 <NA>       character Tell me somet~
-    141 q6        NA bla love                 11 <NA>       character Tell me somet~
-    142 q7        NA bla anger                 9 <NA>       character Tell me somet~
-    143 q7        NA bla bla anger             9 <NA>       character Tell me somet~
-    144 q7        NA bla bla bla anger        11 <NA>       character Tell me somet~
-    145 q7        NA bla bla bla fear          6 <NA>       character Tell me somet~
-    146 q7        NA bla bla bla pain          7 <NA>       character Tell me somet~
-    147 q7        NA bla bla bla sadness       6 <NA>       character Tell me somet~
-    148 q7        NA bla bla fear              7 <NA>       character Tell me somet~
-    149 q7        NA bla bla pain              7 <NA>       character Tell me somet~
-    150 q7        NA bla bla sadness          11 <NA>       character Tell me somet~
-    151 q7        NA bla fear                 14 <NA>       character Tell me somet~
-    152 q7        NA bla pain                 11 <NA>       character Tell me somet~
-    153 q7        NA bla sadness               2 <NA>       character Tell me somet~
-    154 q8        NA 1                        10 <NA>       character A numeric var~
-    155 q8        NA 10                       13 <NA>       character A numeric var~
-    156 q8        NA 2                         6 <NA>       character A numeric var~
-    157 q8        NA 3                        12 <NA>       character A numeric var~
-    158 q8        NA 4                        12 <NA>       character A numeric var~
-    159 q8        NA 5                         6 <NA>       character A numeric var~
-    160 q8        NA 6                         7 <NA>       character A numeric var~
-    161 q8        NA 7                        10 <NA>       character A numeric var~
-    162 q8        NA 8                        13 <NA>       character A numeric var~
-    163 q8        NA 9                        11 <NA>       character A numeric var~
-    164 q9        NA <NA>                    100 <NA>       double    <NA>          
+     var   double character              Freq vallab     type      varlab           
+     <chr>  <dbl> <chr>                 <int> <chr>      <chr>     <chr>            
+     q1         1 <NA>                     13 not at all double    How much do you ~
+     q1         2 <NA>                     16 a bit      double    How much do you ~
+     q1         3 <NA>                     18 normal     double    How much do you ~
+     q1         4 <NA>                     16 much       double    How much do you ~
+     q1         5 <NA>                     14 very much  double    How much do you ~
+     q1        99 <NA>                     18 no answer  double    How much do you ~
+     q1        NA <NA>                      5 <NA>       double    How much do you ~
+     q2         1 <NA>                     28 yes        double    Do you want to r~
+     q2         2 <NA>                     37 no         double    Do you want to r~
+     q2        99 <NA>                     31 no answer  double    Do you want to r~
+     q2        NA <NA>                      4 <NA>       double    Do you want to r~
+     q3         1 <NA>                     17 not at all double    How likely will ~
+     q3         2 <NA>                     22 a bit      double    How likely will ~
+     q3         3 <NA>                     15 normal     double    How likely will ~
+     q3         4 <NA>                     19 much       double    How likely will ~
+     q3         5 <NA>                     18 very much  double    How likely will ~
+     q3        99 <NA>                      7 no answer  double    How likely will ~
+     q3        NA <NA>                      2 <NA>       double    How likely will ~
+     q4         1 <NA>                     15 not at all double    How much do you ~
+     q4         2 <NA>                     18 a bit      double    How much do you ~
+     q4         3 <NA>                     19 normal     double    How much do you ~
+     q4         4 <NA>                     18 much       double    How much do you ~
+     q4         5 <NA>                     14 very much  double    How much do you ~
+     q4        99 <NA>                     13 no answer  double    How much do you ~
+     q4        NA <NA>                      3 <NA>       double    How much do you ~
+     q5         1 <NA>                     15 not at all double    How much do you ~
+     q5         2 <NA>                     22 a bit      double    How much do you ~
+     q5         3 <NA>                     17 normal     double    How much do you ~
+     q5         4 <NA>                     20 much       double    How much do you ~
+     q5         5 <NA>                     13 very much  double    How much do you ~
+     q5        99 <NA>                     10 no answer  double    How much do you ~
+     q5        NA <NA>                      3 <NA>       double    How much do you ~
+     id         1 <NA>                      1 <NA>       double    <NA>             
+     id         2 <NA>                      1 <NA>       double    <NA>             
+     id         3 <NA>                      1 <NA>       double    <NA>             
+     id         4 <NA>                      1 <NA>       double    <NA>             
+     id         5 <NA>                      1 <NA>       double    <NA>             
+     id         6 <NA>                      1 <NA>       double    <NA>             
+     id         7 <NA>                      1 <NA>       double    <NA>             
+     id         8 <NA>                      1 <NA>       double    <NA>             
+     id         9 <NA>                      1 <NA>       double    <NA>             
+     id        10 <NA>                      1 <NA>       double    <NA>             
+     id        11 <NA>                      1 <NA>       double    <NA>             
+     id        12 <NA>                      1 <NA>       double    <NA>             
+     id        13 <NA>                      1 <NA>       double    <NA>             
+     id        14 <NA>                      1 <NA>       double    <NA>             
+     id        15 <NA>                      1 <NA>       double    <NA>             
+     id        16 <NA>                      1 <NA>       double    <NA>             
+     id        17 <NA>                      1 <NA>       double    <NA>             
+     id        18 <NA>                      1 <NA>       double    <NA>             
+     id        19 <NA>                      1 <NA>       double    <NA>             
+     id        20 <NA>                      1 <NA>       double    <NA>             
+     id        21 <NA>                      1 <NA>       double    <NA>             
+     id        22 <NA>                      1 <NA>       double    <NA>             
+     id        23 <NA>                      1 <NA>       double    <NA>             
+     id        24 <NA>                      1 <NA>       double    <NA>             
+     id        25 <NA>                      1 <NA>       double    <NA>             
+     id        26 <NA>                      1 <NA>       double    <NA>             
+     id        27 <NA>                      1 <NA>       double    <NA>             
+     id        28 <NA>                      1 <NA>       double    <NA>             
+     id        29 <NA>                      1 <NA>       double    <NA>             
+     id        30 <NA>                      1 <NA>       double    <NA>             
+     id        31 <NA>                      1 <NA>       double    <NA>             
+     id        32 <NA>                      1 <NA>       double    <NA>             
+     id        33 <NA>                      1 <NA>       double    <NA>             
+     id        34 <NA>                      1 <NA>       double    <NA>             
+     id        35 <NA>                      1 <NA>       double    <NA>             
+     id        36 <NA>                      1 <NA>       double    <NA>             
+     id        37 <NA>                      1 <NA>       double    <NA>             
+     id        38 <NA>                      1 <NA>       double    <NA>             
+     id        39 <NA>                      1 <NA>       double    <NA>             
+     id        40 <NA>                      1 <NA>       double    <NA>             
+     id        41 <NA>                      1 <NA>       double    <NA>             
+     id        42 <NA>                      1 <NA>       double    <NA>             
+     id        43 <NA>                      1 <NA>       double    <NA>             
+     id        44 <NA>                      1 <NA>       double    <NA>             
+     id        45 <NA>                      1 <NA>       double    <NA>             
+     id        46 <NA>                      1 <NA>       double    <NA>             
+     id        47 <NA>                      1 <NA>       double    <NA>             
+     id        48 <NA>                      1 <NA>       double    <NA>             
+     id        49 <NA>                      1 <NA>       double    <NA>             
+     id        50 <NA>                      1 <NA>       double    <NA>             
+     id        51 <NA>                      1 <NA>       double    <NA>             
+     id        52 <NA>                      1 <NA>       double    <NA>             
+     id        53 <NA>                      1 <NA>       double    <NA>             
+     id        54 <NA>                      1 <NA>       double    <NA>             
+     id        55 <NA>                      1 <NA>       double    <NA>             
+     id        56 <NA>                      1 <NA>       double    <NA>             
+     id        57 <NA>                      1 <NA>       double    <NA>             
+     id        58 <NA>                      1 <NA>       double    <NA>             
+     id        59 <NA>                      1 <NA>       double    <NA>             
+     id        60 <NA>                      1 <NA>       double    <NA>             
+     id        61 <NA>                      1 <NA>       double    <NA>             
+     id        62 <NA>                      1 <NA>       double    <NA>             
+     id        63 <NA>                      1 <NA>       double    <NA>             
+     id        64 <NA>                      1 <NA>       double    <NA>             
+     id        65 <NA>                      1 <NA>       double    <NA>             
+     id        66 <NA>                      1 <NA>       double    <NA>             
+     id        67 <NA>                      1 <NA>       double    <NA>             
+     id        68 <NA>                      1 <NA>       double    <NA>             
+     id        69 <NA>                      1 <NA>       double    <NA>             
+     id        70 <NA>                      1 <NA>       double    <NA>             
+     id        71 <NA>                      1 <NA>       double    <NA>             
+     id        72 <NA>                      1 <NA>       double    <NA>             
+     id        73 <NA>                      1 <NA>       double    <NA>             
+     id        74 <NA>                      1 <NA>       double    <NA>             
+     id        75 <NA>                      1 <NA>       double    <NA>             
+     id        76 <NA>                      1 <NA>       double    <NA>             
+     id        77 <NA>                      1 <NA>       double    <NA>             
+     id        78 <NA>                      1 <NA>       double    <NA>             
+     id        79 <NA>                      1 <NA>       double    <NA>             
+     id        80 <NA>                      1 <NA>       double    <NA>             
+     id        81 <NA>                      1 <NA>       double    <NA>             
+     id        82 <NA>                      1 <NA>       double    <NA>             
+     id        83 <NA>                      1 <NA>       double    <NA>             
+     id        84 <NA>                      1 <NA>       double    <NA>             
+     id        85 <NA>                      1 <NA>       double    <NA>             
+     id        86 <NA>                      1 <NA>       double    <NA>             
+     id        87 <NA>                      1 <NA>       double    <NA>             
+     id        88 <NA>                      1 <NA>       double    <NA>             
+     id        89 <NA>                      1 <NA>       double    <NA>             
+     id        90 <NA>                      1 <NA>       double    <NA>             
+     id        91 <NA>                      1 <NA>       double    <NA>             
+     id        92 <NA>                      1 <NA>       double    <NA>             
+     id        93 <NA>                      1 <NA>       double    <NA>             
+     id        94 <NA>                      1 <NA>       double    <NA>             
+     id        95 <NA>                      1 <NA>       double    <NA>             
+     id        96 <NA>                      1 <NA>       double    <NA>             
+     id        97 <NA>                      1 <NA>       double    <NA>             
+     id        98 <NA>                      1 <NA>       double    <NA>             
+     id        99 <NA>                      1 <NA>       double    <NA>             
+     id       100 <NA>                      1 <NA>       double    <NA>             
+     q6        NA bla bla bla happiness    10 <NA>       character Tell me somethin~
+     q6        NA bla bla bla joy           8 <NA>       character Tell me somethin~
+     q6        NA bla bla bla love         11 <NA>       character Tell me somethin~
+     q6        NA bla bla happiness        10 <NA>       character Tell me somethin~
+     q6        NA bla bla joy              19 <NA>       character Tell me somethin~
+     q6        NA bla bla love              9 <NA>       character Tell me somethin~
+     q6        NA bla happiness             8 <NA>       character Tell me somethin~
+     q6        NA bla joy                  14 <NA>       character Tell me somethin~
+     q6        NA bla love                 11 <NA>       character Tell me somethin~
+     q7        NA bla anger                 9 <NA>       character Tell me somethin~
+     q7        NA bla bla anger             9 <NA>       character Tell me somethin~
+     q7        NA bla bla bla anger        11 <NA>       character Tell me somethin~
+     q7        NA bla bla bla fear          6 <NA>       character Tell me somethin~
+     q7        NA bla bla bla pain          7 <NA>       character Tell me somethin~
+     q7        NA bla bla bla sadness       6 <NA>       character Tell me somethin~
+     q7        NA bla bla fear              7 <NA>       character Tell me somethin~
+     q7        NA bla bla pain              7 <NA>       character Tell me somethin~
+     q7        NA bla bla sadness          11 <NA>       character Tell me somethin~
+     q7        NA bla fear                 14 <NA>       character Tell me somethin~
+     q7        NA bla pain                 11 <NA>       character Tell me somethin~
+     q7        NA bla sadness               2 <NA>       character Tell me somethin~
+     q8        NA 1                        10 <NA>       character A numeric variab~
+     q8        NA 10                       13 <NA>       character A numeric variab~
+     q8        NA 2                         6 <NA>       character A numeric variab~
+     q8        NA 3                        12 <NA>       character A numeric variab~
+     q8        NA 4                        12 <NA>       character A numeric variab~
+     q8        NA 5                         6 <NA>       character A numeric variab~
+     q8        NA 6                         7 <NA>       character A numeric variab~
+     q8        NA 7                        10 <NA>       character A numeric variab~
+     q8        NA 8                        13 <NA>       character A numeric variab~
+     q8        NA 9                        11 <NA>       character A numeric variab~
+     q9        NA <NA>                    100 <NA>       double    <NA>             
 
 # diff_data() works
 
     # A tibble: 22 x 12
-       var   double_old character_old vallab_old type_old varlab_old double_new
-       <fct>      <dbl> <chr>         <chr>      <chr>    <chr>           <dbl>
-     1 q1             1 <NA>          "not a"    doubl    "How m"             1
-     2 q1             2 <NA>          "a bit"    doubl    "How m"             2
-     3 q1             3 <NA>          "norma"    doubl    "How m"             3
-     4 q1             4 <NA>          "much"     doubl    "How m"             4
-     5 q1             5 <NA>          "very "    doubl    "How m"             5
-     6 q1            99 <NA>          "no an"    doubl    "How m"            NA
-     7 q4             1 <NA>          "not a"    doubl    "How m"             1
-     8 q4             2 <NA>          "a bit"    doubl    "How m"             2
-     9 q4             3 <NA>          "norma"    doubl    "How m"             3
-    10 q4             4 <NA>          "much"     doubl    "How m"             4
-    11 q4             5 <NA>          "very "    doubl    "How m"             5
-    12 q4            99 <NA>          "no an"    doubl    "How m"            99
-    13 q4            NA <NA>           <NA>      doubl    "How m"            -2
-    14 q6            NA bla b          <NA>      chara    "Tell "             2
-    15 q6            NA bla b          <NA>      chara    "Tell "             3
-    16 q6            NA bla b          <NA>      chara    "Tell "             4
-    17 q6            NA bla b          <NA>      chara    "Tell "             5
-    18 q6            NA bla b          <NA>      chara    "Tell "             6
-    19 q6            NA bla h          <NA>      chara    "Tell "             7
-    20 q6            NA bla j          <NA>      chara    "Tell "             8
-    21 q6            NA bla l          <NA>      chara    "Tell "             9
-    22 q6            NA <NA>           <NA>      <NA>      <NA>               1
-       character_new vallab_new type_new varlab_new     n
-       <chr>         <chr>      <chr>    <chr>      <int>
-     1 <NA>          "not a"    doubl    "new_v"        1
-     2 <NA>          "a bit"    doubl    "new_v"        1
-     3 <NA>          "norma"    doubl    "new_v"        3
-     4 <NA>          "much"     doubl    "new_v"        0
-     5 <NA>          "very "    doubl    "new_v"        3
-     6 <NA>           <NA>      doubl    "new_v"        2
-     7 <NA>          "not a"    doubl    "How m"        1
-     8 <NA>          "a bit"    doubl    "How m"        2
-     9 <NA>          "norma"    doubl    "How m"        2
-    10 <NA>          "much"     doubl    "How m"        4
-    11 <NA>          "very "    doubl    "How m"        0
-    12 <NA>          "no an"    doubl    "How m"        0
-    13 <NA>          "FILTE"    doubl    "How m"        1
-    14 <NA>          "bla b"    doubl    "Tell "        1
-    15 <NA>          "bla b"    doubl    "Tell "        1
-    16 <NA>          "bla b"    doubl    "Tell "        1
-    17 <NA>          "bla b"    doubl    "Tell "        2
-    18 <NA>          "bla b"    doubl    "Tell "        2
-    19 <NA>          "bla h"    doubl    "Tell "        1
-    20 <NA>          "bla j"    doubl    "Tell "        1
-    21 <NA>          "bla l"    doubl    "Tell "        1
-    22 <NA>          "bla b"    doubl    "Tell "        0
+     var   double_old character_old vallab_old type_old varlab_old double_new
+     <fct>      <dbl> <chr>         <chr>      <chr>    <chr>           <dbl>
+     q1             1 <NA>          "not a"    doubl    "How m"             1
+     q1             2 <NA>          "a bit"    doubl    "How m"             2
+     q1             3 <NA>          "norma"    doubl    "How m"             3
+     q1             4 <NA>          "much"     doubl    "How m"             4
+     q1             5 <NA>          "very "    doubl    "How m"             5
+     q1            99 <NA>          "no an"    doubl    "How m"            NA
+     q4             1 <NA>          "not a"    doubl    "How m"             1
+     q4             2 <NA>          "a bit"    doubl    "How m"             2
+     q4             3 <NA>          "norma"    doubl    "How m"             3
+     q4             4 <NA>          "much"     doubl    "How m"             4
+     q4             5 <NA>          "very "    doubl    "How m"             5
+     q4            99 <NA>          "no an"    doubl    "How m"            99
+     q4            NA <NA>           <NA>      doubl    "How m"            -2
+     q6            NA bla b          <NA>      chara    "Tell "             2
+     q6            NA bla b          <NA>      chara    "Tell "             3
+     q6            NA bla b          <NA>      chara    "Tell "             4
+     q6            NA bla b          <NA>      chara    "Tell "             5
+     q6            NA bla b          <NA>      chara    "Tell "             6
+     q6            NA bla h          <NA>      chara    "Tell "             7
+     q6            NA bla j          <NA>      chara    "Tell "             8
+     q6            NA bla l          <NA>      chara    "Tell "             9
+     q6            NA <NA>           <NA>      <NA>      <NA>               1
+     character_new vallab_new type_new varlab_new     n
+     <chr>         <chr>      <chr>    <chr>      <int>
+     <NA>          "not a"    doubl    "new_v"        1
+     <NA>          "a bit"    doubl    "new_v"        1
+     <NA>          "norma"    doubl    "new_v"        3
+     <NA>          "much"     doubl    "new_v"        0
+     <NA>          "very "    doubl    "new_v"        3
+     <NA>           <NA>      doubl    "new_v"        2
+     <NA>          "not a"    doubl    "How m"        1
+     <NA>          "a bit"    doubl    "How m"        2
+     <NA>          "norma"    doubl    "How m"        2
+     <NA>          "much"     doubl    "How m"        4
+     <NA>          "very "    doubl    "How m"        0
+     <NA>          "no an"    doubl    "How m"        0
+     <NA>          "FILTE"    doubl    "How m"        1
+     <NA>          "bla b"    doubl    "Tell "        1
+     <NA>          "bla b"    doubl    "Tell "        1
+     <NA>          "bla b"    doubl    "Tell "        1
+     <NA>          "bla b"    doubl    "Tell "        2
+     <NA>          "bla b"    doubl    "Tell "        2
+     <NA>          "bla h"    doubl    "Tell "        1
+     <NA>          "bla j"    doubl    "Tell "        1
+     <NA>          "bla l"    doubl    "Tell "        1
+     <NA>          "bla b"    doubl    "Tell "        0
 

@@ -17,43 +17,43 @@
 # variable labels are reproduced
 
     # A tibble: 5 x 2
-      var   varlab
-      <chr> <chr> 
-    1 q3_1  A     
-    2 q3_2  B     
-    3 q3_3  C     
-    4 q3_4  D     
-    5 q3_5  E     
+     var   varlab
+     <chr> <chr> 
+     q3_1  A     
+     q3_2  B     
+     q3_3  C     
+     q3_4  D     
+     q3_5  E     
 
 # value labels are reproduced
 
     # A tibble: 26 x 3
-       var      nv vallab   
-       <chr> <dbl> <chr>    
-     1 q2       -2 FILTER   
-     2 q2        1 A        
-     3 q2        2 B        
-     4 q2        3 C        
-     5 q2        4 D        
-     6 q2        5 E        
-     7 q3_1      1 rating: A
-     8 q3_1      2 rating: B
-     9 q3_1      3 rating: C
-    10 q3_1      4 rating: D
-    11 q3_2      1 rating: A
-    12 q3_2      2 rating: B
-    13 q3_2      3 rating: C
-    14 q3_2      4 rating: D
-    15 q3_3      1 rating: A
-    16 q3_3      2 rating: B
-    17 q3_3      3 rating: C
-    18 q3_3      4 rating: D
-    19 q3_4      1 rating: A
-    20 q3_4      2 rating: B
-    21 q3_4      3 rating: C
-    22 q3_4      4 rating: D
-    23 q3_5      1 rating: A
-    24 q3_5      2 rating: B
-    25 q3_5      3 rating: C
-    26 q3_5      4 rating: D
+     var      nv vallab   
+     <chr> <dbl> <chr>    
+     q2       -2 FILTER   
+     q2        1 A        
+     q2        2 B        
+     q2        3 C        
+     q2        4 D        
+     q2        5 E        
+     q3_1      1 rating: A
+     q3_1      2 rating: B
+     q3_1      3 rating: C
+     q3_1      4 rating: D
+     q3_2      1 rating: A
+     q3_2      2 rating: B
+     q3_2      3 rating: C
+     q3_2      4 rating: D
+     q3_3      1 rating: A
+     q3_3      2 rating: B
+     q3_3      3 rating: C
+     q3_3      4 rating: D
+     q3_4      1 rating: A
+     q3_4      2 rating: B
+     q3_4      3 rating: C
+     q3_4      4 rating: D
+     q3_5      1 rating: A
+     q3_5      2 rating: B
+     q3_5      3 rating: C
+     q3_5      4 rating: D
 
