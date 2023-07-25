@@ -24,6 +24,7 @@ test_that("update_label_table() print is reproduced", {
 # dat_with_non_na$q3[is.na(dat_with_non_na$q3)] <- 1
 # mapping_label_checks <- Mapping$new(dat = dat_with_non_na, mapping_file = mapping_file)
 mapping_label_checks <- mapping$clone(deep = TRUE)
+mapping_label_checks$dat$q3[is.na(mapping_label_checks$dat$q3)] <- 1
 mapping_label_checks$modify_data()
 test_that("gen_var_table_raw() print is reproduced", {
   testthat::expect_snapshot_output({

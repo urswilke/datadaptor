@@ -40,13 +40,12 @@ globalVariables("where")
 #'   labelled `vallab`.
 #' @export
 apply_command.cmd_recna_xcpt <- function(cdb, mapping, xs, v, vallab, ...) {
-  # remove variable names not found in df:
-  # TODO: think of cleaner way to do this:
-  xs <- intersect(xs, names(mapping$dat_mod))
+  have_na_lgl <- mapping$dat_mod |> map_lgl(\(x) any(is.na(x)))
+  vars_to_add_filter <- have_na_lgl[have_na_lgl] |> names() |> setdiff(xs)
   mapping$dat_mod <- mapping$dat_mod |>
     mutate(
       across(
-        where(is.numeric) & !c(one_of(xs)),
+        where(is.numeric) & c(one_of(vars_to_add_filter)),
         ~ set_na_to_filter(.x, v, vallab)
       )
     )

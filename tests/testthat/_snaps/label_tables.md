@@ -126,7 +126,6 @@
                       q2new  1                   YES
                       q2new  2                    no
                       q2new 99             no answer
-                         q3 -2                FILTER
                          q3  1            not at all
                          q3  2                 a bit
                          q3  3                normal
@@ -320,7 +319,6 @@
              q6_assign_nn_2  1                   YES
              q6_assign_nn_2  2                    no
              q6_assign_nn_2 99             no answer
-             q6_assign_nn_3 -2                FILTER
              q6_assign_nn_3  1            not at all
              q6_assign_nn_3  2                 a bit
              q6_assign_nn_3  3                normal
