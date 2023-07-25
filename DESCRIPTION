@@ -25,7 +25,8 @@ Suggests:
     rmarkdown,
     markdown,
     here,
-    spelling
+    spelling,
+    vctrs
 Config/testthat/edition: 3
 Encoding: UTF-8
 LazyData: true
@@ -53,6 +54,7 @@ Imports:
     utils,
     withr,
     googlesheets4,
-    powerjoin
+    powerjoin,
+    digest
 VignetteBuilder: knitr
 Language: en-US

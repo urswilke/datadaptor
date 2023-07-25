@@ -402,54 +402,75 @@
 
 # variable labels are reproduced
 
-    # A tibble: 45 x 2
-     var                    varlab                                  
-     <chr>                  <chr>                                   
-     q2new                  recommend product                       
-     q3                     Almost same variable label for q3 and q5
-     q1                     new_varlab                              
-     q5                     Almost same variable label for q5 and q3
-     q6                     Tell me something positive.             
-     q7                     Tell me something negative.             
-     q8                     Now the variable is in numeric format.  
-     kq5                    test                                    
-     q2                     recommend product                       
-     q4                     How much do you like your friends?      
-     q6_1                   love                                    
-     q6_2                   joy                                     
-     q6_3                   happiness                               
-     q6_4                   noch wat                                
-     q6_97                  Others                                  
-     q6_99                  No answer                               
-     q6test_1               love                                    
-     q6test_2               joy                                     
-     q6test_3               happiness                               
-     q6test_4               noch wat                                
-     q6test_97              Others                                  
-     q6test_99              No answer                               
-     q6mw_1                 love                                    
-     q6mw_2                 joy                                     
-     q6mw_3                 happiness                               
-     q6mw_4                 noch wat                                
-     q6mw_97                Others                                  
-     q6mw_99                No answer                               
-     q6_assign_nn_1         love                                    
-     q6_assign_nn_2         joy                                     
-     q6_assign_nn_3         happiness                               
-     q6_assign_nn_4         noch wat                                
-     q6_assign_nn_97        Others                                  
-     q6_assign_nn_99        No answer                               
-     kq1                    summarized variable                     
-     kq3                    summarized variable                     
-     kq1xq2_renamedkminus20 FILTER: summarized variable             
-     kq1xq2_renamedk10      YES: summarized variable                
-     kq1xq2_renamedk20      no: summarized variable                 
-     kq1xq2_renamedk990     no answer: summarized variable          
-     n                      overwrite new label                     
-     a1                     same variable label for a1 & a2         
-     a2                     same variable label for a1 & a2         
-     r_expr_var             varlab                                  
-     kkq1                   vl                                      
+    # A tibble: 66 x 2
+     var                    varlab                                    
+     <chr>                  <chr>                                     
+     q2new                  "recommend product"                       
+     q3                     "Almost same variable label for q3 and q5"
+     q1                     "new_varlab"                              
+     q5                     "Almost same variable label for q5 and q3"
+     id                     ""                                        
+     q6                     "Tell me something positive."             
+     q7                     "Tell me something negative."             
+     q8                     "Now the variable is in numeric format."  
+     kq5                    "test"                                    
+     q2                     "recommend product"                       
+     q4                     "How much do you like your friends?"      
+     q97                    ""                                        
+     q99                    ""                                        
+     q6n                    ""                                        
+     q7n                    ""                                        
+     q6_1                   "love"                                    
+     q6_2                   "joy"                                     
+     q6_3                   "happiness"                               
+     q6_4                   "noch wat"                                
+     q6_97                  "Others"                                  
+     q6_99                  "No answer"                               
+     q6test_1               "love"                                    
+     q6test_2               "joy"                                     
+     q6test_3               "happiness"                               
+     q6test_4               "noch wat"                                
+     q6test_97              "Others"                                  
+     q6test_99              "No answer"                               
+     q6n1                   ""                                        
+     q6n2                   ""                                        
+     q6n3                   ""                                        
+     q6n4                   ""                                        
+     q6n5                   ""                                        
+     q6n6                   ""                                        
+     q6n7                   ""                                        
+     q6n8                   ""                                        
+     q6n9                   ""                                        
+     q6n10                  ""                                        
+     q6mw_1                 "love"                                    
+     q6mw_2                 "joy"                                     
+     q6mw_3                 "happiness"                               
+     q6mw_4                 "noch wat"                                
+     q6mw_97                "Others"                                  
+     q6mw_99                "No answer"                               
+     q6_assign_nn_1         "love"                                    
+     q6_assign_nn_2         "joy"                                     
+     q6_assign_nn_3         "happiness"                               
+     q6_assign_nn_4         "noch wat"                                
+     q6_assign_nn_97        "Others"                                  
+     q6_assign_nn_99        "No answer"                               
+     x                      ""                                        
+     abc                    ""                                        
+     kq6                    ""                                        
+     kq1                    "summarized variable"                     
+     kq3                    "summarized variable"                     
+     kq1xq2_renamedkminus20 "FILTER: summarized variable"             
+     kq1xq2_renamedk10      "YES: summarized variable"                
+     kq1xq2_renamedk20      "no: summarized variable"                 
+     kq1xq2_renamedk990     "no answer: summarized variable"          
+     n                      "overwrite new label"                     
+     a1                     "same variable label for a1 & a2"         
+     a2                     "same variable label for a1 & a2"         
+     r_expr_var             "varlab"                                  
+     sum_of_k_vars          ""                                        
+     kkq1                   "vl"                                      
+     qsum                   ""                                        
+     free2_var              ""                                        
 
 # error string elements were added to cmd_tbl
 

@@ -4,19 +4,19 @@
       purrr::set_names(l, sheet_names)
     Output
       $Variables
-      # A tibble: 10 x 6
-         var   type      varlab                               new_label new_name op   
-         <chr> <chr>     <chr>                                <lgl>     <lgl>    <lgl>
-       1 q1    double    How much do you like the product?    NA        NA       NA   
-       2 q2    double    Do you want to recommend the produc~ NA        NA       NA   
-       3 q3    double    How likely will you go dancing this~ NA        NA       NA   
-       4 q4    double    How much do you like your friends?   NA        NA       NA   
-       5 q5    double    How much do you like your best frie~ NA        NA       NA   
-       6 id    double    <NA>                                 NA        NA       NA   
-       7 q6    character Tell me something positive.          NA        NA       NA   
-       8 q7    character Tell me something negative.          NA        NA       NA   
-       9 q8    character A numeric variable in string format. NA        NA       NA   
-      10 q9    double    <NA>                                 NA        NA       NA   
+      # A tibble: 10 x 7
+         var   type      varlab                         new_label new_name op    hash 
+         <chr> <chr>     <chr>                          <lgl>     <lgl>    <lgl> <chr>
+       1 q1    double    How much do you like the prod~ NA        NA       NA    f779~
+       2 q2    double    Do you want to recommend the ~ NA        NA       NA    1d60~
+       3 q3    double    How likely will you go dancin~ NA        NA       NA    4202~
+       4 q4    double    How much do you like your fri~ NA        NA       NA    4000~
+       5 q5    double    How much do you like your bes~ NA        NA       NA    6fa3~
+       6 id    double    <NA>                           NA        NA       NA    cfe3~
+       7 q6    character Tell me something positive.    NA        NA       NA    d6a4~
+       8 q7    character Tell me something negative.    NA        NA       NA    8f2d~
+       9 q8    character A numeric variable in string ~ NA        NA       NA    e743~
+      10 q9    double    <NA>                           NA        NA       NA    490c~
       
       $Label
       # A tibble: 27 x 7

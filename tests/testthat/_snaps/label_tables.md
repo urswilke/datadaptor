@@ -3,17 +3,17 @@
     # A tibble: 11 x 6
      var     type      varlab                               new_label op    new_name
      <chr>   <chr>     <chr>                                <chr>     <chr> <chr>   
-     new_var double    variable label of new_var            <NA>      <NA>  <NA>    
-     q1      double    How much do you like the product?    Like Pro~ <NA>  <NA>    
-     q2      double    Do you want to recommend the produc~ recommen~ <NA>  q2_rena~
-     q3      double    How likely will you go dancing this~ <NA>      <NA>  <NA>    
-     q4      double    How much do you like your friends?   <NA>      <NA>  q4_rena~
-     q5      double    How much do you like your best frie~ Like bes~ <NA>  <NA>    
-     id      double    <NA>                                 <NA>      <NA>  <NA>    
-     q6      character Tell me something positive.          <NA>      a     <NA>    
-     q7      character Tell me something negative.          <NA>      <NA>  <NA>    
-     q8      character A numeric variable in string format. Now the ~ n     <NA>    
-     q9      double    <NA>                                 <NA>      d     <NA>    
+     new_var double    "variable label of new_var"          <NA>      <NA>  <NA>    
+     q1      double    "How much do you like the product?"  Like Pro~ <NA>  <NA>    
+     q2      double    "Do you want to recommend the produ~ recommen~ <NA>  q2_rena~
+     q3      double    "How likely will you go dancing thi~ <NA>      <NA>  <NA>    
+     q4      double    "How much do you like your friends?" <NA>      <NA>  q4_rena~
+     q5      double    "How much do you like your best fri~ Like bes~ <NA>  <NA>    
+     id      double    ""                                   <NA>      <NA>  <NA>    
+     q6      character "Tell me something positive."        <NA>      a     <NA>    
+     q7      character "Tell me something negative."        <NA>      <NA>  <NA>    
+     q8      character "A numeric variable in string forma~ Now the ~ n     <NA>    
+     q9      double    ""                                   <NA>      d     <NA>    
 
 # update_label_table() print is reproduced
 
@@ -52,74 +52,74 @@
 # gen_var_table_raw() print is reproduced
 
     # A tibble: 66 x 3
-     var                    type      varlab                                  
-     <chr>                  <chr>     <chr>                                   
-     q2new                  double    recommend product                       
-     q3                     double    Almost same variable label for q3 and q5
-     q1                     double    new_varlab                              
-     q5                     double    Almost same variable label for q5 and q3
-     id                     double    <NA>                                    
-     q6                     double    Tell me something positive.             
-     q7                     character Tell me something negative.             
-     q8                     double    Now the variable is in numeric format.  
-     kq5                    double    test                                    
-     q2                     double    recommend product                       
-     q4                     double    How much do you like your friends?      
-     q97                    double    <NA>                                    
-     q99                    double    <NA>                                    
-     q6n                    double    <NA>                                    
-     q7n                    double    <NA>                                    
-     q6_1                   double    love                                    
-     q6_2                   double    joy                                     
-     q6_3                   double    happiness                               
-     q6_4                   double    noch wat                                
-     q6_97                  double    Others                                  
-     q6_99                  double    No answer                               
-     q6test_1               double    love                                    
-     q6test_2               double    joy                                     
-     q6test_3               double    happiness                               
-     q6test_4               double    noch wat                                
-     q6test_97              double    Others                                  
-     q6test_99              double    No answer                               
-     q6n1                   double    <NA>                                    
-     q6n2                   double    <NA>                                    
-     q6n3                   double    <NA>                                    
-     q6n4                   double    <NA>                                    
-     q6n5                   double    <NA>                                    
-     q6n6                   double    <NA>                                    
-     q6n7                   double    <NA>                                    
-     q6n8                   double    <NA>                                    
-     q6n9                   double    <NA>                                    
-     q6n10                  double    <NA>                                    
-     q6mw_1                 double    love                                    
-     q6mw_2                 double    joy                                     
-     q6mw_3                 double    happiness                               
-     q6mw_4                 double    noch wat                                
-     q6mw_97                double    Others                                  
-     q6mw_99                double    No answer                               
-     q6_assign_nn_1         double    love                                    
-     q6_assign_nn_2         double    joy                                     
-     q6_assign_nn_3         double    happiness                               
-     q6_assign_nn_4         double    noch wat                                
-     q6_assign_nn_97        double    Others                                  
-     q6_assign_nn_99        double    No answer                               
-     x                      double    <NA>                                    
-     abc                    double    <NA>                                    
-     kq6                    double    <NA>                                    
-     kq1                    double    summarized variable                     
-     kq3                    double    summarized variable                     
-     kq1xq2_renamedkminus20 double    FILTER: summarized variable             
-     kq1xq2_renamedk10      double    YES: summarized variable                
-     kq1xq2_renamedk20      double    no: summarized variable                 
-     kq1xq2_renamedk990     double    no answer: summarized variable          
-     n                      double    overwrite new label                     
-     a1                     double    same variable label for a1 & a2         
-     a2                     double    same variable label for a1 & a2         
-     r_expr_var             double    varlab                                  
-     sum_of_k_vars          double    <NA>                                    
-     kkq1                   double    vl                                      
-     qsum                   double    <NA>                                    
-     free2_var              double    <NA>                                    
+     var                    type      varlab                                    
+     <chr>                  <chr>     <chr>                                     
+     q2new                  double    "recommend product"                       
+     q3                     double    "Almost same variable label for q3 and q5"
+     q1                     double    "new_varlab"                              
+     q5                     double    "Almost same variable label for q5 and q3"
+     id                     double    ""                                        
+     q6                     double    "Tell me something positive."             
+     q7                     character "Tell me something negative."             
+     q8                     double    "Now the variable is in numeric format."  
+     kq5                    double    "test"                                    
+     q2                     double    "recommend product"                       
+     q4                     double    "How much do you like your friends?"      
+     q97                    double    ""                                        
+     q99                    double    ""                                        
+     q6n                    double    ""                                        
+     q7n                    double    ""                                        
+     q6_1                   double    "love"                                    
+     q6_2                   double    "joy"                                     
+     q6_3                   double    "happiness"                               
+     q6_4                   double    "noch wat"                                
+     q6_97                  double    "Others"                                  
+     q6_99                  double    "No answer"                               
+     q6test_1               double    "love"                                    
+     q6test_2               double    "joy"                                     
+     q6test_3               double    "happiness"                               
+     q6test_4               double    "noch wat"                                
+     q6test_97              double    "Others"                                  
+     q6test_99              double    "No answer"                               
+     q6n1                   double    ""                                        
+     q6n2                   double    ""                                        
+     q6n3                   double    ""                                        
+     q6n4                   double    ""                                        
+     q6n5                   double    ""                                        
+     q6n6                   double    ""                                        
+     q6n7                   double    ""                                        
+     q6n8                   double    ""                                        
+     q6n9                   double    ""                                        
+     q6n10                  double    ""                                        
+     q6mw_1                 double    "love"                                    
+     q6mw_2                 double    "joy"                                     
+     q6mw_3                 double    "happiness"                               
+     q6mw_4                 double    "noch wat"                                
+     q6mw_97                double    "Others"                                  
+     q6mw_99                double    "No answer"                               
+     q6_assign_nn_1         double    "love"                                    
+     q6_assign_nn_2         double    "joy"                                     
+     q6_assign_nn_3         double    "happiness"                               
+     q6_assign_nn_4         double    "noch wat"                                
+     q6_assign_nn_97        double    "Others"                                  
+     q6_assign_nn_99        double    "No answer"                               
+     x                      double    ""                                        
+     abc                    double    ""                                        
+     kq6                    double    ""                                        
+     kq1                    double    "summarized variable"                     
+     kq3                    double    "summarized variable"                     
+     kq1xq2_renamedkminus20 double    "FILTER: summarized variable"             
+     kq1xq2_renamedk10      double    "YES: summarized variable"                
+     kq1xq2_renamedk20      double    "no: summarized variable"                 
+     kq1xq2_renamedk990     double    "no answer: summarized variable"          
+     n                      double    "overwrite new label"                     
+     a1                     double    "same variable label for a1 & a2"         
+     a2                     double    "same variable label for a1 & a2"         
+     r_expr_var             double    "varlab"                                  
+     sum_of_k_vars          double    ""                                        
+     kkq1                   double    "vl"                                      
+     qsum                   double    ""                                        
+     free2_var              double    ""                                        
 
 # gen_label_table_raw() print is reproduced
 
