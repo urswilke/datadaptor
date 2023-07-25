@@ -1,6 +1,6 @@
 test_that("gen_data_table() works", {
   testthat::expect_snapshot_output({
-    gen_data_table(dat) |> dplyr::as_tibble() |> print(n=1111)
+    gen_data_table(dat) |> dplyr::as_tibble() |> print_without_row_numbers(n = 1111)
   })
 })
 mapping_dd <- mapping$clone(deep = TRUE)
@@ -15,7 +15,7 @@ test_that("diff_data() works", {
     # names(res) <- abbreviate(names(res) |> str_replace("_", " "), minlength = 2)
     res |>
       mutate(across(where(is.character), \(x) str_sub(x, end = 5))) |>
-      print(n = Inf, width = Inf)
+      print_without_row_numbers(n = Inf, width = Inf)
   })
 })
 

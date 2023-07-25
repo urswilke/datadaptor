@@ -10,5 +10,6 @@ test_that("snapshot of (the structure of) mapp_free_sheet_cmd_table()", {
         purrr::map(data, ~{.x$X2 <- stringr::str_remove(.x$X2, ".*/"); .x}),
         data)
       ) |>
-      str())
+      str()) |>
+    print_without_row_numbers(n = 1111)
 })

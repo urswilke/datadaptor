@@ -12,12 +12,12 @@ dat_mod <- dat |>
   )
 test_that("update_var_table() print is reproduced", {
   testthat::expect_snapshot_output({
-    update_var_table(dat_mod, mapping_file) |> print(n = 1111)
+    update_var_table(dat_mod, mapping_file) |> print_without_row_numbers(n = 1111)
   })
 })
 test_that("update_label_table() print is reproduced", {
   testthat::expect_snapshot_output({
-    update_label_table(dat_mod, mapping_file) |> print(n = 1111)
+    update_label_table(dat_mod, mapping_file) |> print_without_row_numbers(n = 1111)
   })
 })
 # dat_with_non_na <- dat
@@ -28,11 +28,11 @@ mapping_label_checks$dat$q3[is.na(mapping_label_checks$dat$q3)] <- 1
 mapping_label_checks$modify_data()
 test_that("gen_var_table_raw() print is reproduced", {
   testthat::expect_snapshot_output({
-    gen_var_table_raw(mapping_label_checks$dat_mod) |> as.data.frame() |> print(row.names = FALSE)
+    gen_var_table_raw(mapping_label_checks$dat_mod) |> print_without_row_numbers(n = 1111)
   })
 })
 test_that("gen_label_table_raw() print is reproduced", {
   testthat::expect_snapshot_output({
-    tab_vallabs(mapping_label_checks$dat_mod) |> as.data.frame() |> print(row.names = FALSE)
+    tab_vallabs(mapping_label_checks$dat_mod) |> print_without_row_numbers(n = 1111)
   })
 })

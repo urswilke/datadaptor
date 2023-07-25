@@ -65,12 +65,12 @@ test_that("modified data print is reproduced", {
 })
 test_that("variable labels are reproduced", {
   testthat::expect_snapshot_output(
-    m$dat_mod |> tab_varlabs()
+    m$dat_mod |> tab_varlabs() |> print_without_row_numbers()
   )
 })
 test_that("value labels are reproduced", {
   testthat::expect_snapshot_output(
-    m$dat_mod |> tab_vallabs() |> print(n=111)
+    m$dat_mod |> tab_vallabs() |> print_without_row_numbers(n = 1111)
   )
 })
 
