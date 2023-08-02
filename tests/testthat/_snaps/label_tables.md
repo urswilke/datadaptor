@@ -123,7 +123,7 @@
 
 # gen_label_table_raw() print is reproduced
 
-    # A tibble: 234 x 3
+    # A tibble: 232 x 3
      var                       nv vallab               
      <chr>                  <dbl> <chr>                
      q2new                     -2 FILTER               
@@ -136,7 +136,6 @@
      q3                         4 much                 
      q3                         5 very much            
      q3                        99 no answer            
-     q1                         1 not at all           
      q1                         2 a bit                
      q1                         3 normal               
      q1                         4 much                 
@@ -160,7 +159,6 @@
      kq5                        2 bbb                  
      kq5                        3 ccc                  
      q2                        -2 FILTER               
-     q2                         1 YES                  
      q2                         2 no                   
      q2                        99 no answer            
      q4                        -2 FILTER               

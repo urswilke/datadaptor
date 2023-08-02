@@ -1,23 +1,23 @@
 # s3 modified data print is reproduced
 
     # A tibble: 10 x 66
-       q2new          q3             q1              q5                 id
-       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>       <dbl>
-     1  2 [no]        3 [normal]      3 [normal]      2 [a bit]          1
-     2  1 [YES]       5 [very much]   3 [normal]      5 [very much]      2
-     3  1 [YES]       3 [normal]      1 [not at all]  5 [very much]      3
-     4 99 [no answer] 4 [much]        3 [normal]      4 [much]           4
-     5 -2 [FILTER]    2 [a bit]       5 [very much]   3 [normal]         5
-     6 -2 [FILTER]    4 [much]        5 [very much]   2 [a bit]          6
-     7  2 [no]        3 [normal]     NA              NA                  7
-     8  2 [no]        5 [very much]   2 [a bit]       1 [not at all]     8
-     9 99 [no answer] 1 [not at all] NA               2 [a bit]          9
-    10  2 [no]        3 [normal]      5 [very much]   2 [a bit]         20
+       q2new          q3             q1             q5                 id
+       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl>
+     1  2 [no]        3 [normal]      3 [normal]     2 [a bit]          1
+     2  1 [YES]       5 [very much]   3 [normal]     5 [very much]      2
+     3  1 [YES]       3 [normal]     NA              5 [very much]      3
+     4 99 [no answer] 4 [much]        3 [normal]     4 [much]           4
+     5 -2 [FILTER]    2 [a bit]       5 [very much]  3 [normal]         5
+     6 -2 [FILTER]    4 [much]        5 [very much]  2 [a bit]          6
+     7  2 [no]        3 [normal]     NA             NA                  7
+     8  2 [no]        5 [very much]   2 [a bit]      1 [not at all]     8
+     9 99 [no answer] 1 [not at all] NA              2 [a bit]          9
+    10  2 [no]        3 [normal]      5 [very much]  2 [a bit]         20
        q6                    q7                  q8        kq5       q2            
        <dbl+lbl>             <chr>               <dbl+lbl> <dbl+lbl> <dbl+lbl>     
      1 3 [bla bla bla love]  bla bla bla anger    2         1 [aaa]   2 [no]       
-     2 4 [bla bla happiness] bla bla bla sadness  9         7         1 [YES]      
-     3 8 [bla joy]           bla bla bla sadness  3         7         1 [YES]      
+     2 4 [bla bla happiness] bla bla bla sadness  9         7        NA            
+     3 8 [bla joy]           bla bla bla sadness  3         7        NA            
      4 5 [bla bla joy]       bla bla anger        3         3 [ccc]  99 [no answer]
      5 7 [bla happiness]     bla fear             9         2 [bbb]  -2 [FILTER]   
      6 5 [bla bla joy]       bla pain             7         1 [aaa]  -2 [FILTER]   
@@ -160,7 +160,7 @@
 
 # value labels are reproduced
 
-    # A tibble: 236 x 3
+    # A tibble: 234 x 3
      var                       nv vallab               
      <chr>                  <dbl> <chr>                
      q2new                     -2 FILTER               
@@ -174,7 +174,6 @@
      q3                         4 much                 
      q3                         5 very much            
      q3                        99 no answer            
-     q1                         1 not at all           
      q1                         2 a bit                
      q1                         3 normal               
      q1                         4 much                 
@@ -198,7 +197,6 @@
      kq5                        2 bbb                  
      kq5                        3 ccc                  
      q2                        -2 FILTER               
-     q2                         1 YES                  
      q2                         2 no                   
      q2                        99 no answer            
      q4                        -2 FILTER               
@@ -474,7 +472,7 @@
 
 # error string elements were added to cmd_tbl
 
-    # A tibble: 88 x 7
+    # A tibble: 89 x 7
        sheet     action           row      new_var raw          command_blocks error
        <chr>     <chr>            <chr>    <chr>   <list>       <safe>         <chr>
      1 Config    #RECNA           <NA>     <NA>    <named list> <cmd_rcn_>     ""   
@@ -487,5 +485,5 @@
      8 Variables #NEWLAB          2        q1      <tibble>     <cmd_nwlb>     ""   
      9 Variables #NEWLAB          3        q2_ren~ <tibble>     <cmd_nwlb>     ""   
     10 Variables #NEWLAB          6        q5      <tibble>     <cmd_nwlb>     ""   
-    # i 78 more rows
+    # i 79 more rows
 

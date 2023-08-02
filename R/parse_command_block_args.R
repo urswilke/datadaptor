@@ -97,6 +97,13 @@ parse_command_args.cmd_select <- function(cdb_raw) {
   )
 }
 
+parse_command_args.cmd_across <- function(cdb_raw) {
+  list(
+    exs = cdb_raw$X2 |> paste(collapse = " & "),
+    ex_fun = cdb_raw$X3[2]
+  )
+}
+
 parse_command_args.cmd_filter <- function(cdb_raw) {
   list(
     exs = cdb_raw$X2

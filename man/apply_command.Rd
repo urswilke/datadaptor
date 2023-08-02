@@ -9,6 +9,7 @@
 \alias{apply_command.cmd_kg}
 \alias{apply_command.cmd_drop}
 \alias{apply_command.cmd_select}
+\alias{apply_command.cmd_across}
 \alias{apply_command.cmd_filter}
 \alias{apply_command.cmd_verbatim}
 \alias{apply_command.cmd_verbatim_custom}
@@ -44,6 +45,8 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_drop}(cdb, mapping, xs, ...)
 
 \method{apply_command}{cmd_select}(cdb, mapping, exs, ...)
+
+\method{apply_command}{cmd_across}(cdb, mapping, exs, ex_fun, ...)
 
 \method{apply_command}{cmd_filter}(cdb, mapping, exs, ...)
 
@@ -158,6 +161,8 @@ defined in the R script named \code{filepath}.
 \item \code{apply_command(cmd_drop)}: 
 
 \item \code{apply_command(cmd_select)}: 
+
+\item \code{apply_command(cmd_across)}: 
 
 \item \code{apply_command(cmd_filter)}: 
 

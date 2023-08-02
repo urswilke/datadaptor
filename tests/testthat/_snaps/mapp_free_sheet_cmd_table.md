@@ -1,6 +1,6 @@
 # snapshot of (the structure of) mapp_free_sheet_cmd_table()
 
-    # A tibble: 27 x 4
+    # A tibble: 28 x 4
        row            action new_var        data            
        <chr>          <chr>  <chr>          <list>          
      1 3              #COMP  x              <tibble [1 x 5]>
@@ -13,15 +13,15 @@
      8 14             #COMP  n              <tibble [1 x 5]>
      9 15             #VARL  n              <tibble [1 x 5]>
     10 17, 18, 19, 20 #VALL  n              <tibble [4 x 5]>
-    # i 17 more rows
+    # i 18 more rows
 
 ---
 
-    tibble [27 x 4] (S3: tbl_df/tbl/data.frame)
-     $ row    : chr [1:27] "3" "4" "5_1" "5_2" ...
-     $ action : chr [1:27] "#COMP" "#IF" "#IF" "#IF" ...
-     $ new_var: chr [1:27] "x" "abc" "kq5" "kq6" ...
-     $ data   :List of 27
+    tibble [28 x 4] (S3: tbl_df/tbl/data.frame)
+     $ row    : chr [1:28] "3" "4" "5_1" "5_2" ...
+     $ action : chr [1:28] "#COMP" "#IF" "#IF" "#IF" ...
+     $ new_var: chr [1:28] "x" "abc" "kq5" "kq6" ...
+     $ data   :List of 28
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#COMP"
       .. ..$ X2: chr "x"
@@ -184,4 +184,10 @@
       .. ..$ X3: chr "rowSums(dat_mod |> dplyr::select(dplyr::matches(\"^q\\\\d$\"), -q7))"
       .. ..$ X4: chr NA
       .. ..$ X5: chr NA
+      ..$ : tibble [2 x 5] (S3: tbl_df/tbl/data.frame)
+      .. ..$ X1: chr [1:2] "#ACROSS" NA
+      .. ..$ X2: chr [1:2] "matches(\"^q[1-2]$\")" "where(is.numeric)"
+      .. ..$ X3: chr [1:2] NA "\\(x) {x[x == 1] <- NA; attr(x, \"labels\") <- attr(x, \"labels\")[attr(x, \"labels\") != 1]; x}"
+      .. ..$ X4: chr [1:2] NA NA
+      .. ..$ X5: chr [1:2] NA NA
 

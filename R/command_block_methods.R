@@ -105,6 +105,14 @@ apply_command.cmd_select <- function(cdb, mapping, exs, ...) {
 #' @describeIn apply_command
 #'
 #' @export
+apply_command.cmd_across <- function(cdb, mapping, exs, ex_fun, ...) {
+  exs_ex <- parse_exprs(exs)
+  ex_fun <- parse_expr(ex_fun)
+  mapping$dat_mod <- mapping$dat_mod |> mutate(across(!!!exs_ex, !!ex_fun))
+}
+#' @describeIn apply_command
+#'
+#' @export
 apply_command.cmd_filter <- function(cdb, mapping, exs, ...) {
   exs_ex <- parse_exprs(exs)
   mapping$dat_mod <- mapping$dat_mod |> filter(!!!exs_ex)
