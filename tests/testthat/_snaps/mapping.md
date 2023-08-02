@@ -1,6 +1,6 @@
 # s3 modified data print is reproduced
 
-    # A tibble: 10 x 66
+    # A tibble: 10 x 70
        q2new          q3             q1              q5                 id
        <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>       <dbl>
      1  2 [no]        3 [normal]      3 [normal]      2 [a bit]          1
@@ -145,22 +145,22 @@
      8 1 [also with] 3         4          16                    6  2 [b]       19
      9 1 [also with] 3         4         792                   10 NA           NA
     10 1 [also with] 3         4          30                    9  2 [b]       22
-       free2_var
-           <dbl>
-     1         3
-     2         3
-     3         3
-     4         3
-     5         3
-     6         3
-     7         3
-     8         3
-     9         3
-    10         3
+       q1_x2 q1_rmval       q2_x2 q2_rmval       free2_var
+       <dbl> <dbl+lbl>      <dbl> <dbl+lbl>          <dbl>
+     1     6  3 [normal]        4  2 [no]                3
+     2     6  3 [normal]        2 NA                     3
+     3     2 NA                 2 NA                     3
+     4     6  3 [normal]      198 99 [no answer]         3
+     5    10  5 [very much]    -4 -2 [FILTER]            3
+     6    10  5 [very much]    -4 -2 [FILTER]            3
+     7    NA NA                 4  2 [no]                3
+     8     4  2 [a bit]         4  2 [no]                3
+     9    NA NA               198 99 [no answer]         3
+    10    10  5 [very much]     4  2 [no]                3
 
 # value labels are reproduced
 
-    # A tibble: 236 x 3
+    # A tibble: 243 x 3
      var                       nv vallab               
      <chr>                  <dbl> <chr>                
      q2new                     -2 FILTER               
@@ -399,10 +399,17 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
+     q1_rmval                   2 a bit                
+     q1_rmval                   3 normal               
+     q1_rmval                   4 much                 
+     q1_rmval                   5 very much            
+     q2_rmval                  -2 FILTER               
+     q2_rmval                   2 no                   
+     q2_rmval                  99 no answer            
 
 # variable labels are reproduced
 
-    # A tibble: 66 x 2
+    # A tibble: 70 x 2
      var                    varlab                                    
      <chr>                  <chr>                                     
      q2new                  "recommend product"                       
@@ -470,11 +477,15 @@
      sum_of_k_vars          ""                                        
      kkq1                   "vl"                                      
      qsum                   ""                                        
+     q1_x2                  ""                                        
+     q1_rmval               "new_varlab"                              
+     q2_x2                  ""                                        
+     q2_rmval               "recommend product"                       
      free2_var              ""                                        
 
 # error string elements were added to cmd_tbl
 
-    # A tibble: 88 x 7
+    # A tibble: 89 x 7
        sheet     action           row      new_var raw          command_blocks error
        <chr>     <chr>            <chr>    <chr>   <list>       <safe>         <chr>
      1 Config    #RECNA           <NA>     <NA>    <named list> <cmd_rcn_>     ""   
@@ -487,5 +498,5 @@
      8 Variables #NEWLAB          2        q1      <tibble>     <cmd_nwlb>     ""   
      9 Variables #NEWLAB          3        q2_ren~ <tibble>     <cmd_nwlb>     ""   
     10 Variables #NEWLAB          6        q5      <tibble>     <cmd_nwlb>     ""   
-    # i 78 more rows
+    # i 79 more rows
 

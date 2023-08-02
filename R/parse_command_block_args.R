@@ -97,6 +97,31 @@ parse_command_args.cmd_select <- function(cdb_raw) {
   )
 }
 
+parse_command_args.cmd_across <- function(cdb_raw) {
+  ex_names <- cdb_raw$X3[1]
+  if (is.na(ex_names)) {
+    ex_names <- NULL
+  }
+  exs <- cdb_raw$X2[1]
+
+  ex_fun_col <- cdb_raw$X3[-1]
+
+  exs_fns_names_col <- cdb_raw$X2[-1]
+  if (all(is.na(exs_fns_names_col))) {
+    exs_fns_names <- NULL
+  } else {
+    exs_fns_names <- exs_fns_names_col[!is.na(exs_fns_names_col)]
+  }
+
+  ex_fun <- ex_fun_col[!is.na(ex_fun_col)]
+  list(
+    exs = exs,
+    ex_fun = ex_fun,
+    exs_fns_names = exs_fns_names,
+    ex_names = ex_names
+  )
+}
+
 parse_command_args.cmd_filter <- function(cdb_raw) {
   list(
     exs = cdb_raw$X2

@@ -426,7 +426,7 @@ delete_empty_X1_not_multiline <- function(df_free) {
     mutate(
       not_multiline_cmd = str_detect(
         .data$X1,
-        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$|^#R$|^#RENAME$|^#SELECT$|^#FILTER$",
+        "^#VALL$|^#REC$|^#AVALL$|^#RMVAL$|^#R$|^#RENAME$|^#SELECT$|^#FILTER$|^#ACROSS$",
         negate = TRUE
       ),
       after_dot = (lag(str_detect(.data$X1, "\\.")) &

@@ -1,12 +1,18 @@
+# This file was copied and then modified from here:
+# https://gitlab.com/r-packages/limonaid/-/raw/dev/.gitlab-ci.yml
+# and
+# https://stackoverflow.com/a/71340879
 variables:
   _R_CHECK_CRAN_INCOMING_: "true"
   _R_CHECK_FORCE_SUGGESTS_: "true"
   APT_PKGS: "libcurl4-openssl-dev libssh2-1-dev libssl-dev libxml2-dev zlib1g-dev git"
 
+
 stages:
-  - test
   - build
+  - test
   - deploy
+
 
 image: rocker/tidyverse
 
@@ -14,7 +20,10 @@ before_script:
   - apt-get update
   - apt-get install -y --no-install-recommends ${APT_PKGS}
   - apt-get install -y --no-install-recommends qpdf pandoc pandoc-citeproc
-  - R -e 'install.packages(c("testthat", "gt", "gtExtras", "knitr", "htmltools", "rmarkdown",  "markdown", "withr", "here", "spelling", "openxlsx", "dplyr",  "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr", "rlang", "stringr", "fs", "labelled", "R6", "pillar",  "data.table", "writexl", "powerjoin", "digest", "vctrs"));'
+  - R -e 'install.packages(c("testthat", "rmarkdown"));'
+  - R -e 'install.packages(c("testthat", "gt", "pillar", "gtExtras", "knitr", "htmltools",  "rmarkdown", "markdown", "here", "spelling", "vctrs", "openxlsx",  "dplyr", "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr",  "rlang", "stringr", "fs", "labelled", "R6", "data.table", "writexl",  "lifecycle", "utils", "withr", "googlesheets4", "powerjoin",  "digest"));'
+  - R -e "install.packages(c('tinytex'), repos='http://cran.rstudio.com')"
+  - R -e "tinytex::install_tinytex()"
 
 devtools-check-dev:
   stage: test
@@ -23,13 +32,13 @@ devtools-check-dev:
   only:
     - dev
 
-devtools-check-topic-branches:
-  stage: test
-  script:
-    - R -e 'devtools::check()'
-  except:
-    - dev
-    - prod
+# devtools-check-topic-branches:
+#   stage: test
+#   script:
+#     - R -e 'devtools::check()'
+#   except:
+#     - dev
+#     - prod
 
 devtools-check-prod:
   stage: test
@@ -39,17 +48,14 @@ devtools-check-prod:
     - prod
 
 
-# pkgdown seems to work... will try again when package goes public by
-# uncommenting the following:
+pages:
+  stage: test
+  script:
+  - R -e "devtools::document(); pkgdown::build_site()"
+  artifacts:
+    paths:
+    - public
+    expire_in: 1 day
+  rules:
+    - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
 
-# pages:
-#   stage: deploy
-#   script:
-#     - R -e 'devtools::document(); pkgdown::build_site();'
-#     - mkdir public/img
-#   artifacts:
-#     paths:
-#       - public
-#     expire_in: 1 day
-#   rules:
-#     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH

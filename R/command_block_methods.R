@@ -23,7 +23,7 @@ apply_command <- function(cdb, mapping, ...) {
 #' @param v,v0,vs,vs0,vs2 Numeric value(s)
 #' @param vallab,vallabs Value label(s)
 #' @param varlab Character string containing a variable label
-#' @param ex,exs,ex_cond,ex_fun,ex_further_cond,ex_assign Character strings
+#' @param ex,exs,ex_cond,ex_fun,ex_further_cond,ex_assign,exs_fns_names,ex_names Character strings
 #'   containing valid R expressions. They will be evaluated in
 #'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`), except `exs`
 #'   which contains a list of expressions evaluated in the global environment.
@@ -101,6 +101,23 @@ apply_command.cmd_drop <- function(cdb, mapping, xs, ...) {
 apply_command.cmd_select <- function(cdb, mapping, exs, ...) {
   exs_ex <- parse_exprs(exs)
   mapping$dat_mod <- mapping$dat_mod |> select(!!!exs_ex)
+}
+#' @describeIn apply_command
+#'
+#' @export
+apply_command.cmd_across <- function(cdb, mapping, exs, ex_fun, exs_fns_names, ex_names, ...) {
+  exs_ex <- parse_expr(exs)
+  ex_fun <- ex_fun |> map(parse_expr) |> map(eval_tidy)
+  if (!is.null(exs_fns_names)) {
+    stopifnot(length(ex_fun) == length(exs_fns_names))
+    names(ex_fun) <- exs_fns_names
+  }
+  # in order to prevent the function name suffix when passing an unnamed list to
+  # across()
+  if (length(ex_fun) == 1 & is.null(exs_fns_names)) {
+    ex_fun <- ex_fun[[1]]
+  }
+  mapping$dat_mod <- mapping$dat_mod |> mutate(across(!!exs_ex, ex_fun, .names = ex_names))
 }
 #' @describeIn apply_command
 #'
