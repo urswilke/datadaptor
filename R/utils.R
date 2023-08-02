@@ -34,13 +34,16 @@ curlychop <- function(df_free_raw) {
         .cols = everything(),
         .fns = ~ str_detect(.x[1], "\\{")
       ) |>
-        is_true_vec()
+        is_true_vec() & !.data$X1 %in% "#ACROSS"
     ) |>
     add_count(.data$raw_index) |>
     group_by(.data$raw_index)
 
   df_curly_headers <- df_prep |>
-    filter(if_any(c("X2", "X3"), ~ str_detect(.x, "\\{.*\\}") & row_number() == 1))
+    filter(
+      if_any(c("X2", "X3"), ~ str_detect(.x, "\\{.*\\}") & row_number() == 1),
+      !.data$X1 %in% "#ACROSS"
+    )
   if (nrow(df_curly_headers) == 0) {
     return(df_prep |>
       select(-all_of(c("is_curly_group", "n"))))

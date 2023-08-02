@@ -98,7 +98,7 @@ parse_command_args.cmd_select <- function(cdb_raw) {
 }
 
 parse_command_args.cmd_across <- function(cdb_raw) {
-  ex_names <- cdb_raw$X4[2]
+  ex_names <- cdb_raw$X3[1]
   if (is.na(ex_names)) {
     ex_names <- NULL
   }

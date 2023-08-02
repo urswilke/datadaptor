@@ -922,8 +922,8 @@
       43 #FILTER "!id %in% 21:100"                            <NA>   <NA>   <NA>    66
       44 <NA>    "!id %in% 10:19"                             <NA>   <NA>   <NA>    67
       45 #COMP   "qsum"                                      "rowSu~ <NA>   <NA>    71
-      46 #ACROSS "matches(\"^q[1-2]$\") & where(is.numeric)"  <NA>   <NA>   <NA>    73
-      47 <NA>     <NA>                                       "\\(x)~ {.co~  <NA>    74
+      46 #ACROSS "matches(\"^q[1-2]$\") & where(is.numeric)" "{.col~ <NA>   <NA>    73
+      47 <NA>     <NA>                                       "\\(x)~ <NA>   <NA>    74
       48 <NA>     <NA>                                       "\\(x)~ <NA>   <NA>    75
       
       $Free2
