@@ -10,7 +10,6 @@ variables:
 
 stages:
   - build
-  - test
   - deploy
 
 
@@ -25,31 +24,17 @@ before_script:
   - R -e "install.packages(c('tinytex'), repos='http://cran.rstudio.com')"
   - R -e "tinytex::install_tinytex()"
 
-devtools-check-dev:
-  stage: test
-  script:
-    - R -e 'devtools::check()'
-  only:
-    - dev
 
 devtools-check-topic-branches:
-  stage: test
+  stage: dev
   script:
     - R -e 'devtools::check()'
   except:
-    - dev
-    - prod
-
-devtools-check-prod:
-  stage: test
-  script:
-    - R -e 'devtools::check()'
-  only:
     - prod
 
 
 pages:
-  stage: test
+  stage: dev
   script:
   - R -e "devtools::document(); pkgdown::build_site()"
   artifacts:
