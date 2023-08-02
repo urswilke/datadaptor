@@ -40,7 +40,7 @@ curlychop <- function(df_free_raw) {
     group_by(.data$raw_index)
 
   df_curly_headers <- df_prep |>
-    filter(if_any(c("X2", "X3"), ~ str_detect(.x, "\\{.*\\}")))
+    filter(if_any(c("X2", "X3"), ~ str_detect(.x, "\\{.*\\}") & row_number() == 1))
   if (nrow(df_curly_headers) == 0) {
     return(df_prep |>
       select(-all_of(c("is_curly_group", "n"))))
