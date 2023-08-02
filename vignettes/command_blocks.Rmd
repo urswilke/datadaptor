@@ -617,7 +617,7 @@ cmd_block_tibble <- tibble::tribble(
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
-Instead of `"function(x) x - mean(x)"` you can also use the short form `"\(x) x - mean(x)"`, or write intermediate steps and by using curly braces and separating statements with semi-colons like  `"\(x) {res <- x - mean(x); res}"`
+Instead of `"function(x) x - mean(x)"` you can also use the short form `"\(x) x - mean(x)"`, or write intermediate steps and by using curly braces and separating statements with semi-colons like  `"\(x) {res <- x - mean(x); res}"` (also see `?"{"`).
 
 
 ### Example
