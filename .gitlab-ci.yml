@@ -32,13 +32,13 @@ devtools-check-dev:
   only:
     - dev
 
-# devtools-check-topic-branches:
-#   stage: test
-#   script:
-#     - R -e 'devtools::check()'
-#   except:
-#     - dev
-#     - prod
+devtools-check-topic-branches:
+  stage: test
+  script:
+    - R -e 'devtools::check()'
+  except:
+    - dev
+    - prod
 
 devtools-check-prod:
   stage: test
