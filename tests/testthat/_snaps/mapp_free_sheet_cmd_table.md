@@ -186,8 +186,8 @@
       .. ..$ X5: chr NA
       ..$ : tibble [3 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr [1:3] "#ACROSS" NA NA
-      .. ..$ X2: chr [1:3] "matches(\"^q[1-2]$\") & where(is.numeric)" NA NA
-      .. ..$ X3: chr [1:3] "{.col}_{.fn}b" "\\(x) {x * 2}" "\\(x) {x[x == 1] <- NA; attr(x, \"labels\") <- attr(x, \"labels\")[attr(x, \"labels\") != 1]; x}"
+      .. ..$ X2: chr [1:3] "matches(\"^q[1-2]$\") & where(is.numeric)" "x2" "rmval"
+      .. ..$ X3: chr [1:3] "{.col}_{.fn}" "\\(x) {x * 2}" "\\(x) {x[x == 1] <- NA; attr(x, \"labels\") <- attr(x, \"labels\")[attr(x, \"labels\") != 1]; x}"
       .. ..$ X4: chr [1:3] NA NA NA
       .. ..$ X5: chr [1:3] NA NA NA
 

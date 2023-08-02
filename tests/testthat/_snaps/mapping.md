@@ -145,7 +145,7 @@
      8 1 [also with] 3         4          16                    6  2 [b]       19
      9 1 [also with] 3         4         792                   10 NA           NA
     10 1 [also with] 3         4          30                    9  2 [b]       22
-       q1_1b q1_2b          q2_1b q2_2b          free2_var
+       q1_x2 q1_rmval       q2_x2 q2_rmval       free2_var
        <dbl> <dbl+lbl>      <dbl> <dbl+lbl>          <dbl>
      1     6  3 [normal]        4  2 [no]                3
      2     6  3 [normal]        2 NA                     3
@@ -399,13 +399,13 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
-     q1_2b                      2 a bit                
-     q1_2b                      3 normal               
-     q1_2b                      4 much                 
-     q1_2b                      5 very much            
-     q2_2b                     -2 FILTER               
-     q2_2b                      2 no                   
-     q2_2b                     99 no answer            
+     q1_rmval                   2 a bit                
+     q1_rmval                   3 normal               
+     q1_rmval                   4 much                 
+     q1_rmval                   5 very much            
+     q2_rmval                  -2 FILTER               
+     q2_rmval                   2 no                   
+     q2_rmval                  99 no answer            
 
 # variable labels are reproduced
 
@@ -477,10 +477,10 @@
      sum_of_k_vars          ""                                        
      kkq1                   "vl"                                      
      qsum                   ""                                        
-     q1_1b                  ""                                        
-     q1_2b                  "new_varlab"                              
-     q2_1b                  ""                                        
-     q2_2b                  "recommend product"                       
+     q1_x2                  ""                                        
+     q1_rmval               "new_varlab"                              
+     q2_x2                  ""                                        
+     q2_rmval               "recommend product"                       
      free2_var              ""                                        
 
 # error string elements were added to cmd_tbl

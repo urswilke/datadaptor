@@ -119,10 +119,10 @@
      sum_of_k_vars          double    ""                                        
      kkq1                   double    "vl"                                      
      qsum                   double    ""                                        
-     q1_1b                  double    ""                                        
-     q1_2b                  double    "new_varlab"                              
-     q2_1b                  double    ""                                        
-     q2_2b                  double    "recommend product"                       
+     q1_x2                  double    ""                                        
+     q1_rmval               double    "new_varlab"                              
+     q2_x2                  double    ""                                        
+     q2_rmval               double    "recommend product"                       
      free2_var              double    ""                                        
 
 # gen_label_table_raw() print is reproduced
@@ -364,11 +364,11 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
-     q1_2b                      2 a bit                
-     q1_2b                      3 normal               
-     q1_2b                      4 much                 
-     q1_2b                      5 very much            
-     q2_2b                     -2 FILTER               
-     q2_2b                      2 no                   
-     q2_2b                     99 no answer            
+     q1_rmval                   2 a bit                
+     q1_rmval                   3 normal               
+     q1_rmval                   4 much                 
+     q1_rmval                   5 very much            
+     q2_rmval                  -2 FILTER               
+     q2_rmval                   2 no                   
+     q2_rmval                  99 no answer            
 

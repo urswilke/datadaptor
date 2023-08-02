@@ -923,8 +923,8 @@
       44 <NA>    "!id %in% 10:19"                             <NA>   <NA>   <NA>    67
       45 #COMP   "qsum"                                      "rowSu~ <NA>   <NA>    71
       46 #ACROSS "matches(\"^q[1-2]$\") & where(is.numeric)" "{.col~ <NA>   <NA>    73
-      47 <NA>     <NA>                                       "\\(x)~ <NA>   <NA>    74
-      48 <NA>     <NA>                                       "\\(x)~ <NA>   <NA>    75
+      47 <NA>    "x2"                                        "\\(x)~ <NA>   <NA>    74
+      48 <NA>    "rmval"                                     "\\(x)~ <NA>   <NA>    75
       
       $Free2
       # A tibble: 1 x 6
