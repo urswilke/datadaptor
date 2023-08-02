@@ -1,0 +1,11 @@
+# _pkgdown.yml
+url: https://urswilke.gitlab.io/datenanpassr/
+repo:
+  url:
+    home: https://gitlab.com/urswilke/datenanpassr/
+    source: https://gitlab.com/urswilke/datenanpassr/-/tree/master/
+    issue: https://gitlab.com/urswilke/datenanpassr/issues/
+    user: https://gitlab.com/
+template:
+  bootstrap: 5
+destination: public/
