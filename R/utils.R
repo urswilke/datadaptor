@@ -290,7 +290,7 @@ safe_f <- c(
   "{", "(",
   "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na", "c", "list",
   "as.numeric", "as.character", "as.logical", ":", "!",
-  "function", "<-", "=", "[<-", "[", "attr", "attr<-"
+  "function", "<-", "=", "[<-", "[", "attr", "attr<-", "mean"
 )
 #' Execution environment
 #'
