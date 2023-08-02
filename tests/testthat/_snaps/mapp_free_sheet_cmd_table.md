@@ -188,6 +188,6 @@
       .. ..$ X1: chr [1:2] "#ACROSS" NA
       .. ..$ X2: chr [1:2] "matches(\"^q[1-2]$\")" "where(is.numeric)"
       .. ..$ X3: chr [1:2] NA "\\(x) {x[x == 1] <- NA; attr(x, \"labels\") <- attr(x, \"labels\")[attr(x, \"labels\") != 1]; x}"
-      .. ..$ X4: chr [1:2] NA NA
+      .. ..$ X4: chr [1:2] NA "{.col}_2"
       .. ..$ X5: chr [1:2] NA NA
 

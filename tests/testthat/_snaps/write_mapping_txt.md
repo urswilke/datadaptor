@@ -923,7 +923,7 @@
       44 <NA>    "!id %in% 10:19"           <NA>                     <NA>   <NA>    67
       45 #COMP   "qsum"                    "rowSums(dat_mod |> dply~ <NA>   <NA>    71
       46 #ACROSS "matches(\"^q[1-2]$\")"    <NA>                     <NA>   <NA>    73
-      47 <NA>    "where(is.numeric)"       "\\(x) {x[x == 1] <- NA;~ <NA>   <NA>    74
+      47 <NA>    "where(is.numeric)"       "\\(x) {x[x == 1] <- NA;~ {.co~  <NA>    74
       
       $Free2
       # A tibble: 1 x 6

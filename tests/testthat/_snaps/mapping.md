@@ -1,23 +1,23 @@
 # s3 modified data print is reproduced
 
-    # A tibble: 10 x 66
-       q2new          q3             q1             q5                 id
-       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl>
-     1  2 [no]        3 [normal]      3 [normal]     2 [a bit]          1
-     2  1 [YES]       5 [very much]   3 [normal]     5 [very much]      2
-     3  1 [YES]       3 [normal]     NA              5 [very much]      3
-     4 99 [no answer] 4 [much]        3 [normal]     4 [much]           4
-     5 -2 [FILTER]    2 [a bit]       5 [very much]  3 [normal]         5
-     6 -2 [FILTER]    4 [much]        5 [very much]  2 [a bit]          6
-     7  2 [no]        3 [normal]     NA             NA                  7
-     8  2 [no]        5 [very much]   2 [a bit]      1 [not at all]     8
-     9 99 [no answer] 1 [not at all] NA              2 [a bit]          9
-    10  2 [no]        3 [normal]      5 [very much]  2 [a bit]         20
+    # A tibble: 10 x 68
+       q2new          q3             q1              q5                 id
+       <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>       <dbl>
+     1  2 [no]        3 [normal]      3 [normal]      2 [a bit]          1
+     2  1 [YES]       5 [very much]   3 [normal]      5 [very much]      2
+     3  1 [YES]       3 [normal]      1 [not at all]  5 [very much]      3
+     4 99 [no answer] 4 [much]        3 [normal]      4 [much]           4
+     5 -2 [FILTER]    2 [a bit]       5 [very much]   3 [normal]         5
+     6 -2 [FILTER]    4 [much]        5 [very much]   2 [a bit]          6
+     7  2 [no]        3 [normal]     NA              NA                  7
+     8  2 [no]        5 [very much]   2 [a bit]       1 [not at all]     8
+     9 99 [no answer] 1 [not at all] NA               2 [a bit]          9
+    10  2 [no]        3 [normal]      5 [very much]   2 [a bit]         20
        q6                    q7                  q8        kq5       q2            
        <dbl+lbl>             <chr>               <dbl+lbl> <dbl+lbl> <dbl+lbl>     
      1 3 [bla bla bla love]  bla bla bla anger    2         1 [aaa]   2 [no]       
-     2 4 [bla bla happiness] bla bla bla sadness  9         7        NA            
-     3 8 [bla joy]           bla bla bla sadness  3         7        NA            
+     2 4 [bla bla happiness] bla bla bla sadness  9         7         1 [YES]      
+     3 8 [bla joy]           bla bla bla sadness  3         7         1 [YES]      
      4 5 [bla bla joy]       bla bla anger        3         3 [ccc]  99 [no answer]
      5 7 [bla happiness]     bla fear             9         2 [bbb]  -2 [FILTER]   
      6 5 [bla bla joy]       bla pain             7         1 [aaa]  -2 [FILTER]   
@@ -145,22 +145,22 @@
      8 1 [also with] 3         4          16                    6  2 [b]       19
      9 1 [also with] 3         4         792                   10 NA           NA
     10 1 [also with] 3         4          30                    9  2 [b]       22
-       free2_var
-           <dbl>
-     1         3
-     2         3
-     3         3
-     4         3
-     5         3
-     6         3
-     7         3
-     8         3
-     9         3
-    10         3
+       q1_2           q2_2           free2_var
+       <dbl+lbl>      <dbl+lbl>          <dbl>
+     1  3 [normal]     2 [no]                3
+     2  3 [normal]    NA                     3
+     3 NA             NA                     3
+     4  3 [normal]    99 [no answer]         3
+     5  5 [very much] -2 [FILTER]            3
+     6  5 [very much] -2 [FILTER]            3
+     7 NA              2 [no]                3
+     8  2 [a bit]      2 [no]                3
+     9 NA             99 [no answer]         3
+    10  5 [very much]  2 [no]                3
 
 # value labels are reproduced
 
-    # A tibble: 234 x 3
+    # A tibble: 243 x 3
      var                       nv vallab               
      <chr>                  <dbl> <chr>                
      q2new                     -2 FILTER               
@@ -174,6 +174,7 @@
      q3                         4 much                 
      q3                         5 very much            
      q3                        99 no answer            
+     q1                         1 not at all           
      q1                         2 a bit                
      q1                         3 normal               
      q1                         4 much                 
@@ -197,6 +198,7 @@
      kq5                        2 bbb                  
      kq5                        3 ccc                  
      q2                        -2 FILTER               
+     q2                         1 YES                  
      q2                         2 no                   
      q2                        99 no answer            
      q4                        -2 FILTER               
@@ -397,10 +399,17 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
+     q1_2                       2 a bit                
+     q1_2                       3 normal               
+     q1_2                       4 much                 
+     q1_2                       5 very much            
+     q2_2                      -2 FILTER               
+     q2_2                       2 no                   
+     q2_2                      99 no answer            
 
 # variable labels are reproduced
 
-    # A tibble: 66 x 2
+    # A tibble: 68 x 2
      var                    varlab                                    
      <chr>                  <chr>                                     
      q2new                  "recommend product"                       
@@ -468,6 +477,8 @@
      sum_of_k_vars          ""                                        
      kkq1                   "vl"                                      
      qsum                   ""                                        
+     q1_2                   "new_varlab"                              
+     q2_2                   "recommend product"                       
      free2_var              ""                                        
 
 # error string elements were added to cmd_tbl

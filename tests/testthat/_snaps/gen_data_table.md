@@ -173,7 +173,7 @@
     # A tibble: 22 x 12
      var   double_old character_old vallab_old type_old varlab_old double_new
      <fct>      <dbl> <chr>         <chr>      <chr>    <chr>           <dbl>
-     q1             1 <NA>          "not a"    doubl    "How m"            NA
+     q1             1 <NA>          "not a"    doubl    "How m"             1
      q1             2 <NA>          "a bit"    doubl    "How m"             2
      q1             3 <NA>          "norma"    doubl    "How m"             3
      q1             4 <NA>          "much"     doubl    "How m"             4
@@ -197,7 +197,7 @@
      q6            NA <NA>           <NA>      <NA>      <NA>               1
      character_new vallab_new type_new varlab_new     n
      <chr>         <chr>      <chr>    <chr>      <int>
-     <NA>           <NA>      doubl    "new_v"        1
+     <NA>          "not a"    doubl    "new_v"        1
      <NA>          "a bit"    doubl    "new_v"        1
      <NA>          "norma"    doubl    "new_v"        3
      <NA>          "much"     doubl    "new_v"        0
