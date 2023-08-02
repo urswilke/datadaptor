@@ -519,10 +519,9 @@ cmd_block_tibble <- tibble::tribble(
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
-### Example
 
-This only selects the variables matching the regular expression in the quotes
-(variables containing the letter a followed by a digit):
+
+### Example
 
 ```{r select2}
 dat <- tibble(
@@ -539,6 +538,7 @@ cmd_block_tibble <- tibble::tribble(
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
+
 
 ### Example
 In order to keep all variables, and only reorder those named before, you can 
@@ -560,6 +560,7 @@ cmd_block_tibble <- tibble::tribble(
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
+
 
 
 ## #RENAME
@@ -584,6 +585,86 @@ cmd_block_tibble <- tibble::tribble(
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
+
+
+## #ACROSS
+
+This command block has the same tidyselect selection semantics as `#SELECT`. 
+It then applies the function in column **C** by executing 
+`df |> dplyr::mutate(dplyr::across(var_selection, fun))` 
+where `df` is the current data, 
+`var_selection` the selected variables in column **B**, 
+and `fun` the function.
+
+### Example
+
+This takes all numeric variables from `a1` to `b2` and calculates the deviation to their mean :
+
+```{r across1}
+dat <- tibble(
+  a1 = c(1, 2),
+  b1 = c("a", "b"),
+  b2 = c(4, 3),
+  a2 = c(5, 6),
+)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3, 
+  "#ACROSS", "where(is.numeric) & a1:b2", NA_character_,
+  "", NA_character_, "function(x) x - mean(x)",
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+Instead of `"function(x) x - mean(x)"` you can also use the short form `"\(x) x - mean(x)"`, or write intermediate steps and by using curly braces and separating statements with semi-colons like  `"\(x) {res <- x - mean(x); res}"`
+
+
+### Example
+
+Here is a very clunky function applied on `a1` & `b2` that sets the value -2 to `NA` and removes its 
+value label.
+```{r across2}
+a1 = haven::labelled(c(1, -2, -2), c(FILTER = -2, a = 1, b = 2, c = 3), "a1")
+b2 = haven::labelled(c(-2, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "b1")
+a2 = haven::labelled(c(1, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "a2")
+dat <- tibble(a1, b1 = c("a", "b", "c"), b2, a2)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3, 
+  "#ACROSS", "where(is.numeric) & a1:b2", NA_character_,
+  "", NA_character_, 'function(x) {x[x == -2] <- NA; vall <- attr(x, "labels"); attr(x, "labels") <- vall[vall != -2]; x}',
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+This function does the same as `#RMVAL`.
+
+
+### Example
+
+It is also possible to provide the `.names` argument in the first row of column 
+**C**. And you can provide a list of multiple functions to the `.fns` argument in the following rows. 
+You can also give names to the functions in column **B**.
+
+```{r across3}
+a1 = haven::labelled(c(1, -2, -2), c(FILTER = -2, a = 1, b = 2, c = 3), "a1")
+b2 = haven::labelled(c(-2, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "b1")
+dat <- tibble(a1, b2)
+
+cmd_block_tibble <- tibble::tribble(
+  ~X1, ~X2, ~X3, 
+  "#ACROSS", "where(is.numeric) & a1:b2", "{.col}___{.fn}",
+  "", "rm_val", 'function(x) {x[x == -2] <- NA; vall <- attr(x, "labels"); attr(x, "labels") <- vall[vall != -2]; x}',
+  "", "mean", 'mean',
+  )
+
+illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
+```
+
+See the documentation of `dplyr::across()` for a more thorough documentation.
+
 
 # `curlychop()`
 
