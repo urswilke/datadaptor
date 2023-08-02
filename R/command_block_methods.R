@@ -23,7 +23,7 @@ apply_command <- function(cdb, mapping, ...) {
 #' @param v,v0,vs,vs0,vs2 Numeric value(s)
 #' @param vallab,vallabs Value label(s)
 #' @param varlab Character string containing a variable label
-#' @param ex,exs,ex_cond,ex_fun,ex_further_cond,ex_assign Character strings
+#' @param ex,exs,ex_cond,ex_fun,ex_further_cond,ex_assign,exs_fns_names,ex_names Character strings
 #'   containing valid R expressions. They will be evaluated in
 #'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`), except `exs`
 #'   which contains a list of expressions evaluated in the global environment.

@@ -46,7 +46,7 @@ apply_command(cdb, mapping, ...)
 
 \method{apply_command}{cmd_select}(cdb, mapping, exs, ...)
 
-\method{apply_command}{cmd_across}(cdb, mapping, exs, ex_fun, ...)
+\method{apply_command}{cmd_across}(cdb, mapping, exs, ex_fun, exs_fns_names, ex_names, ...)
 
 \method{apply_command}{cmd_filter}(cdb, mapping, exs, ...)
 
@@ -137,7 +137,7 @@ apply_command(cdb, mapping, ...)
 \item{id}{Character string of the variable name of the id variable in
 \code{mapping$dat}.}
 
-\item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign}{Character strings
+\item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign, exs_fns_names, ex_names}{Character strings
 containing valid R expressions. They will be evaluated in
 \code{mapping$params$expr_eval_env} (see \code{gen_mapping_params()}), except \code{exs}
 which contains a list of expressions evaluated in the global environment.}
