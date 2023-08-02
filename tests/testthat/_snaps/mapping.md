@@ -1,6 +1,6 @@
 # s3 modified data print is reproduced
 
-    # A tibble: 10 x 68
+    # A tibble: 10 x 70
        q2new          q3             q1              q5                 id
        <dbl+lbl>      <dbl+lbl>      <dbl+lbl>       <dbl+lbl>       <dbl>
      1  2 [no]        3 [normal]      3 [normal]      2 [a bit]          1
@@ -145,18 +145,18 @@
      8 1 [also with] 3         4          16                    6  2 [b]       19
      9 1 [also with] 3         4         792                   10 NA           NA
     10 1 [also with] 3         4          30                    9  2 [b]       22
-       q1_2           q2_2           free2_var
-       <dbl+lbl>      <dbl+lbl>          <dbl>
-     1  3 [normal]     2 [no]                3
-     2  3 [normal]    NA                     3
-     3 NA             NA                     3
-     4  3 [normal]    99 [no answer]         3
-     5  5 [very much] -2 [FILTER]            3
-     6  5 [very much] -2 [FILTER]            3
-     7 NA              2 [no]                3
-     8  2 [a bit]      2 [no]                3
-     9 NA             99 [no answer]         3
-    10  5 [very much]  2 [no]                3
+       q1_1b q1_2b          q2_1b q2_2b          free2_var
+       <dbl> <dbl+lbl>      <dbl> <dbl+lbl>          <dbl>
+     1     6  3 [normal]        4  2 [no]                3
+     2     6  3 [normal]        2 NA                     3
+     3     2 NA                 2 NA                     3
+     4     6  3 [normal]      198 99 [no answer]         3
+     5    10  5 [very much]    -4 -2 [FILTER]            3
+     6    10  5 [very much]    -4 -2 [FILTER]            3
+     7    NA NA                 4  2 [no]                3
+     8     4  2 [a bit]         4  2 [no]                3
+     9    NA NA               198 99 [no answer]         3
+    10    10  5 [very much]     4  2 [no]                3
 
 # value labels are reproduced
 
@@ -399,17 +399,17 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
-     q1_2                       2 a bit                
-     q1_2                       3 normal               
-     q1_2                       4 much                 
-     q1_2                       5 very much            
-     q2_2                      -2 FILTER               
-     q2_2                       2 no                   
-     q2_2                      99 no answer            
+     q1_2b                      2 a bit                
+     q1_2b                      3 normal               
+     q1_2b                      4 much                 
+     q1_2b                      5 very much            
+     q2_2b                     -2 FILTER               
+     q2_2b                      2 no                   
+     q2_2b                     99 no answer            
 
 # variable labels are reproduced
 
-    # A tibble: 68 x 2
+    # A tibble: 70 x 2
      var                    varlab                                    
      <chr>                  <chr>                                     
      q2new                  "recommend product"                       
@@ -477,8 +477,10 @@
      sum_of_k_vars          ""                                        
      kkq1                   "vl"                                      
      qsum                   ""                                        
-     q1_2                   "new_varlab"                              
-     q2_2                   "recommend product"                       
+     q1_1b                  ""                                        
+     q1_2b                  "new_varlab"                              
+     q2_1b                  ""                                        
+     q2_2b                  "recommend product"                       
      free2_var              ""                                        
 
 # error string elements were added to cmd_tbl

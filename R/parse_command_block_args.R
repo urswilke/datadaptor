@@ -102,9 +102,14 @@ parse_command_args.cmd_across <- function(cdb_raw) {
   if (is.na(ex_names)) {
     ex_names <- NULL
   }
+  exs_col <- cdb_raw$X2
+  exs <- exs_col[!is.na(exs_col)] |> paste(collapse = " & ")
+
+  ex_fun_col <- cdb_raw$X3[-1]
+  ex_fun <- ex_fun_col[!is.na(ex_fun_col)]
   list(
-    exs = cdb_raw$X2 |> paste(collapse = " & "),
-    ex_fun = cdb_raw$X3[2],
+    exs = exs,
+    ex_fun = ex_fun,
     ex_names = ex_names
   )
 }
