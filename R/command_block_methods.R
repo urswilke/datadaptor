@@ -107,7 +107,7 @@ apply_command.cmd_select <- function(cdb, mapping, exs, ...) {
 #' @export
 apply_command.cmd_across <- function(cdb, mapping, exs, ex_fun, exs_fns_names, ex_names, ...) {
   exs_ex <- parse_expr(exs)
-  ex_fun <- ex_fun |> map(parse_expr) |> map(eval_tidy)
+  ex_fun <- ex_fun |> map(parse_expr) |> map(\(x) eval_in_data(x, mapping))
   if (!is.null(exs_fns_names)) {
     stopifnot(length(ex_fun) == length(exs_fns_names))
     names(ex_fun) <- exs_fns_names
