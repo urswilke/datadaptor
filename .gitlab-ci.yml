@@ -26,7 +26,7 @@ before_script:
 
 
 devtools-check-topic-branches:
-  stage: dev
+  stage: build
   script:
     - R -e 'devtools::check()'
   except:
@@ -34,7 +34,7 @@ devtools-check-topic-branches:
 
 
 pages:
-  stage: dev
+  stage: build
   script:
   - R -e "devtools::document(); pkgdown::build_site()"
   artifacts:
