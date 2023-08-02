@@ -80,6 +80,7 @@ tab_labels_wide <- function(df) {
     datenanpassr:::tab_vallabs(remove_empty = FALSE) |>
     dplyr::rename(val = nv) |> 
     tidyr::pivot_wider(names_from = var, values_from = vallab) |> 
+    dplyr::arrange(val) |> 
     dplyr::mutate(val = as.character(val))
   labs <- dplyr::bind_rows(varl_table, vall_table)
   if (nrow(labs) == 0) {
