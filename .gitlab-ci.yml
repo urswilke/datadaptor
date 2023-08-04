@@ -7,12 +7,6 @@ variables:
   _R_CHECK_FORCE_SUGGESTS_: "true"
   APT_PKGS: "libcurl4-openssl-dev libssh2-1-dev libssl-dev libxml2-dev zlib1g-dev git libxt6"
 
-
-stages:
-  - build
-  - deploy
-
-
 image: rocker/tidyverse
 
 before_script:
@@ -20,19 +14,13 @@ before_script:
   - apt-get install -y --no-install-recommends ${APT_PKGS}
   - apt-get install -y --no-install-recommends qpdf pandoc pandoc-citeproc
   - R -e 'install.packages(c("testthat", "rmarkdown"));'
-  # - R -e 'install.packages(c("testthat", "gt", "pillar", "gtExtras", "knitr", "htmltools",  "rmarkdown", "markdown", "here", "spelling", "vctrs", "openxlsx",  "dplyr", "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr",  "rlang", "stringr", "fs", "labelled", "R6", "data.table", "writexl",  "lifecycle", "utils", "withr", "googlesheets4", "powerjoin",  "digest"));'
+  # install all packages in description file not yet installed:
   - R -e 'install.packages(setdiff(desc::desc()$get_deps()$package, c(installed.packages(), "R")));'
-  # - R -e "install.packages(c('tinytex'), repos='http://cran.rstudio.com')"
-  # - R -e "tinytex::install_tinytex()"
 
-
-devtools-check-topic-branches:
+devtools-check:
   stage: build
   script:
     - R -e 'devtools::check()'
-  except:
-    - prod
-
 
 pages:
   stage: build
@@ -44,4 +32,3 @@ pages:
     expire_in: 1 day
   rules:
     - if: $CI_COMMIT_REF_NAME == $CI_DEFAULT_BRANCH
-
