@@ -20,9 +20,10 @@ before_script:
   - apt-get install -y --no-install-recommends ${APT_PKGS}
   - apt-get install -y --no-install-recommends qpdf pandoc pandoc-citeproc
   - R -e 'install.packages(c("testthat", "rmarkdown"));'
-  - R -e 'install.packages(c("testthat", "gt", "pillar", "gtExtras", "knitr", "htmltools",  "rmarkdown", "markdown", "here", "spelling", "vctrs", "openxlsx",  "dplyr", "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr",  "rlang", "stringr", "fs", "labelled", "R6", "data.table", "writexl",  "lifecycle", "utils", "withr", "googlesheets4", "powerjoin",  "digest"));'
-  - R -e "install.packages(c('tinytex'), repos='http://cran.rstudio.com')"
-  - R -e "tinytex::install_tinytex()"
+  # - R -e 'install.packages(c("testthat", "gt", "pillar", "gtExtras", "knitr", "htmltools",  "rmarkdown", "markdown", "here", "spelling", "vctrs", "openxlsx",  "dplyr", "haven", "magrittr", "readxl", "tidyr", "tibble", "purrr",  "rlang", "stringr", "fs", "labelled", "R6", "data.table", "writexl",  "lifecycle", "utils", "withr", "googlesheets4", "powerjoin",  "digest"));'
+  - R -e 'install.packages(setdiff(desc::desc()$get_deps()$package, c(installed.packages(), "R")));'
+  # - R -e "install.packages(c('tinytex'), repos='http://cran.rstudio.com')"
+  # - R -e "tinytex::install_tinytex()"
 
 
 devtools-check-topic-branches:
