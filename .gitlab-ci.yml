@@ -1,11 +1,7 @@
-# This file was copied and then modified from here:
-# https://gitlab.com/r-packages/limonaid/-/raw/dev/.gitlab-ci.yml
-# and
-# https://stackoverflow.com/a/71340879
 variables:
   _R_CHECK_CRAN_INCOMING_: "true"
   _R_CHECK_FORCE_SUGGESTS_: "true"
-  APT_PKGS: "libcurl4-openssl-dev libssh2-1-dev libssl-dev libxml2-dev zlib1g-dev git libxt6"
+  APT_PKGS: "libcurl4-openssl-dev"
 
 image: rocker/tidyverse
 
