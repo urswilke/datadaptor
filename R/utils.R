@@ -185,8 +185,7 @@ extract_named_region_params.list <- function(variables) {
 }
 
 extract_named_region_params.excel <- function(mapping_file) {
-  wb <- loadWorkbook(mapping_file) |> suppressWarnings()
-  named_regions_raw <- getNamedRegions(wb)
+  named_regions_raw <- getNamedRegions(mapping_file)
   if (is.null(named_regions_raw)) {
     return(NULL)
   }
@@ -199,7 +198,7 @@ extract_named_region_params.excel <- function(mapping_file) {
       data = map(
         .x = .data$value,
         ~ read.xlsx(
-          xlsxFile = wb,
+          xlsxFile = mapping_file,
           namedRegion = .x,
           colNames = FALSE
         )
