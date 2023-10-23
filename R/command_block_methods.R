@@ -215,8 +215,12 @@ apply_command.cmd_verbatim_custom <- function(
 #'
 #' @export
 apply_command.cmd_merge <- function(
-  cdb, mapping, xs, filepath, id = mapping$params$id_var, ...
+  cdb, mapping, xs, filepath, id, ...
 ) {
+  # if id var is not set, take global id var
+  if(is.na(id)) {
+    id <- mapping$params$id_var
+  }
   # get filename extension
   switch(sub("^(.*\\.|[^.]+)(?=[^.]*)", "", filepath, perl = TRUE),
          xlsx = {df_merge <- read_xlsx(filepath) |>
