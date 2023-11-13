@@ -3,20 +3,25 @@
 \docType{data}
 \name{safer_env}
 \alias{safer_env}
-\title{Execution environment}
+\title{Execution environments}
 \format{
-An object of class \code{environment} of length 67.
+An object of class \code{environment} of length 74.
 }
 \usage{
 safer_env
 }
 \description{
-This is the default environment where expressions from the Excel mapping file are evaluated.
-See argument \code{expr_eval_env} of \code{?gen_mapping_params()}. See examples below
-for the list of included functions. If you need more, you can also use
-\code{baseenv()}.
+The default environment where expressions from the Excel mapping file are evaluated is baseenv().
+(see argument \code{expr_eval_env} of \code{?gen_mapping_params()}).
+For a safer option you can use \code{safer_env}
+which only contains a selection of base R functions (see example).
 }
 \examples{
 safer_env |> as.list() |> names()
+\dontrun{
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+m <- Mapping$new(spss_file, mapping_file, expr_eval_env = safer_env)
+}
 }
 \keyword{datasets}

@@ -287,21 +287,28 @@ safe_f <- c(
   getGroupMembers("Compare"),
   getGroupMembers("Logic"),
   "{", "(",
-  "rowSums", "::", "%in%", "ifelse", "data.frame", "is.na", "c", "list",
+  "rowSums", "%in%", "ifelse", "data.frame", "is.na", "c", "list",
   "as.numeric", "as.character", "as.logical", ":", "!",
   "function", "<-", "=", "[<-", "[", "attr", "attr<-", "mean"
 )
-#' Execution environment
+#' Execution environments
 #'
-#' This is the default environment where expressions from the Excel mapping file are evaluated.
-#' See argument `expr_eval_env` of `?gen_mapping_params()`. See examples below
-#' for the list of included functions. If you need more, you can also use
-#' `baseenv()`.
+#' The default environment where expressions from the Excel mapping file are evaluated is baseenv().
+#' (see argument `expr_eval_env` of `?gen_mapping_params()`).
+#' For a safer option you can use `safer_env`
+#' which only contains a selection of base R functions (see example).
 #'
 #' @export
 #' @examples
 #' safer_env |> as.list() |> names()
+#' \dontrun{
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' m <- Mapping$new(spss_file, mapping_file, expr_eval_env = safer_env)
+#' }
 safer_env <- new.env(parent = emptyenv())
+
+
 
 for (f in safe_f) {
   safer_env[[f]] <- get(f, "package:base")

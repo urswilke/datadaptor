@@ -13,7 +13,7 @@ gen_mapping_params(
   debug = FALSE,
   save_path = tempdir(),
   write_mapping_to_txt = FALSE,
-  expr_eval_env = safer_env,
+  expr_eval_env = new.env(parent = baseenv()),
   lab_before_var_sheet = "yes",
   miss_rec_lab = "FILTER",
   miss_rec_val = -2,
