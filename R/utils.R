@@ -297,10 +297,16 @@ safe_f <- c(
 #' (see argument `expr_eval_env` of `?gen_mapping_params()`).
 #' For a safer option you can use `safer_env`
 #' which only contains a selection of base R functions (see example).
+#' Additionally to the functions in the used environment,
+#' the object `dat_mod` is added to the environment
+#' which represents the current state of the data in `Mapping$dat_mod`.
 #'
 #' @export
 #' @examples
 #' safer_env |> as.list() |> names()
+#' # Apart from base R functions it also contains `dplyr::case_when()`:
+#' safer_env$case_when
+#' # To use it in a mapping, you can do:
 #' \dontrun{
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")

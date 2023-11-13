@@ -15,9 +15,15 @@ The default environment where expressions from the Excel mapping file are evalua
 (see argument \code{expr_eval_env} of \code{?gen_mapping_params()}).
 For a safer option you can use \code{safer_env}
 which only contains a selection of base R functions (see example).
+Additionally to the functions in the used environment,
+the object \code{dat_mod} is added to the environment
+which represents the current state of the data in \code{Mapping$dat_mod}.
 }
 \examples{
 safer_env |> as.list() |> names()
+# Apart from base R functions it also contains `dplyr::case_when()`:
+safer_env$case_when
+# To use it in a mapping, you can do:
 \dontrun{
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
