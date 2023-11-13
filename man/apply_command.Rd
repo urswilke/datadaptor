@@ -80,7 +80,7 @@ apply_command(cdb, mapping, ...)
   ...
 )
 
-\method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id = mapping$params$id_var, ...)
+\method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id, ...)
 
 \method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
 
