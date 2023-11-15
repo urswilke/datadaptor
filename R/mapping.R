@@ -264,11 +264,15 @@ apply_command_block_safe <- function(cdb, self) {
   cmd_index <- self$params$cmd_index + 1
   self$params$cmd_index <- cmd_index
   tryCatch(
+    withCallingHandlers(
     {
-      err_msg <- NA_character_
       args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
       do.call(apply_command, args)
     },
+    warning = function(w)
+    {
+      self$params$error_list[cmd_index] <- paste0(self$params$error_list[cmd_index], w)
+    }),
     error = function(e) {
       if (self$params$debug) {
         # probably this can't be tested:
@@ -280,18 +284,19 @@ apply_command_block_safe <- function(cdb, self) {
         # nocov end
       }
 
-      err_msg <- geterrmessage()[1]
-      self$params$error_list[cmd_index] <- err_msg
+
       message(
         paste(
           "Error in command",
           cmd_index,
           ": ",
-          err_msg
+          e
         )
       )
+      self$params$error_list[cmd_index] <- paste0(self$params$error_list[cmd_index], e)
     }
   )
+
 
   invisible(self)
 }
