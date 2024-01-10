@@ -210,8 +210,9 @@ extract_mdg_assignment_table <- function(i_l) {
     group_by(.data$code_assign) |>
     summarise(id_list = list(unique(.data$ID))) |>
     full_join(
-      df_vars_n_labs,
-      by = c("code_assign" = "Code")
+      x = df_vars_n_labs,
+      y = _,
+      by = c("Code" = "code_assign")
     )
 
   df_assigns <- df_assigns |>
@@ -221,7 +222,7 @@ extract_mdg_assignment_table <- function(i_l) {
       init_val = 0
     ) |>
     mutate(ex_assign = as.character(.data$ex_assign)) |>
-    select(-"code_assign")
+    select(-"Code")
   df_assigns
 }
 extract_efa_assignment_table <- function(i_l) {
