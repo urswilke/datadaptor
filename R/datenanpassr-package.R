@@ -72,6 +72,7 @@
 #' @importFrom openxlsx writeData
 #' @importFrom powerjoin power_full_join
 #' @importFrom powerjoin coalesce_yx
+#' @importFrom powerjoin coalesce_xy
 #' @importFrom purrr chuck
 #' @importFrom purrr imap_dfr
 #' @importFrom purrr map

@@ -215,7 +215,7 @@ apply_command.cmd_verbatim_custom <- function(
 #'
 #' @export
 apply_command.cmd_merge <- function(
-  cdb, mapping, xs, filepath, id, ...
+  cdb, mapping, xs, filepath, id, coal, ...
 ) {
   # if id var is not set, take global id var
   if(is.na(id)) {
@@ -236,16 +236,27 @@ apply_command.cmd_merge <- function(
   if (!is.na(xs[1])) {
     df_merge <- df_merge[c(id, xs)]
   }
-
-  mapping$dat_mod <- power_full_join(
-    mapping$dat_mod,
-    df_merge,
-    by = id,
-    conflict = coalesce_yx
-  ) |>
-    relocate(all_of(names(mapping$dat_mod)))
+  if (coal == "yx") {
+    mapping$dat_mod <- power_full_join(
+      mapping$dat_mod,
+      df_merge,
+      by = id,
+      conflict = coalesce_yx
+    ) |>
+      relocate(all_of(names(mapping$dat_mod)))
+  } else {
+    mapping$dat_mod <- power_full_join(
+      mapping$dat_mod,
+      df_merge,
+      by = id,
+      conflict = coalesce_xy
+    ) |>
+      relocate(all_of(names(mapping$dat_mod)))
+  }
+  if (coal != "xy") {
+    warning("No coalesce parameter given, using xy - old data is preserved if present in both datasets")
+  }
 }
-
 #' @describeIn apply_command
 #'
 #' @export
