@@ -236,23 +236,19 @@ apply_command.cmd_merge <- function(
   if (!is.na(xs[1])) {
     df_merge <- df_merge[c(id, xs)]
   }
-  if (coal == "yx") {
-    mapping$dat_mod <- power_full_join(
-      mapping$dat_mod,
-      df_merge,
-      by = id,
-      conflict = coalesce_yx
-    ) |>
-      relocate(all_of(names(mapping$dat_mod)))
+
+  coalesce_fun <- if (coal == "yx") {
+    coalesce_yx
   } else {
-    mapping$dat_mod <- power_full_join(
-      mapping$dat_mod,
-      df_merge,
-      by = id,
-      conflict = coalesce_xy
-    ) |>
-      relocate(all_of(names(mapping$dat_mod)))
+    coalesce_xy
   }
+  mapping$dat_mod <- power_full_join(
+    mapping$dat_mod,
+    df_merge,
+    by = id,
+    conflict = coalesce_fun
+  ) |>
+    relocate(all_of(names(mapping$dat_mod)))
   if (coal != "xy") {
     warning("No coalesce parameter given, using xy - old data is preserved if present in both datasets")
   }
