@@ -28,6 +28,9 @@ apply_command <- function(cdb, mapping, ...) {
 #'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`), except `exs`
 #'   which contains a list of expressions evaluated in the global environment.
 #' @param filepath Character string containing valid file path
+#' @param coal Character string containing either `"xy"` or `"yx"`.
+#'   This determines if `powerjoin::coalesce_xy()` or `powerjoin::coalesce_yx()` is used
+#'   when merging data with variables that already exist.
 #' @param id Character string of the variable name of the id variable in
 #'   `mapping$dat`.
 #' @param id_list Vector of id values in `mapping$dat_mod[id]`.
