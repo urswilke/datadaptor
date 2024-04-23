@@ -28,6 +28,9 @@ apply_command <- function(cdb, mapping, ...) {
 #'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`), except `exs`
 #'   which contains a list of expressions evaluated in the global environment.
 #' @param filepath Character string containing valid file path
+#' @param coal Character string containing either `"xy"` or `"yx"`.
+#'   This determines if `powerjoin::coalesce_xy()` or `powerjoin::coalesce_yx()` is used
+#'   when merging data with variables that already exist.
 #' @param id Character string of the variable name of the id variable in
 #'   `mapping$dat`.
 #' @param id_list Vector of id values in `mapping$dat_mod[id]`.
@@ -215,7 +218,7 @@ apply_command.cmd_verbatim_custom <- function(
 #'
 #' @export
 apply_command.cmd_merge <- function(
-  cdb, mapping, xs, filepath, id, ...
+  cdb, mapping, xs, filepath, id, coal, ...
 ) {
   # if id var is not set, take global id var
   if(is.na(id)) {
@@ -237,15 +240,22 @@ apply_command.cmd_merge <- function(
     df_merge <- df_merge[c(id, xs)]
   }
 
+  coalesce_fun <- if (coal == "yx") {
+    coalesce_yx
+  } else {
+    coalesce_xy
+  }
   mapping$dat_mod <- power_full_join(
     mapping$dat_mod,
     df_merge,
     by = id,
-    conflict = coalesce_yx
+    conflict = coalesce_fun
   ) |>
     relocate(all_of(names(mapping$dat_mod)))
+  if (coal != "xy") {
+    warning("No coalesce parameter given, using xy - old data is preserved if present in both datasets")
+  }
 }
-
 #' @describeIn apply_command
 #'
 #' @export

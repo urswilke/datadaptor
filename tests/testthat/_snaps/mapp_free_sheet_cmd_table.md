@@ -141,7 +141,7 @@
       .. ..$ X2: chr "fake_survey.sav"
       .. ..$ X3: chr "id"
       .. ..$ X4: chr "q1"
-      .. ..$ X5: chr NA
+      .. ..$ X5: chr "xy"
       ..$ : tibble [1 x 5] (S3: tbl_df/tbl/data.frame)
       .. ..$ X1: chr "#RFUN"
       .. ..$ X2: chr "example_R_function.R"

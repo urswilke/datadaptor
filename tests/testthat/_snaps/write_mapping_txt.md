@@ -904,7 +904,7 @@
       25 <NA>     <NA>                                       "!!! S~ <NA>   <NA>    34
       26 <NA>     <NA>                                       "see h~ <NA>   <NA>    35
       27 #COMP   "r_expr_var"                                "haven~ <NA>   <NA>    36
-      28 #MERGE  "../spss/fake_survey.sav"                   "id"    q1     <NA>    38
+      28 #MERGE  "../spss/fake_survey.sav"                   "id"    q1    "xy"     38
       29 #RFUN   "example_R_function.R"                      "calc_~ <NA>   <NA>    40
       30 #REC    "q1"                                        "kkq1"  vl     <NA>    48
       31 <NA>    "1"                                          <NA>   1     "a"      49

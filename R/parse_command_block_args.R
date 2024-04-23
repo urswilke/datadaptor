@@ -165,10 +165,15 @@ parse_command_args.cmd_merge <- function(cdb_raw) {
     str_split(" ", simplify = TRUE) |>
     as.vector()
 
+  coal = cdb_raw$X5[1]
+  if (is.na(coal)) {
+    coal <- ""
+  }
   list(
     xs = varnames_vec,
     filepath = cdb_raw$X2,
-    id = cdb_raw$X3[1]
+    id = cdb_raw$X3[1],
+    coal = coal
   )
 }
 

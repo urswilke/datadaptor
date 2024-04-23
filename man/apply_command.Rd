@@ -80,7 +80,7 @@ apply_command(cdb, mapping, ...)
   ...
 )
 
-\method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id, ...)
+\method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id, coal, ...)
 
 \method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
 
@@ -136,6 +136,10 @@ apply_command(cdb, mapping, ...)
 
 \item{id}{Character string of the variable name of the id variable in
 \code{mapping$dat}.}
+
+\item{coal}{Character string containing either \code{"xy"} or \code{"yx"}.
+This determines if \code{powerjoin::coalesce_xy()} or \code{powerjoin::coalesce_yx()} is used
+when merging data with variables that already exist.}
 
 \item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign, exs_fns_names, ex_names}{Character strings
 containing valid R expressions. They will be evaluated in
