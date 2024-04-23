@@ -240,7 +240,10 @@ apply_command.cmd_merge <- function(
     df_merge <- df_merge[c(id, xs)]
   }
 
-  coalesce_fun <- if (coal == "yx") {
+  if (!coal %in% c("xy", "yx")) {
+    warning("No coalesce parameter given, using xy - old data is preserved if present in both datasets")
+  }
+  coalesce_fun <- if (coal %in% "yx") {
     coalesce_yx
   } else {
     coalesce_xy
@@ -252,9 +255,6 @@ apply_command.cmd_merge <- function(
     conflict = coalesce_fun
   ) |>
     relocate(all_of(names(mapping$dat_mod)))
-  if (coal != "xy") {
-    warning("No coalesce parameter given, using xy - old data is preserved if present in both datasets")
-  }
 }
 #' @describeIn apply_command
 #'

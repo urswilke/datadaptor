@@ -166,9 +166,6 @@ parse_command_args.cmd_merge <- function(cdb_raw) {
     as.vector()
 
   coal = cdb_raw$X5[1]
-  if (is.na(coal)) {
-    coal <- ""
-  }
   list(
     xs = varnames_vec,
     filepath = cdb_raw$X2,
