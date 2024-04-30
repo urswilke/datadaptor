@@ -14,7 +14,7 @@ Authors@R:
                email = "wilke@data-connection.de")
     )
 Description: An R package to make data adjustments ("Datenanpassungen" in German) with predefined command blocks in Excel files. SPSS & Stata data sets are loaded and their variables can be manipulated from Excel files. These are auto-generated based on a template and containing information of the dataset's variables.
-License: GPL (>= 3) + file LICENSE
+License: AGPL (>= 3) + file LICENSE
 Suggests: 
     testthat,
     gt,
