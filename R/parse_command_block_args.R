@@ -57,6 +57,10 @@ parse_command_args <- function(cdb_raw) {
   UseMethod("parse_command_args")
 }
 
+parse_command_args.default <- function(cdb_raw) {
+  NULL
+}
+
 parse_command_args.cmd_recna_xcpt <- function(cdb_raw) {
   list(
     xs = cdb_raw$xs,

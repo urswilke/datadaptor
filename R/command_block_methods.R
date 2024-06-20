@@ -351,6 +351,13 @@ apply_command.cmd_comp <- function(cdb, mapping, x, ex, ...) {
 #' @describeIn apply_command
 #'
 #' @export
+apply_command.cmd_debug <- function(cdb, mapping, ...) {
+  browser()
+}
+
+#' @describeIn apply_command
+#'
+#' @export
 apply_command.cmd_set_lab <- function(cdb, mapping, x, varlab, ...) {
   # faster execution if variable is already of type labelled:
   if (is.labelled(mapping$dat_mod[[x]])) {
