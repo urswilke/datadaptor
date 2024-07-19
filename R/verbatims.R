@@ -48,7 +48,7 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
       col_types = "text"
     ) |>
     drop_na("VariableOriginal") |>
-    select("VariableOriginal":"Tabellen-blatt", "VariableZiel", any_of(c("ex_further_cond", "ex_assign"))) |>
+    select("VariableOriginal":"Tabellen-blatt", "VariableZiel", "padding" = "VariableZähler", any_of(c("ex_further_cond", "ex_assign"))) |>
     # HACK!!! TODO: replace with general regex
     mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal)) |>
     relocate(q_id = "Tabellen-blatt")
@@ -153,10 +153,17 @@ extract_custom_mdg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   df_vars_n_labs <- i_l$labs[[1]] |>
     mutate(
+      temp = .data$Code |> as.character(),
+      temp = ifelse(
+        rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
+        stringr::str_pad(temp, 2, pad = "0"),
+        temp
+      ),
       x = var_template |> str_replace(
         "\\{nn\\}",
-        .data$Code |> as.character()
-      )
+        temp
+      ),
+      temp = NULL,
     ) |>
     rename(varlab = "lab") |>
     mutate(varlab = as.list(.data$varlab))
@@ -196,10 +203,17 @@ extract_mdg_assignment_table <- function(i_l) {
   var_template <- i_l$meta$VariableZiel
   df_vars_n_labs <- i_l$labs[[1]] |>
     mutate(
+      temp = .data$Code |> as.character(),
+      temp = ifelse(
+        rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
+        stringr::str_pad(temp, 2, pad = "0"),
+        temp
+      ),
       x = var_template |> str_replace(
         "\\{nn\\}",
-        .data$Code |> as.character()
-      )
+        temp
+      ),
+      temp = NULL,
     ) |>
     rename(varlab = "lab") |>
     mutate(varlab = as.list(.data$varlab))

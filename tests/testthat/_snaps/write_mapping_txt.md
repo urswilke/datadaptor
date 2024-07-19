@@ -63,10 +63,11 @@
       [1] "Q6"
       
       $Verbatims[[1]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>        <chr>           <chr>    
-      1 Q6    q6               1            q6n          q5 != 1         <NA>     
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>        <chr>   <chr>          
+      1 Q6    q6               1            q6n          <NA>    q5 != 1        
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[1]]$assignments
       # A tibble: 100 x 3
@@ -191,10 +192,11 @@
       [1] "Q7"
       
       $Verbatims[[2]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>        <chr>           <chr>    
-      1 Q7    q7               1            q7n          <NA>            <NA>     
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>        <chr>   <chr>          
+      1 Q7    q7               1            q7n          <NA>    <NA>           
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[2]]$assignments
       # A tibble: 100 x 3
@@ -320,10 +322,11 @@
       [1] "q6mdg"
       
       $Verbatims[[3]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>        <chr>           <chr>    
-      1 q6mdg q6               3            q6_{nn}      <NA>            <NA>     
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>        <chr>   <chr>          
+      1 q6mdg q6               3            q6_{nn}      <NA>    <NA>           
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[3]]$assignments
       # A tibble: 100 x 12
@@ -451,10 +454,11 @@
       [1] "q6mdg"
       
       $Verbatims[[4]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>        <chr>           <chr>    
-      1 q6mdg q6_test          3            q6test_{nn}  <NA>            <NA>     
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>        <chr>   <chr>          
+      1 q6mdg q6_test          3            q6test_{nn}  <NA>    <NA>           
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[4]]$assignments
       # A tibble: 2 x 12
@@ -484,10 +488,11 @@
       [1] "q6mcg"
       
       $Verbatims[[5]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>        <chr>           <chr>    
-      1 q6mcg q6               2            q6n{nn}      <NA>            <NA>     
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>        <chr>   <chr>          
+      1 q6mcg q6               2            q6n{nn}      <NA>    <NA>           
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[5]]$assignments
       # A tibble: 100 x 12
@@ -615,10 +620,11 @@
       [1] "q6mdg"
       
       $Verbatims[[6]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>        <chr>           <chr>    
-      1 q6mdg q6               mdg_custom   q6mw_{nn}    <NA>            q1       
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>        <chr>   <chr>          
+      1 q6mdg q6               mdg_custom   q6mw_{nn}    <NA>    <NA>           
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[6]]$assignments
       # A tibble: 100 x 12
@@ -746,10 +752,11 @@
       [1] "q6mdg"
       
       $Verbatims[[7]]$meta
-      # A tibble: 1 x 6
-        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel     ex_further_cond ex_assign
-        <chr> <chr>            <chr>        <chr>            <chr>           <chr>    
-      1 q6mdg q6               mdg_custom   q6_assign_nn_{n~ <NA>            q{nn}    
+      # A tibble: 1 x 7
+        q_id  VariableOriginal EFA1MCG2MDG3 VariableZiel      padding ex_further_cond
+        <chr> <chr>            <chr>        <chr>             <chr>   <chr>          
+      1 q6mdg q6               mdg_custom   q6_assign_nn_{nn} <NA>    <NA>           
+      # i 1 more variable: ex_assign <chr>
       
       $Verbatims[[7]]$assignments
       # A tibble: 100 x 12

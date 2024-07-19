@@ -17,6 +17,7 @@ meta_mdg_custom <- tibble::tibble(
   VariableOriginal = "var_containing_open_answer_strings",
   EFA1MCG2MDG3 = "mdg_custom",
   VariableZiel = "q3_{nn}",
+  padding = NA_character_,
   ex_further_cond = 'q2 == 3',
   ex_assign = "q3_3"
 )
