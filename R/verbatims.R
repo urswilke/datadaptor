@@ -188,11 +188,17 @@ extract_custom_mdg_assignment_table <- function(i_l) {
 
   df_assigns <- df_assigns |>
     mutate(
-      ex_assign = ex_assign,
+      temp = .data$code_assign |> as.character(),
+      temp = ifelse(
+        rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
+        stringr::str_pad(temp, 2, pad = "0"),
+        temp
+      ),
       ex_assign = ex_assign |> str_replace(
         "\\{nn\\}",
-        .data$code_assign |> as.character()
+        temp
       ),
+      temp = NULL,
       vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(df_assigns)),
       init_val = 0
     ) |>
