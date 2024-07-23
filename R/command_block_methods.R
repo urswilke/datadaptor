@@ -495,26 +495,18 @@ apply_command.cmd_sumvar <- function(
     varlab <- attr(mapping$dat_mod[[y]], "label", exact = TRUE)
   }
 
-  sum_var_vals_n_labs <- tibble(vs0, vs, vallabs) |>
+  sum_var_vals_n_labs <- tibble(vs, vallabs) |>
     group_by(vs) |>
     summarise(
-      val_lists = list(vs0),
       val_labs = first(vallabs)
     )
-  cond_statements <- map2(
-    sum_var_vals_n_labs$val_lists,
-    sum_var_vals_n_labs$vs,
-    ~ expr(!!sym(y) %in% !!.x ~ !!.y)
-  )
 
-  vec_num <- expr(dplyr::case_when(!!!cond_statements)) |>
-    eval_in_data(mapping)
+  vec_num <- vs[match(mapping$dat_mod[[y]], vs0)]
 
   mapping$dat_mod[[x]] <- labelled(
     vec_num,
-    labels = sum_var_vals_n_labs[-2] |>
-      select(2, 1) |>
-      deframe(),
+    labels = sum_var_vals_n_labs$vs |>
+      set_names(sum_var_vals_n_labs$val_labs),
     label = varlab
   )
 
