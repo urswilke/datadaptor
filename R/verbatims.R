@@ -199,7 +199,6 @@ extract_custom_mdg_assignment_table <- function(i_l) {
         temp
       ),
       temp = NULL,
-      vallab = rep(list(c("unselected" = 0, "selected" = 1)), nrow(df_assigns)),
       init_val = 0
     ) |>
     select(-"code_assign")

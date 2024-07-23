@@ -174,8 +174,6 @@ apply_command.cmd_verbatim_custom <- function(
   id_list, v0, ex_further_cond, ex_assign,
   id = mapping$params$id_var, ...
 ) {
-  vallabs_named <- set_names(vs, vallabs)
-
   if (!x %in% names(mapping$dat_mod)) {
     mapping$dat_mod[[x]] <- v0
   }
