@@ -171,7 +171,7 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 #'
 #' @examples
 #' is_true_vec(c(NA, TRUE, FALSE))
-is_true_vec <- function(x) Vectorize(isTRUE)(x)
+is_true_vec <- function(x) x %in% TRUE
 
 # see https://github.com/tidyverse/magrittr/issues/29#issuecomment-74313262
 globalVariables(".")
