@@ -219,6 +219,7 @@ save_type <- function(df, path, filetype) {
     "sav"  = write_sav(df, path),
     "dta"  = write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
+    "qs" = qs::qsave(df, path)
     stop("unknown filetype")
   )
 }
@@ -314,7 +315,12 @@ initialize_dat <- function(self, dat) {
     return(NULL)
   }
   if (is.character(dat)) {
-    dat <- read_sav(dat)
+    filetype <- str_remove(dat, ".*\\.")
+    switch (filetype,
+            "sav"  = dat <- read_sav(dat),
+            "qs"  = dat <- qs::qread(dat),
+            stop("unknown filetype")
+    )
   }
   dat
 }
