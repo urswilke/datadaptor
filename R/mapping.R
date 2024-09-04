@@ -219,7 +219,7 @@ save_type <- function(df, path, filetype) {
     "sav"  = write_sav(df, path),
     "dta"  = write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
-    "qs" = qs::qsave(df, path)
+    "qs" = qs::qsave(df, path),
     stop("unknown filetype")
   )
 }
