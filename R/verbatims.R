@@ -48,7 +48,7 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
       col_types = "text"
     ) |>
     drop_na("VariableOriginal") |>
-    select("VariableOriginal":"Tabellen-blatt", "VariableZiel", "padding" = "VariableZähler", any_of(c("ex_further_cond", "ex_assign"))) |>
+    select("VariableOriginal":"Tabellen-blatt", "VariableZiel", "padding" = "VariableZ\u00e4hler", any_of(c("ex_further_cond", "ex_assign"))) |>
     # HACK!!! TODO: replace with general regex
     mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal)) |>
     relocate(q_id = "Tabellen-blatt")
