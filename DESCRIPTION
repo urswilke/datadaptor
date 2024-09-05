@@ -55,6 +55,7 @@ Imports:
     withr,
     googlesheets4,
     powerjoin,
-    digest
+    digest,
+    qs
 VignetteBuilder: knitr
 Language: en-US
