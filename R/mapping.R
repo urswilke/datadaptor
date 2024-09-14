@@ -315,13 +315,15 @@ add_error_list_to_command_blocks <- function(self) {
   self$cmd_tbl$error <- error_list
   invisible(self)
 }
-#' Ingest data
+#' Ingest data from data.frame or file path
 #'
 #' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
-#'  and in case of a character string the data.frame resulting of `haven::read_sav(dat)`,
-#'  or `NULL` in case of `NULL`.
+#'  in case of a character string returns the data.frame resulting of
+#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)`
+#'  (depending on the file extension)
+#'  or returns `NULL` in case of `NULL`.
 #'
 #' @export
 read_data <- function(dat) {

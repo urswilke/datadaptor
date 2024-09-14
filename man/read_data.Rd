@@ -2,7 +2,7 @@
 % Please edit documentation in R/mapping.R
 \name{read_data}
 \alias{read_data}
-\title{Ingest data}
+\title{Ingest data from data.frame or file path}
 \usage{
 read_data(dat)
 }
@@ -11,9 +11,11 @@ read_data(dat)
 }
 \value{
 Returns \code{dat} (unchanged) in case of a data.frame,
-and in case of a character string the data.frame resulting of \code{haven::read_sav(dat)},
-or \code{NULL} in case of \code{NULL}.
+in case of a character string returns the data.frame resulting of
+\code{haven::read_sav(dat)}/\code{haven::read_dta(dat)}/\code{qs::qread(dat)}
+(depending on the file extension)
+or returns \code{NULL} in case of \code{NULL}.
 }
 \description{
-Ingest data
+Ingest data from data.frame or file path
 }
