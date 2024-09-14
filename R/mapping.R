@@ -67,7 +67,7 @@ Mapping <- R6Class(
     dat = NULL,
     mapping_file = NULL,
     mapping_type = NULL,
-    cmd_tbl = data.frame(),
+    cmd_tbl = NULL,
     cmd = list(),
     dat_mod = NULL,
     params = NULL,
@@ -77,11 +77,13 @@ Mapping <- R6Class(
     #' @param mapping_file Path to the Excel mapping file.
     #' @param mapping_type String specifying the mapping type. Either "excel", "google"
     #'   (for googlesheets), or "list".
+    #' @param process_sheets (default TRUE) allows (process_sheets = FALSE) to postpone the execution of the commands in the Excel mapping file to the modify_data() method
     #' @param ... Arguments passed to gen_mapping_params() which will populate
     #'   the `params` field of the object.
     initialize = function(dat = NULL,
                           mapping_file = NULL,
                           mapping_type = NULL,
+                          process_sheets = TRUE,
                           ...) {
       self$mapping_file <- mapping_file
       self$mapping_type <- mapping_type
@@ -91,7 +93,9 @@ Mapping <- R6Class(
       self$dat <- read_data(dat)
 
       self$params <- gen_mapping_params(self$mapping_file, ...)
-      process_command_blocks(self)
+      if (process_sheets) {
+        process_command_blocks(self)
+      }
     },
     #' @description Run all command blocks of the mapping file. The commands in
     #'   the argument `command_blocks` (defaults to the Mapping's
@@ -106,6 +110,9 @@ Mapping <- R6Class(
     modify_data = function(reset = TRUE,
                            command_blocks = self$cmd_tbl$command_blocks) {
 
+      if (is.null(self$cmd_tbl)) {
+        process_command_blocks(self)
+      }
       if (reset == TRUE) {
         self$dat_mod <- self$dat
       }

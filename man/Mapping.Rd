@@ -86,7 +86,13 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \subsection{Method \code{new()}}{
 Initialize a Mapping object
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(dat = NULL, mapping_file = NULL, mapping_type = NULL, ...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(
+  dat = NULL,
+  mapping_file = NULL,
+  mapping_type = NULL,
+  process_sheets = TRUE,
+  ...
+)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -98,6 +104,8 @@ Initialize a Mapping object
 
 \item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
 (for googlesheets), or "list".}
+
+\item{\code{process_sheets}}{(default TRUE) allows (process_sheets = FALSE) to postpone the execution of the commands in the Excel mapping file to the modify_data() method}
 
 \item{\code{...}}{Arguments passed to gen_mapping_params() which will populate
 the \code{params} field of the object.}
