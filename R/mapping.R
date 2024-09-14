@@ -88,7 +88,7 @@ Mapping <- R6Class(
 
       set_mapping_type(self)
 
-      self$dat <- initialize_dat(self, dat)
+      self$dat <- read_data(dat)
 
       self$params <- gen_mapping_params(self$mapping_file, ...)
       process_command_blocks(self)
@@ -307,19 +307,27 @@ add_error_list_to_command_blocks <- function(self) {
   self$cmd_tbl$error <- error_list
   invisible(self)
 }
-
-initialize_dat <- function(self, dat) {
+#' Ingest data
+#'
+#' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
+#'
+#' @return Returns `dat` (unchanged) in case of a data.frame and the data.frame resulting of `haven::read_sav(dat)`, or `NULL` in case of `NULL`.
+#'
+#' @export
+read_data <- function(dat) {
   if (is.null(dat)) {
-    self$dat <- NULL
     return(NULL)
   }
-  if (is.character(dat)) {
-    dat <- read_sav(dat)
-  }
+  UseMethod("read_data")
+}
+#' @export
+read_data.data.frame <- function(dat) {
   dat
 }
-
-
+#' @export
+read_data.character <- function(dat) {
+  haven::read_sav(dat)
+}
 
 #' Mapping parameters
 #'
