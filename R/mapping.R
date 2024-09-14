@@ -319,7 +319,9 @@ add_error_list_to_command_blocks <- function(self) {
 #'
 #' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
 #'
-#' @return Returns `dat` (unchanged) in case of a data.frame and the data.frame resulting of `haven::read_sav(dat)`, or `NULL` in case of `NULL`.
+#' @return Returns `dat` (unchanged) in case of a data.frame,
+#'  and in case of a character string the data.frame resulting of `haven::read_sav(dat)`,
+#'  or `NULL` in case of `NULL`.
 #'
 #' @export
 read_data <- function(dat) {

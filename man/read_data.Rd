@@ -10,7 +10,9 @@ read_data(dat)
 \item{dat}{String. Either a path to an SPSS file, a data.frame, or \code{NULL}.}
 }
 \value{
-Returns \code{dat} (unchanged) in case of a data.frame and the data.frame resulting of \code{haven::read_sav(dat)}, or \code{NULL} in case of \code{NULL}.
+Returns \code{dat} (unchanged) in case of a data.frame,
+and in case of a character string the data.frame resulting of \code{haven::read_sav(dat)},
+or \code{NULL} in case of \code{NULL}.
 }
 \description{
 Ingest data
