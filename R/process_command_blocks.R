@@ -1,18 +1,3 @@
-process_command_blocks <- function(self) {
-  self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
-  self$cmd$sheet_command_tables_raw <- gen_sheet_cmd_tbls(self)
-  self$cmd$df_cmd_raw <- gen_df_cmd_raw(self)
-  self$cmd$command_blocks <- gen_command_blocks(self)
-  self$cmd_tbl <- gen_command_table(self)
-
-  if (self$params$write_mapping_to_txt) {
-    write_mapping_txt(self)
-  }
-}
-
-
-# read_sheets() -----------------------------------------------
-
 read_sheets <- function(mapping_file, self) {
   UseMethod("read_sheets")
 }

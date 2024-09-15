@@ -75,6 +75,7 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \subsection{Public methods}{
 \itemize{
 \item \href{#method-Mapping-new}{\code{Mapping$new()}}
+\item \href{#method-Mapping-process_sheet_commands}{\code{Mapping$process_sheet_commands()}}
 \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-Mapping-save}{\code{Mapping$save()}}
 \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
@@ -112,6 +113,18 @@ the \code{params} field of the object.}
 }
 \if{html}{\out{</div>}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Mapping-process_sheet_commands"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-process_sheet_commands}{}}}
+\subsection{Method \code{process_sheet_commands()}}{
+Parse the sheet data of the mapping file and derive the command blocks included.
+Automatically run in the constructor if \code{process_sheets = TRUE} (the default).
+Automatically run by the \code{modify_data()} method if not done before.
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$process_sheet_commands()}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-modify_data"></a>}}

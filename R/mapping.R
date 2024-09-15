@@ -94,7 +94,21 @@ Mapping <- R6Class(
 
       self$params <- gen_mapping_params(self$mapping_file, ...)
       if (process_sheets) {
-        process_command_blocks(self)
+        self$process_sheet_commands()
+      }
+    },
+    #' @description Parse the sheet data of the mapping file and derive the command blocks included.
+    #' Automatically run in the constructor if `process_sheets = TRUE` (the default).
+    #' Automatically run by the `modify_data()` method if not done before.
+    process_sheet_commands = function() {
+      self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
+      self$cmd$sheet_command_tables_raw <- gen_sheet_cmd_tbls(self)
+      self$cmd$df_cmd_raw <- gen_df_cmd_raw(self)
+      self$cmd$command_blocks <- gen_command_blocks(self)
+      self$cmd_tbl <- gen_command_table(self)
+
+      if (self$params$write_mapping_to_txt) {
+        write_mapping_txt(self)
       }
     },
     #' @description Run all command blocks of the mapping file. The commands in
@@ -111,7 +125,7 @@ Mapping <- R6Class(
                            command_blocks = self$cmd_tbl$command_blocks) {
 
       if (is.null(self$cmd_tbl)) {
-        process_command_blocks(self)
+        self$process_sheet_commands()
       }
       if (reset == TRUE) {
         self$dat_mod <- self$dat
