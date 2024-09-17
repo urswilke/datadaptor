@@ -34,6 +34,7 @@
 #' @importFrom dplyr pull
 #' @importFrom dplyr relocate
 #' @importFrom dplyr rename
+#' @importFrom dplyr rename_with
 #' @importFrom dplyr row_number
 #' @importFrom dplyr rowwise
 #' @importFrom dplyr select
