@@ -2,7 +2,7 @@
 date()
 ```
 
-    ## [1] "Tue Sep 17 22:25:17 2024"
+    ## [1] "Tue Sep 17 22:59:49 2024"
 
 ``` r
 devtools::load_all()
@@ -11,7 +11,7 @@ devtools::load_all()
     ## ℹ Loading datenanpassr
 
 ``` r
-mapping_file <- "K:/Projekte/KG FMC ATU 2024/Syntax/Mapping FMC ATU 2024.xlsm"
+mapping_file <- "tests/testthat/excel/mapping_old.xlsx" |> here::here()
 
 bench::mark(Mapping$new(NULL, mapping_file), iterations = 5)
 ```
@@ -22,4 +22,4 @@ bench::mark(Mapping$new(NULL, mapping_file), iterations = 5)
     ## # A tibble: 1 × 6
     ##   expression                           min   median `itr/sec` mem_alloc `gc/sec`
     ##   <bch:expr>                      <bch:tm> <bch:tm>     <dbl> <bch:byt>    <dbl>
-    ## 1 Mapping$new(NULL, mapping_file)    24.1s    24.6s    0.0407    1.91GB     1.80
+    ## 1 Mapping$new(NULL, mapping_file)     1.1s    1.16s     0.865    25.2MB     7.78
