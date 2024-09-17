@@ -177,15 +177,15 @@ is_true_vec <- function(x) x %in% TRUE
 globalVariables(".")
 
 
-extract_named_region_params <- function(mapping_file) {
+extract_named_region_params <- function(mapping_file, wb) {
   UseMethod("extract_named_region_params", mapping_file)
 }
-extract_named_region_params.list <- function(variables) {
+extract_named_region_params.list <- function(variables, wb) {
   NULL
 }
 
-extract_named_region_params.excel <- function(mapping_file) {
-  named_regions_raw <- getNamedRegions(mapping_file)
+extract_named_region_params.excel <- function(mapping_file, wb) {
+  named_regions_raw <- wb$get_named_regions()["name"]
   if (is.null(named_regions_raw)) {
     return(NULL)
   }
@@ -193,14 +193,14 @@ extract_named_region_params.excel <- function(mapping_file) {
 
 
   params_df <- named_regions |>
-    filter(grepl("^R_*", .data$value)) |>
+    filter(grepl("^R_*", .data$name)) |>
     mutate(
       data = map(
-        .x = .data$value,
-        ~ read.xlsx(
-          xlsxFile = mapping_file,
-          namedRegion = .x,
-          colNames = FALSE
+        .x = .data$name,
+        ~ wb_read(
+          wb,
+          named_region = .x,
+          col_names = FALSE
         )
       ) |>
         map_if(
@@ -211,7 +211,7 @@ extract_named_region_params.excel <- function(mapping_file) {
 
 
   named_params_list <- params_df$data
-  names(named_params_list) <- str_sub(params_df$value, 3)
+  names(named_params_list) <- str_sub(params_df$name, 3)
 
   is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
   if (any(is_correct_idx == FALSE)) {
@@ -224,7 +224,7 @@ extract_named_region_params.excel <- function(mapping_file) {
   named_params_list
 }
 
-extract_named_region_params.google <- function(mapping_file) {
+extract_named_region_params.google <- function(mapping_file, wb) {
   gs <- gs4_get(mapping_file |> as.character())
   named_regions <- gs$named_ranges
   if (is.null(named_regions)) {
