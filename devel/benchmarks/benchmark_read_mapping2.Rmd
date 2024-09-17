@@ -1,0 +1,17 @@
+---
+title: Test the speed reading a mapping
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+```{r}
+date()
+devtools::load_all()
+
+mapping_file <- "K:/Projekte/KG FMC ATU 2024/Syntax/Mapping FMC ATU 2024.xlsm"
+
+bench::mark(Mapping$new(NULL, mapping_file), iterations = 5)
+
+```
+
