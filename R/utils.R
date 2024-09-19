@@ -336,3 +336,23 @@ strip_attributes <- function(x) {
   attributes(x) <- NULL
   x
 }
+
+
+#' Format the dataframe returned by reading an excel sheet with openxlsx2::wb_read()
+#'
+#' Turns the dataframe into a tibble with character columns
+#' and trims the leading/trailing spaces of the strings.
+#'
+#' @param df dataframe
+#'
+#' @return
+#' @export
+#'
+#' @examples
+#' data.frame(a = " a ", b = 1) |> format_sheet_data()
+#'
+format_sheet_data <- function(df) {
+  df |>
+    tibble::as_tibble() |>
+    dplyr::mutate(dplyr::across(everything(), stringr::str_trim))
+}
