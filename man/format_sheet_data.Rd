@@ -4,7 +4,7 @@
 \alias{format_sheet_data}
 \title{Format the dataframe returned by reading an excel sheet with openxlsx2::wb_read()}
 \usage{
-format_sheet_data(df)
+format_sheet_data(df, arg = dplyr::everything())
 }
 \arguments{
 \item{df}{dataframe}

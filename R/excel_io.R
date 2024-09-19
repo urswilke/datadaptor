@@ -100,7 +100,7 @@ read_variables_sheet_raw.excel <- function(mapping_file, sheet, mapping) {
     mapping$wb,
     sheet
   )
-  res[c("var", "varlab", "type", "new_label", "op", "new_name")] |> mutate(across(everything(), as.character)) |> as_tibble()
+  res[c("var", "varlab", "type", "new_label", "op", "new_name")] |> format_sheet_data()
 }
 
 format_df_varl <- function(df_varl) {
@@ -264,8 +264,15 @@ read_label_sheet_raw.excel <- function(mapping_file, sheet, mapping) {
     mapping$wb,
     sheet
   )
-  raw[c("var", "nv", "new_label", "sum_var_label",
-        "sum_var_value", "sum_var_vallab")] |> mutate(across(-c("nv", "sum_var_value"), as.character)) |> as_tibble()
+  raw[c(
+    "var",
+    "nv",
+    "new_label",
+    "sum_var_label",
+    "sum_var_value",
+    "sum_var_vallab"
+  )] |>
+    format_sheet_data(-c("nv", "sum_var_value"))
 }
 
 parse_sumvar_cmd_table <- function(df_vall) {
@@ -354,12 +361,12 @@ mapp_free_sheet_cmd_table_raw_raw.excel <- function(mapping_file, sheet, mapping
     sheet,
     cols = 1:5,
     col_names = FALSE,
-    skip_empty_rows = FALSE,
-    types = c(A = 0, B = 0, C = 0, D = 0, E = 0)
-  ) |> mutate(across(everything(), str_trim))
+    skip_empty_rows = FALSE
+  )
   names(res) <- paste0("X", 1:5)
   res$row <- rownames(res) |> as.integer()
-  res |> as_tibble()
+  res |>
+    format_sheet_data(-c("row"))
 }
 
 

@@ -44,30 +44,9 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet, mapping) {
     wb_read(
       mapping$wb,
       sheet,
-      start_row = 18,
-      types = c(
-        VariableOriginal = 0,
-        EFA1MCG2MDG3 = 0,
-        "Tabellen-blatt" = 0,
-        "Nebeneinander?" = 0,
-        VariableOriginal_umbenannt = 0,
-        VarOrigMissing = 0,
-        VariableZiel = 0,
-        "VariableZ\u00e4hler" = 0,
-        VariableLabel = 0,
-        VariableMissing = 0,
-        Max.Codestufen = 0,
-        CodestufenLabel = 0,
-        Reserved = 0,
-        Max.Zuordnungen = 0,
-        "BisherigerWertAnzeigen?" = 0,
-        WeitereVariablen = 0,
-        Titel = 0,
-        ex_further_cond = 0,
-        ex_assign = 0
-      )
+      start_row = 18
     ) |>
-    as_tibble() |>
+    format_sheet_data() |>
     drop_na("VariableOriginal") |>
     select("VariableOriginal":"Tabellen-blatt", "VariableZiel", "padding" = "VariableZ\u00e4hler", any_of(c("ex_further_cond", "ex_assign"))) |>
     # HACK!!! TODO: replace with general regex
@@ -80,10 +59,9 @@ extract_verbatim_file_name <- function(mapping_file, sheet, mapping) {
     mapping$wb,
     sheet,
     cols = 2:4,
-    col_names = FALSE,
-    types = c(B = 0, C = 0, D = 0)
+    col_names = FALSE
   ) |>
-    as_tibble()
+    format_sheet_data()
   if (nrow(verbatims_sheet) == 0) {
     return(NA_character_)
   }
@@ -110,9 +88,8 @@ generate_label_code_list <- function(verbatim_file, wb) {
   raw <- wb_read(wb, "Codestufen")
   names(raw)[1] <- "Code"
   df_codestufen <- raw |>
-    as_tibble() |>
+    format_sheet_data() |>
     mutate_all(~ ifelse(. == "<reserved>", NA, .)) |>
-    mutate(across(.cols = everything(), .fns = str_trim)) |>
     mutate(Code = row_number()) |>
     relocate("Code")
   2:length(df_codestufen) |>
