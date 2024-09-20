@@ -229,7 +229,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' mapp_vallab_sheet_cmd_table(m)
 mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   df_vall <- self$cmd$sheet_data_raw[[sheet]]
-  df_vall$nv <- as.numeric(df_vall$nv)
+  # order columns and set to NA if not in data:
   df_vall <- bind_rows(
     tibble(
       var            = character(),
@@ -240,8 +240,8 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
       sum_var_vallab = character(),
     ),
     df_vall
-  ) |>
-    mutate(row = row_number() + 1)
+  )
+  df_vall$row = seq_along(df_vall[[1]]) + 1
   res <- bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
