@@ -55,14 +55,17 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet, mapping) {
   mapping_verbatim_sheet
 }
 extract_verbatim_file_name <- function(mapping_file, sheet, mapping) {
-  verbatims_sheet <- wb_read(
-    mapping$wb,
-    sheet,
-    cols = 2:4,
-    col_names = FALSE
-  ) |>
-    format_sheet_data()
-  if (nrow(verbatims_sheet) == 0) {
+  verbatims_sheet <- try(
+    wb_read(
+      mapping$wb,
+      sheet,
+      cols = 2:4,
+      col_names = FALSE
+    ) |>
+      format_sheet_data(),
+    silent = TRUE
+  )
+  if (inherits(verbatims_sheet, "try-error") || nrow(verbatims_sheet) == 0) {
     return(NA_character_)
   }
   file_path <- verbatims_sheet |>
