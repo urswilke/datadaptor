@@ -7,7 +7,7 @@
 gen_mapping_params(
   mapping_file = NULL,
   mapping_type = "excel",
-  excel_params = extract_named_region_params(mapping_file),
+  excel_params = extract_named_region_params(mapping_file, wb),
   id_var = NULL,
   error_out = "unsafe",
   debug = FALSE,
@@ -20,6 +20,7 @@ gen_mapping_params(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
+  wb,
   ...
 )
 }
@@ -73,6 +74,8 @@ names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 lowercase during data modification, and rename them back to their original
 case (if still existing) in the end.}
 
+\item{wb}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
+
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
 }
 \value{
@@ -91,6 +94,7 @@ file.
 # (`gen_mapping_params()` isn't supposed to be be called directly).
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 class(mapping_file) <- "excel"
+wb <- openxlsx2::wb_load(mapping_file)
 
-gen_mapping_params(mapping_file)
+gen_mapping_params(mapping_file, wb = wb)
 }

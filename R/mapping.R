@@ -32,6 +32,7 @@ NULL
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
 #' @field dat_mod modified dataframe
 #' @field params Parameter list object
+#' @field wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
 #' @export
 #'
 #' @examples
@@ -71,6 +72,7 @@ Mapping <- R6Class(
     cmd = list(),
     dat_mod = NULL,
     params = NULL,
+    wb = NULL,
     #' @description Initialize a Mapping object
     #'
     #' @param dat Dataframe to apply the mapping on.
@@ -89,10 +91,11 @@ Mapping <- R6Class(
       self$mapping_type <- mapping_type
 
       set_mapping_type(self)
+      set_workbook(self$mapping_file, self)
 
       self$dat <- read_data(dat)
 
-      self$params <- gen_mapping_params(self$mapping_file, ...)
+      self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
       if (process_sheets) {
         self$process_sheet_commands()
       }
@@ -404,6 +407,7 @@ read_data.character <- function(dat) {
 #' @param lowercase_varnames Whether to transform all variable names to
 #'   lowercase during data modification, and rename them back to their original
 #'   case (if still existing) in the end.
+#' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
@@ -414,12 +418,13 @@ read_data.character <- function(dat) {
 #' # (`gen_mapping_params()` isn't supposed to be be called directly).
 #' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
 #' class(mapping_file) <- "excel"
+#' wb <- openxlsx2::wb_load(mapping_file)
 #'
-#' gen_mapping_params(mapping_file)
+#' gen_mapping_params(mapping_file, wb = wb)
 gen_mapping_params <- function(
   mapping_file = NULL,
   mapping_type = "excel",
-  excel_params = extract_named_region_params(mapping_file),
+  excel_params = extract_named_region_params(mapping_file, wb),
   id_var = NULL,
   error_out = "unsafe",
   debug = FALSE,
@@ -432,6 +437,7 @@ gen_mapping_params <- function(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
+  wb,
   ...
 
 ) {
@@ -461,4 +467,12 @@ gen_mapping_params <- function(
     p[names(p$excel_params)] <- p$excel_params
   }
   p
+}
+
+set_workbook <- function(mapping_file, mapping) {
+  UseMethod("set_workbook")
+}
+set_workbook.default <- function(mapping_file, mapping) {}
+set_workbook.excel <- function(mapping_file, mapping) {
+  mapping$wb <- wb_load(mapping_file)
 }

@@ -68,6 +68,8 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \item{\code{dat_mod}}{modified dataframe}
 
 \item{\code{params}}{Parameter list object}
+
+\item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }

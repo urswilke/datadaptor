@@ -39,14 +39,14 @@ mapp_verbatim_sheet_cmd_tbl <- function(
     select(-"ex_assign_temp")
 }
 
-generate_verbatim_sheet_table <- function(mapping_file, sheet) {
+generate_verbatim_sheet_table <- function(mapping_file, sheet, mapping) {
   mapping_verbatim_sheet <-
-    read_xlsx(mapping_file,
-      skip = 16,
-      sheet = sheet,
-      col_names = TRUE,
-      col_types = "text"
+    wb_read(
+      mapping$wb,
+      sheet,
+      start_row = 18
     ) |>
+    format_sheet_data() |>
     drop_na("VariableOriginal") |>
     select("VariableOriginal":"Tabellen-blatt", "VariableZiel", "padding" = "VariableZ\u00e4hler", any_of(c("ex_further_cond", "ex_assign"))) |>
     # HACK!!! TODO: replace with general regex
@@ -54,16 +54,18 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet) {
     relocate(q_id = "Tabellen-blatt")
   mapping_verbatim_sheet
 }
-extract_verbatim_file_name <- function(mapping_file, sheet) {
-  verbatims_sheet <- read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    range = cell_cols(c("B:D")),
-    skip = 0,
-    col_types = c("text", "text", "text"),
-    col_names = LETTERS[2:4]
+extract_verbatim_file_name <- function(mapping_file, sheet, mapping) {
+  verbatims_sheet <- try(
+    wb_read(
+      mapping$wb,
+      sheet,
+      cols = 2:4,
+      col_names = FALSE
+    ) |>
+      format_sheet_data(),
+    silent = TRUE
   )
-  if (nrow(verbatims_sheet) == 0) {
+  if (inherits(verbatims_sheet, "try-error") || nrow(verbatims_sheet) == 0) {
     return(NA_character_)
   }
   file_path <- verbatims_sheet |>
@@ -71,32 +73,26 @@ extract_verbatim_file_name <- function(mapping_file, sheet) {
     pull(.data$D)
   adapt_filepath(file_path, mapping_file)
 }
-generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet) {
-  verbatim_file_sheets <-
-    verbatim_file |>
-    excel_sheets()
+generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet, wb) {
+  verbatim_file_sheets <- wb$get_sheet_names() |> unname()
 
-  read_assigns <- function(sheet_name) {
-    read_xlsx(verbatim_file, sheet = sheet_name, col_names = TRUE, range = cell_limits(ul = c(32, 4))) |>
-      select(orig_var = "Orig. Variable", "ID", matches("^Zuord "))
+  read_assigns <- function(sheet_name, mapping) {
+    res <- wb_read(wb, sheet_name, start_row = 32)
+    res |>
+      select(orig_var = "Orig. Variable", "ID", matches("^Zuord ")) |> as_tibble()
   }
-
 
   # except "Codestufen", the first sheet:
   verbatim_file_sheets[-1] |>
     set_names() |>
     map(~ read_assigns(.x))
 }
-generate_label_code_list <- function(verbatim_file) {
-  df_codestufen <-
-    read_xlsx(
-      verbatim_file,
-      sheet = "Codestufen",
-      col_names = TRUE,
-      range = cell_limits(ul = c(1, 2))
-    ) |>
+generate_label_code_list <- function(verbatim_file, wb) {
+  raw <- wb_read(wb, "Codestufen")
+  names(raw)[1] <- "Code"
+  df_codestufen <- raw |>
+    format_sheet_data() |>
     mutate_all(~ ifelse(. == "<reserved>", NA, .)) |>
-    mutate(across(.cols = everything(), .fns = str_trim)) |>
     mutate(Code = row_number()) |>
     relocate("Code")
   2:length(df_codestufen) |>
@@ -127,16 +123,21 @@ un_OT_ize <- function(x, orig_var) {
 parse_verbatim_data_raw <- function(
   mapping_file,
   verbatim_file,
-  sheet
+  sheet,
+  mapping
 ) {
   if (is.na(verbatim_file)) {
     return(NULL)
   }
-  mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping_file, sheet = sheet)
+  mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping_file, sheet = sheet, mapping)
   verbatim_sheets <- mapping_verbatim_sheet$q_id
-  l_codestufen <- generate_label_code_list(verbatim_file)
+
+  wb <- wb_load(verbatim_file)
+
+
+  l_codestufen <- generate_label_code_list(verbatim_file, wb)
   l_codestufen <- l_codestufen[verbatim_sheets]
-  l_assigns <- generate_assignments_list(verbatim_file, mapping_verbatim_sheet)
+  l_assigns <- generate_assignments_list(verbatim_file, mapping_verbatim_sheet, wb)
   l_assigns <- l_assigns[verbatim_sheets]
   l <- vector("list", length(verbatim_sheets))
   for (i in seq_len(length(verbatim_sheets))) {
@@ -156,12 +157,12 @@ extract_custom_mdg_assignment_table <- function(i_l) {
       temp = .data$Code |> as.character(),
       temp = ifelse(
         rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
-        stringr::str_pad(temp, 2, pad = "0"),
-        temp
+        stringr::str_pad(.data$temp, 2, pad = "0"),
+        .data$temp
       ),
       x = var_template |> str_replace(
         "\\{nn\\}",
-        temp
+        .data$temp
       ),
       temp = NULL,
     ) |>
@@ -191,12 +192,12 @@ extract_custom_mdg_assignment_table <- function(i_l) {
       temp = .data$code_assign |> as.character(),
       temp = ifelse(
         rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
-        stringr::str_pad(temp, 2, pad = "0"),
-        temp
+        stringr::str_pad(.data$temp, 2, pad = "0"),
+        .data$temp
       ),
       ex_assign = ex_assign |> str_replace(
         "\\{nn\\}",
-        temp
+        .data$temp
       ),
       temp = NULL,
       init_val = 0
@@ -211,12 +212,12 @@ extract_mdg_assignment_table <- function(i_l) {
       temp = .data$Code |> as.character(),
       temp = ifelse(
         rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
-        stringr::str_pad(temp, 2, pad = "0"),
-        temp
+        stringr::str_pad(.data$temp, 2, pad = "0"),
+        .data$temp
       ),
       x = var_template |> str_replace(
         "\\{nn\\}",
-        temp
+        .data$temp
       ),
       temp = NULL,
     ) |>

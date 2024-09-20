@@ -1,4 +1,4 @@
-mapping_file <- "excel/test_save.xlsx"
+mapping_file <- "excel/test_save.xlsx" |> testthat::test_path()
 suppressMessages(m <- Mapping$new(dat = tibble(a = c(1:3, NA)), mapping_file = mapping_file))
 path <- m$params$save_path
 save_file_types <- c("sav", "dta", "xlsx")

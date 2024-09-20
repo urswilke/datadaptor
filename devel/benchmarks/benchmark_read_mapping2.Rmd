@@ -1,0 +1,17 @@
+---
+title: Test the speed reading a mapping
+output: 
+  md_document:
+    variant: markdown_github
+---
+
+```{r}
+date()
+devtools::load_all()
+
+mapping_file <- "tests/testthat/excel/mapping_old.xlsx" |> here::here()
+
+bench::mark(Mapping$new(NULL, mapping_file), iterations = 5)
+
+```
+

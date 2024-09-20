@@ -35,7 +35,6 @@ RoxygenNote: 7.3.2
 Depends: 
     R (>= 4.1.0)
 Imports: 
-    openxlsx,
     dplyr (>= 1.0.8),
     haven,
     magrittr,
@@ -56,6 +55,7 @@ Imports:
     googlesheets4,
     powerjoin,
     digest,
-    qs
+    qs,
+    openxlsx2
 VignetteBuilder: knitr
 Language: en-US

@@ -35,21 +35,21 @@ mapp_create_xlsx <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
   df_vallabs <- gen_label_table(df_raw)
 
-  wb <- createWorkbook()
+  wb <- wb_workbook()
 
-  addWorksheet(wb, "Variables")
-  addWorksheet(wb, "Label")
-  addWorksheet(wb, "Verbatims")
-  addWorksheet(wb, "Free1")
+  wb$add_worksheet("Variables")
+  wb$add_worksheet("Label")
+  wb$add_worksheet("Verbatims")
+  wb$add_worksheet("Free1")
 
   # Write the data to the sheets
-  writeData(wb, sheet = "Variables", x = df_varlab)
-  writeData(wb, sheet = "Label", x = df_vallabs)
-  writeData(wb, sheet = "Verbatims", x = "")
-  writeData(wb, sheet = "Free1", x = "")
+  wb$add_data(sheet = "Variables", x = df_varlab)
+  wb$add_data(sheet = "Label", x = df_vallabs)
+  wb$add_data(sheet = "Verbatims", x = "")
+  wb$add_data(sheet = "Free1", x = "")
 
   # Export the file
-  saveWorkbook(wb, mapping_file)
+  wb$save(mapping_file)
   message("Excel mapping file written to '", mapping_file, "'")
 }
 mapp_create_google <- function(df_raw, mapping_file) {
@@ -86,21 +86,21 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
   self$cmd$sheet_data_raw[[sheet]] |>
     format_df_varl()
 }
-read_variables_sheet_raw <- function(mapping_file, sheet) {
-  UseMethod("read_variables_sheet_raw")
+read_variables_sheet_raw <- function(mapping_file, sheet, mapping) {
+  UseMethod("read_variables_sheet_raw", mapping_file)
 }
-read_variables_sheet_raw.google <- function(mapping_file, sheet) {
+read_variables_sheet_raw.google <- function(mapping_file, sheet, mapping) {
   read_sheet(
     mapping_file |> as.character(),
     sheet = sheet
   )
 }
-read_variables_sheet_raw.excel <- function(mapping_file, sheet) {
-  read_xlsx(
-    mapping_file,
-    sheet = sheet,
-    col_types = "text"
+read_variables_sheet_raw.excel <- function(mapping_file, sheet, mapping) {
+  res <- wb_read(
+    mapping$wb,
+    sheet
   )
+  res[c("var", "varlab", "type", "new_label", "op", "new_name")] |> format_sheet_data()
 }
 
 format_df_varl <- function(df_varl) {
@@ -229,7 +229,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' mapp_vallab_sheet_cmd_table(m)
 mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   df_vall <- self$cmd$sheet_data_raw[[sheet]]
-
+  # order columns and set to NA if not in data:
   df_vall <- bind_rows(
     tibble(
       var            = character(),
@@ -240,8 +240,8 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
       sum_var_vallab = character(),
     ),
     df_vall
-  ) |>
-    mutate(row = row_number() + 1)
+  )
+  df_vall$row = seq_along(df_vall[[1]]) + 1
   res <- bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
@@ -250,20 +250,29 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   res[c("sheet", "action", "new_var", "row", "data")]
 }
 
-read_label_sheet_raw <- function(mapping_file, sheet) {
-  UseMethod("read_label_sheet_raw")
+read_label_sheet_raw <- function(mapping_file, sheet, mapping) {
+  UseMethod("read_label_sheet_raw", mapping_file)
 }
-read_label_sheet_raw.google <- function(mapping_file, sheet) {
+read_label_sheet_raw.google <- function(mapping_file, sheet, mapping) {
   read_sheet(
     mapping_file |> as.character(),
     sheet = sheet
   )
 }
-read_label_sheet_raw.excel <- function(mapping_file, sheet) {
-  read_xlsx(
-    mapping_file,
-    sheet = sheet
+read_label_sheet_raw.excel <- function(mapping_file, sheet, mapping) {
+  raw <- wb_read(
+    mapping$wb,
+    sheet
   )
+  raw[c(
+    "var",
+    "nv",
+    "new_label",
+    "sum_var_label",
+    "sum_var_value",
+    "sum_var_vallab"
+  )] |>
+    format_sheet_data(-c("nv", "sum_var_value"))
 }
 
 parse_sumvar_cmd_table <- function(df_vall) {
@@ -330,15 +339,14 @@ mapp_free_sheet_cmd_table <- function(self, sheet = "Free1") {
     process_raw_free_cmd_table()
 }
 
-mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet) {
-  mapp_free_sheet_cmd_table_raw_raw(mapping_file, sheet) |>
-    mutate(row = row_number()) |>
+mapp_free_sheet_cmd_table_raw <- function(mapping_file, sheet, mapping) {
+  mapp_free_sheet_cmd_table_raw_raw(mapping_file, sheet, mapping) |>
     filter(if_any(starts_with("X"), ~ !is.na(.)))
 }
-mapp_free_sheet_cmd_table_raw_raw <- function(mapping_file, sheet) {
-  UseMethod("mapp_free_sheet_cmd_table_raw_raw")
+mapp_free_sheet_cmd_table_raw_raw <- function(mapping_file, sheet, mapping) {
+  UseMethod("mapp_free_sheet_cmd_table_raw_raw", mapping_file)
 }
-mapp_free_sheet_cmd_table_raw_raw.google <- function(mapping_file, sheet) {
+mapp_free_sheet_cmd_table_raw_raw.google <- function(mapping_file, sheet, mapping) {
   read_sheet(
     mapping_file |> as.character(),
     sheet = sheet,
@@ -347,13 +355,18 @@ mapp_free_sheet_cmd_table_raw_raw.google <- function(mapping_file, sheet) {
     col_names = paste0("X", 1:5)
   )
 }
-mapp_free_sheet_cmd_table_raw_raw.excel <- function(mapping_file, sheet) {
-  read_xlsx(
-    mapping_file,
-    range = cell_limits(ul = c(1, 1), lr = c(NA, 5), sheet = sheet),
-    col_names = paste0("X", 1:5),
-    col_types = "text"
+mapp_free_sheet_cmd_table_raw_raw.excel <- function(mapping_file, sheet, mapping) {
+  res <- wb_read(
+    mapping$wb,
+    sheet,
+    cols = 1:5,
+    col_names = FALSE,
+    skip_empty_rows = FALSE
   )
+  names(res) <- paste0("X", 1:5)
+  res$row <- rownames(res) |> as.integer()
+  res |>
+    format_sheet_data(-c("row"))
 }
 
 

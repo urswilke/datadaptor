@@ -15,7 +15,7 @@ read_sheets.default <- function(mapping_file, self) {
   )
 }
 gen_sheet_cats <- function(mapping_file, self) {
-  sheets <- get_sheets(mapping_file)
+  sheets <- get_sheets(mapping_file, self)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -27,13 +27,13 @@ gen_sheet_cats <- function(mapping_file, self) {
   sheet_cats <- tab_sheet_types(sheets)
   sheet_cats
 }
-get_sheets <- function(mapping_file) {
+get_sheets <- function(mapping_file, mapping) {
   UseMethod("get_sheets")
 }
-get_sheets.excel <- function(mapping_file) {
-  excel_sheets(mapping_file)
+get_sheets.excel <- function(mapping_file, mapping) {
+  wb_get_sheet_names(mapping$wb)
 }
-get_sheets.google <- function(mapping_file) {
+get_sheets.google <- function(mapping_file, mapping) {
   gs <- googlesheets4::gs4_get(mapping_file |> as.character())
   gs$sheets$name
 }
@@ -65,10 +65,10 @@ tab_sheet_types <- function(sheets) {
 }
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
   switch(sheet_cat,
-         "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name),
-         "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name),
-         "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name),
-         "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name))
+         "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name, mapping = self),
+         "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name, mapping = self),
+         "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name, mapping = self),
+         "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name, self), mapping = self)
   )
 }
 
