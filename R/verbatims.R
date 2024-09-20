@@ -157,12 +157,12 @@ extract_custom_mdg_assignment_table <- function(i_l) {
       temp = .data$Code |> as.character(),
       temp = ifelse(
         rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
-        stringr::str_pad(temp, 2, pad = "0"),
-        temp
+        stringr::str_pad(.data$temp, 2, pad = "0"),
+        .data$temp
       ),
       x = var_template |> str_replace(
         "\\{nn\\}",
-        temp
+        .data$temp
       ),
       temp = NULL,
     ) |>
@@ -192,12 +192,12 @@ extract_custom_mdg_assignment_table <- function(i_l) {
       temp = .data$code_assign |> as.character(),
       temp = ifelse(
         rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
-        stringr::str_pad(temp, 2, pad = "0"),
-        temp
+        stringr::str_pad(.data$temp, 2, pad = "0"),
+        .data$temp
       ),
       ex_assign = ex_assign |> str_replace(
         "\\{nn\\}",
-        temp
+        .data$temp
       ),
       temp = NULL,
       init_val = 0
@@ -212,12 +212,12 @@ extract_mdg_assignment_table <- function(i_l) {
       temp = .data$Code |> as.character(),
       temp = ifelse(
         rep(i_l$meta$padding, nrow(i_l$labs[[1]])) %in% "00",
-        stringr::str_pad(temp, 2, pad = "0"),
-        temp
+        stringr::str_pad(.data$temp, 2, pad = "0"),
+        .data$temp
       ),
       x = var_template |> str_replace(
         "\\{nn\\}",
-        temp
+        .data$temp
       ),
       temp = NULL,
     ) |>
