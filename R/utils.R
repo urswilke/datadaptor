@@ -344,6 +344,7 @@ strip_attributes <- function(x) {
 #' and trims the leading/trailing spaces of the strings.
 #'
 #' @param df dataframe
+#' @param cols tidy-select expression to specify which columns to trim; defualt to `dplyr::everything()`
 #'
 #' @return
 #' @export
@@ -351,8 +352,8 @@ strip_attributes <- function(x) {
 #' @examples
 #' data.frame(a = " a ", b = 1) |> format_sheet_data()
 #'
-format_sheet_data <- function(df, arg = dplyr::everything()) {
+format_sheet_data <- function(df, cols = dplyr::everything()) {
   df |>
     tibble::as_tibble() |>
-    dplyr::mutate(dplyr::across({{ arg }}, stringr::str_trim))
+    dplyr::mutate(dplyr::across({{ cols }}, stringr::str_trim))
 }

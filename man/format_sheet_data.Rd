@@ -4,10 +4,12 @@
 \alias{format_sheet_data}
 \title{Format the dataframe returned by reading an excel sheet with openxlsx2::wb_read()}
 \usage{
-format_sheet_data(df, arg = dplyr::everything())
+format_sheet_data(df, cols = dplyr::everything())
 }
 \arguments{
 \item{df}{dataframe}
+
+\item{cols}{tidy-select expression to specify which columns to trim; defualt to \code{dplyr::everything()}}
 }
 \description{
 Turns the dataframe into a tibble with character columns
