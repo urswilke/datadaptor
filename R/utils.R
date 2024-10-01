@@ -344,7 +344,7 @@ strip_attributes <- function(x) {
 #' and trims the leading/trailing spaces of the strings.
 #'
 #' @param df dataframe
-#' @param cols tidy-select expression to specify which columns to trim; defualt to `dplyr::everything()`
+#' @param cols tidy-select expression to specify which columns to trim; default to `dplyr::everything()`
 #'
 #' @return
 #' @export
