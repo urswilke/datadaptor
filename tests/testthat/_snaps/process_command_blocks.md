@@ -47,4 +47,10 @@
     $lowercase_varnames
     [1] FALSE
     
+    $database_dsn
+    NULL
+    
+    $qrow_db_write
+    [1] FALSE
+    
 
