@@ -20,6 +20,7 @@ gen_mapping_params(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
+  database_dsn = NULL,
   wb,
   ...
 )
@@ -73,6 +74,9 @@ names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 \item{lowercase_varnames}{Whether to transform all variable names to
 lowercase during data modification, and rename them back to their original
 case (if still existing) in the end.}
+
+\item{database_dsn}{Defaults to \code{NULL}; Character string of the database dsn.
+Only used in crosstabser.}
 
 \item{wb}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
 

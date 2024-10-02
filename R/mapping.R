@@ -408,6 +408,8 @@ read_data.character <- function(dat) {
 #'   lowercase during data modification, and rename them back to their original
 #'   case (if still existing) in the end.
 #' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
+#' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
+#'   Only used in crosstabser.
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
@@ -437,6 +439,7 @@ gen_mapping_params <- function(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
+  database_dsn = NULL,
   wb,
   ...
 
