@@ -410,6 +410,8 @@ read_data.character <- function(dat) {
 #' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
 #' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
 #'   Only used in crosstabser.
+#' @param qrow_db_write Defaults to `FALSE`;
+#'   Should the crosstabs data be written to the database in the calculation of every Qrow?
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
@@ -440,6 +442,7 @@ gen_mapping_params <- function(
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
   database_dsn = NULL,
+  qrow_db_write = FALSE,
   wb,
   ...
 
@@ -461,6 +464,7 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars,
     lowercase_varnames,
     database_dsn,
+    qrow_db_write,
     ...
   )
   if (debug) {
