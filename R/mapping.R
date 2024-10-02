@@ -2,6 +2,123 @@
 #' @import R6
 NULL
 
+# This function will serve as an R6 method in Mapping.
+# Thus it needs to be defined before Mapping, otherwise this won't work...:
+
+#' Mapping parameters
+#'
+#' @description `gen_mapping_params_()` is a helper function to generate the
+#'   parameters in the `params` field when a Mapping object is constructed with
+#'   `Mapping$new()`. It generates a list of named elements with mapping
+#'   parameters. The argument values are the below default values, then
+#'   overwritten if passed by the `...` dots, and then overwritten by the Excel
+#'   file.
+#'
+#' @param mapping_file Path of the Excel mapping file. Alternatively, you can
+#'   pass an R list object containing named dataframes that is in the shape of
+#'   the `Mapping$cmd$sheet_data_raw` field (see section
+#'   "Parse the sheets to R list objects" in
+#'   `vignette("translating_command_blocks_to_R")`).
+#' @param excel_params Params parameters read from Excel file; see
+#'   `extract_named_region_params()`.
+#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
+#'   (for googlesheets). Defaults to "excel".
+#' @param id_var character string of the id variable name in the dataset.
+#' @param error_out character string. Either "safe" or "unsafe" (the default).
+#'   Whether to continue executing when a command block fails, or to error out.
+#'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
+#' @param debug whether to enter in debug mode when an error occurs.
+#'   Automatically sets `error_out = "safe"`.
+#' @param save_path filepath where to save files.
+#' @param write_mapping_to_txt Whether to write the `Mapping`'s data to text
+#'   files (for instance, in order to allow for git version control during the
+#'   course of a project that evolves). Defaults to FALSE. Will probably be
+#'   deprecated in the future.
+#' @param expr_eval_env The environment where expressions are evaluated. See
+#'   `?safer_env`.
+#' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
+#'   "Variables" sheet. Defaults to `TRUE`.
+#' @param miss_rec_lab Label given if `na_to_filter = TRUE`.
+#' @param miss_rec_val Replace value if `na_to_filter = TRUE`.
+#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are
+#'   transformed with. `apply_command.cmd_recna_xcpt()` in the first command
+#'   block.
+#' @param not_miss_to_filter_vars Space separated character string of variable
+#'   names spared out for `apply_command.cmd_recna_xcpt()`.
+#' @param lowercase_varnames Whether to transform all variable names to
+#'   lowercase during data modification, and rename them back to their original
+#'   case (if still existing) in the end.
+#' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
+#' @param ... used to pass arguments from `Mapping$new(...)`
+#' @return list object (see examples)
+#'
+#' @export
+#'
+#' @examples
+#' # Only for documentation purposes:
+#' # (`gen_mapping_params_()` isn't supposed to be be called directly).
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' class(mapping_file) <- "excel"
+#' wb <- openxlsx2::wb_load(mapping_file)
+#'
+#' gen_mapping_params_(mapping_file, wb = wb)
+gen_mapping_params_ <- function(
+    mapping_file = NULL,
+    mapping_type = "excel",
+    excel_params = extract_named_region_params(mapping_file, wb),
+    id_var = NULL,
+    error_out = "unsafe",
+    debug = FALSE,
+    save_path = tempdir(),
+    write_mapping_to_txt = FALSE,
+    expr_eval_env = new.env(parent = baseenv()),
+    lab_before_var_sheet = "yes",
+    miss_rec_lab = "FILTER",
+    miss_rec_val = -2,
+    na_to_filter = TRUE,
+    not_miss_to_filter_vars = NA_character_,
+    lowercase_varnames = FALSE,
+    wb,
+    ...
+
+) {
+
+  p <- lst(
+    mapping_file,
+    excel_params,
+    id_var,
+    na_to_filter,
+    error_out,
+    debug,
+    write_mapping_to_txt,
+    save_path,
+    expr_eval_env,
+    lab_before_var_sheet,
+    miss_rec_lab,
+    miss_rec_val,
+    not_miss_to_filter_vars,
+    lowercase_varnames,
+    ...
+  )
+  if (debug) {
+    p$error_out <- "safe"
+  }
+
+  if (!is.null(p$excel_params)) {
+    p[names(p$excel_params)] <- p$excel_params
+  }
+  p
+}
+
+set_workbook <- function(mapping_file, mapping) {
+  UseMethod("set_workbook")
+}
+set_workbook.default <- function(mapping_file, mapping) {}
+set_workbook.excel <- function(mapping_file, mapping) {
+  mapping$wb <- wb_load(mapping_file)
+}
+
+
 #' Mapping class
 #'
 #'
@@ -95,11 +212,13 @@ Mapping <- R6Class(
 
       self$dat <- read_data(dat)
 
-      self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
+      self$params <- self$gen_mapping_params(self$mapping_file, wb = self$wb, ...)
       if (process_sheets) {
         self$process_sheet_commands()
       }
     },
+    #' @description Set parameters.
+    gen_mapping_params = gen_mapping_params_,
     #' @description Parse the sheet data of the mapping file and derive the command blocks included.
     #' Automatically run in the constructor if `process_sheets = TRUE` (the default).
     #' Automatically run by the `modify_data()` method if not done before.
@@ -362,117 +481,4 @@ read_data.character <- function(dat) {
     "qs"  = qread(dat),
     stop("unknown filetype")
   )
-}
-
-#' Mapping parameters
-#'
-#' @description `gen_mapping_params()` is a helper function to generate the
-#'   parameters in the `params` field when a Mapping object is constructed with
-#'   `Mapping$new()`. It generates a list of named elements with mapping
-#'   parameters. The argument values are the below default values, then
-#'   overwritten if passed by the `...` dots, and then overwritten by the Excel
-#'   file.
-#'
-#' @param mapping_file Path of the Excel mapping file. Alternatively, you can
-#'   pass an R list object containing named dataframes that is in the shape of
-#'   the `Mapping$cmd$sheet_data_raw` field (see section
-#'   "Parse the sheets to R list objects" in
-#'   `vignette("translating_command_blocks_to_R")`).
-#' @param excel_params Params parameters read from Excel file; see
-#'   `extract_named_region_params()`.
-#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
-#'   (for googlesheets). Defaults to "excel".
-#' @param id_var character string of the id variable name in the dataset.
-#' @param error_out character string. Either "safe" or "unsafe" (the default).
-#'   Whether to continue executing when a command block fails, or to error out.
-#'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
-#' @param debug whether to enter in debug mode when an error occurs.
-#'   Automatically sets `error_out = "safe"`.
-#' @param save_path filepath where to save files.
-#' @param write_mapping_to_txt Whether to write the `Mapping`'s data to text
-#'   files (for instance, in order to allow for git version control during the
-#'   course of a project that evolves). Defaults to FALSE. Will probably be
-#'   deprecated in the future.
-#' @param expr_eval_env The environment where expressions are evaluated. See
-#'   `?safer_env`.
-#' @param lab_before_var_sheet Whether to apply the "Label" sheet before the
-#'   "Variables" sheet. Defaults to `TRUE`.
-#' @param miss_rec_lab Label given if `na_to_filter = TRUE`.
-#' @param miss_rec_val Replace value if `na_to_filter = TRUE`.
-#' @param na_to_filter if TRUE (the default), NA values ("missing" in SPSS) are
-#'   transformed with. `apply_command.cmd_recna_xcpt()` in the first command
-#'   block.
-#' @param not_miss_to_filter_vars Space separated character string of variable
-#'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param lowercase_varnames Whether to transform all variable names to
-#'   lowercase during data modification, and rename them back to their original
-#'   case (if still existing) in the end.
-#' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
-#' @param ... used to pass arguments from `Mapping$new(...)`
-#' @return list object (see examples)
-#'
-#' @export
-#'
-#' @examples
-#' # Only for documentation purposes:
-#' # (`gen_mapping_params()` isn't supposed to be be called directly).
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' class(mapping_file) <- "excel"
-#' wb <- openxlsx2::wb_load(mapping_file)
-#'
-#' gen_mapping_params(mapping_file, wb = wb)
-gen_mapping_params <- function(
-  mapping_file = NULL,
-  mapping_type = "excel",
-  excel_params = extract_named_region_params(mapping_file, wb),
-  id_var = NULL,
-  error_out = "unsafe",
-  debug = FALSE,
-  save_path = tempdir(),
-  write_mapping_to_txt = FALSE,
-  expr_eval_env = new.env(parent = baseenv()),
-  lab_before_var_sheet = "yes",
-  miss_rec_lab = "FILTER",
-  miss_rec_val = -2,
-  na_to_filter = TRUE,
-  not_miss_to_filter_vars = NA_character_,
-  lowercase_varnames = FALSE,
-  wb,
-  ...
-
-) {
-
-  p <- lst(
-    mapping_file,
-    excel_params,
-    id_var,
-    na_to_filter,
-    error_out,
-    debug,
-    write_mapping_to_txt,
-    save_path,
-    expr_eval_env,
-    lab_before_var_sheet,
-    miss_rec_lab,
-    miss_rec_val,
-    not_miss_to_filter_vars,
-    lowercase_varnames,
-    ...
-  )
-  if (debug) {
-    p$error_out <- "safe"
-  }
-
-  if (!is.null(p$excel_params)) {
-    p[names(p$excel_params)] <- p$excel_params
-  }
-  p
-}
-
-set_workbook <- function(mapping_file, mapping) {
-  UseMethod("set_workbook")
-}
-set_workbook.default <- function(mapping_file, mapping) {}
-set_workbook.excel <- function(mapping_file, mapping) {
-  mapping$wb <- wb_load(mapping_file)
 }

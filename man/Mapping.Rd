@@ -76,12 +76,40 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 \section{Methods}{
 \subsection{Public methods}{
 \itemize{
+\item \href{#method-Mapping-gen_mapping_params}{\code{Mapping$gen_mapping_params()}}
 \item \href{#method-Mapping-new}{\code{Mapping$new()}}
 \item \href{#method-Mapping-process_sheet_commands}{\code{Mapping$process_sheet_commands()}}
 \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-Mapping-save}{\code{Mapping$save()}}
 \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
 }
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Mapping-gen_mapping_params"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-gen_mapping_params}{}}}
+\subsection{Method \code{gen_mapping_params()}}{
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$gen_mapping_params(
+  mapping_file = NULL,
+  mapping_type = "excel",
+  excel_params = extract_named_region_params(mapping_file, wb),
+  id_var = NULL,
+  error_out = "unsafe",
+  debug = FALSE,
+  save_path = tempdir(),
+  write_mapping_to_txt = FALSE,
+  expr_eval_env = new.env(parent = baseenv()),
+  lab_before_var_sheet = "yes",
+  miss_rec_lab = "FILTER",
+  miss_rec_val = -2,
+  na_to_filter = TRUE,
+  not_miss_to_filter_vars = NA_character_,
+  lowercase_varnames = FALSE,
+  wb,
+  ...
+)}\if{html}{\out{</div>}}
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-new"></a>}}
@@ -120,6 +148,9 @@ the \code{params} field of the object.}
 \if{html}{\out{<a id="method-Mapping-process_sheet_commands"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-process_sheet_commands}{}}}
 \subsection{Method \code{process_sheet_commands()}}{
+Set parameters.
+
+
 Parse the sheet data of the mapping file and derive the command blocks included.
 Automatically run in the constructor if \code{process_sheets = TRUE} (the default).
 Automatically run by the \code{modify_data()} method if not done before.

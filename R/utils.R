@@ -213,7 +213,7 @@ extract_named_region_params.excel <- function(mapping_file, wb) {
   named_params_list <- params_df$data
   names(named_params_list) <- str_sub(params_df$name, 3)
 
-  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
+  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params_))
   if (any(is_correct_idx == FALSE)) {
     warning(
       "The following parameters are unknown:\n",
@@ -251,7 +251,7 @@ extract_named_region_params.google <- function(mapping_file, wb) {
   named_params_list <- params_df$data
   names(named_params_list) <- str_sub(params_df$name, 3)
 
-  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
+  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params_))
   if (any(is_correct_idx == FALSE)) {
     warning(
       "The following parameters are unknown:\n",
