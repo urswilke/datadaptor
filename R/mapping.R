@@ -460,6 +460,7 @@ gen_mapping_params <- function(
     miss_rec_val,
     not_miss_to_filter_vars,
     lowercase_varnames,
+    database_dsn,
     ...
   )
   if (debug) {
