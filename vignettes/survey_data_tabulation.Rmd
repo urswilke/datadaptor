@@ -454,7 +454,7 @@ the `#VARL` command on one of the `Free` sheets:
 cdbs <- tribble(
   ~A, ~B, ~C,
   "#VARL",  "q3_1", "I'm curious",
-  "#VARL",  "q3_2", "I'm cautios",
+  "#VARL",  "q3_2", "I'm cautious",
   "#VARL",  "q3_3", "I'm lazy",
   "#VARL",  "q3_4", "I don't care",
 )
