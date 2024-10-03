@@ -21,6 +21,7 @@ gen_mapping_params(
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
   database_dsn = NULL,
+  qrow_db_write = FALSE,
   wb,
   ...
 )
@@ -77,6 +78,9 @@ case (if still existing) in the end.}
 
 \item{database_dsn}{Defaults to \code{NULL}; Character string of the database dsn.
 Only used in crosstabser.}
+
+\item{qrow_db_write}{Defaults to \code{FALSE};
+Should the crosstabs data be written to the database in the calculation of every Qrow?}
 
 \item{wb}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
 
