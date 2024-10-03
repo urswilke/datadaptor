@@ -86,16 +86,16 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
   self$cmd$sheet_data_raw[[sheet]] |>
     format_df_varl()
 }
-read_variables_sheet_raw <- function(mapping_file, sheet, mapping) {
-  UseMethod("read_variables_sheet_raw", mapping_file)
+read_variables_sheet_raw <- function(sheet, mapping) {
+  UseMethod("read_variables_sheet_raw", mapping$mapping_file)
 }
-read_variables_sheet_raw.google <- function(mapping_file, sheet, mapping) {
+read_variables_sheet_raw.google <- function(sheet, mapping) {
   read_sheet(
-    mapping_file |> as.character(),
+    mapping$mapping_file |> as.character(),
     sheet = sheet
   )
 }
-read_variables_sheet_raw.excel <- function(mapping_file, sheet, mapping) {
+read_variables_sheet_raw.excel <- function(sheet, mapping) {
   res <- wb_read(
     mapping$wb,
     sheet
