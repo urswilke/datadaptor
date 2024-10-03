@@ -250,16 +250,16 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   res[c("sheet", "action", "new_var", "row", "data")]
 }
 
-read_label_sheet_raw <- function(mapping_file, sheet, mapping) {
-  UseMethod("read_label_sheet_raw", mapping_file)
+read_label_sheet_raw <- function(sheet, mapping) {
+  UseMethod("read_label_sheet_raw", mapping$mapping_file)
 }
-read_label_sheet_raw.google <- function(mapping_file, sheet, mapping) {
+read_label_sheet_raw.google <- function(sheet, mapping) {
   read_sheet(
-    mapping_file |> as.character(),
+    mapping$mapping_file |> as.character(),
     sheet = sheet
   )
 }
-read_label_sheet_raw.excel <- function(mapping_file, sheet, mapping) {
+read_label_sheet_raw.excel <- function(sheet, mapping) {
   raw <- wb_read(
     mapping$wb,
     sheet
