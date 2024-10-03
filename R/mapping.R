@@ -104,7 +104,7 @@ Mapping <- R6Class(
     #' Automatically run in the constructor if `process_sheets = TRUE` (the default).
     #' Automatically run by the `modify_data()` method if not done before.
     process_sheet_commands = function() {
-      self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
+      self$cmd$sheet_data_raw <- read_sheets(self)
       self$cmd$sheet_command_tables_raw <- gen_sheet_cmd_tbls(self)
       self$cmd$df_cmd_raw <- gen_df_cmd_raw(self)
       self$cmd$command_blocks <- gen_command_blocks(self)

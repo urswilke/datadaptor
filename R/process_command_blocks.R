@@ -1,11 +1,11 @@
-read_sheets <- function(mapping_file, self) {
-  UseMethod("read_sheets")
+read_sheets <- function(self) {
+  UseMethod("read_sheets", self$mapping_file)
 }
-read_sheets.list <- function(mapping_file, self) {
-  mapping_file
+read_sheets.list <- function(self) {
+  self$mapping_file
 }
-read_sheets.default <- function(mapping_file, self) {
-  sheet_cats <- gen_sheet_cats(mapping_file, self)
+read_sheets.default <- function(self) {
+  sheet_cats <- gen_sheet_cats(self$mapping_file, self)
   map2(
     sheet_cats$sheet |>
       set_names(),
