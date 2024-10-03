@@ -5,7 +5,7 @@ read_sheets.list <- function(self) {
   self$mapping_file
 }
 read_sheets.default <- function(self) {
-  sheet_cats <- gen_sheet_cats(self$mapping_file, self)
+  sheet_cats <- gen_sheet_cats(self)
   map2(
     sheet_cats$sheet |>
       set_names(),
@@ -14,8 +14,8 @@ read_sheets.default <- function(self) {
     .id = "sheet"
   )
 }
-gen_sheet_cats <- function(mapping_file, self) {
-  sheets <- get_sheets(mapping_file, self)
+gen_sheet_cats <- function(self) {
+  sheets <- get_sheets(self$mapping_file, self)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
