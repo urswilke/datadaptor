@@ -15,7 +15,7 @@ read_sheets.default <- function(self) {
   )
 }
 gen_sheet_cats <- function(self) {
-  sheets <- get_sheets(self$mapping_file, self)
+  sheets <- get_sheets(self)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -27,14 +27,14 @@ gen_sheet_cats <- function(self) {
   sheet_cats <- tab_sheet_types(sheets)
   sheet_cats
 }
-get_sheets <- function(mapping_file, mapping) {
-  UseMethod("get_sheets")
+get_sheets <- function(mapping) {
+  UseMethod("get_sheets", mapping$mapping_file)
 }
-get_sheets.excel <- function(mapping_file, mapping) {
+get_sheets.excel <- function(mapping) {
   wb_get_sheet_names(mapping$wb)
 }
-get_sheets.google <- function(mapping_file, mapping) {
-  gs <- googlesheets4::gs4_get(mapping_file |> as.character())
+get_sheets.google <- function(mapping) {
+  gs <- googlesheets4::gs4_get(mapping$mapping_file |> as.character())
   gs$sheets$name
 }
 switch_sheets_vars_label <- function(sheets) {
