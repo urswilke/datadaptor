@@ -6,7 +6,8 @@
 \usage{
 create_mapping_project(
   proj_path,
-  proj_template_path = "K:/Tools/TableBook/202206/Template folder/",
+  proj_template_path = "K:/Tools/TableBook/202308/Template Folder/",
+  mapping_subpath = "Syntax/Mapping.xlsm",
   proj_folder_name = stringr::str_remove(stringr::str_remove(proj_path, "/$"), ".*/"),
   proj_name = stringr::word(proj_folder_name, 2, -1),
   proj_leader = stringr::word(proj_folder_name),

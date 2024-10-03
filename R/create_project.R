@@ -18,7 +18,8 @@
 #' create_mapping_project(proj_path)
 #' }
 create_mapping_project <- function(proj_path,
-                                   proj_template_path = "K:/Tools/TableBook/202206/Template folder/",
+                                   proj_template_path = "K:/Tools/TableBook/202308/Template Folder/",
+                                   mapping_subpath = "Syntax/Mapping.xlsm",
                                    proj_folder_name = proj_path |>
                                      stringr::str_remove("/$") |>
                                      stringr::str_remove(".*/"),
@@ -29,19 +30,12 @@ create_mapping_project <- function(proj_path,
                                    use_git = TRUE,
                                    open_mapping = TRUE
                                    ) {
-
-  mapping_template_path <- file.path(proj_path, "Syntax/Mapping aktuell.xlsm")
-  mapping_dev_path <- file.path(proj_path, "Syntax/Mapping in Entwicklung.xlsm")
+  mapping_template_path <- file.path(proj_path, mapping_subpath)
 
   fs::dir_copy(proj_template_path, proj_path)
 
-  mapping_proj_path <- stringr::str_replace(mapping_template_path, "aktuell", proj_name)
+  mapping_proj_path <- stringr::str_replace(mapping_template_path, "\\.xlsm", paste0(" ", proj_name, ".xlsm"))
   fs::file_move(mapping_template_path, mapping_proj_path)
-  fs::file_delete(mapping_dev_path)
-
-  r_folder <- file.path(proj_path, "R")
-
-
 
   if (use_rproj) {
     # adapted from here:
@@ -59,20 +53,20 @@ create_mapping_project <- function(proj_path,
         glue = FALSE
       )),
       gitignore = rlang::expr(list(
-        template_filename = system.file("project_templates/default_gitignore.txt", package = "starter"),
+        template_filename = system.file("project-templates/default_gitignore.txt", package = "datenanpassr"),
         filename = ".gitignore",
         glue = TRUE
       ))
     )
 
-    starter::create_project(r_folder,
+    starter::create_project(proj_path,
                             template = starter_template,
                             git = use_git,
                             renv = use_renv,
                             open = TRUE)
     if (use_renv) {
-      renv::snapshot(r_folder, packages = "datenanpassr", prompt = FALSE)
-      renv::deactivate(r_folder)
+      renv::snapshot(mapping_proj_path, packages = "datenanpassr", prompt = FALSE)
+      renv::deactivate(mapping_proj_path)
     }
     cli::cli_alert_success("In your new Rstudio project type `usethis::use_git()` to commit the files.")
 
