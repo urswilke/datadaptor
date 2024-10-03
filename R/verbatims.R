@@ -39,7 +39,7 @@ mapp_verbatim_sheet_cmd_tbl <- function(
     select(-"ex_assign_temp")
 }
 
-generate_verbatim_sheet_table <- function(mapping_file, sheet, mapping) {
+generate_verbatim_sheet_table <- function(sheet, mapping) {
   mapping_verbatim_sheet <-
     wb_read(
       mapping$wb,
@@ -54,7 +54,7 @@ generate_verbatim_sheet_table <- function(mapping_file, sheet, mapping) {
     relocate(q_id = "Tabellen-blatt")
   mapping_verbatim_sheet
 }
-extract_verbatim_file_name <- function(mapping_file, sheet, mapping) {
+extract_verbatim_file_name <- function(sheet, mapping) {
   verbatims_sheet <- try(
     wb_read(
       mapping$wb,
@@ -71,7 +71,7 @@ extract_verbatim_file_name <- function(mapping_file, sheet, mapping) {
   file_path <- verbatims_sheet |>
     filter(.data$B == "Filename input") |>
     pull(.data$D)
-  adapt_filepath(file_path, mapping_file)
+  adapt_filepath(file_path, mapping$mapping_file)
 }
 generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet, wb) {
   verbatim_file_sheets <- wb$get_sheet_names() |> unname()
@@ -121,7 +121,6 @@ un_OT_ize <- function(x, orig_var) {
 
 
 parse_verbatim_data_raw <- function(
-  mapping_file,
   verbatim_file,
   sheet,
   mapping
@@ -129,7 +128,7 @@ parse_verbatim_data_raw <- function(
   if (is.na(verbatim_file)) {
     return(NULL)
   }
-  mapping_verbatim_sheet <- generate_verbatim_sheet_table(mapping_file, sheet = sheet, mapping)
+  mapping_verbatim_sheet <- generate_verbatim_sheet_table(sheet = sheet, mapping)
   verbatim_sheets <- mapping_verbatim_sheet$q_id
 
   wb <- wb_load(verbatim_file)
