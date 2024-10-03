@@ -91,7 +91,7 @@ Mapping <- R6Class(
       self$mapping_type <- mapping_type
 
       set_mapping_type(self)
-      set_workbook(self$mapping_file, self)
+      set_workbook(self)
 
       self$dat <- read_data(dat)
 
@@ -477,10 +477,10 @@ gen_mapping_params <- function(
   p
 }
 
-set_workbook <- function(mapping_file, mapping) {
-  UseMethod("set_workbook")
+set_workbook <- function(mapping) {
+  UseMethod("set_workbook", mapping$mapping_file)
 }
-set_workbook.default <- function(mapping_file, mapping) {}
-set_workbook.excel <- function(mapping_file, mapping) {
-  mapping$wb <- wb_load(mapping_file)
+set_workbook.default <- function(mapping) {}
+set_workbook.excel <- function(mapping) {
+  mapping$wb <- wb_load(mapping$mapping_file)
 }
