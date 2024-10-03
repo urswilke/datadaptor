@@ -1,11 +1,11 @@
-read_sheets <- function(mapping_file, self) {
-  UseMethod("read_sheets")
+read_sheets <- function(self) {
+  UseMethod("read_sheets", self$mapping_file)
 }
-read_sheets.list <- function(mapping_file, self) {
-  mapping_file
+read_sheets.list <- function(self) {
+  self$mapping_file
 }
-read_sheets.default <- function(mapping_file, self) {
-  sheet_cats <- gen_sheet_cats(mapping_file, self)
+read_sheets.default <- function(self) {
+  sheet_cats <- gen_sheet_cats(self)
   map2(
     sheet_cats$sheet |>
       set_names(),
@@ -14,8 +14,8 @@ read_sheets.default <- function(mapping_file, self) {
     .id = "sheet"
   )
 }
-gen_sheet_cats <- function(mapping_file, self) {
-  sheets <- get_sheets(mapping_file, self)
+gen_sheet_cats <- function(self) {
+  sheets <- get_sheets(self)
 
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
@@ -27,14 +27,14 @@ gen_sheet_cats <- function(mapping_file, self) {
   sheet_cats <- tab_sheet_types(sheets)
   sheet_cats
 }
-get_sheets <- function(mapping_file, mapping) {
-  UseMethod("get_sheets")
+get_sheets <- function(mapping) {
+  UseMethod("get_sheets", mapping$mapping_file)
 }
-get_sheets.excel <- function(mapping_file, mapping) {
+get_sheets.excel <- function(mapping) {
   wb_get_sheet_names(mapping$wb)
 }
-get_sheets.google <- function(mapping_file, mapping) {
-  gs <- googlesheets4::gs4_get(mapping_file |> as.character())
+get_sheets.google <- function(mapping) {
+  gs <- googlesheets4::gs4_get(mapping$mapping_file |> as.character())
   gs$sheets$name
 }
 switch_sheets_vars_label <- function(sheets) {
@@ -65,10 +65,10 @@ tab_sheet_types <- function(sheets) {
 }
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
   switch(sheet_cat,
-         "Variables" = read_variables_sheet_raw(self$mapping_file, sheet = sheet_name, mapping = self),
-         "Label"     = read_label_sheet_raw(self$mapping_file, sheet = sheet_name, mapping = self),
-         "Free"      = mapp_free_sheet_cmd_table_raw(self$mapping_file, sheet = sheet_name, mapping = self),
-         "Verbatims" = parse_verbatim_data_raw(self$mapping_file, sheet = sheet_name, verbatim_file = extract_verbatim_file_name(self$mapping_file, sheet_name, self), mapping = self)
+         "Variables" = read_variables_sheet_raw(sheet = sheet_name, mapping = self),
+         "Label"     = read_label_sheet_raw(sheet = sheet_name, mapping = self),
+         "Free"      = mapp_free_sheet_cmd_table_raw(sheet = sheet_name, mapping = self),
+         "Verbatims" = parse_verbatim_data_raw(sheet = sheet_name, verbatim_file = extract_verbatim_file_name(sheet_name, self), mapping = self)
   )
 }
 

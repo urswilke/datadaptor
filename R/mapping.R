@@ -91,7 +91,7 @@ Mapping <- R6Class(
       self$mapping_type <- mapping_type
 
       set_mapping_type(self)
-      set_workbook(self$mapping_file, self)
+      set_workbook(self)
 
       self$dat <- read_data(dat)
 
@@ -104,7 +104,7 @@ Mapping <- R6Class(
     #' Automatically run in the constructor if `process_sheets = TRUE` (the default).
     #' Automatically run by the `modify_data()` method if not done before.
     process_sheet_commands = function() {
-      self$cmd$sheet_data_raw <- read_sheets(self$mapping_file, self)
+      self$cmd$sheet_data_raw <- read_sheets(self)
       self$cmd$sheet_command_tables_raw <- gen_sheet_cmd_tbls(self)
       self$cmd$df_cmd_raw <- gen_df_cmd_raw(self)
       self$cmd$command_blocks <- gen_command_blocks(self)
@@ -477,10 +477,10 @@ gen_mapping_params <- function(
   p
 }
 
-set_workbook <- function(mapping_file, mapping) {
-  UseMethod("set_workbook")
+set_workbook <- function(mapping) {
+  UseMethod("set_workbook", mapping$mapping_file)
 }
-set_workbook.default <- function(mapping_file, mapping) {}
-set_workbook.excel <- function(mapping_file, mapping) {
-  mapping$wb <- wb_load(mapping_file)
+set_workbook.default <- function(mapping) {}
+set_workbook.excel <- function(mapping) {
+  mapping$wb <- wb_load(mapping$mapping_file)
 }
