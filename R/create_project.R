@@ -36,6 +36,9 @@ create_mapping_project <- function(proj_path,
 
   mapping_proj_path <- stringr::str_replace(mapping_template_path, "\\.xlsm", paste0(" ", proj_name, ".xlsm"))
   fs::file_move(mapping_template_path, mapping_proj_path)
+  if (open_mapping) {
+    utils::browseURL(mapping_proj_path)
+  }
 
   if (use_rproj) {
     # adapted from here:
@@ -65,13 +68,11 @@ create_mapping_project <- function(proj_path,
                             renv = use_renv,
                             open = TRUE)
     if (use_renv) {
-      renv::snapshot(mapping_proj_path, packages = "datenanpassr", prompt = FALSE)
-      renv::deactivate(mapping_proj_path)
+      renv::activate(proj_path)
+      renv::snapshot(proj_path, packages = c("datenanpassr", "crosstabser"), prompt = FALSE, force = TRUE)
+      renv::deactivate(proj_path)
     }
     cli::cli_alert_success("In your new Rstudio project type `usethis::use_git()` to commit the files.")
 
-  }
-  if (open_mapping) {
-    utils::browseURL(mapping_proj_path)
   }
 }
