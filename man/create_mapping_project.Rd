@@ -5,22 +5,26 @@
 \title{Create Mapping directory structure from template folder}
 \usage{
 create_mapping_project(
-  proj_path,
+  new_proj_path,
   proj_template_path = "K:/Tools/TableBook/202308/Template Folder/",
   mapping_subpath = "Syntax/Mapping.xlsm",
-  proj_folder_name = stringr::str_remove(stringr::str_remove(proj_path, "/$"), ".*/"),
+  proj_folder_name = stringr::str_remove(stringr::str_remove(new_proj_path, "/$"), ".*/"),
   proj_name = stringr::word(proj_folder_name, 2, -1),
   proj_leader = stringr::word(proj_folder_name),
   use_rproj = TRUE,
   use_renv = TRUE,
   use_git = TRUE,
-  open_mapping = TRUE
+  open_mapping = TRUE,
+  open_rstudio = TRUE,
+  ...
 )
 }
 \arguments{
-\item{proj_path}{The path of your new mapping project.}
+\item{new_proj_path}{The path of your new mapping project.}
 
 \item{proj_template_path}{The template folder path; the first word should be the project leader initials.}
+
+\item{mapping_subpath}{The subpath of the mapping file within \code{proj_template_path}.}
 
 \item{proj_folder_name}{The project folder name (defaults to the path name \code{proj_template_path} without parent directories).}
 
@@ -35,13 +39,15 @@ create_mapping_project(
 \item{use_git}{Whether to setup git.}
 
 \item{open_mapping}{Whether to open the Excel mapping file.}
+
+\item{...}{Arguments passed to \code{starter::create_project()}.}
 }
 \description{
 Create Mapping directory structure from template folder
 }
 \examples{
 \dontrun{
-proj_path <- "PATH/WHERE/TO/CREATE/THE/NEW/MAPPING/UW My Project Name"
-create_mapping_project(proj_path)
+new_proj_path <- "PATH/WHERE/TO/CREATE/THE/NEW/MAPPING/UW My Project Name"
+create_mapping_project(new_proj_path)
 }
 }
