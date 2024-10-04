@@ -10,6 +10,7 @@
 #' @param use_renv Whether to use renv.
 #' @param use_git Whether to setup git.
 #' @param open_mapping Whether to open the Excel mapping file.
+#' @param open_rstudio Whether to open the RStudio project.
 #' @param ... Arguments passed to `starter::create_project()`.
 #'
 #' @export

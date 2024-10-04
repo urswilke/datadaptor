@@ -40,6 +40,8 @@ create_mapping_project(
 
 \item{open_mapping}{Whether to open the Excel mapping file.}
 
+\item{open_rstudio}{Whether to open the RStudio project.}
+
 \item{...}{Arguments passed to \code{starter::create_project()}.}
 }
 \description{
