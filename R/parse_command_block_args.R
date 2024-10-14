@@ -9,8 +9,16 @@
 #'
 #' @noRd
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #' (cdb <- command_block(m$cmd$df_cmd_raw[10, ]))
 #' # Under the hood the command_block() generator calls
@@ -169,7 +177,7 @@ parse_command_args.cmd_merge <- function(cdb_raw) {
     str_split(" ", simplify = TRUE) |>
     as.vector()
 
-  coal = cdb_raw$X5[1]
+  coal <- cdb_raw$X5[1]
   list(
     xs = varnames_vec,
     filepath = cdb_raw$X2,
@@ -195,8 +203,8 @@ parse_command_args.cmd_rmval <- function(cdb_raw) {
     varlab <- NULL
   }
   list(
-    x  = x,
-    y  = y,
+    x = x,
+    y = y,
     vs = as.numeric(cdb_raw$X2[-1]),
     varlab = varlab
   )

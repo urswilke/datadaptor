@@ -36,7 +36,9 @@ commands of all sheets whose names start with one of the following strings will 
 parsed:
 
 ```{r}
-command_block_classes$sheet |> na.omit() |> unique()
+command_block_classes$sheet |>
+  na.omit() |>
+  unique()
 ```
 
 ## Parse the sheets to an R list object

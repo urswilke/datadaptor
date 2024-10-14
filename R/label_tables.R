@@ -8,8 +8,16 @@
 #' @noRd
 #'
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' dat_mod <- spss_file |>
 #'   haven::read_sav() |>
 #'   # add a new variable in the first column of the dataframe:
@@ -59,8 +67,16 @@ gen_var_table_raw <- function(dat) {
 #' @noRd
 #'
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' dat_mod <- spss_file |>
 #'   haven::read_sav() |>
 #'   # add a new variable in the first column of the dataframe:
@@ -84,7 +100,11 @@ update_label_table <- function(dat,
   df_vall_new <- tab_vallabs(dat)
 
   df_vall_new |>
-    powerjoin::power_full_join(df_vall, by = c("var", "nv"), conflict = coalesce_yx) |>
+    powerjoin::power_full_join(
+      df_vall,
+      by = c("var", "nv"),
+      conflict = coalesce_yx
+    ) |>
     relocate(c("vallab"), .after = 2)
 }
 
@@ -92,7 +112,11 @@ update_label_table <- function(dat,
 #' Generate tables with the variables' labels
 #' @name label_tables
 #' @examples
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' dat <- spss_file |>
 #'   haven::read_sav()
 #' gen_var_table(dat)
@@ -178,4 +202,3 @@ tab_varlabs <- function(df, remove_empty = TRUE) {
   }
   res
 }
-

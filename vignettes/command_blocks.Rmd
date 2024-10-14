@@ -48,12 +48,14 @@ library(dplyr)
 In this document, we will show how the different command blocks in datenanpassr work. 
 There are the following keywords that you can use to enter the command blocks in your Excel mapping file:
 ```{r cdb_classes}
-command_block_classes |> arrange(
-  # show first:
-  keyword != "#RECNA",
-  sheet, 
-  command_block
-) |> excelish()
+command_block_classes |>
+  arrange(
+    # show first:
+    keyword != "#RECNA",
+    sheet,
+    command_block
+  ) |>
+  excelish()
 ```
 
 *The column* `"command_block"` *shows the class, which determines how 
@@ -73,14 +75,14 @@ gen_mapping_obj <- function(cmd_block_tibble, sheet_cat) {
 
 tab_labels_wide <- function(df) {
   varl_table <- df |>
-    datenanpassr:::tab_varlabs(remove_empty = FALSE) |> 
-    tidyr::pivot_wider(names_from = var, values_from = varlab) |> 
+    datenanpassr:::tab_varlabs(remove_empty = FALSE) |>
+    tidyr::pivot_wider(names_from = var, values_from = varlab) |>
     dplyr::mutate(val = "varlab", .before = 1)
   vall_table <- df |>
     datenanpassr:::tab_vallabs(remove_empty = FALSE) |>
-    dplyr::rename(val = nv) |> 
-    tidyr::pivot_wider(names_from = var, values_from = vallab) |> 
-    dplyr::arrange(val) |> 
+    dplyr::rename(val = nv) |>
+    tidyr::pivot_wider(names_from = var, values_from = vallab) |>
+    dplyr::arrange(val) |>
     dplyr::mutate(val = as.character(val))
   labs <- dplyr::bind_rows(varl_table, vall_table)
   if (nrow(labs) == 0) {
@@ -100,7 +102,7 @@ join_labs <- function(df) {
       val = NA_character_,
       .before = 1,
       type = "values"
-    ) |> 
+    ) |>
     dplyr::bind_rows(
       labs |> dplyr::mutate(type = "labels")
     )
@@ -109,20 +111,19 @@ join_labs <- function(df) {
 
 gen_data_gt_tables <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   dat_mod <- process_cdb_raw(dat, cmd_block_tibble, sheet_cat, ...)
-  
+
   dat_table <- join_labs(dat)
   dat_mod_table <- join_labs(dat_mod)
-  
-  dat_gt <- dat_table |> 
+
+  dat_gt <- dat_table |>
     format_my_gt()
   dat_mod_gt <- dat_mod_table |>
     format_my_gt()
-  
+
   tibble::lst(
     dat_gt,
     dat_mod_gt
   )
-
 }
 format_my_gt <- function(df) {
   df |>
@@ -134,29 +135,30 @@ format_my_gt <- function(df) {
         gt::cell_fill(color = "#D4E6B4")
       ),
       locations = gt::cells_body(
-        rows = val == "varlab")
-    ) |> 
+        rows = val == "varlab"
+      )
+    ) |>
     gt::tab_style(
       style = list(
         gt::cell_fill(color = "#D7E9E9")
       ),
       locations = gt::cells_body(rows = type == "labels" & val != "varlab")
-    ) |> 
+    ) |>
     gt::tab_style(
       style = list(
         gt::cell_text(color = "#999999")
       ),
       locations = gt::cells_body(rows = type == "labels")
-    ) |> 
-    gt::sub_missing(missing_text = "") |> 
-    gt::cols_label(val = "") |> 
-    gt::opt_table_lines() |> 
+    ) |>
+    gt::sub_missing(missing_text = "") |>
+    gt::cols_label(val = "") |>
+    gt::opt_table_lines() |>
     gtExtras::gt_add_divider(columns = "val", style = "dashed")
 }
 
 rename_cols_for_vignette <- function(df, sheet_cat) {
   if (sheet_cat == "Free") {
-    df <- purrr::set_names(df, LETTERS[seq_len(ncol(df))]) 
+    df <- purrr::set_names(df, LETTERS[seq_len(ncol(df))])
   }
   df
 }
@@ -165,10 +167,10 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   cmd_block_gt <- cmd_block_tibble |>
     rename_cols_for_vignette(sheet_cat) |>
     excelish()
-  
+
   gts <- gen_data_gt_tables(dat, cmd_block_tibble, sheet_cat, ...)
   htmltools::div(
-    class = "flex-container", 
+    class = "flex-container",
     htmltools::div(style = "align-self: flex-start", gts$dat_gt),
     htmltools::div(style = "font-size: 45px", "&"),
     htmltools::div(style = "flex-item", cmd_block_gt),
@@ -183,7 +185,7 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   #   <div style="font-size: 45px">=></div>
   #   <div style="align-self: flex-start">`r gts$dat_mod_gt`</div>
   # </div>
-  
+
   # if you want to see the result of this function interactively, pipe it in the following function:
   # view_html <- function(x){
   #   html <- paste(x, collapse = '\n')
@@ -192,7 +194,6 @@ illustrate_cmd_block <- function(dat, cmd_block_tibble, sheet_cat, ...) {
   #   rstudioapi::viewer(tf)
   # }
 }
-
 ```
 
 # Illustration of labelled datasets
@@ -204,8 +205,11 @@ how we'll illustrate these datasets:
 dat <- tibble(
   q1 = haven::labelled(c(1, 2, NA), labels = c(a = 1, b = 2), label = "hello"),
   q2 = haven::labelled(c(NA, 2, 3), labels = c(c = 2, d = 3), label = "how are you?"),
-  q3 = c(NA, "I'm a string", "variable"))
-dat |> join_labs() |> format_my_gt()
+  q3 = c(NA, "I'm a string", "variable")
+)
+dat |>
+  join_labs() |>
+  format_my_gt()
 ```
 
 The table shows a dataset containing the variables `q1`, `q2`& `q3`, each containing 3
@@ -256,9 +260,9 @@ dat <- tibble(q1 = c(1, 1, 2))
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#VALL", "q1", "yes/no question",
-   NA, "1", "Yes",
-   NA, "2", "No"
-  )
+  NA, "1", "Yes",
+  NA, "2", "No"
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -280,9 +284,9 @@ dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1)))
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#AVALL", "q1", NA_character_,
-   NA, "2", "b",
-   NA, "3", "c"
-  )
+  NA, "2", "b",
+  NA, "3", "c"
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -300,9 +304,9 @@ dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3, ~X4,
   "#RMVAL", "q1", "q2", "def",
-   NA, "2", "", NA_character_,
-   NA, "3", "", NA_character_,
-  )
+  NA, "2", "", NA_character_,
+  NA, "3", "", NA_character_,
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -324,7 +328,7 @@ dat <- tibble(q1 = 1:3)
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#COMP", "q2", "5",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -341,7 +345,7 @@ dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#COMP", "q2", "q1",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -356,7 +360,7 @@ dat <- tibble(q1 = 1:3)
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#IF", "q1 >= 2", "q2 = 5",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -380,7 +384,7 @@ dat <- tibble(q1 = 1:3, q2 = c(7, 8, 9))
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#IF", "q1 >= 2", "q2 = 5",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -397,7 +401,7 @@ dat <- tibble(q1 = haven::labelled(c(1, 2, 3), c(a = 1, b = 2, c = 3), "abc"))
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#IF", "q1 >= 2", "q1 = 5",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -415,7 +419,7 @@ cmd_block_tibble <- tibble::tribble(
   "", "1", "2", "1", "a & b",
   "", "3", "", "2", "c",
   "", "4", "5", "3", "d & e",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -440,7 +444,7 @@ cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3, ~X4, ~X5,
   "#REC", "q1", "kq1", NA_character_, NA_character_,
   "", "1", "2", "1", "a & b",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -456,7 +460,7 @@ cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3, ~X4, ~X5,
   "#REC", "q1", "q1", NA_character_, NA_character_,
   "", "1", "2", "0", "a & b",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -468,21 +472,21 @@ illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```{r kg1}
 dat <- tibble(
   q1 = haven::labelled(
-    c(1, 2, 1, 2, 1, 2), 
+    c(1, 2, 1, 2, 1, 2),
     c(good = 1, bad = 2),
     "How are you?"
   ),
   q2 = haven::labelled(
-    c(1, 2, 3, 1, 2, 3), 
+    c(1, 2, 3, 1, 2, 3),
     c(UK = 1, US = 2, FR = 3, DE = 4),
     "Country"
   ),
 )
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, ~X3, 
-  "#KG", "q1", "q2", 
-  )
+  ~X1, ~X2, ~X3,
+  "#KG", "q1", "q2",
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -513,9 +517,9 @@ dat <- tibble(
 )
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, 
+  ~X1, ~X2,
   "#SELECT", "-a2"
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -533,9 +537,9 @@ dat <- tibble(
 )
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, 
+  ~X1, ~X2,
   "#SELECT", 'matches("a\\\\d")'
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -554,10 +558,10 @@ dat <- tibble(
 )
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, 
+  ~X1, ~X2,
   "#SELECT", 'matches("a\\\\d")',
-  "", 'everything()',
-  )
+  "", "everything()",
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -580,9 +584,9 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
-  "#RENAME", 'a2', "new_name_for_a1",
-  "", 'b2', "new_name_for_b2"
-  )
+  "#RENAME", "a2", "new_name_for_a1",
+  "", "b2", "new_name_for_b2"
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -610,10 +614,10 @@ dat <- tibble(
 )
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, ~X3, 
+  ~X1, ~X2, ~X3,
   "#ACROSS", "where(is.numeric) & a1:b2", NA_character_,
   "", NA_character_, "function(x) x - mean(x)",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -626,16 +630,16 @@ Instead of `"function(x) x - mean(x)"` you can also use the short form `"\(x) x 
 Here is a very clunky function applied on `a1` & `b2` that sets the value -2 to `NA` and removes its 
 value label.
 ```{r across2}
-a1 = haven::labelled(c(1, -2, -2), c(FILTER = -2, a = 1, b = 2, c = 3), "a1")
-b2 = haven::labelled(c(-2, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "b1")
-a2 = haven::labelled(c(1, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "a2")
+a1 <- haven::labelled(c(1, -2, -2), c(FILTER = -2, a = 1, b = 2, c = 3), "a1")
+b2 <- haven::labelled(c(-2, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "b1")
+a2 <- haven::labelled(c(1, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "a2")
 dat <- tibble(a1, b1 = c("a", "b", "c"), b2, a2)
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, ~X3, 
+  ~X1, ~X2, ~X3,
   "#ACROSS", "where(is.numeric) & a1:b2", NA_character_,
   "", NA_character_, 'function(x) {x[x == -2] <- NA; vall <- attr(x, "labels"); attr(x, "labels") <- vall[vall != -2]; x}',
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -650,16 +654,16 @@ It is also possible to provide the `.names` argument in the first row of column
 You can also give names to the functions in column **B**.
 
 ```{r across3}
-a1 = haven::labelled(c(1, -2, -2), c(FILTER = -2, a = 1, b = 2, c = 3), "a1")
-b2 = haven::labelled(c(-2, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "b1")
+a1 <- haven::labelled(c(1, -2, -2), c(FILTER = -2, a = 1, b = 2, c = 3), "a1")
+b2 <- haven::labelled(c(-2, -2, 1), c(FILTER = -2, a = 1, b = 2, c = 3), "b1")
 dat <- tibble(a1, b2)
 
 cmd_block_tibble <- tibble::tribble(
-  ~X1, ~X2, ~X3, 
+  ~X1, ~X2, ~X3,
   "#ACROSS", "where(is.numeric) & a1:b2", "{.col}___{.fn}",
   "", "rm_val", 'function(x) {x[x == -2] <- NA; vall <- attr(x, "labels"); attr(x, "labels") <- vall[vall != -2]; x}',
-  "", "mean", 'mean',
-  )
+  "", "mean", "mean",
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -693,7 +697,7 @@ cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#COMP", "ka1", "a1",
   "#COMP", "kb1", "b1",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -725,7 +729,7 @@ dat <- tibble(
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
   "#IF", "{a b}1 == {1 4}", "k{a b}1 = {5 6}",
-  )
+)
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
@@ -734,11 +738,11 @@ The above command block is equivalent to these 2 `#IF` commands:
 
 ```{r curlychop_illustrator, echo=FALSE}
 curlychop_illustrator <- function(df) {
-  df |> 
-    mutate(row = row_number()) |> 
-    curlychop() |> 
-    select(-row, -raw_index) |> 
-    purrr::set_names(LETTERS[seq_len(ncol(df))]) |> 
+  df |>
+    mutate(row = row_number()) |>
+    curlychop() |>
+    select(-row, -raw_index) |>
+    purrr::set_names(LETTERS[seq_len(ncol(df))]) |>
     excelish()
 }
 ```
@@ -804,8 +808,8 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~var, ~new_name,
-  "a1", 'c1', 
-  "b1", 'd1', 
+  "a1", "c1",
+  "b1", "d1",
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -828,9 +832,9 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~var, ~new_label,
-  "a1", "I'm new", 
-  "b1", NA, 
-  "c1", NA, 
+  "a1", "I'm new",
+  "b1", NA,
+  "c1", NA,
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -850,8 +854,8 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~var, ~op,
-  "a1", 'd', 
-  "b1", '', 
+  "a1", "d",
+  "b1", "",
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -873,8 +877,8 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~var, ~op,
-  "a1", 'n', 
-  "b1", '', 
+  "a1", "n",
+  "b1", "",
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -894,7 +898,7 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~var, ~op,
-  "a1", 'a', 
+  "a1", "a",
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -916,18 +920,19 @@ This command recodes variables specified in the `var` column (column **A**)
 to new variables, by attaching a "k" prefix. It is very similar to the `#REC` command.
 
 ```{r sumvar}
-dat <- tibble(
-  a1 = haven::labelled(c(1, 2, 3, 4, 5), label = "original variable label", labels = purrr::set_names(1:5, LETTERS[1:5])),
-)
+dat <- tibble(a1 = haven::labelled(
+  c(1, 2, 3, 4, 5), 
+  label = "original variable label", 
+  labels = purrr::set_names(1:5, LETTERS[1:5])
+))
 
 cmd_block_tibble <- tibble::tribble(
-  ~var, ~nv, ~sum_var_label, ~sum_var_value,	~sum_var_vallab,
-
-  "a1", 1, 'new varlab', 1, "a & b", 
-  "a1", 2, NA, 1, "" ,
-  "a1", 3, NA, 2, "c" ,
+  ~var, ~nv, ~sum_var_label, ~sum_var_value, ~sum_var_vallab,
+  "a1", 1, "new varlab", 1, "a & b",
+  "a1", 2, NA, 1, "",
+  "a1", 3, NA, 2, "c",
   "a1", 4, NA, 3, "d & e",
-  "a1", 5, NA, 3, "" ,
+  "a1", 5, NA, 3, "",
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -947,18 +952,19 @@ variable label of the original variable is copied).
 This command replaces value labels like `#AVALL`:
 
 ```{r newvall}
-dat <- tibble(
-  a1 = haven::labelled(c(1, 2, 3, 4, 5), label = "original variable label", labels = purrr::set_names(1:5, LETTERS[1:5])),
-)
+dat <- tibble(a1 = haven::labelled(
+    c(1, 2, 3, 4, 5), 
+    label = "original variable label", 
+    labels = purrr::set_names(1:5, LETTERS[1:5])
+))
 
 cmd_block_tibble <- tibble::tribble(
   ~var, ~nv, ~new_label,
-
-  "a1", 1, 'new value label of value 1', 
-  "a1", 2, NA, 
-  "a1", 3, NA, 
-  "a1", 4, NA, 
-  "a1", 5, NA, 
+  "a1", 1, "new value label of value 1",
+  "a1", 2, NA,
+  "a1", 3, NA,
+  "a1", 4, NA,
+  "a1", 5, NA,
 )
 
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
@@ -990,9 +996,10 @@ also see `gen_mapping_params()`).
 ```{r recna}
 sheet_cat <- "Free"
 dat <- tibble(
-  a = c(1, NA, 1), 
+  a = c(1, NA, 1),
   b = haven::labelled(c(1, 2, NA), labels = c(a = 1, b = 2)),
-  c = c(NA, "I'm a string", "variable"))
+  c = c(NA, "I'm a string", "variable")
+)
 
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,

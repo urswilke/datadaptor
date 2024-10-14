@@ -22,13 +22,17 @@ create_mapping_project(
 \arguments{
 \item{new_proj_path}{The path of your new mapping project.}
 
-\item{proj_template_path}{The template folder path; the first word should be the project leader initials.}
+\item{proj_template_path}{The template folder path;
+the first word should be the project leader initials.}
 
-\item{mapping_subpath}{The subpath of the mapping file within \code{proj_template_path}.}
+\item{mapping_subpath}{The subpath of the mapping file within
+\code{proj_template_path}.}
 
-\item{proj_folder_name}{The project folder name (defaults to the path name \code{proj_template_path} without parent directories).}
+\item{proj_folder_name}{The project folder name
+(defaults to the path name \code{proj_template_path} without parent directories).}
 
-\item{proj_name}{The project folder name with the project leader initials removed.}
+\item{proj_name}{The project folder name with the project leader initials
+removed.}
 
 \item{proj_leader}{First word in \code{proj_template_path}.}
 
