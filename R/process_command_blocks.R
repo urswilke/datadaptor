@@ -37,10 +37,6 @@ get_sheets <- function(mapping) {
 get_sheets.excel <- function(mapping) {
   wb_get_sheet_names(mapping$wb)
 }
-get_sheets.google <- function(mapping) {
-  gs <- googlesheets4::gs4_get(mapping$mapping_file |> as.character())
-  gs$sheets$name
-}
 switch_sheets_vars_label <- function(sheets) {
   var_index <- which(sheets == "Variables")
   lab_index <- which(sheets == "Label")

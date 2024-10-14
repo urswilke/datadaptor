@@ -13,7 +13,7 @@ haven::read_sav}
 \item{mapping_file}{name of the Excel file to be created}
 
 \item{mapping_type}{String specifying the mapping type.
-Either "excel" or "google" (for googlesheets). Defaults to "excel".}
+Either "excel" or "list". Defaults to "excel".}
 }
 \description{
 The mapping file consists of the sheets "Variables", "Label", "Verbatims" &
@@ -33,6 +33,5 @@ spss_file <- system.file(
 df <- haven::read_sav(spss_file)
 \dontrun{
 mapp_create(df, "mapping.xlsx")
-mapp_create(df, "mapping_googlesheets", mapping_type = "google")
 }
 }

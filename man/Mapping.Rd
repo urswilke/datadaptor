@@ -58,16 +58,6 @@ labelled dataframe to apply the mapping on.}
 \item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
 this string will be set to "mapping_type".}
 
-\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
-(for googlesheets), or "list". If not specified, when initializing it is
-auto-determined:
-\itemize{
-\item{"list": }{If \code{mapping_file} is a list object.}
-\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
-\item{"google": }{If \code{mapping_file} is another string, it is assumed that
-it is a valid \code{googlesheets4::as_sheets_id()}.}
-}}
-
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block
@@ -115,7 +105,7 @@ Initialize a Mapping object
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
 
 \item{\code{mapping_type}}{String specifying the mapping type.
-Either "excel", "google" (for googlesheets), or "list".}
+Either "excel" or "list".}
 
 \item{\code{process_sheets}}{(default TRUE)
 allows (process_sheets = FALSE) to postpone the execution

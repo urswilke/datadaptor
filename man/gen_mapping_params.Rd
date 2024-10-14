@@ -34,7 +34,7 @@ the \code{Mapping$cmd$sheet_data_raw} field (see section
 \code{vignette("translating_command_blocks_to_R")}).}
 
 \item{mapping_type}{String specifying the mapping type.
-Either "excel" or "google" (for googlesheets). Defaults to "excel".}
+Either "excel" or "list". Defaults to "excel".}
 
 \item{excel_params}{Params parameters read from Excel file; see
 \code{extract_named_region_params()}.}
