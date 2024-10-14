@@ -230,44 +230,6 @@ extract_named_region_params.excel <- function(mapping_file, wb) {
   named_params_list
 }
 
-extract_named_region_params.google <- function(mapping_file, wb) {
-  gs <- gs4_get(mapping_file |> as.character())
-  named_regions <- gs$named_ranges
-  if (is.null(named_regions)) {
-    return(NULL)
-  }
-
-  params_df <- named_regions |>
-    filter(grepl("^R_*", .data$name)) |>
-    mutate(
-      data = map(
-        .data$A1_range,
-        ~ read_sheet(
-          gs,
-          range = .x,
-          col_names = "data"
-        ) |>
-          suppressMessages()
-      )
-    ) |>
-    filter(!map_lgl("data", is_empty)) |>
-    unnest("data")
-
-
-  named_params_list <- params_df$data
-  names(named_params_list) <- str_sub(params_df$name, 3)
-
-  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
-  if (any(is_correct_idx == FALSE)) {
-    warning(
-      "The following parameters are unknown:\n",
-      paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
-      "\nsee ?gen_mapping_params for all used parameters."
-    )
-  }
-  named_params_list
-}
-
 
 # Function to replace windows backslashes to slashes and replace relative
 # filepaths relatively to the location of the mapping file:

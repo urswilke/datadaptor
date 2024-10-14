@@ -52,7 +52,6 @@ Imports:
     lifecycle,
     utils,
     withr,
-    googlesheets4,
     powerjoin,
     digest,
     qs,

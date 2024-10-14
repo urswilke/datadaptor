@@ -18,15 +18,11 @@ NULL
 #'   labelled dataframe to apply the mapping on.
 #' @field mapping_file Mapping file document (see `mapping_type`). The class of
 #'   this string will be set to "mapping_type".
-#' @field mapping_type String specifying the mapping type. Either "excel", "google"
-#'   (for googlesheets), or "list". If not specified, when initializing it is
-#'   auto-determined:
+#' @field mapping_type String specifying the mapping type. Either "excel"
+#'   or "list". If not specified, when initializing it is auto-determined:
 #'   \itemize{
 #'     \item{"list": }{If `mapping_file` is a list object.}
 #'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
-#'     \item{"google": }{If `mapping_file` is another string, it is assumed that
-#'       it is a valid `googlesheets4::as_sheets_id()`.}
-#'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
@@ -87,7 +83,7 @@ Mapping <- R6Class(
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
     #' @param mapping_type String specifying the mapping type.
-    #'   Either "excel", "google" (for googlesheets), or "list".
+    #'   Either "excel" or "list".
     #' @param process_sheets (default TRUE)
     #'   allows (process_sheets = FALSE) to postpone the execution
     #'   of the commands in the Excel mapping file to the modify_data() method
@@ -182,9 +178,6 @@ determine_mapping_type <- function(self) {
     str_extract("(?<=\\.)([[:alnum:]]+)$")
   if (str_detect(file_ending, "^xls[xm]$")) {
     return("excel")
-  }
-  if (is.character(self$mapping_file)) {
-    return("google")
   }
   stop(
     "`mapping_type` couldn't be determined from `mapping_file` string.\n",
@@ -414,7 +407,7 @@ read_data.character <- function(dat) {
 #' @param excel_params Params parameters read from Excel file; see
 #'   `extract_named_region_params()`.
 #' @param mapping_type String specifying the mapping type.
-#'   Either "excel" or "google" (for googlesheets). Defaults to "excel".
+#'   Either "excel" or "list". Defaults to "excel".
 #' @param id_var character string of the id variable name in the dataset.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
