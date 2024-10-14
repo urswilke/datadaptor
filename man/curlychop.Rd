@@ -10,16 +10,17 @@ curlychop(df_free_raw)
 \item{df_free_raw}{code blocks read in by \code{mapp_free_sheet_cmd_table_raw()}}
 }
 \value{
-Dataframe containing multiple code blocks. The number of returned code blocks
-corresponds to the number of space separated parts in the curly brackets.
-The part embraced by the curly braces of the
-initial code block is replaced by each of the space separated parts.
+Dataframe containing multiple code blocks.
+The number of returned code blocks corresponds
+to the number of space separated parts in the curly brackets.
+The part embraced by the curly braces of the initial code block
+is replaced by each of the space separated parts.
 }
 \description{
-This function turns the first line of command blocks of the "Free" sheets into
-multiple by replacing the curly braces
-by each of the parts inside (separated by spaces). This can help to save yourself
-from repetitive writing without diving into something like regular expressions.
+This function turns the first line of command blocks of the "Free" sheets
+into multiple by replacing the curly braces by each of the parts inside
+(separated by spaces). This can help to save yourself from repetitive writing
+without diving into something like regular expressions.
 }
 \examples{
 # Minimal example:

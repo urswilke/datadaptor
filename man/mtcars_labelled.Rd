@@ -8,7 +8,9 @@
 A data frame with 32 observations on 13 variables:
 \describe{
 \item{id}{car id}
-\item{model}{Name of the car - this information is stored in rownames in \code{mtcars}.}
+\item{model}{
+Name of the car - this information is stored in rownames in \code{mtcars}.
+}
 \item{mpg}{see \code{?mtcars}}
 \item{cyl}{see \code{?mtcars}}
 \item{disp}{see \code{?mtcars}}

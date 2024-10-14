@@ -9,7 +9,9 @@
 #' @format A data frame with 32 observations on 13 variables:
 #' \describe{
 #'   \item{id}{car id}
-#'   \item{model}{Name of the car - this information is stored in rownames in `mtcars`.}
+#'   \item{model}{
+#'     Name of the car - this information is stored in rownames in `mtcars`.
+#'   }
 #'   \item{mpg}{see `?mtcars`}
 #'   \item{cyl}{see `?mtcars`}
 #'   \item{disp}{see `?mtcars`}
@@ -38,9 +40,15 @@
 #' @format A data frame of 26 `keyword`s and their corresponding command_block
 #' classes:
 #' \describe{
-#'   \item{keyword}{Excel mapping file keyword}
-#'   \item{command_block}{String denoting the name of the command_block subclass}
-#'   \item{sheet}{The sheet(s) in the Excel mapping file from where this command can be called}
+#'   \item{keyword}{
+#'     Excel mapping file keyword
+#'   }
+#'   \item{command_block}{
+#'     String denoting the name of the command_block subclass
+#'   }
+#'   \item{sheet}{
+#'     The sheet(s) in the Excel mapping file from where this command can be called
+#'   }
 #' }
 #' @examples
 #' # print all rows of tibble:

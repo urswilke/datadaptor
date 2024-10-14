@@ -10,7 +10,8 @@ is_true_vec(x)
 \item{x}{Logical vector}
 }
 \value{
-Logical vector that's TRUE if \code{x = TRUE} and \code{FALSE} if \code{x = FALSE or NA}.
+Logical vector that's TRUE
+if \code{x == TRUE} and \code{FALSE} if \code{x == FALSE or NA}.
 }
 \description{
 Vectorized \code{isTRUE()}

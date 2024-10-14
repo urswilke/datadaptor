@@ -7,8 +7,16 @@
 #' @noRd
 #'
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' # verbatim_file <- system.file("extdata", "Verbatims_mtcars_labelled.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' # verbatim_file <- system.file(
+#'   "extdata",
+#'   "Verbatims_mtcars_labelled.xlsx",
+#'   package = "datenanpassr"
+#' )
 #' # open these Excel files (that come with the package) via:
 #' \dontrun{
 #' utils::browseURL(mapping_file)
@@ -17,9 +25,8 @@
 #' m <- Mapping$new(NULL, mapping_file)
 #' mapp_verbatim_sheet_cmd_tbl(m)
 mapp_verbatim_sheet_cmd_tbl <- function(
-  self,
-  sheet = "Verbatims"
-) {
+    self,
+    sheet = "Verbatims") {
   id_var_str <- self$params$id_var
   l <- self$cmd$sheet_data_raw[[sheet]]
   if (is.null(l)) {
@@ -48,9 +55,18 @@ generate_verbatim_sheet_table <- function(sheet, mapping) {
     ) |>
     format_sheet_data() |>
     drop_na("VariableOriginal") |>
-    select("VariableOriginal":"Tabellen-blatt", "VariableZiel", "padding" = "VariableZ\u00e4hler", any_of(c("ex_further_cond", "ex_assign"))) |>
+    select(
+      "VariableOriginal":"Tabellen-blatt",
+      "VariableZiel",
+      "padding" = "VariableZ\u00e4hler",
+      any_of(c("ex_further_cond", "ex_assign"))
+    ) |>
     # HACK!!! TODO: replace with general regex
-    mutate(VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal) |> un_OT_ize(.data$VariableOriginal)) |>
+    mutate(
+      VariableZiel = un_OT_ize(.data$VariableZiel, .data$VariableOriginal) |>
+        un_OT_ize(.data$VariableOriginal) |>
+        un_OT_ize(.data$VariableOriginal)
+    ) |>
     relocate(q_id = "Tabellen-blatt")
   mapping_verbatim_sheet
 }
@@ -73,13 +89,18 @@ extract_verbatim_file_name <- function(sheet, mapping) {
     pull(.data$D)
   adapt_filepath(file_path, mapping$mapping_file)
 }
-generate_assignments_list <- function(verbatim_file, mapping_verbatim_sheet, wb) {
+generate_assignments_list <- function(
+  verbatim_file,
+  mapping_verbatim_sheet,
+  wb
+) {
   verbatim_file_sheets <- wb$get_sheet_names() |> unname()
 
   read_assigns <- function(sheet_name, mapping) {
     res <- wb_read(wb, sheet_name, start_row = 32)
     res |>
-      select(orig_var = "Orig. Variable", "ID", matches("^Zuord ")) |> as_tibble()
+      select(orig_var = "Orig. Variable", "ID", matches("^Zuord ")) |>
+      as_tibble()
   }
 
   # except "Codestufen", the first sheet:
@@ -121,14 +142,16 @@ un_OT_ize <- function(x, orig_var) {
 
 
 parse_verbatim_data_raw <- function(
-  verbatim_file,
-  sheet,
-  mapping
-) {
+    verbatim_file,
+    sheet,
+    mapping) {
   if (is.na(verbatim_file)) {
     return(NULL)
   }
-  mapping_verbatim_sheet <- generate_verbatim_sheet_table(sheet = sheet, mapping)
+  mapping_verbatim_sheet <- generate_verbatim_sheet_table(
+    sheet = sheet,
+    mapping
+  )
   verbatim_sheets <- mapping_verbatim_sheet$q_id
 
   wb <- wb_load(verbatim_file)
@@ -136,7 +159,11 @@ parse_verbatim_data_raw <- function(
 
   l_codestufen <- generate_label_code_list(verbatim_file, wb)
   l_codestufen <- l_codestufen[verbatim_sheets]
-  l_assigns <- generate_assignments_list(verbatim_file, mapping_verbatim_sheet, wb)
+  l_assigns <- generate_assignments_list(
+    verbatim_file,
+    mapping_verbatim_sheet,
+    wb
+  )
   l_assigns <- l_assigns[verbatim_sheets]
   l <- vector("list", length(verbatim_sheets))
   for (i in seq_len(length(verbatim_sheets))) {
@@ -144,7 +171,7 @@ parse_verbatim_data_raw <- function(
     l[[i]][["meta"]] <- mapping_verbatim_sheet |> slice(i)
     # next line is equal to:
     # l[[i]][["assignments"]] <- l_assigns[[i]] |> filter(.data$orig_var == l[[i]][["meta"]] |> pull(.data$VariableOriginal))
-    l[[i]][["assignments"]] <- l_assigns[[i]][l[[i]][["meta"]]$VariableOriginal == l_assigns[[i]]$orig_var,]
+    l[[i]][["assignments"]] <- l_assigns[[i]][l[[i]][["meta"]]$VariableOriginal == l_assigns[[i]]$orig_var, ]
     l[[i]][["labs"]] <- l_codestufen[i]
   }
   l
@@ -265,7 +292,11 @@ extract_mcg_assignment_table <- function(i_l) {
     group_by(.data$i_assign, .data$ex_assign) |>
     summarise(id_list = list(.data$ID)) |>
     # Hack to not assign missing values: TODO: find cleaner way!
-    mutate(id_list = ifelse(is.na(.data$ex_assign), list(NULL), .data$id_list)) |>
+    mutate(id_list = ifelse(
+      is.na(.data$ex_assign),
+      list(NULL),
+      .data$id_list
+    )) |>
     mutate(
       x = var_template |> str_replace(
         "\\{nn\\}",
@@ -297,7 +328,12 @@ generate_verbatim_assignment_table_raw <- function(l) {
   # hopefully preliminary structure to use new apply_command.cmd_verbatim_new():
   verbatim_types <- l |> map_chr(chuck, "meta", "EFA1MCG2MDG3")
   # allow to not specify ex_further_cond in excel mapping file -> then write NA column
-  ex_further_cond <- l |> map_chr(pluck, "meta", "ex_further_cond", .default = NA_character_)
+  ex_further_cond <- l |> map_chr(
+    pluck,
+    "meta",
+    "ex_further_cond",
+    .default = NA_character_
+  )
   map2(verbatim_types, l, translate_verbatim_line) |>
     map2(ex_further_cond, ~ mutate(.x, ex_further_cond = .y)) |>
     map2(verbatim_types, ~ mutate(.x, EFA1MCG2MDG3 = .y)) |>

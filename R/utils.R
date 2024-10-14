@@ -1,16 +1,17 @@
 #' Multiply repetitive parts of command blocks using curly braces
 #'
-#' This function turns the first line of command blocks of the "Free" sheets into
-#' multiple by replacing the curly braces
-#' by each of the parts inside (separated by spaces). This can help to save yourself
-#' from repetitive writing without diving into something like regular expressions.
+#' This function turns the first line of command blocks of the "Free" sheets
+#' into multiple by replacing the curly braces by each of the parts inside
+#' (separated by spaces). This can help to save yourself from repetitive writing
+#' without diving into something like regular expressions.
 #'
-#' @param df_free_raw code blocks read in by \code{mapp_free_sheet_cmd_table_raw()}
+#' @param df_free_raw code blocks read in by `mapp_free_sheet_cmd_table_raw()`
 #'
-#' @return Dataframe containing multiple code blocks. The number of returned code blocks
-#'  corresponds to the number of space separated parts in the curly brackets.
-#'  The part embraced by the curly braces of the
-#'  initial code block is replaced by each of the space separated parts.
+#' @return Dataframe containing multiple code blocks.
+#'   The number of returned code blocks corresponds
+#'   to the number of space separated parts in the curly brackets.
+#'   The part embraced by the curly braces of the initial code block
+#'   is replaced by each of the space separated parts.
 #' @export
 #'
 #' @examples
@@ -45,8 +46,10 @@ curlychop <- function(df_free_raw) {
       !.data$X1 %in% "#ACROSS"
     )
   if (nrow(df_curly_headers) == 0) {
-    return(df_prep |>
-      select(-all_of(c("is_curly_group", "n"))))
+    return(
+      df_prep |>
+        select(-all_of(c("is_curly_group", "n")))
+    )
   }
   df_headers_curliplied <- df_curly_headers |>
     curlychop_headers()
@@ -69,13 +72,12 @@ curlychop <- function(df_free_raw) {
 
 curlychop_headers <- function(df) {
   df |>
-    mutate(across(c("X2", "X3"), ~list(split_curly_parts(.x)))) |>
+    mutate(across(c("X2", "X3"), ~ list(split_curly_parts(.x)))) |>
     unnest(c("X2", "X3"))
 }
 split_curly_parts <- function(string,
                               opener = "\\{",
                               closer = "\\}") {
-
   open_or_closer <- paste0("[", opener, closer, "]")
 
   if (!isTRUE(str_detect(string, open_or_closer))) {
@@ -131,7 +133,10 @@ split_curly_parts <- function(string,
 
 # first argument are the severalized header lines of the command block,
 # the second is the original command block dataframe:
-add_further_rows_to_multiline_curlies <- function(df_header_lines, df_block_original) {
+add_further_rows_to_multiline_curlies <- function(
+  df_header_lines,
+  df_block_original
+) {
   if (df_header_lines$n[1] == 1) {
     return(
       df_header_lines |>
@@ -165,7 +170,8 @@ merge_vallabs <- function(old_vallab_vec, added_vallab_vec) {
 #'
 #' @param x Logical vector
 #'
-#' @return Logical vector that's TRUE if \code{x = TRUE} and \code{FALSE} if \code{x = FALSE or NA}.
+#' @return Logical vector that's TRUE
+#'   if \code{x == TRUE} and \code{FALSE} if \code{x == FALSE or NA}.
 #' @keywords internal
 #' @export
 #'
@@ -303,13 +309,23 @@ safe_f <- c(
 #'
 #' @export
 #' @examples
-#' safer_env |> as.list() |> names()
+#' safer_env |>
+#'   as.list() |>
+#'   names()
 #' # Apart from base R functions it also contains `dplyr::case_when()`:
 #' safer_env$case_when
 #' # To use it in a mapping, you can do:
 #' \dontrun{
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(spss_file, mapping_file, expr_eval_env = safer_env)
 #' }
 safer_env <- new.env(parent = emptyenv())
@@ -338,13 +354,15 @@ strip_attributes <- function(x) {
 }
 
 
-#' Format the dataframe returned by reading an excel sheet with openxlsx2::wb_read()
+#' Format the dataframe returned by reading an excel sheet
+#'   with `openxlsx2::wb_read()`
 #'
 #' Turns the dataframe into a tibble with character columns
 #' and trims the leading/trailing spaces of the strings.
 #'
 #' @param df dataframe
-#' @param cols tidy-select expression to specify which columns to trim; default to `dplyr::everything()`
+#' @param cols tidy-select expression to specify which columns to trim;
+#'   defaults to `dplyr::everything()`
 #'
 #' @return
 #' @export

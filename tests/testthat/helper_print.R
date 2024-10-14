@@ -4,7 +4,12 @@ print_without_row_numbers <- function(df, ...) {
 }
 
 # tweaked from https://pillar.r-lib.org/articles/extending.html#row-ids:
-ctl_new_rowid_pillar.pillar_no_rownumber <- function(controller, x, width, ...) {
+ctl_new_rowid_pillar.pillar_no_rownumber <- function(
+  controller,
+  x,
+  width,
+  ...
+) {
   out <- NextMethod()
   rowid <- ""
   width <- 0
@@ -14,8 +19,8 @@ ctl_new_rowid_pillar.pillar_no_rownumber <- function(controller, x, width, ...) 
       type = out$type,
       data = pillar::pillar_component(
         pillar::new_pillar_shaft(list(row_ids = rowid),
-                         width = width,
-                         class = "pillar_rif_shaft"
+          width = width,
+          class = "pillar_rif_shaft"
         )
       )
     ),

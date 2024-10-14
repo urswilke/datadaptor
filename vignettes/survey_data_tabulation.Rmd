@@ -166,12 +166,12 @@ q3_1 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applie
 q3_2 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I'm cautios"), labels = c(unselected = 0, selected = 1))
 q3_3 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I'm lazy"), labels = c(unselected = 0, selected = 1))
 q3_4 <- haven::labelled(sample(0:1, 10, TRUE), label = c("Select all that applies - I don't care"), labels = c(unselected = 0, selected = 1))
-q4_vallabs <- c("1 = I like it" = 1, "2" = 2, "3" = 3, "4" = 4, '5 = I don`t like it at all' = 5)
-q4_answers <- 
-q4_text <- 'Please rate the following items from 1 = "I really like it" to 5 = "I don`t like it at all' 
-q4_1 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, 'Sports', sep = " - "), labels = q4_vallabs)
-q4_2 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, 'Watching TV', sep = " - "), labels = q4_vallabs)
-q4_3 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, 'Reading', sep = " - "), labels = q4_vallabs)
+q4_vallabs <- c("1 = I like it" = 1, "2" = 2, "3" = 3, "4" = 4, "5 = I don`t like it at all" = 5)
+q4_answers <-
+  q4_text <- 'Please rate the following items from 1 = "I really like it" to 5 = "I don`t like it at all'
+q4_1 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, "Sports", sep = " - "), labels = q4_vallabs)
+q4_2 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, "Watching TV", sep = " - "), labels = q4_vallabs)
+q4_3 <- haven::labelled(sample(1:5, 10, TRUE), label = paste(q4_text, "Reading", sep = " - "), labels = q4_vallabs)
 
 df <- tibble(id = 1:10, q1, q2, q3_1, q3_2, q3_3, q3_4, q4_1, q4_2, q4_3)
 ```
@@ -274,30 +274,30 @@ the `#REC` command on one of the `Free` sheets.
 ```{r echo=FALSE}
 cdbs <- tribble(
   ~A, ~B, ~C, ~D, ~E,
-  "#REC",  "q1", "kq1", "Age category", "",
-  "",  "18", "39", "1", "18 - 39",
-  "",  "40", "59", "2", "40 - 59",
-  "",  "60", "Inf", "3", "60+",
+  "#REC", "q1", "kq1", "Age category", "",
+  "", "18", "39", "1", "18 - 39",
+  "", "40", "59", "2", "40 - 59",
+  "", "60", "Inf", "3", "60+",
 )
-a_str <- "- The #REC keyword in the first row sets up this command block. 
+a_str <- "- The #REC keyword in the first row sets up this command block.
 - The following rows are empty."
-b_str <- "- The string in the first row shows the name of the original variable that's recoded. 
+b_str <- "- The string in the first row shows the name of the original variable that's recoded.
 -The following rows specify the lower boundaries of the intervals summarising a value range of the original varable."
-c_str <- "- The string in the first row shows the name of the created recoded variable. 
+c_str <- "- The string in the first row shows the name of the created recoded variable.
 - The following rows specify the upper boundaries of the intervals summarising a value range of the original varable."
-d_str <- "- The string in the first row is assigned as the variable label of the recoded variable (if empty the variable label of the original variable is copied). 
+d_str <- "- The string in the first row is assigned as the variable label of the recoded variable (if empty the variable label of the original variable is copied).
 - The following rows specify the labelled values of the created variable."
-e_str <- "- The first row is empty. 
+e_str <- "- The first row is empty.
 - The following rows specify the the value labels of the created variable."
 
-excelish(cdbs) %>% 
-    gt::cols_label(
-        A = gt::html(with_tooltip("A", a_str)),
-        B = gt::html(with_tooltip("B", b_str)),
-        C = gt::html(with_tooltip("C", c_str)),
-        D = gt::html(with_tooltip("D", d_str)),
-        E = gt::html(with_tooltip("E", e_str)),
-    ) %>% 
+excelish(cdbs) %>%
+  gt::cols_label(
+    A = gt::html(with_tooltip("A", a_str)),
+    B = gt::html(with_tooltip("B", b_str)),
+    C = gt::html(with_tooltip("C", c_str)),
+    D = gt::html(with_tooltip("D", d_str)),
+    E = gt::html(with_tooltip("E", e_str)),
+  ) %>%
   gt::tab_header(
     "#REC command block",
     "recode a numerical variable into a labelled variable summarising intervals",
@@ -354,7 +354,7 @@ df %>% count(q2)
 In order to label this new value 4, we need to modify the value labels of the variable:
 ```{r}
 attr(df$q2, "labels") <- c(
-  attr(df$q2, "labels"), 
+  attr(df$q2, "labels"),
   "No answer" = 4
 )
 ```
@@ -375,9 +375,9 @@ the `#AVALL` command on one of the `Free` sheets:
 ```{r echo=FALSE}
 cdbs <- tribble(
   ~A, ~B, ~C,
-  "#IF",  "is.na(q2)", "q2 = 4",
-  "#AVALL",  "q2", "",
-  "",  "4", "No answer",
+  "#IF", "is.na(q2)", "q2 = 4",
+  "#AVALL", "q2", "",
+  "", "4", "No answer",
 )
 excelish(cdbs)
 ```
@@ -413,7 +413,7 @@ df_q3_long
 
 ... and we'll only consider those cases where those variables were = 1 (selected):
 ```{r}
-df_q3_long <- df_q3_long %>% 
+df_q3_long <- df_q3_long %>%
   filter(value == 1)
 df_q3_long
 ```
@@ -442,7 +442,7 @@ varlabs
 Now, we can add this information to our frequency table:
 ```{r}
 full_join(
-  varlabs, 
+  varlabs,
   df_q3_counts
 )
 ```
@@ -453,10 +453,17 @@ the `#VARL` command on one of the `Free` sheets:
 ```{r echo=FALSE}
 cdbs <- tribble(
   ~A, ~B, ~C,
+<<<<<<< HEAD
   "#VARL",  "q3_1", "I'm curious",
   "#VARL",  "q3_2", "I'm cautios",
   "#VARL",  "q3_3", "I'm lazy",
   "#VARL",  "q3_4", "I don't care",
+=======
+  "#VARL", "q3_1", "I'm curious",
+  "#VARL", "q3_2", "I'm cautious",
+  "#VARL", "q3_3", "I'm lazy",
+  "#VARL", "q3_4", "I don't care",
+>>>>>>> f2b7319 (clean up code using:)
 )
 excelish(cdbs)
 ```
@@ -476,11 +483,11 @@ df %>% count(q4_1)
 As all the answers to [Q4](#Q4) share the same scale, it's also useful to tabulate 
 statistics (such as the mean) in a single table:
 ```{r}
-df_q4 <- df %>% 
+df_q4 <- df %>%
   select(q4_1:q4_3)
-df_q4_means <- df_q4 %>% 
-  pivot_longer(everything(), names_to = "var") %>% 
-  group_by(var) %>% 
+df_q4_means <- df_q4 %>%
+  pivot_longer(everything(), names_to = "var") %>%
+  group_by(var) %>%
   summarise(mean = mean(value))
 df_q4_means
 ```
@@ -496,9 +503,8 @@ varlabs
 
 ```{r}
 full_join(
-  varlabs, 
+  varlabs,
   df_q4_means
 )
-
 ```
 
