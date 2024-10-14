@@ -453,17 +453,10 @@ the `#VARL` command on one of the `Free` sheets:
 ```{r echo=FALSE}
 cdbs <- tribble(
   ~A, ~B, ~C,
-<<<<<<< HEAD
-  "#VARL",  "q3_1", "I'm curious",
-  "#VARL",  "q3_2", "I'm cautios",
-  "#VARL",  "q3_3", "I'm lazy",
-  "#VARL",  "q3_4", "I don't care",
-=======
   "#VARL", "q3_1", "I'm curious",
   "#VARL", "q3_2", "I'm cautious",
   "#VARL", "q3_3", "I'm lazy",
   "#VARL", "q3_4", "I don't care",
->>>>>>> f2b7319 (clean up code using:)
 )
 excelish(cdbs)
 ```
