@@ -15,8 +15,16 @@ method \code{modify_data()} and then results in the \code{dat_mod} field.
 }
 \examples{
 # Create a Mapping object from the files provided by the package:
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+mapping_file <- system.file(
+  "extdata",
+  "mapping.xlsx",
+  package = "datenanpassr"
+)
+spss_file <- system.file(
+  "extdata",
+  "mtcars_labelled.sav",
+  package = "datenanpassr"
+)
 mapping <- Mapping$new(spss_file, mapping_file)
 
 # The spss_file path was read into a dataframe in the "dat" field of the
@@ -50,16 +58,6 @@ labelled dataframe to apply the mapping on.}
 \item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
 this string will be set to "mapping_type".}
 
-\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
-(for googlesheets), or "list". If not specified, when initializing it is
-auto-determined:
-\itemize{
-\item{"list": }{If \code{mapping_file} is a list object.}
-\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
-\item{"google": }{If \code{mapping_file} is another string, it is assumed that
-it is a valid \code{googlesheets4::as_sheets_id()}.}
-}}
-
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block
@@ -69,7 +67,8 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 
 \item{\code{params}}{Parameter list object}
 
-\item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
+\item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object,
+otherwise \code{NULL}.}
 }
 \if{html}{\out{</div>}}
 }
@@ -105,10 +104,12 @@ Initialize a Mapping object
 
 \item{\code{mapping_file}}{Path to the Excel mapping file.}
 
-\item{\code{mapping_type}}{String specifying the mapping type. Either "excel", "google"
-(for googlesheets), or "list".}
+\item{\code{mapping_type}}{String specifying the mapping type.
+Either "excel" or "list".}
 
-\item{\code{process_sheets}}{(default TRUE) allows (process_sheets = FALSE) to postpone the execution of the commands in the Excel mapping file to the modify_data() method}
+\item{\code{process_sheets}}{(default TRUE)
+allows (process_sheets = FALSE) to postpone the execution
+of the commands in the Excel mapping file to the modify_data() method}
 
 \item{\code{...}}{Arguments passed to gen_mapping_params() which will populate
 the \code{params} field of the object.}
@@ -120,8 +121,10 @@ the \code{params} field of the object.}
 \if{html}{\out{<a id="method-Mapping-process_sheet_commands"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-process_sheet_commands}{}}}
 \subsection{Method \code{process_sheet_commands()}}{
-Parse the sheet data of the mapping file and derive the command blocks included.
-Automatically run in the constructor if \code{process_sheets = TRUE} (the default).
+Parse the sheet data of the mapping file
+and derive the command blocks included.
+Automatically run in the constructor
+if \code{process_sheets = TRUE} (the default).
 Automatically run by the \code{modify_data()} method if not done before.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$process_sheet_commands()}\if{html}{\out{</div>}}

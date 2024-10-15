@@ -33,8 +33,8 @@ the \code{Mapping$cmd$sheet_data_raw} field (see section
 "Parse the sheets to R list objects" in
 \code{vignette("translating_command_blocks_to_R")}).}
 
-\item{mapping_type}{String specifying the mapping type. Either "excel" or "google"
-(for googlesheets). Defaults to "excel".}
+\item{mapping_type}{String specifying the mapping type.
+Either "excel" or "list". Defaults to "excel".}
 
 \item{excel_params}{Params parameters read from Excel file; see
 \code{extract_named_region_params()}.}
@@ -100,7 +100,11 @@ file.
 \examples{
 # Only for documentation purposes:
 # (`gen_mapping_params()` isn't supposed to be be called directly).
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapping_file <- system.file(
+  "extdata",
+  "mapping.xlsx",
+  package = "datenanpassr"
+)
 class(mapping_file) <- "excel"
 wb <- openxlsx2::wb_load(mapping_file)
 

@@ -16,8 +16,8 @@ gen_data_table <- function(df, values_drop_na = FALSE) {
   label <- tab_vallabs(df)
 
   counts |>
-    full_join(label, by=c("var", "double" = "nv")) |>
-    full_join(df_var, by=c("var"))
+    full_join(label, by = c("var", "double" = "nv")) |>
+    full_join(df_var, by = c("var"))
 }
 
 
@@ -47,7 +47,6 @@ lengthen <- function(df, values_drop_na = FALSE) {
       names_pattern = "(.*?)_(.*)"
     ) |>
     arrange(var = factor(.data$var, unique(.data$var)))
-
 }
 
 
@@ -91,8 +90,8 @@ diff_data <- function(df1,
       )
     }
     shared_ids <- intersect(df1[[id_var]], df2[[id_var]])
-    df1 <- df1[df1[[id_var]] %in% shared_ids,]
-    df2 <- df2[df2[[id_var]] %in% shared_ids,]
+    df1 <- df1[df1[[id_var]] %in% shared_ids, ]
+    df2 <- df2[df2[[id_var]] %in% shared_ids, ]
   }
 
   long1 <- long_labelled_data(df1, id_var = id_var)
@@ -140,8 +139,8 @@ long_labelled_data <- function(df, id_var = "DC_ID") {
   label <- tab_vallabs(df)
 
   res <- counts |>
-    full_join(label, by=c("var", "double" = "nv")) |>
-    full_join(df_var, by=c("var"))
+    full_join(label, by = c("var", "double" = "nv")) |>
+    full_join(df_var, by = c("var"))
   res[["long_id"]] <- coalesce(
     res[["long_id"]] |> as.character(),
     paste0("empty_value_", coalesce(

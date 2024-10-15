@@ -43,8 +43,10 @@ globalVariables("where")
 #'   labelled `vallab`.
 #' @export
 apply_command.cmd_recna_xcpt <- function(cdb, mapping, xs, v, vallab, ...) {
-  have_na_lgl <- mapping$dat_mod |> map_lgl(\(x) any(is.na(x)))
-  vars_to_add_filter <- have_na_lgl[have_na_lgl] |> names() |> setdiff(xs)
+  have_na_lgl <- mapping$dat_mod |> map_lgl(anyNA)
+  vars_to_add_filter <- have_na_lgl[have_na_lgl] |>
+    names() |>
+    setdiff(xs)
   mapping$dat_mod <- mapping$dat_mod |>
     mutate(
       across(
@@ -108,9 +110,19 @@ apply_command.cmd_select <- function(cdb, mapping, exs, ...) {
 #' @describeIn apply_command
 #'
 #' @export
-apply_command.cmd_across <- function(cdb, mapping, exs, ex_fun, exs_fns_names, ex_names, ...) {
+apply_command.cmd_across <- function(
+  cdb,
+  mapping,
+  exs,
+  ex_fun,
+  exs_fns_names,
+  ex_names,
+  ...
+) {
   exs_ex <- parse_expr(exs)
-  ex_fun <- ex_fun |> map(parse_expr) |> map(\(x) eval_in_data(x, mapping))
+  ex_fun <- ex_fun |>
+    map(parse_expr) |>
+    map(\(x) eval_in_data(x, mapping))
   if (!is.null(exs_fns_names)) {
     stopifnot(length(ex_fun) == length(exs_fns_names))
     names(ex_fun) <- exs_fns_names
@@ -120,7 +132,8 @@ apply_command.cmd_across <- function(cdb, mapping, exs, ex_fun, exs_fns_names, e
   if (length(ex_fun) == 1 & is.null(exs_fns_names)) {
     ex_fun <- ex_fun[[1]]
   }
-  mapping$dat_mod <- mapping$dat_mod |> mutate(across(!!exs_ex, ex_fun, .names = ex_names))
+  mapping$dat_mod <- mapping$dat_mod |>
+    mutate(across(!!exs_ex, ex_fun, .names = ex_names))
 }
 #' @describeIn apply_command
 #'
@@ -133,10 +146,9 @@ apply_command.cmd_filter <- function(cdb, mapping, exs, ...) {
 #'
 #' @export
 apply_command.cmd_verbatim <- function(
-  cdb, mapping, x, v, varlab, vs,
-  vallabs, id_list, v0, ex_further_cond,
-  id = mapping$params$id_var, ...
-) {
+    cdb, mapping, x, v, varlab, vs,
+    vallabs, id_list, v0, ex_further_cond,
+    id = mapping$params$id_var, ...) {
   vallabs_named <- set_names(vs, vallabs)
 
   if (!x %in% names(mapping$dat_mod)) {
@@ -170,10 +182,9 @@ apply_command.cmd_verbatim <- function(
 #'
 #' @export
 apply_command.cmd_verbatim_custom <- function(
-  cdb, mapping, x, varlab, vs, vallabs,
-  id_list, v0, ex_further_cond, ex_assign,
-  id = mapping$params$id_var, ...
-) {
+    cdb, mapping, x, varlab, vs, vallabs,
+    id_list, v0, ex_further_cond, ex_assign,
+    id = mapping$params$id_var, ...) {
   if (!x %in% names(mapping$dat_mod)) {
     mapping$dat_mod[[x]] <- v0
   }
@@ -216,22 +227,29 @@ apply_command.cmd_verbatim_custom <- function(
 #'
 #' @export
 apply_command.cmd_merge <- function(
-  cdb, mapping, xs, filepath, id, coal, ...
-) {
+    cdb, mapping, xs, filepath, id, coal, ...) {
   # if id var is not set, take global id var
-  if(is.na(id)) {
+  if (is.na(id)) {
     id <- mapping$params$id_var
   }
   # get filename extension
   switch(sub("^(.*\\.|[^.]+)(?=[^.]*)", "", filepath, perl = TRUE),
-         xlsx = {df_merge <- read_xlsx(filepath) |>
-           # empty columns as double
-           dplyr::mutate(across(where(is.logical), as.double))},
-         xls = {df_merge <- read_xls(filepath) |>
-           # empty columns as double
-           dplyr::mutate(across(where(is.logical), as.double))},
-         sav = {df_merge <- read_sav(filepath)},
-         dta = {df_merge <- read_dta(filepath)},
+    xlsx = {
+      df_merge <- read_xlsx(filepath) |>
+        # empty columns as double
+        dplyr::mutate(across(where(is.logical), as.double))
+    },
+    xls = {
+      df_merge <- read_xls(filepath) |>
+        # empty columns as double
+        dplyr::mutate(across(where(is.logical), as.double))
+    },
+    sav = {
+      df_merge <- read_sav(filepath)
+    },
+    dta = {
+      df_merge <- read_dta(filepath)
+    },
   )
   # If `xs` is specified in Excel sheet, keep only variables in `xs`:
   if (!is.na(xs[1])) {
@@ -258,8 +276,7 @@ apply_command.cmd_merge <- function(
 #'
 #' @export
 apply_command.cmd_addfile <- function(
-  cdb, mapping, filepath, ...
-) {
+    cdb, mapping, filepath, ...) {
   df_newcases <- read_sav(filepath)
   mapping$dat_mod <- bind_rows(
     mapping$dat_mod,
@@ -297,14 +314,10 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
   yes <- eval_in_data(expr(!!val), mapping)
 
   no <- mapping$dat_mod[[x]]
-  attributes(yes) <- attributes(no)
 
-  mapping$dat_mod[[x]] <-
-    fifelse(
-      test,
-      yes,
-      no
-    )
+  res <- ifelse(test, yes, no)
+  attributes(res) <- attributes(no)
+  mapping$dat_mod[[x]] <- res
 }
 
 eval_in_data <- function(ex, mapping) {
@@ -398,7 +411,15 @@ apply_command.cmd_rmval <- function(cdb, mapping, x, y, vs, varlab, ...) {
 #' @describeIn apply_command
 #'
 #' @export
-apply_command.cmd_set_labs <- function(cdb, mapping, x, varlab, vs, vallabs, ...) {
+apply_command.cmd_set_labs <- function(
+  cdb,
+  mapping,
+  x,
+  varlab,
+  vs,
+  vallabs,
+  ...
+) {
   if (is.null(varlab)) {
     varlab <- attr(mapping$dat_mod[[x]], "label", exact = TRUE)
   }
@@ -413,8 +434,7 @@ apply_command.cmd_set_labs <- function(cdb, mapping, x, varlab, vs, vallabs, ...
 #'
 #' @export
 apply_command.cmd_add_labs <- function(
-  cdb, mapping, x, varlab = NULL, vs, vallabs, ...
-) {
+    cdb, mapping, x, varlab = NULL, vs, vallabs, ...) {
   vec <- mapping$dat_mod[[x]]
   old_vallab_vec <- attr(vec, "labels")
   added_vallab_vec <- set_names(vs, vallabs)
@@ -440,8 +460,7 @@ apply_command.cmd_newvall <- apply_command.cmd_add_labs
 #'
 #' @export
 apply_command.cmd_rec <- function(
-  cdb, mapping, x, y, varlab, vs0, vs, vs2, vallabs, ...
-) {
+    cdb, mapping, x, y, varlab, vs0, vs, vs2, vallabs, ...) {
   if (is.na(varlab)) {
     varlab <- attr(mapping$dat_mod[[y]], "label", exact = TRUE)
   }
@@ -482,15 +501,13 @@ apply_command.cmd_rec <- function(
     labels = set_names(recode_df$vs, recode_df$vallabs),
     label = varlab
   )
-
 }
 
 #' @describeIn apply_command
 #'
 #' @export
 apply_command.cmd_sumvar <- function(
-  cdb, mapping, x, y, varlab, vs0, vs, vallabs, ...
-) {
+    cdb, mapping, x, y, varlab, vs0, vs, vallabs, ...) {
   if (is.na(varlab)) {
     varlab <- attr(mapping$dat_mod[[y]], "label", exact = TRUE)
   }
@@ -509,8 +526,6 @@ apply_command.cmd_sumvar <- function(
       set_names(sum_var_vals_n_labs$val_labs),
     label = varlab
   )
-
-
 }
 
 #' @describeIn apply_command
@@ -531,7 +546,6 @@ apply_command.cmd_dic <- function(cdb, mapping, x, y, ...) {
     labels = vallabs,
     label = varlab
   )
-
 }
 
 #' @describeIn apply_command
@@ -543,7 +557,6 @@ apply_command.cmd_autorec <- function(cdb, mapping, x, ...) {
   var_label(x_labelled) <- attr(vec, "label", exact = TRUE)
 
   mapping$dat_mod[[x]] <- x_labelled
-
 }
 
 #' @describeIn apply_command
@@ -555,5 +568,4 @@ apply_command.cmd_str_to_num <- function(cdb, mapping, x, ...) {
     var |> strip_attributes() |> as.numeric(),
     label = attr(var, "label", exact = TRUE)
   )
-
 }

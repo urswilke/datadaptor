@@ -8,9 +8,15 @@
 A data frame of 26 \code{keyword}s and their corresponding command_block
 classes:
 \describe{
-\item{keyword}{Excel mapping file keyword}
-\item{command_block}{String denoting the name of the command_block subclass}
-\item{sheet}{The sheet(s) in the Excel mapping file from where this command can be called}
+\item{keyword}{
+Excel mapping file keyword
+}
+\item{command_block}{
+String denoting the name of the command_block subclass
+}
+\item{sheet}{
+The sheet(s) in the Excel mapping file from where this command can be called
+}
 }
 }
 \usage{

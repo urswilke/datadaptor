@@ -20,7 +20,11 @@ gen_sheet_cats <- function(self) {
   # exchange positions of "Variables" & "Label" sheets (because otherwise,
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
-  if (self$params$lab_before_var_sheet == "yes" & "Variables" %in% sheets & "Label" %in% sheets) {
+  if (
+    self$params$lab_before_var_sheet == "yes" &
+    "Variables" %in% sheets &
+    "Label" %in% sheets
+  ) {
     sheets <- switch_sheets_vars_label(sheets)
   }
 
@@ -32,10 +36,6 @@ get_sheets <- function(mapping) {
 }
 get_sheets.excel <- function(mapping) {
   wb_get_sheet_names(mapping$wb)
-}
-get_sheets.google <- function(mapping) {
-  gs <- googlesheets4::gs4_get(mapping$mapping_file |> as.character())
-  gs$sheets$name
 }
 switch_sheets_vars_label <- function(sheets) {
   var_index <- which(sheets == "Variables")
@@ -65,10 +65,10 @@ tab_sheet_types <- function(sheets) {
 }
 gen_sheet_data_raw <- function(self, sheet_cat, sheet_name) {
   switch(sheet_cat,
-         "Variables" = read_variables_sheet_raw(sheet = sheet_name, mapping = self),
-         "Label"     = read_label_sheet_raw(sheet = sheet_name, mapping = self),
-         "Free"      = mapp_free_sheet_cmd_table_raw(sheet = sheet_name, mapping = self),
-         "Verbatims" = parse_verbatim_data_raw(sheet = sheet_name, verbatim_file = extract_verbatim_file_name(sheet_name, self), mapping = self)
+    "Variables" = read_variables_sheet_raw(sheet = sheet_name, mapping = self),
+    "Label"     = read_label_sheet_raw(sheet = sheet_name, mapping = self),
+    "Free"      = mapp_free_sheet_cmd_table_raw(sheet = sheet_name, mapping = self),
+    "Verbatims" = parse_verbatim_data_raw(sheet = sheet_name, verbatim_file = extract_verbatim_file_name(sheet_name, self), mapping = self)
   )
 }
 
@@ -96,10 +96,10 @@ gen_sheet_cmd_tbls <- function(self) {
 }
 generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
   res <- switch(sheet_cat,
-                "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
-                "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
-                "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
-                "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
+    "Variables" = mapp_var_sheet_cmd_table(self, sheet = sheet_name),
+    "Label"     = mapp_vallab_sheet_cmd_table(self, sheet = sheet_name),
+    "Free"      = mapp_free_sheet_cmd_table(self, sheet = sheet_name),
+    "Verbatims" = mapp_verbatim_sheet_cmd_tbl(self, sheet = sheet_name)
   )
   if (is.null(res)) {
     return(NULL)
@@ -151,8 +151,16 @@ gen_df_cmd_raw <- function(self) {
 #'
 #' @noRd
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #' m$cmd$df_cmd_raw[10, ] |> command_block()
 #' # command_block() detects the subclass. So this is equivalent to:
@@ -218,8 +226,16 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 #' @noRd
 #'
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #' gen_command_blocks(m)
 #' # This object was automatically generated when m was created.
@@ -253,4 +269,3 @@ gen_command_table <- function(self) {
       command_blocks = self$cmd$command_blocks
     )
 }
-

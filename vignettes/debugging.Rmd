@@ -26,18 +26,21 @@ string containing a valid logical expression):
 
 ```{r}
 library(datenanpassr)
-Free_commands <- tibble::tribble(
+free_commands <- tibble::tribble(
   ~X1, ~X2, ~X3, ~X4, ~X5, ~row,
   "#IF", "q1 ===#$%#!@ 18", "q2 = 2", "", "", 6
 )
-Free_commands
+free_commands
 ```
 
 When we construct our `Mapping` object:
 
 ```{r}
-m <- Mapping$new(tibble::tibble(q1 = 18), list(Free = Free_commands), debug = TRUE)
-
+m <- Mapping$new(
+  tibble::tibble(q1 = 18),
+  list(Free = free_commands),
+  debug = TRUE
+)
 ```
 
 end then execute the modifications, the debugger stops at the `browser()`.

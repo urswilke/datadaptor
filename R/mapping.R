@@ -18,27 +18,32 @@ NULL
 #'   labelled dataframe to apply the mapping on.
 #' @field mapping_file Mapping file document (see `mapping_type`). The class of
 #'   this string will be set to "mapping_type".
-#' @field mapping_type String specifying the mapping type. Either "excel", "google"
-#'   (for googlesheets), or "list". If not specified, when initializing it is
-#'   auto-determined:
+#' @field mapping_type String specifying the mapping type. Either "excel"
+#'   or "list". If not specified, when initializing it is auto-determined:
 #'   \itemize{
 #'     \item{"list": }{If `mapping_file` is a list object.}
 #'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
-#'     \item{"google": }{If `mapping_file` is another string, it is assumed that
-#'       it is a valid `googlesheets4::as_sheets_id()`.}
-#'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
 #' @field dat_mod modified dataframe
 #' @field params Parameter list object
-#' @field wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
+#' @field wb For an excel mapping, the openxlsx2 workbook object,
+#'   otherwise `NULL`.
 #' @export
 #'
 #' @examples
 #' # Create a Mapping object from the files provided by the package:
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' mapping <- Mapping$new(spss_file, mapping_file)
 #'
 #' # The spss_file path was read into a dataframe in the "dat" field of the
@@ -77,9 +82,11 @@ Mapping <- R6Class(
     #'
     #' @param dat Dataframe to apply the mapping on.
     #' @param mapping_file Path to the Excel mapping file.
-    #' @param mapping_type String specifying the mapping type. Either "excel", "google"
-    #'   (for googlesheets), or "list".
-    #' @param process_sheets (default TRUE) allows (process_sheets = FALSE) to postpone the execution of the commands in the Excel mapping file to the modify_data() method
+    #' @param mapping_type String specifying the mapping type.
+    #'   Either "excel" or "list".
+    #' @param process_sheets (default TRUE)
+    #'   allows (process_sheets = FALSE) to postpone the execution
+    #'   of the commands in the Excel mapping file to the modify_data() method
     #' @param ... Arguments passed to gen_mapping_params() which will populate
     #'   the `params` field of the object.
     initialize = function(dat = NULL,
@@ -100,8 +107,10 @@ Mapping <- R6Class(
         self$process_sheet_commands()
       }
     },
-    #' @description Parse the sheet data of the mapping file and derive the command blocks included.
-    #' Automatically run in the constructor if `process_sheets = TRUE` (the default).
+    #' @description Parse the sheet data of the mapping file
+    #'   and derive the command blocks included.
+    #' Automatically run in the constructor
+    #'   if `process_sheets = TRUE` (the default).
     #' Automatically run by the `modify_data()` method if not done before.
     process_sheet_commands = function() {
       self$cmd$sheet_data_raw <- read_sheets(self)
@@ -126,7 +135,6 @@ Mapping <- R6Class(
     #'   processing of the Excel mapping file.
     modify_data = function(reset = TRUE,
                            command_blocks = self$cmd_tbl$command_blocks) {
-
       if (is.null(self$cmd_tbl)) {
         self$process_sheet_commands()
       }
@@ -171,9 +179,6 @@ determine_mapping_type <- function(self) {
   if (str_detect(file_ending, "^xls[xm]$")) {
     return("excel")
   }
-  if (is.character(self$mapping_file)) {
-    return("google")
-  }
   stop(
     "`mapping_type` couldn't be determined from `mapping_file` string.\n",
     "You can directly specify it when calling `Mapping$new(mapping_type = <SPECIFY-HERE>)`"
@@ -217,15 +222,30 @@ rename_vars_to_original_case <- function(df) {
 #' @examples
 #' \dontrun{
 #' # Create a Mapping object from the files provided by the package:
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #'
 #' # The method applies the modifications specified in a command_blocks object
 #' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 #' m$save("stata_data.dta", show = TRUE)
 #' }
-save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filetype = "sav", ...) {
+save_mapping <- function(
+  mapping,
+  path = NULL,
+  show = FALSE,
+  name = "dat",
+  filetype = "sav",
+  ...
+) {
   if (is.null(path)) {
     path <- paste0(mapping$params$save_path, "/", name, ".", filetype)
   } else {
@@ -239,7 +259,7 @@ save_mapping <- function(mapping, path = NULL, show = FALSE, name = "dat", filet
 
 
 save_type <- function(df, path, filetype) {
-  switch (filetype,
+  switch(filetype,
     "sav"  = write_sav(df, path),
     "dta"  = write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
@@ -283,21 +303,24 @@ apply_command_blocks.safe <- function(command_blocks, self) {
 
   walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
 
-  add_error_list_to_command_blocks(self)
+  add_error_list(self)
 }
 apply_command_block_safe <- function(cdb, self) {
   cmd_index <- self$params$cmd_index + 1
   self$params$cmd_index <- cmd_index
   tryCatch(
     withCallingHandlers(
-    {
-      args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
-      do.call(apply_command, args)
-    },
-    warning = function(w)
-    {
-      self$params$error_list[cmd_index] <- paste0(self$params$error_list[cmd_index], w)
-    }),
+      {
+        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
+        do.call(apply_command, args)
+      },
+      warning = function(w) {
+        self$params$error_list[cmd_index] <- paste0(
+          self$params$error_list[cmd_index],
+          w
+        )
+      }
+    ),
     error = function(e) {
       if (self$params$debug) {
         # probably this can't be tested:
@@ -318,7 +341,10 @@ apply_command_block_safe <- function(cdb, self) {
           e
         )
       )
-      self$params$error_list[cmd_index] <- paste0(self$params$error_list[cmd_index], e)
+      self$params$error_list[cmd_index] <- paste0(
+        self$params$error_list[cmd_index],
+        e
+      )
     }
   )
 
@@ -327,7 +353,7 @@ apply_command_block_safe <- function(cdb, self) {
 }
 
 
-add_error_list_to_command_blocks <- function(self) {
+add_error_list <- function(self) {
   error_list <- self$params$error_list
   self$cmd_tbl$error <- error_list
   invisible(self)
@@ -380,8 +406,8 @@ read_data.character <- function(dat) {
 #'   `vignette("translating_command_blocks_to_R")`).
 #' @param excel_params Params parameters read from Excel file; see
 #'   `extract_named_region_params()`.
-#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
-#'   (for googlesheets). Defaults to "excel".
+#' @param mapping_type String specifying the mapping type.
+#'   Either "excel" or "list". Defaults to "excel".
 #' @param id_var character string of the id variable name in the dataset.
 #' @param error_out character string. Either "safe" or "unsafe" (the default).
 #'   Whether to continue executing when a command block fails, or to error out.
@@ -420,34 +446,35 @@ read_data.character <- function(dat) {
 #' @examples
 #' # Only for documentation purposes:
 #' # (`gen_mapping_params()` isn't supposed to be be called directly).
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
 #' class(mapping_file) <- "excel"
 #' wb <- openxlsx2::wb_load(mapping_file)
 #'
 #' gen_mapping_params(mapping_file, wb = wb)
 gen_mapping_params <- function(
-  mapping_file = NULL,
-  mapping_type = "excel",
-  excel_params = extract_named_region_params(mapping_file, wb),
-  id_var = NULL,
-  error_out = "unsafe",
-  debug = FALSE,
-  save_path = tempdir(),
-  write_mapping_to_txt = FALSE,
-  expr_eval_env = new.env(parent = baseenv()),
-  lab_before_var_sheet = "yes",
-  miss_rec_lab = "FILTER",
-  miss_rec_val = -2,
-  na_to_filter = TRUE,
-  not_miss_to_filter_vars = NA_character_,
-  lowercase_varnames = FALSE,
-  database_dsn = NULL,
-  qrow_db_write = FALSE,
-  wb,
-  ...
-
-) {
-
+    mapping_file = NULL,
+    mapping_type = "excel",
+    excel_params = extract_named_region_params(mapping_file, wb),
+    id_var = NULL,
+    error_out = "unsafe",
+    debug = FALSE,
+    save_path = tempdir(),
+    write_mapping_to_txt = FALSE,
+    expr_eval_env = new.env(parent = baseenv()),
+    lab_before_var_sheet = "yes",
+    miss_rec_lab = "FILTER",
+    miss_rec_val = -2,
+    na_to_filter = TRUE,
+    not_miss_to_filter_vars = NA_character_,
+    lowercase_varnames = FALSE,
+    database_dsn = NULL,
+    qrow_db_write = FALSE,
+    wb,
+    ...) {
   p <- lst(
     mapping_file,
     excel_params,

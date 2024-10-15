@@ -20,13 +20,23 @@ the object \code{dat_mod} is added to the environment
 which represents the current state of the data in \code{Mapping$dat_mod}.
 }
 \examples{
-safer_env |> as.list() |> names()
+safer_env |>
+  as.list() |>
+  names()
 # Apart from base R functions it also contains `dplyr::case_when()`:
 safer_env$case_when
 # To use it in a mapping, you can do:
 \dontrun{
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+mapping_file <- system.file(
+  "extdata",
+  "mapping.xlsx",
+  package = "datenanpassr"
+)
+spss_file <- system.file(
+  "extdata",
+  "mtcars_labelled.sav",
+  package = "datenanpassr"
+)
 m <- Mapping$new(spss_file, mapping_file, expr_eval_env = safer_env)
 }
 }

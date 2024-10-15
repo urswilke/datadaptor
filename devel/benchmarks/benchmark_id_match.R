@@ -16,7 +16,7 @@ bench_match <- function(n_obs) {
   df <- data.frame(id = 1:n_obs)
   df2 <- df
   var_ziel <- "test"
-  id_list <- sample(1:(n_obs * 1.1), n_obs / 2)
+  id_list <- sample.int((n_obs * 1.1), n_obs / 2)
   val_assign <- 5
   id <- "id"
 

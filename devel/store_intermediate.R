@@ -5,7 +5,7 @@ accumulate_command_blocks <- function(m) {
   # generate a list of nrow(`m$cmd_tbl`) command_blocks elements, each
   # containing just one line of `m$cmd_tbl`:
   single_cdbs <- purrr::map(
-    1:nrow(m0$cmd_tbl),
+    seq_len(nrow(m0$cmd_tbl)),
     ~m0$cmd_tbl |> dplyr::slice(.x) |> dplyr::pull(command_blocks)
   )
 

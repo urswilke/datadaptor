@@ -2,7 +2,7 @@ set.seed(2)
 q2 <- haven::labelled(c(3:1, NA_real_, rep(3, 6)), labels = purrr::set_names(1:3, c(LETTERS[1:2], "Other, namely:")))
 q3_1 <- haven::labelled(c(NA, NA, 3, NA, NA, 1, rep(NA, 4)), labels = purrr::set_names(1:4, c(LETTERS[1:4])))
 q3_2 <- haven::labelled(c(NA, 2, rep(NA, 4), 2, rep(NA, 3)), labels = purrr::set_names(1:4, c(LETTERS[1:4])))
-q3_3 <- haven::labelled(c(4, NA, NA, NA, sample(1:4, 6, replace = TRUE)), labels = purrr::set_names(1:4, paste("rating:", LETTERS[1:4])))
+q3_3 <- haven::labelled(c(4, NA, NA, NA, sample.int(4, 6, replace = TRUE)), labels = purrr::set_names(1:4, paste("rating:", LETTERS[1:4])))
 
 
 dat <- tibble::tibble(
@@ -18,7 +18,7 @@ meta_mdg_custom <- tibble::tibble(
   EFA1MCG2MDG3 = "mdg_custom",
   VariableZiel = "q3_{nn}",
   padding = NA_character_,
-  ex_further_cond = 'q2 == 3',
+  ex_further_cond = "q2 == 3",
   ex_assign = "q3_3"
 )
 meta_efa <- tibble::tibble(
@@ -54,7 +54,7 @@ make_cdb_raw <- function(name, meta, assignments, labs) {
 # It's important to execute mdg_custom before efa, because
 # efa will change the value of of q2 (serving for ex_further_cond of mdg_custom):
 cdbs_raw <- list(meta_mdg_custom, meta_efa) |>
-  purrr::map(~make_cdb_raw(name = name, meta = .x, assignments = assignments, labs = labs))
+  purrr::map(~ make_cdb_raw(name = name, meta = .x, assignments = assignments, labs = labs))
 
 m <- Mapping$new(dat, list(Verbatims = cdbs_raw), na_to_filter = FALSE, id_var = "id")
 
@@ -74,6 +74,3 @@ test_that("value labels are reproduced", {
     m$dat_mod |> tab_vallabs() |> print_without_row_numbers(n = 1111)
   )
 })
-
-
-

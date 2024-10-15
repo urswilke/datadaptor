@@ -11,25 +11,23 @@
 #' @param df_raw dataframe with labelled variables, e.g. resulting from
 #'   haven::read_sav
 #' @param mapping_file name of the Excel file to be created
-#' @param mapping_type String specifying the mapping type. Either "excel" or "google"
-#'   (for googlesheets). Defaults to "excel".
+#' @param mapping_type String specifying the mapping type.
+#'   Either "excel" or "list". Defaults to "excel".
 #'
 #' @export
 #'
 #' @examples
-#' spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
 #' mapp_create(df, "mapping.xlsx")
-#' mapp_create(df, "mapping_googlesheets", mapping_type = "google")
 #' }
 mapp_create <- function(df_raw, mapping_file, mapping_type = "excel") {
-  if (mapping_type == "excel") {
-    mapp_create_xlsx(df_raw, mapping_file)
-  }
-  if (mapping_type == "google") {
-    mapp_create_google(df_raw, mapping_file)
-  }
+  mapp_create_xlsx(df_raw, mapping_file)
 }
 mapp_create_xlsx <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
@@ -52,17 +50,6 @@ mapp_create_xlsx <- function(df_raw, mapping_file) {
   wb$save(mapping_file)
   message("Excel mapping file written to '", mapping_file, "'")
 }
-mapp_create_google <- function(df_raw, mapping_file) {
-  df_varlab <- gen_var_table(df_raw)
-  df_vallabs <- gen_label_table(df_raw)
-
-  gs <- gs4_create(mapping_file, sheets = c("Variables", "Label", "verbatims", "Free1"))
-
-  sheet_write(df_varlab, ss = gs, sheet = "Variables")
-  sheet_write(df_vallabs, ss = gs, sheet = "Label")
-
-  gs4_get(gs)
-}
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param  self \code{Mapping} object
@@ -75,7 +62,11 @@ mapp_create_google <- function(df_raw, mapping_file) {
 #' @examples
 #' # create empty template from labelled dataset `mtcars_labelled` via:
 #' # mapp_create(mtcars_labelled, "mapping.xlsx")
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
@@ -89,18 +80,13 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
 read_variables_sheet_raw <- function(sheet, mapping) {
   UseMethod("read_variables_sheet_raw", mapping$mapping_file)
 }
-read_variables_sheet_raw.google <- function(sheet, mapping) {
-  read_sheet(
-    mapping$mapping_file |> as.character(),
-    sheet = sheet
-  )
-}
 read_variables_sheet_raw.excel <- function(sheet, mapping) {
   res <- wb_read(
     mapping$wb,
     sheet
   )
-  res[c("var", "varlab", "type", "new_label", "op", "new_name")] |> format_sheet_data()
+  res[c("var", "varlab", "type", "new_label", "op", "new_name")] |>
+    format_sheet_data()
 }
 
 format_df_varl <- function(df_varl) {
@@ -220,7 +206,11 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' @examples
 #' # create empty template from labelled dataset `mtcars_labelled` via:
 #' # mapp_create(mtcars_labelled, "mapping.xlsx")
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
@@ -241,7 +231,7 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
     ),
     df_vall
   )
-  df_vall$row = seq_along(df_vall[[1]]) + 1
+  df_vall$row <- seq_along(df_vall[[1]]) + 1
   res <- bind_rows(
     parse_newvall_cmd_table(df_vall),
     parse_sumvar_cmd_table(df_vall)
@@ -252,12 +242,6 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
 
 read_label_sheet_raw <- function(sheet, mapping) {
   UseMethod("read_label_sheet_raw", mapping$mapping_file)
-}
-read_label_sheet_raw.google <- function(sheet, mapping) {
-  read_sheet(
-    mapping$mapping_file |> as.character(),
-    sheet = sheet
-  )
 }
 read_label_sheet_raw.excel <- function(sheet, mapping) {
   raw <- wb_read(
@@ -295,10 +279,6 @@ parse_newvall_cmd_table <- function(df_vall) {
     mutate(row = paste(.data$row, collapse = ", "), .by = c("new_var")) |>
     nest(data = -c("action", "new_var", "row"))
   res[c("action", "new_var", "row", "data")]
-  # df_vall |>
-  #   mutate(sheet = "Label", action = "#NEWVALL", new_var = .data$var, orig_var = .data$var, .before = 1) |>
-  #   mutate(row = paste(.data$row, collapse = ", "), .by = c(.data$new_var)) |>
-  #   nest(data = -c(.data$sheet, .data$action, .data$new_var, .data$row))
 }
 
 
@@ -315,7 +295,11 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' @examples
 #' # create empty template from labelled dataset `mtcars_labelled` via:
 #' # mapp_create(mtcars_labelled, "mapping.xlsx")
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
 #' \dontrun{
@@ -345,15 +329,6 @@ mapp_free_sheet_cmd_table_raw <- function(sheet, mapping) {
 }
 mapp_free_sheet_cmd_table_raw_raw <- function(sheet, mapping) {
   UseMethod("mapp_free_sheet_cmd_table_raw_raw", mapping$mapping_file)
-}
-mapp_free_sheet_cmd_table_raw_raw.google <- function(sheet, mapping) {
-  read_sheet(
-    mapping$mapping_file |> as.character(),
-    sheet = sheet,
-    range = "A:E",
-    col_types = "c",
-    col_names = paste0("X", 1:5)
-  )
 }
 mapp_free_sheet_cmd_table_raw_raw.excel <- function(sheet, mapping) {
   res <- wb_read(
@@ -411,7 +386,7 @@ get_new_var_name_free <- function(df_free_nested) {
   col3_names <- c("#DIC", "#RENAME")
   col3or2_names <- c("#REC", "#RMVAL")
   temp <- df_free_nested |>
-    mutate(data = map(.data$data, ~slice(.x, 1))) |>
+    mutate(data = map(.data$data, ~ slice(.x, 1))) |>
     unnest("data") |>
     mutate(new_var = case_when(
       action %in% col3_names ~ .data$X3,
@@ -429,7 +404,9 @@ add_curlies_to_cell_with_spaces <- function(df_free) {
   # braces):
   df_free |>
     mutate(X2 = ifelse(
-      grepl("(#VARL|#REC|#VALL|#AVALL|#RMVAL)", .data$X1) == TRUE & str_detect(.data$X2, " ") & str_detect(.data$X2, "\\{", negate = TRUE),
+      grepl("(#VARL|#REC|#VALL|#AVALL|#RMVAL)", .data$X1) == TRUE &
+        str_detect(.data$X2, " ") &
+        str_detect(.data$X2, "\\{", negate = TRUE),
       paste0("{", .data$X2, "}"),
       .data$X2
     ))
@@ -443,8 +420,8 @@ delete_empty_X1_not_multiline <- function(df_free) {
         negate = TRUE
       ),
       after_dot = (lag(str_detect(.data$X1, "\\.")) &
-                     !str_detect(.data$X1, "^#")
-                   ) |>
+        !str_detect(.data$X1, "^#")
+      ) |>
         is_true_vec(),
       temp = .data$not_multiline_cmd & !.data$after_dot
     ) |>

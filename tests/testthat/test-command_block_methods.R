@@ -14,7 +14,7 @@ num_res <- unique(c(
   m1$params$miss_rec_val
 ))
 testthat::expect_equal(num_res, -2)
-testthat::expect_equal(names(vallabs), "FILTER")
+testthat::expect_named(vallabs, "FILTER")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "xyz")
 
 # #NEWVALL:
@@ -30,7 +30,7 @@ m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
 res_vec <- m1$modify_data()$dat_mod$q2
 
 vallabs <- attr(res_vec, "labels")
-testthat::expect_equal(names(attr(res_vec, "labels", exact = TRUE)), "YES")
+testthat::expect_named(attr(res_vec, "labels", exact = TRUE), "YES")
 
 # #SUMVAR:
 dat <- data.frame(q5 = haven::labelled(c(1:5, NA_real_), labels = c("xyz" = 1), label = "a"))
@@ -49,7 +49,7 @@ res_vec <- m1$modify_data()$dat_mod$kq5
 
 vallabs <- attr(res_vec, "labels")
 
-testthat::expect_equal(names(vallabs), c("aaa", "bbb", "ccc"))
+testthat::expect_named(vallabs, c("aaa", "bbb", "ccc"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 # check that varlab is preserved if not defined:
@@ -59,12 +59,17 @@ testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "a")
 
 # #DROP:
 dat <- data.frame(q1 = 1, q9 = 2)
-cdb <- list(Variables = tibble(var = "q9", op = "d", new_name = NA_character_, new_label = NA_character_))
+cdb <- list(Variables = tibble(
+  var = "q9",
+  op = "d",
+  new_name = NA_character_,
+  new_label = NA_character_
+))
 m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
 
 res_df <- m1$modify_data()$dat_mod
 
-testthat::expect_equal(names(res_df), "q1")
+testthat::expect_named(res_df, "q1")
 
 # #RENAME_varsheet:
 cdb <- list(Variables = tibble(
@@ -76,7 +81,7 @@ cdb <- list(Variables = tibble(
 m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
 res_df <- m1$modify_data()$dat_mod
 
-testthat::expect_equal(names(res_df), c("q9", "q1"))
+testthat::expect_named(res_df, c("q9", "q1"))
 
 # #RENAME:
 cdb <- list(Free1 = tibble::tribble(
@@ -88,7 +93,7 @@ cdb <- list(Free1 = tibble::tribble(
 m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
 res_df <- m1$modify_data()$dat_mod
 
-testthat::expect_equal(names(res_df), c("q9", "q1"))
+testthat::expect_named(res_df, c("q9", "q1"))
 
 
 # #NEWLAB:
@@ -132,8 +137,8 @@ dat <- data.frame(
   q1 = c(1, 1, 2)
 )
 cdb <- list(Free1 = tibble::tribble(
-      ~X1, ~X2,       ~X3, ~X4, ~X5,
-  "#COMP", "x", "q1 == 2",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#COMP", "x", "q1 == 2", NA, NA
 ))
 
 
@@ -142,7 +147,7 @@ res_vec <- m1$modify_data()$dat_mod$x
 
 vallabs <- attr(res_vec, "labels")
 
-testthat::expect_equal(names(vallabs), "xyz")
+testthat::expect_named(vallabs, "xyz")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "xyz")
 testthat::expect_equal(unname(vallabs), 1)
 testthat::expect_equal(strip_attributes(res_vec), c(0, 0, 1))
@@ -152,11 +157,11 @@ testthat::expect_equal(strip_attributes(res_vec), c(0, 0, 1))
 dat <- data.frame(
   q3 = 1:3,
   q1 = c(1, 0, 2),
-  abc = haven::labelled(rep(NA_real_, 3), labels = c(a =1), label = "b")
+  abc = haven::labelled(rep(NA_real_, 3), labels = c(a = 1), label = "b")
 )
 cdb <- list(Free1 = tibble::tribble(
-    ~X1,                 ~X2,       ~X3, ~X4, ~X5,
-  "#IF", "q1 == 1 | q3 == 2", "abc = 7",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#IF", "q1 == 1 | q3 == 2", "abc = 7", NA, NA
 ))
 
 m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
@@ -166,7 +171,7 @@ res_vec <- m1$modify_data()$dat_mod$abc
 
 vallabs <- attr(res_vec, "labels")
 
-testthat::expect_equal(names(vallabs), "a")
+testthat::expect_named(vallabs, "a")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
 testthat::expect_equal(unname(vallabs), 1)
 testthat::expect_equal(strip_attributes(res_vec), c(7, 7, NA))
@@ -177,11 +182,11 @@ dat <- data.frame(
   x = 6:11
 )
 cdb <- list(Free1 = tibble::tribble(
-     ~X1,  ~X2,   ~X3,                   ~X4,   ~X5,
-  "#REC", "q1", "kq1", "summarized variable",    NA,
-      NA,  "1",   "2",                   "1", "1-2",
-      NA,  "3",   "3",                   "2",   "3",
-     ".",  "4",   "5",                   "3", "4-5"
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#REC", "q1", "kq1", "summarized variable", NA,
+  NA, "1", "2", "1", "1-2",
+  NA, "3", "3", "2", "3",
+  ".", "4", "5", "3", "4-5"
 ))
 
 m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
@@ -190,8 +195,11 @@ res_vec <- m1$modify_data()$dat_mod$kq1
 
 vallabs <- attr(res_vec, "labels")
 
-testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "summarized variable")
-testthat::expect_equal(names(vallabs), c("1-2", "3", "4-5"))
+testthat::expect_equal(
+  attr(res_vec, "label", exact = TRUE),
+  "summarized variable"
+)
+testthat::expect_named(vallabs, c("1-2", "3", "4-5"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 
@@ -208,8 +216,11 @@ res_vec <- m1$modify_data(command_blocks = cdb_mod)$dat_mod$q1
 
 vallabs <- attr(res_vec, "labels")
 
-testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "summarized variable")
-testthat::expect_equal(names(vallabs), c("1-2", "3", "4-5"))
+testthat::expect_equal(
+  attr(res_vec, "label", exact = TRUE),
+  "summarized variable"
+)
+testthat::expect_named(vallabs, c("1-2", "3", "4-5"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 
@@ -218,12 +229,12 @@ testthat::expect_equal(strip_attributes(res_vec), c(1, 1, 2, 3, 3, NA_real_))
 
 # #KG:
 dat <- data.frame(
-  q2_renamed = haven::labelled(c(1, 1, 2), labels = c(a =1), label = "b"),
-  kq1 = haven::labelled(1:3, labels = c(a =1), label = "b")
+  q2_renamed = haven::labelled(c(1, 1, 2), labels = c(a = 1), label = "b"),
+  kq1 = haven::labelled(1:3, labels = c(a = 1), label = "b")
 )
 cdb <- list(Free1 = tibble::tribble(
-    ~X1,   ~X2,          ~X3, ~X4, ~X5,
-  "#KG", "kq1", "q2_renamed",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#KG", "kq1", "q2_renamed", NA, NA
 ))
 
 
@@ -235,15 +246,18 @@ vallabs1 <- attr(res_df$kq1xq2_renamedk10, "labels")
 vallabs2 <- attr(res_df$kq1xq2_renamedk20, "labels")
 
 testthat::expect_equal(vallabs1, vallabs2)
-testthat::expect_equal(attr(res_df$kq1xq2_renamedk10, "label", exact = TRUE), "a: b")
+testthat::expect_equal(
+  attr(res_df$kq1xq2_renamedk10, "label", exact = TRUE),
+  "a: b"
+)
 testthat::expect_equal(strip_attributes(res_df$kq1xq2_renamedk10), c(1, 2, NA))
 testthat::expect_equal(strip_attributes(res_df$kq1xq2_renamedk20), c(NA, NA, 3))
 
 # #VARL:
 dat <- data.frame(n = 1)
 cdb <- list(Free1 = tibble::tribble(
-      ~X1, ~X2,            ~X3, ~X4, ~X5,
-  "#VARL", "n", "my new label",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#VARL", "n", "my new label", NA, NA
 ))
 
 m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
@@ -256,11 +270,11 @@ testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "my new label")
 # #VALL:
 dat <- data.frame(n = 1)
 cdb <- list(Free1 = tibble::tribble(
-      ~X1, ~X2,                   ~X3, ~X4, ~X5,
-  "#VALL", "n", "overwrite new label",  NA,  NA,
-       NA, "1",           "also with",  NA,  NA,
-       NA, "2",        "value labels",  NA,  NA,
-      ".", "3",                 "now",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#VALL", "n", "overwrite new label", NA, NA,
+  NA, "1", "also with", NA, NA,
+  NA, "2", "value labels", NA, NA,
+  ".", "3", "now", NA, NA
 ))
 
 
@@ -270,12 +284,15 @@ m1 <- Mapping$new(dat, cdb, na_to_filter = FALSE)
 res_vec <- m1$modify_data()$dat_mod$n
 vallabs <- attr(res_vec, "labels")
 
-testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "overwrite new label")
-testthat::expect_equal(names(vallabs), c("also with", "value labels", "now"))
+testthat::expect_equal(
+  attr(res_vec, "label", exact = TRUE),
+  "overwrite new label"
+)
+testthat::expect_named(vallabs, c("also with", "value labels", "now"))
 testthat::expect_equal(unname(vallabs), 1:3)
 testthat::expect_equal(strip_attributes(res_vec), 1)
 
-#check that varlab is preserved if not defined:
+# check that varlab is preserved if not defined:
 m1$dat <- data.frame(n = haven::labelled(1, label = "aaa"))
 m1$cmd_tbl$command_blocks[[1]]$args["varlab"] <- list(NULL)
 res_vec <- m1$modify_data()$dat_mod$n
@@ -284,11 +301,11 @@ testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "aaa")
 
 
 # #AVALL:
-dat <- data.frame(n = haven::labelled(1:3, labels = c(a =1), label = "b"))
+dat <- data.frame(n = haven::labelled(1:3, labels = c(a = 1), label = "b"))
 cdb <- list(Free1 = tibble::tribble(
-       ~X1, ~X2,           ~X3, ~X4, ~X5,
-  "#AVALL", "n",            NA,  NA,  NA,
-       ".", "4", "added label",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#AVALL", "n", NA, NA, NA,
+  ".", "4", "added label", NA, NA
 ))
 
 
@@ -297,7 +314,7 @@ res_vec <- m1$modify_data()$dat_mod$n
 vallabs <- attr(res_vec, "labels")
 
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
-testthat::expect_equal(names(vallabs), c("a", "added label"))
+testthat::expect_named(vallabs, c("a", "added label"))
 testthat::expect_equal(unname(vallabs), c(1, 4))
 testthat::expect_equal(strip_attributes(res_vec), 1:3)
 
@@ -305,11 +322,11 @@ testthat::expect_equal(strip_attributes(res_vec), 1:3)
 # #DIC:
 dat <- data.frame(
   q4_renamed = 1:3,
-  q3 = haven::labelled(1:3, labels = c(a =1), label = "b")
+  q3 = haven::labelled(1:3, labels = c(a = 1), label = "b")
 )
 cdb <- list(Free1 = tibble::tribble(
-     ~X1,  ~X2,          ~X3, ~X4, ~X5,
-  "#DIC", "q3", "q4_renamed",  NA,  NA
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  "#DIC", "q3", "q4_renamed", NA, NA
 ))
 
 
@@ -319,7 +336,7 @@ res_vec <- m1$modify_data()$dat_mod$q4_renamed
 vallabs <- attr(res_vec, "labels")
 
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "b")
-testthat::expect_equal(names(vallabs), "a")
+testthat::expect_named(vallabs, "a")
 testthat::expect_equal(unname(vallabs), 1)
 testthat::expect_equal(strip_attributes(res_vec), 1:3)
 
@@ -327,7 +344,3 @@ testthat::expect_equal(strip_attributes(res_vec), 1:3)
 m1$cmd_tbl$command_blocks[[1]]$args$x <- "newvar"
 res_vec <- m1$modify_data()$dat_mod$newvar
 testthat::expect_equal(strip_attributes(res_vec), rep(NA_real_, 3))
-
-
-
-

@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom data.table fifelse
 #' @importFrom digest digest
 #' @importFrom dplyr across
 #' @importFrom dplyr add_count
@@ -48,10 +47,6 @@
 #' @importFrom dplyr ungroup
 #' @importFrom fs is_absolute_path
 #' @importFrom fs path_dir
-#' @importFrom googlesheets4 gs4_create
-#' @importFrom googlesheets4 gs4_get
-#' @importFrom googlesheets4 read_sheet
-#' @importFrom googlesheets4 sheet_write
 #' @importFrom qs qsave
 #' @importFrom qs qread
 #' @importFrom haven is.labelled
