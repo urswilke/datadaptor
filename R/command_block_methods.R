@@ -314,14 +314,10 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
   yes <- eval_in_data(expr(!!val), mapping)
 
   no <- mapping$dat_mod[[x]]
-  attributes(yes) <- attributes(no)
 
-  mapping$dat_mod[[x]] <-
-    fifelse(
-      test,
-      yes,
-      no
-    )
+  res <- ifelse(test, yes, no)
+  attributes(res) <- attributes(no)
+  mapping$dat_mod[[x]] <- res
 }
 
 eval_in_data <- function(ex, mapping) {

@@ -47,7 +47,6 @@ Imports:
     fs,
     labelled,
     R6,
-    data.table,
     writexl,
     lifecycle,
     utils,

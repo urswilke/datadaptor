@@ -2,7 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom data.table fifelse
 #' @importFrom digest digest
 #' @importFrom dplyr across
 #' @importFrom dplyr add_count
