@@ -123,7 +123,7 @@ split_curly_parts <- function(string,
     )
   }
   parts_list <- as.list(split_string)
-  parts_list[is_curly_part] <- inside_curly_parts |> lapply(\(x) stringr::str_replace_all(x, "<blank>", " "))
+  parts_list[is_curly_part] <- inside_curly_parts |> lapply(\(x) str_replace_all(x, "<blank>", " "))
   do.call(paste0, parts_list)
 }
 
