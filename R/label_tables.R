@@ -58,6 +58,51 @@ gen_var_table_raw <- function(dat) {
     )
 }
 
+#' Write dataset properties to database
+#'
+#' @param filepath Path to the data file
+#' @param dsn dsn to database
+#' @param version mapping version number
+#' @return Dataset
+#' @noRd
+#'
+#' @examples
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datenanpassr"
+#' )
+#' dat_mod <- read_data(spss_file)
+dataset_to_database <- function(df, filepath, dsn = "", version = "", projectname = "", origin = NA_real_) {
+  filedate <- format(file.mtime(filepath), usetz = F)
+
+  hash <- digest(df)
+
+  if (dsn != "") {
+    conn <- dbConnect(odbc(), dsn = dsn)
+
+    sql <- sqlInterpolate(
+        conn,
+        'INSERT INTO dsdataset (version, projectname, filepath, filedate, hash, origin)
+          VALUES (?version,?projectname, ?filepath, ?filedate, ?hash, ?origin);
+        ',
+      version = version,
+      projectname = projectname,
+      filepath = filepath,
+      filedate = filedate,
+      hash = hash,
+      origin = origin
+    )
+    dbExecute(conn, sql)
+    datano <- dbGetQuery(conn, "SELECT LASTVAL();")
+    vartable <- gen_var_table(df) |> mutate(datano = datano[1,1]) |> select(c(datano, var, type, varlab, hash))
+
+    dbWriteTable(conn, "dsvariable", vartable, append = TRUE)
+    dbDisconnect(conn)
+  }
+}
+
+
 #' Update the "Label" sheet table with new dataset
 #'
 #' @param dat The new dataset

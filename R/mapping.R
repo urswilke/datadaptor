@@ -103,6 +103,9 @@ Mapping <- R6Class(
       self$dat <- read_data(dat)
 
       self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
+
+      dataset_to_database(self$dat, dat, self$params$excel$database_dsn, self$params$excel$version, self$params$excel$project_name )
+
       if (process_sheets) {
         self$process_sheet_commands()
       }
