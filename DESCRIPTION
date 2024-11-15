@@ -54,6 +54,8 @@ Imports:
     powerjoin,
     digest,
     qs,
-    openxlsx2
+    openxlsx2,
+    DBI,
+    odbc
 VignetteBuilder: knitr
 Language: en-US
