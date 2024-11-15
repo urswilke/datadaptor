@@ -100,11 +100,9 @@ Mapping <- R6Class(
       set_mapping_type(self)
       set_workbook(self)
 
-      self$dat <- read_data(dat)
-
       self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
 
-      dataset_to_database(self$dat, dat, self$params$excel$database_dsn, self$params$excel$version, self$params$excel$project_name )
+      self$dat <- read_data(dat, self)
 
       if (process_sheets) {
         self$process_sheet_commands()
@@ -247,6 +245,7 @@ save_mapping <- function(
   show = FALSE,
   name = "dat",
   filetype = "sav",
+  dataset_to_db = FALSE,
   ...
 ) {
   if (is.null(path)) {
@@ -256,6 +255,9 @@ save_mapping <- function(
   }
   df <- tibble(path, name, filetype, show)
   walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+  if (dataset_to_db) {
+    walk(df$path, ~ dataset_to_database(mapping$dat_mod, .x, mapping$params$database_dsn, mapping$params$version, mapping$params$project_name, origin = mapping$params$dataset_origin, T))
+  }
 
   df$path[df$show] |> walk(browseURL)
 }
@@ -364,33 +366,40 @@ add_error_list <- function(self) {
 #' Ingest data from data.frame or file path
 #'
 #' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
+#' @param mapping Mapping class
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
 #'  in case of a character string returns the data.frame resulting of
-#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)`
-#'  (depending on the file extension)
-#'  or returns `NULL` in case of `NULL`.
+#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)` or
+#'  `openxlsx2::read_xls(x)` for excel files (depending on the file
+#'  extension) or returns `NULL` in case of `NULL`.
 #'
 #' @export
-read_data <- function(dat) {
+read_data <- function(dat, mapping = NULL) {
   if (is.null(dat)) {
     return(NULL)
   }
   UseMethod("read_data")
 }
 #' @export
-read_data.data.frame <- function(dat) {
+read_data.data.frame <- function(dat, mapping) {
   dat
 }
 #' @export
-read_data.character <- function(dat) {
+read_data.character <- function(dat, mapping) {
   filetype <- str_remove(dat, ".*\\.")
-  switch(filetype,
+  df <- switch(filetype,
     "sav" = read_sav(dat),
     "dta" = read_dta(dat),
     "qs"  = qread(dat),
+    "xlsx" = read_xlsx(filepath) |> dplyr::mutate(across(where(is.logical), as.double)),
+    "xls" = read_xls(filepath) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
+  if (!is.null(mapping$params$database_dsn)) {
+    mapping$params$dataset_origin <- dataset_to_database(df, dat, mapping$params$database_dsn, mapping$params$version, mapping$params$project_name, mapping$params$dataset_origin, F)
+  }
+  df
 }
 
 #' Mapping parameters
@@ -475,6 +484,8 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars = NA_character_,
     lowercase_varnames = FALSE,
     database_dsn = NULL,
+    project_name = "",
+    version = "",
     qrow_db_write = FALSE,
     wb,
     ...) {
@@ -494,6 +505,8 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars,
     lowercase_varnames,
     database_dsn,
+    project_name,
+    version,
     qrow_db_write,
     ...
   )
