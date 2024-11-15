@@ -232,38 +232,19 @@ apply_command.cmd_merge <- function(
   if (is.na(id)) {
     id <- mapping$params$id_var
   }
-  # get filename extension
-  switch(sub("^(.*\\.|[^.]+)(?=[^.]*)", "", filepath, perl = TRUE),
-    xlsx = {
-      df_merge <- read_xlsx(filepath) |>
-        # empty columns as double
-        dplyr::mutate(across(where(is.logical), as.double))
-    },
-    xls = {
-      df_merge <- read_xls(filepath) |>
-        # empty columns as double
-        dplyr::mutate(across(where(is.logical), as.double))
-    },
-    sav = {
-      df_merge <- read_sav(filepath)
-    },
-    dta = {
-      df_merge <- read_dta(filepath)
-    },
-  )
+  df_merge <- read_data(filepath, mapping)
+
   # If `xs` is specified in Excel sheet, keep only variables in `xs`:
   if (!is.na(xs[1])) {
     df_merge <- df_merge[c(id, xs)]
   }
 
-  if (!coal %in% c("xy", "yx")) {
-    warning("No coalesce parameter given, using xy - old data is preserved if present in both datasets")
-  }
   coalesce_fun <- if (coal %in% "yx") {
     coalesce_yx
   } else {
     coalesce_xy
   }
+
   mapping$dat_mod <- power_full_join(
     mapping$dat_mod,
     df_merge,

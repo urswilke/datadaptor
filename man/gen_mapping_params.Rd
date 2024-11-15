@@ -21,6 +21,8 @@ gen_mapping_params(
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
   database_dsn = NULL,
+  project_name = "",
+  version = "",
   qrow_db_write = FALSE,
   wb,
   ...
