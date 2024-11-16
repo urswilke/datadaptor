@@ -20,8 +20,15 @@
 #' database_dsn <- "dsn"
 #' origin <- read_data(dat, spss_file)
 
-dataset_to_database <- function(dat, filepath, database_dsn, version = "", project_name = "", origin = NULL, save_origin = FALSE) {
-
+dataset_to_database <- function(
+    dat,
+    filepath,
+    database_dsn,
+    version = "",
+    project_name = "",
+    origin = NULL,
+    save_origin = FALSE
+) {
   filedate <- file.mtime(filepath)
   attr(filedate, "tzone") <- "UTC"
 
@@ -51,17 +58,28 @@ dataset_to_database <- function(dat, filepath, database_dsn, version = "", proje
     )
     dbExecute(conn, sql)
     datano <- dbGetQuery(conn, "SELECT LASTVAL();")
-    vartable <- gen_var_table(dat) |> mutate(datano = datano[1,1]) |> select(c(datano, var, type, varlab, hash))
+    vartable <- gen_var_table(dat) |>
+      mutate(datano = datano[1,1]) |>
+      select(c(datano, var, type, varlab, hash))
 
     dbWriteTable(conn, "dsvariable", vartable, append = TRUE)
   }
 
-  # if save_origin is set, then add origins of dataset to dsoriginal table, otherwise append dataset origin to result
+  # if save_origin is set, then add origins of dataset to dsoriginal table,
+  # otherwise append dataset origin to result
   if (!save_origin) {
     origin <- rbind(origin, datano)
     colnames(origin) <- c("origin")
   } else {
-    dbWriteTable(conn, "dsorigin", origin |> as.data.frame() |> mutate(datano = datano[1,1]) |> dplyr::select(datano, origin), append = TRUE)
+    dbWriteTable(
+      conn,
+      "dsorigin",
+      origin |>
+        as.data.frame() |>
+        mutate(datano = datano[1,1]) |>
+        select(datano, origin),
+      append = TRUE
+    )
   }
   dbDisconnect(conn)
   origin
