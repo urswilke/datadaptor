@@ -16,10 +16,12 @@
 #'   "mtcars_labelled.sav",
 #'   package = "datenanpassr"
 #' )
-#' dat <- read_sav(spss_file)
-#' database_dsn <- "dsn"
-#' origin <- read_data(dat, spss_file)
-
+#' mapping_file <- system.file(
+#'   "extdata",
+#'   "mapping.xlsx",
+#'   package = "datenanpassr"
+#' )
+#' mapping <- Mapping$new(spss_file, mapping_file, database_dsn = "TabBooksPG")
 dataset_to_database <- function(
     dat,
     filepath,
