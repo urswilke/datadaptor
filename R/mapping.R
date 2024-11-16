@@ -397,7 +397,15 @@ read_data.character <- function(dat, mapping) {
     stop("unknown filetype")
   )
   if (!is.null(mapping$params$database_dsn)) {
-    mapping$params$dataset_origin <- dataset_to_database(df, dat, mapping$params$database_dsn, mapping$params$version, mapping$params$project_name, mapping$params$dataset_origin, F)
+    mapping$params$dataset_origin <- dataset_to_database(
+      df,
+      dat,
+      mapping$params$database_dsn,
+      mapping$params$version,
+      mapping$params$project_name,
+      mapping$params$dataset_origin,
+      FALSE
+    )
   }
   df
 }
