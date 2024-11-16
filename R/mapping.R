@@ -382,11 +382,11 @@ read_data <- function(dat, mapping = NULL) {
   UseMethod("read_data")
 }
 #' @export
-read_data.data.frame <- function(dat, mapping) {
+read_data.data.frame <- function(dat, mapping = NULL) {
   dat
 }
 #' @export
-read_data.character <- function(dat, mapping) {
+read_data.character <- function(dat, mapping = NULL) {
   filetype <- str_remove(dat, ".*\\.")
   df <- switch(filetype,
     "sav" = read_sav(dat),
