@@ -208,15 +208,14 @@ rename_vars_to_original_case <- function(df) {
 #' export removes variable & value labels. Rmarkdown filetypes ("Rmd").
 #'
 #' @param mapping `Mapping` object
-#' @param path `character()` vector or `NULL`. If `NULL` (the default) it
+#' @param path `character()` string or `NULL`. If `NULL` (the default) it
 #'   will write the file to the path in `self$params$save_path` with
-#'   the file `name`(s) & `filetype`(s) specified.
+#'   the file `name` & `filetype`.
 #' @param show Whether to directly open the file (needs the according
 #'   software installed and setup to open its filetype).
-#' @param name `character()` vector containing all the filenames to be
-#' written. Needs to be of length 1 or the same length as `filetype`. Is
-#' overwritten, by `path` if not `NULL`.
-#' @param filetype `character()` vector containing all the filetypes to be
+#' @param name `character()` string containing the filename to be written.
+#'    Is overwritten, by `path` if not `NULL`.
+#' @param filetype `character()` string containing the filetype to be
 #'   written. Is overwritten, by `path` if not `NULL`.
 #' @param ... used to pass arguments from `Mapping$save(...)`
 #' @noRd
@@ -253,13 +252,20 @@ save_mapping <- function(
   } else {
     filetype <- str_remove(path, ".*\\.")
   }
-  df <- tibble(path, name, filetype, show)
-  walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+  save_type(mapping$dat_mod, path, filetype)
   if (dataset_to_db) {
-    walk(df$path, ~ dataset_to_database(mapping$dat_mod, .x, mapping$params$database_dsn, mapping$params$version, mapping$params$project_name, origin = mapping$params$dataset_origin, T))
+    dataset_to_database(
+      dat = mapping$dat_mod,
+      filepath = path,
+      database_dsn = mapping$params$database_dsn,
+      version = mapping$params$version,
+      project_name = mapping$params$project_name,
+      origin = mapping$params$dataset_origin,
+      save_origin = TRUE
+    )
   }
 
-  df$path[df$show] |> walk(browseURL)
+  if (show) browseURL(path)
 }
 
 
