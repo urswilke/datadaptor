@@ -51,7 +51,8 @@ generate_verbatim_sheet_table <- function(sheet, mapping) {
     wb_read(
       mapping$wb,
       sheet,
-      start_row = 18
+      start_row = 18,
+      skip_empty_cols = TRUE
     ) |>
     format_sheet_data() |>
     drop_na("VariableOriginal") |>
