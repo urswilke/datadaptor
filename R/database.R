@@ -40,7 +40,8 @@ dataset_to_database <- function(
 
   sql <- sqlInterpolate(
     conn,
-    'SELECT datano FROM dsdataset WHERE filepath = ?filepath AND filedate = ?filedate;',
+    "SELECT datano FROM dsdataset
+       WHERE filepath = ?filepath AND filedate = ?filedate;",
     filepath = filepath,
     filedate = format(filedate)
   )
@@ -49,9 +50,8 @@ dataset_to_database <- function(
   if (is.na(datano[1,1])) {
     sql <- sqlInterpolate(
       conn,
-      'INSERT INTO dsdataset (version, projectname, filepath, filedate, hash)
-          VALUES (?version,?projectname, ?filepath, ?filedate, ?hash);
-        ',
+      "INSERT INTO dsdataset (version, projectname, filepath, filedate, hash)
+         VALUES (?version, ?projectname, ?filepath, ?filedate, ?hash);",
       version = version,
       projectname = project_name,
       filepath = filepath,
