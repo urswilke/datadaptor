@@ -28,7 +28,7 @@ dataset_to_database <- function(
     database_dsn,
     version = "",
     project_name = "",
-    origin = NULL,
+    origin = integer(),
     save_origin = FALSE
 ) {
   filedate <- file.mtime(filepath)
@@ -45,9 +45,9 @@ dataset_to_database <- function(
     filepath = filepath,
     filedate = format(filedate)
   )
-  datano <- dbGetQuery(conn, sql)
+  datano <- dbGetQuery(conn, sql)$datano
 
-  if (is.na(datano[1,1])) {
+  if (length(datano) == 0) {
     sql <- sqlInterpolate(
       conn,
       "INSERT INTO dsdataset (version, projectname, filepath, filedate, hash)
@@ -59,27 +59,23 @@ dataset_to_database <- function(
       hash = hash
     )
     dbExecute(conn, sql)
-    datano <- dbGetQuery(conn, "SELECT LASTVAL();")
+    datano <- dbGetQuery(conn, "SELECT LASTVAL();")$datano
     vartable <- gen_var_table(dat) |>
-      mutate(datano = datano[1,1]) |>
+      mutate(datano) |>
       select(c(datano, var, type, varlab, hash))
 
     dbWriteTable(conn, "dsvariable", vartable, append = TRUE)
   }
 
-  # if save_origin is set, then add origins of dataset to dsoriginal table,
+  # if save_origin is TRUE, then add origins of dataset to dsoriginal table,
   # otherwise append dataset origin to result
   if (!save_origin) {
-    origin <- rbind(origin, datano)
-    colnames(origin) <- c("origin")
+    origin <- origin |> append(datano)
   } else {
     dbWriteTable(
       conn,
       "dsorigin",
-      origin |>
-        as.data.frame() |>
-        mutate(datano = datano[1,1]) |>
-        select(datano, origin),
+      data.frame(datano, origin),
       append = TRUE
     )
   }
