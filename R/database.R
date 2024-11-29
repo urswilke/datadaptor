@@ -5,9 +5,9 @@
 #' @param database_dsn dsn to database
 #' @param version mapping version number
 #' @param project_name project name
-#' @param origin vector of datano field of original datasets
-#' @param save_origin datanos of original datasets are saved to dsorigin
-#' @return vector of origin datanos
+#' @param cmd_tbl if not `NULL`, `cmd_tbl` is saved to dscmdlog
+#' @param data_origin if not `NULL`, the datanos of the original data files are saved to dsorigin
+#' @return datano of dataset
 #' @noRd
 #'
 #' @examples
@@ -28,11 +28,11 @@ dataset_to_database <- function(
     database_dsn,
     version = "",
     project_name = "",
-    origin = integer(),
-    save_origin = FALSE
+    cmd_tbl = NULL,
+    data_origin = NULL
 ) {
-  filedate <- file.mtime(filepath)
-  attr(filedate, "tzone") <- "UTC"
+  # check if dataset already in database
+  filedate <- strftime(file.mtime(filepath), format = "%Y-%m-%d %H:%M:%S")
 
   hash <- digest(dat)
 
@@ -47,7 +47,9 @@ dataset_to_database <- function(
   )
   datano <- dbGetQuery(conn, sql)$datano
 
+  #if dataset not in database, ...
   if (length(datano) == 0) {
+    # ... add dataset information to dsdataset
     sql <- sqlInterpolate(
       conn,
       "INSERT INTO dsdataset (version, projectname, filepath, filedate, hash)
@@ -59,28 +61,51 @@ dataset_to_database <- function(
       hash = hash
     )
     dbExecute(conn, sql)
-    datano <- dbGetQuery(conn, "SELECT LASTVAL();")$datano
+    datano <- dbGetQuery(conn, "SELECT LASTVAL();")$lastval
+
+    # ... add variable information to dsvariable
     vartable <- gen_var_table(dat) |>
       mutate(datano) |>
       select(c(datano, var, type, varlab, hash))
 
     dbWriteTable(conn, "dsvariable", vartable, append = TRUE)
-  }
 
-  # if save_origin is TRUE, then add origins of dataset to dsoriginal table,
-  # otherwise append dataset origin to result
-  if (!save_origin) {
-    origin <- origin |> append(datano)
-  } else {
-    dbWriteTable(
-      conn,
-      "dsorigin",
-      data.frame(datano, origin),
-      append = TRUE
-    )
+    # ... add value label information to dslabel
+    valtable <- gen_label_table(dat) |>
+      mutate(datano) |>
+      select(c(datano, var, nv, vallab))
+
+    dbWriteTable(conn, "dslabel", valtable, append = TRUE)
+
+    # if cmd_tbl is passed, add cmd_tbl to dscmdtbl
+    if (!is.null(cmd_tbl)) {
+      log <- cmd_tbl |>
+        mutate(datano) |>
+        mutate(raw = sapply(raw, paste0, collapse = '; ')) |>
+        select(c(datano, sheet, action, row, new_var, raw, error ))
+
+      dbWriteTable(
+        conn,
+        "dscmdlog",
+        log,
+        append = TRUE
+      )
+    }
+
+    # if dataset originas are passed, add them to dsorigin
+    if (!is.null(data_origin)) {
+      df_origin <- data.frame(origin= data_origin) |>
+        mutate(datano) |>
+        select(c(datano, origin))
+
+      dbWriteTable(
+        conn,
+        "dsorigin",
+        df_origin,
+        append = TRUE
+      )
+    }
   }
   dbDisconnect(conn)
-  origin
+  datano
 }
-
-

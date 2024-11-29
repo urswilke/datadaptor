@@ -102,7 +102,7 @@ Mapping <- R6Class(
 
       self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
 
-      self$dat <- read_data(dat, self)
+      self$dat <- read_data(dat, database_dsn = self$params$database_dsn, project_name = self$params$project_name, version = self$params$version)
 
       if (process_sheets) {
         self$process_sheet_commands()
@@ -217,6 +217,8 @@ rename_vars_to_original_case <- function(df) {
 #'    Is overwritten, by `path` if not `NULL`.
 #' @param filetype `character()` string containing the filetype to be
 #'   written. Is overwritten, by `path` if not `NULL`.
+#' @param dataset_to_db `boolean()` if `TRUE`, the dataset information is
+#'   saved to the database
 #' @param ... used to pass arguments from `Mapping$save(...)`
 #' @noRd
 #' @examples
@@ -253,6 +255,8 @@ save_mapping <- function(
     filetype <- str_remove(path, ".*\\.")
   }
   save_type(mapping$dat_mod, path, filetype)
+
+  # write dataset info to database
   if (dataset_to_db) {
     dataset_to_database(
       dat = mapping$dat_mod,
@@ -260,8 +264,8 @@ save_mapping <- function(
       database_dsn = mapping$params$database_dsn,
       version = mapping$params$version,
       project_name = mapping$params$project_name,
-      origin = mapping$params$dataset_origin,
-      save_origin = TRUE
+      cmd_tbl = mapping$cmd_tbl,
+      data_origin = attr(mapping$dat_mod, "DC_dataset_origin")
     )
   }
 
@@ -277,6 +281,7 @@ save_type <- function(df, path, filetype) {
     "qs"   = qsave(df, path),
     stop("unknown filetype")
   )
+
 }
 save_xlsx <- function(df, path) {
   df |>
@@ -372,7 +377,6 @@ add_error_list <- function(self) {
 #' Ingest data from data.frame or file path
 #'
 #' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
-#' @param mapping Mapping class
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
 #'  in case of a character string returns the data.frame resulting of
@@ -381,18 +385,22 @@ add_error_list <- function(self) {
 #'  extension) or returns `NULL` in case of `NULL`.
 #'
 #' @export
-read_data <- function(dat, mapping = NULL) {
+read_data <- function(dat, ...) {
   if (is.null(dat)) {
     return(NULL)
   }
   UseMethod("read_data")
 }
 #' @export
-read_data.data.frame <- function(dat, mapping = NULL) {
+read_data.data.frame <- function(dat) {
   dat
 }
 #' @export
-read_data.character <- function(dat, mapping = NULL) {
+read_data.character <- function(
+    dat,
+    database_dsn = "",
+    version = "",
+    project_name ="") {
   filetype <- str_remove(dat, ".*\\.")
   df <- switch(filetype,
     "sav" = read_sav(dat),
@@ -402,16 +410,8 @@ read_data.character <- function(dat, mapping = NULL) {
     "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
-  if (!is.null(mapping$params$database_dsn)) {
-    mapping$params$dataset_origin <- dataset_to_database(
-      df,
-      dat,
-      mapping$params$database_dsn,
-      mapping$params$version,
-      mapping$params$project_name,
-      mapping$params$dataset_origin,
-      FALSE
-    )
+  if (!is.null(database_dsn)) {
+    attr(df, "DC_dataset_origin") <- dataset_to_database(df, dat, database_dsn, version, project_name)
   }
   df
 }

@@ -232,7 +232,7 @@ apply_command.cmd_merge <- function(
   if (is.na(id)) {
     id <- mapping$params$id_var
   }
-  df_merge <- read_data(filepath, mapping)
+  df_merge <- read_data(filepath, database_dsn = mapping$params$database_dsn, project_name = mapping$params$project_name, version = mapping$params$version)
 
   # If `xs` is specified in Excel sheet, keep only variables in `xs`:
   if (!is.na(xs[1])) {
@@ -252,6 +252,8 @@ apply_command.cmd_merge <- function(
     conflict = coalesce_fun
   ) |>
     relocate(all_of(names(mapping$dat_mod)))
+  attr(mapping$dat_mod, "DC_dataset_origin") <- attr(mapping$dat_mod, "DC_dataset_origin") |>
+    append(attr(df_merge, "DC_dataset_origin"))
 }
 #' @describeIn apply_command
 #'
