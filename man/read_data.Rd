@@ -4,12 +4,12 @@
 \alias{read_data}
 \title{Ingest data from data.frame or file path}
 \usage{
-read_data(dat, mapping = NULL)
+read_data(dat, ...)
 }
 \arguments{
 \item{dat}{String. Either a path to an SPSS file, a data.frame, or \code{NULL}.}
 
-\item{mapping}{Mapping class}
+\item{...}{Arguments passed to methods.}
 }
 \value{
 Returns \code{dat} (unchanged) in case of a data.frame,

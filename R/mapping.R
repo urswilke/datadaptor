@@ -377,6 +377,7 @@ add_error_list <- function(self) {
 #' Ingest data from data.frame or file path
 #'
 #' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
+#' @param ... Arguments passed to methods.
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
 #'  in case of a character string returns the data.frame resulting of
@@ -392,7 +393,10 @@ read_data <- function(dat, ...) {
   UseMethod("read_data")
 }
 #' @export
-read_data.data.frame <- function(dat) {
+read_data.data.frame <- function(
+    dat,
+    ...
+) {
   dat
 }
 #' @export
@@ -400,7 +404,9 @@ read_data.character <- function(
     dat,
     database_dsn = "",
     version = "",
-    project_name ="") {
+    project_name ="",
+    ...
+) {
   filetype <- str_remove(dat, ".*\\.")
   df <- switch(filetype,
     "sav" = read_sav(dat),
