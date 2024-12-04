@@ -21,6 +21,8 @@ gen_mapping_params(
   not_miss_to_filter_vars = NA_character_,
   lowercase_varnames = FALSE,
   database_dsn = NULL,
+  project_name = "",
+  version = "",
   qrow_db_write = FALSE,
   wb,
   ...
@@ -78,6 +80,12 @@ case (if still existing) in the end.}
 
 \item{database_dsn}{Defaults to \code{NULL}; Character string of the database dsn.
 Only used in crosstabser.}
+
+\item{project_name}{Name of the project to write to the database;
+defaults to \code{""}.}
+
+\item{version}{Name of the version to write to the database;
+defaults to \code{""}.}
 
 \item{qrow_db_write}{Defaults to \code{FALSE};
 Should the crosstabs data be written to the database in the calculation of every Qrow?}

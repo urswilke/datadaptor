@@ -100,9 +100,15 @@ Mapping <- R6Class(
       set_mapping_type(self)
       set_workbook(self)
 
-      self$dat <- read_data(dat)
-
       self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
+
+      self$dat <- read_data(
+        dat,
+        database_dsn = self$params$database_dsn,
+        project_name = self$params$project_name,
+        version = self$params$version
+      )
+
       if (process_sheets) {
         self$process_sheet_commands()
       }
@@ -207,16 +213,17 @@ rename_vars_to_original_case <- function(df) {
 #' export removes variable & value labels. Rmarkdown filetypes ("Rmd").
 #'
 #' @param mapping `Mapping` object
-#' @param path `character()` vector or `NULL`. If `NULL` (the default) it
+#' @param path `character()` string or `NULL`. If `NULL` (the default) it
 #'   will write the file to the path in `self$params$save_path` with
-#'   the file `name`(s) & `filetype`(s) specified.
+#'   the file `name` & `filetype`.
 #' @param show Whether to directly open the file (needs the according
 #'   software installed and setup to open its filetype).
-#' @param name `character()` vector containing all the filenames to be
-#' written. Needs to be of length 1 or the same length as `filetype`. Is
-#' overwritten, by `path` if not `NULL`.
-#' @param filetype `character()` vector containing all the filetypes to be
+#' @param name `character()` string containing the filename to be written.
+#'    Is overwritten, by `path` if not `NULL`.
+#' @param filetype `character()` string containing the filetype to be
 #'   written. Is overwritten, by `path` if not `NULL`.
+#' @param dataset_to_db `boolean()` if `TRUE`, the dataset information is
+#'   saved to the database
 #' @param ... used to pass arguments from `Mapping$save(...)`
 #' @noRd
 #' @examples
@@ -244,6 +251,7 @@ save_mapping <- function(
   show = FALSE,
   name = "dat",
   filetype = "sav",
+  dataset_to_db = FALSE,
   ...
 ) {
   if (is.null(path)) {
@@ -251,10 +259,22 @@ save_mapping <- function(
   } else {
     filetype <- str_remove(path, ".*\\.")
   }
-  df <- tibble(path, name, filetype, show)
-  walk2(df$path, df$filetype, ~ save_type(mapping$dat_mod, .x, .y))
+  save_type(mapping$dat_mod, path, filetype)
 
-  df$path[df$show] |> walk(browseURL)
+  # write dataset info to database
+  if (dataset_to_db) {
+    dataset_to_database(
+      dat = mapping$dat_mod,
+      filepath = path,
+      database_dsn = mapping$params$database_dsn,
+      version = mapping$params$version,
+      project_name = mapping$params$project_name,
+      cmd_tbl = mapping$cmd_tbl,
+      data_origin = attr(mapping$dat_mod, "DC_dataset_origin")
+    )
+  }
+
+  if (show) browseURL(path)
 }
 
 
@@ -266,6 +286,7 @@ save_type <- function(df, path, filetype) {
     "qs"   = qsave(df, path),
     stop("unknown filetype")
   )
+
 }
 save_xlsx <- function(df, path) {
   df |>
@@ -361,33 +382,55 @@ add_error_list <- function(self) {
 #' Ingest data from data.frame or file path
 #'
 #' @param dat String. Either a path to an SPSS file, a data.frame, or `NULL`.
+#' @param ... Arguments passed to methods.
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
 #'  in case of a character string returns the data.frame resulting of
-#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)`
-#'  (depending on the file extension)
-#'  or returns `NULL` in case of `NULL`.
+#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)` or
+#'  `openxlsx2::read_xls(x)` for excel files (depending on the file
+#'  extension) or returns `NULL` in case of `NULL`.
 #'
 #' @export
-read_data <- function(dat) {
+read_data <- function(dat, ...) {
   if (is.null(dat)) {
     return(NULL)
   }
   UseMethod("read_data")
 }
 #' @export
-read_data.data.frame <- function(dat) {
+read_data.data.frame <- function(
+    dat,
+    ...
+) {
   dat
 }
 #' @export
-read_data.character <- function(dat) {
+read_data.character <- function(
+    dat,
+    database_dsn = "",
+    version = "",
+    project_name ="",
+    ...
+) {
   filetype <- str_remove(dat, ".*\\.")
-  switch(filetype,
+  df <- switch(filetype,
     "sav" = read_sav(dat),
     "dta" = read_dta(dat),
     "qs"  = qread(dat),
+    "xlsx" = read_xlsx(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
+    "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
+  if (!is.null(database_dsn)) {
+    attr(df, "DC_dataset_origin") <- dataset_to_database(
+      df,
+      dat,
+      database_dsn,
+      version,
+      project_name
+    )
+  }
+  df
 }
 
 #' Mapping parameters
@@ -436,6 +479,10 @@ read_data.character <- function(dat) {
 #' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
 #' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
 #'   Only used in crosstabser.
+#' @param project_name Name of the project to write to the database;
+#'   defaults to `""`.
+#' @param version Name of the version to write to the database;
+#'   defaults to `""`.
 #' @param qrow_db_write Defaults to `FALSE`;
 #'   Should the crosstabs data be written to the database in the calculation of every Qrow?
 #' @param ... used to pass arguments from `Mapping$new(...)`
@@ -472,6 +519,8 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars = NA_character_,
     lowercase_varnames = FALSE,
     database_dsn = NULL,
+    project_name = "",
+    version = "",
     qrow_db_write = FALSE,
     wb,
     ...) {
@@ -491,6 +540,8 @@ gen_mapping_params <- function(
     not_miss_to_filter_vars,
     lowercase_varnames,
     database_dsn,
+    project_name,
+    version,
     qrow_db_write,
     ...
   )

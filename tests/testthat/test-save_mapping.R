@@ -11,7 +11,9 @@ test_that("Mapping$save() seems to work", {
   withr::with_file(output_files, {
     m$modify_data()
     expect_error(m$save(path = paste0(path, "/fafda.luyfafda")))
-    m$save(name = filenames, filetype = save_file_types[1:3])
+    m$save(name = filenames, filetype = save_file_types[1])
+    m$save(name = filenames, filetype = save_file_types[2])
+    m$save(name = filenames, filetype = save_file_types[3])
     spss_output_vec <- haven::read_sav(output_files[1])$a
     stata_output_vec <- haven::read_dta(output_files[2])$a
     excel_output_vec <- readxl::read_xlsx(output_files[3])$a

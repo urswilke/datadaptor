@@ -50,6 +50,12 @@
     $database_dsn
     NULL
     
+    $project_name
+    [1] ""
+    
+    $version
+    [1] ""
+    
     $qrow_db_write
     [1] FALSE
     

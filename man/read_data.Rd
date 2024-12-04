@@ -4,17 +4,19 @@
 \alias{read_data}
 \title{Ingest data from data.frame or file path}
 \usage{
-read_data(dat)
+read_data(dat, ...)
 }
 \arguments{
 \item{dat}{String. Either a path to an SPSS file, a data.frame, or \code{NULL}.}
+
+\item{...}{Arguments passed to methods.}
 }
 \value{
 Returns \code{dat} (unchanged) in case of a data.frame,
 in case of a character string returns the data.frame resulting of
-\code{haven::read_sav(dat)}/\code{haven::read_dta(dat)}/\code{qs::qread(dat)}
-(depending on the file extension)
-or returns \code{NULL} in case of \code{NULL}.
+\code{haven::read_sav(dat)}/\code{haven::read_dta(dat)}/\code{qs::qread(dat)} or
+\code{openxlsx2::read_xls(x)} for excel files (depending on the file
+extension) or returns \code{NULL} in case of \code{NULL}.
 }
 \description{
 Ingest data from data.frame or file path
