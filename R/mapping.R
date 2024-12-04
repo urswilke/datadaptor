@@ -102,7 +102,12 @@ Mapping <- R6Class(
 
       self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
 
-      self$dat <- read_data(dat, database_dsn = self$params$database_dsn, project_name = self$params$project_name, version = self$params$version)
+      self$dat <- read_data(
+        dat,
+        database_dsn = self$params$database_dsn,
+        project_name = self$params$project_name,
+        version = self$params$version
+      )
 
       if (process_sheets) {
         self$process_sheet_commands()
@@ -417,7 +422,13 @@ read_data.character <- function(
     stop("unknown filetype")
   )
   if (!is.null(database_dsn)) {
-    attr(df, "DC_dataset_origin") <- dataset_to_database(df, dat, database_dsn, version, project_name)
+    attr(df, "DC_dataset_origin") <- dataset_to_database(
+      df,
+      dat,
+      database_dsn,
+      version,
+      project_name
+    )
   }
   df
 }
