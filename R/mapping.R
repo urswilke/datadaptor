@@ -326,47 +326,75 @@ apply_command_blocks.safe <- function(command_blocks, self) {
 
   add_error_list(self)
 }
+
+#' @noRd
+apply_command_blocks.quiet <- function(command_blocks, self) {
+  self$params$cmd_index <- 0
+  self$params$error_list <- vector(
+    "character",
+    length(self$cmd_tbl$command_blocks)
+  )
+
+  walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
+
+  add_error_list(self)
+}
+
 apply_command_block_safe <- function(cdb, self) {
   cmd_index <- self$params$cmd_index + 1
   self$params$cmd_index <- cmd_index
-  tryCatch(
-    withCallingHandlers(
-      {
-        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
-        do.call(apply_command, args)
-      },
-      warning = function(w) {
+  suppressWarnings(
+    tryCatch(
+      withCallingHandlers(
+        {
+          args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
+          do.call(apply_command, args)
+        },
+        warning = function(w) {
+          self$params$error_list[cmd_index] <- paste0(
+            self$params$error_list[cmd_index],
+            w
+          )
+          if (self$params$error_out != "quiet") {
+            message(
+              paste(
+                "Warning in command",
+                cmd_index,
+                ": ",
+                w
+              )
+            )
+          }
+        }
+      ),
+      error = function(e) {
+        if (self$params$debug) {
+          # probably this can't be tested:
+          # nocov start
+          browser()
+          debugonce(apply_command)
+          args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
+          do.call(apply_command, args)
+          # nocov end
+        }
+
         self$params$error_list[cmd_index] <- paste0(
-          self$params$error_list[cmd_index],
-          w
+          e,
+          self$params$error_list[cmd_index]
         )
-      }
-    ),
-    error = function(e) {
-      if (self$params$debug) {
-        # probably this can't be tested:
-        # nocov start
-        browser()
-        debugonce(apply_command)
-        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
-        do.call(apply_command, args)
-        # nocov end
-      }
 
-
-      message(
-        paste(
-          "Error in command",
-          cmd_index,
-          ": ",
-          e
-        )
-      )
-      self$params$error_list[cmd_index] <- paste0(
-        self$params$error_list[cmd_index],
-        e
-      )
-    }
+        if (self$params$error_out != "quiet") {
+          message(
+            paste(
+              "Error in command",
+              cmd_index,
+              ": ",
+              e
+            )
+          )
+        }
+      }
+    )
   )
 
 
