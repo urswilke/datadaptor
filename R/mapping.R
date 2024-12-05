@@ -315,7 +315,7 @@ apply_command_block_unsafe <- function(cdb, self) {
 }
 
 #' @noRd
-apply_command_blocks.safe <- function(command_blocks, self) {
+apply_command_blocks.quiet <- apply_command_blocks.safe <- function(command_blocks, self) {
   self$params$cmd_index <- 0
   self$params$error_list <- vector(
     "character",
@@ -326,47 +326,62 @@ apply_command_blocks.safe <- function(command_blocks, self) {
 
   add_error_list(self)
 }
+
 apply_command_block_safe <- function(cdb, self) {
   cmd_index <- self$params$cmd_index + 1
   self$params$cmd_index <- cmd_index
-  tryCatch(
-    withCallingHandlers(
-      {
-        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
-        do.call(apply_command, args)
-      },
-      warning = function(w) {
+  suppressWarnings(
+    tryCatch(
+      withCallingHandlers(
+        {
+          args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
+          do.call(apply_command, args)
+        },
+        warning = function(w) {
+          self$params$error_list[cmd_index] <- paste0(
+            self$params$error_list[cmd_index],
+            w
+          )
+          if (self$params$error_out != "quiet") {
+            message(
+              paste(
+                "Warning in command",
+                cmd_index,
+                ": ",
+                w
+              )
+            )
+          }
+        }
+      ),
+      error = function(e) {
+        if (self$params$debug) {
+          # probably this can't be tested:
+          # nocov start
+          browser()
+          debugonce(apply_command)
+          args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
+          do.call(apply_command, args)
+          # nocov end
+        }
+
         self$params$error_list[cmd_index] <- paste0(
-          self$params$error_list[cmd_index],
-          w
+          e,
+          self$params$error_list[cmd_index]
         )
-      }
-    ),
-    error = function(e) {
-      if (self$params$debug) {
-        # probably this can't be tested:
-        # nocov start
-        browser()
-        debugonce(apply_command)
-        args <- list(cdb = cdb, mapping = self) |> append(cdb$args)
-        do.call(apply_command, args)
-        # nocov end
-      }
 
-
-      message(
-        paste(
-          "Error in command",
-          cmd_index,
-          ": ",
-          e
-        )
-      )
-      self$params$error_list[cmd_index] <- paste0(
-        self$params$error_list[cmd_index],
-        e
-      )
-    }
+        if (self$params$error_out != "quiet") {
+          message(
+            paste(
+              "Error in command",
+              cmd_index,
+              ": ",
+              e
+            )
+          )
+        }
+      }
+    )
   )
 
 
@@ -452,9 +467,14 @@ read_data.character <- function(
 #' @param mapping_type String specifying the mapping type.
 #'   Either "excel" or "list". Defaults to "excel".
 #' @param id_var character string of the id variable name in the dataset.
-#' @param error_out character string. Either "safe" or "unsafe" (the default).
-#'   Whether to continue executing when a command block fails, or to error out.
+#' @param error_out character string.
+#'   Either "safe", "quiet" or "unsafe" (the default).
+#'   Whether to continue executing when a command block fails
+#'   ("safe" or "quiet"), or to error out ("unsafe").
 #'   Adds a column "error" to the mapping's command table `mapping$cmd_tbl`.
+#'   The difference between "safe" & "quiet" is
+#'   whether to print errors & warnings to the command line
+#'   while running `Mapping$modify_data()`.
 #' @param debug whether to enter in debug mode when an error occurs.
 #'   Automatically sets `error_out = "safe"`.
 #' @param save_path filepath where to save files.
