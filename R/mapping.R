@@ -315,20 +315,7 @@ apply_command_block_unsafe <- function(cdb, self) {
 }
 
 #' @noRd
-apply_command_blocks.safe <- function(command_blocks, self) {
-  self$params$cmd_index <- 0
-  self$params$error_list <- vector(
-    "character",
-    length(self$cmd_tbl$command_blocks)
-  )
-
-  walk(self$cmd_tbl$command_blocks, apply_command_block_safe, self)
-
-  add_error_list(self)
-}
-
-#' @noRd
-apply_command_blocks.quiet <- function(command_blocks, self) {
+apply_command_blocks.quiet <- apply_command_blocks.safe <- function(command_blocks, self) {
   self$params$cmd_index <- 0
   self$params$error_list <- vector(
     "character",
