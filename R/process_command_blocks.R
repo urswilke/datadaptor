@@ -176,7 +176,7 @@ command_block <- function(cdb) {
 }
 
 match_command_block_class <- function(keyword) {
-  command_block_row <- datenanpassr::command_block_classes$keyword == keyword
+  command_block_row <- command_block_classes$keyword == keyword
   if (sum(command_block_row) == 0) {
     stop(
       paste0(
@@ -185,7 +185,7 @@ match_command_block_class <- function(keyword) {
       )
     )
   }
-  datenanpassr::command_block_classes[["command_block"]][command_block_row]
+  command_block_classes[["command_block"]][command_block_row]
 }
 
 
