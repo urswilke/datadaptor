@@ -179,8 +179,10 @@ match_command_block_class <- function(keyword) {
   command_block_row <- datenanpassr::command_block_classes$keyword == keyword
   if (sum(command_block_row) == 0) {
     stop(
-      "command block keyword doesn't exist.",
-      "See the package dataset `datenanpassr::command_block_classes` for allowed ones."
+      paste0(
+        "command block '", keyword, "' doesn't exist. ",
+        "See the package dataset `datenanpassr::command_block_classes` for allowed ones."
+      )
     )
   }
   datenanpassr::command_block_classes[["command_block"]][command_block_row]
