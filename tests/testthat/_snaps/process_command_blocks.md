@@ -59,4 +59,7 @@
     $qrow_db_write
     [1] FALSE
     
+    $verbose
+    [1] FALSE
+    
 

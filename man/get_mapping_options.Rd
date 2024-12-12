@@ -98,7 +98,7 @@ Should the crosstabs data be written to the database in the calculation of every
 
 \item{verbose}{Defaults to \code{FALSE};
 If \code{TRUE} will be more chatty about what's happening
-(at the moment, only used in crosstabser).}
+(Very preliminary! at the moment, only used in crosstabser).}
 
 \item{wb}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
 
