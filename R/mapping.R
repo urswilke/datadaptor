@@ -27,7 +27,7 @@ NULL
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
 #' @field dat_mod modified dataframe
-#' @field params Parameter list object
+#' @field opts Parameter list object (in `opts$da`)
 #' @field wb For an excel mapping, the openxlsx2 workbook object,
 #'   otherwise `NULL`.
 #' @export
@@ -76,7 +76,7 @@ Mapping <- R6Class(
     cmd_tbl = NULL,
     cmd = list(),
     dat_mod = NULL,
-    params = NULL,
+    opts = list(da = NULL),
     wb = NULL,
     #' @description Initialize a Mapping object
     #'
@@ -87,8 +87,8 @@ Mapping <- R6Class(
     #' @param process_sheets (default TRUE)
     #'   allows (process_sheets = FALSE) to postpone the execution
     #'   of the commands in the Excel mapping file to the modify_data() method
-    #' @param ... Arguments passed to gen_mapping_params() which will populate
-    #'   the `params` field of the object.
+    #' @param ... Arguments passed to the `Mapping$set_options()` method
+    #'   which will populate  the `Mapping$opts$da` field of the object.
     initialize = function(dat = NULL,
                           mapping_file = NULL,
                           mapping_type = NULL,
@@ -100,13 +100,13 @@ Mapping <- R6Class(
       set_mapping_type(self)
       set_workbook(self)
 
-      self$params <- gen_mapping_params(self$mapping_file, wb = self$wb, ...)
+      self$set_options(...)
 
       self$dat <- read_data(
         dat,
-        database_dsn = self$params$database_dsn,
-        project_name = self$params$project_name,
-        version = self$params$version
+        database_dsn = self$opts$da$database_dsn,
+        project_name = self$opts$da$project_name,
+        version = self$opts$da$version
       )
 
       if (process_sheets) {
@@ -125,7 +125,7 @@ Mapping <- R6Class(
       self$cmd$command_blocks <- gen_command_blocks(self)
       self$cmd_tbl <- gen_command_table(self)
 
-      if (self$params$write_mapping_to_txt) {
+      if (self$opts$da$write_mapping_to_txt) {
         write_mapping_txt(self)
       }
     },
@@ -148,14 +148,14 @@ Mapping <- R6Class(
         self$dat_mod <- self$dat
       }
 
-      if (self$params$lowercase_varnames) {
+      if (self$opts$da$lowercase_varnames) {
         attr(self$dat_mod, "original_varnames") <- names(self$dat)
         self$dat_mod <- self$dat_mod |> rename_with(tolower)
       }
 
       apply_command_blocks(command_blocks, self)
 
-      if (self$params$lowercase_varnames) {
+      if (self$opts$da$lowercase_varnames) {
         self$dat_mod <- rename_vars_to_original_case(self$dat_mod)
       }
       invisible(self)
@@ -169,6 +169,16 @@ Mapping <- R6Class(
     save = function(...) {
       save_mapping(self, ...)
       invisible(self)
+    },
+    #' @description Set / change options of the `Mapping` object
+    #'
+    #' The dots (`...`) can be passed here to change settings,
+    #' or already when initializing the object with `Mapping$new(...)`
+    #'
+    #' @param ... arguments passed to `get_mapping_options()`
+    set_options = function(...) {
+      self$opts$da <- get_mapping_options(self$mapping_file, wb = self$wb, ...)
+
     }
   )
 )
@@ -214,7 +224,7 @@ rename_vars_to_original_case <- function(df) {
 #'
 #' @param mapping `Mapping` object
 #' @param path `character()` string or `NULL`. If `NULL` (the default) it
-#'   will write the file to the path in `self$params$save_path` with
+#'   will write the file to the path in `self$opts$da$save_path` with
 #'   the file `name` & `filetype`.
 #' @param show Whether to directly open the file (needs the according
 #'   software installed and setup to open its filetype).
@@ -255,7 +265,7 @@ save_mapping <- function(
   ...
 ) {
   if (is.null(path)) {
-    path <- paste0(mapping$params$save_path, "/", name, ".", filetype)
+    path <- paste0(mapping$opts$da$save_path, "/", name, ".", filetype)
   } else {
     filetype <- str_remove(path, ".*\\.")
   }
@@ -266,9 +276,9 @@ save_mapping <- function(
     dataset_to_database(
       dat = mapping$dat_mod,
       filepath = path,
-      database_dsn = mapping$params$database_dsn,
-      version = mapping$params$version,
-      project_name = mapping$params$project_name,
+      database_dsn = mapping$opts$da$database_dsn,
+      version = mapping$opts$da$version,
+      project_name = mapping$opts$da$project_name,
       cmd_tbl = mapping$cmd_tbl,
       data_origin = attr(mapping$dat_mod, "DC_dataset_origin")
     )
@@ -316,8 +326,8 @@ apply_command_block_unsafe <- function(cdb, self) {
 
 #' @noRd
 apply_command_blocks.quiet <- apply_command_blocks.safe <- function(command_blocks, self) {
-  self$params$cmd_index <- 0
-  self$params$error_list <- vector(
+  self$opts$da$cmd_index <- 0
+  self$opts$da$error_list <- vector(
     "character",
     length(self$cmd_tbl$command_blocks)
   )
@@ -328,8 +338,8 @@ apply_command_blocks.quiet <- apply_command_blocks.safe <- function(command_bloc
 }
 
 apply_command_block_safe <- function(cdb, self) {
-  cmd_index <- self$params$cmd_index + 1
-  self$params$cmd_index <- cmd_index
+  cmd_index <- self$opts$da$cmd_index + 1
+  self$opts$da$cmd_index <- cmd_index
   suppressWarnings(
     tryCatch(
       withCallingHandlers(
@@ -338,11 +348,11 @@ apply_command_block_safe <- function(cdb, self) {
           do.call(apply_command, args)
         },
         warning = function(w) {
-          self$params$error_list[cmd_index] <- paste0(
-            self$params$error_list[cmd_index],
+          self$opts$da$error_list[cmd_index] <- paste0(
+            self$opts$da$error_list[cmd_index],
             w
           )
-          if (self$params$error_out != "quiet") {
+          if (self$opts$da$error_out != "quiet") {
             message(
               paste(
                 "Warning in command",
@@ -355,7 +365,7 @@ apply_command_block_safe <- function(cdb, self) {
         }
       ),
       error = function(e) {
-        if (self$params$debug) {
+        if (self$opts$da$debug) {
           # probably this can't be tested:
           # nocov start
           browser()
@@ -365,12 +375,12 @@ apply_command_block_safe <- function(cdb, self) {
           # nocov end
         }
 
-        self$params$error_list[cmd_index] <- paste0(
+        self$opts$da$error_list[cmd_index] <- paste0(
           e,
-          self$params$error_list[cmd_index]
+          self$opts$da$error_list[cmd_index]
         )
 
-        if (self$params$error_out != "quiet") {
+        if (self$opts$da$error_out != "quiet") {
           message(
             paste(
               "Error in command",
@@ -390,7 +400,7 @@ apply_command_block_safe <- function(cdb, self) {
 
 
 add_error_list <- function(self) {
-  error_list <- self$params$error_list
+  error_list <- self$opts$da$error_list
   self$cmd_tbl$error <- error_list
   invisible(self)
 }
@@ -450,7 +460,7 @@ read_data.character <- function(
 
 #' Mapping parameters
 #'
-#' @description `gen_mapping_params()` is a helper function to generate the
+#' @description `get_mapping_options()` is a helper function to generate the
 #'   parameters in the `params` field when a Mapping object is constructed with
 #'   `Mapping$new()`. It generates a list of named elements with mapping
 #'   parameters. The argument values are the below default values, then
@@ -512,7 +522,7 @@ read_data.character <- function(
 #'
 #' @examples
 #' # Only for documentation purposes:
-#' # (`gen_mapping_params()` isn't supposed to be be called directly).
+#' # (`get_mapping_options()` isn't supposed to be be called directly).
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
@@ -521,8 +531,8 @@ read_data.character <- function(
 #' class(mapping_file) <- "excel"
 #' wb <- openxlsx2::wb_load(mapping_file)
 #'
-#' gen_mapping_params(mapping_file, wb = wb)
-gen_mapping_params <- function(
+#' get_mapping_options(mapping_file, wb = wb)
+get_mapping_options <- function(
     mapping_file = NULL,
     mapping_type = "excel",
     excel_params = extract_named_region_params(mapping_file, wb),

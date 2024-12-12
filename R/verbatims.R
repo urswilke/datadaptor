@@ -27,7 +27,7 @@
 mapp_verbatim_sheet_cmd_tbl <- function(
     self,
     sheet = "Verbatims") {
-  id_var_str <- self$params$id_var
+  id_var_str <- self$opts$da$id_var
   l <- self$cmd$sheet_data_raw[[sheet]]
   if (is.null(l)) {
     return(NULL)

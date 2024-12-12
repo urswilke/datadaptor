@@ -1,7 +1,7 @@
 mapping_s3 <- mapping$clone(deep = TRUE)
 test_that("parameters (except those containing filepaths) were built correctly", {
   testthat::expect_snapshot_output(
-    mapping_s3$params[!names(mapping_s3$params) %in% c(
+    mapping_s3$opts$da[!names(mapping_s3$opts$da) %in% c(
       "expr_eval_env",
       "mapping_file",
       "save_path"

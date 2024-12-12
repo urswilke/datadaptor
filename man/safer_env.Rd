@@ -12,7 +12,7 @@ safer_env
 }
 \description{
 The default environment where expressions from the Excel mapping file are evaluated is baseenv().
-(see argument \code{expr_eval_env} of \code{?gen_mapping_params()}).
+(see argument \code{expr_eval_env} of \code{?get_mapping_options()}).
 For a safer option you can use \code{safer_env}
 which only contains a selection of base R functions (see example).
 Additionally to the functions in the used environment,

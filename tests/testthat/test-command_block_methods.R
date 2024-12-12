@@ -11,7 +11,7 @@ vallabs <- attr(res_vec, "labels")
 num_res <- unique(c(
   strip_attributes(res_vec),
   vallabs,
-  m1$params$miss_rec_val
+  m1$opts$da$miss_rec_val
 ))
 testthat::expect_equal(num_res, -2)
 testthat::expect_named(vallabs, "FILTER")

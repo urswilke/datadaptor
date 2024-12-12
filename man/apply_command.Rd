@@ -62,7 +62,7 @@ apply_command(cdb, mapping, ...)
   id_list,
   v0,
   ex_further_cond,
-  id = mapping$params$id_var,
+  id = mapping$opts$da$id_var,
   ...
 )
 
@@ -77,7 +77,7 @@ apply_command(cdb, mapping, ...)
   v0,
   ex_further_cond,
   ex_assign,
-  id = mapping$params$id_var,
+  id = mapping$opts$da$id_var,
   ...
 )
 
@@ -146,7 +146,7 @@ when merging data with variables that already exist.}
 
 \item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign, exs_fns_names, ex_names}{Character strings
 containing valid R expressions. They will be evaluated in
-\code{mapping$params$expr_eval_env} (see \code{gen_mapping_params()}), except \code{exs}
+\code{mapping$opts$da$expr_eval_env} (see \code{get_mapping_options()}), except \code{exs}
 which contains a list of expressions evaluated in the global environment.}
 }
 \description{

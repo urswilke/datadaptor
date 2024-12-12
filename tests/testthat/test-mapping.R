@@ -39,12 +39,12 @@ test_that("variable labels are reproduced", {
 # The following 3 lines lead to the same as:
 # mapping_trycatch <- Mapping$new(spss_file, mapping_file, error_out = "safe")
 mapping_trycatch <- mapping$clone(deep = TRUE)
-mapping_trycatch$params$error_out <- "safe"
+mapping_trycatch$opts$da$error_out <- "safe"
 class(mapping_trycatch$cmd_tbl$command_blocks) <- c("safe", "command_blocks", "list")
 mapping_trycatch$cmd_tbl$command_blocks[[62]]$args$ex_cond <- "q1 ==(*%$@ 1 |} q3 == 2"
 
 testthat::expect_message(mapping_trycatch$modify_data())
-error_list <- mapping_trycatch$params$error_list
+error_list <- mapping_trycatch$opts$da$error_list
 cmd_tbl_error_col <- mapping_trycatch$cmd_tbl$error
 err_idx <- which(error_list != "")
 err_idx2 <- which(cmd_tbl_error_col != "")
@@ -64,7 +64,7 @@ mapping_uppercase$dat <- mapping_uppercase$dat[paste0("q", 1:4)] |>
 mapping_uppercase$cmd_tbl <- mapping_uppercase$cmd_tbl |>
   filter(action == "#RENAME_varsheet")
 
-mapping_uppercase$params$lowercase_varnames <- TRUE
+mapping_uppercase$opts$da$lowercase_varnames <- TRUE
 mapping_uppercase$modify_data()
 mapping_uppercase$dat_mod
 testthat::expect_equal(

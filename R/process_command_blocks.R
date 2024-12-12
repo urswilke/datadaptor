@@ -21,7 +21,7 @@ gen_sheet_cats <- function(self) {
   # renaming a variable in the "Variables" sheet will not work when creating a
   # summary variable out of it):
   if (
-    self$params$lab_before_var_sheet == "yes" &
+    self$opts$da$lab_before_var_sheet == "yes" &
     "Variables" %in% sheets &
     "Label" %in% sheets
   ) {
@@ -86,7 +86,7 @@ gen_sheet_cmd_tbls <- function(self) {
     ~ generate_sheet_cmd_table(self, .y, .x)
   )
 
-  if (self$params$na_to_filter == TRUE) {
+  if (self$opts$da$na_to_filter == TRUE) {
     sheet_command_tables_raw <- append(
       list(Config = generate_rec_na_cmd_table(self)),
       sheet_command_tables_raw
@@ -108,12 +108,12 @@ generate_sheet_cmd_table <- function(self, sheet_cat, sheet_name) {
     rename(raw = "data")
 }
 generate_rec_na_cmd_table <- function(self) {
-  params <- self$params
+  params <- self$opts$da
   vars_to_exclude_na_to_filter <- c(
     params$not_miss_to_filter_vars |>
       str_split("[, ;]+") |>
       unlist(),
-    self$params$id_var
+    self$opts$da$id_var
   )
   tibble(
     sheet = "Config",
@@ -217,7 +217,7 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 #' @param self `Mapping` object
 #' @details
 #'   `gen_command_blocks()` generates an object of class `command_blocks` and of subclass
-#' `self$params$error_out`.
+#' `self$opts$da$error_out`.
 #'
 #'   `apply_command_blocks()` applies `"command_blocks"` object to a mapping object.
 #'
@@ -252,7 +252,7 @@ gen_command_blocks <- function(self) {
     )) |>
     pull()
 
-  subclass <- self$params$error_out
+  subclass <- self$opts$da$error_out
   new_command_blocks(cdbs, subclass = subclass)
 }
 

@@ -3,7 +3,7 @@ suppressMessages(m <- Mapping$new(
   dat = tibble(a = c(1:3, NA)),
   mapping_file = mapping_file
 ))
-path <- m$params$save_path
+path <- m$opts$da$save_path
 save_file_types <- c("sav", "dta", "xlsx")
 filenames <- "myfilename"
 output_files <- paste0(path, "/", filenames, ".", save_file_types)
