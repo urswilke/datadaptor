@@ -34,8 +34,6 @@ dataset_to_database <- function(
   # check if dataset already in database
   filedate <- strftime(file.mtime(filepath), format = "%Y-%m-%d %H:%M:%S")
 
-  hash <- digest(dat)
-
   conn <- dbConnect(odbc(), dsn = database_dsn)
 
   sql <- sqlInterpolate(
@@ -50,6 +48,7 @@ dataset_to_database <- function(
   #if dataset not in database, ...
   if (length(datano) == 0) {
     # ... add dataset information to dsdataset
+    hash <- digest(dat)
     sql <- sqlInterpolate(
       conn,
       "INSERT INTO dsdataset (version, projectname, filepath, filedate, hash)
