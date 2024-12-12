@@ -1,6 +1,6 @@
 write_mapping_txt <- function(
   self,
-  path = paste0(self$params$save_path, "/mapping_raw.txt")
+  path = paste0(self$opts$da$save_path, "/mapping_raw.txt")
 ) {
   with_output_sink(
     path,

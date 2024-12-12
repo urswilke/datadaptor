@@ -25,7 +25,7 @@ apply_command <- function(cdb, mapping, ...) {
 #' @param varlab Character string containing a variable label
 #' @param ex,exs,ex_cond,ex_fun,ex_further_cond,ex_assign,exs_fns_names,ex_names Character strings
 #'   containing valid R expressions. They will be evaluated in
-#'   `mapping$params$expr_eval_env` (see `gen_mapping_params()`), except `exs`
+#'   `mapping$opts$da$expr_eval_env` (see `get_mapping_options()`), except `exs`
 #'   which contains a list of expressions evaluated in the global environment.
 #' @param filepath Character string containing valid file path
 #' @param coal Character string containing either `"xy"` or `"yx"`.
@@ -148,7 +148,7 @@ apply_command.cmd_filter <- function(cdb, mapping, exs, ...) {
 apply_command.cmd_verbatim <- function(
     cdb, mapping, x, v, varlab, vs,
     vallabs, id_list, v0, ex_further_cond,
-    id = mapping$params$id_var, ...) {
+    id = mapping$opts$da$id_var, ...) {
   vallabs_named <- set_names(vs, vallabs)
 
   if (!x %in% names(mapping$dat_mod)) {
@@ -184,7 +184,7 @@ apply_command.cmd_verbatim <- function(
 apply_command.cmd_verbatim_custom <- function(
     cdb, mapping, x, varlab, vs, vallabs,
     id_list, v0, ex_further_cond, ex_assign,
-    id = mapping$params$id_var, ...) {
+    id = mapping$opts$da$id_var, ...) {
   if (!x %in% names(mapping$dat_mod)) {
     mapping$dat_mod[[x]] <- v0
   }
@@ -230,13 +230,13 @@ apply_command.cmd_merge <- function(
     cdb, mapping, xs, filepath, id, coal, ...) {
   # if id var is not set, take global id var
   if (is.na(id)) {
-    id <- mapping$params$id_var
+    id <- mapping$opts$da$id_var
   }
   df_merge <- read_data(
     filepath,
-    database_dsn = mapping$params$database_dsn,
-    project_name = mapping$params$project_name,
-    version = mapping$params$version
+    database_dsn = mapping$opts$da$database_dsn,
+    project_name = mapping$opts$da$project_name,
+    version = mapping$opts$da$version
   )
 
   # If `xs` is specified in Excel sheet, keep only variables in `xs`:
@@ -310,7 +310,7 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
 }
 
 eval_in_data <- function(ex, mapping) {
-  e <- list2env(mapping$dat_mod, envir = mapping$params$expr_eval_env)
+  e <- list2env(mapping$dat_mod, envir = mapping$opts$da$expr_eval_env)
   e[["dat_mod"]] <- mapping$dat_mod
   eval_tidy(
     ex,

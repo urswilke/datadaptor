@@ -219,12 +219,12 @@ extract_named_region_params.excel <- function(mapping_file, wb) {
   named_params_list <- params_df$data
   names(named_params_list) <- str_sub(params_df$name, 3)
 
-  is_correct_idx <- names(named_params_list) %in% names(formals(gen_mapping_params))
+  is_correct_idx <- names(named_params_list) %in% names(formals(get_mapping_options))
   if (any(is_correct_idx == FALSE)) {
     warning(
       "The following parameters are unknown:\n",
       paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
-      "\nsee ?gen_mapping_params for all used parameters."
+      "\nsee ?get_mapping_options for all used parameters."
     )
   }
   named_params_list
@@ -262,7 +262,7 @@ safe_f <- c(
 #' Execution environments
 #'
 #' The default environment where expressions from the Excel mapping file are evaluated is baseenv().
-#' (see argument `expr_eval_env` of `?gen_mapping_params()`).
+#' (see argument `expr_eval_env` of `?get_mapping_options()`).
 #' For a safer option you can use `safer_env`
 #' which only contains a selection of base R functions (see example).
 #' Additionally to the functions in the used environment,

@@ -65,7 +65,7 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 
 \item{\code{dat_mod}}{modified dataframe}
 
-\item{\code{params}}{Parameter list object}
+\item{\code{opts}}{Parameter list object (in \code{opts$da})}
 
 \item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object,
 otherwise \code{NULL}.}
@@ -79,6 +79,7 @@ otherwise \code{NULL}.}
 \item \href{#method-Mapping-process_sheet_commands}{\code{Mapping$process_sheet_commands()}}
 \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-Mapping-save}{\code{Mapping$save()}}
+\item \href{#method-Mapping-set_options}{\code{Mapping$set_options()}}
 \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
 }
 }
@@ -111,8 +112,8 @@ Either "excel" or "list".}
 allows (process_sheets = FALSE) to postpone the execution
 of the commands in the Excel mapping file to the modify_data() method}
 
-\item{\code{...}}{Arguments passed to gen_mapping_params() which will populate
-the \code{params} field of the object.}
+\item{\code{...}}{Arguments passed to the \code{Mapping$set_options()} method
+which will populate  the \code{Mapping$opts$da} field of the object.}
 }
 \if{html}{\out{</div>}}
 }
@@ -173,6 +174,26 @@ export removes variable & value labels.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{arguments passed to \code{save_mapping()}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Mapping-set_options"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-set_options}{}}}
+\subsection{Method \code{set_options()}}{
+Set / change options of the \code{Mapping} object
+
+The dots (\code{...}) can be passed here to change settings,
+or already when initializing the object with \code{Mapping$new(...)}
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$set_options(...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{...}}{arguments passed to \code{get_mapping_options()}}
 }
 \if{html}{\out{</div>}}
 }
