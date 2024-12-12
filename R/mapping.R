@@ -446,7 +446,7 @@ read_data.character <- function(
     "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
-  if (!is.null(database_dsn)) {
+  if (!is.null(database_dsn) && database_dsn != "") {
     attr(df, "DC_dataset_origin") <- dataset_to_database(
       df,
       dat,
