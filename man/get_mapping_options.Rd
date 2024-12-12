@@ -24,6 +24,7 @@ get_mapping_options(
   project_name = "",
   version = "",
   qrow_db_write = FALSE,
+  verbose = FALSE,
   wb,
   ...
 )
@@ -94,6 +95,10 @@ defaults to \code{""}.}
 
 \item{qrow_db_write}{Defaults to \code{FALSE};
 Should the crosstabs data be written to the database in the calculation of every Qrow?}
+
+\item{verbose}{Defaults to \code{FALSE};
+If \code{TRUE} will be more chatty about what's happening
+(at the moment, only used in crosstabser).}
 
 \item{wb}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
 

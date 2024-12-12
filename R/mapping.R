@@ -515,6 +515,9 @@ read_data.character <- function(
 #'   defaults to `""`.
 #' @param qrow_db_write Defaults to `FALSE`;
 #'   Should the crosstabs data be written to the database in the calculation of every Qrow?
+#' @param verbose Defaults to `FALSE`;
+#'   If `TRUE` will be more chatty about what's happening
+#'   (Very preliminary! at the moment, only used in crosstabser).
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
@@ -552,6 +555,7 @@ get_mapping_options <- function(
     project_name = "",
     version = "",
     qrow_db_write = FALSE,
+    verbose = FALSE,
     wb,
     ...) {
   p <- lst(
@@ -573,6 +577,7 @@ get_mapping_options <- function(
     project_name,
     version,
     qrow_db_write,
+    verbose,
     ...
   )
   if (debug) {
