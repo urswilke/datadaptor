@@ -559,10 +559,7 @@ get_mapping_options <- function(
     p$error_out <- "safe"
   }
 
-  if (!is.null(p$excel_params)) {
-    p[names(p$excel_params)] <- p$excel_params
-  }
-  p
+  p |> modifyList(p$excel_params)
 }
 
 set_workbook <- function(mapping) {

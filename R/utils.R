@@ -187,13 +187,13 @@ extract_named_region_params <- function(mapping_file, wb) {
   UseMethod("extract_named_region_params", mapping_file)
 }
 extract_named_region_params.list <- function(variables, wb) {
-  NULL
+  list()
 }
 
 extract_named_region_params.excel <- function(mapping_file, wb) {
   named_regions_raw <- wb$get_named_regions()["name"]
   if (is.null(named_regions_raw)) {
-    return(NULL)
+    return(list())
   }
   named_regions <- as_tibble(named_regions_raw)
 
