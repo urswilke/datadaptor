@@ -13,6 +13,9 @@ format_sheet_data(df, cols = dplyr::everything())
 \item{cols}{tidy-select expression to specify which columns to trim;
 defaults to \code{dplyr::everything()}}
 }
+\value{
+formatted dataframe
+}
 \description{
 Turns the dataframe into a tibble with character columns
 and trims the leading/trailing spaces of the strings.

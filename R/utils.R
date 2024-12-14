@@ -318,7 +318,7 @@ strip_attributes <- function(x) {
 #' @param cols tidy-select expression to specify which columns to trim;
 #'   defaults to `dplyr::everything()`
 #'
-#' @return
+#' @return formatted dataframe
 #' @export
 #'
 #' @examples
@@ -330,8 +330,19 @@ format_sheet_data <- function(df, cols = dplyr::everything()) {
     dplyr::mutate(dplyr::across({{ cols }}, stringr::str_trim))
 }
 
+#' Apply function on the subset of arguments it knows
+#'
+#' This function will execute the function `f`
+#' on the subset of the names of `l`
+#' which are in the formal arguments of `f`.
+#'
+#' @param f function
+#' @param l named list of arguments
+#'
+#' @return f applied on the subset of l
 #' @export
-#' @noRd
+#' @examples
+#' use_known_args(mean, list(x = 2, r = 3))
 use_known_args <- function(f, l) {
   known_args <- names(formals(f))
   do.call(
