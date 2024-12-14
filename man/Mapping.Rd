@@ -193,6 +193,16 @@ Set / change options of the \code{Mapping} object
 
 The dots (\code{...}) can be passed here to change settings,
 or already when initializing the object with \code{Mapping$new(...)}
+
+Additionally to the dots you can also pass parameters
+from an Excel mapping file by using named regions starting with \code{"R_"},
+for instance, \code{"R_id_var"} will become \code{"id_var"}.
+The complete set of arguments consists of he default values in \code{get_mapping_options()}
+overwritten by the above named regions of the  Excel file,
+and all this can be overwritten by the dots.
+
+The part of the arguments known to \code{get_mapping_options()} is written to the \code{opts$da} field,
+The rest is written to the \code{opts$dev} field.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$set_options(...)}\if{html}{\out{</div>}}
 }

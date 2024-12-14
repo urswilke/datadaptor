@@ -183,15 +183,15 @@ is_true_vec <- function(x) x %in% TRUE
 globalVariables(".")
 
 
-extract_named_region_params <- function(mapping_file, wb) {
-  UseMethod("extract_named_region_params", mapping_file)
+extract_named_region_params <- function(mapping) {
+  UseMethod("extract_named_region_params", mapping$mapping_file)
 }
-extract_named_region_params.list <- function(variables, wb) {
+extract_named_region_params.list <- function(mapping) {
   list()
 }
 
-extract_named_region_params.excel <- function(mapping_file, wb) {
-  named_regions_raw <- wb$get_named_regions()["name"]
+extract_named_region_params.excel <- function(mapping) {
+  named_regions_raw <- mapping$wb$get_named_regions()["name"]
   if (is.null(named_regions_raw)) {
     return(list())
   }
@@ -204,7 +204,7 @@ extract_named_region_params.excel <- function(mapping_file, wb) {
       data = map(
         .x = .data$name,
         ~ wb_read(
-          wb,
+          mapping$wb,
           named_region = .x,
           col_names = FALSE
         )
@@ -219,14 +219,6 @@ extract_named_region_params.excel <- function(mapping_file, wb) {
   named_params_list <- params_df$data
   names(named_params_list) <- str_sub(params_df$name, 3)
 
-  is_correct_idx <- names(named_params_list) %in% names(formals(get_mapping_options))
-  if (any(is_correct_idx == FALSE)) {
-    warning(
-      "The following parameters are unknown:\n",
-      paste(names(named_params_list[!is_correct_idx]), collapse = ", "),
-      "\nsee ?get_mapping_options for all used parameters."
-    )
-  }
   named_params_list
 }
 
@@ -336,4 +328,14 @@ format_sheet_data <- function(df, cols = dplyr::everything()) {
   df |>
     tibble::as_tibble() |>
     dplyr::mutate(dplyr::across({{ cols }}, stringr::str_trim))
+}
+
+#' @export
+#' @noRd
+use_known_args <- function(f, l) {
+  known_args <- names(formals(f))
+  do.call(
+    f,
+    l[names(l) %in% known_args]
+  )
 }

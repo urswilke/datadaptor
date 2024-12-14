@@ -5,9 +5,6 @@
 \title{Mapping parameters}
 \usage{
 get_mapping_options(
-  mapping_file = NULL,
-  mapping_type = "excel",
-  excel_params = extract_named_region_params(mapping_file, wb),
   id_var = NULL,
   error_out = "unsafe",
   debug = FALSE,
@@ -24,23 +21,10 @@ get_mapping_options(
   version = "",
   qrow_db_write = FALSE,
   verbose = FALSE,
-  wb,
   ...
 )
 }
 \arguments{
-\item{mapping_file}{Path of the Excel mapping file. Alternatively, you can
-pass an R list object containing named dataframes that is in the shape of
-the \code{Mapping$cmd$sheet_data_raw} field (see section
-"Parse the sheets to R list objects" in
-\code{vignette("translating_command_blocks_to_R")}).}
-
-\item{mapping_type}{String specifying the mapping type.
-Either "excel" or "list". Defaults to "excel".}
-
-\item{excel_params}{Params parameters read from Excel file; see
-\code{extract_named_region_params()}.}
-
 \item{id_var}{character string of the id variable name in the dataset.}
 
 \item{error_out}{character string.
@@ -95,31 +79,16 @@ Should the crosstabs data be written to the database in the calculation of every
 If \code{TRUE} will be more chatty about what's happening
 (Very preliminary! at the moment, only used in crosstabser).}
 
-\item{wb}{For an excel mapping, the openxlsx2 workbook object, otherwise \code{NULL}.}
-
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
 }
 \value{
 list object (see examples)
 }
 \description{
-\code{get_mapping_options()} is a helper function to generate the
-parameters in the \code{params} field when a Mapping object is constructed with
-\code{Mapping$new()}. It generates a list of named elements with mapping
-parameters. The argument values are the below default values, then
-overwritten if passed by the \code{...} dots, and then overwritten by the Excel
-file.
+\code{get_mapping_options()} is a helper function
+called by \code{Mapping$new(...)} or \code{Mapping$set_options(...)}
+to generate the parameters in the \code{opts$da} field of a Mapping object.
 }
 \examples{
-# Only for documentation purposes:
-# (`get_mapping_options()` isn't supposed to be be called directly).
-mapping_file <- system.file(
-  "extdata",
-  "mapping.xlsx",
-  package = "datenanpassr"
-)
-class(mapping_file) <- "excel"
-wb <- openxlsx2::wb_load(mapping_file)
-
-get_mapping_options(mapping_file, wb = wb)
+get_mapping_options()
 }
