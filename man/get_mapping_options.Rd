@@ -19,7 +19,6 @@ get_mapping_options(
   miss_rec_val = -2,
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
-  lowercase_varnames = FALSE,
   database_dsn = NULL,
   project_name = "",
   version = "",
@@ -79,10 +78,6 @@ block.}
 
 \item{not_miss_to_filter_vars}{Space separated character string of variable
 names spared out for \code{apply_command.cmd_recna_xcpt()}.}
-
-\item{lowercase_varnames}{Whether to transform all variable names to
-lowercase during data modification, and rename them back to their original
-case (if still existing) in the end.}
 
 \item{database_dsn}{Defaults to \code{NULL}; Character string of the database dsn.
 Only used in crosstabser.}

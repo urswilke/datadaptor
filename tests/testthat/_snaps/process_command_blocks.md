@@ -44,9 +44,6 @@
     $not_miss_to_filter_vars
     [1] "q1 q5"
     
-    $lowercase_varnames
-    [1] FALSE
-    
     $database_dsn
     NULL
     

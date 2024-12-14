@@ -148,16 +148,8 @@ Mapping <- R6Class(
         self$dat_mod <- self$dat
       }
 
-      if (self$opts$da$lowercase_varnames) {
-        attr(self$dat_mod, "original_varnames") <- names(self$dat)
-        self$dat_mod <- self$dat_mod |> rename_with(tolower)
-      }
-
       apply_command_blocks(command_blocks, self)
 
-      if (self$opts$da$lowercase_varnames) {
-        self$dat_mod <- rename_vars_to_original_case(self$dat_mod)
-      }
       invisible(self)
     },
     #' @description Save the modified data to a file
@@ -203,19 +195,6 @@ determine_mapping_type <- function(self) {
 set_mapping_type <- function(self) {
   self$mapping_type <- determine_mapping_type(self)
   class(self$mapping_file) <- self$mapping_type
-}
-rename_vars_to_original_case <- function(df) {
-  orig_names <- attr(df, "original_varnames")
-  rename_vec <- tibble(orig_names) |>
-    mutate(lowercase_names = tolower(orig_names)) |>
-    inner_join(
-      tibble(
-        lowercase_names = names(df)
-      ),
-      by = "lowercase_names"
-    ) |>
-    deframe()
-  df |> rename(!!rename_vec)
 }
 #' Save the modified data of a mapping to a file
 #'
@@ -503,9 +482,6 @@ read_data.character <- function(
 #'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param lowercase_varnames Whether to transform all variable names to
-#'   lowercase during data modification, and rename them back to their original
-#'   case (if still existing) in the end.
 #' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
 #' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
 #'   Only used in crosstabser.
@@ -550,7 +526,6 @@ get_mapping_options <- function(
     miss_rec_val = -2,
     na_to_filter = TRUE,
     not_miss_to_filter_vars = NA_character_,
-    lowercase_varnames = FALSE,
     database_dsn = NULL,
     project_name = "",
     version = "",
@@ -572,7 +547,6 @@ get_mapping_options <- function(
     miss_rec_lab,
     miss_rec_val,
     not_miss_to_filter_vars,
-    lowercase_varnames,
     database_dsn,
     project_name,
     version,
