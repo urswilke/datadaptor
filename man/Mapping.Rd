@@ -58,6 +58,13 @@ labelled dataframe to apply the mapping on.}
 \item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
 this string will be set to "mapping_type".}
 
+\item{\code{mapping_type}}{String specifying the mapping type. Either "excel"
+or "list". If not specified, when initializing it is auto-determined:
+\itemize{
+\item{"list": }{If \code{mapping_file} is a list object.}
+\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
+}}
+
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block
