@@ -1,22 +1,5 @@
 # parameters (except those containing filepaths) were built correctly
 
-    $excel_params
-    $excel_params$id_var
-    [1] "id"
-    
-    $excel_params$lab_before_var_sheet
-    [1] "yes"
-    
-    $excel_params$miss_rec_lab
-    [1] "FILTER"
-    
-    $excel_params$miss_rec_val
-    [1] -2
-    
-    $excel_params$not_miss_to_filter_vars
-    [1] "q1 q5"
-    
-    
     $id_var
     [1] "id"
     

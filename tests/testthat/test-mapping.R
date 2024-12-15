@@ -1,7 +1,6 @@
 testthat::expect_equal(class(mapping), c("Mapping", "R6"))
-testthat::expect_warning(
-  Mapping$new(mapping_file = "excel/mapping_with_non_defined_param.xlsx")
-)
+m <- Mapping$new(mapping_file = "excel/mapping_with_non_defined_param.xlsx")
+expect_gt(length(m$opts$dev), 0L)
 
 
 

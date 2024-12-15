@@ -58,6 +58,13 @@ labelled dataframe to apply the mapping on.}
 \item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
 this string will be set to "mapping_type".}
 
+\item{\code{mapping_type}}{String specifying the mapping type. Either "excel"
+or "list". If not specified, when initializing it is auto-determined:
+\itemize{
+\item{"list": }{If \code{mapping_file} is a list object.}
+\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
+}}
+
 \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
 \item{\code{cmd}}{R list structure containing the processed command block
@@ -186,6 +193,16 @@ Set / change options of the \code{Mapping} object
 
 The dots (\code{...}) can be passed here to change settings,
 or already when initializing the object with \code{Mapping$new(...)}
+
+Additionally to the dots you can also pass parameters
+from an Excel mapping file by using named regions starting with \code{"R_"},
+for instance, \code{"R_id_var"} will become \code{"id_var"}.
+The complete set of arguments consists of he default values in \code{get_mapping_options()}
+overwritten by the above named regions of the  Excel file,
+and all this can be overwritten by the dots.
+
+The part of the arguments known to \code{get_mapping_options()} is written to the \code{opts$da} field,
+The rest is written to the \code{opts$dev} field.
 \subsection{Usage}{
 \if{html}{\out{<div class="r">}}\preformatted{Mapping$set_options(...)}\if{html}{\out{</div>}}
 }

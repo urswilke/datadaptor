@@ -23,6 +23,7 @@ NULL
 #'   \itemize{
 #'     \item{"list": }{If `mapping_file` is a list object.}
 #'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
+#'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
 #'   information of the Excel mapping file. `r lifecycle::badge('experimental')`
@@ -167,10 +168,36 @@ Mapping <- R6Class(
     #' The dots (`...`) can be passed here to change settings,
     #' or already when initializing the object with `Mapping$new(...)`
     #'
+    #' Additionally to the dots you can also pass parameters
+    #' from an Excel mapping file by using named regions starting with `"R_"`,
+    #' for instance, `"R_id_var"` will become `"id_var"`.
+    #' The complete set of arguments consists of he default values in `get_mapping_options()`
+    #' overwritten by the above named regions of the  Excel file,
+    #' and all this can be overwritten by the dots.
+    #'
+    #' The part of the arguments known to `get_mapping_options()` is written to the `opts$da` field,
+    #' The rest is written to the `opts$dev` field.
+    #'
+    #'
+    #'
     #' @param ... arguments passed to `get_mapping_options()`
     set_options = function(...) {
-      self$opts$da <- get_mapping_options(self$mapping_file, wb = self$wb, ...)
+      excel_params <- private$get_named_region_params()
+      # If specified in both, excel parameters will be overwritten by the dots:
+      args <- excel_params |> modifyList(list(...))
 
+      da <- use_known_args(get_mapping_options, args)
+      dev <- args |> setdiff(da)
+
+      self$opts <- tibble::lst(
+        da,
+        dev
+      )
+    }
+  ),
+  private = list(
+    get_named_region_params = function() {
+      extract_named_region_params(self)
     }
   )
 )
@@ -439,22 +466,10 @@ read_data.character <- function(
 
 #' Mapping parameters
 #'
-#' @description `get_mapping_options()` is a helper function to generate the
-#'   parameters in the `params` field when a Mapping object is constructed with
-#'   `Mapping$new()`. It generates a list of named elements with mapping
-#'   parameters. The argument values are the below default values, then
-#'   overwritten if passed by the `...` dots, and then overwritten by the Excel
-#'   file.
+#' @description `get_mapping_options()` is a helper function
+#'   called by `Mapping$new(...)` or `Mapping$set_options(...)`
+#'   to generate the parameters in the `opts$da` field of a Mapping object.
 #'
-#' @param mapping_file Path of the Excel mapping file. Alternatively, you can
-#'   pass an R list object containing named dataframes that is in the shape of
-#'   the `Mapping$cmd$sheet_data_raw` field (see section
-#'   "Parse the sheets to R list objects" in
-#'   `vignette("translating_command_blocks_to_R")`).
-#' @param excel_params Params parameters read from Excel file; see
-#'   `extract_named_region_params()`.
-#' @param mapping_type String specifying the mapping type.
-#'   Either "excel" or "list". Defaults to "excel".
 #' @param id_var character string of the id variable name in the dataset.
 #' @param error_out character string.
 #'   Either "safe", "quiet" or "unsafe" (the default).
@@ -482,7 +497,6 @@ read_data.character <- function(
 #'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param wb For an excel mapping, the openxlsx2 workbook object, otherwise `NULL`.
 #' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
 #'   Only used in crosstabser.
 #' @param project_name Name of the project to write to the database;
@@ -500,21 +514,8 @@ read_data.character <- function(
 #' @export
 #'
 #' @examples
-#' # Only for documentation purposes:
-#' # (`get_mapping_options()` isn't supposed to be be called directly).
-#' mapping_file <- system.file(
-#'   "extdata",
-#'   "mapping.xlsx",
-#'   package = "datenanpassr"
-#' )
-#' class(mapping_file) <- "excel"
-#' wb <- openxlsx2::wb_load(mapping_file)
-#'
-#' get_mapping_options(mapping_file, wb = wb)
+#' get_mapping_options()
 get_mapping_options <- function(
-    mapping_file = NULL,
-    mapping_type = "excel",
-    excel_params = extract_named_region_params(mapping_file, wb),
     id_var = NULL,
     error_out = "unsafe",
     debug = FALSE,
@@ -531,11 +532,8 @@ get_mapping_options <- function(
     version = "",
     qrow_db_write = FALSE,
     verbose = FALSE,
-    wb,
     ...) {
   p <- lst(
-    mapping_file,
-    excel_params,
     id_var,
     na_to_filter,
     error_out,
@@ -558,9 +556,6 @@ get_mapping_options <- function(
     p$error_out <- "safe"
   }
 
-  if (!is.null(p$excel_params)) {
-    p[names(p$excel_params)] <- p$excel_params
-  }
   p
 }
 
