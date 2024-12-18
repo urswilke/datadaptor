@@ -31,6 +31,11 @@ NULL
 #' @field opts Parameter list object (in `opts$da`)
 #' @field wb For an excel mapping, the openxlsx2 workbook object,
 #'   otherwise `NULL`.
+#' @field ditw This is the "dust in the wind" list object field
+#'   that stores data that didn't make it into their own field.
+#'   For developers only!
+#'   For reproducible code you should NEVER rely on this field
+#'   as it might be subject to change without any warning.
 #' @export
 #'
 #' @examples
@@ -79,6 +84,7 @@ Mapping <- R6Class(
     dat_mod = NULL,
     opts = list(da = NULL),
     wb = NULL,
+    ditw = list(da = NULL),
     #' @description Initialize a Mapping object
     #'
     #' @param dat Dataframe to apply the mapping on.

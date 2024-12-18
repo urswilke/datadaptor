@@ -76,6 +76,12 @@ information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-l
 
 \item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object,
 otherwise \code{NULL}.}
+
+\item{\code{ditw}}{This is the "dust in the wind" list object field
+that stores data that didn't make it into their own field.
+For developers only!
+For reproducible code you should NEVER rely on this field
+as it might be subject to change without any warning.}
 }
 \if{html}{\out{</div>}}
 }
