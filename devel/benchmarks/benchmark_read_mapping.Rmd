@@ -11,13 +11,13 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ```{r}
 library(tidyverse)
-library(datenanpassr)
-filepath <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
+library(datadaptor)
+filepath <- system.file("extdata", "mapping_xlsm.xlsx", package = "datadaptor")
 ```
 
 ```{r}
-mapping_file <- system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
-bm <- bench::mark(datenanpassr::Mapping$new(spss_file, mapping_file, translate_xlsm = TRUE), min_iterations = 7)
+mapping_file <- system.file("extdata", "mapping_xlsm.xlsx", package = "datadaptor")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datadaptor")
+bm <- bench::mark(datadaptor::Mapping$new(spss_file, mapping_file, translate_xlsm = TRUE), min_iterations = 7)
 print(bm, width = 11111)
 ```

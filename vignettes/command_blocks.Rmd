@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   echo = FALSE
 )
-library(datenanpassr)
+library(datadaptor)
 library(dplyr)
 ```
 
@@ -45,7 +45,7 @@ library(dplyr)
 ```
 # Command block overview
 
-In this document, we will show how the different command blocks in datenanpassr work. 
+In this document, we will show how the different command blocks in datadaptor work. 
 There are the following keywords that you can use to enter the command blocks in your Excel mapping file:
 ```{r cdb_classes}
 command_block_classes |>
@@ -59,7 +59,7 @@ command_block_classes |>
 ```
 
 *The column* `"command_block"` *shows the class, which determines how 
-datenanpassr parses the command block* (with `parse_command_args()`) *and 
+datadaptor parses the command block* (with `parse_command_args()`) *and 
 then applies it on the data* (with `apply_command()`).
 
 # Command block examples
@@ -75,11 +75,11 @@ gen_mapping_obj <- function(cmd_block_tibble, sheet_cat) {
 
 tab_labels_wide <- function(df) {
   varl_table <- df |>
-    datenanpassr:::tab_varlabs(remove_empty = FALSE) |>
+    datadaptor:::tab_varlabs(remove_empty = FALSE) |>
     tidyr::pivot_wider(names_from = var, values_from = varlab) |>
     dplyr::mutate(val = "varlab", .before = 1)
   vall_table <- df |>
-    datenanpassr:::tab_vallabs(remove_empty = FALSE) |>
+    datadaptor:::tab_vallabs(remove_empty = FALSE) |>
     dplyr::rename(val = nv) |>
     tidyr::pivot_wider(names_from = var, values_from = vallab) |>
     dplyr::arrange(val) |>

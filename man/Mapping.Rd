@@ -18,12 +18,12 @@ method \code{modify_data()} and then results in the \code{dat_mod} field.
 mapping_file <- system.file(
   "extdata",
   "mapping.xlsx",
-  package = "datenanpassr"
+  package = "datadaptor"
 )
 spss_file <- system.file(
   "extdata",
   "mtcars_labelled.sav",
-  package = "datenanpassr"
+  package = "datadaptor"
 )
 mapping <- Mapping$new(spss_file, mapping_file)
 

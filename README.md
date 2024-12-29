@@ -1,17 +1,17 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# datenanpassr
+# datadaptor
 
 <!-- badges: start -->
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
-status](https://www.r-pkg.org/badges/version/datenanpassr)](https://CRAN.R-project.org/package=datenanpassr)
+status](https://www.r-pkg.org/badges/version/datadaptor)](https://CRAN.R-project.org/package=datadaptor)
 <!-- badges: end -->
 
-The R package datenanpassr is an approach to programmatically manipulate
+The R package datadaptor is an approach to programmatically manipulate
 labelled datasets via a pre-defined syntax of various types of commands
 in various types of Excel sheets. It is a replacement of what my brother
 initially programmed in VBA and SPSS and how we approach our daily work
@@ -21,10 +21,10 @@ cells.
 
 ## Installation
 
-You can install datenanpassr from Gitlab with:
+You can install datadaptor from Gitlab with:
 
 ``` r
-devtools::install_gitlab("urswilke/datenanpassr")
+devtools::install_gitlab("urswilke/datadaptor")
 ```
 
 ## Example
@@ -32,7 +32,7 @@ devtools::install_gitlab("urswilke/datenanpassr")
 First load the library:
 
 ``` r
-library(datenanpassr)
+library(datadaptor)
 ```
 
 ### Apply data adjustments on labelled data
@@ -40,7 +40,7 @@ library(datenanpassr)
 Suppose you have an SPSS data file
 
 ``` r
-spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datadaptor")
 df <- haven::read_sav(spss_file)
 df
 #> # A tibble: 32 × 13
@@ -65,16 +65,16 @@ and want to modify some of the content.
 <!-- TODO:  -->
 <!-- You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset: -->
 <!-- ```{r, eval=FALSE} -->
-<!-- datenanpassr::mapp_create(df, "mapping.xlsx") -->
+<!-- datadaptor::mapp_create(df, "mapping.xlsx") -->
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping
 file](inst/extdata/mapping.xlsx) to demonstrate the commands in this
-package. If you install `datenanpassr`, you can access the path of this
+package. If you install `datadaptor`, you can access the path of this
 file with
 
 ``` r
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
 ```
 
 and then open it with:
@@ -150,5 +150,5 @@ haven::write_sav(df_mod, "mtcars_labelled_mod.sav")
 
 ## Security warning
 
-datenanpassr evaluates code from user input. Do not expose this program
+datadaptor evaluates code from user input. Do not expose this program
 to the internet or random users under any circumstances.

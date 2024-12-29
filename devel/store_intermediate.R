@@ -1,6 +1,6 @@
-library(datenanpassr)
+library(datadaptor)
 library(tidyverse)
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
 accumulate_command_blocks <- function(m) {
   # generate a list of nrow(`m$cmd_tbl`) command_blocks elements, each
   # containing just one line of `m$cmd_tbl`:

@@ -8,7 +8,7 @@ date()
 devtools::load_all()
 ```
 
-    ## ℹ Loading datenanpassr
+    ## ℹ Loading datadaptor
 
 ``` r
 mapping_file <- "tests/testthat/excel/mapping_old.xlsx" |> here::here()

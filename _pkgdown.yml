@@ -1,10 +1,10 @@
 # _pkgdown.yml
-url: https://urswilke.gitlab.io/datenanpassr/
+url: https://urswilke.gitlab.io/datadaptor/
 repo:
   url:
-    home: https://gitlab.com/urswilke/datenanpassr/
-    source: https://gitlab.com/urswilke/datenanpassr/-/tree/master/
-    issue: https://gitlab.com/urswilke/datenanpassr/issues/
+    home: https://gitlab.com/urswilke/datadaptor/
+    source: https://gitlab.com/urswilke/datadaptor/-/tree/master/
+    issue: https://gitlab.com/urswilke/datadaptor/issues/
     user: https://gitlab.com/
 template:
   bootstrap: 5

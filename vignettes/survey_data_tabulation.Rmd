@@ -38,7 +38,7 @@ In the beginning, R can be very frustrating and it takes time.
 Load packages needed for this document:
 
 ```{r setup}
-library(datenanpassr)
+library(datadaptor)
 library(tidyr)
 library(stringr)
 suppressMessages(library(dplyr))
@@ -267,7 +267,7 @@ like for instance
 * 60 +
 
 
-We can **rec**ode the variable with datenanpassr, using 
+We can **rec**ode the variable with datadaptor, using 
 the `#REC` command on one of the `Free` sheets. 
 
 
@@ -365,10 +365,10 @@ Now, we added the value label
 df %>% count(q2)
 ```
 
-Alternatively, we can modify the variable with datenanpassr, using 
+Alternatively, we can modify the variable with datadaptor, using 
 the `#IF` command on one of the `Free` sheets. 
 
-To **a**dd a **val**ue **l**abel with datenanpassr, we can use 
+To **a**dd a **val**ue **l**abel with datadaptor, we can use 
 the `#AVALL` command on one of the `Free` sheets:
 
 
@@ -447,7 +447,7 @@ full_join(
 )
 ```
 
-Alternatively, we can directly modify the variable labels with datenanpassr, using 
+Alternatively, we can directly modify the variable labels with datadaptor, using 
 the `#VARL` command on one of the `Free` sheets:
 
 ```{r echo=FALSE}

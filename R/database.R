@@ -14,12 +14,12 @@
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' mapping <- Mapping$new(spss_file, mapping_file, database_dsn = "TabBooksPG")
 dataset_to_database <- function(

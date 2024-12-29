@@ -154,12 +154,12 @@ gen_df_cmd_raw <- function(self) {
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #' m$cmd$df_cmd_raw[10, ] |> command_block()
@@ -176,16 +176,16 @@ command_block <- function(cdb) {
 }
 
 match_command_block_class <- function(keyword) {
-  command_block_row <- datenanpassr::command_block_classes$keyword == keyword
+  command_block_row <- datadaptor::command_block_classes$keyword == keyword
   if (sum(command_block_row) == 0) {
     stop(
       paste0(
         "command block '", keyword, "' doesn't exist. ",
-        "See the package dataset `datenanpassr::command_block_classes` for allowed ones."
+        "See the package dataset `datadaptor::command_block_classes` for allowed ones."
       )
     )
   }
-  datenanpassr::command_block_classes[["command_block"]][command_block_row]
+  datadaptor::command_block_classes[["command_block"]][command_block_row]
 }
 
 
@@ -231,12 +231,12 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #' gen_command_blocks(m)

@@ -10,10 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ```{r}
-library(datenanpassr)
+library(datadaptor)
 library(tidyverse)
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datadaptor")
 mapping_s3 <- Mapping$new(spss_file, mapping_file)
 # filter commands that are already implemented:
 cbs <- mapping_s3$cmd$command_blocks

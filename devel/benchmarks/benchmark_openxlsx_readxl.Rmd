@@ -9,17 +9,17 @@ knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 ```{r}
 library(tidyverse)
-library(datenanpassr)
+library(datadaptor)
 ```
 
 ```{r}
 mapping_file <- "tests/testthat/excel/mapping_old.xlsx" |> here::here()
 spss_file <- "tests/testthat/spss/fake_survey.sav" |> here::here()
-bench::mark(datenanpassr::Mapping$new(spss_file, mapping_file), min_iterations = 7)
+bench::mark(datadaptor::Mapping$new(spss_file, mapping_file), min_iterations = 7)
 ```
 
 ```{r}
-# use_openxlsx <- function(filename = system.file("extdata", "mapping_xlsm.xlsx", package = "datenanpassr")) {
+# use_openxlsx <- function(filename = system.file("extdata", "mapping_xlsm.xlsx", package = "datadaptor")) {
 #   # wb <- openxlsx::loadWorkbook(filename)
 #   # map(wb$sheet_names, ~ openxlsx::readWorkbook(wb, .x))
 #   openxlsx::readWorkbook(filename, "Free1", cols = 1:5, skipEmptyRows = FALSE)

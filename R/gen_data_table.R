@@ -71,7 +71,7 @@ lengthen <- function(df, values_drop_na = FALSE) {
 #' @export
 #'
 #' @examples
-#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
+#' mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
 #' mapping <- Mapping$new(mtcars_labelled, mapping_file)
 #' mapping$modify_data()
 #' diff_data(mapping$dat, mapping$dat_mod, "id")

@@ -1,4 +1,4 @@
-library(datenanpassr)
+library(datadaptor)
 
 df <- data.frame(a = 1:10000)
 action <- "#IF"

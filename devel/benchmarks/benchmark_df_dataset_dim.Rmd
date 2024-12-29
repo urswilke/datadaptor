@@ -14,13 +14,13 @@ knitr::opts_chunk$set(
 
 ```{r prepare}
 library(tidyverse)
-library(datenanpassr)
+library(datadaptor)
 
-spss_file <- system.file("extdata", "fake_survey.sav", package = "datenanpassr")
+spss_file <- system.file("extdata", "fake_survey.sav", package = "datadaptor")
 df <- haven::read_sav(spss_file)
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datenanpassr")
-df_cmd_vec <- datenanpassr::mapp_cmd_table(mapping_file, vectorized = TRUE)
-df_cmd <- datenanpassr::mapp_cmd_table(mapping_file)
+mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
+df_cmd_vec <- datadaptor::mapp_cmd_table(mapping_file, vectorized = TRUE)
+df_cmd <- datadaptor::mapp_cmd_table(mapping_file)
 
 rep_df <- function(rep_no) {
   purrr::map_dfr(seq_len(rep_no), ~df) %>% mutate(id = row_number())

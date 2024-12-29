@@ -299,7 +299,7 @@ apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
     mapping$dat_mod[[x]] <- NA_real_
   }
 
-  test <- eval_in_data(expr(datenanpassr::is_true_vec(!!cond)), mapping)
+  test <- eval_in_data(expr(datadaptor::is_true_vec(!!cond)), mapping)
   yes <- eval_in_data(expr(!!val), mapping)
 
   no <- mapping$dat_mod[[x]]

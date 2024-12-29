@@ -34,8 +34,8 @@ The same data is also included in the package in SPSS format.
 See in the examples section how to load the SPSS version to R.
 }
 \examples{
-datenanpassr::mtcars_labelled
-path <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+datadaptor::mtcars_labelled
+path <- system.file("extdata", "mtcars_labelled.sav", package = "datadaptor")
 df <- haven::read_sav(path)
 df
 }

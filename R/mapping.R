@@ -43,12 +43,12 @@ NULL
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' mapping <- Mapping$new(spss_file, mapping_file)
 #'
@@ -254,12 +254,12 @@ set_mapping_type <- function(self) {
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #'

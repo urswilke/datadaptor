@@ -28,7 +28,7 @@ mapping file.
 spss_file <- system.file(
   "extdata",
   "mtcars_labelled.sav",
-  package = "datenanpassr"
+  package = "datadaptor"
 )
 df <- haven::read_sav(spss_file)
 \dontrun{

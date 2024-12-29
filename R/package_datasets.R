@@ -25,8 +25,8 @@
 #'   \item{carb}{see `?mtcars`}
 #' }
 #' @examples
-#' datenanpassr::mtcars_labelled
-#' path <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+#' datadaptor::mtcars_labelled
+#' path <- system.file("extdata", "mtcars_labelled.sav", package = "datadaptor")
 #' df <- haven::read_sav(path)
 #' df
 "mtcars_labelled"

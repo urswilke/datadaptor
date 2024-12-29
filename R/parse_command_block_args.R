@@ -12,12 +12,12 @@
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(spss_file, mapping_file)
 #' (cdb <- command_block(m$cmd$df_cmd_raw[10, ]))

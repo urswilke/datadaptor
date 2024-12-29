@@ -20,7 +20,7 @@
 #' spss_file <- system.file(
 #'   "extdata",
 #'   "mtcars_labelled.sav",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
@@ -65,7 +65,7 @@ mapp_create_xlsx <- function(df_raw, mapping_file) {
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -209,7 +209,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:
@@ -298,7 +298,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' m <- Mapping$new(NULL, mapping_file)
 #' # open this Excel file (that comes with the package) via:

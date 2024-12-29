@@ -1,4 +1,4 @@
 library(testthat)
-library(datenanpassr)
+library(datadaptor)
 
-test_check("datenanpassr")
+test_check("datadaptor")

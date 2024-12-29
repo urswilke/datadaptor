@@ -15,7 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-library(datenanpassr)
+library(datadaptor)
 library(haven)
 ```
 
@@ -31,7 +31,7 @@ here is how you can access these data sets:
 
 ```{r example}
 mtcars_labelled
-path <- system.file("extdata", "mtcars_labelled.sav", package = "datenanpassr")
+path <- system.file("extdata", "mtcars_labelled.sav", package = "datadaptor")
 read_sav(path)
 ```
 

@@ -131,7 +131,7 @@ usethis::use_data(fake_survey, overwrite = TRUE)
 ```
 
 ```
-## ✓ Setting active project to '/home/chief/R/datenanpassr'
+## ✓ Setting active project to '/home/chief/R/datadaptor'
 ```
 
 ```

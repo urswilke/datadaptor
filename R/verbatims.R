@@ -10,12 +10,12 @@
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' # verbatim_file <- system.file(
 #'   "extdata",
 #'   "Verbatims_mtcars_labelled.xlsx",
-#'   package = "datenanpassr"
+#'   package = "datadaptor"
 #' )
 #' # open these Excel files (that come with the package) via:
 #' \dontrun{

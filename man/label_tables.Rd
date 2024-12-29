@@ -31,7 +31,7 @@ value labels in the data.
 spss_file <- system.file(
   "extdata",
   "mtcars_labelled.sav",
-  package = "datenanpassr"
+  package = "datadaptor"
 )
 dat <- spss_file |>
   haven::read_sav()

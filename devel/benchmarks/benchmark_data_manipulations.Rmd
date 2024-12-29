@@ -62,7 +62,7 @@ cmd_comp <- function(df, new_var, new_val) {
   varlab <- labelled::var_label(df[[new_var]])
   vallabs <- labelled::val_labels(df[[new_var]])
 
-  manipulated_vars <- datenanpassr:::get_df_vars_of_expr_string(paste(new_val), names(df)) %>%
+  manipulated_vars <- datadaptor:::get_df_vars_of_expr_string(paste(new_val), names(df)) %>%
     c(new_var) %>% unique()
 
   new_val <- rlang::parse_expr(new_val)

@@ -1,6 +1,6 @@
-# Getting help with datenanpassr
+# Getting help with datadaptor
 
-Thanks for using datenanpassr!
+Thanks for using datadaptor!
 Before filing an issue, there are a few places to explore and pieces to put together to make the process as smooth as possible.
 
 ## Make a reprex
