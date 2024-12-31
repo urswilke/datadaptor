@@ -203,14 +203,7 @@ Save the modified data to a file
 The data can be exported to the file formats of Stata & SPSS. The Excel
 export removes variable & value labels.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(
-  path = NULL,
-  show = FALSE,
-  name = "dat",
-  filetype = "sav",
-  dataset_to_db = FALSE,
-  ...
-)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(path = NULL, show = FALSE, name = "dat", filetype = "sav", ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
@@ -228,9 +221,6 @@ Is overwritten, by \code{path} if not \code{NULL}.}
 
 \item{\code{filetype}}{\code{character()} string containing the filetype to be
 written. Is overwritten, by \code{path} if not \code{NULL}.}
-
-\item{\code{dataset_to_db}}{\code{boolean()} if \code{TRUE}, the dataset information is
-saved to the database --------------------------------------  TODO remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1}
 
 \item{\code{...}}{Passed to methods.}
 }

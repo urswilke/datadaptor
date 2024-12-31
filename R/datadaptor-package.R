@@ -2,12 +2,6 @@
 "_PACKAGE"
 
 ## usethis namespace: start
-#' @importFrom DBI dbConnect
-#' @importFrom DBI dbDisconnect
-#' @importFrom DBI sqlInterpolate
-#' @importFrom DBI dbExecute
-#' @importFrom DBI dbGetQuery
-#' @importFrom DBI dbWriteTable
 #' @importFrom digest digest
 #' @importFrom dplyr across
 #' @importFrom dplyr add_count
@@ -66,7 +60,6 @@
 #' @importFrom labelled var_label
 #' @importFrom labelled var_label<-
 #' @importFrom lifecycle deprecated
-#' @importFrom odbc odbc
 #' @importFrom openxlsx2 wb_workbook
 #' @importFrom openxlsx2 wb_add_worksheet
 #' @importFrom openxlsx2 wb_add_data

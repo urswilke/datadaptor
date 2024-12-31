@@ -173,8 +173,6 @@ Mapping <- R6Class(
     #'    Is overwritten, by `path` if not `NULL`.
     #' @param filetype `character()` string containing the filetype to be
     #'   written. Is overwritten, by `path` if not `NULL`.
-    #' @param dataset_to_db `boolean()` if `TRUE`, the dataset information is
-    #'   saved to the database --------------------------------------  TODO remove!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
     #' @param ... Passed to methods.
     #' @examples
     #' \dontrun{
@@ -200,7 +198,6 @@ Mapping <- R6Class(
       show = FALSE,
       name = "dat",
       filetype = "sav",
-      dataset_to_db = FALSE,
       ...
     ) {
       if (is.null(path)) {
@@ -209,19 +206,6 @@ Mapping <- R6Class(
         filetype <- str_remove(path, ".*\\.")
       }
       save_type(self$dat_mod, path, filetype)
-
-      # write dataset info to database
-      if (dataset_to_db) {
-        dataset_to_database(
-          dat = self$dat_mod,
-          filepath = path,
-          database_dsn = self$opts$da$database_dsn,
-          version = self$opts$da$version,
-          project_name = self$opts$da$project_name,
-          cmd_tbl = self$cmd_tbl,
-          data_origin = attr(self$dat_mod, "DC_dataset_origin")
-        )
-      }
 
       if (show) browseURL(path)
       invisible(self)
