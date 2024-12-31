@@ -116,6 +116,7 @@ as it might be subject to change without any warning.}
 \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-Mapping-save}{\code{Mapping$save()}}
 \item \href{#method-Mapping-set_options}{\code{Mapping$set_options()}}
+\item \href{#method-Mapping-read_data}{\code{Mapping$read_data()}}
 \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
 }
 }
@@ -278,6 +279,25 @@ The rest is written to the \code{opts$dev} field.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{arguments passed to \code{get_mapping_options()}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Mapping-read_data"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-read_data}{}}}
+\subsection{Method \code{read_data()}}{
+Read in dataset
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$read_data(dat, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dat}}{Dataset indentifier (see \code{?read_data_} helper function).}
+
+\item{\code{...}}{Arguments passed to \code{read_data_()} helper function.}
 }
 \if{html}{\out{</div>}}
 }

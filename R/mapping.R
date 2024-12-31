@@ -109,12 +109,7 @@ Mapping <- R6Class(
 
       self$set_options(...)
 
-      self$dat <- read_data(
-        dat,
-        database_dsn = self$opts$da$database_dsn,
-        project_name = self$opts$da$project_name,
-        version = self$opts$da$version
-      )
+      self$dat <- self$read_data(dat)
 
       if (process_sheets) {
         self$process_sheet_commands()
@@ -240,6 +235,13 @@ Mapping <- R6Class(
         da,
         dev
       )
+    },
+    #' @description Read in dataset
+    #'
+    #' @param dat Dataset indentifier (see `?read_data_` helper function).
+    #' @param ... Arguments passed to `read_data_()` helper function.
+    read_data = function(dat, ...) {
+      read_data_(dat, ...)
     }
   ),
   private = list(
@@ -399,25 +401,22 @@ add_error_list <- function(self) {
 #'  extension) or returns `NULL` in case of `NULL`.
 #'
 #' @export
-read_data <- function(dat, ...) {
+read_data_ <- function(dat, ...) {
   if (is.null(dat)) {
     return(NULL)
   }
-  UseMethod("read_data")
+  UseMethod("read_data_")
 }
 #' @export
-read_data.data.frame <- function(
+read_data_.data.frame <- function(
     dat,
     ...
 ) {
   dat
 }
 #' @export
-read_data.character <- function(
+read_data_.character <- function(
     dat,
-    database_dsn = "",
-    version = "",
-    project_name ="",
     ...
 ) {
   filetype <- str_remove(dat, ".*\\.")
@@ -429,15 +428,6 @@ read_data.character <- function(
     "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
-  if (!is.null(database_dsn) && database_dsn != "") {
-    attr(df, "DC_dataset_origin") <- dataset_to_database(
-      df,
-      dat,
-      database_dsn,
-      version,
-      project_name
-    )
-  }
   df
 }
 
@@ -474,14 +464,6 @@ read_data.character <- function(
 #'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
-#'   Only used in crosstabser.
-#' @param project_name Name of the project to write to the database;
-#'   defaults to `""`.
-#' @param version Name of the version to write to the database;
-#'   defaults to `""`.
-#' @param qrow_db_write Defaults to `FALSE`;
-#'   Should the crosstabs data be written to the database in the calculation of every Qrow?
 #' @param verbose Defaults to `FALSE`;
 #'   If `TRUE` will be more chatty about what's happening
 #'   (Very preliminary! at the moment, only used in crosstabser).
@@ -504,10 +486,6 @@ get_mapping_options <- function(
     miss_rec_val = -2,
     na_to_filter = TRUE,
     not_miss_to_filter_vars = NA_character_,
-    database_dsn = NULL,
-    project_name = "",
-    version = "",
-    qrow_db_write = FALSE,
     verbose = FALSE,
     ...) {
   p <- lst(
@@ -522,10 +500,6 @@ get_mapping_options <- function(
     miss_rec_lab,
     miss_rec_val,
     not_miss_to_filter_vars,
-    database_dsn,
-    project_name,
-    version,
-    qrow_db_write,
     verbose,
     ...
   )

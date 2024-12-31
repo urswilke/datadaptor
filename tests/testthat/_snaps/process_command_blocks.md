@@ -27,18 +27,6 @@
     $not_miss_to_filter_vars
     [1] "q1 q5"
     
-    $database_dsn
-    NULL
-    
-    $project_name
-    [1] ""
-    
-    $version
-    [1] ""
-    
-    $qrow_db_write
-    [1] FALSE
-    
     $verbose
     [1] FALSE
     

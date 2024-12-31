@@ -16,10 +16,6 @@ get_mapping_options(
   miss_rec_val = -2,
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
-  database_dsn = NULL,
-  project_name = "",
-  version = "",
-  qrow_db_write = FALSE,
   verbose = FALSE,
   ...
 )
@@ -62,18 +58,6 @@ block.}
 
 \item{not_miss_to_filter_vars}{Space separated character string of variable
 names spared out for \code{apply_command.cmd_recna_xcpt()}.}
-
-\item{database_dsn}{Defaults to \code{NULL}; Character string of the database dsn.
-Only used in crosstabser.}
-
-\item{project_name}{Name of the project to write to the database;
-defaults to \code{""}.}
-
-\item{version}{Name of the version to write to the database;
-defaults to \code{""}.}
-
-\item{qrow_db_write}{Defaults to \code{FALSE};
-Should the crosstabs data be written to the database in the calculation of every Qrow?}
 
 \item{verbose}{Defaults to \code{FALSE};
 If \code{TRUE} will be more chatty about what's happening
