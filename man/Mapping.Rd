@@ -48,6 +48,29 @@ mapping$dat_mod
 # mapping$save("path/to/your/file.sav")
 # or with haven (used under the hood by `save()`):
 # haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
+
+## ------------------------------------------------
+## Method `Mapping$save`
+## ------------------------------------------------
+
+\dontrun{
+# Create a Mapping object from the files provided by the package:
+mapping_file <- system.file(
+  "extdata",
+  "mapping.xlsx",
+  package = "datadaptor"
+)
+spss_file <- system.file(
+  "extdata",
+  "mtcars_labelled.sav",
+  package = "datadaptor"
+)
+m <- Mapping$new(spss_file, mapping_file)
+
+# The method applies the modifications specified in a command_blocks object
+m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
+m$save("stata_data.dta", show = TRUE)
+}
 }
 \section{Public fields}{
 \if{html}{\out{<div class="r6-fields">}}
@@ -93,6 +116,7 @@ as it might be subject to change without any warning.}
 \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
 \item \href{#method-Mapping-save}{\code{Mapping$save()}}
 \item \href{#method-Mapping-set_options}{\code{Mapping$set_options()}}
+\item \href{#method-Mapping-read_data}{\code{Mapping$read_data()}}
 \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
 }
 }
@@ -180,16 +204,54 @@ Save the modified data to a file
 The data can be exported to the file formats of Stata & SPSS. The Excel
 export removes variable & value labels.
 \subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(...)}\if{html}{\out{</div>}}
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(path = NULL, show = FALSE, name = "dat", filetype = "sav", ...)}\if{html}{\out{</div>}}
 }
 
 \subsection{Arguments}{
 \if{html}{\out{<div class="arguments">}}
 \describe{
-\item{\code{...}}{arguments passed to \code{save_mapping()}}
+\item{\code{path}}{\code{character()} string or \code{NULL}. If \code{NULL} (the default) it
+will write the file to the path in \code{self$opts$da$save_path} with
+the file \code{name} & \code{filetype}.}
+
+\item{\code{show}}{Whether to directly open the file (needs the according
+software installed and setup to open its filetype).}
+
+\item{\code{name}}{\code{character()} string containing the filename to be written.
+Is overwritten, by \code{path} if not \code{NULL}.}
+
+\item{\code{filetype}}{\code{character()} string containing the filetype to be
+written. Is overwritten, by \code{path} if not \code{NULL}.}
+
+\item{\code{...}}{Passed to methods.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Examples}{
+\if{html}{\out{<div class="r example copy">}}
+\preformatted{\dontrun{
+# Create a Mapping object from the files provided by the package:
+mapping_file <- system.file(
+  "extdata",
+  "mapping.xlsx",
+  package = "datadaptor"
+)
+spss_file <- system.file(
+  "extdata",
+  "mtcars_labelled.sav",
+  package = "datadaptor"
+)
+m <- Mapping$new(spss_file, mapping_file)
+
+# The method applies the modifications specified in a command_blocks object
+m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
+m$save("stata_data.dta", show = TRUE)
+}
+}
+\if{html}{\out{</div>}}
+
+}
+
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-set_options"></a>}}
@@ -217,6 +279,25 @@ The rest is written to the \code{opts$dev} field.
 \if{html}{\out{<div class="arguments">}}
 \describe{
 \item{\code{...}}{arguments passed to \code{get_mapping_options()}}
+}
+\if{html}{\out{</div>}}
+}
+}
+\if{html}{\out{<hr>}}
+\if{html}{\out{<a id="method-Mapping-read_data"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-read_data}{}}}
+\subsection{Method \code{read_data()}}{
+Read in dataset
+\subsection{Usage}{
+\if{html}{\out{<div class="r">}}\preformatted{Mapping$read_data(dat, ...)}\if{html}{\out{</div>}}
+}
+
+\subsection{Arguments}{
+\if{html}{\out{<div class="arguments">}}
+\describe{
+\item{\code{dat}}{Dataset indentifier (see \code{?read_data_} helper function).}
+
+\item{\code{...}}{Arguments passed to \code{read_data_()} helper function.}
 }
 \if{html}{\out{</div>}}
 }

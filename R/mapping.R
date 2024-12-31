@@ -109,12 +109,7 @@ Mapping <- R6Class(
 
       self$set_options(...)
 
-      self$dat <- read_data(
-        dat,
-        database_dsn = self$opts$da$database_dsn,
-        project_name = self$opts$da$project_name,
-        version = self$opts$da$version
-      )
+      self$dat <- self$read_data(dat)
 
       if (process_sheets) {
         self$process_sheet_commands()
@@ -164,9 +159,50 @@ Mapping <- R6Class(
     #' The data can be exported to the file formats of Stata & SPSS. The Excel
     #' export removes variable & value labels.
     #'
-    #' @param ... arguments passed to `save_mapping()`
-    save = function(...) {
-      save_mapping(self, ...)
+    #' @param path `character()` string or `NULL`. If `NULL` (the default) it
+    #'   will write the file to the path in `self$opts$da$save_path` with
+    #'   the file `name` & `filetype`.
+    #' @param show Whether to directly open the file (needs the according
+    #'   software installed and setup to open its filetype).
+    #' @param name `character()` string containing the filename to be written.
+    #'    Is overwritten, by `path` if not `NULL`.
+    #' @param filetype `character()` string containing the filetype to be
+    #'   written. Is overwritten, by `path` if not `NULL`.
+    #' @param ... Passed to methods.
+    #' @examples
+    #' \dontrun{
+    #' # Create a Mapping object from the files provided by the package:
+    #' mapping_file <- system.file(
+    #'   "extdata",
+    #'   "mapping.xlsx",
+    #'   package = "datadaptor"
+    #' )
+    #' spss_file <- system.file(
+    #'   "extdata",
+    #'   "mtcars_labelled.sav",
+    #'   package = "datadaptor"
+    #' )
+    #' m <- Mapping$new(spss_file, mapping_file)
+    #'
+    #' # The method applies the modifications specified in a command_blocks object
+    #' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
+    #' m$save("stata_data.dta", show = TRUE)
+    #' }
+    save = function(
+      path = NULL,
+      show = FALSE,
+      name = "dat",
+      filetype = "sav",
+      ...
+    ) {
+      if (is.null(path)) {
+        path <- paste0(self$opts$da$save_path, "/", name, ".", filetype)
+      } else {
+        filetype <- str_remove(path, ".*\\.")
+      }
+      save_type(self$dat_mod, path, filetype)
+
+      if (show) browseURL(path)
       invisible(self)
     },
     #' @description Set / change options of the `Mapping` object
@@ -199,6 +235,13 @@ Mapping <- R6Class(
         da,
         dev
       )
+    },
+    #' @description Read in dataset
+    #'
+    #' @param dat Dataset indentifier (see `?read_data_` helper function).
+    #' @param ... Arguments passed to `read_data_()` helper function.
+    read_data = function(dat, ...) {
+      read_data_(dat, ...)
     }
   ),
   private = list(
@@ -229,76 +272,6 @@ set_mapping_type <- function(self) {
   self$mapping_type <- determine_mapping_type(self)
   class(self$mapping_file) <- self$mapping_type
 }
-#' Save the modified data of a mapping to a file
-#'
-#' The data can be exported to the file formats of Stata & SPSS. The Excel
-#' export removes variable & value labels. Rmarkdown filetypes ("Rmd").
-#'
-#' @param mapping `Mapping` object
-#' @param path `character()` string or `NULL`. If `NULL` (the default) it
-#'   will write the file to the path in `self$opts$da$save_path` with
-#'   the file `name` & `filetype`.
-#' @param show Whether to directly open the file (needs the according
-#'   software installed and setup to open its filetype).
-#' @param name `character()` string containing the filename to be written.
-#'    Is overwritten, by `path` if not `NULL`.
-#' @param filetype `character()` string containing the filetype to be
-#'   written. Is overwritten, by `path` if not `NULL`.
-#' @param dataset_to_db `boolean()` if `TRUE`, the dataset information is
-#'   saved to the database
-#' @param ... used to pass arguments from `Mapping$save(...)`
-#' @noRd
-#' @examples
-#' \dontrun{
-#' # Create a Mapping object from the files provided by the package:
-#' mapping_file <- system.file(
-#'   "extdata",
-#'   "mapping.xlsx",
-#'   package = "datadaptor"
-#' )
-#' spss_file <- system.file(
-#'   "extdata",
-#'   "mtcars_labelled.sav",
-#'   package = "datadaptor"
-#' )
-#' m <- Mapping$new(spss_file, mapping_file)
-#'
-#' # The method applies the modifications specified in a command_blocks object
-#' m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
-#' m$save("stata_data.dta", show = TRUE)
-#' }
-save_mapping <- function(
-  mapping,
-  path = NULL,
-  show = FALSE,
-  name = "dat",
-  filetype = "sav",
-  dataset_to_db = FALSE,
-  ...
-) {
-  if (is.null(path)) {
-    path <- paste0(mapping$opts$da$save_path, "/", name, ".", filetype)
-  } else {
-    filetype <- str_remove(path, ".*\\.")
-  }
-  save_type(mapping$dat_mod, path, filetype)
-
-  # write dataset info to database
-  if (dataset_to_db) {
-    dataset_to_database(
-      dat = mapping$dat_mod,
-      filepath = path,
-      database_dsn = mapping$opts$da$database_dsn,
-      version = mapping$opts$da$version,
-      project_name = mapping$opts$da$project_name,
-      cmd_tbl = mapping$cmd_tbl,
-      data_origin = attr(mapping$dat_mod, "DC_dataset_origin")
-    )
-  }
-
-  if (show) browseURL(path)
-}
-
 
 save_type <- function(df, path, filetype) {
   switch(filetype,
@@ -428,25 +401,22 @@ add_error_list <- function(self) {
 #'  extension) or returns `NULL` in case of `NULL`.
 #'
 #' @export
-read_data <- function(dat, ...) {
+read_data_ <- function(dat, ...) {
   if (is.null(dat)) {
     return(NULL)
   }
-  UseMethod("read_data")
+  UseMethod("read_data_")
 }
 #' @export
-read_data.data.frame <- function(
+read_data_.data.frame <- function(
     dat,
     ...
 ) {
   dat
 }
 #' @export
-read_data.character <- function(
+read_data_.character <- function(
     dat,
-    database_dsn = "",
-    version = "",
-    project_name ="",
     ...
 ) {
   filetype <- str_remove(dat, ".*\\.")
@@ -458,15 +428,6 @@ read_data.character <- function(
     "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
-  if (!is.null(database_dsn) && database_dsn != "") {
-    attr(df, "DC_dataset_origin") <- dataset_to_database(
-      df,
-      dat,
-      database_dsn,
-      version,
-      project_name
-    )
-  }
   df
 }
 
@@ -503,14 +464,6 @@ read_data.character <- function(
 #'   block.
 #' @param not_miss_to_filter_vars Space separated character string of variable
 #'   names spared out for `apply_command.cmd_recna_xcpt()`.
-#' @param database_dsn Defaults to `NULL`; Character string of the database dsn.
-#'   Only used in crosstabser.
-#' @param project_name Name of the project to write to the database;
-#'   defaults to `""`.
-#' @param version Name of the version to write to the database;
-#'   defaults to `""`.
-#' @param qrow_db_write Defaults to `FALSE`;
-#'   Should the crosstabs data be written to the database in the calculation of every Qrow?
 #' @param verbose Defaults to `FALSE`;
 #'   If `TRUE` will be more chatty about what's happening
 #'   (Very preliminary! at the moment, only used in crosstabser).
@@ -533,10 +486,6 @@ get_mapping_options <- function(
     miss_rec_val = -2,
     na_to_filter = TRUE,
     not_miss_to_filter_vars = NA_character_,
-    database_dsn = NULL,
-    project_name = "",
-    version = "",
-    qrow_db_write = FALSE,
     verbose = FALSE,
     ...) {
   p <- lst(
@@ -551,10 +500,6 @@ get_mapping_options <- function(
     miss_rec_lab,
     miss_rec_val,
     not_miss_to_filter_vars,
-    database_dsn,
-    project_name,
-    version,
-    qrow_db_write,
     verbose,
     ...
   )

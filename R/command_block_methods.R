@@ -232,12 +232,7 @@ apply_command.cmd_merge <- function(
   if (is.na(id)) {
     id <- mapping$opts$da$id_var
   }
-  df_merge <- read_data(
-    filepath,
-    database_dsn = mapping$opts$da$database_dsn,
-    project_name = mapping$opts$da$project_name,
-    version = mapping$opts$da$version
-  )
+  df_merge <- mapping$read_data(filepath)
 
   # If `xs` is specified in Excel sheet, keep only variables in `xs`:
   if (!is.na(xs[1])) {
