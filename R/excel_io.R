@@ -30,6 +30,31 @@ create_mapping <- function(df_raw, mapping_file, mapping_type = "excel") {
   create_mapping_xlsx(df_raw, mapping_file)
 }
 create_mapping_xlsx <- function(df_raw, mapping_file) {
+  wb <- create_mapping_workbook(df_raw)
+  wb$save(mapping_file)
+  message("Excel mapping file written to '", mapping_file, "'")
+}
+
+#' Create a mapping openxlsx2 workbook object
+#'
+#' @param df_raw dataframe with labelled variables, e.g. resulting from
+#'   haven::read_sav
+#'
+#' @return openxlsx2 workbook object
+#' @export
+#'
+#' @seealso [create_mapping()] to directly save the mapping to a file.
+#' @examples
+#' spss_file <- system.file(
+#'   "extdata",
+#'   "mtcars_labelled.sav",
+#'   package = "datadaptor"
+#' )
+#' df <- haven::read_sav(spss_file)
+#' \dontrun{
+#' create_mapping_workbook(df)
+#' }
+create_mapping_workbook <- function(df_raw) {
   df_varlab <- gen_var_table(df_raw)
   df_vallabs <- gen_label_table(df_raw)
 
@@ -45,11 +70,9 @@ create_mapping_xlsx <- function(df_raw, mapping_file) {
   wb$add_data(sheet = "Label", x = df_vallabs)
   wb$add_data(sheet = "Verbatims", x = "")
   wb$add_data(sheet = "Free1", x = "")
-
-  # Export the file
-  wb$save(mapping_file)
-  message("Excel mapping file written to '", mapping_file, "'")
+  wb
 }
+
 #' Extract variable label sheet of Excel mapping file to dataframe
 #'
 #' @param  self \code{Mapping} object
