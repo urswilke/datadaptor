@@ -1,5 +1,5 @@
 Package: datadaptor
-Title: An R Package To Make Data Adjustments In Spss & Stata Data Sets Via Excel Files
+Title: Modify Labelled Data Sets With Excel Files
 Version: 0.0.0.9000
 Authors@R: 
     c(
@@ -13,7 +13,15 @@ Authors@R:
                role = c("aut"),
                email = "wilke@data-connection.de")
     )
-Description: An R package to make data adjustments ("Datenanpassungen" in German) with predefined command blocks in Excel files. SPSS & Stata data sets are loaded and their variables can be manipulated from Excel files. These are auto-generated based on a template and containing information of the dataset's variables.
+Description: A meta-programming approach to modify labelled data sets 
+    with commands in Excel files. 
+    The commands in this package allow to modify the labels of the variables,
+    as well as the variables themselves. 
+    The goal is to provide an easy & concise syntax, 
+    and to allow for fast systematic data entry using Excel for advanced users.
+    The commands work on the variables inside the data.frame environment
+    (like e.g. inside dplyr verbs), thus providing an approach 
+    that might ease the use for people without in-depth programming experience.
 License: AGPL (>= 3) + file LICENSE
 Suggests: 
     testthat,
