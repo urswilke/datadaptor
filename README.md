@@ -5,10 +5,10 @@
 
 <!-- badges: start -->
 
-[![Lifecycle:
-experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://www.tidyverse.org/lifecycle/#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/datadaptor)](https://CRAN.R-project.org/package=datadaptor)
+[![datadaptor status
+badge](https://urswilke.r-universe.dev/datadaptor/badges/version)](https://urswilke.r-universe.dev/datadaptor)
 <!-- badges: end -->
 
 The R package datadaptor is an approach to programmatically manipulate
