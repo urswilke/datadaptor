@@ -37,7 +37,7 @@ read_sav(path)
 
 ### Mapping file
 
-An example of commands that can be entered in the mapping file created by `mapp_create()` can be found [here](../inst/extdata/mapping.xlsx)
+An example of commands that can be entered in the mapping file created by `create_mapping()` can be found [here](../inst/extdata/mapping.xlsx)
 
 
 <!-- ### Included verbatim file  -->

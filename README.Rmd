@@ -61,7 +61,7 @@ and want to modify some of the content.
 
 
 <!-- ```{r, eval=FALSE} -->
-<!-- datadaptor::mapp_create(df, "mapping.xlsx") -->
+<!-- datadaptor::create_mapping(df, "mapping.xlsx") -->
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping file](inst/extdata/mapping.xlsx) to demonstrate the commands in this package. If you install `datadaptor`, you can access the path of this file with

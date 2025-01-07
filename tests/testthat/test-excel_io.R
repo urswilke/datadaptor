@@ -5,7 +5,7 @@ test_that("mapping xlsx generation works", {
     path,
     {
       testthat::expect_message(
-        mapp_create(dat, path),
+        create_mapping(dat, path),
         regexp = paste0("Excel mapping file written to '", path, "'")
       )
 

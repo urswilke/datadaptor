@@ -65,7 +65,7 @@ and want to modify some of the content.
 <!-- TODO:  -->
 <!-- You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset: -->
 <!-- ```{r, eval=FALSE} -->
-<!-- datadaptor::mapp_create(df, "mapping.xlsx") -->
+<!-- datadaptor::create_mapping(df, "mapping.xlsx") -->
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping
@@ -150,5 +150,5 @@ haven::write_sav(df_mod, "mtcars_labelled_mod.sav")
 
 ## Security warning
 
-datadaptor evaluates code from user input. Do not expose this program
-to the internet or random users under any circumstances.
+datadaptor evaluates code from user input. Do not expose this program to
+the internet or random users under any circumstances.

@@ -24,12 +24,12 @@
 #' )
 #' df <- haven::read_sav(spss_file)
 #' \dontrun{
-#' mapp_create(df, "mapping.xlsx")
+#' create_mapping(df, "mapping.xlsx")
 #' }
-mapp_create <- function(df_raw, mapping_file, mapping_type = "excel") {
-  mapp_create_xlsx(df_raw, mapping_file)
+create_mapping <- function(df_raw, mapping_file, mapping_type = "excel") {
+  create_mapping_xlsx(df_raw, mapping_file)
 }
-mapp_create_xlsx <- function(df_raw, mapping_file) {
+create_mapping_xlsx <- function(df_raw, mapping_file) {
   df_varlab <- gen_var_table(df_raw)
   df_vallabs <- gen_label_table(df_raw)
 
@@ -61,7 +61,7 @@ mapp_create_xlsx <- function(df_raw, mapping_file) {
 #'
 #' @examples
 #' # create empty template from labelled dataset `mtcars_labelled` via:
-#' # mapp_create(mtcars_labelled, "mapping.xlsx")
+#' # create_mapping(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
@@ -205,7 +205,7 @@ parse_str_to_num_cmd_block <- function(df_varl) {
 #'
 #' @examples
 #' # create empty template from labelled dataset `mtcars_labelled` via:
-#' # mapp_create(mtcars_labelled, "mapping.xlsx")
+#' # create_mapping(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
@@ -294,7 +294,7 @@ parse_newvall_cmd_table <- function(df_vall) {
 #'
 #' @examples
 #' # create empty template from labelled dataset `mtcars_labelled` via:
-#' # mapp_create(mtcars_labelled, "mapping.xlsx")
+#' # create_mapping(mtcars_labelled, "mapping.xlsx")
 #' mapping_file <- system.file(
 #'   "extdata",
 #'   "mapping.xlsx",
