@@ -13,10 +13,10 @@ Authors@R:
                role = c("aut"),
                email = "wilke@data-connection.de")
     )
-Description: A meta-programming approach to modify labelled data sets 
+Description: An R package to modify labelled data sets 
     with commands in Excel files. 
-    The commands in this package allow to modify the labels of the variables,
-    as well as the variables themselves. 
+    The commands in this package allow to create new variables,
+    and modify the labels of the variables, as well as the variables themselves. 
     The goal is to provide an easy & concise syntax, 
     and to allow for fast systematic data entry using Excel for advanced users.
     The commands work on the variables inside the data.frame environment
