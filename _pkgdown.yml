@@ -9,4 +9,7 @@ repo:
 template:
   bootstrap: 5
   light-switch: true
+  primary: "#0054AD"
+  danger: "#A6081A"
+
 destination: public/
