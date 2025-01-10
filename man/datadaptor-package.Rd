@@ -4,9 +4,17 @@
 \name{datadaptor-package}
 \alias{datadaptor}
 \alias{datadaptor-package}
-\title{datadaptor: An R Package To Make Data Adjustments In Spss & Stata Data Sets Via Excel Files}
+\title{datadaptor: Modify Labelled Data Sets With Excel Files}
 \description{
-An R package to make data adjustments ("Datenanpassungen" in German) with predefined command blocks in Excel files. SPSS & Stata data sets are loaded and their variables can be manipulated from Excel files. These are auto-generated based on a template and containing information of the dataset's variables.
+An R package to modify labelled data sets with commands in Excel files. The commands in this package allow to create new variables, and modify the labels of the variables, as well as the variables themselves. The goal is to provide an easy & concise syntax, and to allow for fast systematic data entry using Excel for advanced users. The commands work on the variables inside the data.frame environment (like e.g. inside dplyr verbs), thus providing an approach that might ease the use for people without in-depth programming experience.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://urswilke.gitlab.io/datadaptor}
+  \item \url{https://gitlab.com/urswilke/datadaptor}
+}
+
 }
 \author{
 \strong{Maintainer}: Urs Wilke \email{urs.wilke@gmail.com} (\href{https://orcid.org/0000-0001-7257-2524}{ORCID})
