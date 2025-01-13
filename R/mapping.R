@@ -96,6 +96,7 @@ Mapping <- R6Class(
     #'   of the commands in the Excel mapping file to the modify_data() method
     #' @param ... Arguments passed to the `Mapping$set_options()` method
     #'   which will populate  the `Mapping$opts$da` field of the object.
+    #' @return A new `Mapping` object.
     initialize = function(dat = NULL,
                           mapping_file = NULL,
                           mapping_type = NULL,

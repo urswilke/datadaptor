@@ -154,6 +154,9 @@ which will populate  the \code{Mapping$opts$da} field of the object.}
 }
 \if{html}{\out{</div>}}
 }
+\subsection{Returns}{
+A new \code{Mapping} object.
+}
 }
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-process_sheet_commands"></a>}}
