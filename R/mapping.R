@@ -164,10 +164,10 @@ Mapping <- R6Class(
     #'   will write the file to the path in `self$opts$da$save_path` with
     #'   the file `name` & `filetype`.
     #' @param show Whether to directly open the file (needs the according
-    #'   software installed and setup to open its filetype).
-    #' @param name `character()` string containing the filename to be written.
+    #'   software installed and setup to open its `filetype`).
+    #' @param name `character()` string containing the file name to be written.
     #'    Is overwritten, by `path` if not `NULL`.
-    #' @param filetype `character()` string containing the filetype to be
+    #' @param filetype `character()` string containing the file type to be
     #'   written. Is overwritten, by `path` if not `NULL`.
     #' @param ... Passed to methods.
     #' @examples

@@ -218,12 +218,12 @@ will write the file to the path in \code{self$opts$da$save_path} with
 the file \code{name} & \code{filetype}.}
 
 \item{\code{show}}{Whether to directly open the file (needs the according
-software installed and setup to open its filetype).}
+software installed and setup to open its \code{filetype}).}
 
-\item{\code{name}}{\code{character()} string containing the filename to be written.
+\item{\code{name}}{\code{character()} string containing the file name to be written.
 Is overwritten, by \code{path} if not \code{NULL}.}
 
-\item{\code{filetype}}{\code{character()} string containing the filetype to be
+\item{\code{filetype}}{\code{character()} string containing the file type to be
 written. Is overwritten, by \code{path} if not \code{NULL}.}
 
 \item{\code{...}}{Passed to methods.}
