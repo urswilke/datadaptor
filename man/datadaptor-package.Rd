@@ -13,6 +13,7 @@ Useful links:
 \itemize{
   \item \url{https://urswilke.gitlab.io/datadaptor}
   \item \url{https://gitlab.com/urswilke/datadaptor}
+  \item \url{https://urswilke.r-universe.dev/datadaptor}
 }
 
 }

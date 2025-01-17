@@ -65,4 +65,7 @@ Imports:
     openxlsx2
 VignetteBuilder: knitr
 Language: en-US
-URL: https://urswilke.gitlab.io/datadaptor, https://gitlab.com/urswilke/datadaptor
+URL: 
+    https://urswilke.gitlab.io/datadaptor, 
+    https://gitlab.com/urswilke/datadaptor,
+    https://urswilke.r-universe.dev/datadaptor
