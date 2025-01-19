@@ -424,7 +424,7 @@ cmd_block_tibble <- tibble::tribble(
 illustrate_cmd_block(dat, cmd_block_tibble, sheet_cat, na_to_filter = FALSE)
 ```
 
-The `#REC` command **rec**odes variables. In this example `q1` is recoded to `q2`.
+The `#REC` command **rec**odes variables. In this example `q1` is recoded to `kq1`.
 (In the first line of the command block, column **B** specifies the variable to be recoded, 
 and in column **C** the name of the recoded variable. Column **D** assigns the new 
 variable label.) In the following rows you specify the intervals to be recoded 
