@@ -8,7 +8,7 @@ create_mapping_workbook(df_raw)
 }
 \arguments{
 \item{df_raw}{dataframe with labelled variables, e.g. resulting from
-haven::read_sav}
+\code{haven::read_sav}}
 }
 \value{
 openxlsx2 workbook object

@@ -39,7 +39,7 @@ create_mapping_xlsx <- function(df_raw, mapping_file) {
 #' Create a mapping openxlsx2 workbook object
 #'
 #' @param df_raw dataframe with labelled variables, e.g. resulting from
-#'   haven::read_sav
+#'   `haven::read_sav`
 #'
 #' @return openxlsx2 workbook object
 #' @export
