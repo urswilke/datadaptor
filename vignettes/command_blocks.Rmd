@@ -673,14 +673,9 @@ See the documentation of `dplyr::across()` for a more thorough documentation.
 
 # `curlychop()`
 
-My brother originally called this function `severalize()`. As I was having a 
-hard time getting to used to this work back then, I decided that I wanted to 
-give it another name that at least sounds more interesting. I ended up with 
-`curlychop()` (click link for the documentation of the underlying R function). 
-
-The idea is to prevent you from writing redundant code by turning one line into
-several commands. Let's have a first look 
-at it with the help of an example.
+The idea of the function `curlychop()` is to prevent you 
+from writing redundant code by turning one line into several commands. 
+Let's have a first look at it with the help of an example.
 
 ### Example
 
