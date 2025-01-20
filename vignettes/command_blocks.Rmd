@@ -430,7 +430,7 @@ and in column **C** the name of the recoded variable. Column **D** assigns the n
 variable label.) In the following rows you specify the intervals to be recoded 
 in column **B** and **C**, column **D** specifies the new value and column **E**
 its label. So for instance, the second line specifies, that all values in `q1` 
-between 1 and 2 are recoded to 1 in `q2` with the value label `a & b`.
+between 1 and 2 are recoded to 1 in `kq1` with the value label `a & b`.
 
 ### Example
 
@@ -584,7 +584,7 @@ dat <- tibble(
 
 cmd_block_tibble <- tibble::tribble(
   ~X1, ~X2, ~X3,
-  "#RENAME", "a2", "new_name_for_a1",
+  "#RENAME", "a2", "new_name_for_a2",
   "", "b2", "new_name_for_b2"
 )
 
