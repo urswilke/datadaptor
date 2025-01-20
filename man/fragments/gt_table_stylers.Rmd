@@ -6,7 +6,7 @@ output: html_document
 excelish <- function(data) {
   gt::gt(data) %>% 
   gt::tab_options(table.align = "left") %>% 
-  gtExtras::gt_theme_excel() %>% 
+  gtExtras::gt_theme_excel(color = "#aaa") %>% 
   gt::sub_missing(missing_text = "")
 }
 # add tooltips to gt column titles:
