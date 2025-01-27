@@ -31,6 +31,36 @@
 #' df
 "mtcars_labelled"
 
+#' Toy data of a fictional survey about fruits
+#'
+#' This dataset contains the made-up answers of a fictional survey about fruits.
+#' The same data is also included in the package in SPSS format.
+#' See in the examples section how to load the SPSS version to R.
+#'
+#'
+#' @format A data frame with 100 observations on 12 variables:
+#' \describe{
+#'   \item{id}{respondent id}
+#'   \item{q1}{answers to Q1}
+#'   \item{q2_1}{answers to Q2 - 1st item}
+#'   \item{q2_2}{answers to Q2 - 2nd item}
+#'   \item{q2_3}{answers to Q2 - 3rd item}
+#'   \item{q2_97}{answers to Q2 - 4th item}
+#'   \item{q3_1}{answers to Q3 - 1st item}
+#'   \item{q3_2}{answers to Q3 - 2nd item}
+#'   \item{q3_3}{answers to Q3 - 3rd item}
+#'   \item{q3_97}{answers to Q3 - 4th item}
+#'   \item{q4}{answers to Q4}
+#'   \item{q5}{answers to Q5}
+#' }
+#' @examples
+#' datadaptor::fruit_survey
+#' path <- system.file("extdata", "fruit_survey.sav", package = "datadaptor")
+#' df <- haven::read_sav(path)
+#' df
+#' labelled::generate_dictionary(fruit_survey)
+"fruit_survey"
+
 #' `command_block` overview
 #'
 #' A dataset containing the list of `keyword`s that can be used in the Excel
