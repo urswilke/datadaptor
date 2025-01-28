@@ -55,7 +55,7 @@ command_block_classes |>
     sheet,
     command_block
   ) |>
-  excelish()
+  striped()
 ```
 
 *The column* `"command_block"` *shows the class, which determines how 
