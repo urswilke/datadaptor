@@ -55,7 +55,7 @@ usethis::use_data(command_block_classes, overwrite = TRUE)
 
 ```
 
-### `toy_survey` dataset
+### `fruit_survey` dataset
 
 ```{r}
 N <- 100
@@ -92,7 +92,7 @@ fruit_survey <- tibble(id = seq_len(N)) |>
 
 df_fav <- fruit_survey |> 
   select(id, q2_1:q2_97) |> 
-  pivot_longer(-id, names_prefix = "q2_") |> 
+  tidyr::pivot_longer(-id, names_prefix = "q2_") |> 
   filter(value == 1) |> 
   mutate(name = name |> as.numeric()) |> 
   summarise(
