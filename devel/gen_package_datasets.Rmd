@@ -59,7 +59,7 @@ usethis::use_data(command_block_classes, overwrite = TRUE)
 
 ```{r}
 N <- 100
-set.seed(123)
+set.seed(111)
 mdg_vallabs <- c(`Not selected` = 0, `Selected` = 1)
 scale_vallabs <- c(`1 = It's not bad` = 1, `2` = 2, `3` = 3, `4` = 4, `5 = I love it` = 5)
 fruit_survey_labels <- tibble::tribble(
@@ -80,10 +80,10 @@ fruit_survey_labels <- tibble::tribble(
 fruit_survey <- tibble(id = seq_len(N)) |> 
   mutate(
     q1 = sample(c(rep(1, 20), rep(2, 5), 99), N, TRUE),
-    q2_1 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
-    q2_2 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
-    q2_3 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
-    q2_97 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
+    q2_1 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q2_2 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q2_3 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q2_97 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
     q3_1 = ifelse(q2_1 == 1, sample(1:5, N, TRUE), NA_real_),
     q3_2 = ifelse(q2_2 == 1, sample(1:5, N, TRUE), NA_real_),
     q3_3 = ifelse(q2_3 == 1, sample(1:5, N, TRUE), NA_real_),
@@ -97,12 +97,16 @@ df_fav <- fruit_survey |>
   mutate(name = name |> as.numeric()) |> 
   summarise(
     n_fruits = n(), 
-    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name |> rep(20), 99), 1)), 
+    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name |> rep(10), 99), 1)), 
     .by = "id"
   ) |> 
   select(-n_fruits)
 fruit_survey <- fruit_survey |> left_join(df_fav, by = "id") 
-fruit_survey$q5 <- ifelse(fruit_survey$q4 %in% 1:97, 1 + rweibull(N, 1.8, 4) |> round(), NA_real_)
+fruit_survey$q5 <- ifelse(
+  fruit_survey$q4 %in% 1:97, 
+  1 + rweibull(N, 1.8, 4) |> round(), 
+  NA_real_
+)
 
 f <- function(var, varlab, vallabs) {
   haven::labelled(fruit_survey[[var]], label = varlab, labels = vallabs)
