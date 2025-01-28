@@ -99,15 +99,14 @@ df_fav <- fruit_survey |>
     n_fruits = n(), 
     q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name |> rep(10), 99), 1)), 
     .by = "id"
-  ) |> 
-  select(-n_fruits)
+  )
 fruit_survey <- fruit_survey |> left_join(df_fav, by = "id") 
 fruit_survey$q5 <- ifelse(
-  fruit_survey$q4 %in% 1:97, 
+  fruit_survey$q4 %in% 1:97 | fruit_survey$n_fruits == 1, 
   1 + rweibull(N, 1.8, 4) |> round(), 
   NA_real_
 )
-
+fruit_survey$n_fruits <- NULL
 f <- function(var, varlab, vallabs) {
   haven::labelled(fruit_survey[[var]], label = varlab, labels = vallabs)
 }
