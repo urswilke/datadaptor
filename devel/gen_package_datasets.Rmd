@@ -79,11 +79,11 @@ fruit_survey_labels <- tibble::tribble(
 )
 fruit_survey <- tibble(id = seq_len(N)) |> 
   mutate(
-    q1 = sample(c(rep(1, 10), rep(2, 5), 99), N, TRUE),
-    q2_1 = ifelse(q1 == 1, sample(0:1, N, TRUE), NA_real_),
-    q2_2 = ifelse(q1 == 1, sample(0:1, N, TRUE), NA_real_),
-    q2_3 = ifelse(q1 == 1, sample(0:1, N, TRUE), NA_real_),
-    q2_97 = ifelse(q1 == 1, sample(0:1, N, TRUE), NA_real_),
+    q1 = sample(c(rep(1, 20), rep(2, 5), 99), N, TRUE),
+    q2_1 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
+    q2_2 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
+    q2_3 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
+    q2_97 = ifelse(q1 == 1, sample(c(rep(1, 4), 0), N, TRUE), NA_real_),
     q3_1 = ifelse(q2_1 == 1, sample(1:5, N, TRUE), NA_real_),
     q3_2 = ifelse(q2_2 == 1, sample(1:5, N, TRUE), NA_real_),
     q3_3 = ifelse(q2_3 == 1, sample(1:5, N, TRUE), NA_real_),
@@ -97,12 +97,12 @@ df_fav <- fruit_survey |>
   mutate(name = name |> as.numeric()) |> 
   summarise(
     n_fruits = n(), 
-    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name |> rep(3), 99), 1)), 
+    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name |> rep(20), 99), 1)), 
     .by = "id"
   ) |> 
   select(-n_fruits)
 fruit_survey <- fruit_survey |> left_join(df_fav, by = "id") 
-fruit_survey$q5 <- ifelse(fruit_survey$q1 == 1, rpois(N, 4), NA_real_)
+fruit_survey$q5 <- ifelse(fruit_survey$q4 %in% 1:97, 1 + rweibull(N, 1.8, 4) |> round(), NA_real_)
 
 f <- function(var, varlab, vallabs) {
   haven::labelled(fruit_survey[[var]], label = varlab, labels = vallabs)
@@ -121,7 +121,6 @@ fruit_survey <- fruit_survey_labels |>
 haven::write_sav(fruit_survey, "inst/extdata/fruit_survey.sav")
 
 usethis::use_data(fruit_survey, overwrite = TRUE)
-
 ```
 
 
