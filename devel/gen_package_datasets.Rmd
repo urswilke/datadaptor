@@ -91,13 +91,13 @@ fruit_survey <- tibble(id = seq_len(N)) |>
   )
 
 df_fav <- fruit_survey |> 
-  select(id, q2_1:q2_97) |> 
-  tidyr::pivot_longer(-id, names_prefix = "q2_") |> 
-  filter(value == 1) |> 
+  select(id, q3_1:q3_97) |> 
+  tidyr::pivot_longer(-id, names_prefix = "q3_") |> 
+  tidyr::drop_na(value) |> 
   mutate(name = name |> as.numeric()) |> 
   summarise(
     n_fruits = n(), 
-    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name |> rep(10), 99), 1)), 
+    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name[which.max(value)] |> rep(10), 99), 1)), 
     .by = "id"
   )
 fruit_survey <- fruit_survey |> left_join(df_fav, by = "id") 
