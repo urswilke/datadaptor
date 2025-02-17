@@ -55,6 +55,78 @@ usethis::use_data(command_block_classes, overwrite = TRUE)
 
 ```
 
+### `fruit_survey` dataset
+
+```{r}
+N <- 100
+set.seed(111)
+mdg_vallabs <- c(`Not selected` = 0, `Selected` = 1)
+scale_vallabs <- c(`1 = It's not bad` = 1, `2` = 2, `3` = 3, `4` = 4, `5 = I love it` = 5)
+fruit_survey_labels <- tibble::tribble(
+    ~var,                   ~varlab, ~vallabs,
+    "id", "ID variable", c(),
+   "q1",       "Do you like fruits?", c(`Yes` = 1, `No` = 2, `No answer` = 99),
+   "q2_1", "Which fruits do you like? - Apple", mdg_vallabs,
+   "q2_2", "Which fruits do you like? - Banana", mdg_vallabs,
+   "q2_3", "Which fruits do you like? - Orange", mdg_vallabs,
+   "q2_97", "Which fruits do you like? - Others", mdg_vallabs,
+   "q3_1", "Please rate on a scale from 1 to 5 how much you like this fruit - Apple", scale_vallabs,
+   "q3_2", "Please rate on a scale from 1 to 5 how much you like this fruit - Banana", scale_vallabs,
+   "q3_3", "Please rate on a scale from 1 to 5 how much you like this fruit - Orange", scale_vallabs,
+   "q3_97", "Please rate on a scale from 1 to 5 how much you like this/these fruit(s) - Others", scale_vallabs,
+   "q4", "What's your favorite fruit?", c(`Apple` = 1, Banana = 2, Orange = 3, Others = 97, `No answer` = 99),
+   "q5", "How many of your favorite fruit do you like to eat?", c(),
+)
+fruit_survey <- tibble(id = seq_len(N)) |> 
+  mutate(
+    q1 = sample(c(rep(1, 20), rep(2, 5), 99), N, TRUE),
+    q2_1 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q2_2 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q2_3 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q2_97 = ifelse(q1 == 1, sample(c(rep(1, 3), 0), N, TRUE), NA_real_),
+    q3_1 = ifelse(q2_1 == 1, sample(1:5, N, TRUE), NA_real_),
+    q3_2 = ifelse(q2_2 == 1, sample(1:5, N, TRUE), NA_real_),
+    q3_3 = ifelse(q2_3 == 1, sample(1:5, N, TRUE), NA_real_),
+    q3_97 = ifelse(q2_97 == 1, sample(1:5, N, TRUE), NA_real_),
+  )
+
+df_fav <- fruit_survey |> 
+  select(id, q3_1:q3_97) |> 
+  tidyr::pivot_longer(-id, names_prefix = "q3_") |> 
+  tidyr::drop_na(value) |> 
+  mutate(name = name |> as.numeric()) |> 
+  summarise(
+    n_fruits = n(), 
+    q4 = ifelse(n_fruits == 1, NA_real_, sample(c(name[which.max(value)] |> rep(10), 99), 1)), 
+    .by = "id"
+  )
+fruit_survey <- fruit_survey |> left_join(df_fav, by = "id") 
+fruit_survey$q5 <- ifelse(
+  fruit_survey$q4 %in% 1:97 | fruit_survey$n_fruits == 1, 
+  1 + rweibull(N, 1.8, 4) |> round(), 
+  NA_real_
+)
+fruit_survey$n_fruits <- NULL
+f <- function(var, varlab, vallabs) {
+  haven::labelled(fruit_survey[[var]], label = varlab, labels = vallabs)
+}
+
+fruit_survey <- fruit_survey_labels |> 
+  pmap_dfc(f) |>
+  suppressMessages() |>
+  set_names(names(fruit_survey))
+```
+
+
+* use as package dataset and spss file
+
+```{r}
+haven::write_sav(fruit_survey, "inst/extdata/fruit_survey.sav")
+
+usethis::use_data(fruit_survey, overwrite = TRUE)
+```
+
+
 
 
 ### `mtcars_labelled` dataset

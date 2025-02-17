@@ -3,11 +3,16 @@ output: html_document
 ---
 
 ```{r fun_defs}
-excelish <- function(data) {
+striped <- function(data) {
   gt::gt(data) %>% 
-  gt::tab_options(table.align = "left") %>% 
-  gtExtras::gt_theme_excel(color = "#aaa") %>% 
-  gt::sub_missing(missing_text = "")
+    gt::tab_options(table.align = "left") %>% 
+    gtExtras::gt_theme_excel(color = "#aaa") %>% 
+    gt::sub_missing(missing_text = "")
+}
+
+excelish <- function(data) {
+  striped(data) %>%
+    gt::opt_row_striping(FALSE)
 }
 # add tooltips to gt column titles:
 with_tooltip <- function(value, tooltip) {
