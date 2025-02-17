@@ -40,24 +40,24 @@ library(datadaptor)
 Suppose you have an SPSS data file
 
 ``` r
-spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datadaptor")
+spss_file <- system.file("extdata", "fruit_survey.sav", package = "datadaptor")
 df <- haven::read_sav(spss_file)
 df
-#> # A tibble: 32 × 13
-#>       id model         mpg cyl      disp    hp  drat    wt  qsec vs      am     
-#>    <dbl> <chr>       <dbl> <dbl+l> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl+l> <dbl+l>
-#>  1     1 Mazda RX4    21   6 [6 c…  160    110  3.9   2.62  16.5 0 [V-s… 1 [man…
-#>  2     2 Mazda RX4 …  21   6 [6 c…  160    110  3.9   2.88  17.0 0 [V-s… 1 [man…
-#>  3     3 Datsun 710   22.8 4 [4 c…  108     93  3.85  2.32  18.6 1 [str… 1 [man…
-#>  4     4 Hornet 4 D…  21.4 6 [6 c…  258    110  3.08  3.22  19.4 1 [str… 0 [aut…
-#>  5     5 Hornet Spo…  18.7 8 [8 c…  360    175  3.15  3.44  17.0 0 [V-s… 0 [aut…
-#>  6     6 Valiant      18.1 6 [6 c…  225    105  2.76  3.46  20.2 1 [str… 0 [aut…
-#>  7     7 Duster 360   14.3 8 [8 c…  360    245  3.21  3.57  15.8 0 [V-s… 0 [aut…
-#>  8     8 Merc 240D    24.4 4 [4 c…  147.    62  3.69  3.19  20   1 [str… 0 [aut…
-#>  9     9 Merc 230     22.8 4 [4 c…  141.    95  3.92  3.15  22.9 1 [str… 0 [aut…
-#> 10    10 Merc 280     19.2 6 [6 c…  168.   123  3.92  3.44  18.3 1 [str… 0 [aut…
-#> # ℹ 22 more rows
-#> # ℹ 2 more variables: gear <dbl+lbl>, carb <dbl+lbl>
+#> # A tibble: 100 × 12
+#>       id q1       q2_1     q2_2     q2_3     q2_97    q3_1     q3_2     q3_3    
+#>    <dbl> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb>
+#>  1     1  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  0 [Not…  2 [2]    4 [4]    5 [5 =…
+#>  2     2  1 [Yes]  0 [Not…  1 [Sel…  1 [Sel…  0 [Not… NA        2 [2]    5 [5 =…
+#>  3     3  1 [Yes]  0 [Not…  0 [Not…  1 [Sel…  1 [Sel… NA       NA        1 [1 =…
+#>  4     4  1 [Yes]  1 [Sel…  0 [Not…  0 [Not…  0 [Not…  1 [1 =… NA       NA      
+#>  5     5  2 [No]  NA       NA       NA       NA       NA       NA       NA      
+#>  6     6  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  1 [Sel…  3 [3]    2 [2]    5 [5 =…
+#>  7     7  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  0 [Not…  5 [5 =…  4 [4]    5 [5 =…
+#>  8     8  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  1 [Sel…  1 [1 =…  5 [5 =…  2 [2]  
+#>  9     9 99 [No … NA       NA       NA       NA       NA       NA       NA      
+#> 10    10  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  1 [Sel…  2 [2]    1 [1 =…  5 [5 =…
+#> # ℹ 90 more rows
+#> # ℹ 3 more variables: q3_97 <dbl+lbl>, q4 <dbl+lbl>, q5 <dbl>
 ```
 
 and want to modify some of the content.
@@ -69,12 +69,12 @@ and want to modify some of the content.
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping
-file](inst/extdata/mapping.xlsx) to demonstrate the commands in this
-package. If you install `datadaptor`, you can access the path of this
-file with
+file](https://gitlab.com/urswilke/datadaptor/-/blob/master/inst/extdata/mapping-fruits.xlsx)
+to demonstrate the commands in this package. If you install
+`datadaptor`, you can access the path of this file with
 
 ``` r
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
+mapping_file <- system.file("extdata", "mapping-fruits.xlsx", package = "datadaptor")
 ```
 
 and then open it with:
@@ -84,13 +84,10 @@ utils::browseURL(mapping_file)
 ```
 
 Have a look at the `vignette("command_blocks")` for examples how to
-manipulate and generate new variables in your labelled dataset.
-
-There you can find out more about the syntax how the commands in the
-mapping file work.
-
-Once you have added the commands to manipulate your data, you can
-generate a mapping object with
+manipulate and generate new variables in your labelled dataset. There
+you can find out more about the syntax how the commands in the mapping
+file work. Once you have added the commands to manipulate your data, you
+can generate a mapping object with
 
 ``` r
 mapping <- Mapping$new(df, mapping_file)
@@ -106,47 +103,79 @@ You can then access the modified data with:
 
 ``` r
 (df_mod <- mapping$dat_mod)
-#> # A tibble: 32 × 16
-#>    id       car_name mpg   cyl      disp    hp  drat    wt  qsec vs      am     
-#>    <dbl+lb> <chr>    <dbl> <dbl+l> <dbl> <dbl> <dbl> <dbl> <dbl> <dbl+l> <dbl+l>
-#>  1  1       Mazda R… 21    6 [6 c…  160    110  3.9   2.62  16.5 0 [V-s… 1 [man…
-#>  2  2       Mazda R… 21    6 [6 c…  160    110  3.9   2.88  17.0 0 [V-s… 1 [man…
-#>  3  3       Datsun … 22.8  4 [4 c…  108     93  3.85  2.32  18.6 1 [str… 1 [man…
-#>  4  4       Hornet … 21.4  6 [6 c…  258    110  3.08  3.22  19.4 1 [str… 0 [aut…
-#>  5  5       Hornet … 18.7  8 [8 c…  360    175  3.15  3.44  17.0 0 [V-s… 0 [aut…
-#>  6  6       Valiant  18.1  6 [6 c…  225    105  2.76  3.46  20.2 1 [str… 0 [aut…
-#>  7  7       Duster … 14.3  8 [8 c…  360    245  3.21  3.57  15.8 0 [V-s… 0 [aut…
-#>  8  8       Merc 24… 24.4  4 [4 c…  147.    62  3.69  3.19  20   1 [str… 0 [aut…
-#>  9  9       Merc 230 22.8  4 [4 c…  141.    95  3.92  3.15  22.9 1 [str… 0 [aut…
-#> 10 10       Merc 280 19.2  6 [6 c…  168.   123  3.92  3.44  18.3 1 [str… 0 [aut…
-#> # ℹ 22 more rows
-#> # ℹ 5 more variables: gear <dbl+lbl>, carb <dbl+lbl>, kcarb <dbl+lbl>,
-#> #   vs2 <dbl+lbl>, am2 <dbl+lbl>
+#> # A tibble: 100 × 18
+#>       id q1       q2_1     q2_2     q2_3     q2_97    q3_1     q3_2     q3_3    
+#>    <dbl> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb> <dbl+lb>
+#>  1     1  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  0 [Not…  2 [2]    4 [4]    5 [5 =…
+#>  2     2  1 [Yes]  0 [Not…  1 [Sel…  1 [Sel…  0 [Not… -2 [FIL…  2 [2]    5 [5 =…
+#>  3     3  1 [Yes]  0 [Not…  0 [Not…  1 [Sel…  1 [Sel… -2 [FIL… -2 [FIL…  1 [1 =…
+#>  4     4  1 [Yes]  1 [Sel…  0 [Not…  0 [Not…  0 [Not…  1 [1 =… -2 [FIL… -2 [FIL…
+#>  5     5  2 [No]  -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL…
+#>  6     6  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  1 [Sel…  3 [3]    2 [2]    5 [5 =…
+#>  7     7  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  0 [Not…  5 [5 =…  4 [4]    5 [5 =…
+#>  8     8  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  1 [Sel…  1 [1 =…  5 [5 =…  2 [2]  
+#>  9     9 99 [No … -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL… -2 [FIL…
+#> 10    10  1 [Yes]  1 [Sel…  1 [Sel…  1 [Sel…  1 [Sel…  2 [2]    1 [1 =…  5 [5 =…
+#> # ℹ 90 more rows
+#> # ℹ 9 more variables: q3_97 <dbl+lbl>, q4 <dbl+lbl>, q5 <dbl+lbl>,
+#> #   kq2_1 <dbl+lbl>, kq2_2 <dbl+lbl>, kq2_3 <dbl+lbl>, n_fruits <dbl>,
+#> #   q2_99 <dbl+lbl>, kq5 <dbl+lbl>
 ```
 
 Let’s also have a closer look at one of the new variables:
 
 ``` r
-df_mod$am2
-#> <labelled<double>[32]>: New variable label for am2
-#>  [1]  2  2  2 NA NA NA NA NA NA NA NA NA NA NA NA NA NA  2  2  2 NA NA NA NA NA
-#> [26]  2  2  2  2  2  2  2
+df_mod$kq5
+#> <labelled<double>[100]>: Fruit number category
+#>   [1] NA  2  3  3 NA  2  2  2 NA  1  3  1  3  3  3  2 NA NA NA  2  3  2 NA NA  3
+#>  [26]  3  1 NA  2  3  1  3  1 NA  3  1  1  2 NA  1  2  3  2 NA  3 NA NA NA NA  3
+#>  [51] NA  1  1  3  1 NA NA  1 NA NA  3 NA  1 NA  2  2 NA NA NA  2 NA  3 NA  3 NA
+#>  [76]  1  2 NA NA  3  2  2  3  2  3  1  3  1  3  1  1  2  2  3 NA NA  3  2  2  3
 #> 
 #> Labels:
-#>  value                        label
-#>      1 Super duper code for value 1
-#>      2 Super duper code for value 2
+#>  value      label
+#>      1  3 or less
+#>      2     4 or 5
+#>      3 6 and more
 ```
 
-The manipulations defined in the Excel files are applied on the
-dataframe that was derived from the SPSS file.
+The manipulations defined in the Excel file are applied on the dataframe
+that was derived from the SPSS file.
 
 You can save the dataframe back to an SPSS file by again using the
 [haven package](https://haven.tidyverse.org/):
 
 ``` r
-haven::write_sav(df_mod, "mtcars_labelled_mod.sav")
+haven::write_sav(df_mod, "fruit_survey-modified.sav")
 ```
+
+[Here](https://urswilke.gitlab.io/crosstabser/articles/crosstabser.html#mapping-file-content)
+you can find a small description what each of the commands in
+`mapping_file` does, and how this can be used for the tabulation of the
+data.
+
+## Further use
+
+### Tabulation
+
+If you additionally want to tabulate survey data, please have a look at
+the accompanying package
+[crosstabser](https://gitlab.com/urswilke/crosstabser) that expands the
+functionality of datadaptor.
+
+### Dashboards
+
+For interactive dashboards with charts of the crosstabs, please have a
+look at the accompanying package
+[table_charter](https://gitlab.com/urswilke/table_charter) that expands
+the functionality of crosstabser.
+
+### datadaptor - crosstabser - table_charter
+
+For an interactive demo of the combined use of datadaptor, crosstabser &
+table_charter, where you can play around in your browser and see how
+that changes the result, please have a look
+[here](https://urswilke.github.io/datadaptor-crosstabser-table_charter-demo).
 
 ## Security warning
 

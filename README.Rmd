@@ -47,7 +47,7 @@ library(datadaptor)
 Suppose you have an SPSS data file 
 
 ```{r}
-spss_file <- system.file("extdata", "mtcars_labelled.sav", package = "datadaptor")
+spss_file <- system.file("extdata", "fruit_survey.sav", package = "datadaptor")
 df <- haven::read_sav(spss_file)
 df
 ```
@@ -64,10 +64,10 @@ and want to modify some of the content.
 <!-- datadaptor::create_mapping(df, "mapping.xlsx") -->
 <!-- ``` -->
 
-In the package you can find an [example Excel mapping file](inst/extdata/mapping.xlsx) to demonstrate the commands in this package. If you install `datadaptor`, you can access the path of this file with
+In the package you can find an [example Excel mapping file](https://gitlab.com/urswilke/datadaptor/-/blob/master/inst/extdata/mapping-fruits.xlsx) to demonstrate the commands in this package. If you install `datadaptor`, you can access the path of this file with
 
 ```{r}
-mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
+mapping_file <- system.file("extdata", "mapping-fruits.xlsx", package = "datadaptor")
 ```
 
 and then open it with:
@@ -77,10 +77,7 @@ utils::browseURL(mapping_file)
 
 
 Have a look at the `vignette("command_blocks")` for examples how to manipulate and generate new variables in your labelled dataset.
-
 There you can find out more about the syntax how the commands in the mapping file work.
-
-
 Once you have added the commands to manipulate your data, you can generate a mapping object with
 
 
@@ -98,23 +95,49 @@ You can  then access the modified data with:
 (df_mod <- mapping$dat_mod)
 ```
 
-
 Let's also have a closer look at one of the new variables:
 
 ```{r}
-df_mod$am2
+df_mod$kq5
 ```
 
 
-The manipulations defined in the Excel files are applied on the dataframe that was derived from the SPSS file. 
+The manipulations defined in the Excel file are applied on the dataframe that was derived from the SPSS file. 
 
 You can save the dataframe back to an SPSS file by again using the [haven package](https://haven.tidyverse.org/):
 
 ```{r, eval=FALSE}
-haven::write_sav(df_mod, "mtcars_labelled_mod.sav")
+haven::write_sav(df_mod, "fruit_survey-modified.sav")
 ```
 
+[Here](https://urswilke.gitlab.io/crosstabser/articles/crosstabser.html#mapping-file-content) 
+you can find a small description what each of the commands in `mapping_file` does,
+and how this can be used for the tabulation of the data.
+
+
+## Further use
+
+### Tabulation
+
+If you additionally want to tabulate survey data, please have a look at 
+the accompanying package [crosstabser](https://gitlab.com/urswilke/crosstabser)
+that expands the functionality of datadaptor.
+
+### Dashboards
+
+For interactive dashboards with charts of the crosstabs, please have a look at
+the accompanying package [table_charter](https://gitlab.com/urswilke/table_charter)
+that expands the functionality of crosstabser.
+
+### datadaptor - crosstabser - table_charter
+
+For an interactive demo of the combined use 
+of datadaptor, crosstabser & table_charter, 
+where you can play around in your browser and see how that changes the result,
+please have a look 
+[here](https://urswilke.github.io/datadaptor-crosstabser-table_charter-demo).
 
 ## Security warning
 
-datadaptor evaluates code from user input. Do not expose this program to the internet or random users under any circumstances.
+datadaptor evaluates code from user input. 
+Do not expose this program to the internet or random users under any circumstances.
