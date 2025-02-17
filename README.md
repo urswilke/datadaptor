@@ -174,7 +174,7 @@ the functionality of crosstabser.
 
 For an interactive demo of the combined use of datadaptor, crosstabser &
 table_charter, where you can play around in your browser and see how
-that changes the result, please have a look
+that changes the results, please have a look
 [here](https://urswilke.github.io/datadaptor-crosstabser-table_charter-demo).
 
 ## Security warning
