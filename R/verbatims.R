@@ -87,8 +87,8 @@ extract_verbatim_file_name <- function(sheet, mapping) {
   }
   file_path <- verbatims_sheet |>
     filter(.data$B == "Filename input") |>
-    pull(.data$D) |>
-    dplyr::coalesce(NA_character_)
+    pull(.data$D)
+  if (length(file_path) == 0) file_path <- NA_character_
   adapt_filepath(file_path, mapping$mapping_file)
 }
 generate_assignments_list <- function(
