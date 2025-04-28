@@ -139,12 +139,12 @@
      2 1 [also with] 3         4          24                   14  2 [b]       31
      3 1 [also with] 3         4           8                   11  1 [a]       23
      4 1 [also with] 3         4          24                   10  2 [b]      122
-     5 1 [also with] 3         4          20                    9  2 [b]       27
-     6 1 [also with] 3         4          40                   10  2 [b]       24
+     5 1 [also with] 3         4          20                    9  3 [NA]      27
+     6 1 [also with] 3         4          40                   10  3 [NA]      24
      7 1 [also with] 3         4         792                    2 NA           NA
      8 1 [also with] 3         4          16                    6  2 [b]       19
      9 1 [also with] 3         4         792                   10 NA           NA
-    10 1 [also with] 3         4          30                    9  2 [b]       22
+    10 1 [also with] 3         4          30                    9  3 [NA]      22
        q1_x2 q1_rmval       q2_x2 q2_rmval       free2_var
        <dbl> <dbl+lbl>      <dbl> <dbl+lbl>          <dbl>
      1     6  3 [normal]        4  2 [no]                3
@@ -160,7 +160,7 @@
 
 # value labels are reproduced
 
-    # A tibble: 243 x 3
+    # A tibble: 244 x 3
      var                       nv vallab               
      <chr>                  <dbl> <chr>                
      q2new                     -2 FILTER               
@@ -399,6 +399,7 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
+     kkq1                       3 <NA>                 
      q1_rmval                   2 a bit                
      q1_rmval                   3 normal               
      q1_rmval                   4 much                 
