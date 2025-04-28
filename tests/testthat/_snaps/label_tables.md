@@ -127,7 +127,7 @@
 
 # gen_label_table_raw() print is reproduced
 
-    # A tibble: 242 x 3
+    # A tibble: 241 x 3
      var                       nv vallab               
      <chr>                  <dbl> <chr>                
      q2new                     -2 FILTER               
@@ -364,7 +364,6 @@
      n                          4 added label          
      kkq1                       1 a                    
      kkq1                       2 b                    
-     kkq1                       3 <NA>                 
      q1_rmval                   2 a bit                
      q1_rmval                   3 normal               
      q1_rmval                   4 much                 
