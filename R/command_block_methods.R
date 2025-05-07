@@ -480,9 +480,14 @@ apply_command.cmd_rec <- function(
     res_num <- coalesce(res_num, mapping$dat_mod[[y]])
   }
 
+  vallabs_rec <- set_names(
+    recode_df$vs,
+    recode_df$vallabs
+  )[!is.na(recode_df$vallabs)]
+
   mapping$dat_mod[[x]] <- labelled(
     res_num,
-    labels = set_names(recode_df$vs, recode_df$vallabs),
+    labels = vallabs_rec,
     label = varlab
   )
 }

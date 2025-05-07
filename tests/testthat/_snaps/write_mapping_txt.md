@@ -918,7 +918,7 @@
       32 <NA>    "2"                                          <NA>   2     "b"      50
       33 <NA>    "3"                                          <NA>   2      <NA>    51
       34 <NA>    "4"                                          <NA>   2      <NA>    52
-      35 <NA>    "5"                                          <NA>   2      <NA>    53
+      35 <NA>    "5"                                          <NA>   3      <NA>    53
       36 #RMVAL  "q1"                                        "q1"    new_~  <NA>    56
       37 <NA>    "99"                                         <NA>   <NA>   <NA>    57
       38 #RENAME "q2_renamed"                                "q2new" <NA>   <NA>    59
