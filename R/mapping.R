@@ -201,7 +201,7 @@ Mapping <- R6Class(
       } else {
         filetype <- str_remove(path, ".*\\.")
       }
-      save_type(self$dat_mod, path, filetype)
+      save_type(self$dat_mod, path, filetype, ...)
 
       if (show) browseURL(path)
       invisible(self)
@@ -276,21 +276,21 @@ set_mapping_type <- function(self) {
 
 save_type <- function(df, path, filetype) {
   switch(filetype,
-    "sav"  = write_sav(df, path),
-    "dta"  = write_dta(df, path),
-    "xlsx" = save_xlsx(df, path),
-    "qs"   = qsave(df, path),
+    "sav"  = write_sav(df, path, ...),
+    "dta"  = write_dta(df, path, ...),
+    "xlsx" = save_xlsx(df, path, ...),
+    "qs"   = qsave(df, path, ...),
     stop("unknown filetype")
   )
 
 }
-save_xlsx <- function(df, path) {
+save_xlsx <- function(df, path, ...) {
   df |>
     mutate(across(
       everything(),
       strip_attributes
     )) |>
-    write_xlsx(path)
+    write_xlsx(path, ...)
 }
 
 
