@@ -422,11 +422,11 @@ read_data_.character <- function(
 ) {
   filetype <- str_remove(dat, ".*\\.")
   df <- switch(filetype,
-    "sav" = read_sav(dat),
-    "dta" = read_dta(dat),
-    "qs"  = qread(dat),
-    "xlsx" = read_xlsx(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
-    "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
+    "sav" = read_sav(dat, ...),
+    "dta" = read_dta(dat, ...),
+    "qs"  = qread(dat, ...),
+    "xlsx" = read_xlsx(dat, ...) |> dplyr::mutate(across(where(is.logical), as.double)),
+    "xls" = read_xls(dat, ...) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
   )
   df
