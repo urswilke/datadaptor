@@ -274,6 +274,17 @@ extract_mdg_assignment_table <- function(i_l) {
   df_assigns
 }
 extract_efa_assignment_table <- function(i_l) {
+  if (i_l$meta$VariableZiel |> str_detect("\\{nn\\}")) {
+    warning(
+      "`{nn}` should not be used for single answer questions. ",
+      "This occurs at '",
+      i_l$meta$q_id,
+      "' and '",
+      i_l$meta$VariableOriginal,
+      "' ",
+      "`{nn}` will be replaced by `1`"
+    )
+  }
   # in case multiple "Zuord" columns occur in assignment data, code would break
   # and only the first is needed:
   i_l$assignments <- i_l$assignments |>
