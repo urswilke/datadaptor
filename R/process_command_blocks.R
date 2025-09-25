@@ -245,12 +245,11 @@ new_command_block <- function(cdb, ..., subclass = character()) {
 #' # m$cmd$command_blocks
 #' class(m$cmd$command_blocks)
 gen_command_blocks <- function(self) {
-  cdbs <- self$cmd$df_cmd_raw |>
-    rowwise() |>
-    transmute(cmd = list(
-      command_block(cur_data())
-    )) |>
-    pull()
+  df_cmd_raw <- self$cmd$df_cmd_raw
+  cdbs <- df_cmd_raw |>
+    split(seq_len(nrow(df_cmd_raw))) |>
+    unname() |>
+    lapply(command_block)
 
   subclass <- self$opts$da$error_out
   new_command_blocks(cdbs, subclass = subclass)

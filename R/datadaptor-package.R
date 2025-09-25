@@ -12,7 +12,6 @@
 #' @importFrom dplyr bind_rows
 #' @importFrom dplyr case_when
 #' @importFrom dplyr coalesce
-#' @importFrom dplyr cur_data
 #' @importFrom dplyr everything
 #' @importFrom dplyr filter
 #' @importFrom dplyr first
