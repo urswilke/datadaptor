@@ -19,6 +19,7 @@ autorecode
 autorecodes
 baseenv
 cloneable
+crosstabs
 crosstabser
 df
 dplyr
