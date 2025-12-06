@@ -350,3 +350,17 @@ use_known_args <- function(f, l) {
     l[names(l) %in% known_args]
   )
 }
+
+
+set_cols_to_int <- function(df) {
+  is_int <- df |>
+    select(where(is.numeric)) |>
+    map_lgl(\(x) {
+      res <- c(unique(x) |> as.vector(), attr(x, "labels") |> unname())
+      all((res %% 1) %in% c(NA, 0))
+    })
+  df[names(is_int[is_int])] <-
+    df[names(is_int[is_int])] |>
+    map_dfc(\(x) {haven::labelled(as.integer(x), labels = attr(x, "labels"), label = attr(x, "label", exact = TRUE))})
+  df
+}

@@ -30,4 +30,7 @@
     $verbose
     [1] FALSE
     
+    $set_integers
+    [1] FALSE
+    
 
