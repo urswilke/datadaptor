@@ -3,6 +3,9 @@
 
 # datadaptor
 
+*The main home of this repository is
+[here](https://codeberg.org/urswilke/datadaptor)*
+
 <!-- badges: start -->
 
 [![CRAN
@@ -63,9 +66,13 @@ df
 and want to modify some of the content.
 
 <!-- TODO:  -->
+
 <!-- You can create an Excel mapping file that's based on a template filled with variable and label information from the dataset: -->
+
 <!-- ```{r, eval=FALSE} -->
+
 <!-- datadaptor::create_mapping(df, "mapping.xlsx") -->
+
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping

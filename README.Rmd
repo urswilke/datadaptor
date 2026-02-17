@@ -15,6 +15,8 @@ knitr::opts_chunk$set(
 
 # datadaptor
 
+*The main home of this repository is [here](https://codeberg.org/urswilke/datadaptor)*
+
 <!-- badges: start -->
 [![CRAN status](https://www.r-pkg.org/badges/version/datadaptor)](https://CRAN.R-project.org/package=datadaptor)
 [![datadaptor status badge](https://urswilke.r-universe.dev/datadaptor/badges/version)](https://urswilke.r-universe.dev/datadaptor)
