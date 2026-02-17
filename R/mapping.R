@@ -21,8 +21,8 @@ NULL
 #' @field mapping_type String specifying the mapping type. Either "excel"
 #'   or "list". If not specified, when initializing it is auto-determined:
 #'   \itemize{
-#'     \item{"list": }{If `mapping_file` is a list object.}
-#'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
+#'     \item{"list": If `mapping_file` is a list object.}
+#'     \item{"excel": If the `mapping_file` path ends on "xlsm" or "xlsx".}
 #'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
