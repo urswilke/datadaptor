@@ -279,7 +279,7 @@ save_type <- function(df, path, filetype) {
     "sav"  = write_sav(df, path),
     "dta"  = write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
-    "qs"   = qsave(df, path),
+    "qs2"  = qs_save(df, path),
     stop("unknown filetype")
   )
 
@@ -397,7 +397,7 @@ add_error_list <- function(self) {
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
 #'  in case of a character string returns the data.frame resulting of
-#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)` or
+#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs2::qs_read(dat)` or
 #'  `openxlsx2::read_xls(x)` for excel files (depending on the file
 #'  extension) or returns `NULL` in case of `NULL`.
 #'
@@ -424,7 +424,7 @@ read_data_.character <- function(
   df <- switch(filetype,
     "sav" = read_sav(dat),
     "dta" = read_dta(dat),
-    "qs"  = qread(dat),
+    "qs2" = qs_read(dat),
     "xlsx" = read_xlsx(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")

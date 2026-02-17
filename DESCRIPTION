@@ -61,7 +61,7 @@ Imports:
     withr,
     powerjoin,
     digest,
-    qs,
+    qs2,
     openxlsx2
 VignetteBuilder: knitr
 Language: en-US
