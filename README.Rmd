@@ -30,9 +30,16 @@ The R package datadaptor is an approach to programmatically manipulate labelled 
 
 ## Installation
 
-You can install datadaptor from Gitlab with:
+You can install datadaptor from codeberg with:
 
 ```{r, eval=FALSE}
+devtools::install_git("https://codeberg.org/urswilke/datadaptor")
+```
+
+Otherwise, you can also install datadaptor from github or gitlab with:
+
+```{r, eval=FALSE}
+devtools::install_github("urswilke/datadaptor")
 devtools::install_gitlab("urswilke/datadaptor")
 ```
 

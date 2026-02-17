@@ -24,9 +24,16 @@ cells.
 
 ## Installation
 
-You can install datadaptor from Gitlab with:
+You can install datadaptor from codeberg with:
 
 ``` r
+devtools::install_git("https://codeberg.org/urswilke/datadaptor")
+```
+
+Otherwise, you can also install datadaptor from github or gitlab with:
+
+``` r
+devtools::install_github("urswilke/datadaptor")
 devtools::install_gitlab("urswilke/datadaptor")
 ```
 
