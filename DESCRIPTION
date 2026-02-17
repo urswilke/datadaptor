@@ -66,6 +66,6 @@ Imports:
 VignetteBuilder: knitr
 Language: en-US
 URL: 
-    https://urswilke.gitlab.io/datadaptor, 
-    https://gitlab.com/urswilke/datadaptor,
+    https://urswilke.codeberg.page/datadaptor/, 
+    https://codeberg.org/urswilke/datadaptor,
     https://urswilke.r-universe.dev/datadaptor
