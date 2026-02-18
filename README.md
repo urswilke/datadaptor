@@ -83,7 +83,7 @@ and want to modify some of the content.
 <!-- ``` -->
 
 In the package you can find an [example Excel mapping
-file](https://gitlab.com/urswilke/datadaptor/-/blob/master/inst/extdata/mapping-fruits.xlsx)
+file](https://codeberg.org/urswilke/datadaptor/src/branch/master/inst/extdata/mapping-fruits.xlsx)
 to demonstrate the commands in this package. If you install
 `datadaptor`, you can access the path of this file with
 
@@ -163,7 +163,7 @@ You can save the dataframe back to an SPSS file by again using the
 haven::write_sav(df_mod, "fruit_survey-modified.sav")
 ```
 
-[Here](https://urswilke.gitlab.io/crosstabser/articles/crosstabser.html#mapping-file-content)
+[Here](https://urswilke.codeberg.page/crosstabser/articles/crosstabser.html#mapping-file-content)
 you can find a small description what each of the commands in
 `mapping_file` does, and how this can be used for the tabulation of the
 data.
@@ -174,8 +174,8 @@ data.
 
 If you additionally want to tabulate survey data, please have a look at
 the accompanying package
-[crosstabser](https://gitlab.com/urswilke/crosstabser) that expands the
-functionality of datadaptor.
+[crosstabser](https://codeberg.org/urswilke/crosstabser/) that expands
+the functionality of datadaptor.
 
 ### Dashboards
 
