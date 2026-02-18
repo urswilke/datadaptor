@@ -10,16 +10,16 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://gitlab.com/urswilke/datadaptor/-/tree/master/DESCRIPTION)
+[`DESCRIPTION`](https://codeberg.org/urswilke/datadaptor/src/branch/master/DESCRIPTION)
 
 Wilke U, Wilke W (2026). *datadaptor: Modify Labelled Data Sets With
 Excel Files*. R package version 0.0.0.9000,
-<https://urswilke.gitlab.io/datadaptor>.
+<https://urswilke.codeberg.page/datadaptor/>.
 
     @Manual{,
       title = {datadaptor: Modify Labelled Data Sets With Excel Files},
       author = {Urs Wilke and Wolf Wilke},
       year = {2026},
       note = {R package version 0.0.0.9000},
-      url = {https://urswilke.gitlab.io/datadaptor},
+      url = {https://urswilke.codeberg.page/datadaptor/},
     }

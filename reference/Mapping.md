@@ -143,7 +143,7 @@ Run all command blocks of the mapping file. The commands in the argument
 `command_blocks` (defaults to the Mapping's `cmd_tbl$command_blocks`
 field) successively are applied to the data in the field `"dat_mod"`
 according to their subclass methods of
-[`apply_command()`](https://urswilke.gitlab.io/datadaptor/reference/apply_command.md).
+[`apply_command()`](https://urswilke.codeberg.page/datadaptor/reference/apply_command.md).
 
 #### Usage
 
@@ -238,12 +238,12 @@ Additionally to the dots you can also pass parameters from an Excel
 mapping file by using named regions starting with `"R_"`, for instance,
 `"R_id_var"` will become `"id_var"`. The complete set of arguments
 consists of he default values in
-[`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)
+[`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)
 overwritten by the above named regions of the Excel file, and all this
 can be overwritten by the dots.
 
 The part of the arguments known to
-[`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)
+[`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)
 is written to the `opts$da` field, The rest is written to the `opts$dev`
 field.
 
@@ -256,7 +256,7 @@ field.
 - `...`:
 
   arguments passed to
-  [`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)
+  [`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)
 
 ------------------------------------------------------------------------
 
@@ -273,13 +273,13 @@ Read in dataset
 - `dat`:
 
   Dataset indentifier (see
-  [`?read_data_`](https://urswilke.gitlab.io/datadaptor/reference/read_data_.md)
+  [`?read_data_`](https://urswilke.codeberg.page/datadaptor/reference/read_data_.md)
   helper function).
 
 - `...`:
 
   Arguments passed to
-  [`read_data_()`](https://urswilke.gitlab.io/datadaptor/reference/read_data_.md)
+  [`read_data_()`](https://urswilke.codeberg.page/datadaptor/reference/read_data_.md)
   helper function.
 
 ------------------------------------------------------------------------

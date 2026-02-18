@@ -58,7 +58,7 @@ get_mapping_options(
 - expr_eval_env:
 
   The environment where expressions are evaluated. See
-  [`?safer_env`](https://urswilke.gitlab.io/datadaptor/reference/safer_env.md).
+  [`?safer_env`](https://urswilke.codeberg.page/datadaptor/reference/safer_env.md).
 
 - lab_before_var_sheet:
 
@@ -77,13 +77,13 @@ get_mapping_options(
 
   if TRUE (the default), NA values ("missing" in SPSS) are transformed
   with.
-  [`apply_command.cmd_recna_xcpt()`](https://urswilke.gitlab.io/datadaptor/reference/apply_command.md)
+  [`apply_command.cmd_recna_xcpt()`](https://urswilke.codeberg.page/datadaptor/reference/apply_command.md)
   in the first command block.
 
 - not_miss_to_filter_vars:
 
   Space separated character string of variable names spared out for
-  [`apply_command.cmd_recna_xcpt()`](https://urswilke.gitlab.io/datadaptor/reference/apply_command.md).
+  [`apply_command.cmd_recna_xcpt()`](https://urswilke.codeberg.page/datadaptor/reference/apply_command.md).
 
 - verbose:
 
@@ -118,10 +118,10 @@ get_mapping_options()
 #> [1] FALSE
 #> 
 #> $save_path
-#> [1] "/tmp/RtmpH9XQs9"
+#> [1] "/tmp/RtmpJAfiyG"
 #> 
 #> $expr_eval_env
-#> <environment: 0x55a16a4090d8>
+#> <environment: 0x5622420ea6e0>
 #> 
 #> $lab_before_var_sheet
 #> [1] "yes"

@@ -21,7 +21,7 @@ openxlsx2 workbook object
 
 ## See also
 
-[`create_mapping()`](https://urswilke.gitlab.io/datadaptor/reference/create_mapping.md)
+[`create_mapping()`](https://urswilke.codeberg.page/datadaptor/reference/create_mapping.md)
 to directly save the mapping to a file.
 
 ## Examples

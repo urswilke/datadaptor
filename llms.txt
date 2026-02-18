@@ -13,10 +13,18 @@ cells.
 
 ## Installation
 
-You can install datadaptor from Gitlab with:
+You can install datadaptor from codeberg with:
 
 ``` r
 
+devtools::install_git("https://codeberg.org/urswilke/datadaptor")
+```
+
+Otherwise, you can also install datadaptor from github or gitlab with:
+
+``` r
+
+devtools::install_github("urswilke/datadaptor")
 devtools::install_gitlab("urswilke/datadaptor")
 ```
 
@@ -58,7 +66,7 @@ df
 and want to modify some of the content.
 
 In the package you can find an [example Excel mapping
-file](https://gitlab.com/urswilke/datadaptor/-/blob/master/inst/extdata/mapping-fruits.xlsx)
+file](https://codeberg.org/urswilke/datadaptor/src/branch/master/inst/extdata/mapping-fruits.xlsx)
 to demonstrate the commands in this package. If you install
 `datadaptor`, you can access the path of this file with
 
@@ -75,7 +83,7 @@ utils::browseURL(mapping_file)
 ```
 
 Have a look at the
-[`vignette("command_blocks")`](https://urswilke.gitlab.io/datadaptor/articles/command_blocks.md)
+[`vignette("command_blocks")`](https://urswilke.codeberg.page/datadaptor/articles/command_blocks.md)
 for examples how to manipulate and generate new variables in your
 labelled dataset. There you can find out more about the syntax how the
 commands in the mapping file work. Once you have added the commands to
@@ -146,7 +154,7 @@ You can save the dataframe back to an SPSS file by again using the
 haven::write_sav(df_mod, "fruit_survey-modified.sav")
 ```
 
-[Here](https://urswilke.gitlab.io/crosstabser/articles/crosstabser.html#mapping-file-content)
+[Here](https://urswilke.codeberg.page/crosstabser/articles/crosstabser.html#mapping-file-content)
 you can find a small description what each of the commands in
 `mapping_file` does, and how this can be used for the tabulation of the
 data.
@@ -157,8 +165,8 @@ data.
 
 If you additionally want to tabulate survey data, please have a look at
 the accompanying package
-[crosstabser](https://gitlab.com/urswilke/crosstabser) that expands the
-functionality of datadaptor.
+[crosstabser](https://codeberg.org/urswilke/crosstabser/) that expands
+the functionality of datadaptor.
 
 ### Dashboards
 
@@ -183,58 +191,58 @@ the internet or random users under any circumstances.
 
 ## All functions
 
-- [`Mapping`](https://urswilke.gitlab.io/datadaptor/reference/Mapping.md)
+- [`Mapping`](https://urswilke.codeberg.page/datadaptor/reference/Mapping.md)
   : Mapping class
 
-- [`apply_command()`](https://urswilke.gitlab.io/datadaptor/reference/apply_command.md)
+- [`apply_command()`](https://urswilke.codeberg.page/datadaptor/reference/apply_command.md)
   : Apply a command block to the data
 
-- [`command_block_classes`](https://urswilke.gitlab.io/datadaptor/reference/command_block_classes.md)
+- [`command_block_classes`](https://urswilke.codeberg.page/datadaptor/reference/command_block_classes.md)
   :
 
   `command_block` overview
 
-- [`create_mapping()`](https://urswilke.gitlab.io/datadaptor/reference/create_mapping.md)
+- [`create_mapping()`](https://urswilke.codeberg.page/datadaptor/reference/create_mapping.md)
   : Create an Excel mapping file based on a labelled dataframe
 
-- [`create_mapping_workbook()`](https://urswilke.gitlab.io/datadaptor/reference/create_mapping_workbook.md)
+- [`create_mapping_workbook()`](https://urswilke.codeberg.page/datadaptor/reference/create_mapping_workbook.md)
   : Create a mapping openxlsx2 workbook object
 
-- [`curlychop()`](https://urswilke.gitlab.io/datadaptor/reference/curlychop.md)
+- [`curlychop()`](https://urswilke.codeberg.page/datadaptor/reference/curlychop.md)
   : Multiply repetitive parts of command blocks using curly braces
 
-- [`diff_data()`](https://urswilke.gitlab.io/datadaptor/reference/diff_data.md)
+- [`diff_data()`](https://urswilke.codeberg.page/datadaptor/reference/diff_data.md)
   : Diff to labelled data frames
 
-- [`format_sheet_data()`](https://urswilke.gitlab.io/datadaptor/reference/format_sheet_data.md)
+- [`format_sheet_data()`](https://urswilke.codeberg.page/datadaptor/reference/format_sheet_data.md)
   :
 
   Format the dataframe returned by reading an excel sheet with
   [`openxlsx2::wb_read()`](https://janmarvin.github.io/openxlsx2/reference/wb_to_df.html)
 
-- [`fruit_survey`](https://urswilke.gitlab.io/datadaptor/reference/fruit_survey.md)
+- [`fruit_survey`](https://urswilke.codeberg.page/datadaptor/reference/fruit_survey.md)
   : Toy data of a fictional survey about fruits
 
-- [`gen_data_table()`](https://urswilke.gitlab.io/datadaptor/reference/gen_data_table.md)
+- [`gen_data_table()`](https://urswilke.codeberg.page/datadaptor/reference/gen_data_table.md)
   : Generate data counts table
 
-- [`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)
+- [`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)
   : Mapping parameters
 
-- [`gen_var_table()`](https://urswilke.gitlab.io/datadaptor/reference/label_tables.md)
-  [`gen_label_table()`](https://urswilke.gitlab.io/datadaptor/reference/label_tables.md)
+- [`gen_var_table()`](https://urswilke.codeberg.page/datadaptor/reference/label_tables.md)
+  [`gen_label_table()`](https://urswilke.codeberg.page/datadaptor/reference/label_tables.md)
   : Generate tables with the variables' labels
 
-- [`mtcars_labelled`](https://urswilke.gitlab.io/datadaptor/reference/mtcars_labelled.md)
+- [`mtcars_labelled`](https://urswilke.codeberg.page/datadaptor/reference/mtcars_labelled.md)
   : Labelled mtcars version
 
-- [`read_data_()`](https://urswilke.gitlab.io/datadaptor/reference/read_data_.md)
+- [`read_data_()`](https://urswilke.codeberg.page/datadaptor/reference/read_data_.md)
   : Ingest data from data.frame or file path
 
-- [`safer_env`](https://urswilke.gitlab.io/datadaptor/reference/safer_env.md)
+- [`safer_env`](https://urswilke.codeberg.page/datadaptor/reference/safer_env.md)
   : Execution environments
 
-- [`use_known_args()`](https://urswilke.gitlab.io/datadaptor/reference/use_known_args.md)
+- [`use_known_args()`](https://urswilke.codeberg.page/datadaptor/reference/use_known_args.md)
   : Apply function on the subset of arguments it knows
 
 # Articles
@@ -242,11 +250,11 @@ the internet or random users under any circumstances.
 ### All vignettes
 
 - [Documentation of the Excel mapping command
-  blocks](https://urswilke.gitlab.io/datadaptor/articles/command_blocks.md):
-- [debugging](https://urswilke.gitlab.io/datadaptor/articles/debugging.md):
+  blocks](https://urswilke.codeberg.page/datadaptor/articles/command_blocks.md):
+- [debugging](https://urswilke.codeberg.page/datadaptor/articles/debugging.md):
 - [Included data sets and files in the
-  package](https://urswilke.gitlab.io/datadaptor/articles/included_data.md):
+  package](https://urswilke.codeberg.page/datadaptor/articles/included_data.md):
 - [Introduction to survey data tabulation in
-  R](https://urswilke.gitlab.io/datadaptor/articles/survey_data_tabulation.md):
+  R](https://urswilke.codeberg.page/datadaptor/articles/survey_data_tabulation.md):
 - [Translating the Excel mapping commands to
-  R](https://urswilke.gitlab.io/datadaptor/articles/translating_command_blocks_to_R.md):
+  R](https://urswilke.codeberg.page/datadaptor/articles/translating_command_blocks_to_R.md):

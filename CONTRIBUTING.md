@@ -70,5 +70,5 @@ help you write a unit test, if needed).
 
 Please note that the datadaptor project is released with a [Contributor
 Code of
-Conduct](https://urswilke.gitlab.io/datadaptor/CODE_OF_CONDUCT.md). By
-contributing to this project you agree to abide by its terms.
+Conduct](https://urswilke.codeberg.page/datadaptor/CODE_OF_CONDUCT.md).
+By contributing to this project you agree to abide by its terms.

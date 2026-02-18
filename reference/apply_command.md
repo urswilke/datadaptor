@@ -1,7 +1,7 @@
 # Apply a command block to the data
 
 see
-[`vignette("command_blocks")`](https://urswilke.gitlab.io/datadaptor/articles/command_blocks.md)
+[`vignette("command_blocks")`](https://urswilke.codeberg.page/datadaptor/articles/command_blocks.md)
 
 ## Usage
 
@@ -176,7 +176,7 @@ apply_command(cdb, mapping, x, ...)
 
   Character strings containing valid R expressions. They will be
   evaluated in `mapping$opts$da$expr_eval_env` (see
-  [`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)),
+  [`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)),
   except `exs` which contains a list of expressions evaluated in the
   global environment.
 

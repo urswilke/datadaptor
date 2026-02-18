@@ -11,7 +11,7 @@ enter the command blocks in your Excel mapping file:
 *The column* `"command_block"` *shows the class, which determines how
 datadaptor parses the command block* (with `parse_command_args()`) *and
 then applies it on the data* (with
-[`apply_command()`](https://urswilke.gitlab.io/datadaptor/reference/apply_command.md)).
+[`apply_command()`](https://urswilke.codeberg.page/datadaptor/reference/apply_command.md)).
 
 ## Command block examples
 
@@ -441,7 +441,7 @@ for a more thorough documentation.
 ## `curlychop()`
 
 The idea of the function
-[`curlychop()`](https://urswilke.gitlab.io/datadaptor/reference/curlychop.md)
+[`curlychop()`](https://urswilke.codeberg.page/datadaptor/reference/curlychop.md)
 is to prevent you from writing redundant code by turning one line into
 several commands. Let’s have a first look at it with the help of an
 example.
@@ -466,7 +466,7 @@ commands:
 [TABLE]
 
 The function
-[`curlychop()`](https://urswilke.gitlab.io/datadaptor/reference/curlychop.md)
+[`curlychop()`](https://urswilke.codeberg.page/datadaptor/reference/curlychop.md)
 lets you write these commands in a more succinct form:
 
 | X1     | X2      | X3     |
@@ -503,7 +503,7 @@ The above command block is equivalent to these 2 `#IF` commands:
 #### Example
 
 For commands spanning multiple rows, you can also use
-[`curlychop()`](https://urswilke.gitlab.io/datadaptor/reference/curlychop.md)
+[`curlychop()`](https://urswilke.codeberg.page/datadaptor/reference/curlychop.md)
 in the first row:
 
 [TABLE]
@@ -686,18 +686,18 @@ for instance). It:
 
 - recodes missing values in all numeric variables in the dataset to `-2`
   (cf. parameter `miss_rec_val` in
-  [`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)),
+  [`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)),
   and
 - labels this value by `FILTER` (cf. parameter `miss_rec_lab` in
-  [`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md))
+  [`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md))
   in these variables
 
 Under the hood, this will call the function
-[`set_na_to_filter()`](https://urswilke.gitlab.io/datadaptor/reference/set_na_to_filter.md)
+[`set_na_to_filter()`](https://urswilke.codeberg.page/datadaptor/reference/set_na_to_filter.md)
 on all the numeric variables. You can make exceptions for the variable
 names (space-separated & defined in the parameter string
 `not_miss_to_filter_vars`; also see
-[`get_mapping_options()`](https://urswilke.gitlab.io/datadaptor/reference/get_mapping_options.md)).
+[`get_mapping_options()`](https://urswilke.codeberg.page/datadaptor/reference/get_mapping_options.md)).
 
 [TABLE]
 

@@ -45,7 +45,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/urswilke/datadaptor/" aria-label="GitLab"><span class="fa fab fa-gitlab fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://codeberg.org/urswilke/datadaptor/" aria-label="Codeberg"><span class="fa fas fa-code fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -70,7 +70,7 @@
       <h1>debugging</h1>
             
       
-      <small class="dont-index">Source: <a href="https://gitlab.com/urswilke/datadaptor/-/tree/master/vignettes/debugging.Rmd" class="external-link"><code>vignettes/debugging.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://codeberg.org/urswilke/datadaptor/src/branch/master/vignettes/debugging.Rmd" class="external-link"><code>vignettes/debugging.Rmd</code></a></small>
       <div class="d-none name"><code>debugging.Rmd</code></div>
     </div>
 
@@ -86,7 +86,7 @@ jumps into the code. We’ll sneak an error in this <code>#IF</code>
 <code>command_block</code> (In X2 you have to write a string containing
 a valid logical expression):</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://urswilke.gitlab.io/datadaptor">datadaptor</a></span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://urswilke.codeberg.page/datadaptor/">datadaptor</a></span><span class="op">)</span></span>
 <span><span class="va">free_commands</span> <span class="op">&lt;-</span> <span class="fu">tibble</span><span class="fu">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tribble.html" class="external-link">tribble</a></span><span class="op">(</span></span>
 <span>  <span class="op">~</span><span class="va">X1</span>, <span class="op">~</span><span class="va">X2</span>, <span class="op">~</span><span class="va">X3</span>, <span class="op">~</span><span class="va">X4</span>, <span class="op">~</span><span class="va">X5</span>, <span class="op">~</span><span class="va">row</span>,</span>
 <span>  <span class="st">"#IF"</span>, <span class="st">"q1 ===#$%#!@ 18"</span>, <span class="st">"q2 = 2"</span>, <span class="st">""</span>, <span class="st">""</span>, <span class="fl">6</span></span>

@@ -47,7 +47,7 @@
 <li class="nav-item"><form class="form-inline" role="search">
  <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="search.json">
 </form></li>
-<li class="nav-item"><a class="external-link nav-link" href="https://gitlab.com/urswilke/datadaptor/" aria-label="GitLab"><span class="fa fab fa-gitlab fa-lg"></span></a></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://codeberg.org/urswilke/datadaptor/" aria-label="Codeberg"><span class="fa fas fa-code fa-lg"></span></a></li>
 <li class="nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-lightswitch" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true" aria-label="Light switch"><span class="fa fa-sun"></span></button>
   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-lightswitch">
@@ -73,21 +73,25 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install datadaptor from Gitlab with:</p>
+<p>You can install datadaptor from codeberg with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_gitlab.html" class="external-link">install_gitlab</a></span><span class="op">(</span><span class="st">"urswilke/datadaptor"</span><span class="op">)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_git.html" class="external-link">install_git</a></span><span class="op">(</span><span class="st">"https://codeberg.org/urswilke/datadaptor"</span><span class="op">)</span></span></code></pre></div>
+<p>Otherwise, you can also install datadaptor from github or gitlab with:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"urswilke/datadaptor"</span><span class="op">)</span></span>
+<span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_gitlab.html" class="external-link">install_gitlab</a></span><span class="op">(</span><span class="st">"urswilke/datadaptor"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>First load the library:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://urswilke.gitlab.io/datadaptor">datadaptor</a></span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://urswilke.codeberg.page/datadaptor/">datadaptor</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level3">
 <h3 id="apply-data-adjustments-on-labelled-data">Apply data adjustments on labelled data<a class="anchor" aria-label="anchor" href="#apply-data-adjustments-on-labelled-data"></a>
 </h3>
 <p>Suppose you have an SPSS data file</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">spss_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"fruit_survey.sav"</span>, package <span class="op">=</span> <span class="st">"datadaptor"</span><span class="op">)</span></span>
 <span><span class="va">df</span> <span class="op">&lt;-</span> <span class="fu">haven</span><span class="fu">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">read_sav</a></span><span class="op">(</span><span class="va">spss_file</span><span class="op">)</span></span>
 <span><span class="va">df</span></span>
@@ -112,20 +116,20 @@
 <!-- ```{r, eval=FALSE} -->
 <!-- datadaptor::create_mapping(df, "mapping.xlsx") -->
 <!-- ``` -->
-<p>In the package you can find an <a href="https://gitlab.com/urswilke/datadaptor/-/blob/master/inst/extdata/mapping-fruits.xlsx" class="external-link">example Excel mapping file</a> to demonstrate the commands in this package. If you install <code>datadaptor</code>, you can access the path of this file with</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>In the package you can find an <a href="https://codeberg.org/urswilke/datadaptor/src/branch/master/inst/extdata/mapping-fruits.xlsx" class="external-link">example Excel mapping file</a> to demonstrate the commands in this package. If you install <code>datadaptor</code>, you can access the path of this file with</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mapping_file</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"extdata"</span>, <span class="st">"mapping-fruits.xlsx"</span>, package <span class="op">=</span> <span class="st">"datadaptor"</span><span class="op">)</span></span></code></pre></div>
 <p>and then open it with:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">utils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/utils/browseURL.html" class="external-link">browseURL</a></span><span class="op">(</span><span class="va">mapping_file</span><span class="op">)</span></span></code></pre></div>
 <p>Have a look at the <code><a href="articles/command_blocks.html">vignette("command_blocks")</a></code> for examples how to manipulate and generate new variables in your labelled dataset. There you can find out more about the syntax how the commands in the mapping file work. Once you have added the commands to manipulate your data, you can generate a mapping object with</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mapping</span> <span class="op">&lt;-</span> <span class="va"><a href="reference/Mapping.html">Mapping</a></span><span class="op">$</span><span class="fu">new</span><span class="op">(</span><span class="va">df</span>, <span class="va">mapping_file</span><span class="op">)</span></span></code></pre></div>
 <p>and apply the changes to your dataset with:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mapping</span><span class="op">$</span><span class="fu">modify_data</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p>You can then access the modified data with:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">(</span><span class="va">df_mod</span> <span class="op">&lt;-</span> <span class="va">mapping</span><span class="op">$</span><span class="va">dat_mod</span><span class="op">)</span></span>
 <span><span class="co">#&gt; # A tibble: 100 × 18</span></span>
 <span><span class="co">#&gt;       id q1       q2_1     q2_2     q2_3     q2_97    q3_1     q3_2     q3_3    </span></span>
@@ -145,7 +149,7 @@
 <span><span class="co">#&gt; #   kq2_1 &lt;dbl+lbl&gt;, kq2_2 &lt;dbl+lbl&gt;, kq2_3 &lt;dbl+lbl&gt;, n_fruits &lt;dbl&gt;,</span></span>
 <span><span class="co">#&gt; #   q2_99 &lt;dbl+lbl&gt;, kq5 &lt;dbl+lbl&gt;</span></span></code></pre></div>
 <p>Let’s also have a closer look at one of the new variables:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">df_mod</span><span class="op">$</span><span class="va">kq5</span></span>
 <span><span class="co">#&gt; &lt;labelled&lt;double&gt;[100]&gt;: Fruit number category</span></span>
 <span><span class="co">#&gt;   [1] NA  2  3  3 NA  2  2  2 NA  1  3  1  3  3  3  2 NA NA NA  2  3  2 NA NA  3</span></span>
@@ -160,9 +164,9 @@
 <span><span class="co">#&gt;      3 6 and more</span></span></code></pre></div>
 <p>The manipulations defined in the Excel file are applied on the dataframe that was derived from the SPSS file.</p>
 <p>You can save the dataframe back to an SPSS file by again using the <a href="https://haven.tidyverse.org/" class="external-link">haven package</a>:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">haven</span><span class="fu">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/read_spss.html" class="external-link">write_sav</a></span><span class="op">(</span><span class="va">df_mod</span>, <span class="st">"fruit_survey-modified.sav"</span><span class="op">)</span></span></code></pre></div>
-<p><a href="https://urswilke.gitlab.io/crosstabser/articles/crosstabser.html#mapping-file-content" class="external-link">Here</a> you can find a small description what each of the commands in <code>mapping_file</code> does, and how this can be used for the tabulation of the data.</p>
+<p><a href="https://urswilke.codeberg.page/crosstabser/articles/crosstabser.html#mapping-file-content" class="external-link">Here</a> you can find a small description what each of the commands in <code>mapping_file</code> does, and how this can be used for the tabulation of the data.</p>
 </div>
 </div>
 <div class="section level2">
@@ -171,7 +175,7 @@
 <div class="section level3">
 <h3 id="tabulation">Tabulation<a class="anchor" aria-label="anchor" href="#tabulation"></a>
 </h3>
-<p>If you additionally want to tabulate survey data, please have a look at the accompanying package <a href="https://gitlab.com/urswilke/crosstabser" class="external-link">crosstabser</a> that expands the functionality of datadaptor.</p>
+<p>If you additionally want to tabulate survey data, please have a look at the accompanying package <a href="https://codeberg.org/urswilke/crosstabser/" class="external-link">crosstabser</a> that expands the functionality of datadaptor.</p>
 </div>
 <div class="section level3">
 <h3 id="dashboards">Dashboards<a class="anchor" aria-label="anchor" href="#dashboards"></a>
@@ -193,7 +197,7 @@
   </main><aside class="col-md-3"><div class="links">
 <h2 data-toc-skip>Links</h2>
 <ul class="list-unstyled">
-<li><a href="https://gitlab.com/urswilke/datadaptor/" class="external-link">Browse source code</a></li>
+<li><a href="https://codeberg.org/urswilke/datadaptor/" class="external-link">Browse source code</a></li>
 </ul>
 </div>
 

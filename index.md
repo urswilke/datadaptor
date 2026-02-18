@@ -13,10 +13,18 @@ cells.
 
 ## Installation
 
-You can install datadaptor from Gitlab with:
+You can install datadaptor from codeberg with:
 
 ``` r
 
+devtools::install_git("https://codeberg.org/urswilke/datadaptor")
+```
+
+Otherwise, you can also install datadaptor from github or gitlab with:
+
+``` r
+
+devtools::install_github("urswilke/datadaptor")
 devtools::install_gitlab("urswilke/datadaptor")
 ```
 
@@ -58,7 +66,7 @@ df
 and want to modify some of the content.
 
 In the package you can find an [example Excel mapping
-file](https://gitlab.com/urswilke/datadaptor/-/blob/master/inst/extdata/mapping-fruits.xlsx)
+file](https://codeberg.org/urswilke/datadaptor/src/branch/master/inst/extdata/mapping-fruits.xlsx)
 to demonstrate the commands in this package. If you install
 `datadaptor`, you can access the path of this file with
 
@@ -75,7 +83,7 @@ utils::browseURL(mapping_file)
 ```
 
 Have a look at the
-[`vignette("command_blocks")`](https://urswilke.gitlab.io/datadaptor/articles/command_blocks.md)
+[`vignette("command_blocks")`](https://urswilke.codeberg.page/datadaptor/articles/command_blocks.md)
 for examples how to manipulate and generate new variables in your
 labelled dataset. There you can find out more about the syntax how the
 commands in the mapping file work. Once you have added the commands to
@@ -146,7 +154,7 @@ You can save the dataframe back to an SPSS file by again using the
 haven::write_sav(df_mod, "fruit_survey-modified.sav")
 ```
 
-[Here](https://urswilke.gitlab.io/crosstabser/articles/crosstabser.html#mapping-file-content)
+[Here](https://urswilke.codeberg.page/crosstabser/articles/crosstabser.html#mapping-file-content)
 you can find a small description what each of the commands in
 `mapping_file` does, and how this can be used for the tabulation of the
 data.
@@ -157,8 +165,8 @@ data.
 
 If you additionally want to tabulate survey data, please have a look at
 the accompanying package
-[crosstabser](https://gitlab.com/urswilke/crosstabser) that expands the
-functionality of datadaptor.
+[crosstabser](https://codeberg.org/urswilke/crosstabser/) that expands
+the functionality of datadaptor.
 
 ### Dashboards
 
