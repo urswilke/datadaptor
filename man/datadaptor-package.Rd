@@ -11,8 +11,8 @@ An R package to modify labelled data sets with commands in Excel files. The comm
 \seealso{
 Useful links:
 \itemize{
-  \item \url{https://urswilke.gitlab.io/datadaptor}
-  \item \url{https://gitlab.com/urswilke/datadaptor}
+  \item \url{https://urswilke.codeberg.page/datadaptor/}
+  \item \url{https://codeberg.org/urswilke/datadaptor}
   \item \url{https://urswilke.r-universe.dev/datadaptor}
 }
 
