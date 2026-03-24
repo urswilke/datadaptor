@@ -13,9 +13,9 @@ people without in-depth programming experience.
 
 Useful links:
 
-- <https://urswilke.gitlab.io/datadaptor>
+- <https://urswilke.codeberg.page/datadaptor/>
 
-- <https://gitlab.com/urswilke/datadaptor>
+- <https://codeberg.org/urswilke/datadaptor>
 
 - <https://urswilke.r-universe.dev/datadaptor>
 
