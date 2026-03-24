@@ -46,8 +46,6 @@
 #' @importFrom dplyr ungroup
 #' @importFrom fs is_absolute_path
 #' @importFrom fs path_dir
-#' @importFrom qs2 qs_save
-#' @importFrom qs2 qs_read
 #' @importFrom haven is.labelled
 #' @importFrom haven labelled
 #' @importFrom haven read_dta
@@ -92,6 +90,7 @@
 #' @importFrom readxl read_xlsx
 #' @importFrom rlang := .data
 #' @importFrom rlang `%||%`
+#' @importFrom rlang check_installed
 #' @importFrom rlang eval_tidy
 #' @importFrom rlang expr
 #' @importFrom rlang is_empty
