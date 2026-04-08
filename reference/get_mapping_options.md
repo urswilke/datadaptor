@@ -20,6 +20,7 @@ get_mapping_options(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   verbose = FALSE,
+  set_integers = FALSE,
   ...
 )
 ```
@@ -90,6 +91,14 @@ get_mapping_options(
   Defaults to `FALSE`; If `TRUE` will be more chatty about what's
   happening (Very preliminary! at the moment, only used in crosstabser).
 
+- set_integers:
+
+  Defaults to `FALSE`; If `TRUE`, numeric columns consisting of only
+  `NA` will be set to integer. (When
+  [`haven::labelled`](https://haven.tidyverse.org/reference/labelled.html)
+  columns with integers are saved to SPSS, this sets the "Decimals" to 0
+  instead of 2 for numeric columns.)
+
 - ...:
 
   used to pass arguments from `Mapping$new(...)`
@@ -118,10 +127,10 @@ get_mapping_options()
 #> [1] FALSE
 #> 
 #> $save_path
-#> [1] "/tmp/Rtmpn5mJpq"
+#> [1] "/tmp/RtmpIElE8x"
 #> 
 #> $expr_eval_env
-#> <environment: 0x55da532cfb80>
+#> <environment: 0x556ce3feaa70>
 #> 
 #> $lab_before_var_sheet
 #> [1] "yes"
@@ -136,6 +145,9 @@ get_mapping_options()
 #> [1] NA
 #> 
 #> $verbose
+#> [1] FALSE
+#> 
+#> $set_integers
 #> [1] FALSE
 #> 
 ```
