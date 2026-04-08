@@ -28,22 +28,43 @@
 #' update_var_table(dat_mod, mapping_file)
 update_var_table <- function(dat,
                              mapping_file,
-                             sheet = "Variables") {
+                             sheet = "Variables",
+                             only_changes = FALSE) {
   df_varl <- read_xlsx(
     mapping_file,
     sheet = sheet,
-    col_types = "text"
-  )
+    col_types = "text",
+    .name_repair = c("unique_quiet")
+  ) |>
+  select(c("var", "type", "varlab")) |>
+  filter(!is.na(var))
+
   df_varl_new <- gen_var_table_raw(dat)
 
 
-  df_varl_new |>
+  df_combined <- df_varl_new |>
     power_full_join(
       df_varl,
-      by = c("var"),
-      conflict = coalesce_yx
+      by = c("var")
     ) |>
-    relocate(c("type", "varlab"), .after = 1)
+    mutate(status = case_when(
+      is.na(type.y) ~ "1 - New variable",
+      is.na(type.x) ~ "5 - Variable deleted",
+      type.x != type.y & varlab.x != varlab.y ~ "2 - Type & label changed",
+      type.x != type.y ~ "3 - Type changed",
+      varlab.x != varlab.y ~ "4 - Label changed",
+      .default = "6 - Unchanged"
+    )) |>
+    select(c("status", "var", "type.x", "type.y", "varlab.x", "varlab.y")) |>
+    arrange(status)
+
+
+  if (only_changes)
+  {
+      df_combined |> filter(status != "6 - Unchanged")
+  } else {
+      df_combined
+  }
 }
 
 gen_var_table_raw <- function(dat) {
@@ -90,22 +111,42 @@ gen_var_table_raw <- function(dat) {
 #' update_label_table(dat_mod, mapping_file)
 update_label_table <- function(dat,
                                mapping_file,
-                               sheet = "Label") {
+                               sheet = "Label",
+                               only_changes = FALSE) {
   df_vall <- read_xlsx(
     mapping_file,
     sheet = sheet,
-    col_types = "text"
+    col_types = "text",
+    .name_repair = c("unique_quiet")
   ) |>
-    mutate(nv = as.numeric(.data$nv))
+    select(c("var", "nv", "label")) |>
+    filter(!is.na(var)) |>
+    as.numeric("nv")
+
   df_vall_new <- tab_vallabs(dat)
 
-  df_vall_new |>
-    powerjoin::power_full_join(
+
+  df_combined <- df_vall_new |>
+    power_full_join(
       df_vall,
-      by = c("var", "nv"),
-      conflict = coalesce_yx
+      by = c("var", "nv")
     ) |>
-    relocate(c("vallab"), .after = 2)
+    mutate(nv = as.numeric(.data$nv), exists = 1) |>
+    mutate(status = case_when(
+      is.na(label.y) ~ "1 - New label",
+      is.na(label.x) ~ "3 - Label deleted",
+      label.x != label.y ~ "2 - Label changed",
+      .default = "4 - Unchanged"
+    )) |>
+    select(c("status", "var", "nv", "label.x", "label.y")) |>
+    arrange(status)
+
+  if (only_changes)
+  {
+    df_combined |> filter(status != "4 - Unchanged")
+  } else {
+    df_combined
+  }
 }
 
 
