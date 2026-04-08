@@ -14,6 +14,5 @@ test_that("snapshot of (the structure of) mapp_free_sheet_cmd_table()", {
         data
       )) |>
       str()
-  ) |>
-    print_without_row_numbers(n = 1111)
+  )
 })

@@ -34,6 +34,7 @@ Suggests:
     markdown,
     here,
     spelling,
+    qs2,
     vctrs
 Config/testthat/edition: 3
 Encoding: UTF-8
@@ -61,11 +62,10 @@ Imports:
     withr,
     powerjoin,
     digest,
-    qs,
     openxlsx2
 VignetteBuilder: knitr
 Language: en-US
 URL: 
-    https://urswilke.gitlab.io/datadaptor, 
-    https://gitlab.com/urswilke/datadaptor,
+    https://urswilke.codeberg.page/datadaptor/, 
+    https://codeberg.org/urswilke/datadaptor,
     https://urswilke.r-universe.dev/datadaptor

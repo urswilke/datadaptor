@@ -14,7 +14,7 @@ read_data_(dat, ...)
 \value{
 Returns \code{dat} (unchanged) in case of a data.frame,
 in case of a character string returns the data.frame resulting of
-\code{haven::read_sav(dat)}/\code{haven::read_dta(dat)}/\code{qs::qread(dat)} or
+\code{haven::read_sav(dat)}/\code{haven::read_dta(dat)}/\code{qs2::qs_read(dat)} or
 \code{openxlsx2::read_xls(x)} for excel files (depending on the file
 extension) or returns \code{NULL} in case of \code{NULL}.
 }

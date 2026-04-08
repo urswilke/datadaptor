@@ -84,8 +84,8 @@ this string will be set to "mapping_type".}
 \item{\code{mapping_type}}{String specifying the mapping type. Either "excel"
 or "list". If not specified, when initializing it is auto-determined:
 \itemize{
-\item{"list": }{If \code{mapping_file} is a list object.}
-\item{"excel": }{If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
+\item{"list": If \code{mapping_file} is a list object.}
+\item{"excel": If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
 }}
 
 \item{\code{cmd_tbl}}{Dataframe with the command block information}

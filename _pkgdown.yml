@@ -1,11 +1,11 @@
 # _pkgdown.yml
-url: https://urswilke.gitlab.io/datadaptor
+url: https://urswilke.codeberg.page/datadaptor
 repo:
   url:
-    home: https://gitlab.com/urswilke/datadaptor/
-    source: https://gitlab.com/urswilke/datadaptor/-/tree/master/
-    issue: https://gitlab.com/urswilke/datadaptor/issues/
-    user: https://gitlab.com/
+    home: https://codeberg.org/urswilke/datadaptor/
+    source: https://codeberg.org/urswilke/datadaptor/src/branch/master/
+    issue: https://codeberg.org/urswilke/datadaptor/issues/
+    user: https://codeberg.org/
 template:
   bootstrap: 5
   light-switch: true

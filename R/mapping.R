@@ -21,8 +21,8 @@ NULL
 #' @field mapping_type String specifying the mapping type. Either "excel"
 #'   or "list". If not specified, when initializing it is auto-determined:
 #'   \itemize{
-#'     \item{"list": }{If `mapping_file` is a list object.}
-#'     \item{"excel": }{If the `mapping_file` path ends on "xlsm" or "xlsx".}
+#'     \item{"list": If `mapping_file` is a list object.}
+#'     \item{"excel": If the `mapping_file` path ends on "xlsm" or "xlsx".}
 #'   }
 #' @field cmd_tbl Dataframe with the command block information
 #' @field cmd R list structure containing the processed command block
@@ -283,7 +283,7 @@ save_type <- function(df, path, filetype) {
     "sav"  = write_sav(df, path),
     "dta"  = write_dta(df, path),
     "xlsx" = save_xlsx(df, path),
-    "qs"   = qsave(df, path),
+    "qs2"  = {check_installed("qs2"); qs2::qs_save(df, path)},
     stop("unknown filetype")
   )
 
@@ -401,7 +401,7 @@ add_error_list <- function(self) {
 #'
 #' @return Returns `dat` (unchanged) in case of a data.frame,
 #'  in case of a character string returns the data.frame resulting of
-#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs::qread(dat)` or
+#'  `haven::read_sav(dat)`/`haven::read_dta(dat)`/`qs2::qs_read(dat)` or
 #'  `openxlsx2::read_xls(x)` for excel files (depending on the file
 #'  extension) or returns `NULL` in case of `NULL`.
 #'
@@ -428,7 +428,7 @@ read_data_.character <- function(
   df <- switch(filetype,
     "sav" = read_sav(dat),
     "dta" = read_dta(dat),
-    "qs"  = qread(dat),
+    "qs2" = {check_installed("qs2"); qs2::qs_read(dat)},
     "xlsx" = read_xlsx(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     "xls" = read_xls(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
     stop("unknown filetype")
