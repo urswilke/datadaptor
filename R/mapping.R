@@ -153,6 +153,10 @@ Mapping <- R6Class(
 
       apply_command_blocks(command_blocks, self)
 
+      if (self$opts$da$set_integers) {
+        self$dat_mod <- set_cols_to_int(self$dat_mod)
+      }
+
       invisible(self)
     },
     #' @description Save the modified data to a file
@@ -468,6 +472,11 @@ read_data_.character <- function(
 #' @param verbose Defaults to `FALSE`;
 #'   If `TRUE` will be more chatty about what's happening
 #'   (Very preliminary! at the moment, only used in crosstabser).
+#' @param set_integers Defaults to `FALSE`;
+#'   If `TRUE`,
+#'   numeric columns only containing whole numbers or `NA` are set to integer.
+#'   (When `haven::labelled` columns with integers are saved to SPSS,
+#'   this sets the "Decimals" to 0 instead of 2 for numeric columns.)
 #' @param ... used to pass arguments from `Mapping$new(...)`
 #' @return list object (see examples)
 #'
@@ -488,6 +497,7 @@ get_mapping_options <- function(
     na_to_filter = TRUE,
     not_miss_to_filter_vars = NA_character_,
     verbose = FALSE,
+    set_integers = FALSE,
     ...) {
   p <- lst(
     id_var,
@@ -502,6 +512,7 @@ get_mapping_options <- function(
     miss_rec_val,
     not_miss_to_filter_vars,
     verbose,
+    set_integers,
     ...
   )
   if (debug) {

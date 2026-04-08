@@ -17,6 +17,7 @@ get_mapping_options(
   na_to_filter = TRUE,
   not_miss_to_filter_vars = NA_character_,
   verbose = FALSE,
+  set_integers = FALSE,
   ...
 )
 }
@@ -62,6 +63,11 @@ names spared out for \code{apply_command.cmd_recna_xcpt()}.}
 \item{verbose}{Defaults to \code{FALSE};
 If \code{TRUE} will be more chatty about what's happening
 (Very preliminary! at the moment, only used in crosstabser).}
+
+\item{set_integers}{Defaults to \code{FALSE};
+If \code{TRUE}, numeric columns consisting of only \code{NA} will be set to integer.
+(When \code{haven::labelled} columns with integers are saved to SPSS,
+this sets the "Decimals" to 0 instead of 2 for numeric columns.)}
 
 \item{...}{used to pass arguments from \code{Mapping$new(...)}}
 }
