@@ -174,16 +174,25 @@ tab_1var_vallabs <- function(x) {
       vallab = character()
     ))
   }
-  if (is.character(vallab_vec)) {
-    stop("Value label tabulation not yet implemented for string variables!")
-  }
   tibble(
     nv = unname(vallab_vec),
     vallab = names(vallab_vec)
   )
 }
 tab_vallabs <- function(df, remove_empty = TRUE) {
-  res <- df |> map_dfr(tab_1var_vallabs, .id = "var")
+  is_labelled_string <- df |> map_lgl(
+    \(x) is.character(x) && !is.null(attr(x, "labels"))
+  )
+  res <- df[!is_labelled_string] |> map_dfr(tab_1var_vallabs, .id = "var")
+  labelled_string_vars <- is_labelled_string[is_labelled_string] |>
+    names()
+  if (length(labelled_string_vars) > 0) {
+    warning(
+      "These labelled string variables were not tabulated:\n",
+      labelled_string_vars |>
+        paste(collapse = ", ")
+    )
+  }
   if (remove_empty) {
     res <- res |> drop_na("nv")
   }
