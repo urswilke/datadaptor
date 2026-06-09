@@ -37,3 +37,17 @@ test_that("gen_label_table_raw() print is reproduced", {
       print_without_row_numbers(n = 1111)
   })
 })
+
+dat_s <- data.frame(
+  q2 = haven::labelled(NA_real_, label = "xyz", labels = c(aaa = 1)),
+  q3 = haven::labelled(NA_character_, labels = c(aaa = "a")),
+  q4 = haven::labelled(NA_character_, labels = c(bbb = "b"))
+)
+test_that("gen_label_table() print is reproduced with labelled string variables", {
+  testthat::expect_snapshot_output({
+    testthat::expect_warning(
+      res <- dat_s |> gen_label_table()
+    )
+    res |> print_without_row_numbers(n = 1111)
+  })
+})
