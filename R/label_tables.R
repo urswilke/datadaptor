@@ -175,7 +175,7 @@ tab_1var_vallabs <- function(x) {
     ))
   }
   if (is.character(vallab_vec)) {
-    stop("Value label tabulation not yet implemented for string variables!")
+    warning("Value label tabulation not yet implemented for string variables!")
   }
   tibble(
     nv = unname(vallab_vec),
