@@ -8,10 +8,15 @@
 
 <!-- badges: start -->
 
-[![CRAN
-status](https://www.r-pkg.org/badges/version/datadaptor)](https://CRAN.R-project.org/package=datadaptor)
+<!-- [![CRAN status](https://www.r-pkg.org/badges/version/datadaptor)](https://CRAN.R-project.org/package=datadaptor) -->
+
 [![datadaptor status
 badge](https://urswilke.r-universe.dev/datadaptor/badges/version)](https://urswilke.r-universe.dev/datadaptor)
+[![R CMD
+check](https://ci.codeberg.org/api/badges/16369/status.svg)](https://ci.codeberg.org/repos/16369)  
+![Codecov](https://badgen.net/codecov/github/urswilke/datadaptor?icon=codecov&label)
+![Codeberg
+stars](https://badgen.net/codeberg/stars/urswilke/datadaptor/yellow?icon=sourcegraph)
 <!-- badges: end -->
 
 The R package datadaptor is an approach to programmatically manipulate
