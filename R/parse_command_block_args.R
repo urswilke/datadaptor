@@ -7,7 +7,6 @@
 #' @return The command block is returned with an added list element `cdb$args`,
 #'   containing the named arguments, passed to the `apply_command()` method.
 #'
-#' @export
 #' @noRd
 #' @examples
 #' mapping_file <- system.file(

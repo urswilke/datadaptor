@@ -1,4 +1,3 @@
-#' @export
 read_sheets <- function(self) {
   UseMethod("read_sheets", self$mapping_file)
 }
@@ -34,7 +33,6 @@ gen_sheet_cats <- function(self) {
   sheet_cats <- tab_sheet_types(sheets)
   sheet_cats
 }
-#' @export
 get_sheets <- function(mapping) {
   UseMethod("get_sheets", mapping$mapping_file)
 }

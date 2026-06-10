@@ -183,7 +183,6 @@ is_true_vec <- function(x) x %in% TRUE
 globalVariables(".")
 
 
-#' @export
 extract_named_region_params <- function(mapping) {
   UseMethod("extract_named_region_params", mapping$mapping_file)
 }

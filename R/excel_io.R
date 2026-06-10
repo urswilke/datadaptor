@@ -101,7 +101,6 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
   self$cmd$sheet_data_raw[[sheet]] |>
     format_df_varl()
 }
-#' @export
 read_variables_sheet_raw <- function(sheet, mapping) {
   UseMethod("read_variables_sheet_raw", mapping$mapping_file)
 }
@@ -266,7 +265,6 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
   res[c("sheet", "action", "new_var", "row", "data")]
 }
 
-#' @export
 read_label_sheet_raw <- function(sheet, mapping) {
   UseMethod("read_label_sheet_raw", mapping$mapping_file)
 }
@@ -355,7 +353,6 @@ mapp_free_sheet_cmd_table_raw <- function(sheet, mapping) {
   mapp_free_sheet_cmd_table_raw_raw(sheet, mapping) |>
     filter(if_any(starts_with("X"), ~ !is.na(.)))
 }
-#' @export
 mapp_free_sheet_cmd_table_raw_raw <- function(sheet, mapping) {
   UseMethod("mapp_free_sheet_cmd_table_raw_raw", mapping$mapping_file)
 }
