@@ -17,6 +17,14 @@ check](https://ci.codeberg.org/api/badges/16369/status.svg)](https://ci.codeberg
 [![Codecov](https://badgen.net/codecov/github/urswilke/datadaptor?icon=codecov&label)](https://app.codecov.io/github/urswilke/datadaptor)
 [![Codeberg
 stars](https://badgen.net/codeberg/stars/urswilke/datadaptor/yellow?icon=sourcegraph)](https://codeberg.org/urswilke/datadaptor/stars)
+[![Codeberg
+issues](https://badgen.net/codeberg/issues/urswilke/datadaptor/yellow?icon=bitcoin-lightning)](https://codeberg.org/urswilke/datadaptor/issues)
+[![Pull
+requests](https://badgen.net/codeberg/prs/urswilke/datadaptor)](https://codeberg.org/urswilke/datadaptor/pulls)
+[![Pull
+requests](https://badgen.net/codeberg/commits/urswilke/datadaptor)](https://codeberg.org/urswilke/datadaptor/commits/branch/master)
+[![Pull
+requests](https://badgen.net/codeberg/last-commit/urswilke/datadaptor)](https://codeberg.org/urswilke/datadaptor/commits/branch/master)
 <!-- badges: end -->
 
 The R package datadaptor is an approach to programmatically manipulate
