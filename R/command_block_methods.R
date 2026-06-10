@@ -94,20 +94,20 @@ apply_command.cmd_kg <- function(cdb, mapping, x, y, ...) {
     select(-all_of(c(x, y)))
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Remove a variable
 #'
 #' @export
 apply_command.cmd_drop <- function(cdb, mapping, xs, ...) {
   mapping$dat_mod[xs] <- NULL
 }
-#' @describeIn apply_command
+#' @describeIn apply_command Select like in dplyr
 #'
 #' @export
 apply_command.cmd_select <- function(cdb, mapping, exs, ...) {
   exs_ex <- parse_exprs(exs)
   mapping$dat_mod <- mapping$dat_mod |> select(!!!exs_ex)
 }
-#' @describeIn apply_command
+#' @describeIn apply_command mutate across like in dplyr
 #'
 #' @export
 apply_command.cmd_across <- function(
@@ -135,14 +135,14 @@ apply_command.cmd_across <- function(
   mapping$dat_mod <- mapping$dat_mod |>
     mutate(across(!!exs_ex, ex_fun, .names = ex_names))
 }
-#' @describeIn apply_command
+#' @describeIn apply_command Filter cases
 #'
 #' @export
 apply_command.cmd_filter <- function(cdb, mapping, exs, ...) {
   exs_ex <- parse_exprs(exs)
   mapping$dat_mod <- mapping$dat_mod |> filter(!!!exs_ex)
 }
-#' @describeIn apply_command
+#' @describeIn apply_command Code verbatims
 #'
 #' @export
 apply_command.cmd_verbatim <- function(
@@ -178,7 +178,7 @@ apply_command.cmd_verbatim <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Code verbatims
 #'
 #' @export
 apply_command.cmd_verbatim_custom <- function(
@@ -223,7 +223,7 @@ apply_command.cmd_verbatim_custom <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Merge dataset
 #'
 #' @export
 apply_command.cmd_merge <- function(
@@ -256,7 +256,7 @@ apply_command.cmd_merge <- function(
     attr(mapping$dat_mod, "DC_dataset_origin") |>
     append(attr(df_merge, "DC_dataset_origin"))
 }
-#' @describeIn apply_command
+#' @describeIn apply_command Add a file
 #'
 #' @export
 apply_command.cmd_addfile <- function(
@@ -268,7 +268,7 @@ apply_command.cmd_addfile <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Rename variable
 #'
 #' @export
 apply_command.cmd_rename_varsheet <- function(cdb, mapping, xs, ys, ...) {
@@ -276,12 +276,12 @@ apply_command.cmd_rename_varsheet <- function(cdb, mapping, xs, ys, ...) {
     rename(!!!set_names(ys, xs))
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Rename variable
 #'
 #' @export
 apply_command.cmd_rename <- apply_command.cmd_rename_varsheet
 
-#' @describeIn apply_command
+#' @describeIn apply_command Conditional calculation
 #'
 #' @export
 apply_command.cmd_if <- function(cdb, mapping, x, ex_cond, ex, ...) {
@@ -313,7 +313,7 @@ eval_in_data <- function(ex, mapping) {
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Compute a variable
 #'
 #' @export
 apply_command.cmd_comp <- function(cdb, mapping, x, ex, ...) {
@@ -343,14 +343,14 @@ apply_command.cmd_comp <- function(cdb, mapping, x, ex, ...) {
   mapping$dat_mod[[x]] <- vec
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Set a breakpoint to halt execution here
 #'
 #' @export
 apply_command.cmd_debug <- function(cdb, mapping, ...) {
   browser()
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Set the variable label
 #'
 #' @export
 apply_command.cmd_set_lab <- function(cdb, mapping, x, varlab, ...) {
@@ -369,12 +369,12 @@ apply_command.cmd_set_lab <- function(cdb, mapping, x, varlab, ...) {
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Set the variable label
 #'
 #' @export
 apply_command.cmd_newlab <- apply_command.cmd_set_lab
 
-#' @describeIn apply_command
+#' @describeIn apply_command Set values to NA and remove their value labels
 #'
 #' @export
 apply_command.cmd_rmval <- function(cdb, mapping, x, y, vs, varlab, ...) {
@@ -392,7 +392,7 @@ apply_command.cmd_rmval <- function(cdb, mapping, x, y, vs, varlab, ...) {
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Set the value labels
 #'
 #' @export
 apply_command.cmd_set_labs <- function(
@@ -414,7 +414,7 @@ apply_command.cmd_set_labs <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Add value labels
 #'
 #' @export
 apply_command.cmd_add_labs <- function(
@@ -435,12 +435,12 @@ apply_command.cmd_add_labs <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Add value labels
 #'
 #' @export
 apply_command.cmd_newvall <- apply_command.cmd_add_labs
 
-#' @describeIn apply_command
+#' @describeIn apply_command Recode a variable
 #'
 #' @export
 apply_command.cmd_rec <- function(
@@ -492,7 +492,7 @@ apply_command.cmd_rec <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Summarize a variable
 #'
 #' @export
 apply_command.cmd_sumvar <- function(
@@ -517,7 +517,7 @@ apply_command.cmd_sumvar <- function(
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Copy the variable & value labels
 #'
 #' @export
 apply_command.cmd_dic <- function(cdb, mapping, x, y, ...) {
@@ -537,7 +537,7 @@ apply_command.cmd_dic <- function(cdb, mapping, x, y, ...) {
   )
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Autorecode a string variable
 #'
 #' @export
 apply_command.cmd_autorec <- function(cdb, mapping, x, ...) {
@@ -548,7 +548,7 @@ apply_command.cmd_autorec <- function(cdb, mapping, x, ...) {
   mapping$dat_mod[[x]] <- x_labelled
 }
 
-#' @describeIn apply_command
+#' @describeIn apply_command Transform a string variable to a numeric
 #'
 #' @export
 apply_command.cmd_str_to_num <- function(cdb, mapping, x, ...) {

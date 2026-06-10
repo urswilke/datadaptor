@@ -7,6 +7,30 @@
 \alias{apply_command.cmd_r}
 \alias{apply_command.cmd_rfun}
 \alias{apply_command.cmd_kg}
+\alias{apply_command.cmd_drop}
+\alias{apply_command.cmd_select}
+\alias{apply_command.cmd_across}
+\alias{apply_command.cmd_filter}
+\alias{apply_command.cmd_verbatim}
+\alias{apply_command.cmd_verbatim_custom}
+\alias{apply_command.cmd_merge}
+\alias{apply_command.cmd_addfile}
+\alias{apply_command.cmd_rename_varsheet}
+\alias{apply_command.cmd_rename}
+\alias{apply_command.cmd_if}
+\alias{apply_command.cmd_comp}
+\alias{apply_command.cmd_debug}
+\alias{apply_command.cmd_set_lab}
+\alias{apply_command.cmd_newlab}
+\alias{apply_command.cmd_rmval}
+\alias{apply_command.cmd_set_labs}
+\alias{apply_command.cmd_add_labs}
+\alias{apply_command.cmd_newvall}
+\alias{apply_command.cmd_rec}
+\alias{apply_command.cmd_sumvar}
+\alias{apply_command.cmd_dic}
+\alias{apply_command.cmd_autorec}
+\alias{apply_command.cmd_str_to_num}
 \title{Apply a command block to the data}
 \usage{
 apply_command(cdb, mapping, ...)
@@ -18,6 +42,80 @@ apply_command(cdb, mapping, ...)
 \method{apply_command}{cmd_rfun}(cdb, mapping, filepath, ex_fun, ...)
 
 \method{apply_command}{cmd_kg}(cdb, mapping, x, y, ...)
+
+\method{apply_command}{cmd_drop}(cdb, mapping, xs, ...)
+
+\method{apply_command}{cmd_select}(cdb, mapping, exs, ...)
+
+\method{apply_command}{cmd_across}(cdb, mapping, exs, ex_fun, exs_fns_names, ex_names, ...)
+
+\method{apply_command}{cmd_filter}(cdb, mapping, exs, ...)
+
+\method{apply_command}{cmd_verbatim}(
+  cdb,
+  mapping,
+  x,
+  v,
+  varlab,
+  vs,
+  vallabs,
+  id_list,
+  v0,
+  ex_further_cond,
+  id = mapping$opts$da$id_var,
+  ...
+)
+
+\method{apply_command}{cmd_verbatim_custom}(
+  cdb,
+  mapping,
+  x,
+  varlab,
+  vs,
+  vallabs,
+  id_list,
+  v0,
+  ex_further_cond,
+  ex_assign,
+  id = mapping$opts$da$id_var,
+  ...
+)
+
+\method{apply_command}{cmd_merge}(cdb, mapping, xs, filepath, id, coal, ...)
+
+\method{apply_command}{cmd_addfile}(cdb, mapping, filepath, ...)
+
+\method{apply_command}{cmd_rename_varsheet}(cdb, mapping, xs, ys, ...)
+
+\method{apply_command}{cmd_rename}(cdb, mapping, xs, ys, ...)
+
+\method{apply_command}{cmd_if}(cdb, mapping, x, ex_cond, ex, ...)
+
+\method{apply_command}{cmd_comp}(cdb, mapping, x, ex, ...)
+
+\method{apply_command}{cmd_debug}(cdb, mapping, ...)
+
+\method{apply_command}{cmd_set_lab}(cdb, mapping, x, varlab, ...)
+
+\method{apply_command}{cmd_newlab}(cdb, mapping, x, varlab, ...)
+
+\method{apply_command}{cmd_rmval}(cdb, mapping, x, y, vs, varlab, ...)
+
+\method{apply_command}{cmd_set_labs}(cdb, mapping, x, varlab, vs, vallabs, ...)
+
+\method{apply_command}{cmd_add_labs}(cdb, mapping, x, varlab = NULL, vs, vallabs, ...)
+
+\method{apply_command}{cmd_newvall}(cdb, mapping, x, varlab = NULL, vs, vallabs, ...)
+
+\method{apply_command}{cmd_rec}(cdb, mapping, x, y, varlab, vs0, vs, vs2, vallabs, ...)
+
+\method{apply_command}{cmd_sumvar}(cdb, mapping, x, y, varlab, vs0, vs, vallabs, ...)
+
+\method{apply_command}{cmd_dic}(cdb, mapping, x, y, ...)
+
+\method{apply_command}{cmd_autorec}(cdb, mapping, x, ...)
+
+\method{apply_command}{cmd_str_to_num}(cdb, mapping, x, ...)
 }
 \arguments{
 \item{cdb}{\code{command_block} object}
@@ -37,19 +135,19 @@ apply_command(cdb, mapping, ...)
 
 \item{varlab}{Character string containing a variable label}
 
-\item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign, exs_fns_names, ex_names}{Character strings
-containing valid R expressions. They will be evaluated in
-\code{mapping$opts$da$expr_eval_env} (see \code{get_mapping_options()}), except \code{exs}
-which contains a list of expressions evaluated in the global environment.}
+\item{id_list}{Vector of id values in \code{mapping$dat_mod[id]}.}
+
+\item{id}{Character string of the variable name of the id variable in
+\code{mapping$dat}.}
 
 \item{coal}{Character string containing either \code{"xy"} or \code{"yx"}.
 This determines if \code{powerjoin::coalesce_xy()} or \code{powerjoin::coalesce_yx()} is used
 when merging data with variables that already exist.}
 
-\item{id}{Character string of the variable name of the id variable in
-\code{mapping$dat}.}
-
-\item{id_list}{Vector of id values in \code{mapping$dat_mod[id]}.}
+\item{ex, exs, ex_cond, ex_fun, ex_further_cond, ex_assign, exs_fns_names, ex_names}{Character strings
+containing valid R expressions. They will be evaluated in
+\code{mapping$opts$da$expr_eval_env} (see \code{get_mapping_options()}), except \code{exs}
+which contains a list of expressions evaluated in the global environment.}
 }
 \description{
 see \code{vignette("command_blocks")}
@@ -66,6 +164,54 @@ labelled \code{vallab}.
 defined in the R script named \code{filepath}.
 
 \item \code{apply_command(cmd_kg)}: Split variable
+
+\item \code{apply_command(cmd_drop)}: Remove a variable
+
+\item \code{apply_command(cmd_select)}: Select like in dplyr
+
+\item \code{apply_command(cmd_across)}: mutate across like in dplyr
+
+\item \code{apply_command(cmd_filter)}: Filter cases
+
+\item \code{apply_command(cmd_verbatim)}: Code verbatims
+
+\item \code{apply_command(cmd_verbatim_custom)}: Code verbatims
+
+\item \code{apply_command(cmd_merge)}: Merge dataset
+
+\item \code{apply_command(cmd_addfile)}: Add a file
+
+\item \code{apply_command(cmd_rename_varsheet)}: Rename variable
+
+\item \code{apply_command(cmd_rename)}: Rename variable
+
+\item \code{apply_command(cmd_if)}: Conditional calculation
+
+\item \code{apply_command(cmd_comp)}: Compute a variable
+
+\item \code{apply_command(cmd_debug)}: Set a breakpoint to halt execution here
+
+\item \code{apply_command(cmd_set_lab)}: Set the variable label
+
+\item \code{apply_command(cmd_newlab)}: Set the variable label
+
+\item \code{apply_command(cmd_rmval)}: Set values to NA and remove their value labels
+
+\item \code{apply_command(cmd_set_labs)}: Set the value labels
+
+\item \code{apply_command(cmd_add_labs)}: Add value labels
+
+\item \code{apply_command(cmd_newvall)}: Add value labels
+
+\item \code{apply_command(cmd_rec)}: Recode a variable
+
+\item \code{apply_command(cmd_sumvar)}: Summarize a variable
+
+\item \code{apply_command(cmd_dic)}: Copy the variable & value labels
+
+\item \code{apply_command(cmd_autorec)}: Autorecode a string variable
+
+\item \code{apply_command(cmd_str_to_num)}: Transform a string variable to a numeric
 
 }}
 \examples{
