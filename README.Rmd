@@ -21,8 +21,8 @@ knitr::opts_chunk$set(
 <!-- [![CRAN status](https://www.r-pkg.org/badges/version/datadaptor)](https://CRAN.R-project.org/package=datadaptor) -->
 [![datadaptor status badge](https://urswilke.r-universe.dev/datadaptor/badges/version)](https://urswilke.r-universe.dev/datadaptor)
 [![R CMD check](https://ci.codeberg.org/api/badges/16369/status.svg)](https://ci.codeberg.org/repos/16369)    
-![Codecov](https://badgen.net/codecov/github/urswilke/datadaptor?icon=codecov&label)
-![Codeberg stars](https://badgen.net/codeberg/stars/urswilke/datadaptor/yellow?icon=sourcegraph)
+[![Codecov](https://badgen.net/codecov/github/urswilke/datadaptor?icon=codecov&label)](https://app.codecov.io/github/urswilke/datadaptor)
+[![Codeberg stars](https://badgen.net/codeberg/stars/urswilke/datadaptor/yellow?icon=sourcegraph)](https://codeberg.org/urswilke/datadaptor/stars)
 <!-- badges: end -->
 
 
