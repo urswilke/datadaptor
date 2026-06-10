@@ -1,9 +1,12 @@
+#' @export
 read_sheets <- function(self) {
   UseMethod("read_sheets", self$mapping_file)
 }
+#' @export
 read_sheets.list <- function(self) {
   self$mapping_file
 }
+#' @export
 read_sheets.default <- function(self) {
   sheet_cats <- gen_sheet_cats(self)
   map2(
@@ -31,9 +34,11 @@ gen_sheet_cats <- function(self) {
   sheet_cats <- tab_sheet_types(sheets)
   sheet_cats
 }
+#' @export
 get_sheets <- function(mapping) {
   UseMethod("get_sheets", mapping$mapping_file)
 }
+#' @export
 get_sheets.excel <- function(mapping) {
   wb_get_sheet_names(mapping$wb)
 }
