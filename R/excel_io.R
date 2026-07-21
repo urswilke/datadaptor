@@ -377,8 +377,19 @@ process_raw_free_cmd_table <- function(df_free) {
   if (nrow(df_free) == 0) {
     return(NULL)
   }
-  df_free |>
-    delete_empty_X1_not_multiline() |>
+  df_free_mod <- df_free |>
+    delete_empty_X1_not_multiline()
+  if (nrow(df_free_mod) == 0) {
+    return(
+      tibble(
+        row = character(),
+        raw_index = numeric(),
+        action = character(),
+        data = list()
+      )
+    )
+  }
+  df_free_mod |>
     add_curlies_to_cell_with_spaces() |>
     curlychop() |>
     group_by(.data$row) |>
