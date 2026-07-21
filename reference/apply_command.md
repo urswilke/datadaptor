@@ -193,53 +193,55 @@ apply_command(cdb, mapping, x, ...)
 
 - `apply_command(cmd_kg)`: Split variable
 
-- `apply_command(cmd_drop)`:
+- `apply_command(cmd_drop)`: Remove a variable
 
-- `apply_command(cmd_select)`:
+- `apply_command(cmd_select)`: Select like in dplyr
 
-- `apply_command(cmd_across)`:
+- `apply_command(cmd_across)`: mutate across like in dplyr
 
-- `apply_command(cmd_filter)`:
+- `apply_command(cmd_filter)`: Filter cases
 
-- `apply_command(cmd_verbatim)`:
+- `apply_command(cmd_verbatim)`: Code verbatims
 
-- `apply_command(cmd_verbatim_custom)`:
+- `apply_command(cmd_verbatim_custom)`: Code verbatims
 
-- `apply_command(cmd_merge)`:
+- `apply_command(cmd_merge)`: Merge dataset
 
-- `apply_command(cmd_addfile)`:
+- `apply_command(cmd_addfile)`: Add a file
 
-- `apply_command(cmd_rename_varsheet)`:
+- `apply_command(cmd_rename_varsheet)`: Rename variable
 
-- `apply_command(cmd_rename)`:
+- `apply_command(cmd_rename)`: Rename variable
 
-- `apply_command(cmd_if)`:
+- `apply_command(cmd_if)`: Conditional calculation
 
-- `apply_command(cmd_comp)`:
+- `apply_command(cmd_comp)`: Compute a variable
 
-- `apply_command(cmd_debug)`:
+- `apply_command(cmd_debug)`: Set a breakpoint to halt execution here
 
-- `apply_command(cmd_set_lab)`:
+- `apply_command(cmd_set_lab)`: Set the variable label
 
-- `apply_command(cmd_newlab)`:
+- `apply_command(cmd_newlab)`: Set the variable label
 
-- `apply_command(cmd_rmval)`:
+- `apply_command(cmd_rmval)`: Set values to NA and remove their value
+  labels
 
-- `apply_command(cmd_set_labs)`:
+- `apply_command(cmd_set_labs)`: Set the value labels
 
-- `apply_command(cmd_add_labs)`:
+- `apply_command(cmd_add_labs)`: Add value labels
 
-- `apply_command(cmd_newvall)`:
+- `apply_command(cmd_newvall)`: Add value labels
 
-- `apply_command(cmd_rec)`:
+- `apply_command(cmd_rec)`: Recode a variable
 
-- `apply_command(cmd_sumvar)`:
+- `apply_command(cmd_sumvar)`: Summarize a variable
 
-- `apply_command(cmd_dic)`:
+- `apply_command(cmd_dic)`: Copy the variable & value labels
 
-- `apply_command(cmd_autorec)`:
+- `apply_command(cmd_autorec)`: Autorecode a string variable
 
-- `apply_command(cmd_str_to_num)`:
+- `apply_command(cmd_str_to_num)`: Transform a string variable to a
+  numeric
 
 ## Examples
 

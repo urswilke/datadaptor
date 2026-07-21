@@ -93,8 +93,8 @@ get_mapping_options(
 
 - set_integers:
 
-  Defaults to `FALSE`; If `TRUE`, numeric columns consisting of only
-  `NA` will be set to integer. (When
+  Defaults to `FALSE`; If `TRUE`, numeric columns only containing whole
+  numbers or `NA` are set to integer. (When
   [`haven::labelled`](https://haven.tidyverse.org/reference/labelled.html)
   columns with integers are saved to SPSS, this sets the "Decimals" to 0
   instead of 2 for numeric columns.)
@@ -127,10 +127,10 @@ get_mapping_options()
 #> [1] FALSE
 #> 
 #> $save_path
-#> [1] "/tmp/Rtmp3PVbam"
+#> [1] "/tmp/RtmpnTOOow"
 #> 
 #> $expr_eval_env
-#> <environment: 0x55f926969bf8>
+#> <environment: 0x560dbda18d48>
 #> 
 #> $lab_before_var_sheet
 #> [1] "yes"

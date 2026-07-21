@@ -14,10 +14,6 @@ of the data in `Mapping$dat_mod`.
 safer_env
 ```
 
-## Format
-
-An object of class `environment` of length 74.
-
 ## Examples
 
 ``` r
@@ -55,7 +51,7 @@ safer_env$case_when
 #>         conditions_arg = "", values_arg = "", default_arg = ".default", 
 #>         error_call = current_env())
 #> }
-#> <bytecode: 0x55f92061a110>
+#> <bytecode: 0x560dc307a060>
 #> <environment: namespace:dplyr>
 # To use it in a mapping, you can do:
 if (FALSE) { # \dontrun{

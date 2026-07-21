@@ -63,7 +63,7 @@ method `modify_data()` and then results in the `dat_mod` field.
 
 ### Public methods
 
-- [`Mapping$new()`](#method-Mapping-new)
+- [`Mapping$new()`](#method-Mapping-initialize)
 
 - [`Mapping$process_sheet_commands()`](#method-Mapping-process_sheet_commands)
 
@@ -79,7 +79,7 @@ method `modify_data()` and then results in the `dat_mod` field.
 
 ------------------------------------------------------------------------
 
-### Method `new()`
+### `Mapping$new()`
 
 Initialize a Mapping object
 
@@ -124,7 +124,7 @@ A new `Mapping` object.
 
 ------------------------------------------------------------------------
 
-### Method `process_sheet_commands()`
+### `Mapping$process_sheet_commands()`
 
 Parse the sheet data of the mapping file and derive the command blocks
 included. Automatically run in the constructor if
@@ -137,7 +137,7 @@ included. Automatically run in the constructor if
 
 ------------------------------------------------------------------------
 
-### Method `modify_data()`
+### `Mapping$modify_data()`
 
 Run all command blocks of the mapping file. The commands in the argument
 `command_blocks` (defaults to the Mapping's `cmd_tbl$command_blocks`
@@ -164,7 +164,7 @@ according to their subclass methods of
 
 ------------------------------------------------------------------------
 
-### Method [`save()`](https://rdrr.io/r/base/save.html)
+### `Mapping$save()`
 
 Save the modified data to a file
 
@@ -206,7 +206,6 @@ export removes variable & value labels.
 
 #### Examples
 
-    \dontrun{
     # Create a Mapping object from the files provided by the package:
     mapping_file <- system.file(
       "extdata",
@@ -223,11 +222,10 @@ export removes variable & value labels.
     # The method applies the modifications specified in a command_blocks object
     m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
     m$save("stata_data.dta", show = TRUE)
-    }
 
 ------------------------------------------------------------------------
 
-### Method `set_options()`
+### `Mapping$set_options()`
 
 Set / change options of the `Mapping` object
 
@@ -260,7 +258,7 @@ field.
 
 ------------------------------------------------------------------------
 
-### Method `read_data()`
+### `Mapping$read_data()`
 
 Read in dataset
 
@@ -284,7 +282,7 @@ Read in dataset
 
 ------------------------------------------------------------------------
 
-### Method `clone()`
+### `Mapping$clone()`
 
 The objects of this class are cloneable with this method.
 
@@ -368,7 +366,7 @@ mapping$dat_mod
 # haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
 
 ## ------------------------------------------------
-## Method `Mapping$save`
+## Method `Mapping$save()`
 ## ------------------------------------------------
 
 if (FALSE) { # \dontrun{

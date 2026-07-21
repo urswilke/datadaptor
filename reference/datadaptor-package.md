@@ -26,4 +26,7 @@ Useful links:
 
 Authors:
 
+- Urs Wilke <urs.wilke@gmail.com>
+  ([ORCID](https://orcid.org/0000-0001-7257-2524))
+
 - Wolf Wilke <wilke@data-connection.de>
