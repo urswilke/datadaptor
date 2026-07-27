@@ -261,7 +261,7 @@ apply_command.cmd_merge <- function(
 #' @export
 apply_command.cmd_addfile <- function(
     cdb, mapping, filepath, ...) {
-  df_newcases <- read_sav(filepath, user_na = TRUE)
+  df_newcases <- mapping$read_data(filepath)
   mapping$dat_mod <- bind_rows(
     mapping$dat_mod,
     df_newcases
