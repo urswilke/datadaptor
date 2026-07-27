@@ -104,6 +104,7 @@ mapp_var_sheet_cmd_table <- function(self, sheet = "Variables") {
 read_variables_sheet_raw <- function(sheet, mapping) {
   UseMethod("read_variables_sheet_raw", mapping$mapping_file)
 }
+#' @export
 read_variables_sheet_raw.excel <- function(sheet, mapping) {
   res <- wb_read(
     mapping$wb,
@@ -267,6 +268,7 @@ mapp_vallab_sheet_cmd_table <- function(self, sheet = "Label") {
 read_label_sheet_raw <- function(sheet, mapping) {
   UseMethod("read_label_sheet_raw", mapping$mapping_file)
 }
+#' @export
 read_label_sheet_raw.excel <- function(sheet, mapping) {
   raw <- wb_read(
     mapping$wb,
@@ -354,6 +356,7 @@ mapp_free_sheet_cmd_table_raw <- function(sheet, mapping) {
 mapp_free_sheet_cmd_table_raw_raw <- function(sheet, mapping) {
   UseMethod("mapp_free_sheet_cmd_table_raw_raw", mapping$mapping_file)
 }
+#' @export
 mapp_free_sheet_cmd_table_raw_raw.excel <- function(sheet, mapping) {
   res <- wb_read(
     mapping$wb,
@@ -374,8 +377,19 @@ process_raw_free_cmd_table <- function(df_free) {
   if (nrow(df_free) == 0) {
     return(NULL)
   }
-  df_free |>
-    delete_empty_X1_not_multiline() |>
+  df_free_mod <- df_free |>
+    delete_empty_X1_not_multiline()
+  if (nrow(df_free_mod) == 0) {
+    return(
+      tibble(
+        row = character(),
+        raw_index = numeric(),
+        action = character(),
+        data = list()
+      )
+    )
+  }
+  df_free_mod |>
     add_curlies_to_cell_with_spaces() |>
     curlychop() |>
     group_by(.data$row) |>

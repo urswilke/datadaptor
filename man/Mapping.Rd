@@ -50,7 +50,7 @@ mapping$dat_mod
 # haven::write_sav(mapping$dat_mod, "path/to/your/file.sav")
 
 ## ------------------------------------------------
-## Method `Mapping$save`
+## Method `Mapping$save()`
 ## ------------------------------------------------
 
 \dontrun{
@@ -73,167 +73,164 @@ m$save("stata_data.dta", show = TRUE)
 }
 }
 \section{Public fields}{
-\if{html}{\out{<div class="r6-fields">}}
-\describe{
-\item{\code{dat}}{(filepath to pass to \code{haven::read_sav()} to read in the)
+  \if{html}{\out{<div class="r6-fields">}}
+  \describe{
+    \item{\code{dat}}{(filepath to pass to \code{haven::read_sav()} to read in the)
 labelled dataframe to apply the mapping on.}
 
-\item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
+    \item{\code{mapping_file}}{Mapping file document (see \code{mapping_type}). The class of
 this string will be set to "mapping_type".}
 
-\item{\code{mapping_type}}{String specifying the mapping type. Either "excel"
+    \item{\code{mapping_type}}{String specifying the mapping type. Either "excel"
 or "list". If not specified, when initializing it is auto-determined:
 \itemize{
 \item{"list": If \code{mapping_file} is a list object.}
 \item{"excel": If the \code{mapping_file} path ends on "xlsm" or "xlsx".}
 }}
 
-\item{\code{cmd_tbl}}{Dataframe with the command block information}
+    \item{\code{cmd_tbl}}{Dataframe with the command block information}
 
-\item{\code{cmd}}{R list structure containing the processed command block
+    \item{\code{cmd}}{R list structure containing the processed command block
 information of the Excel mapping file. \ifelse{html}{\href{https://lifecycle.r-lib.org/articles/stages.html#experimental}{\figure{lifecycle-experimental.svg}{options: alt='[Experimental]'}}}{\strong{[Experimental]}}}
 
-\item{\code{dat_mod}}{modified dataframe}
+    \item{\code{dat_mod}}{modified dataframe}
 
-\item{\code{opts}}{Parameter list object (in \code{opts$da})}
+    \item{\code{opts}}{Parameter list object (in \code{opts$da})}
 
-\item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object,
+    \item{\code{wb}}{For an excel mapping, the openxlsx2 workbook object,
 otherwise \code{NULL}.}
 
-\item{\code{ditw}}{This is the "dust in the wind" list object field
+    \item{\code{ditw}}{This is the "dust in the wind" list object field
 that stores data that didn't make it into their own field.
 For developers only!
 For reproducible code you should NEVER rely on this field
 as it might be subject to change without any warning.}
-}
-\if{html}{\out{</div>}}
+  }
+  \if{html}{\out{</div>}}
 }
 \section{Methods}{
 \subsection{Public methods}{
-\itemize{
-\item \href{#method-Mapping-new}{\code{Mapping$new()}}
-\item \href{#method-Mapping-process_sheet_commands}{\code{Mapping$process_sheet_commands()}}
-\item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
-\item \href{#method-Mapping-save}{\code{Mapping$save()}}
-\item \href{#method-Mapping-set_options}{\code{Mapping$set_options()}}
-\item \href{#method-Mapping-read_data}{\code{Mapping$read_data()}}
-\item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
-}
+  \itemize{
+    \item \href{#method-Mapping-initialize}{\code{Mapping$new()}}
+    \item \href{#method-Mapping-process_sheet_commands}{\code{Mapping$process_sheet_commands()}}
+    \item \href{#method-Mapping-modify_data}{\code{Mapping$modify_data()}}
+    \item \href{#method-Mapping-save}{\code{Mapping$save()}}
+    \item \href{#method-Mapping-set_options}{\code{Mapping$set_options()}}
+    \item \href{#method-Mapping-read_data}{\code{Mapping$read_data()}}
+    \item \href{#method-Mapping-clone}{\code{Mapping$clone()}}
+  }
 }
 \if{html}{\out{<hr>}}
-\if{html}{\out{<a id="method-Mapping-new"></a>}}
-\if{latex}{\out{\hypertarget{method-Mapping-new}{}}}
-\subsection{Method \code{new()}}{
-Initialize a Mapping object
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$new(
+\if{html}{\out{<a id="method-Mapping-initialize"></a>}}
+\if{latex}{\out{\hypertarget{method-Mapping-initialize}{}}}
+\subsection{\code{Mapping$new()}}{
+  Initialize a Mapping object
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$new(
   dat = NULL,
   mapping_file = NULL,
   mapping_type = NULL,
   process_sheets = TRUE,
   ...
-)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dat}}{Dataframe to apply the mapping on.}
-
-\item{\code{mapping_file}}{Path to the Excel mapping file.}
-
-\item{\code{mapping_type}}{String specifying the mapping type.
+)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{dat}}{Dataframe to apply the mapping on.}
+      \item{\code{mapping_file}}{Path to the Excel mapping file.}
+      \item{\code{mapping_type}}{String specifying the mapping type.
 Either "excel" or "list".}
-
-\item{\code{process_sheets}}{(default TRUE)
+      \item{\code{process_sheets}}{(default TRUE)
 allows (process_sheets = FALSE) to postpone the execution
 of the commands in the Excel mapping file to the modify_data() method}
-
-\item{\code{...}}{Arguments passed to the \code{Mapping$set_options()} method
+      \item{\code{...}}{Arguments passed to the \code{Mapping$set_options()} method
 which will populate  the \code{Mapping$opts$da} field of the object.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Returns}{
+    A new \code{Mapping} object.
+  }
 }
-\if{html}{\out{</div>}}
-}
-\subsection{Returns}{
-A new \code{Mapping} object.
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-process_sheet_commands"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-process_sheet_commands}{}}}
-\subsection{Method \code{process_sheet_commands()}}{
-Parse the sheet data of the mapping file
+\subsection{\code{Mapping$process_sheet_commands()}}{
+  Parse the sheet data of the mapping file
 and derive the command blocks included.
 Automatically run in the constructor
 if \code{process_sheets = TRUE} (the default).
 Automatically run by the \code{modify_data()} method if not done before.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$process_sheet_commands()}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$process_sheet_commands()}
+    \if{html}{\out{</div>}}
+  }
 }
 
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-modify_data"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-modify_data}{}}}
-\subsection{Method \code{modify_data()}}{
-Run all command blocks of the mapping file. The commands in
+\subsection{\code{Mapping$modify_data()}}{
+  Run all command blocks of the mapping file. The commands in
 the argument \code{command_blocks} (defaults to the Mapping's
 \code{cmd_tbl$command_blocks} field) successively are applied to the data in
 the field \code{"dat_mod"} according to their subclass methods of
 \code{apply_command()}.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{reset}}{whether to apply the modifications to the input data (field
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$modify_data(reset = TRUE, command_blocks = self$cmd_tbl$command_blocks)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{reset}}{whether to apply the modifications to the input data (field
 \code{dat}) or whether to keep previous modifications (only relevant
 when applying \code{modify_data()} multiple times).}
-
-\item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
+      \item{\code{command_blocks}}{The \code{"command_blocks"} object results of the
 processing of the Excel mapping file.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
-}
-}
+
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-save"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-save}{}}}
-\subsection{Method \code{save()}}{
-Save the modified data to a file
+\subsection{\code{Mapping$save()}}{
+  Save the modified data to a file
 
 The data can be exported to the file formats of Stata & SPSS. The Excel
 export removes variable & value labels.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$save(path = NULL, show = FALSE, name = "dat", filetype = "sav", ...)}\if{html}{\out{</div>}}
-}
-
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{path}}{\code{character()} string or \code{NULL}. If \code{NULL} (the default) it
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$save(path = NULL, show = FALSE, name = "dat", filetype = "sav", ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{path}}{\code{character()} string or \code{NULL}. If \code{NULL} (the default) it
 will write the file to the path in \code{self$opts$da$save_path} with
 the file \code{name} & \code{filetype}.}
-
-\item{\code{show}}{Whether to directly open the file (needs the according
+      \item{\code{show}}{Whether to directly open the file (needs the according
 software installed and setup to open its \code{filetype}).}
-
-\item{\code{name}}{\code{character()} string containing the file name to be written.
+      \item{\code{name}}{\code{character()} string containing the file name to be written.
 Is overwritten, by \code{path} if not \code{NULL}.}
-
-\item{\code{filetype}}{\code{character()} string containing the file type to be
+      \item{\code{filetype}}{\code{character()} string containing the file type to be
 written. Is overwritten, by \code{path} if not \code{NULL}.}
-
-\item{\code{...}}{Passed to methods.}
-}
-\if{html}{\out{</div>}}
-}
-\subsection{Examples}{
-\if{html}{\out{<div class="r example copy">}}
-\preformatted{\dontrun{
-# Create a Mapping object from the files provided by the package:
+      \item{\code{...}}{Passed to methods.}
+    }
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Examples}{
+    \if{html}{\out{<div class="r example copy">}}
+    \preformatted{# Create a Mapping object from the files provided by the package:
 mapping_file <- system.file(
   "extdata",
   "mapping.xlsx",
@@ -250,17 +247,15 @@ m <- Mapping$new(spss_file, mapping_file)
 m$modify_data(command_blocks = m$cmd_tbl$command_blocks)
 m$save("stata_data.dta", show = TRUE)
 }
+    \if{html}{\out{</div>}}
+  }
 }
-\if{html}{\out{</div>}}
 
-}
-
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-set_options"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-set_options}{}}}
-\subsection{Method \code{set_options()}}{
-Set / change options of the \code{Mapping} object
+\subsection{\code{Mapping$set_options()}}{
+  Set / change options of the \code{Mapping} object
 
 The dots (\code{...}) can be passed here to change settings,
 or already when initializing the object with \code{Mapping$new(...)}
@@ -274,52 +269,57 @@ and all this can be overwritten by the dots.
 
 The part of the arguments known to \code{get_mapping_options()} is written to the \code{opts$da} field,
 The rest is written to the \code{opts$dev} field.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$set_options(...)}\if{html}{\out{</div>}}
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$set_options(...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{...}}{arguments passed to \code{get_mapping_options()}}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{...}}{arguments passed to \code{get_mapping_options()}}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-read_data"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-read_data}{}}}
-\subsection{Method \code{read_data()}}{
-Read in dataset
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$read_data(dat, ...)}\if{html}{\out{</div>}}
+\subsection{\code{Mapping$read_data()}}{
+  Read in dataset
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$read_data(dat, ...)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{dat}}{Dataset indentifier (see \code{?read_data_} helper function).}
+      \item{\code{...}}{Arguments passed to \code{read_data_()} helper function.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{dat}}{Dataset indentifier (see \code{?read_data_} helper function).}
-
-\item{\code{...}}{Arguments passed to \code{read_data_()} helper function.}
-}
-\if{html}{\out{</div>}}
-}
-}
 \if{html}{\out{<hr>}}
 \if{html}{\out{<a id="method-Mapping-clone"></a>}}
 \if{latex}{\out{\hypertarget{method-Mapping-clone}{}}}
-\subsection{Method \code{clone()}}{
-The objects of this class are cloneable with this method.
-\subsection{Usage}{
-\if{html}{\out{<div class="r">}}\preformatted{Mapping$clone(deep = FALSE)}\if{html}{\out{</div>}}
+\subsection{\code{Mapping$clone()}}{
+  The objects of this class are cloneable with this method.
+  \subsection{Usage}{
+    \if{html}{\out{<div class="r">}}
+    \preformatted{Mapping$clone(deep = FALSE)}
+    \if{html}{\out{</div>}}
+  }
+  \subsection{Arguments}{
+    \if{html}{\out{<div class="arguments">}}
+    \describe{
+      \item{\code{deep}}{Whether to make a deep clone.}
+    }
+    \if{html}{\out{</div>}}
+  }
 }
 
-\subsection{Arguments}{
-\if{html}{\out{<div class="arguments">}}
-\describe{
-\item{\code{deep}}{Whether to make a deep clone.}
-}
-\if{html}{\out{</div>}}
-}
-}
 }

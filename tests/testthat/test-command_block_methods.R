@@ -344,3 +344,22 @@ testthat::expect_equal(strip_attributes(res_vec), 1:3)
 m1$cmd_tbl$command_blocks[[1]]$args$x <- "newvar"
 res_vec <- m1$modify_data()$dat_mod$newvar
 testthat::expect_equal(strip_attributes(res_vec), rep(NA_real_, 3))
+
+
+# mapping passes with empty first column on Free sheet, but text in others:
+dat <- data.frame(
+  q3 = haven::labelled(c(1:2, NA), labels = c(a = 1), label = "b")
+)
+cdb <- list(Free1 = tibble::tribble(
+  ~X1, ~X2, ~X3, ~X4, ~X5,
+  NA, "abc", "def", NA, NA
+))
+
+
+m1 <- Mapping$new(dat, cdb)
+res_vec <- m1$modify_data()$dat_mod$q3
+
+vallabs <- attr(res_vec, "labels")
+
+testthat::expect_equal(vallabs, c(FILTER = -2L, a = 1L))
+testthat::expect_equal(res_vec |> strip_attributes(), c(1, 2, -2))

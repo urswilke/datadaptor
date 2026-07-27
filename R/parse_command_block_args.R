@@ -65,10 +65,12 @@ parse_command_args <- function(cdb_raw) {
   UseMethod("parse_command_args")
 }
 
+#' @export
 parse_command_args.default <- function(cdb_raw) {
   NULL
 }
 
+#' @export
 parse_command_args.cmd_recna_xcpt <- function(cdb_raw) {
   list(
     xs = cdb_raw$xs,
@@ -77,12 +79,14 @@ parse_command_args.cmd_recna_xcpt <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_r <- function(cdb_raw) {
   list(
     ex = cdb_raw$X2
   )
 }
 
+#' @export
 parse_command_args.cmd_rfun <- function(cdb_raw) {
   list(
     filepath = cdb_raw$X2,
@@ -90,6 +94,7 @@ parse_command_args.cmd_rfun <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_kg <- function(cdb_raw) {
   list(
     x = cdb_raw$X3[1],
@@ -97,18 +102,21 @@ parse_command_args.cmd_kg <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_drop <- function(cdb_raw) {
   list(
     xs = cdb_raw$vars[[1]]
   )
 }
 
+#' @export
 parse_command_args.cmd_select <- function(cdb_raw) {
   list(
     exs = cdb_raw$X2
   )
 }
 
+#' @export
 parse_command_args.cmd_across <- function(cdb_raw) {
   ex_names <- cdb_raw$X3[1]
   if (is.na(ex_names)) {
@@ -134,12 +142,14 @@ parse_command_args.cmd_across <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_filter <- function(cdb_raw) {
   list(
     exs = cdb_raw$X2
   )
 }
 
+#' @export
 parse_command_args.cmd_verbatim <- function(cdb_raw) {
   vallabs_named <- cdb_raw$vallab[[1]]
 
@@ -156,6 +166,7 @@ parse_command_args.cmd_verbatim <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_verbatim_custom <- function(cdb_raw) {
   vallabs_named <- cdb_raw$vallab[[1]]
 
@@ -171,6 +182,7 @@ parse_command_args.cmd_verbatim_custom <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_merge <- function(cdb_raw) {
   varnames_vec <- cdb_raw$X4[1] |>
     str_trim() |>
@@ -186,12 +198,14 @@ parse_command_args.cmd_merge <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_addfile <- function(cdb_raw) {
   list(
     filepath = cdb_raw$X2
   )
 }
 
+#' @export
 parse_command_args.cmd_rmval <- function(cdb_raw) {
   varlab <- cdb_raw$X4[1]
   x <- cdb_raw$X3[1]
@@ -210,6 +224,7 @@ parse_command_args.cmd_rmval <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_rename_varsheet <- function(cdb_raw) {
   list(
     xs = cdb_raw$new_names[[1]],
@@ -217,6 +232,7 @@ parse_command_args.cmd_rename_varsheet <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_rename <- function(cdb_raw) {
   list(
     xs = cdb_raw$X3,
@@ -224,6 +240,7 @@ parse_command_args.cmd_rename <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_if <- function(cdb_raw) {
   assignment <- cdb_raw$X3 |>
     str_split("=") |>
@@ -237,6 +254,7 @@ parse_command_args.cmd_if <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_comp <- function(cdb_raw) {
   list(
     x = cdb_raw$X2[1],
@@ -245,6 +263,7 @@ parse_command_args.cmd_comp <- function(cdb_raw) {
 }
 
 
+#' @export
 parse_command_args.cmd_set_lab <- function(cdb_raw) {
   list(
     x = cdb_raw$X2[1],
@@ -253,6 +272,7 @@ parse_command_args.cmd_set_lab <- function(cdb_raw) {
 }
 
 
+#' @export
 parse_command_args.cmd_newlab <- function(cdb_raw) {
   list(
     x = cdb_raw$var[1],
@@ -260,6 +280,7 @@ parse_command_args.cmd_newlab <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_set_labs <- function(cdb_raw) {
   varlab <- cdb_raw$X3[1]
   if (is.na(varlab) | varlab == "") {
@@ -274,6 +295,7 @@ parse_command_args.cmd_set_labs <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_add_labs <- function(cdb_raw) {
   varlab <- cdb_raw$X3[1]
   if (is.na(varlab) | varlab == "") {
@@ -287,6 +309,7 @@ parse_command_args.cmd_add_labs <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_newvall <- function(cdb_raw) {
   list(
     x = cdb_raw$var[1],
@@ -295,6 +318,7 @@ parse_command_args.cmd_newvall <- function(cdb_raw) {
   )
 }
 
+#' @export
 parse_command_args.cmd_rec <- function(cdb_raw) {
   list(
     y = cdb_raw$X2[1],
@@ -308,6 +332,7 @@ parse_command_args.cmd_rec <- function(cdb_raw) {
 }
 
 
+#' @export
 parse_command_args.cmd_sumvar <- function(cdb_raw) {
   list(
     x = paste0("k", cdb_raw$var[1]),
@@ -320,6 +345,7 @@ parse_command_args.cmd_sumvar <- function(cdb_raw) {
 }
 
 
+#' @export
 parse_command_args.cmd_dic <- function(cdb_raw) {
   list(
     y = cdb_raw$X2[1],
@@ -328,6 +354,7 @@ parse_command_args.cmd_dic <- function(cdb_raw) {
 }
 
 
+#' @export
 parse_command_args.cmd_autorec <- function(cdb_raw) {
   list(
     x = cdb_raw$var
@@ -335,6 +362,7 @@ parse_command_args.cmd_autorec <- function(cdb_raw) {
 }
 
 
+#' @export
 parse_command_args.cmd_str_to_num <- function(cdb_raw) {
   list(
     x = cdb_raw$var

@@ -13,3 +13,4 @@
 ^pkgdown$
 ^\.gitlab-ci\.yml$
 ^\.woodpecker$
+^public$

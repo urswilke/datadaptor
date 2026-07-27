@@ -22,6 +22,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Urs Wilke \email{urs.wilke@gmail.com} (\href{https://orcid.org/0000-0001-7257-2524}{ORCID})
   \item Wolf Wilke \email{wilke@data-connection.de}
 }
 

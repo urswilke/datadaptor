@@ -165,53 +165,53 @@ defined in the R script named \code{filepath}.
 
 \item \code{apply_command(cmd_kg)}: Split variable
 
-\item \code{apply_command(cmd_drop)}: 
+\item \code{apply_command(cmd_drop)}: Remove a variable
 
-\item \code{apply_command(cmd_select)}: 
+\item \code{apply_command(cmd_select)}: Select like in dplyr
 
-\item \code{apply_command(cmd_across)}: 
+\item \code{apply_command(cmd_across)}: mutate across like in dplyr
 
-\item \code{apply_command(cmd_filter)}: 
+\item \code{apply_command(cmd_filter)}: Filter cases
 
-\item \code{apply_command(cmd_verbatim)}: 
+\item \code{apply_command(cmd_verbatim)}: Code verbatims
 
-\item \code{apply_command(cmd_verbatim_custom)}: 
+\item \code{apply_command(cmd_verbatim_custom)}: Code verbatims
 
-\item \code{apply_command(cmd_merge)}: 
+\item \code{apply_command(cmd_merge)}: Merge dataset
 
-\item \code{apply_command(cmd_addfile)}: 
+\item \code{apply_command(cmd_addfile)}: Add a file
 
-\item \code{apply_command(cmd_rename_varsheet)}: 
+\item \code{apply_command(cmd_rename_varsheet)}: Rename variable
 
-\item \code{apply_command(cmd_rename)}: 
+\item \code{apply_command(cmd_rename)}: Rename variable
 
-\item \code{apply_command(cmd_if)}: 
+\item \code{apply_command(cmd_if)}: Conditional calculation
 
-\item \code{apply_command(cmd_comp)}: 
+\item \code{apply_command(cmd_comp)}: Compute a variable
 
-\item \code{apply_command(cmd_debug)}: 
+\item \code{apply_command(cmd_debug)}: Set a breakpoint to halt execution here
 
-\item \code{apply_command(cmd_set_lab)}: 
+\item \code{apply_command(cmd_set_lab)}: Set the variable label
 
-\item \code{apply_command(cmd_newlab)}: 
+\item \code{apply_command(cmd_newlab)}: Set the variable label
 
-\item \code{apply_command(cmd_rmval)}: 
+\item \code{apply_command(cmd_rmval)}: Set values to NA and remove their value labels
 
-\item \code{apply_command(cmd_set_labs)}: 
+\item \code{apply_command(cmd_set_labs)}: Set the value labels
 
-\item \code{apply_command(cmd_add_labs)}: 
+\item \code{apply_command(cmd_add_labs)}: Add value labels
 
-\item \code{apply_command(cmd_newvall)}: 
+\item \code{apply_command(cmd_newvall)}: Add value labels
 
-\item \code{apply_command(cmd_rec)}: 
+\item \code{apply_command(cmd_rec)}: Recode a variable
 
-\item \code{apply_command(cmd_sumvar)}: 
+\item \code{apply_command(cmd_sumvar)}: Summarize a variable
 
-\item \code{apply_command(cmd_dic)}: 
+\item \code{apply_command(cmd_dic)}: Copy the variable & value labels
 
-\item \code{apply_command(cmd_autorec)}: 
+\item \code{apply_command(cmd_autorec)}: Autorecode a string variable
 
-\item \code{apply_command(cmd_str_to_num)}: 
+\item \code{apply_command(cmd_str_to_num)}: Transform a string variable to a numeric
 
 }}
 \examples{

@@ -372,3 +372,10 @@
      q2_rmval                   2 no                   
      q2_rmval                  99 no answer            
 
+# gen_label_table() print is reproduced with labelled string variables
+
+    # A tibble: 1 x 7
+     var      nv vallab new_label sum_var_label sum_var_value sum_var_vallab
+     <chr> <dbl> <chr>  <chr>     <chr>         <chr>         <chr>         
+     q2        1 aaa    ""        ""            ""            ""            
+

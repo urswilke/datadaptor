@@ -304,6 +304,7 @@ apply_command_blocks <- function(command_blocks, self) {
   UseMethod("apply_command_blocks")
 }
 
+#' @export
 #' @noRd
 apply_command_blocks.unsafe <- function(command_blocks, self) {
   walk(command_blocks, apply_command_block_unsafe, self)
@@ -314,6 +315,7 @@ apply_command_block_unsafe <- function(cdb, self) {
   invisible(self)
 }
 
+#' @export
 #' @noRd
 apply_command_blocks.quiet <- apply_command_blocks.safe <- function(command_blocks, self) {
   self$opts$da$cmd_index <- 0
@@ -525,7 +527,9 @@ get_mapping_options <- function(
 set_workbook <- function(mapping) {
   UseMethod("set_workbook", mapping$mapping_file)
 }
+#' @export
 set_workbook.default <- function(mapping) {}
+#' @export
 set_workbook.excel <- function(mapping) {
   mapping$wb <- wb_load(mapping$mapping_file)
 }

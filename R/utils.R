@@ -186,10 +186,12 @@ globalVariables(".")
 extract_named_region_params <- function(mapping) {
   UseMethod("extract_named_region_params", mapping$mapping_file)
 }
+#' @export
 extract_named_region_params.list <- function(mapping) {
   list()
 }
 
+#' @export
 extract_named_region_params.excel <- function(mapping) {
   named_regions_raw <- mapping$wb$get_named_regions()["name"]
   if (is.null(named_regions_raw)) {
