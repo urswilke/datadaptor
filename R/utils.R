@@ -375,6 +375,7 @@ zap_user_missing_values <- function(x) {
   UseMethod("zap_user_missing_values")
 }
 
+#' @export
 zap_user_missing_values.haven_labelled_spss <- function(x) {
   attr(x, "na_values") <- NULL
   attr(x, "na_range") <- NULL
@@ -382,6 +383,7 @@ zap_user_missing_values.haven_labelled_spss <- function(x) {
   x
 }
 
+#' @export
 zap_user_missing_values.data.frame <- function(x) {
   x |> mutate(across(where(is.labelled_spss), zap_user_missing_values))
 }
