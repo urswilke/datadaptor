@@ -51,7 +51,7 @@ safer_env$case_when
 #>         conditions_arg = "", values_arg = "", default_arg = ".default", 
 #>         error_call = current_env())
 #> }
-#> <bytecode: 0x560dc307a060>
+#> <bytecode: 0x55913b06a450>
 #> <environment: namespace:dplyr>
 # To use it in a mapping, you can do:
 if (FALSE) { # \dontrun{
