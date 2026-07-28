@@ -245,11 +245,12 @@ apply_command.cmd_merge <- function(
     coalesce_xy
   }
 
-  mapping$dat_mod <- power_full_join(
+  mapping$dat_mod <- power_left_join(
     mapping$dat_mod,
     df_merge,
     by = id,
-    conflict = coalesce_fun
+    conflict = coalesce_fun,
+    check = check_specs(duplicate_keys_left = "warn", duplicate_keys_right="abort", unmatched_keys_left="warn", unmatched_keys_right="warn", na_keys="warn")
   ) |>
     relocate(all_of(names(mapping$dat_mod)))
   attr(mapping$dat_mod, "DC_dataset_origin") <-
