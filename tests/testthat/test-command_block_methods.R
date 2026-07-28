@@ -22,7 +22,7 @@ dat <- tibble::tibble(q2 = haven::labelled_spss(c(NA_real_, -1:5), label = "xyz"
 
 path <- "test.sav"
 
-test_that("mapping xlsx generation works", {
+test_that("treatment of SPSS user-defined missings works", {
   withr::with_file(
     path,
     {
