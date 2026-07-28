@@ -17,7 +17,7 @@ library(tidyverse)
 library(datadaptor)
 
 spss_file <- system.file("extdata", "fake_survey.sav", package = "datadaptor")
-df <- haven::read_sav(spss_file)
+df <- haven::read_sav(spss_file, user_na=TRUE)
 mapping_file <- system.file("extdata", "mapping.xlsx", package = "datadaptor")
 df_cmd_vec <- datadaptor::mapp_cmd_table(mapping_file, vectorized = TRUE)
 df_cmd <- datadaptor::mapp_cmd_table(mapping_file)

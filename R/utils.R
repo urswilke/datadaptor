@@ -366,3 +366,24 @@ set_cols_to_int <- function(df) {
     map_dfc(\(x) {haven::labelled(as.integer(x), labels = attr(x, "labels"), label = attr(x, "label", exact = TRUE))})
   df
 }
+
+is.labelled_spss <- function(x) {
+  inherits(x, "haven_labelled_spss")
+}
+
+zap_user_missing_values <- function(x) {
+  UseMethod("zap_user_missing_values")
+}
+
+#' @export
+zap_user_missing_values.haven_labelled_spss <- function(x) {
+  attr(x, "na_values") <- NULL
+  attr(x, "na_range") <- NULL
+  class(x) <- "haven_labelled"
+  x
+}
+
+#' @export
+zap_user_missing_values.data.frame <- function(x) {
+  x |> mutate(across(where(is.labelled_spss), zap_user_missing_values))
+}

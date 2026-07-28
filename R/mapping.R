@@ -428,7 +428,7 @@ read_data_.character <- function(
 ) {
   filetype <- str_remove(dat, ".*\\.")
   df <- switch(filetype,
-    "sav" = read_sav(dat),
+    "sav" = read_sav(dat, user_na = TRUE) |> zap_user_missing_values(),
     "dta" = read_dta(dat),
     "qs2" = {check_installed("qs2"); qs2::qs_read(dat)},
     "xlsx" = read_xlsx(dat) |> dplyr::mutate(across(where(is.logical), as.double)),
