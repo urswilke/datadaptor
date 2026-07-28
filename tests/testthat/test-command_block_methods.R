@@ -393,3 +393,87 @@ vallabs <- attr(res_vec, "labels")
 
 testthat::expect_equal(vallabs, c(FILTER = -2L, a = 1L))
 testthat::expect_equal(res_vec |> strip_attributes(), c(1, 2, -2))
+
+
+# #MERGE:
+dat0 <- data.frame(
+  DC_ID = 1:6,
+  x = 6:11
+)
+dat1 <- data.frame(
+  DC_ID = 1:6,
+  y = 11:6
+)
+dat2 <- data.frame(
+  DC_ID = c(1:5, 1),
+  y = 11:6
+)
+dat3 <- data.frame(
+  DC_ID = c(1:5),
+  y = 10:6
+)
+dat4 <- data.frame(
+  DC_ID = c(1:5, NA),
+  y = 10:5
+)
+
+pathes <- paste0(
+  # needed for adapt_filepath() to work with list type mappings...:
+  getwd(),
+  "/test",
+  1:4,
+  ".sav"
+)
+test_that("The automated checks in #MERGE work", {
+  withr::with_file(
+    pathes,
+    {
+      walk2(
+        list(dat1, dat2, dat3, dat4),
+        pathes,
+        haven::write_sav
+      )
+      cdb <- list(Free1 = tibble::tribble(
+        ~X1, ~X2, ~X3, ~X4, ~X5,
+        "#MERGE", pathes[1], NA_character_, NA_character_, NA_character_,
+      ))
+      expect_no_warning(m1 <- Mapping$new(dat0, cdb, na_to_filter = FALSE, id_var = "DC_ID")$modify_data())
+
+      cdb <- list(Free1 = tibble::tribble(
+        ~X1, ~X2, ~X3, ~X4, ~X5,
+        "#MERGE", pathes[2], NA_character_, NA_character_, NA_character_,
+      ))
+      expect_error(
+        m1 <- Mapping$new(dat0, cdb, na_to_filter = FALSE, id_var = "DC_ID")$modify_data(),
+        "Keys in the right table have duplicates"
+      )
+
+      cdb <- list(Free1 = tibble::tribble(
+        ~X1, ~X2, ~X3, ~X4, ~X5,
+        "#MERGE", pathes[4], NA_character_, NA_character_, NA_character_,
+      ))
+      expect_warning(
+        m1 <- Mapping$new(dat3, cdb, na_to_filter = FALSE, id_var = "DC_ID")$modify_data(),
+        "The right input table has missing keys"
+      ) |> expect_warning()
+
+      cdb <- list(Free1 = tibble::tribble(
+        ~X1, ~X2, ~X3, ~X4, ~X5,
+        "#MERGE", pathes[1], NA_character_, NA_character_, NA_character_,
+      ))
+      expect_warning(
+        m1 <- Mapping$new(dat2, cdb, na_to_filter = FALSE, id_var = "DC_ID")$modify_data(),
+        "Keys in the left table have duplicates"
+      ) |> expect_warning("Keys in the right table have unmatched combinations:")
+
+      # Let's wait to uncomment until
+      # https://github.com/moodymudskipper/powerjoin/issues/85 gets resolved:
+      # cdb <- list(Free1 = tibble::tribble(
+      #   ~X1, ~X2, ~X3, ~X4, ~X5,
+      #   "#MERGE", pathes[3], NA_character_, NA_character_, NA_character_,
+      # ))
+      # expect_warning(m1 <- Mapping$new(dat0, cdb, na_to_filter = FALSE, id_var = "DC_ID")$modify_data())
+
+    }
+  )
+})
