@@ -17,6 +17,36 @@ testthat::expect_equal(num_res, -2)
 testthat::expect_named(vallabs, "FILTER")
 testthat::expect_equal(attr(res_vec, "label", exact = TRUE), "xyz")
 
+# #RECNA with user-defined missings:
+dat <- tibble::tibble(q2 = haven::labelled_spss(c(NA_real_, -1:5), label = "xyz", labels = c("Don't know" = -1, a = 1, b = 2, c = 3, d = 4, e = 5), na_values = -1, na_range = 4:5))
+
+path <- "test.sav"
+
+test_that("mapping xlsx generation works", {
+  withr::with_file(
+    path,
+    {
+      haven::write_sav(dat, path)
+
+      m1 <- Mapping$new(path, list(), na_to_filter = FALSE)
+      res_vec <- m1$modify_data()$dat_mod$q2
+      vallabs <- attr(res_vec, "labels")
+      testthat::expect_named(vallabs, c("Don't know", "a", "b", "c", "d", "e"))
+      num_res <- strip_attributes(res_vec)
+      testthat::expect_equal(num_res, c(NA, -1, 0, 1, 2, 3, 4, 5))
+      testthat::expect_equal(res_vec |> haven::zap_formats(), dat$q2 |> zap_user_missing_values())
+
+      m2 <- Mapping$new(path, list())
+      res_vec <- m2$modify_data()$dat_mod$q2
+      vallabs <- attr(res_vec, "labels")
+      testthat::expect_named(vallabs, c("FILTER", "Don't know", "a", "b", "c", "d", "e"))
+      num_res <- strip_attributes(res_vec)
+      testthat::expect_equal(num_res, c(-2, -1, 0, 1, 2, 3, 4, 5))
+
+    }
+  )
+})
+
 # #NEWVALL:
 dat <- data.frame(q2 = haven::labelled(NA_real_, labels = c("xyz" = 1)))
 cdb <- list(Label = tibble::tribble(
