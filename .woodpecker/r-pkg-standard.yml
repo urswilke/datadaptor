@@ -6,8 +6,8 @@ matrix:
     - rocker/verse
 
 when:
-  - branch: "${CI_REPO_DEFAULT_BRANCH}"
-    event: push
+  - event: push
+    branch: "${CI_REPO_DEFAULT_BRANCH}"
   - event: pull_request
   - event: tag
 
@@ -136,8 +136,22 @@ variables:
           echo '─ test results ────────────────────────────────────────────────────────────────'
           find '/woodpecker/tmp/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
 
+  step_trigger_ct: &trigger_ct
+    - name: trigger_ct
+      image: woodpeckerci/plugin-trigger
+      depends_on: [test, check]
+      settings:
+        repositories:
+          - urswilke/crosstabser
+        token:
+          from_secret: WOODPECKER_TRIGGER_TOKEN
+
   step_pkgdown: &pkgdown
     - name: pkgdown
+      when:
+        - event: push
+          branch: "${CI_REPO_DEFAULT_BRANCH}"
+        - event: tag
       image: ${IMAGE}
       depends_on: [setup]
       environment:
@@ -200,10 +214,12 @@ variables:
         - git commit -m "deploy to pages from $${CI_COMMIT_BRANCH} @ $${CI_COMMIT_SHA:0:8}"
         - git push origin pages
 
+
 steps:
   - <<: *setup
   - <<: *check
   - <<: *test
+  - <<: *trigger_ct
   - <<: *pkgdown
   - <<: *deploy
 
