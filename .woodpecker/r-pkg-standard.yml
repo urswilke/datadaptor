@@ -136,6 +136,19 @@ variables:
           echo '─ test results ────────────────────────────────────────────────────────────────'
           find '/woodpecker/tmp/package' -name 'testthat.Rout*' -exec cat '{}' \; || true
 
+  step_codecov: &codecov
+    - name: codecov
+      depends_on: [test]
+      image: woodpeckerci/plugin-codecov
+      settings:
+        files:
+          - /woodpecker/tmp/cobertura.xml
+        token:
+          from_secret: CODECOV_TOKEN
+      when:
+        - event: push
+          branch: "${CI_REPO_DEFAULT_BRANCH}"
+
   step_trigger_ct: &trigger_ct
     - name: trigger_ct
       image: woodpeckerci/plugin-trigger
@@ -219,6 +232,7 @@ steps:
   - <<: *setup
   - <<: *check
   - <<: *test
+  - <<: *codecov
   - <<: *trigger_ct
   - <<: *pkgdown
   - <<: *deploy
