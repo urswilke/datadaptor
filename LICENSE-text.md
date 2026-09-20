@@ -1,4 +1,4 @@
 # License
 
-    YEAR: 2020-2024
-    COPYRIGHT HOLDER: datadaptor authors
+YEAR: 2020-2024\
+COPYRIGHT HOLDER: datadaptor authors\

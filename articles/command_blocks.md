@@ -677,10 +677,8 @@ This command replaces value labels like `#AVALL`:
 This command is executed per default (unless you set the parameter
 `na_to_filter` to `FALSE` when creating the `Mapping` object with
 
-``` r
-
-Mapping$new(na_to_filter = FALSE)
-```
+\
+[`Mapping`](https://urswilke.codeberg.page/datadaptor/reference/Mapping.md)`$``new``(``na_to_filter ``=`` ``FALSE``)`
 
 for instance). It:
 
