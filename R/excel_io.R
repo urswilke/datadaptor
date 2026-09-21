@@ -401,8 +401,8 @@ process_raw_free_cmd_table <- function(df_free) {
     select(-"raw_index")
 }
 put_absolute_filepaths <- function(df_free, mapping_file) {
-  df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] <-
-    df_free[df_free$X1 %in% c("#MERGE", "#RFUN"), ][["X2"]] |>
+  df_free[df_free$X1 %in% c("#MERGE", "#RFUN", "#ADDFILE"), ][["X2"]] <-
+    df_free[df_free$X1 %in% c("#MERGE", "#RFUN", "#ADDFILE"), ][["X2"]] |>
     map_chr(~ adapt_filepath(.x, mapping_file))
   df_free
 }
