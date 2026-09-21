@@ -245,7 +245,7 @@ apply_command.cmd_merge <- function(
     coalesce_xy
   }
 
-  mapping$dat_mod <- power_left_join(
+  mapping$dat_mod <- power_full_join(
     mapping$dat_mod,
     df_merge,
     by = id,
