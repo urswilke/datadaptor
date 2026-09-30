@@ -26,39 +26,47 @@
 #' df_curly
 #' curlychop(df_curly)
 curlychop <- function(df_free_raw) {
+  raw_index <- cumsum(is_true_vec(str_detect(df_free_raw$X1, "^#")))
+  run_lengths <- rle(raw_index)$lengths
+  first_row <- which(!duplicated(raw_index))
+  row_collapsed <- ave(
+    as.character(df_free_raw$row),
+    raw_index,
+    FUN = function(x) paste(x, collapse = ", ")
+  )
+  # curly detection on the header (= first) row of each block, as the
+  # original if_any(everything(), ~ str_detect(.x[1], "\\{")) did.
+  # Only use the X columns that actually exist (minimal input frames may
+  # have fewer than X1:X5):
+  x_cols <- str_subset(names(df_free_raw), "^X\\d+$")
+  hdr <- df_free_raw[first_row, ]
+  is_curly_block <- is_true_vec(
+    Reduce(`|`, lapply(hdr[x_cols], str_detect, "\\{"))
+  ) &
+    !hdr$X1 %in% "#ACROSS"
+  hdr_curly_x23_lgl <- is_true_vec(
+    str_detect(hdr$X2, "\\{.*\\}") | str_detect(hdr$X3, "\\{.*\\}")
+  ) & !hdr$X1 %in% "#ACROSS"
+
   df_prep <- df_free_raw |>
-    mutate(raw_index = cumsum(is_true_vec(str_detect(.data$X1, "^#")))) |>
-    group_by(.data$raw_index) |>
     mutate(
-      row = paste(row, collapse = ", "),
-      is_curly_group = if_any(
-        .cols = everything(),
-        .fns = ~ str_detect(.x[1], "\\{")
-      ) |>
-        is_true_vec() & !.data$X1 %in% "#ACROSS"
-    ) |>
-    add_count(.data$raw_index) |>
+      raw_index = raw_index,
+      row = row_collapsed,
+      is_curly_group = rep(is_curly_block, run_lengths),
+      n = rep(run_lengths, run_lengths)
+    )
+  df_curly_headers <- df_prep[first_row[hdr_curly_x23_lgl], ] |>
     group_by(.data$raw_index)
-
-  df_curly_headers <- df_prep |>
-    filter(
-      if_any(c("X2", "X3"), ~ str_detect(.x, "\\{.*\\}") & row_number() == 1),
-      !.data$X1 %in% "#ACROSS"
-    )
   if (nrow(df_curly_headers) == 0) {
-    return(
-      df_prep |>
-        select(-all_of(c("is_curly_group", "n")))
-    )
+    return(df_prep |> select(-all_of(c("is_curly_group", "n"))))
   }
-  df_headers_curliplied <- df_curly_headers |>
-    curlychop_headers()
+  df_headers_curliplied <- curlychop_headers(df_curly_headers)
 
-  l_commands <- df_prep |>
-    group_split()
-  command_has_curlies_lgl <- df_prep |>
-    summarise(lgl = .data$is_curly_group[1], .groups = "drop") |>
-    pull(.data$lgl)
+  # per-block expansion (original semantics, fed by the vectorized prep
+  # above). split() instead of group_split() keeps this fast:
+  l_commands <- split(df_prep, as.integer(raw_index), drop = TRUE) |>
+    lapply(tibble::as_tibble)
+  command_has_curlies_lgl <- is_curly_block
 
   l_commands[command_has_curlies_lgl] <- map2(
     df_headers_curliplied |> group_by(.data$raw_index) |> group_split(),
