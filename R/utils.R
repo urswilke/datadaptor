@@ -62,19 +62,65 @@ curlychop <- function(df_free_raw) {
   }
   df_headers_curliplied <- curlychop_headers(df_curly_headers)
 
-  # per-block expansion (original semantics, fed by the vectorized prep
-  # above). split() instead of group_split() keeps this fast:
-  l_commands <- split(df_prep, as.integer(raw_index), drop = TRUE) |>
-    lapply(tibble::as_tibble)
-  command_has_curlies_lgl <- is_curly_block
+  # ---- vectorized expansion: replaces split() / lapply(as_tibble) / map2() /
+  # add_further_rows_to_multiline_curlies(), which built one tibble per
+  # command block. Downstream everything is regrouped by
+  # (action, row, raw_index), so only the per-expansion "_<i>" suffixes
+  # must be right:
 
-  l_commands[command_has_curlies_lgl] <- map2(
-    df_headers_curliplied |> group_by(.data$raw_index) |> group_split(),
-    l_commands[command_has_curlies_lgl],
-    add_further_rows_to_multiline_curlies
+  # blocks that actually get expanded (= blocks with expanded header rows;
+  # unnest() of the grouped headers keeps blocks contiguous & ascending):
+  df_headers_curliplied <- ungroup(df_headers_curliplied)
+  n_exp <- rle(df_headers_curliplied$raw_index)
+  curly_blocks <- n_exp$values
+  k_per_block <- set_names(n_exp$lengths, as.character(curly_blocks))
+
+  # 1) expanded header rows, suffix = expansion index within the block:
+  header_suffix <- ave(
+    seq_len(nrow(df_headers_curliplied)),
+    df_headers_curliplied$raw_index,
+    FUN = seq_along
   )
+  headers_exp <- df_headers_curliplied |>
+    mutate(row = paste0(.data$row, "_", header_suffix))
 
-  bind_rows(l_commands) |>
+  # 2) trailing rows (rows 2..n) of the expanded blocks, one copy per
+  #    expansion (as add_further_rows_to_multiline_curlies() did):
+  trailing <- df_prep[
+    df_prep$raw_index %in% curly_blocks &
+      !(seq_len(nrow(df_prep)) %in% first_row),
+  ]
+  if (nrow(trailing) > 0) {
+    trailing_exp <- trailing[
+      rep(seq_len(nrow(trailing)),
+          times = k_per_block[as.character(trailing$raw_index)]),
+    ]
+    # expansion index within each block: rows 2..n repeat consecutively,
+    # i.e. every (n - 1) rows the index increments:
+    within_block <- ave(
+      seq_len(nrow(trailing_exp)),
+      trailing_exp$raw_index,
+      FUN = seq_along
+    )
+    trailing_exp <- trailing_exp |>
+      mutate(
+        row = paste0(
+          .data$row, "_",
+          (within_block - 1) %/% (.data$n - 1) + 1
+        )
+      )
+  } else {
+    trailing_exp <- trailing
+  }
+
+  # 3) rows of all untouched blocks:
+  keep <- !(df_prep$raw_index %in% curly_blocks)
+
+  bind_rows(
+    df_prep[keep, ],
+    headers_exp,
+    trailing_exp
+  ) |>
     select(-all_of(c("is_curly_group", "n")))
 }
 
