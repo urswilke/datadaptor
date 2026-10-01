@@ -62,65 +62,37 @@ curlychop <- function(df_free_raw) {
   }
   df_headers_curliplied <- curlychop_headers(df_curly_headers)
 
-  # ---- vectorized expansion: replaces split() / lapply(as_tibble) / map2() /
-  # add_further_rows_to_multiline_curlies(), which built one tibble per
-  # command block. Downstream everything is regrouped by
-  # (action, row, raw_index), so only the per-expansion "_<i>" suffixes
-  # must be right:
-
-  # blocks that actually get expanded (= blocks with expanded header rows;
-  # unnest() of the grouped headers keeps blocks contiguous & ascending):
-  df_headers_curliplied <- ungroup(df_headers_curliplied)
-  n_exp <- rle(df_headers_curliplied$raw_index)
-  curly_blocks <- n_exp$values
-  k_per_block <- set_names(n_exp$lengths, as.character(curly_blocks))
-
-  # 1) expanded header rows, suffix = expansion index within the block:
-  header_suffix <- ave(
-    seq_len(nrow(df_headers_curliplied)),
-    df_headers_curliplied$raw_index,
-    FUN = seq_along
-  )
-  headers_exp <- df_headers_curliplied |>
-    mutate(row = paste0(.data$row, "_", header_suffix))
-
-  # 2) trailing rows (rows 2..n) of the expanded blocks, one copy per
-  #    expansion (as add_further_rows_to_multiline_curlies() did):
-  trailing <- df_prep[
-    df_prep$raw_index %in% curly_blocks &
-      !(seq_len(nrow(df_prep)) %in% first_row),
-  ]
-  if (nrow(trailing) > 0) {
-    trailing_exp <- trailing[
-      rep(seq_len(nrow(trailing)),
-          times = k_per_block[as.character(trailing$raw_index)]),
-    ]
-    # expansion index within each block: rows 2..n repeat consecutively,
-    # i.e. every (n - 1) rows the index increments:
-    within_block <- ave(
-      seq_len(nrow(trailing_exp)),
-      trailing_exp$raw_index,
-      FUN = seq_along
-    )
-    trailing_exp <- trailing_exp |>
-      mutate(
-        row = paste0(
-          .data$row, "_",
-          (within_block - 1) %/% (.data$n - 1) + 1
-        )
+  # single-row blocks (e.g. #IF): each expansion is just one header row.
+  # This is the hot path for big mapping files, so keep it vectorized:
+  single_lgl <- df_headers_curliplied$n == 1
+  headers_exp <- df_headers_curliplied[single_lgl, ] |>
+    mutate(
+      row = paste0(
+        .data$row, "_",
+        ave(.data$row, .data$raw_index, FUN = seq_along)
       )
-  } else {
-    trailing_exp <- trailing
+    )
+
+  # multi-row blocks (rare): per-block expansion with the original,
+  # proven function:
+  multi_raw_index <- unique(df_headers_curliplied$raw_index[!single_lgl])
+  blocks_exp <- if (length(multi_raw_index) > 0) {
+    df_multi_orig <- df_prep[df_prep$raw_index %in% multi_raw_index, ]
+    map2(
+      df_headers_curliplied[!single_lgl, ] |>
+        group_by(.data$raw_index) |>
+        group_split(),
+      split(df_multi_orig, df_multi_orig$raw_index) |>
+        lapply(tibble::as_tibble),
+      add_further_rows_to_multiline_curlies
+    ) |> purrr::list_rbind()
   }
 
-  # 3) rows of all untouched blocks:
-  keep <- !(df_prep$raw_index %in% curly_blocks)
+  # rows of all untouched blocks:
+  keep <- !(df_prep$raw_index %in% df_headers_curliplied$raw_index)
 
-  bind_rows(
-    df_prep[keep, ],
-    headers_exp,
-    trailing_exp
-  ) |>
+  bind_rows(df_prep[keep, ], headers_exp, blocks_exp) |>
+    arrange(.data$raw_index) |>  # command execution order = sheet order!
     select(-all_of(c("is_curly_group", "n")))
 }
 
