@@ -26,6 +26,11 @@
 #' df_curly
 #' curlychop(df_curly)
 curlychop <- function(df_free_raw) {
+  # keep the original return type: group_by() in the original converted the
+  # input to a tibble, and curlychop() is exported, so its output class is
+  # part of the API:
+  df_free_raw <- tibble::as_tibble(df_free_raw)
+
   raw_index <- cumsum(is_true_vec(str_detect(df_free_raw$X1, "^#")))
   run_lengths <- rle(raw_index)$lengths
   first_row <- which(!duplicated(raw_index))
