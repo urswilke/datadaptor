@@ -408,34 +408,38 @@ put_absolute_filepaths <- function(df_free, mapping_file) {
 }
 
 get_new_var_name_free <- function(df_free_nested) {
-  # This function is old legacy code. Before, it was run on a grouped dataframe,
-  # and then slightly modified (because this was very time-consuming)
-  # so it got even more horrible, and still contains bugs....
-  # e.g.:
-  # - for #RECNA you would want to know all the variables to be modified (or
-  #   or those omitted with a minus sign?)
-  # - #RENAME: old name with minus, new names added...?
-  # perhaps best to be calculated from:
-  # mapping$cmd_tbl$command_blocks |> map("args") |> map("xs") |> map_chr(~.x |> na.omit() |> paste0(collapse = ", "))
-  # &
-  # mapping$cmd_tbl$command_blocks |> map("args") |> map("x")
-  # (?)
-  col2_names <- c("#VALL", "#AVALL", "#COMP", "#VARL")
   col3_names <- c("#DIC", "#RENAME")
+  col2_names <- c("#VALL", "#AVALL", "#COMP", "#VARL")
   col3or2_names <- c("#REC", "#RMVAL")
-  temp <- df_free_nested |>
-    mutate(data = map(.data$data, ~ slice(.x, 1))) |>
-    unnest("data") |>
-    mutate(new_var = case_when(
-      action %in% col3_names ~ .data$X3,
-      action %in% col2_names ~ .data$X2,
-      action %in% col3or2_names ~ coalesce(.data$X3, .data$X2),
-      action == "#IF" ~ str_remove(.data$X3, "=.*") |> str_squish(),
-      action == "#KG" ~ paste(.data$X2, .data$X3, sep = "_"),
-      action == "#MERGE" ~ paste(.data$X4, collapse = ", ")
-    ))
-  df_free_nested |> mutate(new_var = temp$new_var, .after = "action")
+  # quirk faithfully preserved from the original: the new_var of #MERGE is
+  # the collapse of X4 of *all* merge blocks of the sheet:
+  merge_new_var <- df_free_nested |>
+    filter(.data$action == "#MERGE") |>
+    pull(.data$data) |>
+    map_chr(~ .x$X4[1]) |>
+    paste(collapse = ", ")
+
+  # first-row header cells as plain vectors (replaces the per-block
+  # slice() of the original):
+  action <- map_chr(df_free_nested$data, ~ .x$X1[1])
+  x2 <- map_chr(df_free_nested$data, ~ .x$X2[1])
+  x3 <- map_chr(df_free_nested$data, ~ .x$X3[1])
+
+  # ONE case_when() on whole vectors (not per block — that was 46 % of the
+  # profile):
+  new_var <- dplyr::case_when(
+    action %in% col3_names ~ x3,
+    action %in% col2_names ~ x2,
+    action %in% col3or2_names ~ coalesce(x3, x2),
+    action == "#IF" ~ str_squish(str_remove(x3, "=.*")),
+    action == "#KG" ~ paste(x2, x3, sep = "_"),
+    action == "#MERGE" ~ merge_new_var
+  )
+
+  df_free_nested |>
+    mutate(new_var = new_var, .after = "action")
 }
+
 
 add_curlies_to_cell_with_spaces <- function(df_free) {
   # transform X2 containing spaces to curlychop()able (surrounded by curly
