@@ -18,7 +18,7 @@ variables:
     - echo $THIS_BRANCH
     - export BRANCH_ARRAY=$(git ls-remote https://codeberg.org/urswilke/datadaptor/ | grep refs/head | sed 's/.*\/heads\///g')
     - if printf "%s\n" "${BRANCH_ARRAY[@]}" | grep  -- "$THIS_BRANCH"; then   SUFFIX="@$THIS_BRANCH"; else   SUFFIX=''  ; fi ; echo $SUFFIX
-    - export SUFFIX=$$(SUFFIX)
+    - export SUFFIX=$${SUFFIX}
 
   site_config: &site_config
     - export WOODPECKER_TMP=/woodpecker/tmp
@@ -165,11 +165,11 @@ variables:
       depends_on: [test, check]
       settings:
         repositories:
-          - urswilke/crosstabser$(SUFFIX)
+          - urswilke/crosstabser${SUFFIX}
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
       params:
-        - THIS_BRANCH=$(SUFFIX)
+        - THIS_BRANCH=${SUFFIX}
   step_pkgdown: &pkgdown
     - name: pkgdown
       when:
