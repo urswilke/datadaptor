@@ -30,13 +30,10 @@ variables:
     - name: trigger_ct
       image: woodpeckerci/plugin-trigger
       depends_on: [prepare_plugin_vars]
-      # We map our dynamically evaluated repository string into an environment variable
-      environment:
-        DYNAMIC_REPO: $${MY_TRIGGER_TARGET}
       settings:
-        # The trigger plugin natively reads environment string definitions passed into it here
+        # Map the plugin setting 'repositories' straight to our dynamic environment variable
         repositories:
-          - $${DYNAMIC_REPO}
+          from_env: PLUGIN_REPOSITORIES
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
 
@@ -49,7 +46,7 @@ steps:
     image: alpine
     depends_on: [branch_env]
     commands:
-      # Combine the base string with the suffix from $WOODPECKER_ENV and export a clean variable
-      - echo "MY_TRIGGER_TARGET=urswilke/crosstabser$${SUFFIX}" >> $$WOODPECKER_ENV
+      # Woodpecker's trigger plugin automatically searches for environment fields prefixed with 'PLUGIN_'
+      - echo "PLUGIN_REPOSITORIES=urswilke/crosstabser$${SUFFIX}" >> $$WOODPECKER_ENV
 
   - <<: *trigger_ct
