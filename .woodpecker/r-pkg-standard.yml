@@ -14,9 +14,7 @@ variables:
       image: woodpeckerci/plugin-trigger
       settings:
         repositories:
-          - urswilke/crosstabser@pr-ci-from-branch
-        params:
-          TARGET_BRANCH_VAR=pr-ci-from-branch
+          - urswilke/crosstabser
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
 
