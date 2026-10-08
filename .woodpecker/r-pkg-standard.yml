@@ -149,7 +149,7 @@ variables:
         - event: push
           branch: "${CI_REPO_DEFAULT_BRANCH}"
 
-  step_branch_env: &step_branch_env
+  step_branch_env: &branch_env
     - name: branch_env
       image: alpine/git
       commands:
