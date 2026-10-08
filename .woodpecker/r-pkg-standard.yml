@@ -13,8 +13,8 @@ variables:
     - name: branch_env
       image: alpine/git
       commands:
-        # 1. Fetch remote branches from the repository
-        - BRANCH_ARRAY=$$(git ls-remote https://codeberg.org/urswilke/datadaptor | grep refs/head | sed 's/.*\/heads\///g')
+        # 1. Fetch remote branches from the repository (Using # as the sed delimiter)
+        - BRANCH_ARRAY=$$(git ls-remote https://codeberg.org/urswilke/datadaptor | grep refs/head | sed 's#.*/heads/##g')
 
         # 2. Check if the current branch exists in that list
         - |
