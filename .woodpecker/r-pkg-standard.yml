@@ -41,8 +41,8 @@ variables:
         repositories:
           - urswilke/crosstabser@pr-ci-from-branch
         # Instruct the plugin to map the branch configuration from the workspace environment variable
-        params:
-          - DA_BRANCH=$TARGET_BRANCH_VAR
+        params-from-env:
+          TARGET_BRANCH_VAR
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
 
