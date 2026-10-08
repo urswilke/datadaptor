@@ -16,7 +16,7 @@ variables:
     - echo $CI_COMMIT_SOURCE_BRANCH
     - THIS_BRANCH=$$(echo $CI_COMMIT_SOURCE_BRANCH)
     - echo $THIS_BRANCH
-    - export BRANCH_ARRAY=($$(git ls-remote https://codeberg.org/urswilke/datadaptor/ | grep refs/head | sed 's/.*\/heads\///g'))
+    - export BRANCH_ARRAY=$(git ls-remote https://codeberg.org/urswilke/datadaptor/ | grep refs/head | sed 's/.*\/heads\///g')
     - if printf "%s\n" "${BRANCH_ARRAY[@]}" | grep  -- "$THIS_BRANCH"; then   SUFFIX="@$THIS_BRANCH"; else   SUFFIX=''  ; fi ; echo $SUFFIX
     - export SUFFIX=$$(SUFFIX)
 
