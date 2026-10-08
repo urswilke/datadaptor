@@ -16,14 +16,17 @@ variables:
         # 1. Fetch remote branches from the repository (Using # as the sed delimiter)
         - BRANCH_ARRAY=$$(git ls-remote https://codeberg.org/urswilke/crosstabser | grep refs/head | sed 's#.*/heads/##g')
 
-        # 2. Check if the current branch exists in that list
+        # 2. Safely ensure the target directory for the environment file exists
+        - mkdir -p $$(dirname $$WOODPECKER_ENV)
+
+        # 3. Check if the current branch exists in that list
         - |
           if echo "$${BRANCH_ARRAY}" | grep -qxF "$${CI_COMMIT_SOURCE_BRANCH}"; then
             echo "Branch found! Exporting suffix..."
-            echo "SUFFIX=@$${CI_COMMIT_SOURCE_BRANCH}" >> $WOODPECKER_ENV
+            echo "SUFFIX=@$${CI_COMMIT_SOURCE_BRANCH}" >> $$WOODPECKER_ENV
           else
             echo "Branch not found! Using default..."
-            echo "SUFFIX=" >> $WOODPECKER_ENV
+            echo "SUFFIX=" >> $$WOODPECKER_ENV
           fi
 
   step_trigger_ct: &trigger_ct
@@ -31,7 +34,6 @@ variables:
       image: woodpeckerci/plugin-trigger
       depends_on: [prepare_plugin_vars]
       settings:
-        # Map the plugin setting 'repositories' straight to our dynamic environment variable
         repositories:
           from_env: PLUGIN_REPOSITORIES
         token:
@@ -46,7 +48,8 @@ steps:
     image: alpine
     depends_on: [branch_env]
     commands:
-      # Woodpecker's trigger plugin automatically searches for environment fields prefixed with 'PLUGIN_'
+      # Ensure workspace directory structure is ready for the second write action
+      - mkdir -p $$(dirname $$WOODPECKER_ENV)
       - echo "PLUGIN_REPOSITORIES=urswilke/crosstabser$${SUFFIX}" >> $$WOODPECKER_ENV
 
   - <<: *trigger_ct
