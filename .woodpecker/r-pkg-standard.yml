@@ -29,8 +29,8 @@ variables:
           - urswilke/crosstabser$${SUFFIX}
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
-      params:
-        - THIS_BRANCH=$${SUFFIX}
+        params:
+          - THIS_BRANCH=$${SUFFIX}
 
 
 
