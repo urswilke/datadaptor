@@ -39,10 +39,10 @@ variables:
           target: trigger.env
       settings:
         repositories:
-          - urswilke/crosstabser
+          - urswilke/crosstabser@pr-ci-from-branch
         # Instruct the plugin to map the branch configuration from the workspace environment variable
-        params-from-env:
-          - branch=$TARGET_BRANCH_VAR
+        params:
+          - DA_BRANCH=$TARGET_BRANCH_VAR
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
 
