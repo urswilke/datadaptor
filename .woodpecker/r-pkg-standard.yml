@@ -11,6 +11,7 @@ when:
   - event: pull_request
   - event: tag
 
+variables:
   site_config: &site_config
     - export WOODPECKER_TMP=/woodpecker/tmp
 
