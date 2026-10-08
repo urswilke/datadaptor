@@ -169,7 +169,7 @@ variables:
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
       params:
-        - THIS_BRANCH=$$(suffix)
+        - THIS_BRANCH=$$(SUFFIX)
   step_pkgdown: &pkgdown
     - name: pkgdown
       when:
