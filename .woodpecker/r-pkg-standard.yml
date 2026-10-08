@@ -17,6 +17,7 @@ variables:
       image: ${IMAGE}
       commands:
         - echo $CI_COMMIT_SOURCE_BRANCH
+        - echo $CI_COMMIT_SOURCE_BRANCH
 
 steps:
   - <<: *branch_env
