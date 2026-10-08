@@ -22,13 +22,9 @@ variables:
         - if printf "%s\n" "${BRANCH_ARRAY[@]}" | grep  -- "$CI_COMMIT_SOURCE_BRANCH"; then   SUFFIX="@$CI_COMMIT_SOURCE_BRANCH"; else   SUFFIX=''  ; fi ; echo $SUFFIX
         - echo "SUFFIX=$${SUFFIX}" >> envvars
 
-
-
-
   step_trigger_ct: &trigger_ct
     - name: trigger_ct
       commands:
-        # - <<: *branch_config
         - source ./envvars
       image: woodpeckerci/plugin-trigger
       depends_on: [branch_env]
@@ -43,12 +39,6 @@ variables:
 
 
 steps:
-  # - <<: *setup
-  # - <<: *check
-  # - <<: *test
-  # - <<: *codecov
   - <<: *branch_env
   - <<: *trigger_ct
-  # - <<: *pkgdown
-  # - <<: *deploy
 
