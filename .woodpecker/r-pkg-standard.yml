@@ -26,7 +26,7 @@ variables:
             echo "TARGET_BRANCH_VAR=$${TARGET_BRANCH}" > trigger.env
           else
             echo "Branch not found! Downstream will target default branch."
-            echo "TARGET_BRANCH_VAR=" > trigger.env
+            echo "TARGET_BRANCH_VAR='master'" > trigger.env
           fi
 
   step_trigger_ct: &trigger_ct
