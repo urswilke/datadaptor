@@ -13,31 +13,36 @@ variables:
     - name: branch_env
       image: alpine/git
       commands:
-        # 1. Fetch remote branches from the repository (Using # as the sed delimiter)
+        # 1. Capture the correct branch depending on PR or push context
+        - TARGET_BRANCH=$${CI_COMMIT_SOURCE_BRANCH}
+
+        # 2. Query remote branches using a clean '#' delimiter
         - BRANCH_ARRAY=$$(git ls-remote https://codeberg.org/urswilke/crosstabser | grep refs/head | sed 's#.*/heads/##g')
 
-        # 2. Check if the current branch exists in that list and write directly to an environment file
+        # 3. Check for a match and write a simple branch name to a workspace file
         - |
-          if echo "$${BRANCH_ARRAY}" | grep -qxF "$${CI_COMMIT_SOURCE_BRANCH}"; then
-            echo "Branch found! Exporting suffix..."
-            echo "PLUGIN_REPOSITORIES=urswilke/crosstabser@$${CI_COMMIT_SOURCE_BRANCH}" > trigger.env
+          if echo "$${BRANCH_ARRAY}" | grep -qxF "$${TARGET_BRANCH}"; then
+            echo "Branch found! Downstream will target branch: $${TARGET_BRANCH}"
+            echo "TARGET_BRANCH_VAR=$${TARGET_BRANCH}" > trigger.env
           else
-            echo "Branch not found! Using default..."
-            echo "PLUGIN_REPOSITORIES=urswilke/crosstabser" > trigger.env
+            echo "Branch not found! Downstream will target default branch."
+            echo "TARGET_BRANCH_VAR=" > trigger.env
           fi
 
   step_trigger_ct: &trigger_ct
     - name: trigger_ct
       image: woodpeckerci/plugin-trigger
       depends_on: [branch_env]
-      # We tell Woodpecker to inject our tracking file variables directly into the plugin container environment
+      # Pull the dynamic environment file into the container natively via Woodpecker's workspace secrets engine
       secrets:
         - source: trigger.env
           target: trigger.env
       settings:
-        # The trigger plugin natively reads 'repositories' from the environment when configured via 'from_env'
         repositories:
-          from_env: PLUGIN_REPOSITORIES
+          - urswilke/crosstabser
+        # Instruct the plugin to map the branch configuration from the workspace environment variable
+        params_from_env:
+          - branch=TARGET_BRANCH_VAR
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
 
