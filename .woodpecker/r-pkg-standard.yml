@@ -165,7 +165,7 @@ variables:
       depends_on: [test, check]
       settings:
         repositories:
-          - urswilke/crosstabser${SUFFIX}
+          - urswilke/crosstabser$${SUFFIX}
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
       params:
