@@ -9,35 +9,12 @@ when:
   - event: tag
 
 variables:
-  step_branch_env: &branch_env
-    - name: branch_env
-      image: alpine/git
-      commands:
-        # 1. Capture the correct branch depending on PR or push context
-        - TARGET_BRANCH=$${CI_COMMIT_SOURCE_BRANCH}
-
-        # 2. Query remote branches using a clean '#' delimiter
-        - BRANCH_ARRAY=$$(git ls-remote https://codeberg.org/urswilke/crosstabser | grep refs/head | sed 's#.*/heads/##g')
-
-        # 3. Check for a match and write a simple branch name to a workspace file
-        - |
-          if echo "$${BRANCH_ARRAY}" | grep -qxF "$${TARGET_BRANCH}"; then
-            echo "Branch found! Downstream will target branch: $${TARGET_BRANCH}"
-            echo "TARGET_BRANCH_VAR=$${TARGET_BRANCH}" > trigger.env
-          else
-            echo "Branch not found! Downstream will target default branch."
-            echo "TARGET_BRANCH_VAR='master'" > trigger.env
-          fi
-
   step_trigger_ct: &trigger_ct
     - name: trigger_ct
       image: woodpeckerci/plugin-trigger
-      depends_on: [branch_env]
-      # Pull the dynamic environment file into the container natively via Woodpecker's workspace secrets engine
       settings:
         repositories:
           - urswilke/crosstabser@pr-ci-from-branch
-        # Instruct the plugin to map the branch configuration from the workspace environment variable
         params:
           TARGET_BRANCH_VAR=pr-ci-from-branch
         token:
@@ -45,5 +22,4 @@ variables:
 
 
 steps:
-  - <<: *branch_env
   - <<: *trigger_ct
