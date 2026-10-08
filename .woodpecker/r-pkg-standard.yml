@@ -34,9 +34,6 @@ variables:
       image: woodpeckerci/plugin-trigger
       depends_on: [branch_env]
       # Pull the dynamic environment file into the container natively via Woodpecker's workspace secrets engine
-      secrets:
-        - source: trigger.env
-          target: trigger.env
       settings:
         repositories:
           - urswilke/crosstabser@pr-ci-from-branch
