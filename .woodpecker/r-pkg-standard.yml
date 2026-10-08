@@ -17,7 +17,7 @@ variables:
         - BRANCH_ARRAY=$$(git ls-remote https://codeberg.org/urswilke/crosstabser | grep refs/head | sed 's#.*/heads/##g')
 
         # 2. Safely ensure the target directory for the environment file exists
-        - mkdir -p $$(dirname $$WOODPECKER_ENV)
+        - mkdir -p /woodpecker
 
         # 3. Check if the current branch exists in that list
         - |
@@ -49,7 +49,7 @@ steps:
     depends_on: [branch_env]
     commands:
       # Ensure workspace directory structure is ready for the second write action
-      - mkdir -p $$(dirname $$WOODPECKER_ENV)
+      - mkdir -p /woodpecker
       - echo "PLUGIN_REPOSITORIES=urswilke/crosstabser$${SUFFIX}" >> $$WOODPECKER_ENV
 
   - <<: *trigger_ct
