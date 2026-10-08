@@ -41,7 +41,7 @@ variables:
         repositories:
           - urswilke/crosstabser
         # Instruct the plugin to map the branch configuration from the workspace environment variable
-        params_from_env:
+        params-from-env:
           - branch=TARGET_BRANCH_VAR
         token:
           from_secret: WOODPECKER_TRIGGER_TOKEN
