@@ -151,6 +151,9 @@ variables:
 
   step_trigger_ct: &trigger_ct
     - name: trigger_ct
+      when:
+        - event: push
+          branch: "${CI_REPO_DEFAULT_BRANCH}"
       image: woodpeckerci/plugin-trigger
       depends_on: [test, check]
       settings:
