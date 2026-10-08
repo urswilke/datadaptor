@@ -156,8 +156,8 @@ variables:
         - echo $CI_COMMIT_SOURCE_BRANCH
         - git ls-remote https://codeberg.org/urswilke/datadaptor/
         # - BRANCH_ARRAY=$(git ls-remote https://codeberg.org/urswilke/datadaptor/ | grep refs/head | sed 's/.*\/heads\///g')
-        - if printf "%s\n" "${BRANCH_ARRAY[@]}" | grep  -- "$CI_COMMIT_SOURCE_BRANCH"; then   SUFFIX="@$CI_COMMIT_SOURCE_BRANCH"; else   SUFFIX=''  ; fi ; echo $SUFFIX
-        - echo "SUFFIX=$${SUFFIX}" >> envvars
+        # - if printf "%s\n" "${BRANCH_ARRAY[@]}" | grep  -- "$CI_COMMIT_SOURCE_BRANCH"; then   SUFFIX="@$CI_COMMIT_SOURCE_BRANCH"; else   SUFFIX=''  ; fi ; echo $SUFFIX
+        # - echo "SUFFIX=$${SUFFIX}" >> envvars
 
 
 
